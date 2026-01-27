@@ -22,18 +22,18 @@ export function UserProfile({ user }: UserProfileProps) {
         : user.email?.charAt(0).toUpperCase() || "?"
 
     return (
-        <div className="flex items-center gap-3 mb-4 px-2">
-            <Avatar className="w-10 h-10 border border-slate-200">
+        <div className="flex items-center gap-4 mb-6 px-2">
+            <Avatar className="w-14 h-14 border border-slate-200">
                 <AvatarImage src={user.user_metadata.avatar_url} alt={user.user_metadata.full_name || "User"} />
-                <AvatarFallback className="bg-slate-100 text-slate-600 font-bold">
+                <AvatarFallback className="bg-slate-100 text-slate-600 font-bold text-lg">
                     {initials}
                 </AvatarFallback>
             </Avatar>
             <div className="flex-1 overflow-hidden">
-                <p className="text-sm font-medium text-slate-900 truncate">
+                <p className="text-base font-bold text-slate-900 truncate">
                     {user.user_metadata.full_name || 'Estudiante'}
                 </p>
-                <p className="text-xs text-slate-500 truncate">{user.email}</p>
+                <p className="text-sm text-slate-500 truncate">{user.email}</p>
             </div>
         </div>
     )

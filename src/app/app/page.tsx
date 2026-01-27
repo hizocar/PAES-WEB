@@ -178,34 +178,34 @@ export default function DashboardPage() {
     }
 
     return (
-        <div className="p-8 max-w-6xl mx-auto space-y-8">
+        <div className="p-8 max-w-6xl mx-auto space-y-10">
             <div className="flex items-center justify-between">
                 <div>
-                    <h1 className="text-3xl font-bold text-slate-900">Hola, Futuro Universitario 👋</h1>
-                    <p className="text-slate-500 mt-2">Continuemos tu preparación para los 1000 puntos.</p>
+                    <h1 className="text-4xl font-bold text-slate-900">Hola, Futuro Universitario 👋</h1>
+                    <p className="text-lg text-slate-500 mt-2">Continuemos tu preparación para los 1000 puntos.</p>
                 </div>
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">
                 {/* Meta Diaria */}
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-48">
+                <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-56">
                     <div className="flex items-start justify-between">
                         <div>
-                            <h3 className="text-slate-500 font-medium">Meta Diaria</h3>
-                            <div className="text-3xl font-bold text-slate-900 mt-2">
+                            <h3 className="text-slate-500 font-semibold text-lg">Meta Diaria</h3>
+                            <div className="text-5xl font-bold text-slate-900 mt-3">
                                 {stats.dailyProgress} / {stats.dailyTarget}
                             </div>
-                            <p className={`text-sm mt-1 font-medium ${stats.dailyProgress >= stats.dailyTarget ? 'text-green-600' : 'text-slate-400'}`}>
+                            <p className={`text-base mt-2 font-medium ${stats.dailyProgress >= stats.dailyTarget ? 'text-green-600' : 'text-slate-400'}`}>
                                 {stats.dailyProgress >= stats.dailyTarget
                                     ? "¡Meta cumplida!"
                                     : `Faltan ${stats.dailyTarget - stats.dailyProgress} ejercicios`}
                             </p>
                         </div>
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${stats.dailyProgress >= stats.dailyTarget ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'}`}>
+                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl ${stats.dailyProgress >= stats.dailyTarget ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'}`}>
                             🎯
                         </div>
                     </div>
-                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                    <div className="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
                         <div
                             className={`h-full transition-all duration-1000 ${stats.dailyProgress >= stats.dailyTarget ? 'bg-green-500' : 'bg-blue-500'}`}
                             style={{ width: `${Math.min((stats.dailyProgress / stats.dailyTarget) * 100, 100)}%` }}
@@ -214,18 +214,18 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Precisión Global */}
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-48">
+                <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-56">
                     <div className="flex items-start justify-between">
                         <div>
-                            <h3 className="text-slate-500 font-medium">Precisión Global</h3>
-                            <div className="text-3xl font-bold text-slate-900 mt-2">{stats.globalAccuracy}%</div>
-                            <p className="text-sm text-slate-400 mt-1">Últimos 7 días ({stats.totalAttemptsLast7Days} respuestas)</p>
+                            <h3 className="text-slate-500 font-semibold text-lg">Precisión Global</h3>
+                            <div className="text-5xl font-bold text-slate-900 mt-3">{stats.globalAccuracy}%</div>
+                            <p className="text-base text-slate-400 mt-2">Últimos 7 días</p>
                         </div>
-                        <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center">
+                        <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-2xl">
                             📈
                         </div>
                     </div>
-                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                    <div className="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
                         <div
                             className={`h-full transition-all duration-1000 ${stats.globalAccuracy >= 70 ? 'bg-green-500' : stats.globalAccuracy >= 40 ? 'bg-yellow-500' : 'bg-red-500'}`}
                             style={{ width: `${stats.globalAccuracy}%` }}
@@ -234,25 +234,24 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Racha / Streak */}
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-48 bg-gradient-to-br from-orange-500 to-red-500 text-white">
+                <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-56 bg-gradient-to-br from-orange-500 to-red-500 text-white">
                     <div className="flex items-start justify-between">
                         <div>
-                            <h3 className="text-orange-100 font-medium">Racha Actual</h3>
-                            <div className="text-4xl font-bold mt-2 flex items-center gap-2">
-                                {stats.streak} <span className="text-lg font-normal opacity-80">días</span>
+                            <h3 className="text-orange-100 font-semibold text-lg">Racha Actual</h3>
+                            <div className="text-5xl font-bold mt-3 flex items-baseline gap-2">
+                                {stats.streak} <span className="text-xl font-medium opacity-90">días</span>
                             </div>
-                            <p className="text-sm text-orange-100 mt-2">
+                            <p className="text-base text-orange-100 mt-2">
                                 {stats.dailyProgress >= stats.dailyTarget
                                     ? "¡Racha extendida! 🔥"
-                                    : "Completa la meta para extender 🔥"}
+                                    : "Completa la meta diaria"}
                             </p>
                         </div>
-                        <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                            <Flame className="text-white" size={28} fill="currentColor" />
+                        <div className="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                            <Flame className="text-white" size={32} fill="currentColor" />
                         </div>
                     </div>
-                    {/* Mini visual indicator of streak stability or simple message */}
-                    <div className="w-full bg-black/20 h-2 rounded-full overflow-hidden mt-2">
+                    <div className="w-full bg-black/20 h-3 rounded-full overflow-hidden mt-2">
                         <div
                             className="bg-white h-full transition-all duration-1000"
                             style={{ width: `${Math.min((stats.dailyProgress / stats.dailyTarget) * 100, 100)}%` }}
@@ -263,22 +262,22 @@ export default function DashboardPage() {
 
             {/* Ejes Grid */}
             <div>
-                <h2 className="text-xl font-bold text-slate-900 mb-6">Tus Ejes Temáticos</h2>
-                <div className="grid md:grid-cols-2 gap-4">
+                <h2 className="text-2xl font-bold text-slate-900 mb-6">Tus Ejes Temáticos</h2>
+                <div className="grid md:grid-cols-2 gap-6">
                     {ejes.map((eje) => (
                         <Link href="/app/progress" key={eje.id}>
-                            <div className="group bg-white p-5 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-full bg-slate-100 group-hover:bg-blue-50 transition-colors flex items-center justify-center text-slate-500 group-hover:text-blue-600 font-bold text-lg">
+                            <div className="group bg-white p-6 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between">
+                                <div className="flex items-center gap-5">
+                                    <div className="w-14 h-14 rounded-full bg-slate-100 group-hover:bg-blue-50 transition-colors flex items-center justify-center text-slate-500 group-hover:text-blue-600 font-bold text-xl">
                                         {eje.name.charAt(0)}
                                     </div>
                                     <div>
-                                        <h3 className="font-semibold text-slate-900">{eje.name}</h3>
-                                        <p className="text-xs text-slate-500">{eje.progress}% precisión ({eje.total_attempts} intentos)</p>
+                                        <h3 className="font-bold text-lg text-slate-900">{eje.name}</h3>
+                                        <p className="text-sm text-slate-500 mt-1">{eje.progress}% precisión • {eje.total_attempts} intentos</p>
                                     </div>
                                 </div>
-                                <div className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-300 group-hover:border-blue-200 group-hover:text-blue-500 transition-colors">
-                                    <ArrowRight size={16} />
+                                <div className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-300 group-hover:border-blue-200 group-hover:text-blue-500 transition-colors">
+                                    <ArrowRight size={20} />
                                 </div>
                             </div>
                         </Link>

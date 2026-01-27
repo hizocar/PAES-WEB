@@ -1,12 +1,15 @@
-import { useState } from "react"
+"use client"
+
+import { useState, useEffect } from "react"
 import { createClient } from "@/lib/supabase/client"
 import 'katex/dist/katex.min.css'
 // @ts-ignore
 import Latex from '@/components/ui/latex-renderer'
 import { Button } from "@/components/ui/button"
 import { motion, AnimatePresence } from "framer-motion"
-import { CheckCircle2, XCircle } from "lucide-react"
+import { CheckCircle2, XCircle, History, TrendingUp } from "lucide-react"
 import { ExplanationView } from "./ExplanationView"
+import { QuestionFeedback } from "./QuestionFeedback"
 
 type Question = {
     id: string
@@ -28,6 +31,29 @@ type QuestionCardProps = {
 export function QuestionCard({ question, onNext }: QuestionCardProps) {
     const [selected, setSelected] = useState<string | null>(null)
     const [submitted, setSubmitted] = useState(false)
+    const [stats, setStats] = useState<{ attempts: number, correct: number }>({ attempts: 0, correct: 0 })
+
+    const supabase = createClient()
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
+            const { data } = await supabase
+                .from('attempts')
+                .select('is_correct')
+                .eq('user_id', user.id)
+                .eq('question_id', question.id)
+
+            if (data) {
+                setStats({
+                    attempts: data.length,
+                    correct: data.filter(a => a.is_correct).length
+                })
+            }
+        }
+        fetchStats()
+    }, [question.id])
 
     const isCorrect = selected === question.correct_answer
 
@@ -36,7 +62,6 @@ export function QuestionCard({ question, onNext }: QuestionCardProps) {
         setSubmitted(true)
 
         // Save attempt to DB
-        const supabase = createClient()
         const { data: { user } } = await supabase.auth.getUser()
 
         if (user) {
@@ -46,6 +71,12 @@ export function QuestionCard({ question, onNext }: QuestionCardProps) {
                 selected_answer: selected,
                 is_correct: selected === question.correct_answer
             })
+
+            // Update local stats
+            setStats(prev => ({
+                attempts: prev.attempts + 1,
+                correct: prev.correct + (selected === question.correct_answer ? 1 : 0)
+            }))
         }
     }
 
@@ -137,8 +168,25 @@ export function QuestionCard({ question, onNext }: QuestionCardProps) {
                 })}
             </div>
 
+            {/* User History Stats */}
+            {stats.attempts > 0 && (
+                <div className="flex items-center gap-6 px-4 py-2 bg-slate-50/50 rounded-lg border border-slate-100 mx-2 animate-in fade-in slide-in-from-top-2">
+                    <div className="flex items-center gap-2 text-xs text-slate-500 font-medium uppercase tracking-wider">
+                        <History size={14} />
+                        <span>Intento #{stats.attempts + (submitted ? 0 : 1)}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs text-slate-500 font-medium uppercase tracking-wider">
+                        <TrendingUp size={14} />
+                        <span>
+                            Tasa de éxito: {Math.round((stats.correct / stats.attempts) * 100)}%
+                            <span className="ml-1 text-slate-400 normal-case">({stats.correct}/{stats.attempts})</span>
+                        </span>
+                    </div>
+                </div>
+            )}
+
             {/* Footer / Feedback */}
-            <div className="fixed bottom-0 right-0 left-0 md:left-64 bg-white border-t border-slate-200 p-4 md:p-6 z-20">
+            <div className="fixed bottom-0 right-0 left-0 md:left-72 bg-white border-t border-slate-200 p-4 md:p-6 z-20">
                 <div className="max-w-3xl mx-auto flex items-center justify-between">
                     {submitted ? (
                         <div className="flex items-center gap-4 w-full">
@@ -153,7 +201,7 @@ export function QuestionCard({ question, onNext }: QuestionCardProps) {
                                     {isCorrect ? 'Gran trabajo.' : 'No te preocupes, revisa la explicación.'}
                                 </p>
                             </div>
-                            <Button onClick={handleNext} size="lg" className={`px-8 ${isCorrect ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}`}>
+                            <Button onClick={handleNext} size="lg" className={`px-8 h-12 text-lg ${isCorrect ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}`}>
                                 Continuar
                             </Button>
                         </div>
@@ -161,7 +209,7 @@ export function QuestionCard({ question, onNext }: QuestionCardProps) {
                         <div className="ml-auto">
                             <Button
                                 size="lg"
-                                className="px-8 font-bold tracking-wide uppercase"
+                                className="px-8 h-12 text-lg font-bold tracking-wide uppercase"
                                 disabled={!selected}
                                 onClick={handleSubmit}
                             >
@@ -174,7 +222,12 @@ export function QuestionCard({ question, onNext }: QuestionCardProps) {
 
             {/* Explanation Section */}
             {submitted && (
-                <div className="pb-32 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150">
+                <div className="pb-32 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 space-y-8">
+                    {/* Feedback UI */}
+                    <div className="relative z-10">
+                        <QuestionFeedback questionId={question.id} />
+                    </div>
+
                     <ExplanationView
                         questionId={question.id}
                         explanationText={question.explanation}
@@ -184,7 +237,7 @@ export function QuestionCard({ question, onNext }: QuestionCardProps) {
             )}
 
             {/* Spacer for fixed footer */}
-            <div className="h-24" />
+            <div className="h-32" />
         </div>
     )
 }

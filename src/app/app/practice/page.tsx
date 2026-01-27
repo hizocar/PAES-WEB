@@ -4,57 +4,56 @@ import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { QuestionCard } from "@/components/practice/QuestionCard"
 import { Button } from "@/components/ui/button"
-import { Loader2 } from "lucide-react"
+import { Loader2, Trophy, RotateCcw, AlertCircle } from "lucide-react"
 
 export default function PracticePage() {
     const [question, setQuestion] = useState<any>(null)
     const [loading, setLoading] = useState(true)
-    const supabase = createClient()
-
+    const [retryMode, setRetryMode] = useState(false)
+    const [completed, setCompleted] = useState(false)
     const [debugMsg, setDebugMsg] = useState("")
+
+    const supabase = createClient()
 
     const fetchQuestion = async () => {
         setLoading(true)
         setDebugMsg("")
         try {
-            // Fetch with topics relation and parent eje
-            // Using deep select syntax for Supabase
+            const { data: { user } } = await supabase.auth.getUser()
+
+            if (!user) {
+                setDebugMsg("Usuario no autenticado")
+                return
+            }
+
             const { data, error } = await supabase
-                .from('questions')
-                .select(`
-                    *,
-                    question_topics (
-                        topics (
-                            name,
-                            ejes (name)
-                        )
-                    )
-                `)
-                .limit(10)
+                .rpc('get_smart_question', {
+                    p_user_id: user.id,
+                    p_retry_mode: retryMode
+                })
 
             if (error) {
-                setDebugMsg(`Error: ${error.message} (Code: ${error.code})`)
+                setDebugMsg(`Error al obtener pregunta: ${error.message}`)
             } else if (!data || data.length === 0) {
-                setDebugMsg("Success but found 0 questions. Did the seed script run?")
+                // No questions returned
+                setQuestion(null)
+                setCompleted(true)
             } else {
-                const randomQRaw: any = data[Math.floor(Math.random() * data.length)]
+                // RPC returns an array (function returns table), take the first item
+                const qRaw = data[0]
 
-                // transform for frontend
-                // Extract the first topic if available
-                const topicData = randomQRaw.question_topics && randomQRaw.question_topics.length > 0
-                    ? randomQRaw.question_topics[0].topics
-                    : null
-
-                const randomQ = {
-                    ...randomQRaw,
-                    topic: topicData?.name || 'General',
-                    eje: topicData?.ejes?.name || 'General'
+                // transform for frontend (the RPC returns flatted topic_name/eje_name)
+                const qFormatted = {
+                    ...qRaw,
+                    topic: qRaw.topic_name || 'General',
+                    eje: qRaw.eje_name || 'General'
                 }
 
-                setQuestion(randomQ)
+                setQuestion(qFormatted)
+                setCompleted(false)
             }
         } catch (e: any) {
-            setDebugMsg(`Exception: ${e.message}`)
+            setDebugMsg(`Excepción: ${e.message}`)
         } finally {
             setLoading(false)
         }
@@ -62,27 +61,70 @@ export default function PracticePage() {
 
     useEffect(() => {
         fetchQuestion()
-    }, [])
+    }, [retryMode]) // Re-fetch when retryMode changes
 
     if (loading) {
         return (
             <div className="flex h-[80vh] items-center justify-center flex-col gap-4">
                 <Loader2 className="animate-spin text-blue-600" size={40} />
-                <p className="text-slate-500 font-medium">Cargando ejercicio...</p>
+                <p className="text-slate-500 font-medium">
+                    {retryMode ? "Buscando preguntas para repasar..." : "Cargando siguiente desafío..."}
+                </p>
             </div>
         )
     }
 
-    if (!question) {
+    // Completion / Empty State
+    if (completed || !question) {
         return (
-            <div className="flex h-[80vh] items-center justify-center flex-col gap-4">
-                <p className="text-slate-500 font-medium">No hay preguntas disponibles.</p>
+            <div className="flex h-[80vh] items-center justify-center flex-col gap-6 px-4 text-center max-w-md mx-auto">
+                <div className="w-24 h-24 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
+                    <Trophy className="text-yellow-600" size={48} />
+                </div>
+
+                {!retryMode ? (
+                    <>
+                        <h2 className="text-2xl font-bold text-slate-800">¡Felicidades!</h2>
+                        <p className="text-slate-500">
+                            Has respondido correctamente todas las preguntas disponibles.
+                            ¡Eres un experto en M2!
+                        </p>
+                        <div className="pt-4 space-y-3 w-full">
+                            <Button
+                                onClick={() => setRetryMode(true)}
+                                className="w-full h-12 text-lg bg-blue-600 hover:bg-blue-700"
+                            >
+                                <RotateCcw className="mr-2" size={20} />
+                                Repasar mis errores
+                            </Button>
+                            <p className="text-xs text-slate-400">
+                                Volverás a ver las preguntas en las que fallaste anteriormente.
+                            </p>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <h2 className="text-2xl font-bold text-slate-800">¡Repaso Completado!</h2>
+                        <p className="text-slate-500">
+                            Ya no tienes errores pendientes por corregir.
+                            ¡Tu historial está impecable!
+                        </p>
+                        <div className="pt-4">
+                            <Button
+                                onClick={() => setRetryMode(false)}
+                                variant="outline"
+                            >
+                                Volver al modo normal
+                            </Button>
+                        </div>
+                    </>
+                )}
+
                 {debugMsg && (
-                    <div className="p-4 bg-red-50 text-red-600 rounded-lg text-sm font-mono max-w-lg text-center border border-red-200">
-                        {debugMsg}
+                    <div className="mt-8 p-4 bg-red-50 text-red-600 rounded-lg text-xs font-mono border border-red-200">
+                        debug: {debugMsg}
                     </div>
                 )}
-                <Button onClick={() => fetchQuestion()}>Reintentar</Button>
             </div>
         )
     }
@@ -91,7 +133,12 @@ export default function PracticePage() {
         <div className="min-h-screen bg-slate-50 pb-20 pt-8 px-4">
             {/* Progress Header */}
             <div className="max-w-3xl mx-auto mb-8 flex items-center justify-between text-sm text-slate-500 font-medium font-mono">
-                <span>MODO PRÁCTICA</span>
+                <div className="flex items-center gap-2">
+                    <span className={retryMode ? "text-orange-600 font-bold" : ""}>
+                        {retryMode ? "MODO REPASO" : "MODO PRÁCTICA"}
+                    </span>
+                    {retryMode && <AlertCircle size={14} className="text-orange-500" />}
+                </div>
                 <span>ALEATORIO</span>
             </div>
 

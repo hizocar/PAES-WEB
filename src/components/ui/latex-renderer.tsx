@@ -13,7 +13,7 @@ export default function LatexRenderer({ children }: { children: string }) {
     const parts = children.split(/(\$[^\$]*\$)/g)
 
     return (
-        <span>
+        <span className="whitespace-pre-wrap">
             {parts.map((part, i) => {
                 if (part.startsWith('$') && part.endsWith('$')) {
                     // Strip $ delimiters
