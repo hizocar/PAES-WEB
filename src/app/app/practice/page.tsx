@@ -14,8 +14,13 @@ function PracticeContent() {
     const modeParam = searchParams.get('mode')
 
     // React to URL changes
+    // React to URL changes
     useEffect(() => {
-        setRetryMode(modeParam === 'retry')
+        const newMode = modeParam === 'retry'
+        if (newMode !== retryMode) {
+            setRetryMode(newMode)
+            setQuestion(null) // Force re-fetch
+        }
     }, [modeParam])
 
     const [question, setQuestion] = useState<any>(null)
