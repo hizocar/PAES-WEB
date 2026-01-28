@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
-import { BarChart3, Clock, Target, TrendingUp, ArrowRight, Flame } from "lucide-react"
+import { BarChart3, Clock, Target, TrendingUp, ArrowRight, Flame, Heart } from "lucide-react"
 import Link from "next/link"
-import { MascotCard } from "@/components/dashboard/MascotCard"
 
 export default function DashboardPage() {
     const [loading, setLoading] = useState(true)
@@ -14,8 +13,11 @@ export default function DashboardPage() {
         globalAccuracy: 0,
         totalAttemptsLast7Days: 0,
         streak: 0,
-        subscribed: false
+        // Lives logic merged into stats for simplicity
+        lives: null as number | null,
+        replenishAt: null as string | null
     })
+    const [timeLeft, setTimeLeft] = useState<string>("")
     const [ejes, setEjes] = useState<any[]>([])
 
     const supabase = createClient()
@@ -23,6 +25,35 @@ export default function DashboardPage() {
     useEffect(() => {
         fetchDashboardData()
     }, [])
+
+    // Timer logic for lives
+    useEffect(() => {
+        if (stats.lives === null || (stats.lives > 0) || !stats.replenishAt) return
+
+        const updateTimer = () => {
+            const now = new Date()
+            const end = new Date(stats.replenishAt!)
+            const diff = end.getTime() - now.getTime()
+
+            if (diff <= 0) {
+                setTimeLeft("00:00:00")
+                // Optionally re-fetch here if we wanted to auto-update
+                return
+            }
+
+            const hrs = Math.floor(diff / (1000 * 60 * 60))
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+            const secs = Math.floor((diff % (1000 * 60)) / 1000)
+
+            setTimeLeft(
+                `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+            )
+        }
+
+        updateTimer()
+        const interval = setInterval(updateTimer, 1000)
+        return () => clearInterval(interval)
+    }, [stats.lives, stats.replenishAt])
 
     const fetchDashboardData = async () => {
         try {
@@ -55,8 +86,7 @@ export default function DashboardPage() {
                 accuracy = Math.round((correct / recentAttempts.length) * 100)
             }
 
-            // 3. Calculate Streak (Client-side for MVP)
-            // Fetch daily counts for the last 60 days
+            // 3. Streak
             const sixtyDaysAgo = new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000).toISOString()
             const { data: streakAttempts } = await supabase
                 .from('attempts')
@@ -66,35 +96,18 @@ export default function DashboardPage() {
                 .order('created_at', { ascending: false })
 
             let currentStreak = 0
-
             if (streakAttempts && streakAttempts.length > 0) {
                 const attemptsByDay: Record<string, number> = {}
                 streakAttempts.forEach(a => {
                     const day = new Date(a.created_at).toISOString().split('T')[0]
                     attemptsByDay[day] = (attemptsByDay[day] || 0) + 1
                 })
-
-                // Check dates going backward from today or yesterday
                 const todayStr = now.toISOString().split('T')[0]
-                const yesterday = new Date(now)
-                yesterday.setDate(yesterday.getDate() - 1)
-                const yesterdayStr = yesterday.toISOString().split('T')[0]
-
-                // If completed today, streak includes today. 
-                // If not completed today, check if completed yesterday. 
-                // If neither, streak is 0.
-
                 let checkDate = new Date(now)
-
-                // If we haven't hit the target today yet, we start checking from yesterday
-                // because the streak isn't "broken" until the day ends without hitting target.
-                // BUT, if we HAVE hit the target today, we start from today.
                 const todayDone = (attemptsByDay[todayStr] || 0) >= 10
-
                 if (!todayDone) {
-                    checkDate.setDate(checkDate.getDate() - 1) // Start checking from yesterday
+                    checkDate.setDate(checkDate.getDate() - 1)
                 }
-
                 while (true) {
                     const dateStr = checkDate.toISOString().split('T')[0]
                     const count = attemptsByDay[dateStr] || 0
@@ -107,28 +120,32 @@ export default function DashboardPage() {
                 }
             }
 
+            // 4. Fetch Lives
+            let currentLives = null
+            let replenishAt = null
+            const { data: livesData } = await supabase.rpc('check_and_replenish_lives', { p_user_id: user.id })
+            if (livesData && livesData.length > 0) {
+                currentLives = livesData[0].current_lives
+                replenishAt = livesData[0].replenish_at
+            }
+
             setStats({
                 dailyProgress: currentDailyProgress,
                 dailyTarget: 10,
                 globalAccuracy: accuracy,
                 totalAttemptsLast7Days: recentAttempts?.length || 0,
                 streak: currentStreak,
-                subscribed: false
+                lives: currentLives,
+                replenishAt: replenishAt
             })
 
-
-            // 3. Fetch Ejes with progress
-            // We need to fetch all Ejes + User's progress per eje.
-            // Simplified approach: Fetch all Ejes, then fetch all user attempts, then map.
-            // (Same strategy as ProgressPage for consistency)
-
+            // 5. Fetch Ejes
             const { data: allEjes } = await supabase.from('ejes').select('id, name')
             const { data: allAttempts } = await supabase
                 .from('attempts')
                 .select('question_id, is_correct')
                 .eq('user_id', user.id)
 
-            // Map Questions to Ejes
             const qIds = allAttempts?.map(a => a.question_id) || []
             const uniqueQIds = Array.from(new Set(qIds))
             let qEjeMap: Record<string, string> = {}
@@ -147,7 +164,6 @@ export default function DashboardPage() {
                 })
             }
 
-            // Calculate completion/accuracy per Eje
             const processedEjes = allEjes?.map(eje => {
                 const ejeAttempts = allAttempts?.filter(a => qEjeMap[a.question_id] === eje.name) || []
                 const correct = ejeAttempts.filter(a => a.is_correct).length
@@ -156,7 +172,7 @@ export default function DashboardPage() {
 
                 return {
                     ...eje,
-                    progress: acc, // Using accuracy as "progress" for now, or could count questions done vs total questions
+                    progress: acc,
                     total_attempts: total
                 }
             }) || []
@@ -188,8 +204,35 @@ export default function DashboardPage() {
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {/* Mascot / Lives */}
-                <MascotCard />
+                {/* Vidas Card (Simple) */}
+                <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-40">
+                    <div className="flex items-start justify-between">
+                        <div>
+                            <h3 className="text-slate-500 font-semibold text-sm">Vidas</h3>
+                            {stats.lives && stats.lives > 0 ? (
+                                <div className="text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
+                                    {stats.lives}
+                                </div>
+                            ) : (
+                                <div className="text-xl font-bold text-slate-900 mt-2 font-mono text-red-600">
+                                    {timeLeft}
+                                </div>
+                            )}
+                            <p className="text-xs text-slate-400 mt-1">
+                                {stats.lives && stats.lives > 0 ? "¡Sigue así!" : "Recargando..."}
+                            </p>
+                        </div>
+                        <div className="w-10 h-10 bg-red-50 text-red-500 rounded-lg flex items-center justify-center">
+                            {stats.lives === 0 ? <Clock size={20} /> : <Heart size={20} className="fill-red-500" />}
+                        </div>
+                    </div>
+                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                        <div
+                            className={`h-full transition-all duration-1000 ${stats.lives && stats.lives > 1 ? 'bg-red-500' : 'bg-red-300'}`}
+                            style={{ width: `${Math.min(((stats.lives || 0) / 5) * 100, 100)}%` }}
+                        />
+                    </div>
+                </div>
 
                 {/* Meta Diaria */}
                 <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-40">
@@ -267,7 +310,7 @@ export default function DashboardPage() {
             {/* Ejes Grid */}
             <div>
                 <h2 className="text-xl font-bold text-slate-900 mb-4">Tus Ejes Temáticos</h2>
-                <div className="grid md:grid-cols-3 gap-4">
+                <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4">
                     {ejes.map((eje) => (
                         <Link href="/app/progress" key={eje.id}>
                             <div className="group bg-white p-4 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between h-full">
@@ -287,7 +330,7 @@ export default function DashboardPage() {
                         </Link>
                     ))}
                     {ejes.length === 0 && (
-                        <div className="col-span-3 text-center py-8 text-slate-500 text-sm">
+                        <div className="col-span-2 text-center py-8 text-slate-500 text-sm">
                             Cargando ejes temáticos...
                         </div>
                     )}

@@ -33,7 +33,7 @@ export function UserProfile({ user }: UserProfileProps) {
                 <p className="text-lg font-bold text-slate-900 truncate">
                     {user.user_metadata.full_name || 'Estudiante'}
                 </p>
-                <p className="text-base text-slate-500 truncate">{user.email}</p>
+                <p className="text-xs text-slate-500 truncate" title={user.email}>{user.email}</p>
             </div>
         </div>
     )
