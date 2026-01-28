@@ -89,7 +89,7 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
             correct_answer: q.correct_answer,
             explanation: q.explanation || "",
             difficulty: q.difficulty,
-            eje_id: qt?.topics?.eje_id || "",
+            eje_id: (Array.isArray(qt?.topics) ? qt.topics[0]?.eje_id : (qt?.topics as any)?.eje_id) || "",
             topic_id: qt?.topic_id || "",
             image_url: q.image_url || "",
             explanation_video_path: q.explanation_video_path || ""
@@ -281,7 +281,7 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
         <div className="max-w-4xl mx-auto space-y-8 pb-20">
             <div className="flex items-center gap-4">
                 <Link href="/admin/questions">
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" size="sm">
                         <ArrowLeft size={20} />
                     </Button>
                 </Link>

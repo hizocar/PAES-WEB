@@ -244,7 +244,7 @@ export default function NewQuestionPage() {
         <div className="max-w-4xl mx-auto space-y-8 pb-20">
             <div className="flex items-center gap-4">
                 <Link href="/admin/questions">
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" size="sm">
                         <ArrowLeft size={20} />
                     </Button>
                 </Link>
