@@ -85,34 +85,56 @@ export default async function Home() {
         </section>
 
         {/* Features Preview */}
-        <section className="py-24 bg-slate-50">
+        {/* Features Preview */}
+        <section id="features" className="py-24 bg-slate-50">
           <div className="container mx-auto px-6">
-            <div className="grid md:grid-cols-3 gap-12">
-              <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 mb-6">
+            <div className="text-center mb-16 max-w-3xl mx-auto">
+              <h2 className="text-3xl font-bold text-slate-900 mb-4">Todo lo que necesitas para tu puntaje</h2>
+              <p className="text-slate-600">PAES Lab no es solo un banco de preguntas. Es un entrenador inteligente diseñado para maximizar tu rendimiento en menos tiempo.</p>
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {/* Feature 1 */}
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all hover:-translate-y-1">
+                <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-4">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">Práctica Adaptativa</h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Nuestro algoritmo identifica tus debilidades y te presenta ejercicios diseñados para mejorarlas.
+                <h3 className="text-lg font-bold text-slate-900 mb-2">IA Personalizada</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Olvídate del azar. Nuestro algoritmo detecta tus vacíos y te bombardea con ejercicios clave hasta que los domines.
                 </p>
               </div>
-              <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center text-purple-600 mb-6">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+
+              {/* Feature 2 */}
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all hover:-translate-y-1">
+                <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center text-red-600 mb-4">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">Seguimiento Real</h3>
-                <p className="text-slate-600 leading-relaxed">
-                  Monitorea tu progreso por eje temático, tiempo de estudio y precisión en tus respuestas.
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Vidas y Rachas</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  La práctica debe doler (un poco). Tienes 10 vidas diarias. Si fallas, pierdes. Si aciertas, subes en el ranking.
                 </p>
               </div>
-              <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
-                <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center text-green-600 mb-6">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>
+
+              {/* Feature 3 */}
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all hover:-translate-y-1">
+                <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 mb-4">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 mb-3">Explicaciones en Video</h3>
-                <p className="text-slate-600 leading-relaxed">
-                  No te quedes con dudas. Accede a explicaciones detalladas en texto y video para cada ejercicio.
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Feedback Total</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  ¿Te equivocaste? No pasa nada. Accede a explicaciones detalladas y videos paso a paso de inmediato.
+                </p>
+              </div>
+
+              {/* Feature 4 */}
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all hover:-translate-y-1">
+                <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center text-purple-600 mb-4">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                </div>
+                <h3 className="text-lg font-bold text-slate-900 mb-2">Ranking Nacional</h3>
+                <p className="text-sm text-slate-600 leading-relaxed">
+                  Compite con estudiantes de todo Chile. Sube de liga, gana medallas y mide tu preparación real.
                 </p>
               </div>
             </div>
