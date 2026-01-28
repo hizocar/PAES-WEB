@@ -14,9 +14,9 @@ export function MobileNav({ user }: { user: any }) {
     return (
         <div className="md:hidden flex flex-col border-b border-slate-200 bg-white sticky top-0 z-50">
             <div className="flex items-center justify-between p-4">
-                <div className="font-bold text-xl text-blue-600 flex items-center gap-2">
+                <Link href="/app" className="font-bold text-xl text-blue-600 flex items-center gap-2">
                     PAES Lab
-                </div>
+                </Link>
                 <Button variant="ghost" size="sm" onClick={() => setOpen(true)}>
                     <Menu className="h-6 w-6 text-slate-700" />
                 </Button>
