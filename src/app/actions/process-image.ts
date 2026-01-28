@@ -24,7 +24,7 @@ export async function processQuestionImage(formData: FormData) {
 
     try {
         const completion = await openai.chat.completions.create({
-            model: "gpt-4o",
+            model: "gpt-4o-mini",
             messages: [
                 {
                     role: "system",
@@ -43,7 +43,7 @@ export async function processQuestionImage(formData: FormData) {
                         "correct_answer": "The letter (A, B, C or D) of the correct option. If not marked in image, solve the problem and determine which option is correct.",
                         "difficulty": "easy, medium, or hard (guess based on content)",
                         "topic": "Short topic suggestion based on content (e.g. 'Probabilidades', 'Algebra')",
-                        "explanation": "A step-by-step solution to the problem. Solve it yourself if no answer is marked. Use LaTeX for math."
+                        "explanation": "A concise step-by-step solution. Use LaTeX for math ($...$)."
                     }
                     
                     Rules:
@@ -53,7 +53,7 @@ export async function processQuestionImage(formData: FormData) {
                        Example: "Calculate $x^2$" NOT "Calculate x^2" or "Calculate \frac{1}{2}".
                        NEVER output bare LaTeX commands like \frac, \text, \sqrt without wrapping them in $.
                     4. Do not include 'Alternative A' prefix in the alternative content, just the content itself.
-                    5. Solve the problem step-by-step in the 'explanation' field. Be educational. Always use $ for math in explanation.
+                    5. Solve the problem in the 'explanation' field. Be concise but clear.
                     `
                 },
                 {
