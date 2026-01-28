@@ -15,9 +15,6 @@ export default async function Home() {
     <div className="flex min-h-screen flex-col">
       <header className="px-6 py-4 flex items-center justify-between border-b border-slate-100 bg-white/50 backdrop-blur-md sticky top-0 z-50">
         <div className="font-bold text-xl text-blue-600 flex items-center gap-2">
-          <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-            <span className="text-white text-lg">M2</span>
-          </div>
           PAES Lab
         </div>
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
@@ -60,11 +57,6 @@ export default async function Home() {
                 <Link href="/login">
                   <Button size="lg" className="h-14 px-8 text-lg rounded-2xl shadow-xl shadow-blue-600/20 hover:scale-105 transition-transform">
                     Empezar a Practicar
-                  </Button>
-                </Link>
-                <Link href="#demo">
-                  <Button variant="outline" size="lg" className="h-14 px-8 text-lg rounded-2xl border-2 hover:bg-slate-50">
-                    Ver Demo
                   </Button>
                 </Link>
               </div>
