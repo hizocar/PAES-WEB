@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { BarChart3, Clock, Home, LogOut, Menu, Settings, Trophy, X } from "lucide-react"
+import { BarChart3, Clock, Home, LogOut, Menu, Settings, Trophy, X, RotateCcw, Award } from "lucide-react"
 import { UserProfile } from "@/components/ui/user-profile"
 
 export function MobileNav({ user }: { user: any }) {
@@ -49,6 +49,12 @@ export function MobileNav({ user }: { user: any }) {
                                     Practicar
                                 </Button>
                             </Link>
+                            <Link href="/app/practice?mode=retry" onClick={() => setOpen(false)}>
+                                <Button variant="ghost" className="w-full justify-start gap-3 h-12 text-base font-medium text-orange-600 hover:bg-orange-50 hover:text-orange-700">
+                                    <RotateCcw size={20} />
+                                    Modo Repaso
+                                </Button>
+                            </Link>
                             <Link href="/app/progress" onClick={() => setOpen(false)}>
                                 <Button variant={pathname === "/app/progress" ? "secondary" : "ghost"} className="w-full justify-start gap-3 h-12 text-base font-medium">
                                     <BarChart3 size={20} />
@@ -59,6 +65,12 @@ export function MobileNav({ user }: { user: any }) {
                                 <Button variant={pathname === "/app/leaderboard" ? "secondary" : "ghost"} className="w-full justify-start gap-3 h-12 text-base font-medium">
                                     <Trophy size={20} />
                                     Ranking
+                                </Button>
+                            </Link>
+                            <Link href="/app/achievements" onClick={() => setOpen(false)}>
+                                <Button variant={pathname === "/app/achievements" ? "secondary" : "ghost"} className="w-full justify-start gap-3 h-12 text-base font-medium text-yellow-600 hover:bg-yellow-50 hover:text-yellow-700">
+                                    <Award size={20} />
+                                    Logros
                                 </Button>
                             </Link>
                         </nav>
