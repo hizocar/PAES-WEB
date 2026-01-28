@@ -11,11 +11,16 @@ import { useSearchParams } from 'next/navigation'
 
 function PracticeContent() {
     const searchParams = useSearchParams()
-    const initialMode = searchParams.get('mode') === 'retry'
+    const modeParam = searchParams.get('mode')
+
+    // React to URL changes
+    useEffect(() => {
+        setRetryMode(modeParam === 'retry')
+    }, [modeParam])
 
     const [question, setQuestion] = useState<any>(null)
     const [loading, setLoading] = useState(true)
-    const [retryMode, setRetryMode] = useState(initialMode)
+    const [retryMode, setRetryMode] = useState(modeParam === 'retry')
     const [completed, setCompleted] = useState(false)
     const [debugMsg, setDebugMsg] = useState("")
 

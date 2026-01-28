@@ -48,14 +48,20 @@ begin
                 else
                     -- RETRY MODE (Review past mistakes)
                     case
-                        -- Include questions that have ever been answered incorrectly
+                        -- Priority 1: Questions with MORE wrong attempts get higher weight.
+                        -- Subquery to count wrong attempts for this user and question
                         when exists (
                             select 1 from attempts a 
                             where a.question_id = q.id 
                             and a.user_id = p_user_id 
                             and a.is_correct = false
-                        ) then 10
-                        -- Exclude perfect streak questions (or unseen)
+                        ) then 
+                             (select count(*) * 10 
+                              from attempts a 
+                              where a.question_id = q.id 
+                              and a.user_id = p_user_id 
+                              and a.is_correct = false)
+                        -- Exclude perfectly answered ones (or never seen)
                         else 0
                     end
             end as weight

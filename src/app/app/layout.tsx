@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { BarChart3, Clock, Home, LogOut, Settings, Trophy } from 'lucide-react'
+import { BarChart3, Clock, Home, LogOut, Settings, Trophy, RotateCcw } from 'lucide-react'
 import { StudyTrackerProvider } from '@/context/study-tracker'
 import { UserProfile } from '@/components/ui/user-profile'
 import { MobileNav } from '@/components/mobile-nav'
@@ -63,6 +63,12 @@ export default async function AppLayout({
                                 <Clock size={18} />
                             </div>
                             Practicar
+                        </Button>
+                    </Link>
+                    <Link href="/app/practice?mode=retry">
+                        <Button variant="ghost" className="w-full justify-start gap-3 h-10 text-sm font-medium text-slate-600 hover:text-orange-600 hover:bg-orange-50">
+                            <RotateCcw size={18} />
+                            Modo Repaso
                         </Button>
                     </Link>
                     <Link href="/app/progress">
