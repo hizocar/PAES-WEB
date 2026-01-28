@@ -227,7 +227,7 @@ export default function DashboardPage() {
                 )}
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
                 {/* Vidas Card (Simple) */}
                 <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-40">
                     <div className="flex items-start justify-between">
@@ -304,26 +304,6 @@ export default function DashboardPage() {
                         <div
                             className="bg-yellow-500 h-full transition-all duration-1000"
                             style={{ width: `${Math.max(5, Math.min(stats.score / 10, 100))}%` }} // Simplified progress for now
-                        />
-                    </div>
-                </div>
-
-                {/* Precisión Global */}
-                <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-40">
-                    <div className="flex items-start justify-between">
-                        <div>
-                            <h3 className="text-slate-500 font-semibold text-sm">Precisión Global</h3>
-                            <div className="text-3xl font-bold text-slate-900 mt-2">{stats.globalAccuracy}%</div>
-                            <p className="text-xs text-slate-400 mt-1">Últimos 7 días</p>
-                        </div>
-                        <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center text-xl">
-                            📈
-                        </div>
-                    </div>
-                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                        <div
-                            className={`h-full transition-all duration-1000 ${stats.globalAccuracy >= 70 ? 'bg-green-500' : stats.globalAccuracy >= 40 ? 'bg-yellow-500' : 'bg-red-500'}`}
-                            style={{ width: `${stats.globalAccuracy}%` }}
                         />
                     </div>
                 </div>
