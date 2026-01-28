@@ -8,6 +8,8 @@ import Latex from '@/components/ui/latex-renderer'
 import { Button } from "@/components/ui/button"
 import { motion, AnimatePresence } from "framer-motion"
 import { CheckCircle2, XCircle, History, TrendingUp } from "lucide-react"
+import { QuestionTimer } from "./QuestionTimer"
+
 import { ExplanationView } from "./ExplanationView"
 import { QuestionFeedback } from "./QuestionFeedback"
 
@@ -26,9 +28,12 @@ type Question = {
 type QuestionCardProps = {
     question: Question
     onNext: () => void
+    onWrongAnswer?: () => void
 }
 
-export function QuestionCard({ question, onNext }: QuestionCardProps) {
+// ... imports
+
+export function QuestionCard({ question, onNext, onWrongAnswer }: QuestionCardProps) {
     const [selected, setSelected] = useState<string | null>(null)
     const [submitted, setSubmitted] = useState(false)
     const [stats, setStats] = useState<{ attempts: number, correct: number }>({ attempts: 0, correct: 0 })
@@ -36,6 +41,7 @@ export function QuestionCard({ question, onNext }: QuestionCardProps) {
     const supabase = createClient()
 
     useEffect(() => {
+        // ... (existing useEffect for stats)
         const fetchStats = async () => {
             const { data: { user } } = await supabase.auth.getUser()
             if (!user) return
@@ -52,6 +58,10 @@ export function QuestionCard({ question, onNext }: QuestionCardProps) {
                 })
             }
         }
+
+        // Reset state for new question
+        setSelected(null)
+        setSubmitted(false)
         fetchStats()
     }, [question.id])
 
@@ -60,6 +70,14 @@ export function QuestionCard({ question, onNext }: QuestionCardProps) {
     const handleSubmit = async () => {
         if (!selected) return
         setSubmitted(true)
+        // ... (existing submit logic)
+
+        const isAnswerCorrect = selected === question.correct_answer
+
+        // Trigger wrong answer callback if needed
+        if (!isAnswerCorrect && onWrongAnswer) {
+            onWrongAnswer()
+        }
 
         // Save attempt to DB
         const { data: { user } } = await supabase.auth.getUser()
@@ -69,15 +87,49 @@ export function QuestionCard({ question, onNext }: QuestionCardProps) {
                 user_id: user.id,
                 question_id: question.id,
                 selected_answer: selected,
-                is_correct: selected === question.correct_answer
+                is_correct: isAnswerCorrect
             })
 
             // Update local stats
             setStats(prev => ({
                 attempts: prev.attempts + 1,
-                correct: prev.correct + (selected === question.correct_answer ? 1 : 0)
+                correct: prev.correct + (isAnswerCorrect ? 1 : 0)
             }))
         }
+    }
+
+    const handleTimeout = async () => {
+        if (submitted) return // Don't double submit
+
+        // Mark as submitted so timer stops (effectively, though we pass isActive=false)
+        setSubmitted(true)
+
+        // 1. Trigger Wrong Answer Effect (Lost Life)
+        if (onWrongAnswer) {
+            onWrongAnswer()
+        }
+
+        // 2. We could save a "Timeout" attempt here if we wanted, 
+        // effectively treating it as a wrong answer with no selection.
+        // For now, let's just move next as requested.
+        // Wait, user said "se considera respuesta incorrecta".
+        // Let's insert a wrong attempt to maintain consistency.
+
+        const { data: { user } } = await supabase.auth.getUser()
+        if (user) {
+            await supabase.from('attempts').insert({
+                user_id: user.id,
+                question_id: question.id,
+                selected_answer: "TIMEOUT", // distinct marker
+                is_correct: false
+            })
+        }
+
+        // 3. Move to next question immediately
+        // Small delay to let user realize what happened? 
+        // "Hazlo bonito y ludico". Maybe a toast or something?
+        // For MVP, direct switch.
+        onNext()
     }
 
     const handleNext = () => {
@@ -88,28 +140,38 @@ export function QuestionCard({ question, onNext }: QuestionCardProps) {
 
     return (
         <div className="w-full max-w-3xl mx-auto space-y-8">
-            {/* Metadata Badges */}
-            <div className="flex items-center justify-between px-2">
-                <div className="flex gap-2">
-                    <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${question.difficulty === 'easy' ? 'bg-green-100 text-green-700' :
-                        question.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-700' :
-                            'bg-red-100 text-red-700'
-                        }`}>
-                        {question.difficulty === 'easy' ? 'Principiante' :
-                            question.difficulty === 'medium' ? 'Intermedio' : 'Avanzado'}
-                    </span>
+            {/* Timer & Metadata */}
+            <div className="space-y-4 px-2">
+                <QuestionTimer
+                    key={question.id} // Reset timer when question changes
+                    duration={150} // 2:30 minutes
+                    isActive={!submitted}
+                    onTimeout={handleTimeout}
+                />
 
-                    {question.eje && (
-                        <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-100 text-blue-600">
-                            {question.eje}
+                <div className="flex items-center justify-between">
+                    <div className="flex gap-2">
+                        {/* ... (existing badges) */}
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${question.difficulty === 'easy' ? 'bg-green-100 text-green-700' :
+                            question.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+                                'bg-red-100 text-red-700'
+                            }`}>
+                            {question.difficulty === 'easy' ? 'Principiante' :
+                                question.difficulty === 'medium' ? 'Intermedio' : 'Avanzado'}
                         </span>
-                    )}
 
-                    {question.topic && (
-                        <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-100 text-slate-600">
-                            {question.topic}
-                        </span>
-                    )}
+                        {question.eje && (
+                            <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-blue-100 text-blue-600">
+                                {question.eje}
+                            </span>
+                        )}
+
+                        {question.topic && (
+                            <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-100 text-slate-600">
+                                {question.topic}
+                            </span>
+                        )}
+                    </div>
                 </div>
             </div>
 

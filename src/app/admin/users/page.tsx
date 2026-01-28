@@ -16,6 +16,8 @@ type UserStat = {
     total_attempts: number
     correct_attempts: number
     last_activity: string
+    lives: number
+    explanation_credits: number
 }
 
 export default function AdminUsersPage() {
@@ -72,6 +74,34 @@ export default function AdminUsersPage() {
         }
     }
 
+    const handleRefillLives = async (userId: string, userName: string) => {
+        if (!confirm(`¿Restaurar las 10 vidas para ${userName}?`)) {
+            return
+        }
+
+        const { error } = await supabase.rpc('admin_refill_lives', { p_user_id: userId })
+
+        if (error) {
+            alert("Error al recargar vidas: " + error.message)
+        } else {
+            fetchUsers()
+        }
+    }
+
+    const handleGrantCredits = async (userId: string, userName: string) => {
+        if (!confirm(`¿Regalar 5 explicaciones extra a ${userName}?`)) {
+            return
+        }
+
+        const { error } = await supabase.rpc('admin_grant_explanation_credits', { p_user_id: userId })
+
+        if (error) {
+            alert("Error al regalar créditos: " + error.message)
+        } else {
+            fetchUsers()
+        }
+    }
+
     const formatDate = (dateString: string) => {
         if (!dateString) return "Nunca"
         return new Date(dateString).toLocaleDateString('es-CL', {
@@ -103,6 +133,8 @@ export default function AdminUsersPage() {
                     <thead className="bg-slate-50 border-b border-slate-200 text-xs uppercase text-slate-500 font-semibold">
                         <tr>
                             <th className="px-6 py-4">Usuario</th>
+                            <th className="px-6 py-4 text-center">Vidas</th>
+                            <th className="px-6 py-4 text-center">Explicaciones</th>
                             <th className="px-6 py-4 text-center">Progreso</th>
                             <th className="px-6 py-4 text-white">Actividad</th>
                             <th className="px-6 py-4 text-right">Acciones</th>
@@ -111,13 +143,13 @@ export default function AdminUsersPage() {
                     <tbody className="divide-y divide-slate-100">
                         {loading ? (
                             <tr>
-                                <td colSpan={4} className="px-6 py-12 text-center text-slate-500">
+                                <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
                                     Cargando usuarios...
                                 </td>
                             </tr>
                         ) : filteredUsers.length === 0 ? (
                             <tr>
-                                <td colSpan={4} className="px-6 py-12 text-center text-slate-500">
+                                <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
                                     No se encontraron usuarios.
                                 </td>
                             </tr>
@@ -141,6 +173,16 @@ export default function AdminUsersPage() {
                                                 </div>
                                             </div>
                                         </td>
+                                        <td className="px-6 py-4 text-center">
+                                            <div className="inline-flex items-center gap-1 font-bold text-slate-700 bg-slate-100 px-3 py-1 rounded-full">
+                                                {user.lives} <span className="text-red-500">❤️</span>
+                                            </div>
+                                        </td>
+                                        <td className="px-6 py-4 text-center">
+                                            <div className="inline-flex items-center gap-1 font-bold text-slate-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
+                                                {user.explanation_credits} <span className="text-blue-500">💡</span>
+                                            </div>
+                                        </td>
                                         <td className="px-6 py-4">
                                             <div className="flex flex-col gap-1 max-w-[140px] mx-auto">
                                                 <div className="flex justify-between text-xs font-medium text-slate-600">
@@ -150,7 +192,7 @@ export default function AdminUsersPage() {
                                                 <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
                                                     <div
                                                         className={`h-full rounded-full ${successRate >= 70 ? 'bg-green-500' :
-                                                                successRate >= 40 ? 'bg-yellow-500' : 'bg-red-500'
+                                                            successRate >= 40 ? 'bg-yellow-500' : 'bg-red-500'
                                                             }`}
                                                         style={{ width: `${successRate}%` }}
                                                     />
@@ -163,15 +205,36 @@ export default function AdminUsersPage() {
                                             <p><span className="font-semibold">Última Práctica:</span> {formatDate(user.last_activity)}</p>
                                         </td>
                                         <td className="px-6 py-4 text-right">
-                                            <Button
-                                                size="sm"
-                                                variant="outline"
-                                                className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
-                                                onClick={() => handleReset(user.user_id, user.full_name || user.email)}
-                                            >
-                                                <RotateCcw size={14} className="mr-2" />
-                                                Resetear
-                                            </Button>
+                                            <div className="flex items-center justify-end gap-2">
+                                                <Button
+                                                    size="sm"
+                                                    variant="outline"
+                                                    className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 border-blue-200 h-8 px-2"
+                                                    onClick={() => handleGrantCredits(user.user_id, user.full_name || user.email)}
+                                                    title="Regalar +5 Explicaciones"
+                                                >
+                                                    +5 💡
+                                                </Button>
+                                                <Button
+                                                    size="sm"
+                                                    variant="outline"
+                                                    className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200 h-8"
+                                                    onClick={() => handleRefillLives(user.user_id, user.full_name || user.email)}
+                                                    disabled={user.lives >= 10}
+                                                    title="Recargar Vidas"
+                                                >
+                                                    + ❤️
+                                                </Button>
+                                                <Button
+                                                    size="sm"
+                                                    variant="outline"
+                                                    className="text-slate-600 hover:text-red-700 hover:bg-red-50 border-slate-200 h-8 px-2"
+                                                    onClick={() => handleReset(user.user_id, user.full_name || user.email)}
+                                                    title="Resetear Progreso"
+                                                >
+                                                    <Trash2 size={14} />
+                                                </Button>
+                                            </div>
                                         </td>
                                     </tr>
                                 )

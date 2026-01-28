@@ -4,7 +4,9 @@ import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { QuestionCard } from "@/components/practice/QuestionCard"
 import { Button } from "@/components/ui/button"
-import { Loader2, Trophy, RotateCcw, AlertCircle } from "lucide-react"
+import { Loader2, Trophy, RotateCcw, AlertCircle, HeartCrack } from "lucide-react"
+import { LivesCounter } from "@/components/practice/LivesCounter"
+import Link from "next/link"
 
 export default function PracticePage() {
     const [question, setQuestion] = useState<any>(null)
@@ -13,7 +15,27 @@ export default function PracticePage() {
     const [completed, setCompleted] = useState(false)
     const [debugMsg, setDebugMsg] = useState("")
 
+    // Lives System State
+    const [lives, setLives] = useState(10)
+    const [replenishAt, setReplenishAt] = useState<string | null>(null)
+
     const supabase = createClient()
+
+    // Initialize Lives
+    useEffect(() => {
+        const initLives = async () => {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
+
+            const { data, error } = await supabase.rpc('check_and_replenish_lives', { p_user_id: user.id })
+
+            if (data && data.length > 0) {
+                setLives(data[0].current_lives)
+                setReplenishAt(data[0].replenish_at)
+            }
+        }
+        initLives()
+    }, [])
 
     const fetchQuestion = async () => {
         setLoading(true)
@@ -35,20 +57,15 @@ export default function PracticePage() {
             if (error) {
                 setDebugMsg(`Error al obtener pregunta: ${error.message}`)
             } else if (!data || data.length === 0) {
-                // No questions returned
                 setQuestion(null)
                 setCompleted(true)
             } else {
-                // RPC returns an array (function returns table), take the first item
                 const qRaw = data[0]
-
-                // transform for frontend (the RPC returns flatted topic_name/eje_name)
                 const qFormatted = {
                     ...qRaw,
                     topic: qRaw.topic_name || 'General',
                     eje: qRaw.eje_name || 'General'
                 }
-
                 setQuestion(qFormatted)
                 setCompleted(false)
             }
@@ -60,10 +77,26 @@ export default function PracticePage() {
     }
 
     useEffect(() => {
-        fetchQuestion()
-    }, [retryMode]) // Re-fetch when retryMode changes
+        if (lives > 0 && !question) {
+            fetchQuestion()
+        }
+    }, [retryMode, lives]) // Fetch when lives change (if replenished) or mode changes
 
-    if (loading) {
+    const handleWrongAnswer = async () => {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) return
+
+        // Deduct life in DB
+        const { data } = await supabase.rpc('deduct_life', { p_user_id: user.id })
+
+        // Update local state
+        if (data && data.length > 0) {
+            setLives(data[0].new_lives)
+            setReplenishAt(data[0].replenish_at)
+        }
+    }
+
+    if (loading && !question && lives > 0) {
         return (
             <div className="flex h-[80vh] items-center justify-center flex-col gap-4">
                 <Loader2 className="animate-spin text-blue-600" size={40} />
@@ -74,8 +107,41 @@ export default function PracticePage() {
         )
     }
 
-    // Completion / Empty State
-    if (completed || !question) {
+    // Cooldown / No Lives Screen
+    if (lives === 0 && replenishAt) {
+        return (
+            <div className="flex h-[80vh] items-center justify-center flex-col gap-8 px-4 text-center max-w-md mx-auto animate-in fade-in zoom-in duration-300">
+                <div className="relative">
+                    <div className="absolute inset-0 bg-red-100 rounded-full animate-ping opacity-20"></div>
+                    <div className="w-32 h-32 bg-red-50 rounded-full flex items-center justify-center relative border-4 border-white shadow-xl">
+                        <HeartCrack className="text-red-500" size={64} />
+                    </div>
+                </div>
+
+                <div className="space-y-2">
+                    <h2 className="text-3xl font-bold text-slate-900">¡Te quedaste sin vidas!</h2>
+                    <p className="text-slate-500 text-lg">
+                        Necesitas descansar un poco. Tus vidas se recargarán en:
+                    </p>
+                </div>
+
+                <div className="bg-slate-900 text-white text-3xl font-mono py-4 px-8 rounded-2xl shadow-lg border-b-4 border-slate-700">
+                    <LivesCounter lives={0} replenishAt={replenishAt} />
+                </div>
+
+                <div className="pt-8">
+                    <Link href="/app">
+                        <Button size="lg" variant="outline" className="h-12 px-8 text-lg">
+                            Volver al Inicio
+                        </Button>
+                    </Link>
+                </div>
+            </div>
+        )
+    }
+
+    // Completion State (Success)
+    if (completed) {
         return (
             <div className="flex h-[80vh] items-center justify-center flex-col gap-6 px-4 text-center max-w-md mx-auto">
                 <div className="w-24 h-24 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
@@ -97,9 +163,6 @@ export default function PracticePage() {
                                 <RotateCcw className="mr-2" size={20} />
                                 Repasar mis errores
                             </Button>
-                            <p className="text-xs text-slate-400">
-                                Volverás a ver las preguntas en las que fallaste anteriormente.
-                            </p>
                         </div>
                     </>
                 ) : (
@@ -119,27 +182,22 @@ export default function PracticePage() {
                         </div>
                     </>
                 )}
-
-                {debugMsg && (
-                    <div className="mt-8 p-4 bg-red-50 text-red-600 rounded-lg text-xs font-mono border border-red-200">
-                        debug: {debugMsg}
-                    </div>
-                )}
             </div>
         )
     }
 
     return (
         <div className="min-h-screen bg-slate-50 pb-20 pt-8 px-4">
-            {/* Progress Header */}
-            <div className="max-w-3xl mx-auto mb-8 flex items-center justify-between text-sm text-slate-500 font-medium font-mono">
-                <div className="flex items-center gap-2">
+            {/* Header: Progress & Lives */}
+            <div className="max-w-3xl mx-auto mb-8 flex items-center justify-between">
+                <div className="flex items-center gap-2 text-sm text-slate-500 font-medium font-mono">
                     <span className={retryMode ? "text-orange-600 font-bold" : ""}>
                         {retryMode ? "MODO REPASO" : "MODO PRÁCTICA"}
                     </span>
                     {retryMode && <AlertCircle size={14} className="text-orange-500" />}
                 </div>
-                <span>ALEATORIO</span>
+
+                <LivesCounter lives={lives} replenishAt={replenishAt} />
             </div>
 
             {debugMsg && (
@@ -148,10 +206,13 @@ export default function PracticePage() {
                 </div>
             )}
 
-            <QuestionCard
-                question={question}
-                onNext={fetchQuestion}
-            />
+            {question && (
+                <QuestionCard
+                    question={question}
+                    onNext={fetchQuestion}
+                    onWrongAnswer={handleWrongAnswer}
+                />
+            )}
         </div>
     )
 }

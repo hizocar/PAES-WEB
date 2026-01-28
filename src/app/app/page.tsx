@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { BarChart3, Clock, Target, TrendingUp, ArrowRight, Flame } from "lucide-react"
 import Link from "next/link"
+import { MascotCard } from "@/components/dashboard/MascotCard"
 
 export default function DashboardPage() {
     const [loading, setLoading] = useState(true)
@@ -186,16 +187,19 @@ export default function DashboardPage() {
                 </div>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
+                {/* Mascot / Lives */}
+                <MascotCard />
+
                 {/* Meta Diaria */}
                 <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between h-56">
                     <div className="flex items-start justify-between">
                         <div>
                             <h3 className="text-slate-500 font-semibold text-lg">Meta Diaria</h3>
-                            <div className="text-5xl font-bold text-slate-900 mt-3">
+                            <div className="text-4xl xl:text-5xl font-bold text-slate-900 mt-3 whitespace-nowrap">
                                 {stats.dailyProgress} / {stats.dailyTarget}
                             </div>
-                            <p className={`text-base mt-2 font-medium ${stats.dailyProgress >= stats.dailyTarget ? 'text-green-600' : 'text-slate-400'}`}>
+                            <p className={`text-sm xl:text-base mt-2 font-medium ${stats.dailyProgress >= stats.dailyTarget ? 'text-green-600' : 'text-slate-400'}`}>
                                 {stats.dailyProgress >= stats.dailyTarget
                                     ? "¡Meta cumplida!"
                                     : `Faltan ${stats.dailyTarget - stats.dailyProgress} ejercicios`}

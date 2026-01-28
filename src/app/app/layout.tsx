@@ -50,46 +50,46 @@ export default async function AppLayout({
 
                 <nav className="flex-1 p-6 space-y-3 overflow-y-auto">
                     <Link href="/app">
-                        <Button variant="ghost" className="w-full justify-start gap-4 h-14 text-base font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50">
-                            <Home size={22} />
+                        <Button variant="ghost" className="w-full justify-start gap-4 h-16 text-xl font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50">
+                            <Home size={28} />
                             Inicio
                         </Button>
                     </Link>
                     <Link href="/app/practice">
-                        <Button variant="ghost" className="w-full justify-start gap-4 h-14 text-base font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50">
+                        <Button variant="ghost" className="w-full justify-start gap-4 h-16 text-xl font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50">
                             <div className="relative">
-                                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-400 rounded-full animate-pulse shadow-sm" />
-                                <Clock size={22} />
+                                <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-400 rounded-full animate-pulse shadow-sm" />
+                                <Clock size={28} />
                             </div>
                             Practicar
                         </Button>
                     </Link>
                     <Link href="/app/progress">
-                        <Button variant="ghost" className="w-full justify-start gap-4 h-14 text-base font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50">
-                            <BarChart3 size={22} />
+                        <Button variant="ghost" className="w-full justify-start gap-4 h-16 text-xl font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50">
+                            <BarChart3 size={28} />
                             Mi Progreso
                         </Button>
                     </Link>
                     <Link href="/app/leaderboard">
-                        <Button variant="ghost" className="w-full justify-start gap-4 h-14 text-base font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50">
-                            <Trophy size={22} />
+                        <Button variant="ghost" className="w-full justify-start gap-4 h-16 text-xl font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50">
+                            <Trophy size={28} />
                             Ranking
                         </Button>
                     </Link>
                 </nav>
 
-                <div className="p-6 border-t border-slate-100 space-y-2">
+                <div className="p-6 border-t border-slate-100 space-y-4">
                     <UserProfile user={userWithProfile} />
 
                     <Link href="/app/settings">
-                        <Button variant="ghost" className="w-full justify-start gap-4 h-12 text-base font-medium text-slate-500 hover:text-blue-600 hover:bg-blue-50">
-                            <Settings size={20} />
+                        <Button variant="ghost" className="w-full justify-start gap-4 h-14 text-lg font-medium text-slate-500 hover:text-blue-600 hover:bg-blue-50">
+                            <Settings size={24} />
                             Configuración
                         </Button>
                     </Link>
                     <form action="/auth/signout" method="post">
-                        <Button variant="ghost" className="w-full justify-start gap-4 h-12 text-base font-medium text-red-500 hover:text-red-600 hover:bg-red-50">
-                            <LogOut size={20} />
+                        <Button variant="ghost" className="w-full justify-start gap-4 h-14 text-lg font-medium text-red-500 hover:text-red-600 hover:bg-red-50">
+                            <LogOut size={24} />
                             Cerrar sesión
                         </Button>
                     </form>
