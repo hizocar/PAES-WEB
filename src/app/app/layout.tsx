@@ -37,7 +37,6 @@ export default async function AppLayout({
     }
 
     return (
-    return (
         <div className="flex h-screen bg-slate-50 flex-col md:flex-row">
             {/* Mobile Navigation */}
             <MobileNav user={userWithProfile} />
@@ -105,6 +104,5 @@ export default async function AppLayout({
                 </StudyTrackerProvider>
             </main>
         </div>
-    )
     )
 }

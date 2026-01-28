@@ -17,7 +17,7 @@ export function MobileNav({ user }: { user: any }) {
                 <div className="font-bold text-xl text-blue-600 flex items-center gap-2">
                     PAES Lab
                 </div>
-                <Button variant="ghost" size="icon" onClick={() => setOpen(true)}>
+                <Button variant="ghost" size="sm" onClick={() => setOpen(true)}>
                     <Menu className="h-6 w-6 text-slate-700" />
                 </Button>
             </div>
@@ -31,7 +31,7 @@ export function MobileNav({ user }: { user: any }) {
                     >
                         <div className="flex items-center justify-between mb-8">
                             <div className="font-bold text-xl text-blue-600">Menú</div>
-                            <Button variant="ghost" size="icon" onClick={() => setOpen(false)}>
+                            <Button variant="ghost" size="sm" onClick={() => setOpen(false)}>
                                 <X className="h-6 w-6 text-slate-500" />
                             </Button>
                         </div>
