@@ -40,7 +40,6 @@ export default function DashboardPage() {
 
             if (diff <= 0) {
                 setTimeLeft("00:00:00")
-                // Optionally re-fetch here if we wanted to auto-update
                 return
             }
 
@@ -145,17 +144,13 @@ export default function DashboardPage() {
             }
 
             // 6. Calculate Mistakes (Questions failed and NEVER corrected)
+            const { data: allAttempts } = await supabase
+                .from('attempts')
+                .select('question_id, is_correct')
+                .eq('user_id', user.id)
+
             const questionStatus: Record<string, { hasCorrect: boolean, hasWrong: boolean }> = {}
-            allAttempts?.forEach(a => {
-                if (!questionStatus[a.question_id]) questionStatus[a.question_id] = { hasCorrect: false, hasWrong: false }
-                if (a.is_correct) questionStatus[a.question_id].hasCorrect = true
-                else questionStatus[a.question_id].hasWrong = false // Logic fix: We fetch ALL attempts. 
-                // Wait, logic above: if I fail, then retry and fail, then retry and correct.
-                // The DB stores ALL attempts. 
-                // So if ANY attempt is correct, I consider it "resolved" (hasCorrect = true).
-                // If I have ONLY wrong attempts, it's an active mistake.
-            })
-            // Re-loop correctly
+
             allAttempts?.forEach(a => {
                 if (!questionStatus[a.question_id]) questionStatus[a.question_id] = { hasCorrect: false, hasWrong: false }
                 if (a.is_correct) questionStatus[a.question_id].hasCorrect = true
@@ -177,211 +172,219 @@ export default function DashboardPage() {
                 mistakes: activeMistakes
             })
 
-            // ... (Ejes mapping) ...
+            // 7. Fetch Ejes (for chart below)
+            const { data: allEjes } = await supabase.from('ejes').select('id, name')
+
+            const qIds = allAttempts?.map(a => a.question_id) || []
+            const uniqueQIds = Array.from(new Set(qIds))
+
+            let qEjeMap: Record<string, string> = {}
+
+            if (uniqueQIds.length > 0) {
+                const { data: qTopics } = await supabase
+                    .from('question_topics')
+                    .select('question_id, topics(ejes(name))')
+                    .in('question_id', uniqueQIds)
+
+                qTopics?.forEach((row: any) => {
+                    const ejeName = row.topics?.ejes?.name
+                    if (ejeName) {
+                        qEjeMap[row.question_id] = ejeName
+                    }
+                })
+            }
 
             const processedEjes = allEjes?.map(eje => {
-                // ...
+                const ejeAttempts = allAttempts?.filter(a => qEjeMap[a.question_id] === eje.name) || []
+                const correct = ejeAttempts.filter(a => a.is_correct).length
+                const total = ejeAttempts.length
+                const acc = total > 0 ? Math.round((correct / total) * 100) : 0
 
-                let qEjeMap: Record<string, string> = {}
-
-                if (uniqueQIds.length > 0) {
-                    const { data: qTopics } = await supabase
-                        .from('question_topics')
-                        .select('question_id, topics(ejes(name))')
-                        .in('question_id', uniqueQIds)
-
-                    qTopics?.forEach((row: any) => {
-                        const ejeName = row.topics?.ejes?.name
-                        if (ejeName) {
-                            qEjeMap[row.question_id] = ejeName
-                        }
-                    })
+                return {
+                    ...eje,
+                    progress: acc,
+                    total_attempts: total
                 }
+            }) || []
 
-                const processedEjes = allEjes?.map(eje => {
-                    const ejeAttempts = allAttempts?.filter(a => qEjeMap[a.question_id] === eje.name) || []
-                    const correct = ejeAttempts.filter(a => a.is_correct).length
-                    const total = ejeAttempts.length
-                    const acc = total > 0 ? Math.round((correct / total) * 100) : 0
+            setEjes(processedEjes)
 
-                    return {
-                        ...eje,
-                        progress: acc,
-                        total_attempts: total
-                    }
-                }) || []
-
-                setEjes(processedEjes)
-
-            } catch (error) {
-                console.error("Error fetching dashboard:", error)
-            } finally {
-                setLoading(false)
-            }
+        } catch (error) {
+            console.error("Error fetching dashboard:", error)
+        } finally {
+            setLoading(false)
         }
+    }
 
     if (loading) {
-            return (
-                <div className="flex h-[50vh] items-center justify-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-900"></div>
-                </div>
-            )
-        }
-
         return (
-            <div className="p-6 max-w-7xl mx-auto space-y-6">
-                <div className="flex items-center justify-between">
-                    <div>
-                        <h1 className="text-2xl font-bold text-slate-900">Hola, Futuro Universitario 👋</h1>
-                        <p className="text-sm text-slate-500 mt-1">Continuemos tu preparación para los 1000 puntos.</p>
-                    </div>
-                    {stats.lives !== null && stats.lives > 0 && (
-                        <Link href="/app/practice">
-                            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 font-bold text-base px-6 h-12 rounded-xl">
-                                <Zap className="w-5 h-5 mr-2 fill-current" />
-                                ¡Practicar Ahora!
-                            </Button>
-                        </Link>
-                    )}
-                </div>
-
-                <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {/* Vidas Card (Simple) */}
-                    <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-40">
-                        <div className="flex items-start justify-between">
-                            <div>
-                                <h3 className="text-slate-500 font-semibold text-sm">Vidas</h3>
-                                {stats.lives && stats.lives > 0 ? (
-                                    <div className="text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
-                                        {stats.lives}
-                                    </div>
-                                ) : (
-                                    <div className="text-xl font-bold text-slate-900 mt-2 font-mono text-red-600">
-                                        {timeLeft}
-                                    </div>
-                                )}
-                                <p className="text-xs text-slate-400 mt-1">
-                                    {stats.lives && stats.lives > 0 ? "¡Sigue así!" : "Recargando..."}
-                                </p>
-                            </div>
-                            <div className="w-10 h-10 bg-red-50 text-red-500 rounded-lg flex items-center justify-center">
-                                {stats.lives === 0 ? <Clock size={20} /> : <Heart size={20} className="fill-red-500" />}
-                            </div>
-                        </div>
-                        <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                            <div
-                                className={`h-full transition-all duration-1000 ${stats.lives && stats.lives > 1 ? 'bg-red-500' : 'bg-red-300'}`}
-                                style={{ width: `${Math.min(((stats.lives || 0) / 5) * 100, 100)}%` }}
-                            />
-                        </div>
-                    </div>
-
-                    {/* Meta Diaria */}
-                    <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-40">
-                        <div className="flex items-start justify-between">
-                            <div>
-                                <h3 className="text-slate-500 font-semibold text-sm">Meta Diaria</h3>
-                                <div className="text-3xl font-bold text-slate-900 mt-2 whitespace-nowrap">
-                                    {stats.dailyProgress} / {stats.dailyTarget}
-                                </div>
-                                <p className={`text-xs mt-1 font-medium ${stats.dailyProgress >= stats.dailyTarget ? 'text-green-600' : 'text-slate-400'}`}>
-                                    {stats.dailyProgress >= stats.dailyTarget
-                                        ? "¡Meta cumplida!"
-                                        : `Faltan ${stats.dailyTarget - stats.dailyProgress}`}
-                                </p>
-                            </div>
-                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-xl ${stats.dailyProgress >= stats.dailyTarget ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'}`}>
-                                🎯
-                            </div>
-                        </div>
-                        <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                            <div
-                                className={`h-full transition-all duration-1000 ${stats.dailyProgress >= stats.dailyTarget ? 'bg-green-500' : 'bg-blue-500'}`}
-                                style={{ width: `${Math.min((stats.dailyProgress / stats.dailyTarget) * 100, 100)}%` }}
-                            />
-                        </div>
-                    </div>
-
-                    {/* Ranking */}
-                    <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-40">
-                        <div className="flex items-start justify-between">
-                            <div>
-                                <h3 className="text-slate-500 font-semibold text-sm">Tu Ranking</h3>
-                                <div className="text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
-                                    {stats.rank ? `#${stats.rank}` : '-'}
-                                </div>
-                                <p className="text-xs text-slate-400 mt-1">
-                                    {stats.score} pts totales
-                                </p>
-                            </div>
-                            <div className="w-10 h-10 bg-yellow-100 text-yellow-600 rounded-lg flex items-center justify-center">
-                                <Trophy size={20} className="fill-yellow-600" />
-                            </div>
-                        </div>
-                        <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                            <div
-                                className="bg-yellow-500 h-full transition-all duration-1000"
-                                style={{ width: `${Math.max(5, Math.min(stats.score / 10, 100))}%` }} // Simplified progress for now
-                            />
-                        </div>
-                    </div>
-
-                    {/* Racha / Streak */}
-                    <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-40 bg-gradient-to-br from-orange-500 to-red-500 text-white">
-                        <div className="flex items-start justify-between">
-                            <div>
-                                <h3 className="text-orange-100 font-semibold text-sm">Racha Actual</h3>
-                                <div className="text-3xl font-bold mt-2 flex items-baseline gap-1">
-                                    {stats.streak} <span className="text-sm font-medium opacity-90">días</span>
-                                </div>
-                                <p className="text-xs text-orange-100 mt-1">
-                                    {stats.dailyProgress >= stats.dailyTarget
-                                        ? "¡Racha extendida! 🔥"
-                                        : "Completa la meta diaria"}
-                                </p>
-                            </div>
-                            <div className="w-10 h-10 bg-white/20 rounded-lg flex items-center justify-center backdrop-blur-sm">
-                                <Flame className="text-white" size={20} fill="currentColor" />
-                            </div>
-                        </div>
-                        <div className="w-full bg-black/20 h-2 rounded-full overflow-hidden mt-1">
-                            <div
-                                className="bg-white h-full transition-all duration-1000"
-                                style={{ width: `${Math.min((stats.dailyProgress / stats.dailyTarget) * 100, 100)}%` }}
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                {/* Ejes Grid */}
-                <div>
-                    <h2 className="text-xl font-bold text-slate-900 mb-4">Tus Ejes Temáticos</h2>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4">
-                        {ejes.map((eje) => (
-                            <Link href="/app/progress" key={eje.id}>
-                                <div className="group bg-white p-4 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between h-full">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-slate-100 group-hover:bg-blue-50 transition-colors flex items-center justify-center text-slate-500 group-hover:text-blue-600 font-bold text-lg">
-                                            {eje.name.charAt(0)}
-                                        </div>
-                                        <div>
-                                            <h3 className="font-bold text-sm text-slate-900 line-clamp-1">{eje.name}</h3>
-                                            <p className="text-xs text-slate-500 mt-0.5">{eje.progress}% precisión</p>
-                                        </div>
-                                    </div>
-                                    <div className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-300 group-hover:border-blue-200 group-hover:text-blue-500 transition-colors shrink-0">
-                                        <ArrowRight size={16} />
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
-                        {ejes.length === 0 && (
-                            <div className="col-span-2 text-center py-8 text-slate-500 text-sm">
-                                Cargando ejes temáticos...
-                            </div>
-                        )}
-                    </div>
-                </div>
+            <div className="flex h-[50vh] items-center justify-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-900"></div>
             </div>
         )
     }
+
+    return (
+        <div className="p-6 max-w-7xl mx-auto space-y-6">
+            <div className="flex items-center justify-between">
+                <div>
+                    <h1 className="text-2xl font-bold text-slate-900">Hola, Futuro Universitario 👋</h1>
+                    <div className="flex items-center gap-3 mt-1">
+                        <p className="text-sm text-slate-500">Continuemos tu preparación.</p>
+                        {/* Streak Badge */}
+                        <div className="flex items-center gap-1.5 px-3 py-1 bg-orange-50 text-orange-600 rounded-full border border-orange-100 shadow-sm" title="Racha de días seguidos">
+                            <Flame size={14} className="fill-orange-500" />
+                            <span className="text-sm font-bold">{stats.streak} días</span>
+                        </div>
+                    </div>
+                </div>
+                {stats.lives !== null && stats.lives > 0 && (
+                    <Link href="/app/practice">
+                        <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 font-bold text-base px-6 h-12 rounded-xl">
+                            <Zap className="w-5 h-5 mr-2 fill-current" />
+                            ¡Practicar Ahora!
+                        </Button>
+                    </Link>
+                )}
+            </div>
+
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* Vidas Card (Simple) */}
+                <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-40">
+                    <div className="flex items-start justify-between">
+                        <div>
+                            <h3 className="text-slate-500 font-semibold text-sm">Vidas</h3>
+                            {stats.lives && stats.lives > 0 ? (
+                                <div className="text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
+                                    {stats.lives}
+                                </div>
+                            ) : (
+                                <div className="text-xl font-bold text-slate-900 mt-2 font-mono text-red-600">
+                                    {timeLeft}
+                                </div>
+                            )}
+                            <p className="text-xs text-slate-400 mt-1">
+                                {stats.lives && stats.lives > 0 ? "¡Sigue así!" : "Recargando..."}
+                            </p>
+                        </div>
+                        <div className="w-10 h-10 bg-red-50 text-red-500 rounded-lg flex items-center justify-center">
+                            {stats.lives === 0 ? <Clock size={20} /> : <Heart size={20} className="fill-red-500" />}
+                        </div>
+                    </div>
+                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                        <div
+                            className={`h-full transition-all duration-1000 ${stats.lives && stats.lives > 1 ? 'bg-red-500' : 'bg-red-300'}`}
+                            style={{ width: `${Math.min(((stats.lives || 0) / 5) * 100, 100)}%` }}
+                        />
+                    </div>
+                </div>
+
+                {/* Meta Diaria */}
+                <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-40">
+                    <div className="flex items-start justify-between">
+                        <div>
+                            <h3 className="text-slate-500 font-semibold text-sm">Meta Diaria</h3>
+                            <div className="text-3xl font-bold text-slate-900 mt-2 whitespace-nowrap">
+                                {stats.dailyProgress} / {stats.dailyTarget}
+                            </div>
+                            <p className={`text-xs mt-1 font-medium ${stats.dailyProgress >= stats.dailyTarget ? 'text-green-600' : 'text-slate-400'}`}>
+                                {stats.dailyProgress >= stats.dailyTarget
+                                    ? "¡Meta cumplida!"
+                                    : `Faltan ${stats.dailyTarget - stats.dailyProgress}`}
+                            </p>
+                        </div>
+                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-xl ${stats.dailyProgress >= stats.dailyTarget ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'}`}>
+                            🎯
+                        </div>
+                    </div>
+                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                        <div
+                            className={`h-full transition-all duration-1000 ${stats.dailyProgress >= stats.dailyTarget ? 'bg-green-500' : 'bg-blue-500'}`}
+                            style={{ width: `${Math.min((stats.dailyProgress / stats.dailyTarget) * 100, 100)}%` }}
+                        />
+                    </div>
+                </div>
+
+                {/* Ranking */}
+                <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-40">
+                    <div className="flex items-start justify-between">
+                        <div>
+                            <h3 className="text-slate-500 font-semibold text-sm">Tu Ranking</h3>
+                            <div className="text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
+                                {stats.rank ? `#${stats.rank}` : '-'}
+                            </div>
+                            <p className="text-xs text-slate-400 mt-1">
+                                {stats.score} pts totales
+                            </p>
+                        </div>
+                        <div className="w-10 h-10 bg-yellow-100 text-yellow-600 rounded-lg flex items-center justify-center">
+                            <Trophy size={20} className="fill-yellow-600" />
+                        </div>
+                    </div>
+                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                        <div
+                            className="bg-yellow-500 h-full transition-all duration-1000"
+                            style={{ width: `${Math.max(5, Math.min(stats.score / 10, 100))}%` }}
+                        />
+                    </div>
+                </div>
+
+                {/* Banco de Errores */}
+                <Link href="/app/practice?mode=retry">
+                    <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-40 hover:border-red-200 hover:shadow-md transition-all cursor-pointer group">
+                        <div className="flex items-start justify-between">
+                            <div>
+                                <h3 className="text-slate-500 font-semibold text-sm group-hover:text-red-500 transition-colors">Banco de Errores</h3>
+                                <div className="text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
+                                    {stats.mistakes}
+                                </div>
+                                <p className="text-xs text-slate-400 mt-1">
+                                    {stats.mistakes > 0 ? "Preguntas por corregir" : "¡Todo limpio!"}
+                                </p>
+                            </div>
+                            <div className="w-10 h-10 bg-red-50 text-red-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <AlertCircle size={20} />
+                            </div>
+                        </div>
+                        <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div
+                                className={`h-full transition-all duration-1000 ${stats.mistakes > 5 ? 'bg-red-500' : 'bg-green-500'}`}
+                                style={{ width: `${Math.min(stats.mistakes * 5, 100)}%` }}
+                            />
+                        </div>
+                    </div>
+                </Link>
+            </div>
+
+            {/* Ejes Grid */}
+            <div>
+                <h2 className="text-xl font-bold text-slate-900 mb-4">Tus Ejes Temáticos</h2>
+                <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4">
+                    {ejes.map((eje) => (
+                        <Link href="/app/progress" key={eje.id}>
+                            <div className="group bg-white p-4 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between h-full">
+                                <div className="flex items-center gap-4">
+                                    <div className="w-10 h-10 rounded-full bg-slate-100 group-hover:bg-blue-50 transition-colors flex items-center justify-center text-slate-500 group-hover:text-blue-600 font-bold text-lg">
+                                        {eje.name.charAt(0)}
+                                    </div>
+                                    <div>
+                                        <h3 className="font-bold text-sm text-slate-900 line-clamp-1">{eje.name}</h3>
+                                        <p className="text-xs text-slate-500 mt-0.5">{eje.progress}% precisión</p>
+                                    </div>
+                                </div>
+                                <div className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-300 group-hover:border-blue-200 group-hover:text-blue-500 transition-colors shrink-0">
+                                    <ArrowRight size={16} />
+                                </div>
+                            </div>
+                        </Link>
+                    ))}
+                    {ejes.length === 0 && (
+                        <div className="col-span-2 text-center py-8 text-slate-500 text-sm">
+                            Cargando ejes temáticos...
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    )
+}
