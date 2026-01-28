@@ -44,9 +44,9 @@ export default async function AppLayout({
             {/* Sidebar (Desktop) */}
             <aside className="w-64 bg-white border-r border-slate-200 hidden md:flex flex-col">
                 <div className="p-6 border-b border-slate-100">
-                    <div className="font-bold text-xl text-blue-600 flex items-center gap-2">
+                    <Link href="/app" className="font-bold text-xl text-blue-600 flex items-center gap-2 hover:opacity-80 transition-opacity">
                         PAES Lab
-                    </div>
+                    </Link>
                 </div>
 
                 <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
