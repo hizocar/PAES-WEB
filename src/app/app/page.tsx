@@ -6,8 +6,13 @@ import { Button } from "@/components/ui/button"
 import { BarChart3, Clock, Target, TrendingUp, ArrowRight, Flame, Heart, Zap, Trophy, AlertCircle } from "lucide-react"
 import Link from "next/link"
 
+import { AchievementNotification } from "@/components/achievements/AchievementNotification"
+
 export default function DashboardPage() {
     const [loading, setLoading] = useState(true)
+    const [unlockedAchievement, setUnlockedAchievement] = useState<any>(null)
+
+    // Stats State
     const [stats, setStats] = useState({
         dailyProgress: 0,
         dailyTarget: 10,
@@ -26,7 +31,24 @@ export default function DashboardPage() {
     const supabase = createClient()
 
     useEffect(() => {
-        fetchDashboardData()
+        const init = async () => {
+            // Check for Streak Achievements
+            const { data: { user } } = await supabase.auth.getUser()
+            if (user) {
+                const { data: newAchievements } = await supabase
+                    .rpc('check_and_unlock_achievement', {
+                        p_user_id: user.id,
+                        p_trigger_type: 'STREAK'
+                    })
+
+                if (newAchievements && newAchievements.length > 0) {
+                    setUnlockedAchievement(newAchievements[0])
+                }
+            }
+
+            fetchDashboardData()
+        }
+        init()
     }, [])
 
     // Timer logic for lives
@@ -226,6 +248,10 @@ export default function DashboardPage() {
 
     return (
         <div className="p-6 max-w-7xl mx-auto space-y-6">
+            <AchievementNotification
+                achievement={unlockedAchievement}
+                onClose={() => setUnlockedAchievement(null)}
+            />
             <div className="flex items-center justify-between">
                 <div>
                     <h1 className="text-2xl font-bold text-slate-900">Hola, Futuro Universitario 👋</h1>

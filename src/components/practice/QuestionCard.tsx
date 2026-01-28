@@ -12,6 +12,7 @@ import { QuestionTimer } from "./QuestionTimer"
 
 import { ExplanationView } from "./ExplanationView"
 import { QuestionFeedback } from "./QuestionFeedback"
+import { AchievementNotification } from "@/components/achievements/AchievementNotification"
 
 type Question = {
     id: string
@@ -31,17 +32,15 @@ type QuestionCardProps = {
     onWrongAnswer?: () => void
 }
 
-// ... imports
-
 export function QuestionCard({ question, onNext, onWrongAnswer }: QuestionCardProps) {
     const [selected, setSelected] = useState<string | null>(null)
     const [submitted, setSubmitted] = useState(false)
     const [stats, setStats] = useState<{ attempts: number, correct: number }>({ attempts: 0, correct: 0 })
+    const [unlockedAchievement, setUnlockedAchievement] = useState<any>(null)
 
     const supabase = createClient()
 
     useEffect(() => {
-        // ... (existing useEffect for stats)
         const fetchStats = async () => {
             const { data: { user } } = await supabase.auth.getUser()
             if (!user) return
@@ -70,7 +69,6 @@ export function QuestionCard({ question, onNext, onWrongAnswer }: QuestionCardPr
     const handleSubmit = async () => {
         if (!selected) return
         setSubmitted(true)
-        // ... (existing submit logic)
 
         const isAnswerCorrect = selected === question.correct_answer
 
@@ -95,6 +93,19 @@ export function QuestionCard({ question, onNext, onWrongAnswer }: QuestionCardPr
                 attempts: prev.attempts + 1,
                 correct: prev.correct + (isAnswerCorrect ? 1 : 0)
             }))
+
+            // Check for achievements if correct
+            if (isAnswerCorrect) {
+                const { data: newAchievements } = await supabase
+                    .rpc('check_and_unlock_achievement', {
+                        p_user_id: user.id,
+                        p_trigger_type: 'ANSWER'
+                    })
+
+                if (newAchievements && newAchievements.length > 0) {
+                    setUnlockedAchievement(newAchievements[0]) // Show the first one
+                }
+            }
         }
     }
 
@@ -109,12 +120,7 @@ export function QuestionCard({ question, onNext, onWrongAnswer }: QuestionCardPr
             onWrongAnswer()
         }
 
-        // 2. We could save a "Timeout" attempt here if we wanted, 
-        // effectively treating it as a wrong answer with no selection.
-        // For now, let's just move next as requested.
-        // Wait, user said "se considera respuesta incorrecta".
-        // Let's insert a wrong attempt to maintain consistency.
-
+        // 2. Insert TIMEOUT attempt
         const { data: { user } } = await supabase.auth.getUser()
         if (user) {
             await supabase.from('attempts').insert({
@@ -126,9 +132,6 @@ export function QuestionCard({ question, onNext, onWrongAnswer }: QuestionCardPr
         }
 
         // 3. Move to next question immediately
-        // Small delay to let user realize what happened? 
-        // "Hazlo bonito y ludico". Maybe a toast or something?
-        // For MVP, direct switch.
         onNext()
     }
 
@@ -140,6 +143,10 @@ export function QuestionCard({ question, onNext, onWrongAnswer }: QuestionCardPr
 
     return (
         <div className="w-full max-w-3xl mx-auto space-y-8">
+            <AchievementNotification
+                achievement={unlockedAchievement}
+                onClose={() => setUnlockedAchievement(null)}
+            />
             {/* Timer & Metadata */}
             <div className="space-y-4 px-2">
                 <QuestionTimer
@@ -151,7 +158,6 @@ export function QuestionCard({ question, onNext, onWrongAnswer }: QuestionCardPr
 
                 <div className="flex items-center justify-between">
                     <div className="flex gap-2">
-                        {/* ... (existing badges) */}
                         <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider ${question.difficulty === 'easy' ? 'bg-green-100 text-green-700' :
                             question.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-700' :
                                 'bg-red-100 text-red-700'

@@ -58,7 +58,7 @@ function PracticeContent() {
             }
 
             const { data, error } = await supabase
-                .rpc('get_smart_question', {
+                .rpc('get_smart_question_v2', {
                     p_user_id: user.id,
                     p_retry_mode: retryMode
                 })

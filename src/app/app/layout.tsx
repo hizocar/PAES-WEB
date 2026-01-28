@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { BarChart3, Clock, Home, LogOut, Settings, Trophy, RotateCcw } from 'lucide-react'
+import { BarChart3, Clock, Home, LogOut, Settings, Trophy, RotateCcw, Award } from 'lucide-react'
 import { StudyTrackerProvider } from '@/context/study-tracker'
 import { UserProfile } from '@/components/ui/user-profile'
 import { MobileNav } from '@/components/mobile-nav'
@@ -81,6 +81,12 @@ export default async function AppLayout({
                         <Button variant="ghost" className="w-full justify-start gap-3 h-10 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50">
                             <Trophy size={18} />
                             Ranking
+                        </Button>
+                    </Link>
+                    <Link href="/app/achievements">
+                        <Button variant="ghost" className="w-full justify-start gap-3 h-10 text-sm font-medium text-slate-600 hover:text-yellow-600 hover:bg-yellow-50">
+                            <Award size={18} />
+                            Logros
                         </Button>
                     </Link>
                 </nav>
