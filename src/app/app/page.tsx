@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
-import { BarChart3, Clock, Target, TrendingUp, ArrowRight, Flame, Heart } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { BarChart3, Clock, Target, TrendingUp, ArrowRight, Flame, Heart, Zap } from "lucide-react"
 import Link from "next/link"
 
 export default function DashboardPage() {
@@ -201,6 +202,14 @@ export default function DashboardPage() {
                     <h1 className="text-2xl font-bold text-slate-900">Hola, Futuro Universitario 👋</h1>
                     <p className="text-sm text-slate-500 mt-1">Continuemos tu preparación para los 1000 puntos.</p>
                 </div>
+                {stats.lives !== null && stats.lives > 0 && (
+                    <Link href="/app/practice">
+                        <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 font-bold text-base px-6 h-12 rounded-xl">
+                            <Zap className="w-5 h-5 mr-2 fill-current" />
+                            ¡Practicar Ahora!
+                        </Button>
+                    </Link>
+                )}
             </div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
