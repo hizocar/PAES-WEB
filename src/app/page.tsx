@@ -18,7 +18,7 @@ export default async function Home() {
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
             <span className="text-white text-lg">M2</span>
           </div>
-          PAES Trainer
+          PAES Lab
         </div>
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
           <a href="#features" className="hover:text-blue-600 transition-colors">Características</a>
@@ -42,25 +42,32 @@ export default async function Home() {
           <div className="container mx-auto px-6 relative z-10 text-center max-w-4xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-6 border border-blue-100">
               <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
-              Nueva admisión 2025
+              Nueva admisión 2027
             </div>
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-8 leading-[1.1]">
-              Domina la PAES M2 con <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">Inteligencia y Práctica</span>
+              Domina la PAES con <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">Inteligencia y Práctica</span>
             </h1>
             <p className="text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
               La plataforma definitiva para puntajes nacionales. Práctica adaptativa, seguimiento en tiempo real y explicaciones detalladas.
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/login">
-                <Button size="lg" className="h-14 px-8 text-lg rounded-2xl shadow-xl shadow-blue-600/20 hover:scale-105 transition-transform">
-                  Empezar a Practicar
-                </Button>
-              </Link>
-              <Link href="#demo">
-                <Button variant="outline" size="lg" className="h-14 px-8 text-lg rounded-2xl border-2 hover:bg-slate-50">
-                  Ver Demo
-                </Button>
-              </Link>
+            <div className="flex flex-col items-center justify-center gap-4">
+              <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">
+                <span className="text-blue-600">M2</span>
+                <span className="mx-3 text-slate-300">|</span>
+                <span className="text-slate-400">M1 (Pronto)</span>
+              </p>
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <Link href="/login">
+                  <Button size="lg" className="h-14 px-8 text-lg rounded-2xl shadow-xl shadow-blue-600/20 hover:scale-105 transition-transform">
+                    Empezar a Practicar
+                  </Button>
+                </Link>
+                <Link href="#demo">
+                  <Button variant="outline" size="lg" className="h-14 px-8 text-lg rounded-2xl border-2 hover:bg-slate-50">
+                    Ver Demo
+                  </Button>
+                </Link>
+              </div>
             </div>
 
             {/* Stats */}
@@ -123,7 +130,7 @@ export default async function Home() {
 
       <footer className="bg-slate-900 py-12 text-slate-400 text-sm">
         <div className="container mx-auto px-6 text-center">
-          <p>© 2025 PAES M2 Trainer. Todos los derechos reservados.</p>
+          <p>© 2027 PAES Lab. Todos los derechos reservados.</p>
         </div>
       </footer>
     </div>
