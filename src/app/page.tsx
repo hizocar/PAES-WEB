@@ -49,9 +49,6 @@ export default async function Home() {
           <Link href="/login">
             <Button variant="ghost" className="font-semibold">Ingresar</Button>
           </Link>
-          <Link href="/login">
-            <Button className="shadow-lg shadow-blue-500/20">Comenzar Gratis</Button>
-          </Link>
         </div>
       </header>
 
@@ -59,7 +56,7 @@ export default async function Home() {
         {/* Hero Section */}
         <section className="relative overflow-hidden pt-20 pb-32">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-tr from-blue-100 to-purple-100 rounded-full blur-3xl opacity-50 pointer-events-none" />
-          <div className="container mx-auto px-6 relative z-10 text-center max-w-4xl">
+          <div className="container mx-auto px-6 relative z-10 text-center max-w-5xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-6 border border-blue-100">
               <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
               Nueva admisión 2027
@@ -67,21 +64,63 @@ export default async function Home() {
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-8 leading-[1.1]">
               Domina la PAES con <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">Inteligencia y Práctica</span>
             </h1>
-            <p className="text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-              La plataforma definitiva para puntajes nacionales. Práctica adaptativa, seguimiento en tiempo real y explicaciones detalladas.
+            <p className="text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">
+              La única plataforma enfocada 100% en la <span className="font-bold text-slate-800">PAES M2</span>. Entrena con ejercicios de alta dificultad y explicaciones detalladas.
             </p>
-            <div className="flex flex-col items-center justify-center gap-4">
-              <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">
-                <span className="text-blue-600">M2</span>
-                <span className="mx-3 text-slate-300">|</span>
-                <span className="text-slate-400">M1 (Pronto)</span>
-              </p>
-              <div className="flex flex-col sm:flex-row items-center gap-4">
-                <Link href="/login">
-                  <Button size="lg" className="h-14 px-8 text-lg rounded-2xl shadow-xl shadow-blue-600/20 hover:scale-105 transition-transform">
-                    Empezar a Practicar
-                  </Button>
-                </Link>
+
+            <div className="flex flex-col items-center justify-center gap-8">
+              <Link href="/login">
+                <Button size="lg" className="h-16 px-10 text-xl rounded-2xl shadow-xl shadow-blue-600/20 hover:scale-105 transition-transform font-bold bg-blue-600 hover:bg-blue-700">
+                  Comenzar a practicar M2
+                </Button>
+              </Link>
+
+              {/* Exam Status Cards */}
+              <div className="grid md:grid-cols-3 gap-4 w-full text-left mt-8">
+                {/* M2 Card - Active */}
+                <div className="bg-white p-5 rounded-xl border-2 border-blue-500 shadow-lg relative overflow-hidden group hover:border-blue-600 transition-colors">
+                  <div className="absolute top-0 right-0 bg-blue-500 text-white text-[10px] uppercase font-bold px-2 py-1 rounded-bl-lg">
+                    Disponible
+                  </div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 font-bold">M2</span>
+                    <h3 className="font-bold text-slate-900 leading-tight">Matemática 2</h3>
+                  </div>
+                  <p className="text-xs text-slate-500 mb-2">Electiva / Requisito</p>
+                  <p className="text-sm text-slate-600 leading-snug">
+                    Evalúa competencias específicas para carreras científicas.
+                  </p>
+                </div>
+
+                {/* M1 Card - Coming Soon */}
+                <div className="bg-slate-50 p-5 rounded-xl border border-slate-200 relative overflow-hidden opacity-75 hover:opacity-100 transition-opacity">
+                  <div className="absolute top-0 right-0 bg-slate-200 text-slate-500 text-[10px] uppercase font-bold px-2 py-1 rounded-bl-lg">
+                    Pronto
+                  </div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center text-slate-500 font-bold">M1</span>
+                    <h3 className="font-bold text-slate-700 leading-tight">Matemática 1</h3>
+                  </div>
+                  <p className="text-xs text-slate-400 mb-2">Obligatoria</p>
+                  <p className="text-sm text-slate-500 leading-snug">
+                    Mide conocimientos generales ajustados para la mayoría de carreras.
+                  </p>
+                </div>
+
+                {/* Lectora Card - Coming Soon */}
+                <div className="bg-slate-50 p-5 rounded-xl border border-slate-200 relative overflow-hidden opacity-75 hover:opacity-100 transition-opacity">
+                  <div className="absolute top-0 right-0 bg-slate-200 text-slate-500 text-[10px] uppercase font-bold px-2 py-1 rounded-bl-lg">
+                    Pronto
+                  </div>
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center text-slate-500 font-bold">CL</span>
+                    <h3 className="font-bold text-slate-700 leading-tight">Comp. Lectora</h3>
+                  </div>
+                  <p className="text-xs text-slate-400 mb-2">Obligatoria</p>
+                  <p className="text-sm text-slate-500 leading-snug">
+                    Evalúa habilidades de lectura esenciales.
+                  </p>
+                </div>
               </div>
             </div>
 
