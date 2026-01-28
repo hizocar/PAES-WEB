@@ -236,9 +236,23 @@ export function QuestionCard({ question, onNext, onWrongAnswer }: QuestionCardPr
                 })}
             </div>
 
+            {/* Inline Check Button - Only if NOT submitted */}
+            {!submitted && (
+                <div className="mt-8 flex justify-end">
+                    <Button
+                        size="lg"
+                        className="w-full md:w-auto px-8 h-12 text-lg font-bold tracking-wide uppercase shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5"
+                        disabled={!selected}
+                        onClick={handleSubmit}
+                    >
+                        Comprobar
+                    </Button>
+                </div>
+            )}
+
             {/* User History Stats */}
             {stats.attempts > 0 && (
-                <div className="flex items-center gap-6 px-4 py-2 bg-slate-50/50 rounded-lg border border-slate-100 mx-2 animate-in fade-in slide-in-from-top-2">
+                <div className="flex items-center gap-6 px-4 py-2 bg-slate-50/50 rounded-lg border border-slate-100 mx-2 animate-in fade-in slide-in-from-top-2 mt-6">
                     <div className="flex items-center gap-2 text-xs text-slate-500 font-medium uppercase tracking-wider">
                         <History size={14} />
                         <span>Intento #{stats.attempts + (submitted ? 0 : 1)}</span>
@@ -253,40 +267,36 @@ export function QuestionCard({ question, onNext, onWrongAnswer }: QuestionCardPr
                 </div>
             )}
 
-            {/* Footer / Feedback */}
-            <div className="fixed bottom-0 right-0 left-0 md:left-72 bg-white border-t border-slate-200 p-4 md:p-6 z-20">
-                <div className="max-w-3xl mx-auto flex items-center justify-between">
-                    {submitted ? (
-                        <div className="flex items-center gap-4 w-full">
-                            <div className={`p-3 rounded-full ${isCorrect ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                                {isCorrect ? <CheckCircle2 size={24} /> : <XCircle size={24} />}
+            {/* Footer / Feedback (Only applied when submitted) */}
+            <AnimatePresence>
+                {submitted && (
+                    <motion.div
+                        initial={{ y: 100, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: 100, opacity: 0 }}
+                        className="fixed bottom-0 right-0 left-0 md:left-72 bg-white border-t border-slate-200 p-4 md:p-6 z-20 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]"
+                    >
+                        <div className="max-w-3xl mx-auto flex items-center justify-between">
+                            <div className="flex items-center gap-4 w-full">
+                                <div className={`p-3 rounded-full ${isCorrect ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                                    {isCorrect ? <CheckCircle2 size={24} /> : <XCircle size={24} />}
+                                </div>
+                                <div className="flex-1">
+                                    <h3 className={`font-bold text-lg ${isCorrect ? 'text-green-800' : 'text-red-800'}`}>
+                                        {isCorrect ? '¡Correcto!' : 'Incorrecto'}
+                                    </h3>
+                                    <p className="text-sm text-slate-500">
+                                        {isCorrect ? 'Gran trabajo.' : 'No te preocupes, revisa la explicación.'}
+                                    </p>
+                                </div>
+                                <Button onClick={handleNext} size="lg" className={`px-8 h-12 text-lg ${isCorrect ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}`}>
+                                    Continuar
+                                </Button>
                             </div>
-                            <div className="flex-1">
-                                <h3 className={`font-bold text-lg ${isCorrect ? 'text-green-800' : 'text-red-800'}`}>
-                                    {isCorrect ? '¡Correcto!' : 'Incorrecto'}
-                                </h3>
-                                <p className="text-sm text-slate-500">
-                                    {isCorrect ? 'Gran trabajo.' : 'No te preocupes, revisa la explicación.'}
-                                </p>
-                            </div>
-                            <Button onClick={handleNext} size="lg" className={`px-8 h-12 text-lg ${isCorrect ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}`}>
-                                Continuar
-                            </Button>
                         </div>
-                    ) : (
-                        <div className="ml-auto">
-                            <Button
-                                size="lg"
-                                className="px-8 h-12 text-lg font-bold tracking-wide uppercase"
-                                disabled={!selected}
-                                onClick={handleSubmit}
-                            >
-                                Comprobar
-                            </Button>
-                        </div>
-                    )}
-                </div>
-            </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Explanation Section */}
             {submitted && (
@@ -304,8 +314,8 @@ export function QuestionCard({ question, onNext, onWrongAnswer }: QuestionCardPr
                 </div>
             )}
 
-            {/* Spacer for fixed footer */}
-            <div className="h-32" />
+            {/* Spacer for fixed footer - only when submitted */}
+            {submitted && <div className="h-32" />}
         </div>
     )
 }
