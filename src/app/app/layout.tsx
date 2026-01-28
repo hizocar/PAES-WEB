@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { BarChart3, Clock, Home, LogOut, Settings, Trophy } from 'lucide-react'
 import { StudyTrackerProvider } from '@/context/study-tracker'
 import { UserProfile } from '@/components/ui/user-profile'
+import { MobileNav } from '@/components/mobile-nav'
 
 export default async function AppLayout({
     children,
@@ -36,8 +37,12 @@ export default async function AppLayout({
     }
 
     return (
-        <div className="flex h-screen bg-slate-50">
-            {/* Sidebar */}
+    return (
+        <div className="flex h-screen bg-slate-50 flex-col md:flex-row">
+            {/* Mobile Navigation */}
+            <MobileNav user={userWithProfile} />
+
+            {/* Sidebar (Desktop) */}
             <aside className="w-64 bg-white border-r border-slate-200 hidden md:flex flex-col">
                 <div className="p-6 border-b border-slate-100">
                     <div className="font-bold text-xl text-blue-600 flex items-center gap-2">
@@ -100,5 +105,6 @@ export default async function AppLayout({
                 </StudyTrackerProvider>
             </main>
         </div>
+    )
     )
 }
