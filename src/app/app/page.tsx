@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
-import { BarChart3, Clock, Target, TrendingUp, ArrowRight, Flame, Heart, Zap } from "lucide-react"
+import { BarChart3, Clock, Target, TrendingUp, ArrowRight, Flame, Heart, Zap, Trophy } from "lucide-react"
 import Link from "next/link"
 
 export default function DashboardPage() {
@@ -14,9 +14,10 @@ export default function DashboardPage() {
         globalAccuracy: 0,
         totalAttemptsLast7Days: 0,
         streak: 0,
-        // Lives logic merged into stats for simplicity
         lives: null as number | null,
-        replenishAt: null as string | null
+        replenishAt: null as string | null,
+        rank: null as number | null,
+        score: 0
     })
     const [timeLeft, setTimeLeft] = useState<string>("")
     const [ejes, setEjes] = useState<any[]>([])
@@ -130,6 +131,18 @@ export default function DashboardPage() {
                 replenishAt = livesData[0].replenish_at
             }
 
+            // 5. Fetch Rank & Score
+            let userRank = null
+            let userScore = 0
+            const { data: leaderboardData } = await supabase.rpc('get_leaderboard')
+            if (leaderboardData) {
+                const myEntry = leaderboardData.find((u: any) => u.user_id === user.id)
+                if (myEntry) {
+                    userRank = myEntry.rank
+                    userScore = myEntry.score
+                }
+            }
+
             setStats({
                 dailyProgress: currentDailyProgress,
                 dailyTarget: 10,
@@ -137,10 +150,12 @@ export default function DashboardPage() {
                 totalAttemptsLast7Days: recentAttempts?.length || 0,
                 streak: currentStreak,
                 lives: currentLives,
-                replenishAt: replenishAt
+                replenishAt: replenishAt,
+                rank: userRank,
+                score: userScore
             })
 
-            // 5. Fetch Ejes
+            // 6. Fetch Ejes
             const { data: allEjes } = await supabase.from('ejes').select('id, name')
             const { data: allAttempts } = await supabase
                 .from('attempts')
@@ -212,7 +227,7 @@ export default function DashboardPage() {
                 )}
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
                 {/* Vidas Card (Simple) */}
                 <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-40">
                     <div className="flex items-start justify-between">
@@ -265,6 +280,30 @@ export default function DashboardPage() {
                         <div
                             className={`h-full transition-all duration-1000 ${stats.dailyProgress >= stats.dailyTarget ? 'bg-green-500' : 'bg-blue-500'}`}
                             style={{ width: `${Math.min((stats.dailyProgress / stats.dailyTarget) * 100, 100)}%` }}
+                        />
+                    </div>
+                </div>
+
+                {/* Ranking */}
+                <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-40">
+                    <div className="flex items-start justify-between">
+                        <div>
+                            <h3 className="text-slate-500 font-semibold text-sm">Tu Ranking</h3>
+                            <div className="text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
+                                {stats.rank ? `#${stats.rank}` : '-'}
+                            </div>
+                            <p className="text-xs text-slate-400 mt-1">
+                                {stats.score} pts totales
+                            </p>
+                        </div>
+                        <div className="w-10 h-10 bg-yellow-100 text-yellow-600 rounded-lg flex items-center justify-center">
+                            <Trophy size={20} className="fill-yellow-600" />
+                        </div>
+                    </div>
+                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                        <div
+                            className="bg-yellow-500 h-full transition-all duration-1000"
+                            style={{ width: `${Math.max(5, Math.min(stats.score / 10, 100))}%` }} // Simplified progress for now
                         />
                     </div>
                 </div>
