@@ -7,9 +7,11 @@ import { Button } from "@/components/ui/button"
 import { Loader2, Trophy, RotateCcw, AlertCircle, HeartCrack } from "lucide-react"
 import { LivesCounter } from "@/components/practice/LivesCounter"
 import Link from "next/link"
+import { useSubject } from "@/components/providers/SubjectContext"
 import { useSearchParams } from 'next/navigation'
 
 function PracticeContent() {
+    const { subject } = useSubject()
     const searchParams = useSearchParams()
     const modeParam = searchParams.get('mode')
 
@@ -63,9 +65,10 @@ function PracticeContent() {
             }
 
             const { data, error } = await supabase
-                .rpc('get_smart_question_v2', {
+                .rpc('get_smart_question', {
                     p_user_id: user.id,
-                    p_retry_mode: retryMode
+                    p_retry_mode: retryMode,
+                    p_subject: subject
                 })
 
             if (error) {
@@ -91,10 +94,12 @@ function PracticeContent() {
     }
 
     useEffect(() => {
-        if (lives > 0 && !question) {
+        if (lives > 0) {
+            // If subject changed, force clear question to fetch new one
+            setQuestion(null)
             fetchQuestion()
         }
-    }, [retryMode, lives])
+    }, [retryMode, lives, subject])
 
     const handleWrongAnswer = async () => {
         const { data: { user } } = await supabase.auth.getUser()

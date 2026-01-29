@@ -6,9 +6,11 @@ import { Button } from "@/components/ui/button"
 import { BarChart3, Clock, Target, TrendingUp, ArrowRight, Flame, Heart, Zap, Trophy, AlertCircle } from "lucide-react"
 import Link from "next/link"
 
+import { useSubject } from "@/components/providers/SubjectContext"
 import { AchievementNotification } from "@/components/achievements/AchievementNotification"
 
 export default function DashboardPage() {
+    const { subject } = useSubject()
     const [loading, setLoading] = useState(true)
     const [unlockedAchievement, setUnlockedAchievement] = useState<any>(null)
 
@@ -49,7 +51,7 @@ export default function DashboardPage() {
             fetchDashboardData()
         }
         init()
-    }, [])
+    }, [subject]) // Re-run when subject changes
 
     // Timer logic for lives
     useEffect(() => {
@@ -81,6 +83,7 @@ export default function DashboardPage() {
 
     const fetchDashboardData = async () => {
         try {
+            setLoading(true) // Show loading on subject switch
             const { data: { user } } = await supabase.auth.getUser()
             if (!user) return
 
@@ -88,10 +91,11 @@ export default function DashboardPage() {
 
             // 1. Parallel Fetch: Stats (RPC), Lives, Leaderboard, and Streak (lightweight)
             const [statsResult, livesResult, leaderboardResult, streakResult] = await Promise.all([
-                supabase.rpc('get_dashboard_stats', { p_user_id: user.id }),
+                supabase.rpc('get_dashboard_stats', { p_user_id: user.id, p_subject: subject }),
                 supabase.rpc('check_and_replenish_lives', { p_user_id: user.id }),
-                supabase.rpc('get_leaderboard'),
-                // Keep streak separate for now (last 60 days of timestamps)
+                supabase.rpc('get_leaderboard', { p_subject: subject }),
+                // Streak is shared or separate? RPC logic implies separate if we wanted, but let's keep it global for now or filter
+                // Ideally passing subject to everything.
                 supabase.from('attempts')
                     .select('created_at')
                     .eq('user_id', user.id)

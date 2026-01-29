@@ -13,7 +13,10 @@ type LeaderboardUser = {
     rank: number
 }
 
+import { useSubject } from "@/components/providers/SubjectContext"
+
 export default function LeaderboardPage() {
+    const { subject } = useSubject()
     const [users, setUsers] = useState<LeaderboardUser[]>([])
     const [currentUser, setCurrentUser] = useState<string | null>(null)
     const [loading, setLoading] = useState(true)
@@ -22,10 +25,11 @@ export default function LeaderboardPage() {
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true)
             const { data: { user } } = await supabase.auth.getUser()
             if (user) setCurrentUser(user.id)
 
-            const { data, error } = await supabase.rpc('get_leaderboard')
+            const { data, error } = await supabase.rpc('get_leaderboard', { p_subject: subject })
             if (error) {
                 console.error("Error fetching leaderboard:", error)
             } else {
@@ -34,7 +38,7 @@ export default function LeaderboardPage() {
             setLoading(false)
         }
         fetchData()
-    }, [])
+    }, [subject])
 
     if (loading) {
         return (
@@ -139,8 +143,8 @@ export default function LeaderboardPage() {
                         <div
                             key={user.user_id}
                             className={`flex items-center gap-4 p-4 rounded-xl border transition-all hover:scale-[1.01] ${user.user_id === currentUser
-                                    ? 'bg-blue-50 border-blue-200 ring-1 ring-blue-200 shadow-sm'
-                                    : 'bg-white border-slate-100 shadow-sm hover:shadow-md'
+                                ? 'bg-blue-50 border-blue-200 ring-1 ring-blue-200 shadow-sm'
+                                : 'bg-white border-slate-100 shadow-sm hover:shadow-md'
                                 }`}
                         >
                             <div className="w-8 font-bold text-slate-400 text-center font-mono">
