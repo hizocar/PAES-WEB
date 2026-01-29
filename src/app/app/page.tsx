@@ -167,14 +167,14 @@ export default function DashboardPage() {
                 )}
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                 {/* Vidas Card (Simple) */}
-                <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-40">
+                <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40">
                     <div className="flex items-start justify-between">
                         <div>
                             <h3 className="text-slate-500 font-semibold text-sm">Vidas</h3>
                             {stats.lives && stats.lives > 0 ? (
-                                <div className="text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
+                                <div className="text-2xl md:text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
                                     {stats.lives}
                                 </div>
                             ) : (
@@ -186,8 +186,8 @@ export default function DashboardPage() {
                                 {stats.lives && stats.lives > 0 ? "¡Sigue así!" : "Recargando..."}
                             </p>
                         </div>
-                        <div className="w-10 h-10 bg-red-50 text-red-500 rounded-lg flex items-center justify-center">
-                            {stats.lives === 0 ? <Clock size={20} /> : <Heart size={20} className="fill-red-500" />}
+                        <div className="w-8 h-8 md:w-10 md:h-10 bg-red-50 text-red-500 rounded-lg flex items-center justify-center">
+                            {stats.lives === 0 ? <Clock size={16} className="md:w-5 md:h-5" /> : <Heart size={16} className="fill-red-500 md:w-5 md:h-5" />}
                         </div>
                     </div>
                     <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
@@ -199,11 +199,11 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Meta Diaria */}
-                <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-40">
+                <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40">
                     <div className="flex items-start justify-between">
                         <div>
                             <h3 className="text-slate-500 font-semibold text-sm">Meta Diaria</h3>
-                            <div className="text-3xl font-bold text-slate-900 mt-2 whitespace-nowrap">
+                            <div className="text-2xl md:text-3xl font-bold text-slate-900 mt-2 whitespace-nowrap">
                                 {stats.dailyProgress} / {stats.dailyTarget}
                             </div>
                             <p className={`text-xs mt-1 font-medium ${stats.dailyProgress >= stats.dailyTarget ? 'text-green-600' : 'text-slate-400'}`}>
@@ -212,7 +212,7 @@ export default function DashboardPage() {
                                     : `Faltan ${stats.dailyTarget - stats.dailyProgress}`}
                             </p>
                         </div>
-                        <div className={`w-10 h-10 rounded-lg flex items-center justify-center text-xl ${stats.dailyProgress >= stats.dailyTarget ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'}`}>
+                        <div className={`w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center text-lg md:text-xl ${stats.dailyProgress >= stats.dailyTarget ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'}`}>
                             🎯
                         </div>
                     </div>
@@ -225,19 +225,19 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Ranking */}
-                <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-40">
+                <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40">
                     <div className="flex items-start justify-between">
                         <div>
                             <h3 className="text-slate-500 font-semibold text-sm">Tu Ranking</h3>
-                            <div className="text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
+                            <div className="text-2xl md:text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
                                 {stats.rank ? `#${stats.rank}` : '-'}
                             </div>
                             <p className="text-xs text-slate-400 mt-1">
                                 {stats.score} pts totales
                             </p>
                         </div>
-                        <div className="w-10 h-10 bg-yellow-100 text-yellow-600 rounded-lg flex items-center justify-center">
-                            <Trophy size={20} className="fill-yellow-600" />
+                        <div className="w-8 h-8 md:w-10 md:h-10 bg-yellow-100 text-yellow-600 rounded-lg flex items-center justify-center">
+                            <Trophy size={16} className="fill-yellow-600 md:w-5 md:h-5" />
                         </div>
                     </div>
                     <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
@@ -250,7 +250,7 @@ export default function DashboardPage() {
 
                 {/* Banco de Errores */}
                 <Link href="/app/practice?mode=retry">
-                    <div className="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-40 hover:border-red-200 hover:shadow-md transition-all cursor-pointer group">
+                    <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40 hover:border-red-200 hover:shadow-md transition-all cursor-pointer group">
                         <div className="flex items-start justify-between">
                             <div>
                                 <h3 className="text-slate-500 font-semibold text-sm group-hover:text-red-500 transition-colors">Banco de Errores</h3>
