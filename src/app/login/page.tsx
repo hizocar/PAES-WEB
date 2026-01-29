@@ -21,10 +21,10 @@ export default function LoginPage() {
                         <Play className="text-white fill-white" size={24} />
                     </div>
                     <h2 className="mt-2 text-3xl font-bold tracking-tight text-slate-900">
-                        PAES M2 Trainer
+                        PAES Lab
                     </h2>
                     <p className="mt-2 text-sm text-slate-600">
-                        Preparation for the M2 Math Exam
+                        Plataforma de entrenamiento PAES
                     </p>
                 </div>
 
