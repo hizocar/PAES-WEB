@@ -41,7 +41,7 @@ export default async function AppLayout({
 
     return (
         <SubjectProvider>
-            <div className="flex h-screen bg-slate-50 flex-col md:flex-row">
+            <div className="flex h-[100dvh] bg-slate-50 flex-col md:flex-row shadow-inner overflow-hidden">
                 {/* Mobile Navigation */}
                 <MobileNav user={userWithProfile} />
 
