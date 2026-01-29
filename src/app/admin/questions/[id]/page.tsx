@@ -23,6 +23,7 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
     const [ejes, setEjes] = useState<any[]>([])
     const [topics, setTopics] = useState<any[]>([])
     const [filteredTopics, setFilteredTopics] = useState<any[]>([])
+    const [subject, setSubject] = useState<'m1' | 'm2'>('m2')
 
     const [formData, setFormData] = useState({
         content: "",
@@ -42,6 +43,9 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
         explanation_video_path: ""
     })
 
+    // Filter Ejes based on selected Subject
+    const filteredEjes = ejes.filter(e => e.subject === subject)
+
     useEffect(() => {
         Promise.all([fetchMetadata(), fetchQuestion()])
             .finally(() => setLoading(false))
@@ -55,6 +59,11 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
             setFilteredTopics([])
         }
     }, [formData.eje_id, topics])
+
+    useEffect(() => {
+        // Reset selections when subject changes
+        setFormData(prev => ({ ...prev, eje_id: "", topic_id: "" }))
+    }, [subject])
 
     const fetchMetadata = async () => {
         const { data: ejesData } = await supabase.from('ejes').select('*')
@@ -75,6 +84,8 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
             alert("Pregunta no encontrada")
             return
         }
+
+        if (q.subject) setSubject(q.subject)
 
         // 2. Get Topic Relation
         const { data: qt } = await supabase
@@ -246,7 +257,8 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
                     explanation: formData.explanation,
                     difficulty: formData.difficulty,
                     image_url: formData.image_url,
-                    explanation_video_path: formData.explanation_video_path
+                    explanation_video_path: formData.explanation_video_path,
+                    subject: subject // Updated subject
                 })
                 .eq('id', id)
 
@@ -279,15 +291,38 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
 
     return (
         <div className="max-w-4xl mx-auto space-y-8 pb-20">
-            <div className="flex items-center gap-4">
-                <Link href="/admin/questions">
-                    <Button variant="ghost" size="sm">
-                        <ArrowLeft size={20} />
-                    </Button>
-                </Link>
-                <h1 className="text-2xl font-bold text-slate-900">Editar Pregunta</h1>
-                <div className="ml-auto text-xs font-mono text-slate-400">
-                    ID: {id}
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                    <Link href="/admin/questions">
+                        <Button variant="ghost" size="sm">
+                            <ArrowLeft size={20} />
+                        </Button>
+                    </Link>
+                    <h1 className="text-2xl font-bold text-slate-900">Editar Pregunta</h1>
+                    <div className="ml-auto text-xs font-mono text-slate-400">
+                        ID: {id}
+                    </div>
+                </div>
+
+                <div className="bg-slate-100 p-1 rounded-lg flex items-center gap-1">
+                    <button
+                        onClick={() => setSubject('m1')}
+                        className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${subject === 'm1'
+                            ? 'bg-white text-slate-900 shadow-sm'
+                            : 'text-slate-500 hover:text-slate-700'
+                            }`}
+                    >
+                        M1
+                    </button>
+                    <button
+                        onClick={() => setSubject('m2')}
+                        className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${subject === 'm2'
+                            ? 'bg-white text-slate-900 shadow-sm'
+                            : 'text-slate-500 hover:text-slate-700'
+                            }`}
+                    >
+                        M2
+                    </button>
                 </div>
             </div>
 
@@ -487,7 +522,7 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
                                 onChange={e => setFormData({ ...formData, eje_id: e.target.value, topic_id: "" })}
                             >
                                 <option value="">Selecciona Eje</option>
-                                {ejes.map(e => (
+                                {filteredEjes.map(e => (
                                     <option key={e.id} value={e.id}>{e.name}</option>
                                 ))}
                             </select>
