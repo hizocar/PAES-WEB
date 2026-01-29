@@ -11,6 +11,8 @@ export default function AdminTopicsPage() {
     const [ejes, setEjes] = useState<any[]>([])
     const [topics, setTopics] = useState<any[]>([])
 
+    const [subject, setSubject] = useState<'m1' | 'm2'>('m2')
+
     // Eje Form State
     const [isEditingEje, setIsEditingEje] = useState(false)
     const [ejeForm, setEjeForm] = useState({ id: "", name: "", slug: "" })
@@ -21,13 +23,23 @@ export default function AdminTopicsPage() {
 
     useEffect(() => {
         fetchData()
-    }, [])
+    }, [subject])
 
     const fetchData = async () => {
         setLoading(true)
-        const { data: axes } = await supabase.from('ejes').select('*').order('name')
-        // Fetch topics with their related Axis name AND the count of linked questions
-        const { data: tops } = await supabase.from('topics').select('*, ejes(name), question_topics(count)').order('name')
+        // Fetch Ejes filtered by Subject
+        const { data: axes } = await supabase
+            .from('ejes')
+            .select('*')
+            .eq('subject', subject)
+            .order('name')
+
+        // Fetch topics filtered by inner joining with filtered Ejes
+        const { data: tops } = await supabase
+            .from('topics')
+            .select('*, ejes!inner(name, subject), question_topics(count)')
+            .eq('ejes.subject', subject)
+            .order('name')
 
         if (tops) {
             // Flatten the count for easier display
@@ -63,8 +75,12 @@ export default function AdminTopicsPage() {
                 const { error } = await supabase.from('ejes').update({ name: ejeForm.name, slug: ejeForm.slug }).eq('id', ejeForm.id)
                 if (error) throw error
             } else {
-                // Insert
-                const { error } = await supabase.from('ejes').insert({ name: ejeForm.name, slug: ejeForm.slug })
+                // Insert with Subject
+                const { error } = await supabase.from('ejes').insert({
+                    name: ejeForm.name,
+                    slug: ejeForm.slug,
+                    subject: subject // Add current subject
+                })
                 if (error) throw error
             }
             fetchData()
@@ -141,9 +157,32 @@ export default function AdminTopicsPage() {
 
     return (
         <div className="space-y-12 pb-20">
-            <div>
-                <h2 className="text-2xl font-bold text-slate-900">Gestión de Temario</h2>
-                <p className="text-slate-500 text-sm">Administra los Ejes Temáticos y sus Temas Específicos.</p>
+            <div className="flex items-center justify-between">
+                <div>
+                    <h2 className="text-2xl font-bold text-slate-900">Gestión de Temario</h2>
+                    <p className="text-slate-500 text-sm">Administra los Ejes Temáticos y sus Temas Específicos.</p>
+                </div>
+                {/* Subject Switcher */}
+                <div className="bg-slate-100 p-1 rounded-lg flex items-center gap-1">
+                    <button
+                        onClick={() => setSubject('m1')}
+                        className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${subject === 'm1'
+                                ? 'bg-white text-slate-900 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-700'
+                            }`}
+                    >
+                        M1
+                    </button>
+                    <button
+                        onClick={() => setSubject('m2')}
+                        className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${subject === 'm2'
+                                ? 'bg-white text-slate-900 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-700'
+                            }`}
+                    >
+                        M2
+                    </button>
+                </div>
             </div>
 
             {/* SECCION EJES */}
@@ -151,7 +190,7 @@ export default function AdminTopicsPage() {
                 <div className="flex items-center justify-between">
                     <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
                         <Layers className="text-blue-600" size={20} />
-                        Ejes Temáticos
+                        Ejes Temáticos ({subject.toUpperCase()})
                     </h3>
                     {!isEditingEje && (
                         <Button size="sm" onClick={() => setIsEditingEje(true)}>
@@ -182,7 +221,7 @@ export default function AdminTopicsPage() {
                         </div>
                         <div className="flex gap-2">
                             <Button size="sm" onClick={handleSaveEje} disabled={loading}>
-                                <Save size={16} className="mr-2" /> Guardar
+                                <Save size={16} className="mr-2" /> Guardar en {subject.toUpperCase()}
                             </Button>
                             <Button size="sm" variant="ghost" onClick={() => { setIsEditingEje(false); setEjeForm({ id: "", name: "", slug: "" }) }}>
                                 <X size={16} /> Cancelar
@@ -223,7 +262,7 @@ export default function AdminTopicsPage() {
                             ))}
                             {ejes.length === 0 && (
                                 <tr>
-                                    <td colSpan={3} className="p-8 text-center text-slate-400">No hay ejes creados</td>
+                                    <td colSpan={4} className="p-8 text-center text-slate-400">No hay ejes creados para {subject.toUpperCase()}</td>
                                 </tr>
                             )}
                         </tbody>
@@ -331,13 +370,13 @@ export default function AdminTopicsPage() {
                             ))}
                             {topics.length === 0 && (
                                 <tr>
-                                    <td colSpan={4} className="p-8 text-center text-slate-400">No hay temas creados</td>
+                                    <td colSpan={5} className="p-8 text-center text-slate-400">No hay temas creados para {subject.toUpperCase()}</td>
                                 </tr>
                             )}
                         </tbody>
                     </table>
                 </div>
             </div>
-        </div >
+        </div>
     )
 }
