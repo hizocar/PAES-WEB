@@ -40,7 +40,8 @@ export default function DashboardPage() {
                 const { data: newAchievements } = await supabase
                     .rpc('check_and_unlock_achievement', {
                         p_user_id: user.id,
-                        p_trigger_type: 'STREAK'
+                        p_trigger_type: 'STREAK',
+                        p_subject: subject
                     })
 
                 if (newAchievements && newAchievements.length > 0) {

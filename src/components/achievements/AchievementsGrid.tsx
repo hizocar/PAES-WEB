@@ -23,7 +23,10 @@ type Achievement = {
     unlocked_at?: string // If present, it's unlocked
 }
 
+import { useSubject } from "@/components/providers/SubjectContext"
+
 export function AchievementsGrid() {
+    const { subject } = useSubject()
     const [achievements, setAchievements] = useState<Achievement[]>([])
     const [loading, setLoading] = useState(true)
     const supabase = createClient()
@@ -36,8 +39,11 @@ export function AchievementsGrid() {
             // 1. Get all definitions
             const { data: allAch } = await supabase.from('achievements').select('*').order('xp_reward', { ascending: true })
 
-            // 2. Get user unlocks
-            const { data: unlocked } = await supabase.from('user_achievements').select('achievement_id, unlocked_at').eq('user_id', user.id)
+            // 2. Get user unlocks (FILTERED BY SUBJECT)
+            const { data: unlocked } = await supabase.from('user_achievements')
+                .select('achievement_id, unlocked_at')
+                .eq('user_id', user.id)
+                .eq('subject', subject) // Essential filter
 
             // 3. Merge
             const unlockedMap = new Set(unlocked?.map(u => u.achievement_id))
@@ -50,7 +56,7 @@ export function AchievementsGrid() {
             setLoading(false)
         }
         fetchAchievements()
-    }, [])
+    }, [subject])
 
     if (loading) return <Loader2 className="animate-spin text-slate-400" />
 

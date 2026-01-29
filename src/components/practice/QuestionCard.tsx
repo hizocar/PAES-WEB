@@ -32,7 +32,10 @@ type QuestionCardProps = {
     onWrongAnswer?: () => void
 }
 
+import { useSubject } from "@/components/providers/SubjectContext"
+
 export function QuestionCard({ question, onNext, onWrongAnswer }: QuestionCardProps) {
+    const { subject } = useSubject()
     const [selected, setSelected] = useState<string | null>(null)
     const [submitted, setSubmitted] = useState(false)
     const [stats, setStats] = useState<{ attempts: number, correct: number }>({ attempts: 0, correct: 0 })
@@ -99,7 +102,8 @@ export function QuestionCard({ question, onNext, onWrongAnswer }: QuestionCardPr
                 const { data: newAchievements } = await supabase
                     .rpc('check_and_unlock_achievement', {
                         p_user_id: user.id,
-                        p_trigger_type: 'ANSWER'
+                        p_trigger_type: 'ANSWER',
+                        p_subject: subject
                     })
 
                 if (newAchievements && newAchievements.length > 0) {
