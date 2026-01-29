@@ -43,7 +43,7 @@ function PracticeContent() {
             const { data: { user } } = await supabase.auth.getUser()
             if (!user) return
 
-            const { data } = await supabase.rpc('check_and_replenish_lives', { p_user_id: user.id })
+            const { data } = await supabase.rpc('check_and_replenish_lives', { p_user_id: user.id, p_subject: subject })
 
             if (data && data.length > 0) {
                 setLives(data[0].current_lives)
@@ -51,7 +51,7 @@ function PracticeContent() {
             }
         }
         initLives()
-    }, [])
+    }, [subject])
 
     const fetchQuestion = async () => {
         setLoading(true)
@@ -106,7 +106,7 @@ function PracticeContent() {
         if (!user) return
 
         // Deduct life in DB
-        const { data } = await supabase.rpc('deduct_life', { p_user_id: user.id })
+        const { data } = await supabase.rpc('deduct_life', { p_user_id: user.id, p_subject: subject })
 
         // Update local state
         if (data && data.length > 0) {

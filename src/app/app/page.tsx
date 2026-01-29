@@ -89,24 +89,16 @@ export default function DashboardPage() {
 
             const now = new Date()
 
-            // 1. Parallel Fetch: Stats (RPC), Lives, Leaderboard, and Streak (lightweight)
-            const [statsResult, livesResult, leaderboardResult, streakResult] = await Promise.all([
+            // 1. Parallel Fetch: Stats (RPC), Lives, Leaderboard
+            const [statsResult, livesResult, leaderboardResult] = await Promise.all([
                 supabase.rpc('get_dashboard_stats', { p_user_id: user.id, p_subject: subject }),
-                supabase.rpc('check_and_replenish_lives', { p_user_id: user.id }),
-                supabase.rpc('get_leaderboard', { p_subject: subject }),
-                // Streak is shared or separate? RPC logic implies separate if we wanted, but let's keep it global for now or filter
-                // Ideally passing subject to everything.
-                supabase.from('attempts')
-                    .select('created_at')
-                    .eq('user_id', user.id)
-                    .gte('created_at', new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000).toISOString())
-                    .order('created_at', { ascending: false })
+                supabase.rpc('check_and_replenish_lives', { p_user_id: user.id, p_subject: subject }),
+                supabase.rpc('get_leaderboard', { p_subject: subject })
             ])
 
             const { data: dashboardStats, error: statsError } = statsResult
             const { data: livesData } = livesResult
             const { data: leaderboardData } = leaderboardResult
-            const { data: streakAttempts } = streakResult
 
             if (statsError) throw statsError
 
@@ -114,6 +106,7 @@ export default function DashboardPage() {
             const currentDailyProgress = dashboardStats?.daily_progress || 0
             const activeMistakes = dashboardStats?.active_mistakes || 0
             const processedEjes = dashboardStats?.ejes_stats || []
+            const currentStreak = dashboardStats?.streak || 0
 
             // Process Lives
             let currentLives = null
@@ -131,32 +124,6 @@ export default function DashboardPage() {
                 if (myEntry) {
                     userRank = myEntry.rank
                     userScore = myEntry.score
-                }
-            }
-
-            // Process Streak (Client-side lightweight)
-            let currentStreak = 0
-            if (streakAttempts && streakAttempts.length > 0) {
-                const attemptsByDay: Record<string, number> = {}
-                streakAttempts.forEach((a: any) => {
-                    const day = new Date(a.created_at).toISOString().split('T')[0]
-                    attemptsByDay[day] = (attemptsByDay[day] || 0) + 1
-                })
-                const todayStr = now.toISOString().split('T')[0]
-                let checkDate = new Date(now)
-                const todayDone = (attemptsByDay[todayStr] || 0) >= 10
-                if (!todayDone) {
-                    checkDate.setDate(checkDate.getDate() - 1)
-                }
-                while (true) {
-                    const dateStr = checkDate.toISOString().split('T')[0]
-                    const count = attemptsByDay[dateStr] || 0
-                    if (count >= 10) {
-                        currentStreak++
-                        checkDate.setDate(checkDate.getDate() - 1)
-                    } else {
-                        break
-                    }
                 }
             }
 
