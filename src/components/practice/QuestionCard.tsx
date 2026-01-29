@@ -24,6 +24,7 @@ type Question = {
     topic?: string
     eje?: string
     explanation_video_path?: string
+    image_url?: string
 }
 
 type QuestionCardProps = {
@@ -190,6 +191,16 @@ export function QuestionCard({ question, onNext, onWrongAnswer }: QuestionCardPr
                 <div className="text-lg md:text-xl font-medium text-slate-800 leading-relaxed">
                     <Latex>{question.content}</Latex>
                 </div>
+                {question.image_url && (
+                    <div className="mt-6 flex justify-center">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                            src={question.image_url}
+                            alt="Pregunta"
+                            className="max-h-64 md:max-h-80 rounded-lg border border-slate-100"
+                        />
+                    </div>
+                )}
             </div>
 
             {/* Alternatives */}

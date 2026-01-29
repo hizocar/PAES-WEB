@@ -1,6 +1,8 @@
 -- PHASE 2: Update RPCs to support Subject Filtering
 
 -- 1. update get_smart_question to accept p_subject
+drop function if exists public.get_smart_question(uuid, boolean, text);
+
 create or replace function public.get_smart_question(
     p_user_id uuid, 
     p_retry_mode boolean default false,
@@ -14,6 +16,7 @@ returns table (
     explanation text,
     difficulty text,
     explanation_video_path text,
+    image_url text, -- Added image_url
     topic_name text,
     eje_name text
 )
@@ -62,6 +65,7 @@ begin
         q.explanation::text,
         q.difficulty::text,
         q.explanation_video_path::text,
+        q.image_url::text, -- Added image_url
         t.name::text as topic_name,
         e.name::text as eje_name
     from questions q
