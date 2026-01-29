@@ -6,6 +6,7 @@ import { Users, FileQuestion, CreditCard, Loader2 } from "lucide-react"
 
 export default function AdminDashboard() {
     const supabase = createClient()
+    const [subject, setSubject] = useState<'m1' | 'm2'>('m2')
     const [counts, setCounts] = useState({
         questions: 0,
         users: 0,
@@ -17,38 +18,54 @@ export default function AdminDashboard() {
         const fetchCounts = async () => {
             setLoading(true)
 
-            // Fetch questions count
-            const { count: questionsCount } = await supabase
-                .from('questions')
-                .select('*', { count: 'exact', head: true })
-
-            // Fetch users count (profiles)
-            const { count: usersCount } = await supabase
-                .from('profiles')
-                .select('*', { count: 'exact', head: true })
-
-            // Fetch subscriptions count (active)
-            const { count: subsCount } = await supabase
-                .from('subscriptions')
-                .select('*', { count: 'exact', head: true })
-                .eq('status', 'active')
-
-            setCounts({
-                questions: questionsCount || 0,
-                users: usersCount || 0,
-                subscriptions: subsCount || 0
+            // Call the new Subject-Aware RPC
+            const { data, error } = await supabase.rpc('get_admin_dashboard_stats', {
+                p_subject: subject
             })
+
+            if (data) {
+                setCounts({
+                    questions: data.total_questions || 0,
+                    users: data.active_users || 0,
+                    subscriptions: data.active_subscriptions || 0
+                })
+            }
+
             setLoading(false)
         }
 
         fetchCounts()
-    }, [])
+    }, [subject])
 
     return (
         <div className="space-y-8">
-            <div>
-                <h2 className="text-2xl font-bold text-slate-900">Dashboard</h2>
-                <p className="text-slate-500">Resumen general de la plataforma</p>
+            <div className="flex items-center justify-between">
+                <div>
+                    <h2 className="text-2xl font-bold text-slate-900">Dashboard</h2>
+                    <p className="text-slate-500">Resumen general de la plataforma</p>
+                </div>
+
+                {/* Admin Subject Switcher */}
+                <div className="bg-slate-100 p-1 rounded-lg flex items-center gap-1">
+                    <button
+                        onClick={() => setSubject('m1')}
+                        className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${subject === 'm1'
+                                ? 'bg-white text-slate-900 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-700'
+                            }`}
+                    >
+                        M1 Matemática
+                    </button>
+                    <button
+                        onClick={() => setSubject('m2')}
+                        className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${subject === 'm2'
+                                ? 'bg-white text-slate-900 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-700'
+                            }`}
+                    >
+                        M2 Matemática
+                    </button>
+                </div>
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">
@@ -58,7 +75,9 @@ export default function AdminDashboard() {
                     </div>
                     <div className="relative z-10 flex items-center justify-between">
                         <div>
-                            <h3 className="text-slate-500 font-medium text-sm uppercase tracking-wide">Total Preguntas</h3>
+                            <h3 className="text-slate-500 font-medium text-sm uppercase tracking-wide">
+                                Preguntas {subject.toUpperCase()}
+                            </h3>
                             {loading ? (
                                 <Loader2 className="h-8 w-8 animate-spin text-slate-300 mt-2" />
                             ) : (
@@ -77,7 +96,9 @@ export default function AdminDashboard() {
                     </div>
                     <div className="relative z-10 flex items-center justify-between">
                         <div>
-                            <h3 className="text-slate-500 font-medium text-sm uppercase tracking-wide">Usuarios Registrados</h3>
+                            <h3 className="text-slate-500 font-medium text-sm uppercase tracking-wide">
+                                Usuarios Activos {subject.toUpperCase()}
+                            </h3>
                             {loading ? (
                                 <Loader2 className="h-8 w-8 animate-spin text-slate-300 mt-2" />
                             ) : (
@@ -96,7 +117,9 @@ export default function AdminDashboard() {
                     </div>
                     <div className="relative z-10 flex items-center justify-between">
                         <div>
-                            <h3 className="text-slate-500 font-medium text-sm uppercase tracking-wide">Suscripciones Activas</h3>
+                            <h3 className="text-slate-500 font-medium text-sm uppercase tracking-wide">
+                                Subs. Activas {subject.toUpperCase()}
+                            </h3>
                             {loading ? (
                                 <Loader2 className="h-8 w-8 animate-spin text-slate-300 mt-2" />
                             ) : (
