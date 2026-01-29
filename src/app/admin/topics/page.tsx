@@ -157,7 +157,7 @@ export default function AdminTopicsPage() {
 
     return (
         <div className="space-y-12 pb-20">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h2 className="text-2xl font-bold text-slate-900">Gestión de Temario</h2>
                     <p className="text-slate-500 text-sm">Administra los Ejes Temáticos y sus Temas Específicos.</p>
@@ -167,8 +167,8 @@ export default function AdminTopicsPage() {
                     <button
                         onClick={() => setSubject('m1')}
                         className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${subject === 'm1'
-                                ? 'bg-white text-slate-900 shadow-sm'
-                                : 'text-slate-500 hover:text-slate-700'
+                            ? 'bg-white text-slate-900 shadow-sm'
+                            : 'text-slate-500 hover:text-slate-700'
                             }`}
                     >
                         M1
@@ -176,8 +176,8 @@ export default function AdminTopicsPage() {
                     <button
                         onClick={() => setSubject('m2')}
                         className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${subject === 'm2'
-                                ? 'bg-white text-slate-900 shadow-sm'
-                                : 'text-slate-500 hover:text-slate-700'
+                            ? 'bg-white text-slate-900 shadow-sm'
+                            : 'text-slate-500 hover:text-slate-700'
                             }`}
                     >
                         M2

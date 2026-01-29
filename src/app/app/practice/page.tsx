@@ -183,7 +183,7 @@ function PracticeContent() {
                         <h2 className="text-2xl font-bold text-slate-800">¡Felicidades!</h2>
                         <p className="text-slate-500">
                             Has respondido correctamente todas las preguntas disponibles.
-                            ¡Eres un experto en M2!
+                            ¡Eres un experto en {subject.toUpperCase()}!
                         </p>
                         <div className="pt-4 space-y-3 w-full">
                             <Button
