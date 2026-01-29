@@ -104,13 +104,18 @@ function PracticeContent() {
         }
     }
 
+    // Reset Question when Subject or Mode changes
     useEffect(() => {
-        if (lives > 0) {
-            // If subject changed, force clear question to fetch new one
-            setQuestion(null)
+        setQuestion(null)
+        setCompleted(false)
+    }, [retryMode, subject])
+
+    // Fetch Question if missing (and we have lives)
+    useEffect(() => {
+        if (lives > 0 && !question && !completed) {
             fetchQuestion()
         }
-    }, [retryMode, lives, subject])
+    }, [lives, question, completed])
 
     const handleWrongAnswer = async () => {
         const { data: { user } } = await supabase.auth.getUser()
