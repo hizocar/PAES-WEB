@@ -116,6 +116,17 @@ export default function SettingsPage() {
         setMessage(null)
 
         try {
+            // Check if alias is taken
+            const { count } = await supabase
+                .from('profiles')
+                .select('*', { count: 'exact', head: true })
+                .ilike('full_name', fullName) // Case insensitive check
+                .neq('id', user.id)
+
+            if (count && count > 0) {
+                throw new Error("Este Alias ya está en uso. Por favor elige otro.")
+            }
+
             // Update Profile Table
             const { error } = await supabase
                 .from('profiles')
