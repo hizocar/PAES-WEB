@@ -23,6 +23,8 @@ export default function NewQuestionPage() {
     const [topics, setTopics] = useState<any[]>([])
     const [filteredTopics, setFilteredTopics] = useState<any[]>([])
 
+    const [subject, setSubject] = useState<'m1' | 'm2'>('m2')
+
     const [formData, setFormData] = useState({
         content: "",
         alternatives: [
@@ -44,6 +46,10 @@ export default function NewQuestionPage() {
     useEffect(() => {
         fetchMetadata()
     }, [])
+
+    useEffect(() => {
+        setFormData(prev => ({ ...prev, eje_id: "", topic_id: "" }))
+    }, [subject])
 
     useEffect(() => {
         if (formData.eje_id) {
@@ -213,7 +219,8 @@ export default function NewQuestionPage() {
                     difficulty: formData.difficulty,
                     image_url: formData.image_url,
                     explanation_video_path: formData.explanation_video_path,
-                    is_active: true
+                    is_active: true,
+                    subject: subject // Add Subject
                 })
                 .select()
                 .single()
@@ -242,13 +249,36 @@ export default function NewQuestionPage() {
 
     return (
         <div className="max-w-4xl mx-auto space-y-8 pb-20">
-            <div className="flex items-center gap-4">
-                <Link href="/admin/questions">
-                    <Button variant="ghost" size="sm">
-                        <ArrowLeft size={20} />
-                    </Button>
-                </Link>
-                <h1 className="text-2xl font-bold text-slate-900">Nueva Pregunta</h1>
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                    <Link href="/admin/questions">
+                        <Button variant="ghost" size="sm">
+                            <ArrowLeft size={20} />
+                        </Button>
+                    </Link>
+                    <h1 className="text-2xl font-bold text-slate-900">Nueva Pregunta</h1>
+                </div>
+                {/* Subject Switcher */}
+                <div className="bg-slate-100 p-1 rounded-lg flex items-center gap-1">
+                    <button
+                        onClick={() => setSubject('m1')}
+                        className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${subject === 'm1'
+                                ? 'bg-white text-slate-900 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-700'
+                            }`}
+                    >
+                        M1
+                    </button>
+                    <button
+                        onClick={() => setSubject('m2')}
+                        className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${subject === 'm2'
+                                ? 'bg-white text-slate-900 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-700'
+                            }`}
+                    >
+                        M2
+                    </button>
+                </div>
             </div>
 
             <div className="grid md:grid-cols-3 gap-6">
@@ -442,14 +472,14 @@ export default function NewQuestionPage() {
                         <h3 className="font-bold text-slate-900 border-b pb-2">Configuración</h3>
 
                         <div>
-                            <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Eje Temático</label>
+                            <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Eje Temático ({subject.toUpperCase()})</label>
                             <select
                                 className="w-full p-2 border rounded-md text-sm bg-white text-slate-900"
                                 value={formData.eje_id}
                                 onChange={e => setFormData({ ...formData, eje_id: e.target.value, topic_id: "" })}
                             >
                                 <option value="">Selecciona Eje</option>
-                                {ejes.map(e => (
+                                {ejes.filter(e => e.subject === subject).map(e => (
                                     <option key={e.id} value={e.id}>{e.name}</option>
                                 ))}
                             </select>

@@ -16,6 +16,7 @@ export default function AdminQuestionsPage() {
     const [topics, setTopics] = useState<any[]>([])
 
     // Filters
+    const [subject, setSubject] = useState<'m1' | 'm2'>('m2')
     const [filterEje, setFilterEje] = useState("all")
     const [filterTopic, setFilterTopic] = useState("all")
     const [filterDifficulty, setFilterDifficulty] = useState("all")
@@ -29,15 +30,16 @@ export default function AdminQuestionsPage() {
     useEffect(() => {
         let res = questions
 
+        // Filter by Subject
+        if (subject) {
+            res = res.filter(q => q.subject === subject)
+        }
+
         if (filterEje !== "all") {
             res = res.filter(q => q.eje_id === filterEje)
         }
 
         if (filterTopic !== "all") {
-            // Need to reverse check from question -> topic
-            // q.topic_name is available, but let's use the ID map we constructed
-            // Actually, wait, q object currently only has topic_name. 
-            // Better to match by name or add topic_id to q object in fetch
             const selectedTopic = topics.find(t => t.id === filterTopic)
             if (selectedTopic) {
                 res = res.filter(q => q.topic_name === selectedTopic.name)
@@ -49,7 +51,7 @@ export default function AdminQuestionsPage() {
         }
 
         setFilteredQuestions(res)
-    }, [questions, filterEje, filterTopic, filterDifficulty, topics])
+    }, [questions, filterEje, filterTopic, filterDifficulty, topics, subject])
 
     const fetchData = async () => {
         // 1. Fetch Ejes and Topics
@@ -141,12 +143,34 @@ export default function AdminQuestionsPage() {
                     <h2 className="text-2xl font-bold text-slate-900">Gestión de Preguntas</h2>
                     <p className="text-slate-500 text-sm">Administra el banco de ejercicios</p>
                 </div>
-                <Link href="/admin/questions/new">
-                    <Button>
-                        <Plus className="mr-2" size={18} />
-                        Nueva Pregunta
-                    </Button>
-                </Link>
+                <div className="flex items-center gap-3">
+                    <div className="bg-slate-100 p-1 rounded-lg flex items-center gap-1">
+                        <button
+                            onClick={() => setSubject('m1')}
+                            className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all ${subject === 'm1'
+                                ? 'bg-white text-slate-900 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-700'
+                                }`}
+                        >
+                            M1
+                        </button>
+                        <button
+                            onClick={() => setSubject('m2')}
+                            className={`px-3 py-1.5 rounded-md text-xs font-bold transition-all ${subject === 'm2'
+                                ? 'bg-white text-slate-900 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-700'
+                                }`}
+                        >
+                            M2
+                        </button>
+                    </div>
+                    <Link href="/admin/questions/new">
+                        <Button>
+                            <Plus className="mr-2" size={18} />
+                            Nueva Pregunta
+                        </Button>
+                    </Link>
+                </div>
             </div>
 
             {/* Filters */}
