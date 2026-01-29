@@ -73,12 +73,10 @@ export default function NewQuestionPage() {
         setFormData({ ...formData, alternatives: newAlts })
     }
 
-    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (!e.target.files || e.target.files.length === 0) {
-            return
-        }
+    const [isDraggingImage, setIsDraggingImage] = useState(false)
+
+    const uploadImageFile = async (file: File) => {
         setUploading(true)
-        const file = e.target.files[0]
         const fileExt = file.name.split('.').pop()
         const fileName = `${Math.random()}.${fileExt}`
         const filePath = `${fileName}`
@@ -94,12 +92,44 @@ export default function NewQuestionPage() {
                 .from('question-images')
                 .getPublicUrl(filePath)
 
-            setFormData({ ...formData, image_url: publicUrl })
+            setFormData(prev => ({ ...prev, image_url: publicUrl }))
 
         } catch (error: any) {
             alert("Error uploading image: " + error.message)
         } finally {
             setUploading(false)
+        }
+    }
+
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (!e.target.files || e.target.files.length === 0) return
+        await uploadImageFile(e.target.files[0])
+    }
+
+    const handleImageDragOver = (e: React.DragEvent) => {
+        e.preventDefault()
+        e.stopPropagation()
+        setIsDraggingImage(true)
+    }
+
+    const handleImageDragLeave = (e: React.DragEvent) => {
+        e.preventDefault()
+        e.stopPropagation()
+        setIsDraggingImage(false)
+    }
+
+    const handleImageDrop = async (e: React.DragEvent) => {
+        e.preventDefault()
+        e.stopPropagation()
+        setIsDraggingImage(false)
+
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            const file = e.dataTransfer.files[0]
+            if (file.type.startsWith('image/')) {
+                await uploadImageFile(file)
+            } else {
+                alert("Por favor sube solo archivos de imagen.")
+            }
         }
     }
 
@@ -263,8 +293,8 @@ export default function NewQuestionPage() {
                     <button
                         onClick={() => setSubject('m1')}
                         className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${subject === 'm1'
-                                ? 'bg-white text-slate-900 shadow-sm'
-                                : 'text-slate-500 hover:text-slate-700'
+                            ? 'bg-white text-slate-900 shadow-sm'
+                            : 'text-slate-500 hover:text-slate-700'
                             }`}
                     >
                         M1
@@ -272,8 +302,8 @@ export default function NewQuestionPage() {
                     <button
                         onClick={() => setSubject('m2')}
                         className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${subject === 'm2'
-                                ? 'bg-white text-slate-900 shadow-sm'
-                                : 'text-slate-500 hover:text-slate-700'
+                            ? 'bg-white text-slate-900 shadow-sm'
+                            : 'text-slate-500 hover:text-slate-700'
                             }`}
                     >
                         M2
@@ -342,10 +372,25 @@ export default function NewQuestionPage() {
                             <label className="block text-sm font-semibold text-slate-700 mb-2">Imagen (Opcional)</label>
 
                             {!formData.image_url ? (
-                                <div className="flex items-center gap-4">
-                                    <label className="cursor-pointer flex items-center gap-2 px-4 py-2 border border-slate-300 rounded-lg bg-slate-50 hover:bg-slate-100 transition-colors text-sm font-medium text-slate-700">
-                                        <Upload size={16} />
-                                        {uploading ? "Subiendo..." : "Subir Imagen"}
+                                <div
+                                    onDragOver={handleImageDragOver}
+                                    onDragLeave={handleImageDragLeave}
+                                    onDrop={handleImageDrop}
+                                    className={`flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-lg transition-all ${isDraggingImage
+                                            ? "border-blue-500 bg-blue-50"
+                                            : "border-slate-300 bg-slate-50 hover:bg-slate-100"
+                                        }`}
+                                >
+                                    <label className="cursor-pointer flex flex-col items-center gap-2 group">
+                                        <div className={`p-3 rounded-full ${isDraggingImage ? 'bg-blue-100 text-blue-600' : 'bg-white text-slate-500 group-hover:text-blue-600 group-hover:bg-blue-50 transition-colors'}`}>
+                                            <Upload size={24} />
+                                        </div>
+                                        <div className="text-center">
+                                            <span className="text-sm font-medium text-slate-700 block">
+                                                {uploading ? "Subiendo..." : isDraggingImage ? "¡Suelta la imagen!" : "Haz clic o arrastra una imagen aquí"}
+                                            </span>
+                                            <span className="text-xs text-slate-400 mt-1 block">PNG, JPG, WEBP (Max 2MB)</span>
+                                        </div>
                                         <input
                                             type="file"
                                             className="hidden"
@@ -354,7 +399,6 @@ export default function NewQuestionPage() {
                                             disabled={uploading}
                                         />
                                     </label>
-                                    <span className="text-xs text-slate-400">PNG, JPG, WEBP (Max 2MB)</span>
                                 </div>
                             ) : (
                                 <div className="relative inline-block border rounded-lg overflow-hidden group">
