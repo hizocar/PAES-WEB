@@ -19,7 +19,7 @@ begin
     where user_id = p_user_id
     and created_at >= v_start_of_day;
 
-    -- 2. Mistakes Count (Questions with AT LEAST one wrong answer and NO correct answers)
+    -- 2. Mistakes Count
     select count(distinct a.question_id)
     into v_mistakes_count
     from attempts a
@@ -32,27 +32,26 @@ begin
         and a2.is_correct = true
     );
 
-    -- 3. Ejes Stats (Proficiency per Eje)
-    -- We join attempts -> (question) -> question_topics -> topics -> ejes
+    -- 3. Ejes Stats (ALL Ejes, with 0s if no attempts)
+    -- We select from ALL ejes first, then left join to attempts
     with user_attempts_enriched as (
         select 
             e.id as eje_id,
-            e.name as eje_name,
             a.is_correct
-        from attempts a
-        join question_topics qt on a.question_id = qt.question_id
-        join topics t on qt.topic_id = t.id
-        join ejes e on t.eje_id = e.id
-        where a.user_id = p_user_id
+        from ejes e
+        left join topics t on t.eje_id = e.id
+        left join question_topics qt on qt.topic_id = t.id
+        left join attempts a on a.question_id = qt.question_id and a.user_id = p_user_id
     ),
     eje_aggregates as (
         select 
-            eje_id,
-            eje_name,
-            count(*) as total_attempts,
-            sum(case when is_correct then 1 else 0 end) as correct_count
-        from user_attempts_enriched
-        group by eje_id, eje_name
+            e.id as eje_id,
+            e.name as eje_name,
+            count(ua.is_correct) as total_attempts, -- count only non-null attempts
+            sum(case when ua.is_correct then 1 else 0 end) as correct_count
+        from ejes e
+        left join user_attempts_enriched ua on e.id = ua.eje_id
+        group by e.id, e.name
     )
     select json_agg(
         json_build_object(
