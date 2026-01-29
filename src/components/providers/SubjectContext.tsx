@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react"
 
-type Subject = 'm1' | 'm2'
+export type Subject = 'm1' | 'm2'
 
 interface SubjectContextType {
     subject: Subject

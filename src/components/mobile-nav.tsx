@@ -6,10 +6,27 @@ import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { BarChart3, Clock, Home, LogOut, Menu, Settings, Trophy, X, RotateCcw, Award } from "lucide-react"
 import { UserProfile } from "@/components/ui/user-profile"
+import { useSubject, Subject } from "@/components/providers/SubjectContext"
+
+function SubjectButton({ subject, current, setSubject }: { subject: Subject, current: Subject, setSubject: (s: Subject) => void }) {
+    const isActive = current === subject
+    return (
+        <button
+            onClick={() => setSubject(subject)}
+            className={`flex-1 py-2 rounded-md text-sm font-bold transition-all ${isActive
+                ? 'bg-white text-slate-900 shadow-sm'
+                : 'text-slate-500 hover:text-slate-700'
+                }`}
+        >
+            {subject.toUpperCase()}
+        </button>
+    )
+}
 
 export function MobileNav({ user }: { user: any }) {
     const [open, setOpen] = useState(false)
     const pathname = usePathname()
+    const { subject, setSubject } = useSubject()
 
     return (
         <div className="md:hidden flex flex-col border-b border-slate-200 bg-white sticky top-0 z-50">
@@ -34,6 +51,12 @@ export function MobileNav({ user }: { user: any }) {
                             <Button variant="ghost" size="sm" onClick={() => setOpen(false)}>
                                 <X className="h-6 w-6 text-slate-500" />
                             </Button>
+                        </div>
+
+                        {/* Subject Switcher Mobile */}
+                        <div className="bg-slate-100 p-1 rounded-lg flex items-center gap-1 mb-6">
+                            <SubjectButton subject="m1" current={subject} setSubject={setSubject} />
+                            <SubjectButton subject="m2" current={subject} setSubject={setSubject} />
                         </div>
 
                         <nav className="flex-1 space-y-2">
