@@ -25,12 +25,14 @@ export default function AdminUsersPage() {
     const [filteredUsers, setFilteredUsers] = useState<UserStat[]>([])
     const [search, setSearch] = useState("")
     const [loading, setLoading] = useState(true)
+    const [subject, setSubject] = useState<'m1' | 'm2'>('m2')
 
     const supabase = createClient()
 
     const fetchUsers = async () => {
         setLoading(true)
-        const { data, error } = await supabase.rpc('get_admin_users_stats')
+        // RPC now accepts p_subject
+        const { data, error } = await supabase.rpc('get_admin_users_stats', { p_subject: subject })
 
         if (error) {
             console.error("Error fetching users:", error)
@@ -44,7 +46,7 @@ export default function AdminUsersPage() {
 
     useEffect(() => {
         fetchUsers()
-    }, [])
+    }, [subject]) // Re-fetch on subject change
 
     useEffect(() => {
         if (!search.trim()) {
@@ -60,10 +62,14 @@ export default function AdminUsersPage() {
     }, [search, users])
 
     const handleReset = async (userId: string, userName: string) => {
-        if (!confirm(`¿Estás seguro de resetear EL PROGRESO de ${userName}?\n\nEsta acción eliminará todos sus intentos y estadísticas. No se puede deshacer.`)) {
+        if (!confirm(`¿Estás seguro de resetear EL PROGRESO de ${userName} para ${subject.toUpperCase()}?\n\nEsta acción eliminará todos sus intentos y estadísticas. No se puede deshacer.`)) {
             return
         }
 
+        // TODO: Update reset_user_progress to support subject if needed, or keep it global?
+        // Usually reset is "start over completely". For now keeping global or legacy.
+        // If specific per subject is needed, we'd need to update that RPC too.
+        // Assuming global reset for now or legacy. 
         const { error } = await supabase.rpc('reset_user_progress', { p_user_id: userId })
 
         if (error) {
@@ -75,11 +81,11 @@ export default function AdminUsersPage() {
     }
 
     const handleRefillLives = async (userId: string, userName: string) => {
-        if (!confirm(`¿Restaurar las 10 vidas para ${userName}?`)) {
+        if (!confirm(`¿Restaurar las 10 vidas para ${userName} en ${subject.toUpperCase()}?`)) {
             return
         }
 
-        const { error } = await supabase.rpc('admin_refill_lives', { p_user_id: userId })
+        const { error } = await supabase.rpc('admin_refill_lives', { p_user_id: userId, p_subject: subject })
 
         if (error) {
             alert("Error al recargar vidas: " + error.message)
@@ -93,6 +99,7 @@ export default function AdminUsersPage() {
             return
         }
 
+        // Credits are global
         const { error } = await supabase.rpc('admin_grant_explanation_credits', { p_user_id: userId })
 
         if (error) {
@@ -116,6 +123,29 @@ export default function AdminUsersPage() {
                     <h2 className="text-2xl font-bold text-slate-900">Gestión de Usuarios</h2>
                     <p className="text-slate-500 text-sm">Administra los estudiantes y su progreso</p>
                 </div>
+
+                {/* Subject Switcher */}
+                <div className="bg-slate-100 p-1 rounded-lg flex items-center gap-1 w-fit">
+                    <button
+                        onClick={() => setSubject('m1')}
+                        className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${subject === 'm1'
+                                ? 'bg-white text-slate-900 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-700'
+                            }`}
+                    >
+                        M1
+                    </button>
+                    <button
+                        onClick={() => setSubject('m2')}
+                        className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${subject === 'm2'
+                                ? 'bg-white text-slate-900 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-700'
+                            }`}
+                    >
+                        M2
+                    </button>
+                </div>
+
                 <div className="relative w-full md:w-64">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
                     <input
@@ -133,9 +163,9 @@ export default function AdminUsersPage() {
                     <thead className="bg-slate-50 border-b border-slate-200 text-xs uppercase text-slate-500 font-semibold">
                         <tr>
                             <th className="px-6 py-4">Usuario</th>
-                            <th className="px-6 py-4 text-center">Vidas</th>
+                            <th className="px-6 py-4 text-center">Vidas ({subject.toUpperCase()})</th>
                             <th className="px-6 py-4 text-center">Explicaciones</th>
-                            <th className="px-6 py-4 text-center">Progreso</th>
+                            <th className="px-6 py-4 text-center">Progreso ({subject.toUpperCase()})</th>
                             <th className="px-6 py-4 text-white">Actividad</th>
                             <th className="px-6 py-4 text-right">Acciones</th>
                         </tr>
