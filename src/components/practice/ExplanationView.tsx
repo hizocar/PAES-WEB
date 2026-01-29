@@ -29,7 +29,7 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
 
     useEffect(() => {
         let interval: NodeJS.Timeout
-        if (credits === 0 && replenishAt) {
+        if (credits !== null && credits <= 0 && replenishAt) {
             const updateTimer = () => {
                 const now = new Date().getTime()
                 const end = new Date(replenishAt).getTime()
@@ -42,12 +42,13 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
 
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000)
 
-                setTimeRemaining(`${hours}h ${minutes}m`)
+                setTimeRemaining(`${hours}h ${minutes}m ${seconds}s`)
             }
 
             updateTimer()
-            interval = setInterval(updateTimer, 60000) // Update every minute
+            interval = setInterval(updateTimer, 1000) // Update every second for better feedback
         }
         return () => clearInterval(interval)
     }, [credits, replenishAt])
@@ -65,9 +66,6 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
         if (data) {
             setCredits(data.credits)
             setReplenishAt(data.replenish_at)
-
-            // If user has subscription, they might bypass this, but for now assuming all use credits
-            // Check subscription separately if needed
         }
         setLoading(false)
     }
@@ -132,7 +130,7 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
     }
 
     // Credits exhausted
-    if (credits === 0) {
+    if (credits !== null && credits <= 0) {
         return (
             <div className="bg-slate-50 rounded-xl p-8 text-center border border-slate-200">
                 <div className="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400">
