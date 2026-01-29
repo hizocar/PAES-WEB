@@ -54,93 +54,114 @@ export default async function Home() {
 
       <main className="flex-1 bg-white">
         {/* Hero Section */}
-        <section className="relative overflow-hidden pt-20 pb-32">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[600px] bg-gradient-to-tr from-blue-100 to-purple-100 rounded-full blur-3xl opacity-50 pointer-events-none" />
+        <section className="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-32">
+          {/* Animated Background Gradients - Reduced on mobile for performance/overflow */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] md:w-[1000px] md:h-[600px] bg-gradient-to-tr from-blue-200/40 via-purple-200/40 to-pink-200/40 rounded-full blur-3xl opacity-50 md:opacity-70 pointer-events-none animate-pulse-slow" />
+          <div className="hidden md:block absolute bottom-0 right-1/4 w-[800px] h-[500px] bg-gradient-to-bl from-emerald-100/40 to-cyan-100/40 rounded-full blur-3xl opacity-50 pointer-events-none" />
+
           <div className="container mx-auto px-6 relative z-10 text-center max-w-5xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-sm font-medium mb-6 border border-blue-100">
-              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50/80 backdrop-blur-sm text-blue-700 text-xs md:text-sm font-bold mb-6 md:mb-8 border border-blue-100 shadow-sm hover:scale-105 transition-transform cursor-default">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+              </span>
               Nueva admisión 2027
             </div>
-            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-8 leading-[1.1]">
-              Domina la PAES con <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">Inteligencia y Práctica</span>
+
+            <h1 className="text-4xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 md:mb-8 leading-[1.1]">
+              Domina la PAES con <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 block md:inline">Inteligencia y Diversión</span> 🚀
             </h1>
-            <p className="text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">
-              La única plataforma enfocada 100% en la <span className="font-bold text-slate-800">PAES M2</span>. Entrena con ejercicios de alta dificultad y explicaciones detalladas.
+
+            <p className="text-lg md:text-xl text-slate-600 mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed px-4 md:px-0">
+              La plataforma más adictiva para preparar la <span className="font-bold text-slate-900">PAES M1 y M2</span>. Sube de nivel, gana rachas y asegura tu puntaje soñado.
             </p>
 
-            <div className="flex flex-col items-center justify-center gap-8">
-              <Link href="/login">
-                <Button size="lg" className="h-16 px-10 text-xl rounded-2xl shadow-xl shadow-blue-600/20 hover:scale-105 transition-transform font-bold bg-blue-600 hover:bg-blue-700">
-                  Comenzar a practicar M2
+            <div className="flex flex-col items-center justify-center gap-6 md:gap-8">
+              <Link href="/login" className="w-full md:w-auto">
+                <Button size="lg" className="h-14 md:h-16 w-full md:w-auto px-8 md:px-12 text-lg md:text-xl rounded-2xl shadow-xl shadow-blue-600/30 hover:scale-105 hover:shadow-2xl transition-all duration-300 font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 border-b-4 border-blue-800 active:border-b-0 active:translate-y-1">
+                  ¡Empieza tu Aventura! 🎮
                 </Button>
               </Link>
+              <p className="text-sm text-slate-500 font-medium animate-bounce">
+                👆 ¡Es gratis comenzar!
+              </p>
 
               {/* Exam Status Cards */}
-              <div className="grid md:grid-cols-3 gap-4 w-full text-left mt-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full text-left mt-8 md:mt-12">
                 {/* M2 Card - Active */}
-                <div className="bg-white p-5 rounded-xl border-2 border-blue-500 shadow-lg relative overflow-hidden group hover:border-blue-600 transition-colors">
-                  <div className="absolute top-0 right-0 bg-blue-500 text-white text-[10px] uppercase font-bold px-2 py-1 rounded-bl-lg">
+                <div className="bg-white/80 backdrop-blur-md p-5 md:p-6 rounded-2xl border-2 border-blue-100 shadow-lg hover:shadow-xl transition-all hover:border-blue-500 hover:-translate-y-1 group relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute top-0 right-0 bg-blue-500 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-bl-xl shadow-sm z-10">
                     Disponible
                   </div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 font-bold">M2</span>
-                    <h3 className="font-bold text-slate-900 leading-tight">Matemática 2</h3>
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center text-blue-600 font-black text-lg shadow-sm group-hover:scale-110 transition-transform">M2</div>
+                      <h3 className="font-bold text-slate-900 text-lg">Matemática 2</h3>
+                    </div>
+                    <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide mb-2">Electiva / Requisito</p>
+                    <p className="text-sm text-slate-600 leading-snug">
+                      Desafíos de alta complejidad para ingenierías y ciencias.
+                    </p>
                   </div>
-                  <p className="text-xs text-slate-500 mb-2">Electiva / Requisito</p>
-                  <p className="text-sm text-slate-600 leading-snug">
-                    Evalúa competencias específicas para carreras científicas.
-                  </p>
                 </div>
 
-                {/* M1 Card - Coming Soon */}
-                <div className="bg-slate-50 p-5 rounded-xl border border-slate-200 relative overflow-hidden opacity-75 hover:opacity-100 transition-opacity">
-                  <div className="absolute top-0 right-0 bg-slate-200 text-slate-500 text-[10px] uppercase font-bold px-2 py-1 rounded-bl-lg">
-                    Pronto
+                {/* M1 Card - Now Active! */}
+                <div className="bg-white/80 backdrop-blur-md p-5 md:p-6 rounded-2xl border-2 border-indigo-100 shadow-lg hover:shadow-xl transition-all hover:border-indigo-500 hover:-translate-y-1 group relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="absolute top-0 right-0 bg-indigo-500 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-bl-xl shadow-sm z-10">
+                    Disponible
                   </div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center text-slate-500 font-bold">M1</span>
-                    <h3 className="font-bold text-slate-700 leading-tight">Matemática 1</h3>
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600 font-black text-lg shadow-sm group-hover:scale-110 transition-transform">M1</div>
+                      <h3 className="font-bold text-slate-900 text-lg">Matemática 1</h3>
+                    </div>
+                    <p className="text-xs font-semibold text-indigo-600 uppercase tracking-wide mb-2">Obligatoria</p>
+                    <p className="text-sm text-slate-600 leading-snug">
+                      Domina los fundamentos esenciales para tu puntaje base.
+                    </p>
                   </div>
-                  <p className="text-xs text-slate-400 mb-2">Obligatoria</p>
-                  <p className="text-sm text-slate-500 leading-snug">
-                    Mide conocimientos generales ajustados para la mayoría de carreras.
-                  </p>
                 </div>
 
                 {/* Lectora Card - Coming Soon */}
-                <div className="bg-slate-50 p-5 rounded-xl border border-slate-200 relative overflow-hidden opacity-75 hover:opacity-100 transition-opacity">
-                  <div className="absolute top-0 right-0 bg-slate-200 text-slate-500 text-[10px] uppercase font-bold px-2 py-1 rounded-bl-lg">
+                <div className="bg-slate-50/50 p-5 md:p-6 rounded-2xl border border-slate-200 relative overflow-hidden hover:bg-slate-50 transition-colors">
+                  <div className="absolute top-0 right-0 bg-slate-200 text-slate-500 text-[10px] uppercase font-bold px-3 py-1 rounded-bl-xl">
                     Pronto
                   </div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center text-slate-500 font-bold">CL</span>
-                    <h3 className="font-bold text-slate-700 leading-tight">Comp. Lectora</h3>
+                  <div className="opacity-60">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-10 h-10 rounded-xl bg-slate-200 flex items-center justify-center text-slate-500 font-black text-lg">CL</div>
+                      <h3 className="font-bold text-slate-700 text-lg">Comp. Lectora</h3>
+                    </div>
+                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">Obligatoria</p>
+                    <p className="text-sm text-slate-500 leading-snug">
+                      Potencia tu velocidad y comprensión de textos.
+                    </p>
                   </div>
-                  <p className="text-xs text-slate-400 mb-2">Obligatoria</p>
-                  <p className="text-sm text-slate-500 leading-snug">
-                    Evalúa habilidades de lectura esenciales.
-                  </p>
                 </div>
               </div>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 pt-10 border-t border-slate-100">
-              <div>
-                <div className="text-3xl font-bold text-slate-900">15k+</div>
-                <div className="text-sm text-slate-500 font-medium">Estudiantes</div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12 md:mt-24 pt-8 md:pt-12 border-t border-slate-200/60 relative">
+              <div className="hover:-translate-y-1 transition-transform cursor-default">
+                <div className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-blue-600 to-indigo-600 mb-1">15k+</div>
+                <div className="text-xs md:text-sm text-slate-600 font-bold uppercase tracking-wider">Estudiantes</div>
               </div>
-              <div>
-                <div className="text-3xl font-bold text-slate-900">2.5M</div>
-                <div className="text-sm text-slate-500 font-medium">Ejercicios resueltos</div>
+              <div className="hover:-translate-y-1 transition-transform cursor-default">
+                <div className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-purple-600 to-pink-600 mb-1">2.5M</div>
+                <div className="text-xs md:text-sm text-slate-600 font-bold uppercase tracking-wider">Ejercicios</div>
               </div>
-              <div>
-                <div className="text-3xl font-bold text-slate-900">850+</div>
-                <div className="text-sm text-slate-500 font-medium">Puntaje Promedio</div>
+              <div className="hover:-translate-y-1 transition-transform cursor-default">
+                <div className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-emerald-600 to-teal-600 mb-1">850+</div>
+                <div className="text-xs md:text-sm text-slate-600 font-bold uppercase tracking-wider">Puntaje Prom.</div>
               </div>
-              <div>
-                <div className="text-3xl font-bold text-slate-900">24/7</div>
-                <div className="text-sm text-slate-500 font-medium">Disponibilidad</div>
+              <div className="hover:-translate-y-1 transition-transform cursor-default">
+                <div className="text-3xl md:text-4xl font-black text-slate-800 mb-1 flex items-center justify-center gap-2">
+                  <span>∞</span>
+                </div>
+                <div className="text-xs md:text-sm text-slate-600 font-bold uppercase tracking-wider">Vidas Recargables</div>
               </div>
             </div>
           </div>
@@ -148,14 +169,14 @@ export default async function Home() {
 
         {/* Features Preview */}
         {/* Features Preview */}
-        <section id="features" className="py-24 bg-slate-50">
+        <section id="features" className="py-12 md:py-24 bg-slate-50">
           <div className="container mx-auto px-6">
-            <div className="text-center mb-16 max-w-3xl mx-auto">
-              <h2 className="text-3xl font-bold text-slate-900 mb-4">Todo lo que necesitas para tu puntaje</h2>
-              <p className="text-slate-600">PAES Lab no es solo un banco de preguntas. Es un entrenador inteligente diseñado para maximizar tu rendimiento en menos tiempo.</p>
+            <div className="text-center mb-10 md:mb-16 max-w-3xl mx-auto">
+              <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4">Todo lo que necesitas para tu puntaje</h2>
+              <p className="text-sm md:text-base text-slate-600">PAES Lab no es solo un banco de preguntas. Es un entrenador inteligente diseñado para maximizar tu rendimiento en menos tiempo.</p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
               {/* Feature 1 */}
               <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all hover:-translate-y-1">
                 <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-4">
