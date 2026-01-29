@@ -18,12 +18,16 @@ export async function processQuestionImage(formData: FormData) {
 
     try {
         const completion = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
+            model: "gpt-4o",
             messages: [
                 {
                     role: "system",
                     content: `You are an expert OCR assistant for academic questions.
-                    Output valid JSON only. No markdown formatting.
+                    
+                    CRITICAL: Output valid JSON.
+                    **IMPORTANT escaping rule**: Since the output is JSON, you MUST double-escape all backslashes in LaTeX.
+                    - CORRECT: "$\\displaystyle \\\\frac{1}{2}x$" or "$\\displaystyle \\\\times$"
+                    - INCORRECT: "$\\frac{1}{2}x$" or "$\\times$" (This will become invalid JSON or lose the backslash)
                     
                     Structure:
                     {
@@ -37,15 +41,14 @@ export async function processQuestionImage(formData: FormData) {
                     }
                     
                     Rules:
-                    1. **TRANSCRIBE EVERYTHING**: Start from the very top of the image. Identify if there is introductory text, context, or a problem description BEFORE the actual question. Do NOT skip paragraphs.
-                    2. **Preserve Context**: If the image contains a chart description or reading passage, include it in "content".
-                    3. **Math Formatting (CRITICAL)**: 
-                       - Use '$' for inline math and '$$$' for block equations. NEVER use '\\(' or '\\['.
-                       - **ALWAYS** start every math expression with '\\displaystyle'. 
-                         Example: '$\\displaystyle \\frac{1}{2}x$' instead of '$\\frac{1}{2}x$'.
-                       - Do NOT use '\\\\' for line breaks unless inside a matrix/cases environment.
-                    4. **No Solving**: Do NOT attempt to solve the question. Just transcribe.
-                    5. **Alternatives**: Extract the options options text exactly.
+                    1. **TRANSCRIBE EVERYTHING**: Start from the very top. Include context/intro text.
+                    2. **Math Formatting**: 
+                       - Use '$' for inline math.
+                       - **ALWAYS** start every math expression with '\\displaystyle'.
+                       - **DOUBLE ESCAPE** all LaTeX commands (e.g., \\\\times, \\\\frac, \\\\approx).
+                       - Use '\\\\' for line breaks in matrices (escaped as \\\\\\\\ in JSON string).
+                    3. **No Solving**: Just transcribe.
+                    4. **Alternatives**: Extract options exactly.
                     `
                 },
                 {
@@ -75,27 +78,31 @@ export async function generateQuestionSolution(question: string, alternatives: a
 
     try {
         const completion = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
+            model: "gpt-4o",
             messages: [
                 {
                     role: "system",
-                    content: `You are a math tutor assistant. Solve the provided multiple-choice question.
-                    Output valid JSON only.
+                    content: `You are a highly intelligent math tutor assistant. Solve the multiple-choice question step-by-step.
+                    
+                    CRITICAL: Output valid JSON.
+                    **IMPORTANT escaping rule**: Since the output is JSON, you MUST double-escape all backslashes in LaTeX.
+                    - CORRECT: "$\\displaystyle \\\\frac{1}{2}x$"
+                    - INCORRECT: "$\\frac{1}{2}x$" or "$\\times$"
                     
                     Structure:
                     {
                         "correct_answer": "Letter A, B, C, D or E",
-                        "explanation": "Step-by-step solution in LaTeX ($...$). Be clear and educational.",
+                        "explanation": "Step-by-step solution in LaTeX ($...$). Be extremely clear.",
                         "difficulty": "easy, medium, or hard",
-                        "topic": "Short topic name (e.g. 'Álgebra', 'Geometría')"
+                        "topic": "Specific math topic (e.g. 'Probabilidades', 'Álgebra')"
                     }
                     
                     Rules:
                     1. **Math Formatting (CRITICAL)**: 
-                       - Use '$' for inline math and '$$$' for block equations. NEVER use '\\(' or '\\['.
-                       - **ALWAYS** start every math expression with '\\displaystyle'. 
-                         Example: '$\\displaystyle \\int x dx$' instead of '$\\int x dx$'.
-                    2. Explain the logic clearly.
+                       - Use '$' for inline math.
+                       - **ALWAYS** start every math expression with '\\displaystyle'.
+                       - **DOUBLE ESCAPE** all LaTeX commands (e.g. \\\\times, \\\\cdot, \\\\frac).
+                    2. **Logic**: Verify your answer before outputting.
                     `
                 },
                 {
