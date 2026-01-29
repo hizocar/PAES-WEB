@@ -3,9 +3,20 @@
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/context/auth-provider"
 import { Play } from "lucide-react"
+import { useEffect } from "react"
+import { useRouter } from "next/navigation"
 
 export default function LoginPage() {
-    const { signInWithGoogle } = useAuth()
+    const { signInWithGoogle, user, loading } = useAuth()
+    const router = useRouter()
+
+    useEffect(() => {
+        if (!loading && user) {
+            router.push("/app")
+        }
+    }, [user, loading, router])
+
+    if (loading) return null // Or a spinner
 
     return (
         <div className="flex min-h-screen flex-col items-center justify-center bg-slate-50 relative overflow-hidden">

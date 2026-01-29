@@ -89,7 +89,7 @@ export default async function Home() {
               {/* Exam Status Cards */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full text-left mt-8 md:mt-12">
                 {/* M2 Card - Active */}
-                <div className="bg-white/80 backdrop-blur-md p-5 md:p-6 rounded-2xl border-2 border-blue-100 shadow-lg hover:shadow-xl transition-all hover:border-blue-500 hover:-translate-y-1 group relative overflow-hidden">
+                <Link href="/login" className="bg-white/80 backdrop-blur-md p-5 md:p-6 rounded-2xl border-2 border-blue-100 shadow-lg hover:shadow-xl transition-all hover:border-blue-500 hover:-translate-y-1 group relative overflow-hidden block cursor-pointer">
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="absolute top-0 right-0 bg-blue-500 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-bl-xl shadow-sm z-10">
                     Disponible
@@ -104,10 +104,10 @@ export default async function Home() {
                       Desafíos de alta complejidad para ingenierías y ciencias.
                     </p>
                   </div>
-                </div>
+                </Link>
 
                 {/* M1 Card - Now Active! */}
-                <div className="bg-white/80 backdrop-blur-md p-5 md:p-6 rounded-2xl border-2 border-indigo-100 shadow-lg hover:shadow-xl transition-all hover:border-indigo-500 hover:-translate-y-1 group relative overflow-hidden">
+                <Link href="/login" className="bg-white/80 backdrop-blur-md p-5 md:p-6 rounded-2xl border-2 border-indigo-100 shadow-lg hover:shadow-xl transition-all hover:border-indigo-500 hover:-translate-y-1 group relative overflow-hidden block cursor-pointer">
                   <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="absolute top-0 right-0 bg-indigo-500 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-bl-xl shadow-sm z-10">
                     Disponible
@@ -122,10 +122,10 @@ export default async function Home() {
                       Domina los fundamentos esenciales para tu puntaje base.
                     </p>
                   </div>
-                </div>
+                </Link>
 
                 {/* Lectora Card - Coming Soon */}
-                <div className="bg-slate-50/50 p-5 md:p-6 rounded-2xl border border-slate-200 relative overflow-hidden hover:bg-slate-50 transition-colors">
+                <div className="bg-slate-50/50 p-5 md:p-6 rounded-2xl border border-slate-200 relative overflow-hidden hover:bg-slate-50 transition-colors cursor-default">
                   <div className="absolute top-0 right-0 bg-slate-200 text-slate-500 text-[10px] uppercase font-bold px-3 py-1 rounded-bl-xl">
                     Pronto
                   </div>
