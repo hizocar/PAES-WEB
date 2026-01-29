@@ -6,8 +6,6 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
 })
 
-// ... imports ...
-
 export async function processQuestionImage(formData: FormData) {
     const file = formData.get('image') as File
 
@@ -41,7 +39,11 @@ export async function processQuestionImage(formData: FormData) {
                     Rules:
                     1. **TRANSCRIBE EVERYTHING**: Start from the very top of the image. Identify if there is introductory text, context, or a problem description BEFORE the actual question. Do NOT skip paragraphs.
                     2. **Preserve Context**: If the image contains a chart description or reading passage, include it in "content".
-                    3. **Math Formatting**: Use LaTeX for ALL math expressions wrapped in '$' (e.g. $x^2 + 5$).
+                    3. **Math Formatting (CRITICAL)**: 
+                       - Use '$' for inline math and '$$$' for block equations. NEVER use '\\(' or '\\['.
+                       - **ALWAYS** start every math expression with '\\displaystyle'. 
+                         Example: '$\\displaystyle \\frac{1}{2}x$' instead of '$\\frac{1}{2}x$'.
+                       - Do NOT use '\\\\' for line breaks unless inside a matrix/cases environment.
                     4. **No Solving**: Do NOT attempt to solve the question. Just transcribe.
                     5. **Alternatives**: Extract the options options text exactly.
                     `
@@ -89,7 +91,10 @@ export async function generateQuestionSolution(question: string, alternatives: a
                     }
                     
                     Rules:
-                    1. Use valid LaTeX for math inside '$'.
+                    1. **Math Formatting (CRITICAL)**: 
+                       - Use '$' for inline math and '$$$' for block equations. NEVER use '\\(' or '\\['.
+                       - **ALWAYS** start every math expression with '\\displaystyle'. 
+                         Example: '$\\displaystyle \\int x dx$' instead of '$\\int x dx$'.
                     2. Explain the logic clearly.
                     `
                 },
