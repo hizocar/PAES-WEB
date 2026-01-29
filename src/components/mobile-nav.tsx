@@ -33,6 +33,9 @@ export function MobileNav({ user }: { user: any }) {
             <div className="flex items-center justify-between p-4">
                 <Link href="/app" className="font-bold text-xl text-blue-600 flex items-center gap-2">
                     PAES Lab
+                    <span className="text-xs font-extrabold bg-blue-100 text-blue-600 px-2 py-0.5 rounded-full border border-blue-200">
+                        {subject.toUpperCase()}
+                    </span>
                 </Link>
                 <Button variant="ghost" size="sm" onClick={() => setOpen(true)}>
                     <Menu className="h-6 w-6 text-slate-700" />
