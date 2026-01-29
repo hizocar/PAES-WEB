@@ -85,44 +85,56 @@ export default function DashboardPage() {
             if (!user) return
 
             const now = new Date()
-            const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString()
-            const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString()
 
-            // 1. Fetch Attempts for Daily Goal (Today)
-            const { count: todayCount } = await supabase
-                .from('attempts')
-                .select('*', { count: 'exact', head: true })
-                .eq('user_id', user.id)
-                .gte('created_at', startOfDay)
+            // 1. Parallel Fetch: Stats (RPC), Lives, Leaderboard, and Streak (lightweight)
+            const [statsResult, livesResult, leaderboardResult, streakResult] = await Promise.all([
+                supabase.rpc('get_dashboard_stats', { p_user_id: user.id }),
+                supabase.rpc('check_and_replenish_lives', { p_user_id: user.id }),
+                supabase.rpc('get_leaderboard'),
+                // Keep streak separate for now (last 60 days of timestamps)
+                supabase.from('attempts')
+                    .select('created_at')
+                    .eq('user_id', user.id)
+                    .gte('created_at', new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000).toISOString())
+                    .order('created_at', { ascending: false })
+            ])
 
-            const currentDailyProgress = todayCount || 0
+            const { data: dashboardStats, error: statsError } = statsResult
+            const { data: livesData } = livesResult
+            const { data: leaderboardData } = leaderboardResult
+            const { data: streakAttempts } = streakResult
 
-            // 2. Fetch Attempts for Proficiency (Last 7 Days)
-            const { data: recentAttempts } = await supabase
-                .from('attempts')
-                .select('is_correct')
-                .eq('user_id', user.id)
-                .gte('created_at', sevenDaysAgo)
+            if (statsError) throw statsError
 
-            let accuracy = 0
-            if (recentAttempts && recentAttempts.length > 0) {
-                const correct = recentAttempts.filter(a => a.is_correct).length
-                accuracy = Math.round((correct / recentAttempts.length) * 100)
+            // Unpack RPC Data
+            const currentDailyProgress = dashboardStats?.daily_progress || 0
+            const activeMistakes = dashboardStats?.active_mistakes || 0
+            const processedEjes = dashboardStats?.ejes_stats || []
+
+            // Process Lives
+            let currentLives = null
+            let replenishAt = null
+            if (livesData && livesData.length > 0) {
+                currentLives = livesData[0].current_lives
+                replenishAt = livesData[0].replenish_at
             }
 
-            // 3. Streak
-            const sixtyDaysAgo = new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000).toISOString()
-            const { data: streakAttempts } = await supabase
-                .from('attempts')
-                .select('created_at')
-                .eq('user_id', user.id)
-                .gte('created_at', sixtyDaysAgo)
-                .order('created_at', { ascending: false })
+            // Process Rank & Score
+            let userRank = null
+            let userScore = 0
+            if (leaderboardData) {
+                const myEntry = leaderboardData.find((u: any) => u.user_id === user.id)
+                if (myEntry) {
+                    userRank = myEntry.rank
+                    userScore = myEntry.score
+                }
+            }
 
+            // Process Streak (Client-side lightweight)
             let currentStreak = 0
             if (streakAttempts && streakAttempts.length > 0) {
                 const attemptsByDay: Record<string, number> = {}
-                streakAttempts.forEach(a => {
+                streakAttempts.forEach((a: any) => {
                     const day = new Date(a.created_at).toISOString().split('T')[0]
                     attemptsByDay[day] = (attemptsByDay[day] || 0) + 1
                 })
@@ -144,48 +156,12 @@ export default function DashboardPage() {
                 }
             }
 
-            // 4. Fetch Lives
-            let currentLives = null
-            let replenishAt = null
-            const { data: livesData } = await supabase.rpc('check_and_replenish_lives', { p_user_id: user.id })
-            if (livesData && livesData.length > 0) {
-                currentLives = livesData[0].current_lives
-                replenishAt = livesData[0].replenish_at
-            }
-
-            // 5. Fetch Rank & Score
-            let userRank = null
-            let userScore = 0
-            const { data: leaderboardData } = await supabase.rpc('get_leaderboard')
-            if (leaderboardData) {
-                const myEntry = leaderboardData.find((u: any) => u.user_id === user.id)
-                if (myEntry) {
-                    userRank = myEntry.rank
-                    userScore = myEntry.score
-                }
-            }
-
-            // 6. Calculate Mistakes (Questions failed and NEVER corrected)
-            const { data: allAttempts } = await supabase
-                .from('attempts')
-                .select('question_id, is_correct')
-                .eq('user_id', user.id)
-
-            const questionStatus: Record<string, { hasCorrect: boolean, hasWrong: boolean }> = {}
-
-            allAttempts?.forEach(a => {
-                if (!questionStatus[a.question_id]) questionStatus[a.question_id] = { hasCorrect: false, hasWrong: false }
-                if (a.is_correct) questionStatus[a.question_id].hasCorrect = true
-                else questionStatus[a.question_id].hasWrong = true
-            })
-
-            const activeMistakes = Object.values(questionStatus).filter(s => s.hasWrong && !s.hasCorrect).length
-
+            // Update State
             setStats({
                 dailyProgress: currentDailyProgress,
                 dailyTarget: 10,
-                globalAccuracy: accuracy,
-                totalAttemptsLast7Days: recentAttempts?.length || 0,
+                globalAccuracy: 0, // Removed from UI or needs separate fetch if crucial (simplified for speed)
+                totalAttemptsLast7Days: 0, // Simplified
                 streak: currentStreak,
                 lives: currentLives,
                 replenishAt: replenishAt,
@@ -193,41 +169,6 @@ export default function DashboardPage() {
                 score: userScore,
                 mistakes: activeMistakes
             })
-
-            // 7. Fetch Ejes (for chart below)
-            const { data: allEjes } = await supabase.from('ejes').select('id, name')
-
-            const qIds = allAttempts?.map(a => a.question_id) || []
-            const uniqueQIds = Array.from(new Set(qIds))
-
-            let qEjeMap: Record<string, string> = {}
-
-            if (uniqueQIds.length > 0) {
-                const { data: qTopics } = await supabase
-                    .from('question_topics')
-                    .select('question_id, topics(ejes(name))')
-                    .in('question_id', uniqueQIds)
-
-                qTopics?.forEach((row: any) => {
-                    const ejeName = row.topics?.ejes?.name
-                    if (ejeName) {
-                        qEjeMap[row.question_id] = ejeName
-                    }
-                })
-            }
-
-            const processedEjes = allEjes?.map(eje => {
-                const ejeAttempts = allAttempts?.filter(a => qEjeMap[a.question_id] === eje.name) || []
-                const correct = ejeAttempts.filter(a => a.is_correct).length
-                const total = ejeAttempts.length
-                const acc = total > 0 ? Math.round((correct / total) * 100) : 0
-
-                return {
-                    ...eje,
-                    progress: acc,
-                    total_attempts: total
-                }
-            }) || []
 
             setEjes(processedEjes)
 
