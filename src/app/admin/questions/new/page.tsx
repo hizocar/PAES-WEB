@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft, Save, Upload, X, Wand2, ImageIcon } from "lucide-react"
 import Link from "next/link"
-import { processQuestionImage } from "@/app/actions/process-image"
+import { processQuestionImage, generateQuestionSolution } from "@/app/actions/process-image"
 import { useRouter } from "next/navigation"
 import 'katex/dist/katex.min.css'
 // @ts-ignore
@@ -18,6 +18,7 @@ export default function NewQuestionPage() {
     const [loading, setLoading] = useState(false)
     const [uploading, setUploading] = useState(false)
     const [processing, setProcessing] = useState(false)
+    const [generatingSolution, setGeneratingSolution] = useState(false)
     const [isDragging, setIsDragging] = useState(false)
     const [ejes, setEjes] = useState<any[]>([])
     const [topics, setTopics] = useState<any[]>([])
@@ -176,18 +177,46 @@ export default function NewQuestionPage() {
                 ...prev,
                 content: result.content || prev.content,
                 alternatives: newAlternatives,
-                correct_answer: result.correct_answer || prev.correct_answer,
-                difficulty: result.difficulty || prev.difficulty,
-                explanation: result.explanation || prev.explanation,
+                // Do NOT overwrite correct_answer or explanation here
             }))
 
-            alert("¡Pregunta procesada con éxito! Revisa los campos.")
+            alert("¡Texto extraído! Ahora revisa los datos y presiona 'Generar Solución con IA'.")
 
         } catch (error: any) {
             console.error(error)
             alert("Error al procesar la imagen: " + error.message)
         } finally {
             setProcessing(false)
+        }
+    }
+
+    const handleGenerateSolution = async () => {
+        if (!formData.content) {
+            alert("Primero debes tener un enunciado.")
+            return
+        }
+
+        setGeneratingSolution(true)
+        try {
+            const result = await generateQuestionSolution(formData.content, formData.alternatives)
+
+            setFormData(prev => ({
+                ...prev,
+                correct_answer: result.correct_answer || prev.correct_answer,
+                explanation: result.explanation || prev.explanation,
+                difficulty: result.difficulty || prev.difficulty,
+            }))
+
+            if (result.topic) {
+                const matched = topics.find(t => t.name.toLowerCase().includes(result.topic.toLowerCase()))
+                if (matched && formData.eje_id) {
+                    setFormData(prev => ({ ...prev, topic_id: matched.id }))
+                }
+            }
+        } catch (error: any) {
+            alert("Error generando solución: " + error.message)
+        } finally {
+            setGeneratingSolution(false)
         }
     }
 
@@ -377,8 +406,8 @@ export default function NewQuestionPage() {
                                     onDragLeave={handleImageDragLeave}
                                     onDrop={handleImageDrop}
                                     className={`flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-lg transition-all ${isDraggingImage
-                                            ? "border-blue-500 bg-blue-50"
-                                            : "border-slate-300 bg-slate-50 hover:bg-slate-100"
+                                        ? "border-blue-500 bg-blue-50"
+                                        : "border-slate-300 bg-slate-50 hover:bg-slate-100"
                                         }`}
                                 >
                                     <label className="cursor-pointer flex flex-col items-center gap-2 group">
@@ -460,6 +489,22 @@ export default function NewQuestionPage() {
                                 />
                             </div>
                         ))}
+                    </div>
+
+                    {/* AI Solution Generator Button */}
+                    <div className="flex justify-center">
+                        <Button
+                            onClick={handleGenerateSolution}
+                            disabled={generatingSolution || !formData.content}
+                            variant="outline"
+                            className="bg-indigo-50 text-indigo-700 border-indigo-200 hover:bg-indigo-100 hover:text-indigo-800 w-full md:w-auto"
+                        >
+                            {generatingSolution ? (
+                                <><div className="animate-spin rounded-full h-4 w-4 border-2 border-indigo-600 border-t-transparent mr-2" /> Resolviendo...</>
+                            ) : (
+                                <><Wand2 size={16} className="mr-2" /> Generar Solución con IA</>
+                            )}
+                        </Button>
                     </div>
 
                     {/* Explanation */}
