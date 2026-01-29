@@ -33,123 +33,95 @@ export default function DashboardPage() {
     const supabase = createClient()
 
     useEffect(() => {
-        const init = async () => {
-            // Check for Streak Achievements
-            const { data: { user } } = await supabase.auth.getUser()
-            if (user) {
-                const { data: newAchievements } = await supabase
-                    .rpc('check_and_unlock_achievement', {
-                        p_user_id: user.id,
-                        p_trigger_type: 'STREAK',
-                        p_subject: subject
-                    })
+        let isMounted = true
 
-                if (newAchievements && newAchievements.length > 0) {
-                    setUnlockedAchievement(newAchievements[0])
+        const fetchData = async () => {
+            setLoading(true)
+            try {
+                const { data: { user } } = await supabase.auth.getUser()
+                if (!user) return
+
+                // 0. Check Achievements (Streak)
+                if (subject) {
+                    const { data: newAchievements } = await supabase
+                        .rpc('check_and_unlock_achievement', {
+                            p_user_id: user.id,
+                            p_trigger_type: 'STREAK',
+                            p_subject: subject
+                        })
+
+                    if (isMounted && newAchievements && newAchievements.length > 0) {
+                        setUnlockedAchievement(newAchievements[0])
+                    }
                 }
-            }
 
-            fetchDashboardData()
-        }
-        init()
-    }, [subject]) // Re-run when subject changes
+                // 1. Parallel Fetch: Stats (RPC), Lives, Leaderboard
+                const [statsResult, livesResult, leaderboardResult] = await Promise.all([
+                    supabase.rpc('get_dashboard_stats', { p_user_id: user.id, p_subject: subject }),
+                    supabase.rpc('check_and_replenish_lives', { p_user_id: user.id, p_subject: subject }),
+                    supabase.rpc('get_leaderboard', { p_subject: subject })
+                ])
 
-    // Timer logic for lives
-    useEffect(() => {
-        if (stats.lives === null || (stats.lives > 0) || !stats.replenishAt) return
+                if (!isMounted) return
 
-        const updateTimer = () => {
-            const now = new Date()
-            const end = new Date(stats.replenishAt!)
-            const diff = end.getTime() - now.getTime()
+                const { data: dashboardStats, error: statsError } = statsResult
+                const { data: livesData } = livesResult
+                const { data: leaderboardData } = leaderboardResult
 
-            if (diff <= 0) {
-                setTimeLeft("00:00:00")
-                return
-            }
+                if (statsError) throw statsError
 
-            const hrs = Math.floor(diff / (1000 * 60 * 60))
-            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
-            const secs = Math.floor((diff % (1000 * 60)) / 1000)
+                // Unpack RPC Data
+                const currentDailyProgress = dashboardStats?.daily_progress || 0
+                const activeMistakes = dashboardStats?.active_mistakes || 0
+                const processedEjes = dashboardStats?.ejes_stats || []
+                const currentStreak = dashboardStats?.streak || 0
 
-            setTimeLeft(
-                `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
-            )
-        }
-
-        updateTimer()
-        const interval = setInterval(updateTimer, 1000)
-        return () => clearInterval(interval)
-    }, [stats.lives, stats.replenishAt])
-
-    const fetchDashboardData = async () => {
-        try {
-            setLoading(true) // Show loading on subject switch
-            const { data: { user } } = await supabase.auth.getUser()
-            if (!user) return
-
-            const now = new Date()
-
-            // 1. Parallel Fetch: Stats (RPC), Lives, Leaderboard
-            const [statsResult, livesResult, leaderboardResult] = await Promise.all([
-                supabase.rpc('get_dashboard_stats', { p_user_id: user.id, p_subject: subject }),
-                supabase.rpc('check_and_replenish_lives', { p_user_id: user.id, p_subject: subject }),
-                supabase.rpc('get_leaderboard', { p_subject: subject })
-            ])
-
-            const { data: dashboardStats, error: statsError } = statsResult
-            const { data: livesData } = livesResult
-            const { data: leaderboardData } = leaderboardResult
-
-            if (statsError) throw statsError
-
-            // Unpack RPC Data
-            const currentDailyProgress = dashboardStats?.daily_progress || 0
-            const activeMistakes = dashboardStats?.active_mistakes || 0
-            const processedEjes = dashboardStats?.ejes_stats || []
-            const currentStreak = dashboardStats?.streak || 0
-
-            // Process Lives
-            let currentLives = null
-            let replenishAt = null
-            if (livesData && livesData.length > 0) {
-                currentLives = livesData[0].current_lives
-                replenishAt = livesData[0].replenish_at
-            }
-
-            // Process Rank & Score
-            let userRank = null
-            let userScore = 0
-            if (leaderboardData) {
-                const myEntry = leaderboardData.find((u: any) => u.user_id === user.id)
-                if (myEntry) {
-                    userRank = myEntry.rank
-                    userScore = myEntry.score
+                // Process Lives
+                let currentLives = null
+                let replenishAt = null
+                if (livesData && livesData.length > 0) {
+                    currentLives = livesData[0].current_lives
+                    replenishAt = livesData[0].replenish_at
                 }
+
+                // Process Rank & Score
+                let userRank = null
+                let userScore = 0
+                if (leaderboardData) {
+                    const myEntry = leaderboardData.find((u: any) => u.user_id === user.id)
+                    if (myEntry) {
+                        userRank = myEntry.rank
+                        userScore = myEntry.score
+                    }
+                }
+
+                // Update State
+                setStats({
+                    dailyProgress: currentDailyProgress,
+                    dailyTarget: 10,
+                    globalAccuracy: 0,
+                    totalAttemptsLast7Days: 0,
+                    streak: currentStreak,
+                    lives: currentLives,
+                    replenishAt: replenishAt,
+                    rank: userRank,
+                    score: userScore,
+                    mistakes: activeMistakes
+                })
+
+                setEjes(processedEjes)
+
+            } catch (error) {
+                console.error("Error fetching dashboard:", error)
+            } finally {
+                if (isMounted) setLoading(false)
             }
-
-            // Update State
-            setStats({
-                dailyProgress: currentDailyProgress,
-                dailyTarget: 10,
-                globalAccuracy: 0, // Removed from UI or needs separate fetch if crucial (simplified for speed)
-                totalAttemptsLast7Days: 0, // Simplified
-                streak: currentStreak,
-                lives: currentLives,
-                replenishAt: replenishAt,
-                rank: userRank,
-                score: userScore,
-                mistakes: activeMistakes
-            })
-
-            setEjes(processedEjes)
-
-        } catch (error) {
-            console.error("Error fetching dashboard:", error)
-        } finally {
-            setLoading(false)
         }
-    }
+
+        fetchData()
+
+        return () => { isMounted = false }
+    }, [subject])
 
     if (loading) {
         return (

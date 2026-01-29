@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, Suspense } from "react"
+import { useEffect, useState, Suspense, useRef } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { QuestionCard } from "@/components/practice/QuestionCard"
 import { Button } from "@/components/ui/button"
@@ -31,6 +31,9 @@ function PracticeContent() {
     const [completed, setCompleted] = useState(false)
     const [debugMsg, setDebugMsg] = useState("")
 
+    // Request Tracking for Race Conditions
+    const reqIdRef = useRef(0)
+
     // Lives System State
     const [lives, setLives] = useState(10)
     const [replenishAt, setReplenishAt] = useState<string | null>(null)
@@ -54,6 +57,9 @@ function PracticeContent() {
     }, [subject])
 
     const fetchQuestion = async () => {
+        // Increment Request ID
+        const currentReqId = ++reqIdRef.current
+
         setLoading(true)
         setDebugMsg("")
         try {
@@ -70,6 +76,9 @@ function PracticeContent() {
                     p_retry_mode: retryMode,
                     p_subject: subject
                 })
+
+            // Race Condition Check
+            if (currentReqId !== reqIdRef.current) return
 
             if (error) {
                 setDebugMsg(`Error al obtener pregunta: ${error.message}`)
@@ -89,7 +98,9 @@ function PracticeContent() {
         } catch (e: any) {
             setDebugMsg(`Excepción: ${e.message}`)
         } finally {
-            setLoading(false)
+            if (currentReqId === reqIdRef.current) {
+                setLoading(false)
+            }
         }
     }
 

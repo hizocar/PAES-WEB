@@ -12,22 +12,26 @@ interface SubjectContextType {
 const SubjectContext = createContext<SubjectContextType | undefined>(undefined)
 
 export function SubjectProvider({ children }: { children: ReactNode }) {
-    const [subject, setSubjectState] = useState<Subject>('m2')
+    const [subject, setSubjectState] = useState<Subject | null>(null)
 
     // Load from localStorage on mount
     useEffect(() => {
         const saved = localStorage.getItem('paes_subject') as Subject
         if (saved && (saved === 'm1' || saved === 'm2')) {
             setSubjectState(saved)
+        } else {
+            setSubjectState('m2') // Default to m2 if nothing saved
         }
     }, [])
 
     const setSubject = (newSubject: Subject) => {
         setSubjectState(newSubject)
         localStorage.setItem('paes_subject', newSubject)
-        // Force reload to ensure all data fetches use new subject
-        // Alternatively we can use React Query or context propagation, but reload is safest for now
-        // window.location.reload() // Let's try responsive first, if sticky bugs, enable reload
+    }
+
+    // Block rendering until subject is determined to prevent race conditions/flashes
+    if (!subject) {
+        return null // Or a global loader if preferred, but null is fine for instant hydration check
     }
 
     return (
