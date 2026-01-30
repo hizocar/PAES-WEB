@@ -38,7 +38,7 @@ export function MobileNav({ user }: { user: any }) {
                         {subject.toUpperCase()}
                     </span>
                 </Link>
-                <Button variant="ghost" size="sm" onClick={() => setOpen(true)}>
+                <Button variant="ghost" size="sm" onClick={() => setOpen(true)} id="tour-mobile-menu">
                     <Menu className="h-6 w-6 text-slate-700" />
                 </Button>
             </div>

@@ -78,14 +78,29 @@ interface OnboardingTourProps {
 export function OnboardingTour({ onComplete }: OnboardingTourProps) {
     const [currentStep, setCurrentStep] = useState(0)
     const [coords, setCoords] = useState({ top: 0, left: 0, width: 0, height: 0 })
+    const [isMobile, setIsMobile] = useState(false)
     const tourBoxRef = useRef<HTMLDivElement>(null)
     const padding = 8
 
     useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768)
+        checkMobile()
+        window.addEventListener('resize', checkMobile)
+        return () => window.removeEventListener('resize', checkMobile)
+    }, [])
+
+    useEffect(() => {
         const updateCoords = () => {
             const step = STEPS[currentStep]
-            if (step.targetId) {
-                const el = document.getElementById(step.targetId)
+            let targetId = step.targetId
+
+            // On mobile, point to the menu button for sidebar items
+            if (isMobile && targetId && (targetId === 'tour-switcher' || targetId === 'tour-practice' || targetId === 'tour-mistakes' || targetId === 'tour-profile')) {
+                targetId = 'tour-mobile-menu'
+            }
+
+            if (targetId) {
+                const el = document.getElementById(targetId)
                 if (el) {
                     const rect = el.getBoundingClientRect()
                     setCoords({
@@ -170,14 +185,14 @@ export function OnboardingTour({ onComplete }: OnboardingTourProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 style={{
-                    clipPath: currentData.targetId
+                    clipPath: (currentData.targetId && (!isMobile || (currentData.targetId !== 'tour-switcher' && currentData.targetId !== 'tour-practice' && currentData.targetId !== 'tour-mistakes' && currentData.targetId !== 'tour-profile')) || document.getElementById('tour-mobile-menu'))
                         ? `polygon(0% 0%, 0% 100%, ${coords.left}px 100%, ${coords.left}px ${coords.top}px, ${coords.left + coords.width}px ${coords.top}px, ${coords.left + coords.width}px ${coords.top + coords.height}px, ${coords.left}px ${coords.top + coords.height}px, ${coords.left}px 100%, 100% 100%, 100% 0%)`
                         : 'none'
                 }}
             />
 
             {/* Glowing Border around target */}
-            {currentData.targetId && (
+            {(currentData.targetId || (isMobile && (currentData.targetId === 'tour-switcher' || currentData.targetId === 'tour-practice' || currentData.targetId === 'tour-mistakes' || currentData.targetId === 'tour-profile'))) && (
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{
@@ -224,7 +239,9 @@ export function OnboardingTour({ onComplete }: OnboardingTourProps) {
                         {currentData.title}
                     </h2>
                     <p className="text-slate-600 text-[15px] leading-relaxed mb-8">
-                        {currentData.description}
+                        {isMobile && (currentData.targetId === 'tour-switcher' || currentData.targetId === 'tour-practice' || currentData.targetId === 'tour-mistakes' || currentData.targetId === 'tour-profile')
+                            ? `En el menú (esquina superior derecha) ${currentData.description.toLowerCase()}`
+                            : currentData.description}
                     </p>
 
                     <div className="flex items-center justify-between mt-auto">
