@@ -37,10 +37,10 @@ begin
                         when exists (select 1 from attempts a where a.question_id = q.id and a.user_id = p_user_id) then 1
                         else 10
                     end
-                else -- RETRY MODE
+                else -- RETRY MODE: All attempted questions, prioritized by errors
                     case
-                        when exists (select 1 from attempts a where a.question_id = q.id and a.user_id = p_user_id and a.is_correct = false) then 
-                             (select count(*) * 10 from attempts a where a.question_id = q.id and a.user_id = p_user_id and a.is_correct = false)
+                        when exists (select 1 from attempts a where a.question_id = q.id and a.user_id = p_user_id) then 
+                             1 + (select count(*) * 10 from attempts a where a.question_id = q.id and a.user_id = p_user_id and a.is_correct = false)
                         else 0
                     end
             end as weight

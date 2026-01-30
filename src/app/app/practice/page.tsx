@@ -65,10 +65,13 @@ function PracticeContent() {
     }, [subject])
 
     const fetchQuestion = async () => {
+        if (loading && question) return // Already fetching
+
         // Increment Request ID
         const currentReqId = ++reqIdRef.current
 
         setLoading(true)
+        setQuestion(null) // Clear current question to show loader
         setDebugMsg("")
         try {
             const { data: { user } } = await supabase.auth.getUser()
@@ -120,10 +123,10 @@ function PracticeContent() {
 
     // Fetch Question if missing (and we have lives or are premium)
     useEffect(() => {
-        if ((lives > 0 || tier !== 'free') && !question && !completed) {
+        if ((lives > 0 || tier !== 'free') && !question && !completed && !loading) {
             fetchQuestion()
         }
-    }, [lives, question, completed, tier])
+    }, [lives, question, completed, tier, loading])
 
     const handleWrongAnswer = async () => {
         const { data: { user } } = await supabase.auth.getUser()
