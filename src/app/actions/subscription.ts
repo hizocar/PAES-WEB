@@ -151,3 +151,34 @@ export async function updateUserSubscription(paymentId: string, status: string |
         return { error: `Error: ${error.message || "desconocido"}` }
     }
 }
+export async function adminUpdateUserTier(userId: string, tier: string) {
+    const supabase = await createClient()
+
+    // 1. Verify if user is admin (security)
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) return { error: "No autorizado" }
+
+    const { data: adminProfile } = await supabase
+        .from("profiles")
+        .select("is_admin")
+        .eq("id", session.user.id)
+        .single()
+
+    if (!adminProfile?.is_admin) {
+        return { error: "No tienes permisos de administrador" }
+    }
+
+    try {
+        const { error } = await supabase.rpc('admin_update_user_tier', {
+            p_user_id: userId,
+            p_tier: tier.toLowerCase()
+        })
+
+        if (error) throw error
+
+        return { success: true }
+    } catch (error: any) {
+        console.error("[Admin Subscription Update] Error:", error)
+        return { error: `Error al actualizar: ${error.message}` }
+    }
+}
