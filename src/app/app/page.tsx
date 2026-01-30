@@ -9,11 +9,13 @@ import { cn } from "@/lib/utils"
 
 import { useSubject } from "@/components/providers/SubjectContext"
 import { AchievementNotification } from "@/components/achievements/AchievementNotification"
+import { OnboardingTour } from "@/components/onboarding/OnboardingTour"
 
 export default function DashboardPage() {
     const { subject } = useSubject()
     const [loading, setLoading] = useState(true)
     const [unlockedAchievement, setUnlockedAchievement] = useState<any>(null)
+    const [showOnboarding, setShowOnboarding] = useState(false)
 
     // Stats State
     const [stats, setStats] = useState({
@@ -70,9 +72,14 @@ export default function DashboardPage() {
                 const { data: dashboardStats, error: statsError } = statsResult
                 const { data: livesData } = livesResult
                 const { data: leaderboardData } = leaderboardResult
-                const { data: profileData } = profileResult
+                const { data: profileData, error: profileError } = profileResult
 
                 const tier = profileData?.subscription_tier || 'free'
+                const onboardingCompleted = (profileData as any)?.onboarding_completed || false
+
+                if (!onboardingCompleted) {
+                    setShowOnboarding(true)
+                }
 
                 if (statsError) throw statsError
 
@@ -209,7 +216,7 @@ export default function DashboardPage() {
 
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                 {/* Vidas Card (Simple) */}
-                <Link href="/app/pricing" className="group">
+                <Link href="/app/pricing" className="group" id="tour-lives">
                     <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40 group-hover:border-blue-200 transition-all">
                         <div className="flex items-start justify-between">
                             <div>
@@ -254,7 +261,7 @@ export default function DashboardPage() {
                 </Link>
 
                 {/* Meta Diaria */}
-                <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40">
+                <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40" id="tour-target">
                     <div className="flex items-start justify-between">
                         <div>
                             <h3 className="text-slate-500 font-semibold text-sm">Meta Diaria</h3>
@@ -280,7 +287,7 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Ranking */}
-                <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40">
+                <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40" id="tour-ranking">
                     <div className="flex items-start justify-between">
                         <div>
                             <h3 className="text-slate-500 font-semibold text-sm">Tu Ranking</h3>
@@ -359,6 +366,18 @@ export default function DashboardPage() {
                     )}
                 </div>
             </div>
+
+            {showOnboarding && (
+                <OnboardingTour
+                    onComplete={async () => {
+                        const { data: { user } } = await supabase.auth.getUser()
+                        if (user) {
+                            await supabase.rpc('complete_onboarding', { p_user_id: user.id })
+                        }
+                        setShowOnboarding(false)
+                    }}
+                />
+            )}
         </div>
     )
 }

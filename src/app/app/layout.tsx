@@ -68,7 +68,7 @@ export default async function AppLayout({
                                 Inicio
                             </Button>
                         </Link>
-                        <Link href="/app/practice">
+                        <Link href="/app/practice" id="tour-practice">
                             <Button variant="ghost" className="w-full justify-start gap-3 h-10 text-sm font-medium text-slate-600 hover:text-blue-600 hover:bg-blue-50">
                                 <div className="relative">
                                     <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-red-400 rounded-full animate-pulse shadow-sm" />
@@ -77,7 +77,7 @@ export default async function AppLayout({
                                 Practicar
                             </Button>
                         </Link>
-                        <Link href="/app/practice?mode=retry">
+                        <Link href="/app/practice?mode=retry" id="tour-mistakes">
                             <Button variant="ghost" className="w-full justify-start gap-3 h-10 text-sm font-medium text-slate-600 hover:text-orange-600 hover:bg-orange-50">
                                 <RotateCcw size={18} />
                                 Modo Repaso
