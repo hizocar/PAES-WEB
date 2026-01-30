@@ -209,50 +209,49 @@ export default function DashboardPage() {
 
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                 {/* Vidas Card (Simple) */}
-                <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40">
-                    <div className="flex items-start justify-between">
-                        <div>
-                            <h3 className="text-slate-500 font-semibold text-sm">Vidas</h3>
-                            {stats.tier !== 'free' ? (
-                                <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-amber-500 to-yellow-300 bg-clip-text text-transparent mt-1 drop-shadow-[0_0_8px_rgba(245,158,11,0.3)]">
-                                    ∞
-                                </div>
-                            ) : stats.lives !== null && stats.lives > 0 ? (
-                                <div className="text-2xl md:text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
-                                    {stats.lives}
-                                </div>
-                            ) : (
-                                <div className="text-xl font-bold text-slate-900 mt-2 font-mono text-red-600">
-                                    {timeLeft}
-                                </div>
-                            )}
-                            <p className="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">
-                                {stats.tier !== 'free' ? "Beneficio Premium" : stats.lives && stats.lives > 0 ? "¡Sigue así!" : "Siguiente vida en:"}
-                            </p>
+                <Link href="/app/pricing" className="group">
+                    <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40 group-hover:border-blue-200 transition-all">
+                        <div className="flex items-start justify-between">
+                            <div>
+                                <h3 className="text-slate-500 font-semibold text-sm group-hover:text-blue-600 transition-colors">Vidas</h3>
+                                {stats.tier !== 'free' ? (
+                                    <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-amber-500 to-yellow-300 bg-clip-text text-transparent mt-1 drop-shadow-[0_0_8px_rgba(245,158,11,0.3)]">
+                                        ∞
+                                    </div>
+                                ) : stats.lives !== null && stats.lives > 0 ? (
+                                    <div className="text-2xl md:text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
+                                        {stats.lives}
+                                    </div>
+                                ) : (
+                                    <div className="text-xl font-bold text-slate-900 mt-2 font-mono text-red-600">
+                                        {timeLeft}
+                                    </div>
+                                )}
+                                <p className="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">
+                                    {stats.tier !== 'free' ? "Beneficio Premium" : stats.lives && stats.lives > 0 ? "¡Sigue así!" : "Siguiente vida en:"}
+                                </p>
+                            </div>
+                            <div className={cn(
+                                "w-10 h-10 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110",
+                                stats.tier !== 'free' ? "bg-amber-50 text-amber-500" :
+                                    stats.lives === 0 ? "bg-red-50 text-red-500" : "bg-blue-50 text-blue-500"
+                            )}>
+                                {stats.tier !== 'free' ? <Zap size={20} className="fill-amber-500" /> : <Heart size={20} className={stats.lives === 0 ? "fill-red-500" : ""} />}
+                            </div>
                         </div>
-                        <div className={cn(
-                            "w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center",
-                            stats.tier !== 'free' ? "bg-amber-50 text-amber-500" : "bg-red-50 text-red-500"
-                        )}>
-                            {stats.tier !== 'free' ? (
-                                <Zap size={16} className="fill-amber-500 md:w-5 md:h-5" />
-                            ) : stats.lives === 0 ? (
-                                <Clock size={16} className="md:w-5 md:h-5" />
-                            ) : (
-                                <Heart size={16} className="fill-red-500 md:w-5 md:h-5" />
-                            )}
+                        <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div
+                                className={cn(
+                                    "h-full transition-all duration-1000",
+                                    stats.tier !== 'free' ? "bg-amber-500" :
+                                        stats.lives && stats.lives > 5 ? 'bg-blue-500' :
+                                            stats.lives && stats.lives > 2 ? 'bg-orange-500' : 'bg-red-500'
+                                )}
+                                style={{ width: stats.tier !== 'free' ? '100%' : `${(stats.lives || 0) * 10}%` }}
+                            />
                         </div>
                     </div>
-                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                        <div
-                            className={cn(
-                                "h-full transition-all duration-1000",
-                                stats.tier !== 'free' ? "bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.5)]" : (stats.lives && stats.lives > 1 ? 'bg-red-500' : 'bg-red-300')
-                            )}
-                            style={{ width: `${stats.tier !== 'free' ? 100 : Math.min(((stats.lives || 0) / 10) * 100, 100)}%` }}
-                        />
-                    </div>
-                </div>
+                </Link>
 
                 {/* Meta Diaria */}
                 <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40">

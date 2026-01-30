@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 // @ts-ignore
 import Latex from '@/components/ui/latex-renderer'
 import { Lock, PlayCircle, Crown, Lightbulb, Clock } from "lucide-react"
+import Link from "next/link"
 
 type ExplanationProps = {
     questionId: string
@@ -150,10 +151,12 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
                     <Clock size={20} />
                     {timeRemaining || "Calculando..."}
                 </div>
-                <Button className="w-full max-w-xs bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-slate-900 font-bold border-0 shadow-lg shadow-yellow-500/20">
-                    <Crown size={18} className="mr-2" />
-                    Obtener Ilimitado
-                </Button>
+                <Link href="/app/pricing" className="w-full max-w-xs">
+                    <Button className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-slate-900 font-bold border-0 shadow-lg shadow-yellow-500/20">
+                        <Crown size={18} className="mr-2" />
+                        Obtener Ilimitado
+                    </Button>
+                </Link>
             </div>
         )
     }

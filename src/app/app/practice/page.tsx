@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense, useRef } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { QuestionCard } from "@/components/practice/QuestionCard"
 import { Button } from "@/components/ui/button"
-import { Loader2, Trophy, RotateCcw, AlertCircle, HeartCrack } from "lucide-react"
+import { Loader2, Trophy, RotateCcw, AlertCircle, HeartCrack, Crown } from "lucide-react"
 import { LivesCounter } from "@/components/practice/LivesCounter"
 import Link from "next/link"
 import { useSubject } from "@/components/providers/SubjectContext"
@@ -181,9 +181,15 @@ function PracticeContent() {
                     <LivesCounter lives={0} replenishAt={replenishAt} />
                 </div>
 
-                <div className="pt-8">
-                    <Link href="/app">
-                        <Button size="lg" variant="outline" className="h-12 px-8 text-lg">
+                <div className="pt-8 flex flex-col gap-3 w-full">
+                    <Link href="/app/pricing" className="w-full">
+                        <Button size="lg" className="w-full h-14 text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-xl shadow-blue-200 border-b-4 border-blue-800 active:border-b-0 active:translate-y-1">
+                            <Crown className="mr-2 fill-yellow-400 text-yellow-400" size={24} />
+                            Obtener Vidas Ilimitadas
+                        </Button>
+                    </Link>
+                    <Link href="/app" className="w-full">
+                        <Button size="lg" variant="ghost" className="w-full h-12 text-slate-500 hover:text-slate-900 font-semibold">
                             Volver al Inicio
                         </Button>
                     </Link>

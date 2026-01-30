@@ -41,21 +41,21 @@ export default async function PricingPage() {
             name: 'Free',
             tier: 'free',
             price_clp: 0,
-            features: ['10 Vidas diarias', '5 Explicaciones diarias', 'Publicidad'],
+            features: ['Acceso a M1 y M2', '10 Vidas diarias', '5 Explicaciones diarias', 'Ranking nacional'],
         },
         {
             id: 'mock-premium',
             name: 'Premium',
             tier: 'premium',
             price_clp: 1990,
-            features: ['Vidas ilimitadas', 'Explicaciones ilimitadas', 'Sin publicidad'],
+            features: ['Acceso a M1 y M2', 'Vidas ilimitadas (∞)', 'Explicaciones ilimitadas (∞)', 'IA: Modo Repaso Inteligente', 'Sin publicidad'],
         },
         {
             id: 'mock-signature',
             name: 'Signature',
             tier: 'signature',
             price_clp: 29990,
-            features: ['Todo lo de Premium', 'Clases personalizadas', 'Ensayos semanales'],
+            features: ['Acceso a M1 y M2', 'Todo lo de Premium', 'Clases personalizadas', 'Ensayos semanales', 'Plan de estudio a medida'],
         }
     ]
 
@@ -154,6 +154,10 @@ export default async function PricingPage() {
                                     <Button disabled className="w-full bg-slate-200 text-slate-500 hover:bg-slate-200 cursor-default">
                                         Plan Actual
                                     </Button>
+                                ) : isSignature ? (
+                                    <Button disabled className="w-full bg-slate-100 text-slate-400 hover:bg-slate-100 cursor-not-allowed border border-slate-200">
+                                        Próximamente 🔒
+                                    </Button>
                                 ) : (
                                     <PlanButton
                                         planId={plan.id}
@@ -166,6 +170,6 @@ export default async function PricingPage() {
                     )
                 })}
             </div>
-        </div>
+        </div >
     )
 }
