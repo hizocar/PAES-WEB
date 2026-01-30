@@ -150,7 +150,7 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
     }
 
     return (
-        <div className="w-full max-w-3xl mx-auto space-y-8">
+        <div className="w-full max-w-3xl mx-auto space-y-6">
             <AchievementNotification
                 achievement={unlockedAchievement}
                 onClose={() => setUnlockedAchievement(null)}
@@ -335,7 +335,7 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
             )}
 
             {/* Stable anchor for onboarding tour */}
-            <div id="tour-explanation" className="h-4" />
+            <div id="tour-explanation" />
         </div>
     )
 }
