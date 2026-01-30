@@ -105,7 +105,7 @@ export function MobileNav({ user }: { user: any }) {
                         <div className="pt-6 border-t border-slate-100 space-y-3 mt-auto">
                             <div className="flex flex-col gap-2">
                                 <UserProfile user={user} />
-                                <div className="px-2">
+                                <div className="flex justify-center items-center w-full pb-2">
                                     <Link href="/app/pricing" onClick={() => setOpen(false)}>
                                         <SubscriptionBadge tier={user?.subscription_tier} />
                                     </Link>

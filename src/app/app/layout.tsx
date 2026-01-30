@@ -106,7 +106,7 @@ export default async function AppLayout({
                     <div className="p-4 border-t border-slate-100 space-y-2">
                         <div className="flex flex-col gap-2 mb-2">
                             <UserProfile user={userWithProfile} />
-                            <div className="px-2">
+                            <div className="flex justify-center items-center w-full pb-4">
                                 <Link href="/app/pricing">
                                     <SubscriptionBadge tier={userWithProfile?.subscription_tier} />
                                 </Link>
