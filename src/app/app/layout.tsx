@@ -103,10 +103,10 @@ export default async function AppLayout({
                         </Link>
                     </nav>
 
-                    <div className="mt-auto p-4 border-t border-slate-100 bg-slate-50/50 flex flex-col gap-2">
-                        <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col gap-3 mb-2">
+                    <div className="mt-auto p-3 border-t border-slate-100 bg-slate-50/50 flex flex-col gap-1.5">
+                        <div className="bg-white p-3 rounded-xl border border-slate-100 shadow-sm flex flex-col gap-2 mb-1">
                             <UserProfile user={userWithProfile} />
-                            <div className="flex items-center justify-between px-1 pt-2 border-t border-slate-50">
+                            <div className="flex items-center justify-between px-1 pt-1.5 border-t border-slate-50">
                                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Estado</span>
                                 <Link href="/app/pricing" className="hover:opacity-80 transition-opacity">
                                     <SubscriptionBadge tier={userWithProfile?.subscription_tier} />
