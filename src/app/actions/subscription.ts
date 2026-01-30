@@ -84,7 +84,7 @@ export async function updateUserSubscription(paymentId: string, status: string |
     console.log(`[Subscription Update] Processing ID: ${paymentId}, Status: ${status}`)
 
     try {
-        let userId, tier, finalStatus = status
+        let userId, tier, finalStatus: string | null = status
 
         // 1. Fetch real status from MP if we have a token and ID (most reliable)
         if (accessToken && paymentId && paymentId !== 'n/a') {
@@ -93,15 +93,17 @@ export async function updateUserSubscription(paymentId: string, status: string |
                 const preApproval = new PreApproval(client)
                 const subData = await preApproval.get({ id: paymentId })
 
-                finalStatus = subData.status
+                finalStatus = subData.status || status
                 console.log(`[Subscription Update] Verified Status: ${finalStatus}`)
 
                 // Recover metadata if missing
-                const mpRef = JSON.parse(subData.external_reference || "{}")
-                userId = userId || mpRef.userId
-                tier = tier || mpRef.tier
+                if (!userId || !tier) {
+                    const mpRef = JSON.parse(subData.external_reference || "{}")
+                    userId = userId || mpRef.userId
+                    tier = tier || mpRef.tier
+                }
             } catch (mpError) {
-                console.error("[Subscription Update] MP check failed (using fallback):", mpError)
+                console.error("[Subscription Update] MP check failed:", mpError)
             }
         }
 
@@ -125,7 +127,7 @@ export async function updateUserSubscription(paymentId: string, status: string |
             return { error: "No se pudieron verificar los datos de usuario para la suscripción." }
         }
 
-        // 3. Update profile
+        // 3. Update database
         console.log(`[Subscription Update] Activating ${tier} for ${userId}`)
         const { error: updateError } = await supabase
             .from("profiles")
@@ -141,7 +143,7 @@ export async function updateUserSubscription(paymentId: string, status: string |
                 user_id: userId,
                 status: "active",
                 mp_preapproval_id: paymentId !== 'n/a' ? paymentId : null,
-            })
+            }, { onConflict: 'user_id' })
 
         return { success: true, tier: tier.charAt(0).toUpperCase() + tier.slice(1) }
     } catch (error: any) {
