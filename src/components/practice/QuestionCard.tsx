@@ -326,18 +326,16 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
                         <QuestionFeedback questionId={question.id} />
                     </div>
 
-                    <div id="tour-explanation">
-                        <ExplanationView
-                            questionId={question.id}
-                            explanationText={question.explanation}
-                            videoPath={question.explanation_video_path}
-                        />
-                    </div>
+                    <ExplanationView
+                        questionId={question.id}
+                        explanationText={question.explanation}
+                        videoPath={question.explanation_video_path}
+                    />
                 </div>
             )}
 
-            {/* Spacer for fixed footer - only when submitted */}
-            {submitted && <div className="h-32" />}
+            {/* Stable anchor for onboarding tour */}
+            <div id="tour-explanation" className="h-4" />
         </div>
     )
 }
