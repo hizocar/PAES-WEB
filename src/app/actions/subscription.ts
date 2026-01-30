@@ -3,10 +3,16 @@
 import { createClient } from "@/lib/supabase/server"
 import { MercadoPagoConfig, PreApproval } from "mercadopago"
 
-const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN
-
 export async function createSubscriptionPreference(planId: string) {
+    const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN
     const supabase = await createClient()
+
+    console.log(`[Subscription Action] Attempting to create preference for plan: ${planId}`)
+
+    if (!accessToken) {
+        console.error("[Subscription Action] MERCADOPAGO_ACCESS_TOKEN is missing")
+        return { error: "Error de configuración: No se encontró el Token de Mercado Pago." }
+    }
 
     // 1. Get user session
     const { data: { session } } = await supabase.auth.getSession()
@@ -36,7 +42,6 @@ export async function createSubscriptionPreference(planId: string) {
         return { error: "Ya tienes este plan activo" }
     }
 
-    // 4. Create Mercado Pago PreApproval (Subscription)
     if (!accessToken) {
         console.warn("MERCADOPAGO_ACCESS_TOKEN not set, using mock redirect")
         const mockExternalReference = JSON.stringify({
@@ -47,14 +52,10 @@ export async function createSubscriptionPreference(planId: string) {
         return { url: `/app/pricing/success?status=approved&external_reference=${encodeURIComponent(mockExternalReference)}` }
     }
 
-    if (!accessToken) {
-        console.error("MERCADOPAGO_ACCESS_TOKEN is missing in environment variables")
-        return { error: "El sistema de pagos no está configurado (Falta Token)." }
-    }
-
     try {
         const client = new MercadoPagoConfig({ accessToken })
         const preApproval = new PreApproval(client)
+        const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.paeslab.cl'
 
         const result = await preApproval.create({
             body: {
@@ -66,7 +67,7 @@ export async function createSubscriptionPreference(planId: string) {
                     transaction_amount: plan.price_clp,
                     currency_id: "CLP"
                 },
-                back_url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://paeslab.cl'}/app/pricing/success`,
+                back_url: `${siteUrl}/app/pricing/success`,
                 external_reference: JSON.stringify({
                     userId: session.user.id,
                     planId: plan.id,
