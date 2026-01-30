@@ -1,13 +1,13 @@
 import { createClient } from "@/lib/supabase/server"
-import { Check, X } from "lucide-react"
+import { Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import Link from "next/link"
+import { PlanButton } from "@/components/pricing/plan-button"
 
 export const dynamic = 'force-dynamic'
 
 async function getPlans() {
-    const supabase = createClient()
-    const { data: plans } = await (await supabase)
+    const supabase = await createClient()
+    const { data: plans } = await supabase
         .from('plans')
         .select('*')
         .order('price_clp')
@@ -16,12 +16,12 @@ async function getPlans() {
 }
 
 async function getUserTier() {
-    const supabase = createClient()
-    const { data: { user } } = await (await supabase).auth.getUser()
+    const supabase = await createClient()
+    const { data: { user } } = await supabase.auth.getUser()
 
     if (!user) return 'free'
 
-    const { data: profile } = await (await supabase)
+    const { data: profile } = await supabase
         .from('profiles')
         .select('subscription_tier')
         .eq('id', user.id)
@@ -37,18 +37,21 @@ export default async function PricingPage() {
     // Fallback if no plans in DB (e.g. migration not run yet)
     const displayPlans = plans.length > 0 ? plans : [
         {
+            id: 'mock-free',
             name: 'Free',
             tier: 'free',
             price_clp: 0,
             features: ['10 Vidas diarias', '5 Explicaciones diarias', 'Publicidad'],
         },
         {
+            id: 'mock-premium',
             name: 'Premium',
             tier: 'premium',
-            price_clp: 9990,
+            price_clp: 1990,
             features: ['Vidas ilimitadas', 'Explicaciones ilimitadas', 'Sin publicidad'],
         },
         {
+            id: 'mock-signature',
             name: 'Signature',
             tier: 'signature',
             price_clp: 29990,
@@ -57,8 +60,8 @@ export default async function PricingPage() {
     ]
 
     return (
-        <div className="container max-w-6xl mx-auto py-12 px-4">
-            <div className="text-center mb-12">
+        <div className="container max-w-6xl mx-auto py-12 px-4 text-center">
+            <div className="mb-12">
                 <h1 className="text-4xl font-extrabold text-slate-900 mb-4">Elige tu plan de estudio</h1>
                 <p className="text-xl text-slate-600 max-w-2xl mx-auto">
                     Invierte en tu futuro con las mejores herramientas para preparar la PAES.
@@ -74,7 +77,7 @@ export default async function PricingPage() {
                     return (
                         <div
                             key={plan.tier}
-                            className={`relative bg-white rounded-2xl shadow-xl border overflow-hidden transition-transform hover:-translate-y-1 ${isCurrent ? 'border-blue-500 ring-2 ring-blue-500 ring-opacity-50' :
+                            className={`relative bg-white rounded-2xl shadow-xl border overflow-hidden transition-all flex flex-col ${isCurrent ? 'border-blue-500 ring-2 ring-blue-500 ring-opacity-50' :
                                 isSignature ? 'border-purple-200' :
                                     'border-slate-200'
                                 }`}
@@ -91,29 +94,50 @@ export default async function PricingPage() {
                                 </div>
                             )}
 
-                            <div className={`p-8 ${isSignature ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white' :
+                            <div className={`p-8 text-left ${isSignature ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white' :
                                 'bg-white text-slate-900'
                                 }`}>
-                                <h3 className={`text-xl font-bold mb-2 ${isSignature ? 'text-white' : 'text-slate-900'}`}>
-                                    {plan.name}
-                                </h3>
-                                <div className="flex items-baseline gap-1 mb-6">
-                                    <span className={`text-4xl font-extrabold ${isSignature ? 'text-white' : 'text-slate-900'}`}>
-                                        ${plan.price_clp.toLocaleString('es-CL')}
-                                    </span>
-                                    <span className={`text-sm font-medium ${isSignature ? 'text-slate-400' : 'text-slate-500'}`}>
-                                        /mes
-                                    </span>
+                                <div className="flex justify-between items-start mb-2">
+                                    <h3 className={`text-xl font-bold ${isSignature ? 'text-white' : 'text-slate-900'}`}>
+                                        {plan.name}
+                                    </h3>
+                                    {isPremium && (
+                                        <span className="bg-blue-100 text-blue-600 text-[10px] font-black px-2 py-0.5 rounded-full border border-blue-200">
+                                            -75% OFF
+                                        </span>
+                                    )}
                                 </div>
-                                <p className={`text-sm mb-6 ${isSignature ? 'text-slate-300' : 'text-slate-500'}`}>
+
+                                <div className="flex flex-col gap-1 mb-6">
+                                    {isPremium && (
+                                        <div className="flex items-center gap-2 -mb-1">
+                                            <span className="text-sm font-medium text-slate-400 line-through">
+                                                $7.990
+                                            </span>
+                                            <span className="text-[10px] font-bold text-yellow-600 bg-yellow-50 px-1.5 rounded">
+                                                OFERTA
+                                            </span>
+                                        </div>
+                                    )}
+                                    <div className="flex items-baseline gap-1">
+                                        <span className={`text-4xl font-extrabold ${isSignature ? 'text-white' : 'text-slate-900'}`}>
+                                            ${plan.price_clp.toLocaleString('es-CL')}
+                                        </span>
+                                        <span className={`text-sm font-medium ${isSignature ? 'text-slate-400' : 'text-slate-500'}`}>
+                                            /mes
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <p className={`text-sm ${isSignature ? 'text-slate-300' : 'text-slate-500'}`}>
                                     {plan.tier === 'free' ? 'Para comenzar a practicar.' :
                                         plan.tier === 'premium' ? 'Para quienes van en serio.' :
                                             'Para alcanzar el máximo puntaje.'}
                                 </p>
                             </div>
 
-                            <div className="p-8 bg-slate-50 h-full border-t border-slate-100">
-                                <ul className="space-y-4 mb-8">
+                            <div className="p-8 bg-slate-50 flex-1 flex flex-col border-t border-slate-100 text-left">
+                                <ul className="space-y-4 mb-8 flex-1">
                                     {plan.features.map((feature: string, i: number) => (
                                         <li key={i} className="flex items-start gap-3 text-sm">
                                             <div className={`mt-0.5 rounded-full p-0.5 ${isSignature ? 'bg-purple-100 text-purple-600' :
@@ -131,14 +155,11 @@ export default async function PricingPage() {
                                         Plan Actual
                                     </Button>
                                 ) : (
-                                    <Button
-                                        className={`w-full ${isSignature
-                                            ? 'bg-slate-900 hover:bg-slate-800 text-white'
-                                            : 'bg-blue-600 hover:bg-blue-700 text-white'
-                                            }`}
-                                    >
-                                        {plan.tier === 'signature' ? 'Próximamente' : 'Elegir Plan'}
-                                    </Button>
+                                    <PlanButton
+                                        planId={plan.id}
+                                        tier={plan.tier}
+                                        isSignature={isSignature}
+                                    />
                                 )}
                             </div>
                         </div>
