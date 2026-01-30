@@ -3,6 +3,7 @@ import Link from "next/link"
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import { LoginButton, LoginTrigger } from "@/components/auth/login-button"
+import { PricingSection } from "@/components/landing/PricingSection"
 
 export default async function Home() {
   const supabase = createClient()
@@ -225,6 +226,8 @@ export default async function Home() {
             </div>
           </div>
         </section>
+
+        <PricingSection />
       </main>
 
       <footer className="bg-slate-900 py-12 text-slate-400 text-sm">
