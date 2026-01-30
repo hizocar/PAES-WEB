@@ -284,7 +284,7 @@ function PracticeContent() {
     }
 
     return (
-        <div className="min-h-screen bg-slate-50 pb-10 pt-8 px-4">
+        <div className="pb-6 pt-8 px-4">
             {/* Header: Progress & Lives */}
             <div className="max-w-3xl mx-auto mb-8 flex items-center justify-between">
                 <div className="flex items-center gap-2 text-sm text-slate-500 font-medium font-mono">

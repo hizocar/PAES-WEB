@@ -150,7 +150,7 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
     }
 
     return (
-        <div className="w-full max-w-3xl mx-auto space-y-6">
+        <div className="w-full max-w-3xl mx-auto flex flex-col gap-6 relative">
             <AchievementNotification
                 achievement={unlockedAchievement}
                 onClose={() => setUnlockedAchievement(null)}
@@ -320,7 +320,7 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
 
             {/* Explanation Section */}
             {submitted && (
-                <div className="pb-32 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 space-y-8">
+                <div className="pb-12 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-150 flex flex-col gap-8">
                     {/* Feedback UI */}
                     <div className="relative z-10">
                         <QuestionFeedback questionId={question.id} />
@@ -335,7 +335,7 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
             )}
 
             {/* Stable anchor for onboarding tour */}
-            <div id="tour-explanation" />
+            <div id="tour-explanation" className="absolute bottom-0 h-px w-px opacity-0 pointer-events-none" />
         </div>
     )
 }
