@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense, useRef } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { QuestionCard } from "@/components/practice/QuestionCard"
 import { Button } from "@/components/ui/button"
-import { Loader2, Trophy, RotateCcw, AlertCircle, HeartCrack, Crown } from "lucide-react"
+import { Loader2, Trophy, RotateCcw, AlertCircle, HeartCrack, Crown, ArrowLeft } from "lucide-react"
 import { LivesCounter } from "@/components/practice/LivesCounter"
 import Link from "next/link"
 import { useSubject } from "@/components/providers/SubjectContext"
@@ -284,7 +284,15 @@ function PracticeContent() {
     }
 
     return (
-        <div className="pb-6 pt-8 px-4">
+        <div className="pb-6 pt-4 md:pt-8 px-4">
+            {/* Mobile Back Button */}
+            <div className="max-w-3xl mx-auto mb-4 md:hidden">
+                <Link href="/app" className="inline-flex items-center gap-2 text-slate-500 font-medium hover:text-blue-600 transition-colors">
+                    <ArrowLeft size={20} />
+                    <span>Volver al Inicio</span>
+                </Link>
+            </div>
+
             {/* Header: Progress & Lives */}
             <div className="max-w-3xl mx-auto mb-8 flex items-center justify-between">
                 <div className="flex items-center gap-2 text-sm text-slate-500 font-medium font-mono">

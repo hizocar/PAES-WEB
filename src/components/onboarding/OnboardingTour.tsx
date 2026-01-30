@@ -38,7 +38,7 @@ export function OnboardingTour({ steps, onComplete }: OnboardingTourProps) {
             let targetId = step.targetId
 
             // On mobile, point to the menu button for sidebar items
-            if (isMobile && targetId && (targetId === 'tour-switcher' || targetId === 'tour-practice' || targetId === 'tour-mistakes' || targetId === 'tour-profile')) {
+            if (isMobile && targetId && ['tour-switcher', 'tour-practice', 'tour-mistakes', 'tour-profile', 'tour-ranking'].includes(targetId)) {
                 targetId = 'tour-mobile-menu'
             }
 
@@ -111,6 +111,13 @@ export function OnboardingTour({ steps, onComplete }: OnboardingTourProps) {
         // Keep inside viewport
         const viewportWidth = window.innerWidth
         const viewportHeight = window.innerHeight
+
+        // Simple flip logic if it's too close to the edge
+        if (currentData.position === 'bottom' && top + boxHeight > viewportHeight - margin) {
+            top = coords.top - boxHeight - margin
+        } else if (currentData.position === 'top' && top < margin) {
+            top = coords.top + coords.height + margin
+        }
 
         left = Math.max(margin, Math.min(left, viewportWidth - boxWidth - margin))
         top = Math.max(margin, Math.min(top, viewportHeight - boxHeight - margin))

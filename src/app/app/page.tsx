@@ -58,7 +58,7 @@ const DASHBOARD_STEPS: OnboardingStep[] = [
         title: "Compite con Chile",
         description: "Mira cómo subes en el ranking nacional. ¡Cada punto acumulado te acerca más a la cima! Haz clic para ver la tabla completa.",
         icon: <Trophy className="text-yellow-500 fill-yellow-600" />,
-        position: 'bottom'
+        position: 'top'
     },
     {
         targetId: "tour-profile",
