@@ -33,8 +33,12 @@ export function AchievementsGrid() {
 
     useEffect(() => {
         const fetchAchievements = async () => {
+            setLoading(true)
             const { data: { user } } = await supabase.auth.getUser()
-            if (!user) return
+            if (!user) {
+                setLoading(false)
+                return
+            }
 
             // 1. Get all definitions
             const { data: allAch } = await supabase.from('achievements').select('*').order('xp_reward', { ascending: true })

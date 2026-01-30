@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { useAuth } from "./auth-provider"
+import { useSubject } from "@/components/providers/SubjectContext"
 
 type StudyTrackerType = {
     isTracking: boolean
@@ -19,6 +20,7 @@ const PING_INTERVAL_MS = 30 * 1000 // Save every 30s
 
 export function StudyTrackerProvider({ children }: { children: React.ReactNode }) {
     const { user } = useAuth()
+    const { subject } = useSubject()
     const supabase = createClient()
 
     const [isTracking, setIsTracking] = useState(false)
@@ -43,6 +45,7 @@ export function StudyTrackerProvider({ children }: { children: React.ReactNode }
                 .insert({
                     user_id: user.id,
                     started_at: now.toISOString(),
+                    subject: subject
                 })
                 .select('id')
                 .single()

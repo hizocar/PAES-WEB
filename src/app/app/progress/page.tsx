@@ -45,6 +45,7 @@ export default function ProgressPage() {
                 .from('study_sessions')
                 .select('duration_seconds, started_at')
                 .eq('user_id', user.id)
+                .eq('subject', subject)
 
             let today = 0
             let total = 0
