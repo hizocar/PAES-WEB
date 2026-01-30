@@ -44,28 +44,34 @@ function PracticeContent() {
     // Initialize Lives & Tier
     useEffect(() => {
         const initPractice = async () => {
-            const { data: { user } } = await supabase.auth.getUser()
-            if (!user) return
+            try {
+                const { data: { user } } = await supabase.auth.getUser()
+                if (!user) return
 
-            const [livesResult, profileResult] = await Promise.all([
-                supabase.rpc('check_and_replenish_lives', { p_user_id: user.id, p_subject: subject }),
-                supabase.from('profiles').select('subscription_tier').eq('id', user.id).single()
-            ])
+                const [livesResult, profileResult] = await Promise.all([
+                    supabase.rpc('check_and_replenish_lives', { p_user_id: user.id, p_subject: subject }),
+                    supabase.from('profiles').select('subscription_tier').eq('id', user.id).single()
+                ])
 
-            if (livesResult.data && livesResult.data.length > 0) {
-                setLives(livesResult.data[0].current_lives)
-                setReplenishAt(livesResult.data[0].replenish_at)
-            }
+                if (livesResult.data && livesResult.data.length > 0) {
+                    setLives(livesResult.data[0].current_lives)
+                    setReplenishAt(livesResult.data[0].replenish_at)
+                }
 
-            if (profileResult.data) {
-                setTier(profileResult.data.subscription_tier || 'free')
+                if (profileResult.data) {
+                    setTier(profileResult.data.subscription_tier || 'free')
+                }
+            } catch (e) {
+                console.error("Error initializing practice:", e)
+            } finally {
+                setLoading(false)
             }
         }
         initPractice()
     }, [subject])
 
     const fetchQuestion = async () => {
-        if (loading && question) return // Already fetching
+        if (loading) return
 
         // Increment Request ID
         const currentReqId = ++reqIdRef.current
