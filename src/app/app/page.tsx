@@ -64,7 +64,7 @@ export default function DashboardPage() {
                     supabase.rpc('get_dashboard_stats', { p_user_id: user.id, p_subject: subject }),
                     supabase.rpc('check_and_replenish_lives', { p_user_id: user.id, p_subject: subject }),
                     supabase.rpc('get_leaderboard', { p_subject: subject }),
-                    supabase.from('profiles').select('subscription_tier').eq('id', user.id).single()
+                    supabase.from('profiles').select('subscription_tier, onboarding_completed').eq('id', user.id).single()
                 ])
 
                 if (!isMounted) return
