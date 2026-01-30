@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Loader2, Save, Upload, Camera, CreditCard, Calendar, CheckCircle2 } from "lucide-react"
+import { Loader2, Save, Upload, Camera, CreditCard, Calendar, CheckCircle2, AlertTriangle } from "lucide-react"
 import {
     Avatar,
     AvatarFallback,
@@ -230,7 +230,11 @@ export default function SettingsPage() {
                                 <p className="text-xs text-slate-400">Plan actual</p>
                                 <p className="font-bold flex items-center gap-2">
                                     {tier.charAt(0).toUpperCase() + tier.slice(1)}
-                                    {isSubscriber && <CheckCircle2 size={14} className="text-green-400" />}
+                                    {isSubscriber && (
+                                        subscription?.status === 'canceled'
+                                            ? <AlertTriangle size={14} className="text-amber-500" />
+                                            : <CheckCircle2 size={14} className="text-green-400" />
+                                    )}
                                 </p>
                             </div>
 

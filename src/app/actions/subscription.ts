@@ -210,17 +210,21 @@ export async function cancelSubscription() {
             .single()
 
         // 3. Cancel in Mercado Pago if ID exists
-        if (accessToken && subData?.mp_preapproval_id) {
-            try {
-                const client = new MercadoPagoConfig({ accessToken })
-                const preApproval = new PreApproval(client)
-                await preApproval.update({
-                    id: subData.mp_preapproval_id,
-                    body: { status: 'cancelled' }
-                })
-                console.log(`[Subscription] Cancelled MP PreApproval: ${subData.mp_preapproval_id}`)
-            } catch (mpError: any) {
-                console.warn("[Subscription] MP Cancel Error (might already be cancelled):", mpError.message)
+        if (accessToken) {
+            if (subData?.mp_preapproval_id) {
+                try {
+                    const client = new MercadoPagoConfig({ accessToken })
+                    const preApproval = new PreApproval(client)
+                    await preApproval.update({
+                        id: subData.mp_preapproval_id,
+                        body: { status: 'cancelled' }
+                    })
+                    console.log(`[Subscription] Cancelled MP PreApproval: ${subData.mp_preapproval_id}`)
+                } catch (mpError: any) {
+                    console.warn("[Subscription] MP Cancel Error (might already be cancelled):", mpError.message)
+                }
+            } else {
+                console.warn("[Subscription] No MP PreApproval ID found in DB. Cancellation will only be local.")
             }
         }
 

@@ -32,7 +32,7 @@ export function PlanButton({ planId, tier, currentTier, isSignature }: PlanButto
                 if (result.error) {
                     alert("Error: " + result.error)
                 } else {
-                    alert("Suscripción cancelada. Tu cuenta ahora es Free.")
+                    alert("Suscripción cancelada correctamente. Seguirás teniendo acceso Premium hasta que termine tu periodo actual. ¡Aprovecha estos días!")
                     window.location.reload()
                 }
             } catch (e) {
@@ -69,10 +69,10 @@ export function PlanButton({ planId, tier, currentTier, isSignature }: PlanButto
             onClick={handleSubscribe}
             disabled={loading || tier === 'signature' || (tier === 'free' && currentTier === 'free')}
             className={`w-full font-bold shadow-md transition-all ${tier === 'free'
-                    ? 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
-                    : tier === 'signature'
-                        ? 'bg-slate-900 hover:bg-slate-800 text-white cursor-default'
-                        : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-200'
+                ? 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50'
+                : tier === 'signature'
+                    ? 'bg-slate-900 hover:bg-slate-800 text-white cursor-default'
+                    : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-200'
                 }`}
         >
             {loading ? (
