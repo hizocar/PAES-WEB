@@ -18,7 +18,10 @@ type UserStat = {
     last_activity: string
     lives: number
     explanation_credits: number
+    subscription_tier: string
 }
+
+import { SubscriptionBadge } from "@/components/subscription-badge"
 
 export default function AdminUsersPage() {
     const [users, setUsers] = useState<UserStat[]>([])
@@ -129,8 +132,8 @@ export default function AdminUsersPage() {
                     <button
                         onClick={() => setSubject('m1')}
                         className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${subject === 'm1'
-                                ? 'bg-white text-slate-900 shadow-sm'
-                                : 'text-slate-500 hover:text-slate-700'
+                            ? 'bg-white text-slate-900 shadow-sm'
+                            : 'text-slate-500 hover:text-slate-700'
                             }`}
                     >
                         M1
@@ -138,8 +141,8 @@ export default function AdminUsersPage() {
                     <button
                         onClick={() => setSubject('m2')}
                         className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${subject === 'm2'
-                                ? 'bg-white text-slate-900 shadow-sm'
-                                : 'text-slate-500 hover:text-slate-700'
+                            ? 'bg-white text-slate-900 shadow-sm'
+                            : 'text-slate-500 hover:text-slate-700'
                             }`}
                     >
                         M2
@@ -198,19 +201,22 @@ export default function AdminUsersPage() {
                                                     <AvatarFallback>{user.full_name?.charAt(0) || user.email?.charAt(0)}</AvatarFallback>
                                                 </Avatar>
                                                 <div>
-                                                    <p className="font-bold text-slate-900">{user.full_name || 'Sin Nombre'}</p>
+                                                    <div className="flex items-center gap-2">
+                                                        <p className="font-bold text-slate-900">{user.full_name || 'Sin Nombre'}</p>
+                                                        <SubscriptionBadge tier={user.subscription_tier} className="scale-75 origin-left" />
+                                                    </div>
                                                     <p className="text-xs text-slate-500">{user.email}</p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 text-center">
                                             <div className="inline-flex items-center gap-1 font-bold text-slate-700 bg-slate-100 px-3 py-1 rounded-full">
-                                                {user.lives} <span className="text-red-500">❤️</span>
+                                                {user.subscription_tier !== 'free' ? '∞' : user.lives} <span className="text-red-500">❤️</span>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 text-center">
                                             <div className="inline-flex items-center gap-1 font-bold text-slate-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
-                                                {user.explanation_credits} <span className="text-blue-500">💡</span>
+                                                {user.subscription_tier !== 'free' ? '∞' : user.explanation_credits} <span className="text-blue-500">💡</span>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4">
@@ -250,7 +256,7 @@ export default function AdminUsersPage() {
                                                     variant="outline"
                                                     className="text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200 h-8"
                                                     onClick={() => handleRefillLives(user.user_id, user.full_name || user.email)}
-                                                    disabled={user.lives >= 10}
+                                                    disabled={user.lives >= 10 || user.subscription_tier !== 'free'}
                                                     title="Recargar Vidas"
                                                 >
                                                     + ❤️

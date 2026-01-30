@@ -17,7 +17,8 @@ returns table (
     correct_attempts bigint,
     last_activity timestamp with time zone,
     lives integer,
-    explanation_credits integer
+    explanation_credits integer,
+    subscription_tier text
 )
 language plpgsql
 security definer
@@ -41,7 +42,8 @@ begin
             else coalesce(p.lives_m2, 10)
         end as lives,
         -- Global Credits
-        coalesce(p.explanation_credits, 5) as explanation_credits
+        coalesce(p.explanation_credits, 5) as explanation_credits,
+        coalesce(p.subscription_tier, 'free')::text as subscription_tier
     from auth.users au
     left join public.profiles p on au.id = p.id
     -- Join attempts filtered by subject
@@ -51,7 +53,7 @@ begin
         join public.questions q on a1.question_id = q.id
         where q.subject = p_subject
     ) a on au.id = a.user_id
-    group by au.id, au.email, au.raw_user_meta_data, au.created_at, au.last_sign_in_at, p.lives_m1, p.lives_m2, p.explanation_credits;
+    group by au.id, au.email, au.raw_user_meta_data, au.created_at, au.last_sign_in_at, p.lives_m1, p.lives_m2, p.explanation_credits, p.subscription_tier;
 end;
 $$;
 
