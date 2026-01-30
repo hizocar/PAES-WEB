@@ -184,8 +184,8 @@ export default function DashboardPage() {
                         <div>
                             <h3 className="text-slate-500 font-semibold text-sm">Vidas</h3>
                             {stats.tier !== 'free' ? (
-                                <div className="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2 flex items-center gap-2">
-                                    ILIMITADAS
+                                <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-amber-500 to-yellow-300 bg-clip-text text-transparent mt-1 drop-shadow-[0_0_8px_rgba(245,158,11,0.3)]">
+                                    ∞
                                 </div>
                             ) : stats.lives !== null && stats.lives > 0 ? (
                                 <div className="text-2xl md:text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
