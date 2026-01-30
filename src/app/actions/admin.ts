@@ -12,16 +12,17 @@ export async function adminDeleteUser(userId: string) {
 
     const { data: adminProfile } = await supabase
         .from("profiles")
-        .select("is_admin")
+        .select("role")
         .eq("id", session.user.id)
         .single()
 
-    if (!adminProfile?.is_admin) {
+    // Check for 'role' column which is the canonical way in this project
+    if (adminProfile?.role !== 'admin') {
         return { error: "No tienes permisos de administrador" }
     }
 
     try {
-        // 2. Delete public data via RPC
+        // 2. Delete public data via RPC (bypasses RLS)
         const { error: rpcError } = await supabase.rpc('admin_delete_user_data', {
             p_user_id: userId
         })

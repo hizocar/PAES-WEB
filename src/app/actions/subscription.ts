@@ -151,6 +151,7 @@ export async function updateUserSubscription(paymentId: string, status: string |
         return { error: `Error: ${error.message || "desconocido"}` }
     }
 }
+
 export async function adminUpdateUserTier(userId: string, tier: string) {
     const supabase = await createClient()
 
@@ -160,11 +161,11 @@ export async function adminUpdateUserTier(userId: string, tier: string) {
 
     const { data: adminProfile } = await supabase
         .from("profiles")
-        .select("is_admin")
+        .select("role")
         .eq("id", session.user.id)
         .single()
 
-    if (!adminProfile?.is_admin) {
+    if (adminProfile?.role !== 'admin') {
         return { error: "No tienes permisos de administrador" }
     }
 
