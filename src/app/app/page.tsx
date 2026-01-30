@@ -133,6 +133,36 @@ export default function DashboardPage() {
         return () => { isMounted = false }
     }, [subject])
 
+    // Countdown logic for lives
+    useEffect(() => {
+        if (stats.tier !== 'free' || (stats.lives !== null && stats.lives > 0) || !stats.replenishAt) {
+            return
+        }
+
+        const updateTimer = () => {
+            const now = new Date()
+            const end = new Date(stats.replenishAt!)
+            const diff = end.getTime() - now.getTime()
+
+            if (diff <= 0) {
+                setTimeLeft("00:00:00")
+                return
+            }
+
+            const hrs = Math.floor(diff / (1000 * 60 * 60))
+            const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+            const secs = Math.floor((diff % (1000 * 60)) / 1000)
+
+            setTimeLeft(
+                `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+            )
+        }
+
+        updateTimer()
+        const interval = setInterval(updateTimer, 1000)
+        return () => clearInterval(interval)
+    }, [stats.lives, stats.replenishAt, stats.tier])
+
     if (loading) {
         return (
             <div className="flex h-[50vh] items-center justify-center">
@@ -154,7 +184,7 @@ export default function DashboardPage() {
                         {/* Streak Badge (Mobile Right) */}
                         <div className="md:hidden flex items-center gap-1.5 px-2 py-1 bg-orange-50 text-orange-600 rounded-full border border-orange-100 shadow-sm shrink-0">
                             <Flame size={12} className="fill-orange-500" />
-                            <span className="text-xs font-bold">{stats.streak} días</span>
+                            <span className="text-xs font-bold">{stats.streak} {stats.streak === 1 ? 'día' : 'días'}</span>
                         </div>
                     </div>
 
@@ -163,7 +193,7 @@ export default function DashboardPage() {
                         {/* Streak Badge (Desktop) */}
                         <div className="hidden md:flex items-center gap-1.5 px-3 py-1 bg-orange-50 text-orange-600 rounded-full border border-orange-100 shadow-sm" title="Racha de días seguidos">
                             <Flame size={14} className="fill-orange-500" />
-                            <span className="text-sm font-bold">{stats.streak} días</span>
+                            <span className="text-sm font-bold">{stats.streak} {stats.streak === 1 ? 'día' : 'días'}</span>
                         </div>
                     </div>
                 </div>
@@ -196,8 +226,8 @@ export default function DashboardPage() {
                                     {timeLeft}
                                 </div>
                             )}
-                            <p className="text-xs text-slate-400 mt-1">
-                                {stats.tier !== 'free' ? "Beneficio Premium" : stats.lives && stats.lives > 0 ? "¡Sigue así!" : "Recargando..."}
+                            <p className="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">
+                                {stats.tier !== 'free' ? "Beneficio Premium" : stats.lives && stats.lives > 0 ? "¡Sigue así!" : "Siguiente vida en:"}
                             </p>
                         </div>
                         <div className={cn(
