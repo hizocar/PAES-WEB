@@ -89,18 +89,21 @@ declare
     v_daily_progress int;
     v_mistakes_count int;
     v_ejes_stats json;
-    v_start_of_day timestamp;
+    v_start_of_day timestamptz;
+    v_streak int := 0;
+    v_today date;
+    v_check_date date;
+    v_count int;
 begin
-    v_start_of_day := date_trunc('day', now());
+    -- Use Chile timezone for daily stats and streak
+    v_today := (now() at time zone 'America/Santiago')::date;
+    v_start_of_day := v_today at time zone 'America/Santiago'; -- Start of day in Santiago, as timestamptz
 
     -- 1. Daily Progress (Attempts today for THIS subject)
-    -- Note: Ideally we want daily progress to be TOTAL or per subject? usually TOTAL is better for habit, 
-    -- but let's filter by subject to keep it focused if requested.
-    -- Assuming daily goal is generic, but let's count only relevant subject questions for strictness.
     select count(a.id)
     into v_daily_progress
     from attempts a
-    join questions q on a.question_id = q.id -- Helper join
+    join questions q on a.question_id = q.id 
     where a.user_id = p_user_id
     and a.created_at >= v_start_of_day
     and q.subject = p_subject;
@@ -112,7 +115,7 @@ begin
     join questions q on a.question_id = q.id
     where a.user_id = p_user_id
     and a.is_correct = false
-    and q.subject = p_subject -- Filter
+    and q.subject = p_subject
     and not exists (
         select 1 from attempts a2
         where a2.user_id = p_user_id
@@ -130,7 +133,7 @@ begin
         left join question_topics qt on qt.topic_id = t.id
         left join questions q on qt.question_id = q.id and q.subject = p_subject
         left join attempts a on a.question_id = q.id and a.user_id = p_user_id
-        where e.subject = p_subject -- Filter Ejes by subject
+        where e.subject = p_subject 
     ),
     eje_aggregates as (
         select 
@@ -154,10 +157,44 @@ begin
     into v_ejes_stats
     from eje_aggregates as ea;
 
+    -- 4. Streak Calculation
+    -- Check today
+    select count(*) into v_count
+    from attempts a
+    join questions q on a.question_id = q.id
+    where a.user_id = p_user_id
+    and q.subject = p_subject
+    and (a.created_at at time zone 'America/Santiago')::date = v_today;
+
+    if v_count >= 10 then
+        v_streak := 1;
+        v_check_date := v_today - 1;
+    else
+        v_check_date := v_today - 1;
+    end if;
+
+    -- Loop backwards
+    while true loop
+        select count(*) into v_count
+        from attempts a
+        join questions q on a.question_id = q.id
+        where a.user_id = p_user_id
+        and q.subject = p_subject
+        and (a.created_at at time zone 'America/Santiago')::date = v_check_date;
+
+        if v_count >= 10 then
+            v_streak := v_streak + 1;
+            v_check_date := v_check_date - 1;
+        else
+            exit;
+        end if;
+    end loop;
+
     return json_build_object(
         'daily_progress', v_daily_progress,
         'active_mistakes', v_mistakes_count,
-        'ejes_stats', coalesce(v_ejes_stats, '[]'::json)
+        'ejes_stats', coalesce(v_ejes_stats, '[]'::json),
+        'streak', v_streak
     );
 end;
 $$;
