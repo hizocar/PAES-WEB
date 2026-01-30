@@ -15,11 +15,14 @@ function SuccessContent() {
 
     useEffect(() => {
         const handleSuccess = async () => {
-            const paymentId = searchParams.get('payment_id')
+            const preapprovalId = searchParams.get('preapproval_id')
+            const paymentId = searchParams.get('payment_id') || preapprovalId
             const paymentStatus = searchParams.get('status')
             const externalReference = searchParams.get('external_reference')
 
-            if (!paymentStatus || paymentStatus !== 'approved') {
+            const isApproved = paymentStatus === 'approved' || paymentStatus === 'authorized'
+
+            if (!paymentStatus || !isApproved) {
                 setStatus('error')
                 setMessage('El pago no fue aprobado o los datos son inválidos.')
                 return

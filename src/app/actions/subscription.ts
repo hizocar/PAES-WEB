@@ -1,8 +1,7 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
-import { MercadoPagoConfig, Preference } from "mercadopago"
-import { redirect } from "next/navigation"
+import { MercadoPagoConfig, PreApproval } from "mercadopago"
 
 const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN
 
@@ -33,77 +32,96 @@ export async function createSubscriptionPreference(planId: string) {
         .eq("id", session.user.id)
         .single()
 
-    if (profile?.subscription_tier === plan.tier) {
+    if (profile?.subscription_tier === plan.tier && plan.tier !== 'free') {
         return { error: "Ya tienes este plan activo" }
     }
 
-    // 4. Create Mercado Pago preference
+    // 4. Create Mercado Pago PreApproval (Subscription)
     if (!accessToken) {
         console.warn("MERCADOPAGO_ACCESS_TOKEN not set, using mock redirect")
-        // Mock success redirect for testing if no token provided
         const mockExternalReference = JSON.stringify({
             userId: session.user.id,
             planId: plan.id,
             tier: plan.tier
         })
-        return { url: `/app/pricing/success?payment_id=mock_123&status=approved&external_reference=${encodeURIComponent(mockExternalReference)}` }
+        return { url: `/app/pricing/success?status=approved&external_reference=${encodeURIComponent(mockExternalReference)}` }
     }
 
     try {
         const client = new MercadoPagoConfig({ accessToken })
-        const preference = new Preference(client)
+        const preApproval = new PreApproval(client)
 
-        const result = await preference.create({
+        const result = await preApproval.create({
             body: {
-                items: [
-                    {
-                        id: plan.id,
-                        title: `Suscripción PAES Lab - ${plan.name}`,
-                        unit_price: plan.price_clp,
-                        quantity: 1,
-                        currency_id: "CLP"
-                    }
-                ],
-                back_urls: {
-                    success: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/app/pricing/success`,
-                    failure: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/app/pricing/failure`,
-                    pending: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/app/pricing/pending`,
+                reason: `Suscripción PAES Lab - ${plan.name}`,
+                payer_email: session.user.email,
+                auto_recurring: {
+                    frequency: 1,
+                    frequency_type: "months",
+                    transaction_amount: plan.price_clp,
+                    currency_id: "CLP"
                 },
-                auto_return: "approved",
+                back_url: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/app/pricing/success`,
                 external_reference: JSON.stringify({
                     userId: session.user.id,
                     planId: plan.id,
                     tier: plan.tier
                 }),
-                metadata: {
-                    user_id: session.user.id,
-                    plan_id: plan.id,
-                    tier: plan.tier
-                }
+                status: "authorized"
             }
         })
 
         if (!result.init_point) {
-            throw new Error("No se pudo generar el punto de inicio de pago")
+            throw new Error("No se pudo generar el link de suscripción")
         }
 
         return { url: result.init_point }
     } catch (error) {
-        console.error("Error creating MP preference:", error)
-        return { error: "Error al procesar el pago. Por favor intente más tarde." }
+        console.error("Error creating MP PreApproval:", error)
+        return { error: "Error al procesar la suscripción. Por favor intente más tarde." }
     }
 }
 
 export async function updateUserSubscription(paymentId: string, status: string, externalReference: string) {
-    if (status !== "approved") {
-        return { error: "El pago no ha sido aprobado" }
+    const isApproved = status === "approved" || status === "authorized"
+
+    if (!isApproved) {
+        return { error: `La suscripción no está activa (Estado: ${status})` }
     }
 
     const supabase = await createClient()
 
     try {
-        const data = JSON.parse(externalReference)
-        const { userId, planId, tier } = data
+        let userId, tier
+
+        if (externalReference) {
+            const data = JSON.parse(externalReference)
+            userId = data.userId
+            tier = data.tier
+        }
+
+        // 1. If we don't have metadata yet, try to find by preapproval_id in the subscriptions table
+        // (This might happen if the webhook arrived first)
+        if (!userId && paymentId && paymentId !== 'n/a') {
+            const { data: sub } = await supabase
+                .from("subscriptions")
+                .select("user_id, plan_id")
+                .eq("mp_preapproval_id", paymentId)
+                .single()
+
+            if (sub) {
+                userId = sub.user_id
+                // We'd need to fetch the tier from plans if we only have plan_id
+                const { data: plan } = await supabase.from("plans").select("tier").eq("id", sub.plan_id).single()
+                tier = plan?.tier
+            }
+        }
+
+        if (!userId) {
+            // Still loading? Maybe wait for webhook? 
+            // For now, let's assume we need metadata to proceed
+            return { error: "No se pudieron verificar los datos de usuario" }
+        }
 
         // Update profile
         const { error: updateError } = await supabase
@@ -112,8 +130,6 @@ export async function updateUserSubscription(paymentId: string, status: string, 
             .eq("id", userId)
 
         if (updateError) throw updateError
-
-        // Log subscription (if we had a history table, we'd add it here)
 
         return { success: true, tier }
     } catch (error) {
