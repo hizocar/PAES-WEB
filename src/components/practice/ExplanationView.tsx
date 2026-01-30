@@ -40,11 +40,16 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
                 const distance = end - now
 
                 if (distance <= 0) {
-                    // Prevent rapid fire checkCredits. Only check if we are not already checking
-                    // and wait a bit after it supposedly expired.
-                    setTimeRemaining("Actualizando...")
-                    // Debounce or delay the check slightly to avoid immediate loops
-                    const timeout = setTimeout(() => checkCredits(false), 2000)
+                    // Clock skew or just expired. 
+                    // Show a message and wait a few seconds before checking.
+                    setTimeRemaining("Recargando...")
+
+                    // We use a longer delay and an exponential backoff or simple long wait
+                    // to ensure the server-side 'now()' has definitely passed 'replenishAt'.
+                    const timeout = setTimeout(() => {
+                        checkCredits(false)
+                    }, 5000) // 5 seconds wait to be very safe about clock skew
+
                     return () => clearTimeout(timeout)
                 }
 
@@ -166,8 +171,16 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
                 </p>
                 <div className="inline-flex items-center gap-2 bg-slate-200 text-slate-700 px-4 py-2 rounded-lg font-mono font-bold text-lg mb-6">
                     <Clock size={20} />
-                    {timeRemaining || "Calculando..."}
+                    {timeRemaining || (loading ? "Calculando..." : "Sincronizando...")}
                 </div>
+                {!loading && (
+                    <button
+                        onClick={() => checkCredits(true)}
+                        className="block mx-auto text-xs text-blue-600 hover:underline mb-6"
+                    >
+                        ¿Ya pasó el tiempo? Haz clic para actualizar
+                    </button>
+                )}
                 <Link href="/app/pricing" className="w-full max-w-xs">
                     <Button className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-slate-900 font-bold border-0 shadow-lg shadow-yellow-500/20">
                         <Crown size={18} className="mr-2" />
