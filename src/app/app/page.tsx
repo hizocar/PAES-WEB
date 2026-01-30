@@ -287,28 +287,30 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Ranking */}
-                <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40" id="tour-ranking">
-                    <div className="flex items-start justify-between">
-                        <div>
-                            <h3 className="text-slate-500 font-semibold text-sm">Tu Ranking</h3>
-                            <div className="text-2xl md:text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
-                                {stats.rank ? `#${stats.rank}` : '-'}
+                <Link href="/app/leaderboard" id="tour-ranking">
+                    <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40 hover:border-yellow-200 hover:shadow-md transition-all cursor-pointer group">
+                        <div className="flex items-start justify-between">
+                            <div>
+                                <h3 className="text-slate-500 font-semibold text-sm group-hover:text-yellow-600 transition-colors">Tu Ranking</h3>
+                                <div className="text-2xl md:text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
+                                    {stats.rank ? `#${stats.rank}` : '-'}
+                                </div>
+                                <p className="text-xs text-slate-400 mt-1">
+                                    {stats.score} pts totales
+                                </p>
                             </div>
-                            <p className="text-xs text-slate-400 mt-1">
-                                {stats.score} pts totales
-                            </p>
+                            <div className="w-8 h-8 md:w-10 md:h-10 bg-yellow-100 text-yellow-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <Trophy size={16} className="fill-yellow-600 md:w-5 md:h-5" />
+                            </div>
                         </div>
-                        <div className="w-8 h-8 md:w-10 md:h-10 bg-yellow-100 text-yellow-600 rounded-lg flex items-center justify-center">
-                            <Trophy size={16} className="fill-yellow-600 md:w-5 md:h-5" />
+                        <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div
+                                className="bg-yellow-500 h-full transition-all duration-1000"
+                                style={{ width: `${Math.max(5, Math.min(stats.score / 10, 100))}%` }}
+                            />
                         </div>
                     </div>
-                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                        <div
-                            className="bg-yellow-500 h-full transition-all duration-1000"
-                            style={{ width: `${Math.max(5, Math.min(stats.score / 10, 100))}%` }}
-                        />
-                    </div>
-                </div>
+                </Link>
 
                 {/* Banco de Errores */}
                 <Link href="/app/practice?mode=retry">

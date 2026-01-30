@@ -57,7 +57,7 @@ export default async function AppLayout({
                         </Link>
                     </div>
 
-                    <div className="pt-4">
+                    <div className="pt-4" id="tour-switcher">
                         <SubjectSwitcher />
                     </div>
 
@@ -104,7 +104,7 @@ export default async function AppLayout({
                     </nav>
 
                     <div className="mt-auto p-3 border-t border-slate-100 bg-slate-50/50 flex flex-col gap-1.5">
-                        <div className="bg-white p-3 rounded-xl border border-slate-100 shadow-sm flex flex-col gap-2 mb-1">
+                        <div className="bg-white p-3 rounded-xl border border-slate-100 shadow-sm flex flex-col gap-2 mb-1" id="tour-profile">
                             <UserProfile user={userWithProfile} />
                             <div className="flex items-center justify-between px-1 pt-1.5 border-t border-slate-50">
                                 <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Estado</span>

@@ -21,6 +21,13 @@ const STEPS: Step[] = [
         position: 'center'
     },
     {
+        targetId: "tour-switcher",
+        title: "Cambia de asignatura",
+        description: "Puedes alternar entre M1 y M2 en cualquier momento. Cada una tiene su propio progreso, ranking y banco de errores independiente.",
+        icon: <ArrowRight className="text-blue-500" />,
+        position: 'right'
+    },
+    {
         targetId: "tour-practice",
         title: "Entrena sin límites",
         description: "En 'Practicar' encontrarás miles de ejercicios actualizados a los nuevos temarios PAES. Es el corazón de tu estudio.",
@@ -51,9 +58,16 @@ const STEPS: Step[] = [
     {
         targetId: "tour-ranking",
         title: "Compite con Chile",
-        description: "Mira cómo subes en el ranking nacional. ¡Cada punto acumulado te acerca más a la cima!",
+        description: "Mira cómo subes en el ranking nacional. ¡Cada punto acumulado te acerca más a la cima! Haz clic para ver la tabla completa.",
         icon: <Trophy className="text-yellow-500 fill-yellow-600" />,
         position: 'bottom'
+    },
+    {
+        targetId: "tour-profile",
+        title: "Tu identidad PAES",
+        description: "Aquí puedes ver tu alias y avatar. Ve a 'Configuración' para cambiarlos y darle tu toque personal a tu perfil.",
+        icon: <Star className="text-purple-500 fill-purple-500" />,
+        position: 'right'
     }
 ]
 
