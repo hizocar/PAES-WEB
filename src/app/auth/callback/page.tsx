@@ -1,11 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { exchangeAuthCode } from "@/app/actions/auth"
 import { Loader2 } from "lucide-react"
 
-export default function AuthCallbackPage() {
+function AuthCallbackContent() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const [error, setError] = useState<string | null>(null)
@@ -72,5 +72,17 @@ export default function AuthCallbackPage() {
                 </p>
             </div>
         </div>
+    )
+}
+
+export default function AuthCallbackPage() {
+    return (
+        <Suspense fallback={
+            <div className="flex h-screen w-full items-center justify-center bg-slate-50">
+                <Loader2 className="h-10 w-10 text-blue-600 animate-spin" />
+            </div>
+        }>
+            <AuthCallbackContent />
+        </Suspense>
     )
 }
