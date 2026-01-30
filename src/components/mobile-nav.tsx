@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { BarChart3, Clock, Home, LogOut, Menu, Settings, Trophy, X, RotateCcw, Award } from "lucide-react"
 import { UserProfile } from "@/components/ui/user-profile"
 import { useSubject, Subject } from "@/components/providers/SubjectContext"
+import { SubscriptionBadge } from "./subscription-badge"
 
 function SubjectButton({ subject, current, setSubject }: { subject: Subject, current: Subject, setSubject: (s: Subject) => void }) {
     const isActive = current === subject
@@ -102,7 +103,14 @@ export function MobileNav({ user }: { user: any }) {
                         </nav>
 
                         <div className="pt-6 border-t border-slate-100 space-y-3 mt-auto">
-                            <UserProfile user={user} />
+                            <div className="flex flex-col gap-2">
+                                <UserProfile user={user} />
+                                <div className="px-2">
+                                    <Link href="/app/pricing" onClick={() => setOpen(false)}>
+                                        <SubscriptionBadge tier={user?.subscription_tier} />
+                                    </Link>
+                                </div>
+                            </div>
 
                             <Link href="/app/settings" onClick={() => setOpen(false)}>
                                 <Button variant="ghost" className="w-full justify-start gap-3 h-12 text-sm font-medium text-slate-500">

@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { LayoutDashboard, FileQuestion, BookOpen, LogOut, Users } from 'lucide-react'
+import { LayoutDashboard, FileQuestion, BookOpen, LogOut, Users, DollarSign } from 'lucide-react'
 
 export default async function AdminLayout({
     children,
@@ -64,6 +64,12 @@ export default async function AdminLayout({
                         <Button variant="ghost" className="w-full justify-start gap-3 h-12 hover:bg-slate-800 hover:text-white">
                             <Users size={20} />
                             Usuarios
+                        </Button>
+                    </Link>
+                    <Link href="/admin/pricing">
+                        <Button variant="ghost" className="w-full justify-start gap-3 h-12 hover:bg-slate-800 hover:text-white">
+                            <DollarSign size={20} />
+                            Precios
                         </Button>
                     </Link>
                 </nav>

@@ -9,6 +9,8 @@ import { MobileNav } from '@/components/mobile-nav'
 
 import { SubjectProvider } from '@/components/providers/SubjectContext'
 import { SubjectSwitcher } from '@/components/SubjectSwitcher'
+import { SubscriptionBadge } from '@/components/subscription-badge'
+
 
 export default async function AppLayout({
     children,
@@ -30,13 +32,15 @@ export default async function AppLayout({
         .single()
 
     // Combine for display
+    // Combine for display
     const userWithProfile = {
         ...user,
         user_metadata: {
             ...user.user_metadata,
             full_name: profile?.full_name || user.user_metadata.full_name,
             avatar_url: profile?.avatar_url || user.user_metadata.avatar_url
-        }
+        },
+        subscription_tier: (profile as any)?.subscription_tier || 'free'
     }
 
     return (
@@ -100,7 +104,14 @@ export default async function AppLayout({
                     </nav>
 
                     <div className="p-4 border-t border-slate-100 space-y-2">
-                        <UserProfile user={userWithProfile} />
+                        <div className="flex flex-col gap-2 mb-2">
+                            <UserProfile user={userWithProfile} />
+                            <div className="px-2">
+                                <Link href="/app/pricing">
+                                    <SubscriptionBadge tier={userWithProfile?.subscription_tier} />
+                                </Link>
+                            </div>
+                        </div>
 
                         <Link href="/app/settings">
                             <Button variant="ghost" className="w-full justify-start gap-3 h-10 text-sm font-medium text-slate-500 hover:text-blue-600 hover:bg-blue-50">
