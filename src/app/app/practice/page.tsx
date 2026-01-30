@@ -10,12 +10,47 @@ import Link from "next/link"
 import { useSubject } from "@/components/providers/SubjectContext"
 import { useSearchParams } from 'next/navigation'
 
+import { OnboardingTour, OnboardingStep } from "@/components/onboarding/OnboardingTour"
+import { Clock, Heart, Lightbulb, Star } from "lucide-react"
+
+const PRACTICE_STEPS: OnboardingStep[] = [
+    {
+        title: "¡Bienvenido a tu entrenamiento!",
+        description: "Aquí es donde ocurre la magia. Vamos a ver cómo funcionan las herramientas de práctica.",
+        icon: <Star className="text-blue-500 fill-blue-500" />,
+        position: 'center'
+    },
+    {
+        targetId: "tour-timer",
+        title: "El tiempo corre",
+        description: "Tienes un tiempo límite por pregunta basado en el promedio real de la PAES. ¡Entrena tu velocidad!",
+        icon: <Clock className="text-orange-500" />,
+        position: 'bottom'
+    },
+    {
+        targetId: "tour-lives-practice",
+        title: "Tus Vidas",
+        description: "Si te equivocas o se acaba el tiempo, perderás una de estas vidas. ¡Cuídalas!",
+        icon: <Heart className="text-red-500 fill-red-500" />,
+        position: 'bottom'
+    },
+    {
+        targetId: "tour-explanation",
+        title: "Aprende de cada paso",
+        description: "Una vez que respondas, la explicación detallada aparecerá aquí abajo. ¡Es la mejor forma de mejorar!",
+        icon: <Lightbulb className="text-yellow-500 fill-yellow-500" />,
+        position: 'top'
+    }
+]
+
 function PracticeContent() {
     const { subject } = useSubject()
     const searchParams = useSearchParams()
     const modeParam = searchParams.get('mode')
 
-    // React to URL changes
+    // Onboarding State
+    const [showOnboarding, setShowOnboarding] = useState(false)
+
     // React to URL changes
     useEffect(() => {
         const newMode = modeParam === 'retry'
@@ -41,7 +76,7 @@ function PracticeContent() {
 
     const supabase = createClient()
 
-    // Initialize Lives & Tier
+    // Initialize Lives, Tier & Onboarding
     useEffect(() => {
         const initPractice = async () => {
             try {
@@ -50,7 +85,7 @@ function PracticeContent() {
 
                 const [livesResult, profileResult] = await Promise.all([
                     supabase.rpc('check_and_replenish_lives', { p_user_id: user.id, p_subject: subject }),
-                    supabase.from('profiles').select('subscription_tier').eq('id', user.id).single()
+                    supabase.from('profiles').select('subscription_tier, practice_onboarding_completed').eq('id', user.id).single()
                 ])
 
                 if (livesResult.data && livesResult.data.length > 0) {
@@ -60,6 +95,10 @@ function PracticeContent() {
 
                 if (profileResult.data) {
                     setTier(profileResult.data.subscription_tier || 'free')
+                    const practiceOnboardingCompleted = (profileResult.data as any)?.practice_onboarding_completed || false
+                    if (!practiceOnboardingCompleted) {
+                        setShowOnboarding(true)
+                    }
                 }
             } catch (e) {
                 console.error("Error initializing practice:", e)
@@ -255,7 +294,9 @@ function PracticeContent() {
                     {retryMode && <AlertCircle size={14} className="text-orange-500" />}
                 </div>
 
-                <LivesCounter lives={lives} replenishAt={replenishAt} tier={tier} />
+                <div id="tour-lives-practice">
+                    <LivesCounter lives={lives} replenishAt={replenishAt} tier={tier} />
+                </div>
             </div>
 
             {debugMsg && (
@@ -270,6 +311,19 @@ function PracticeContent() {
                     onNext={fetchQuestion}
                     onWrongAnswer={handleWrongAnswer}
                     mode={retryMode ? 'review' : 'practice'}
+                />
+            )}
+
+            {showOnboarding && (
+                <OnboardingTour
+                    steps={PRACTICE_STEPS}
+                    onComplete={async () => {
+                        const { data: { user } } = await supabase.auth.getUser()
+                        if (user) {
+                            await supabase.rpc('complete_practice_onboarding', { p_user_id: user.id })
+                        }
+                        setShowOnboarding(false)
+                    }}
                 />
             )}
         </div>

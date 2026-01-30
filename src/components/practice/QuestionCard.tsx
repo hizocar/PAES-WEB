@@ -157,12 +157,14 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
             />
             {/* Timer & Metadata */}
             <div className="space-y-4 px-2">
-                <QuestionTimer
-                    key={question.id} // Reset timer when question changes
-                    duration={150} // 2:30 minutes
-                    isActive={!submitted}
-                    onTimeout={handleTimeout}
-                />
+                <div id="tour-timer">
+                    <QuestionTimer
+                        key={question.id} // Reset timer when question changes
+                        duration={150} // 2:30 minutes
+                        isActive={!submitted}
+                        onTimeout={handleTimeout}
+                    />
+                </div>
 
                 <div className="flex items-center justify-between">
                     <div className="flex gap-2">
@@ -324,11 +326,13 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
                         <QuestionFeedback questionId={question.id} />
                     </div>
 
-                    <ExplanationView
-                        questionId={question.id}
-                        explanationText={question.explanation}
-                        videoPath={question.explanation_video_path}
-                    />
+                    <div id="tour-explanation">
+                        <ExplanationView
+                            questionId={question.id}
+                            explanationText={question.explanation}
+                            videoPath={question.explanation_video_path}
+                        />
+                    </div>
                 </div>
             )}
 

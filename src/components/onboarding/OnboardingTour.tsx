@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Zap, Heart, Trophy, Target, ArrowLeft, ArrowRight, X, Star } from "lucide-react"
 
-interface Step {
+export interface OnboardingStep {
     targetId?: string
     title: string
     description: string
@@ -13,69 +13,12 @@ interface Step {
     position: 'center' | 'top' | 'bottom' | 'left' | 'right'
 }
 
-const STEPS: Step[] = [
-    {
-        title: "¡Bienvenido a PAES Lab!",
-        description: "Estamos aquí para ayudarte a entrar a la universidad de tus sueños. Vamos a darte un tour rápido por tu nuevo centro de entrenamiento.",
-        icon: <Star className="text-yellow-500 fill-yellow-500" />,
-        position: 'center'
-    },
-    {
-        targetId: "tour-switcher",
-        title: "Cambia de asignatura",
-        description: "Puedes alternar entre M1 y M2 en cualquier momento. Cada una tiene su propio progreso, ranking y banco de errores independiente.",
-        icon: <ArrowRight className="text-blue-500" />,
-        position: 'right'
-    },
-    {
-        targetId: "tour-practice",
-        title: "Entrena sin límites",
-        description: "En 'Practicar' encontrarás miles de ejercicios actualizados a los nuevos temarios PAES. Es el corazón de tu estudio.",
-        icon: <Zap className="text-blue-500 fill-blue-500" />,
-        position: 'right'
-    },
-    {
-        targetId: "tour-mistakes",
-        title: "Tus errores son tus maestros",
-        description: "El 'Modo Repaso' guarda tus fallos automáticamente para que puedas volver a intentarlos hasta dominarlos.",
-        icon: <Target className="text-red-500" />,
-        position: 'right'
-    },
-    {
-        targetId: "tour-lives",
-        title: "Cuida tus vidas",
-        description: "Cada error resta una vida. Se recargan cada 12 horas, ¡así que piensa bien tus respuestas! (O hazte Premium para ∞ vidas).",
-        icon: <Heart className="text-red-500 fill-red-500" />,
-        position: 'bottom'
-    },
-    {
-        targetId: "tour-target",
-        title: "Tu meta diaria",
-        description: "Intenta responder al menos 10 preguntas al día. La constancia es lo que te llevará al puntaje nacional.",
-        icon: <Target className="text-green-500" />,
-        position: 'bottom'
-    },
-    {
-        targetId: "tour-ranking",
-        title: "Compite con Chile",
-        description: "Mira cómo subes en el ranking nacional. ¡Cada punto acumulado te acerca más a la cima! Haz clic para ver la tabla completa.",
-        icon: <Trophy className="text-yellow-500 fill-yellow-600" />,
-        position: 'bottom'
-    },
-    {
-        targetId: "tour-profile",
-        title: "Tu identidad PAES",
-        description: "Aquí puedes ver tu alias y avatar. Ve a 'Configuración' para cambiarlos y darle tu toque personal a tu perfil.",
-        icon: <Star className="text-purple-500 fill-purple-500" />,
-        position: 'right'
-    }
-]
-
 interface OnboardingTourProps {
+    steps: OnboardingStep[]
     onComplete: () => void
 }
 
-export function OnboardingTour({ onComplete }: OnboardingTourProps) {
+export function OnboardingTour({ steps, onComplete }: OnboardingTourProps) {
     const [currentStep, setCurrentStep] = useState(0)
     const [coords, setCoords] = useState({ top: 0, left: 0, width: 0, height: 0 })
     const [isMobile, setIsMobile] = useState(false)
@@ -91,7 +34,7 @@ export function OnboardingTour({ onComplete }: OnboardingTourProps) {
 
     useEffect(() => {
         const updateCoords = () => {
-            const step = STEPS[currentStep]
+            const step = steps[currentStep]
             let targetId = step.targetId
 
             // On mobile, point to the menu button for sidebar items
@@ -117,10 +60,10 @@ export function OnboardingTour({ onComplete }: OnboardingTourProps) {
         updateCoords()
         window.addEventListener('resize', updateCoords)
         return () => window.removeEventListener('resize', updateCoords)
-    }, [currentStep])
+    }, [currentStep, steps, isMobile])
 
     const handleNext = () => {
-        if (currentStep < STEPS.length - 1) {
+        if (currentStep < steps.length - 1) {
             setCurrentStep(currentStep + 1)
         } else {
             onComplete()
@@ -133,7 +76,7 @@ export function OnboardingTour({ onComplete }: OnboardingTourProps) {
         }
     }
 
-    const currentData = STEPS[currentStep]
+    const currentData = steps[currentStep]
 
     // Calculate smart positioning for the tour box
     const getBoxStyle = () => {
@@ -246,7 +189,7 @@ export function OnboardingTour({ onComplete }: OnboardingTourProps) {
 
                     <div className="flex items-center justify-between mt-auto">
                         <div className="flex gap-1.5">
-                            {STEPS.map((_, i) => (
+                            {steps.map((_, i) => (
                                 <div
                                     key={i}
                                     className={`h-1 rounded-full transition-all duration-500 ${i === currentStep ? 'w-8 bg-blue-600' : 'w-1.5 bg-slate-200'}`}
@@ -268,8 +211,8 @@ export function OnboardingTour({ onComplete }: OnboardingTourProps) {
                                 onClick={handleNext}
                                 className="bg-blue-600 hover:bg-blue-700 text-white font-black rounded-full px-6 h-10 shadow-lg shadow-blue-200 group"
                             >
-                                {currentStep === STEPS.length - 1 ? "¡Todo claro!" : "Siguiente"}
-                                {currentStep < STEPS.length - 1 && <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />}
+                                {currentStep === steps.length - 1 ? "¡Todo claro!" : "Siguiente"}
+                                {currentStep < steps.length - 1 && <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />}
                             </Button>
                         </div>
                     </div>
