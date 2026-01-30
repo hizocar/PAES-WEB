@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { BarChart3, Clock, Target, TrendingUp } from "lucide-react"
+import { useSubject } from "@/components/providers/SubjectContext"
 
 // Since we don't have a dedicated Card component yet, I'll use raw tailwind for containers
 // or simple divs.
@@ -24,15 +25,17 @@ type StudyStats = {
 
 export default function ProgressPage() {
     const supabase = createClient()
+    const { subject } = useSubject()
     const [loading, setLoading] = useState(true)
     const [stats, setStats] = useState<StudyStats>({ todaySeconds: 0, totalSeconds: 0, streakDays: 0 })
     const [ejeProgress, setEjeProgress] = useState<EjeProgress[]>([])
 
     useEffect(() => {
         fetchData()
-    }, [])
+    }, [subject])
 
     const fetchData = async () => {
+        setLoading(true)
         try {
             const { data: { user } } = await supabase.auth.getUser()
             if (!user) return
@@ -62,14 +65,18 @@ export default function ProgressPage() {
                 streakDays: 1
             })
 
-            // 2. Fetch All Ejes
-            const { data: allEjes } = await supabase.from('ejes').select('id, name')
+            // 2. Fetch All Ejes for current subject
+            const { data: allEjes } = await supabase
+                .from('ejes')
+                .select('id, name')
+                .eq('subject', subject)
 
-            // 3. Fetch User Attempts
+            // 3. Fetch User Attempts for current subject
             const { data: attempts } = await supabase
                 .from('attempts')
-                .select('is_correct, question_id')
+                .select('is_correct, question_id, questions!inner(subject)')
                 .eq('user_id', user.id)
+                .eq('questions.subject', subject)
 
             // 4. Map Questions to Ejes
             const qIds = attempts?.map(a => a.question_id) || []
