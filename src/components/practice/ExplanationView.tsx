@@ -26,7 +26,9 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
     const supabase = createClient()
 
     useEffect(() => {
-        checkCredits()
+        setIsRevealed(false)
+        setVideoSignedUrl(null)
+        checkCredits(true) // Initial load for this question
     }, [questionId])
 
     useEffect(() => {
@@ -37,9 +39,13 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
                 const end = new Date(replenishAt).getTime()
                 const distance = end - now
 
-                if (distance < 0) {
-                    checkCredits() // Refresh if time is up
-                    return
+                if (distance <= 0) {
+                    // Prevent rapid fire checkCredits. Only check if we are not already checking
+                    // and wait a bit after it supposedly expired.
+                    setTimeRemaining("Actualizando...")
+                    // Debounce or delay the check slightly to avoid immediate loops
+                    const timeout = setTimeout(() => checkCredits(false), 2000)
+                    return () => clearTimeout(timeout)
                 }
 
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
@@ -50,31 +56,42 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
             }
 
             updateTimer()
-            interval = setInterval(updateTimer, 1000) // Update every second for better feedback
+            interval = setInterval(updateTimer, 1000)
+        } else {
+            setTimeRemaining("")
         }
         return () => clearInterval(interval)
     }, [credits, replenishAt])
 
-    const checkCredits = async () => {
-        setLoading(true)
+    const checkCredits = async (showLoading = false) => {
+        if (showLoading) setLoading(true)
+
         const { data: { user } } = await supabase.auth.getUser()
-        if (!user) return
-
-        // Check credits & Tier
-        const [rpcResult, profileResult] = await Promise.all([
-            supabase.rpc('check_explanation_replenishment', { p_user_id: user.id }),
-            supabase.from('profiles').select('subscription_tier').eq('id', user.id).single()
-        ])
-
-        if (rpcResult.data) {
-            setCredits(rpcResult.data.credits)
-            setReplenishAt(rpcResult.data.replenish_at)
+        if (!user) {
+            setLoading(false)
+            return
         }
 
-        if (profileResult.data) {
-            setTier(profileResult.data.subscription_tier || 'free')
+        try {
+            // Check credits & Tier
+            const [rpcResult, profileResult] = await Promise.all([
+                supabase.rpc('check_explanation_replenishment', { p_user_id: user.id }),
+                supabase.from('profiles').select('subscription_tier').eq('id', user.id).single()
+            ])
+
+            if (rpcResult.data) {
+                setCredits(rpcResult.data.credits)
+                setReplenishAt(rpcResult.data.replenish_at)
+            }
+
+            if (profileResult.data) {
+                setTier(profileResult.data.subscription_tier || 'free')
+            }
+        } catch (error) {
+            console.error("Error checking credits:", error)
+        } finally {
+            setLoading(false)
         }
-        setLoading(false)
     }
 
     const handleReveal = async () => {
@@ -100,7 +117,7 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
         }
     }
 
-    if (loading) return <div className="p-4 animate-pulse bg-slate-100 rounded-xl h-32" />
+    if (loading && !isRevealed) return <div className="p-4 animate-pulse bg-slate-100 rounded-xl h-32" />
 
     // Content is revealed
     if (isRevealed) {
