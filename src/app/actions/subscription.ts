@@ -47,6 +47,11 @@ export async function createSubscriptionPreference(planId: string) {
         return { url: `/app/pricing/success?status=approved&external_reference=${encodeURIComponent(mockExternalReference)}` }
     }
 
+    if (!accessToken) {
+        console.error("MERCADOPAGO_ACCESS_TOKEN is missing in environment variables")
+        return { error: "El sistema de pagos no está configurado (Falta Token)." }
+    }
+
     try {
         const client = new MercadoPagoConfig({ accessToken })
         const preApproval = new PreApproval(client)
@@ -61,13 +66,12 @@ export async function createSubscriptionPreference(planId: string) {
                     transaction_amount: plan.price_clp,
                     currency_id: "CLP"
                 },
-                back_url: `${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/app/pricing/success`,
+                back_url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://paeslab.cl'}/app/pricing/success`,
                 external_reference: JSON.stringify({
                     userId: session.user.id,
                     planId: plan.id,
                     tier: plan.tier
-                }),
-                status: "authorized"
+                })
             }
         })
 
