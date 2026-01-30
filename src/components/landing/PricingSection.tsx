@@ -16,21 +16,21 @@ const DEFAULT_PLANS: Plan[] = [
         name: 'Free',
         tier: 'free',
         price_clp: 0,
-        features: ['10 Vidas diarias', 'Seguimiento de progreso', 'Ranking nacional'],
+        features: ['Acceso a M1 y M2', '10 Vidas diarias', '5 Explicaciones diarias', 'Ranking nacional'],
     },
     {
         id: 'premium',
         name: 'Premium',
         tier: 'premium',
         price_clp: 1990,
-        features: ['Vidas ilimitadas (∞)', 'IA: Modo Repaso Inteligente', 'Sin publicidad', 'Prioridad en soporte'],
+        features: ['Acceso a M1 y M2', 'Vidas ilimitadas (∞)', 'Explicaciones ilimitadas (∞)', 'IA: Modo Repaso Inteligente', 'Sin publicidad'],
     },
     {
         id: 'signature',
         name: 'Signature',
         tier: 'signature',
         price_clp: 29990,
-        features: ['Todo lo de Premium', 'Clases personalizadas', 'Ensayos semanales', 'Plan de estudio a medida'],
+        features: ['Acceso a M1 y M2', 'Todo lo de Premium', 'Clases personalizadas', 'Ensayos semanales', 'Plan de estudio a medida'],
     }
 ]
 
@@ -68,6 +68,12 @@ export function PricingSection({ plans = DEFAULT_PLANS }: { plans?: Plan[] }) {
                                 {isPremium && (
                                     <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-[10px] md:text-xs font-black px-6 py-2 rounded-full tracking-widest uppercase shadow-xl z-20 border-2 border-white">
                                         LO MÁS POPULAR
+                                    </div>
+                                )}
+
+                                {isSignature && (
+                                    <div className="absolute -top-5 left-1/2 -translate-x-1/2 bg-slate-200 text-slate-600 text-[10px] md:text-xs font-black px-6 py-2 rounded-full tracking-widest uppercase z-20 border-2 border-white">
+                                        PRÓXIMAMENTE
                                     </div>
                                 )}
 
@@ -120,12 +126,13 @@ export function PricingSection({ plans = DEFAULT_PLANS }: { plans?: Plan[] }) {
 
                                 <LoginButton
                                     size="lg"
+                                    disabled={isSignature}
                                     className={`w-full h-16 rounded-[1.25rem] font-black text-lg transition-all border-b-4 active:border-b-0 active:translate-y-1 ${isPremium ? 'bg-blue-600 hover:bg-blue-700 text-white border-blue-800 shadow-xl shadow-blue-200' :
-                                        isSignature ? 'bg-slate-900 hover:bg-slate-800 text-white border-slate-950 shadow-xl shadow-slate-200' :
+                                        isSignature ? 'bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed' :
                                             'bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-300'
                                         }`}
                                 >
-                                    ¡Empezar Ya! 🚀
+                                    {isSignature ? 'Próximamente 🔒' : '¡Empezar Ya! 🚀'}
                                 </LoginButton>
                             </div>
                         )
