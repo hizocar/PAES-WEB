@@ -35,7 +35,7 @@ export async function updateSession(request: NextRequest) {
 
     if (request.nextUrl.pathname.startsWith('/app') && !user) {
         const url = request.nextUrl.clone()
-        url.pathname = '/login'
+        url.pathname = '/'
         return NextResponse.redirect(url)
     }
 
@@ -43,7 +43,7 @@ export async function updateSession(request: NextRequest) {
         // Basic check, robust check should happen in layout or page
         if (!user) {
             const url = request.nextUrl.clone()
-            url.pathname = '/login'
+            url.pathname = '/'
             return NextResponse.redirect(url)
         }
     }

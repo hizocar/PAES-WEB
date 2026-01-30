@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
+import { LoginButton, LoginTrigger } from "@/components/auth/login-button"
 
 export default async function Home() {
   const supabase = createClient()
@@ -46,9 +47,9 @@ export default async function Home() {
           <a href="#faq" className="hover:text-blue-600 transition-colors">Preguntas</a>
         </nav>
         <div className="flex items-center gap-3">
-          <Link href="/login">
-            <Button variant="ghost" className="font-semibold">Ingresar</Button>
-          </Link>
+          <LoginButton variant="ghost" className="font-semibold">
+            Ingresar
+          </LoginButton>
         </div>
       </header>
 
@@ -77,11 +78,12 @@ export default async function Home() {
             </p>
 
             <div className="flex flex-col items-center justify-center gap-6 md:gap-8">
-              <Link href="/login" className="w-full md:w-auto">
-                <Button size="lg" className="h-14 md:h-16 w-full md:w-auto px-8 md:px-12 text-lg md:text-xl rounded-2xl shadow-xl shadow-blue-600/30 hover:scale-105 hover:shadow-2xl transition-all duration-300 font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 border-b-4 border-blue-800 active:border-b-0 active:translate-y-1">
-                  ¡Empieza tu Aventura! 🎮
-                </Button>
-              </Link>
+              <LoginButton
+                size="lg"
+                className="h-14 md:h-16 w-full md:w-auto px-8 md:px-12 text-lg md:text-xl rounded-2xl shadow-xl shadow-blue-600/30 hover:scale-105 hover:shadow-2xl transition-all duration-300 font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 border-b-4 border-blue-800 active:border-b-0 active:translate-y-1"
+              >
+                ¡Empieza tu Aventura! 🎮
+              </LoginButton>
               <p className="text-sm text-slate-500 font-medium animate-bounce">
                 👆 ¡Es gratis comenzar!
               </p>
@@ -89,7 +91,7 @@ export default async function Home() {
               {/* Exam Status Cards */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 w-full text-left mt-8 md:mt-12">
                 {/* M2 Card - Active */}
-                <Link href="/login" className="bg-white/80 backdrop-blur-md p-5 md:p-6 rounded-2xl border-2 border-blue-100 shadow-lg hover:shadow-xl transition-all hover:border-blue-500 hover:-translate-y-1 group relative overflow-hidden block cursor-pointer">
+                <LoginTrigger className="bg-white/80 backdrop-blur-md p-5 md:p-6 rounded-2xl border-2 border-blue-100 shadow-lg hover:shadow-xl transition-all hover:border-blue-500 hover:-translate-y-1 group relative overflow-hidden block cursor-pointer">
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="absolute top-0 right-0 bg-blue-500 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-bl-xl shadow-sm z-10">
                     Disponible
@@ -104,10 +106,10 @@ export default async function Home() {
                       Desafíos de alta complejidad para ingenierías y ciencias.
                     </p>
                   </div>
-                </Link>
+                </LoginTrigger>
 
                 {/* M1 Card - Now Active! */}
-                <Link href="/login" className="bg-white/80 backdrop-blur-md p-5 md:p-6 rounded-2xl border-2 border-indigo-100 shadow-lg hover:shadow-xl transition-all hover:border-indigo-500 hover:-translate-y-1 group relative overflow-hidden block cursor-pointer">
+                <LoginTrigger className="bg-white/80 backdrop-blur-md p-5 md:p-6 rounded-2xl border-2 border-indigo-100 shadow-lg hover:shadow-xl transition-all hover:border-indigo-500 hover:-translate-y-1 group relative overflow-hidden block cursor-pointer">
                   <div className="absolute inset-0 bg-gradient-to-br from-indigo-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="absolute top-0 right-0 bg-indigo-500 text-white text-[10px] uppercase font-bold px-3 py-1 rounded-bl-xl shadow-sm z-10">
                     Disponible
@@ -122,7 +124,7 @@ export default async function Home() {
                       Domina los fundamentos esenciales para tu puntaje base.
                     </p>
                   </div>
-                </Link>
+                </LoginTrigger>
 
                 {/* Lectora Card - Coming Soon */}
                 <div className="bg-slate-50/50 p-5 md:p-6 rounded-2xl border border-slate-200 relative overflow-hidden hover:bg-slate-50 transition-colors cursor-default">
