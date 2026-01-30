@@ -154,7 +154,7 @@ export default function SettingsPage() {
     }
 
     const formatDate = (dateString: string) => {
-        if (!dateString) return "No disponible"
+        if (!dateString) return null
         return new Date(dateString).toLocaleDateString('es-CL', {
             day: 'numeric',
             month: 'long',
@@ -234,12 +234,12 @@ export default function SettingsPage() {
                                 </p>
                             </div>
 
-                            {isSubscriber && subscription && (
+                            {isSubscriber && (
                                 <div>
                                     <p className="text-xs text-slate-400">Próximo cobro</p>
                                     <p className="font-medium text-sm flex items-center gap-2">
                                         <Calendar size={14} />
-                                        {formatDate(subscription.next_payment_at || subscription.current_period_end)}
+                                        {formatDate(subscription?.next_payment_at || subscription?.current_period_end) || 'Pendiente de sincronización'}
                                     </p>
                                 </div>
                             )}
@@ -322,7 +322,7 @@ export default function SettingsPage() {
                                 <div className="flex justify-between items-center py-2">
                                     <span className="text-slate-600 text-sm">Próxima facturación</span>
                                     <span className="font-bold text-sm text-blue-600">
-                                        {formatDate(subscription?.next_payment_at || subscription?.current_period_end)}
+                                        {formatDate(subscription?.next_payment_at || subscription?.current_period_end) || 'Sin fecha programada'}
                                     </span>
                                 </div>
                             </div>

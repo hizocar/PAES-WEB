@@ -85,6 +85,7 @@ export async function updateUserSubscription(paymentId: string, status: string |
 
     try {
         let userId, tier, finalStatus: string | null = status
+        let nextPaymentAt: string | null = null
 
         // 1. Fetch real status from MP if we have a token and ID (most reliable)
         if (accessToken && paymentId && paymentId !== 'n/a') {
@@ -95,6 +96,9 @@ export async function updateUserSubscription(paymentId: string, status: string |
 
                 finalStatus = subData.status || status
                 console.log(`[Subscription Update] Verified Status: ${finalStatus}`)
+
+                // Capture next payment date
+                nextPaymentAt = (subData.auto_recurring as any)?.next_payment_date
 
                 // Recover metadata if missing
                 if (!userId || !tier) {
@@ -136,14 +140,17 @@ export async function updateUserSubscription(paymentId: string, status: string |
 
         if (updateError) throw updateError
 
-        // Ensure subscription record exists
-        await supabase
+        // Ensure subscription record exists with the next payment date
+        const { error: subError } = await supabase
             .from("subscriptions")
             .upsert({
                 user_id: userId,
                 status: "active",
                 mp_preapproval_id: paymentId !== 'n/a' ? paymentId : null,
+                next_payment_at: nextPaymentAt
             }, { onConflict: 'user_id' })
+
+        if (subError) console.error("[Subscription Update] Error saving sub record:", subError)
 
         return { success: true, tier: tier.charAt(0).toUpperCase() + tier.slice(1) }
     } catch (error: any) {
