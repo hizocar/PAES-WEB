@@ -190,3 +190,60 @@ export async function adminUpdateUserTier(userId: string, tier: string) {
         return { error: `Error al actualizar: ${error.message}` }
     }
 }
+
+export async function cancelSubscription() {
+    const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN
+    const supabase = await createClient()
+
+    // 1. Get user session
+    const { data: { session } } = await supabase.auth.getSession()
+    if (!session) {
+        return { error: "Debes iniciar sesión" }
+    }
+
+    try {
+        // 2. Find active subscription ID
+        const { data: subData } = await supabase
+            .from('subscriptions')
+            .select('mp_preapproval_id')
+            .eq('user_id', session.user.id)
+            .single()
+
+        // 3. Cancel in Mercado Pago if ID exists
+        if (accessToken && subData?.mp_preapproval_id) {
+            try {
+                const client = new MercadoPagoConfig({ accessToken })
+                const preApproval = new PreApproval(client)
+                await preApproval.update({
+                    id: subData.mp_preapproval_id,
+                    body: { status: 'cancelled' }
+                })
+                console.log(`[Subscription] Cancelled MP PreApproval: ${subData.mp_preapproval_id}`)
+            } catch (mpError: any) {
+                console.warn("[Subscription] MP Cancel Error (might already be cancelled):", mpError.message)
+            }
+        }
+
+        // 4. Update Database (Only the subscription record)
+        console.log(`[Subscription] User ${session.user.id} cancelled. Keeping benefits until expiry.`)
+
+        // We DO NOT update public.profiles here. 
+        // The user will remain premium until their next_payment_at date.
+        // We can use a background worker or a check on login to perform the final downgrade later.
+
+        const { error: subError } = await supabase
+            .from('subscriptions')
+            .update({
+                status: 'canceled',
+                canceled_at: new Date().toISOString()
+            })
+            .eq('user_id', session.user.id)
+
+        if (subError) throw subError
+
+        return { success: true }
+    } catch (error: any) {
+        console.error("[Subscription] Error canceling:", error)
+        return { error: `Error al cancelar: ${error.message || "Error desconocido"}` }
+    }
+}

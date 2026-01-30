@@ -162,6 +162,7 @@ export default async function PricingPage() {
                                     <PlanButton
                                         planId={plan.id}
                                         tier={plan.tier}
+                                        currentTier={currentTier}
                                         isSignature={isSignature}
                                     />
                                 )}

@@ -236,11 +236,16 @@ export default function SettingsPage() {
 
                             {isSubscriber && (
                                 <div>
-                                    <p className="text-xs text-slate-400">Próximo cobro</p>
-                                    <p className="font-medium text-sm flex items-center gap-2">
+                                    <p className="text-xs text-slate-400">
+                                        {subscription?.status === 'canceled' ? 'Tu plan termina el' : 'Próximo cobro'}
+                                    </p>
+                                    <p className={`font-medium text-sm flex items-center gap-2 ${subscription?.status === 'canceled' ? 'text-amber-400' : ''}`}>
                                         <Calendar size={14} />
                                         {formatDate(subscription?.next_payment_at || subscription?.current_period_end) || 'Pendiente de sincronización'}
                                     </p>
+                                    {subscription?.status === 'canceled' && (
+                                        <p className="text-[10px] text-slate-400 mt-1 italic">Renovación automática desactivada.</p>
+                                    )}
                                 </div>
                             )}
 
@@ -320,8 +325,10 @@ export default function SettingsPage() {
                                     <span className="font-bold text-sm">Mensual</span>
                                 </div>
                                 <div className="flex justify-between items-center py-2">
-                                    <span className="text-slate-600 text-sm">Próxima facturación</span>
-                                    <span className="font-bold text-sm text-blue-600">
+                                    <span className="text-slate-600 text-sm">
+                                        {subscription?.status === 'canceled' ? 'Término de acceso' : 'Próxima facturación'}
+                                    </span>
+                                    <span className={`font-bold text-sm ${subscription?.status === 'canceled' ? 'text-amber-600' : 'text-blue-600'}`}>
                                         {formatDate(subscription?.next_payment_at || subscription?.current_period_end) || 'Sin fecha programada'}
                                     </span>
                                 </div>

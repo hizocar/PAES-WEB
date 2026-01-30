@@ -57,19 +57,20 @@ export async function POST(req: Request) {
                                 next_payment_at: (subscription.auto_recurring as any)?.next_payment_date,
                             })
                     }
-                } else if (subscription.status === "cancelled") {
+                } else if (subscription.status === "cancelled" || subscription.status === "paused") {
                     const externalReference = JSON.parse(subscription.external_reference || "{}")
                     const { userId } = externalReference
 
                     if (userId) {
-                        await supabase
-                            .from("profiles")
-                            .update({ subscription_tier: "free" })
-                            .eq("id", userId)
-
+                        // We DO NOT downgrade the profile immediately here.
+                        // The user keeps their tier until next_payment_at passed.
+                        // We only update the subscription status to stop renewals.
                         await supabase
                             .from("subscriptions")
-                            .update({ status: "canceled", canceled_at: new Date().toISOString() })
+                            .update({
+                                status: "canceled",
+                                canceled_at: new Date().toISOString()
+                            })
                             .eq("user_id", userId)
                     }
                 }
