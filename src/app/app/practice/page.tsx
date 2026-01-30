@@ -269,6 +269,7 @@ function PracticeContent() {
                     question={question}
                     onNext={fetchQuestion}
                     onWrongAnswer={handleWrongAnswer}
+                    mode={retryMode ? 'review' : 'practice'}
                 />
             )}
         </div>

@@ -224,6 +224,7 @@ begin
         join questions q on a.question_id = q.id
         where a.is_correct = true
         and q.subject = p_subject -- Filter by subject
+        and a.mode = 'practice' -- Only practice mode grants points
         group by a.user_id
     )
     select 

@@ -31,11 +31,12 @@ type QuestionCardProps = {
     question: Question
     onNext: () => void
     onWrongAnswer?: () => void
+    mode?: 'practice' | 'review'
 }
 
 import { useSubject } from "@/components/providers/SubjectContext"
 
-export function QuestionCard({ question, onNext, onWrongAnswer }: QuestionCardProps) {
+export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice' }: QuestionCardProps) {
     const { subject } = useSubject()
     const [selected, setSelected] = useState<string | null>(null)
     const [submitted, setSubmitted] = useState(false)
@@ -89,7 +90,8 @@ export function QuestionCard({ question, onNext, onWrongAnswer }: QuestionCardPr
                 user_id: user.id,
                 question_id: question.id,
                 selected_answer: selected,
-                is_correct: isAnswerCorrect
+                is_correct: isAnswerCorrect,
+                mode: mode
             })
 
             // Update local stats
@@ -132,7 +134,8 @@ export function QuestionCard({ question, onNext, onWrongAnswer }: QuestionCardPr
                 user_id: user.id,
                 question_id: question.id,
                 selected_answer: "TIMEOUT", // distinct marker
-                is_correct: false
+                is_correct: false,
+                mode: mode
             })
         }
 
