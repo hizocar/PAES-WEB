@@ -76,9 +76,9 @@ export async function createSubscriptionPreference(planId: string) {
         }
 
         return { url: result.init_point }
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error creating MP PreApproval:", error)
-        return { error: "Error al procesar la suscripción. Por favor intente más tarde." }
+        return { error: `Error de Mercado Pago: ${error.message || "Error desconocido"}` }
     }
 }
 
