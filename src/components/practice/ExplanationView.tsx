@@ -18,6 +18,7 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
     const [loading, setLoading] = useState(true)
     const [credits, setCredits] = useState<number | null>(null)
     const [replenishAt, setReplenishAt] = useState<string | null>(null)
+    const [tier, setTier] = useState<string>('free')
     const [videoSignedUrl, setVideoSignedUrl] = useState<string | null>(null)
     const [timeRemaining, setTimeRemaining] = useState<string>("")
 
@@ -58,20 +59,25 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
         const { data: { user } } = await supabase.auth.getUser()
         if (!user) return
 
-        // Check credits RPC
-        const { data, error } = await supabase.rpc('check_explanation_replenishment', {
-            p_user_id: user.id
-        })
+        // Check credits & Tier
+        const [rpcResult, profileResult] = await Promise.all([
+            supabase.rpc('check_explanation_replenishment', { p_user_id: user.id }),
+            supabase.from('profiles').select('subscription_tier').eq('id', user.id).single()
+        ])
 
-        if (data) {
-            setCredits(data.credits)
-            setReplenishAt(data.replenish_at)
+        if (rpcResult.data) {
+            setCredits(rpcResult.data.credits)
+            setReplenishAt(rpcResult.data.replenish_at)
+        }
+
+        if (profileResult.data) {
+            setTier(profileResult.data.subscription_tier || 'free')
         }
         setLoading(false)
     }
 
     const handleReveal = async () => {
-        if (credits === null || credits <= 0) return
+        if (tier === 'free' && (credits === null || credits <= 0)) return
 
         const { data: { user } } = await supabase.auth.getUser()
         if (!user) return
@@ -104,8 +110,8 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
                         <Lightbulb size={18} />
                     </div>
                     Explicación
-                    <span className="text-xs font-normal bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
-                        {credits} restantes hoy
+                    <span className="text-xs font-bold bg-blue-100 text-blue-700 px-3 py-1 rounded-full uppercase tracking-wider">
+                        {tier !== 'free' ? "ILIMITADAS" : `${credits} restantes hoy`}
                     </span>
                 </h3>
 
@@ -130,7 +136,7 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
     }
 
     // Credits exhausted
-    if (credits !== null && credits <= 0) {
+    if (tier === 'free' && credits !== null && credits <= 0) {
         return (
             <div className="bg-slate-50 rounded-xl p-8 text-center border border-slate-200">
                 <div className="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-4 text-slate-400">
@@ -160,16 +166,22 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
             </div>
             <h3 className="text-lg font-bold text-slate-900 mb-2">¿Quieres ver la explicación?</h3>
             <p className="text-slate-500 mb-6 max-w-sm mx-auto text-sm">
-                Te quedan <span className="font-bold text-blue-600">{credits} explicaciones</span> gratuitas hoy.
+                {tier !== 'free' ? (
+                    "Tienes acceso ilimitado a todas las explicaciones por ser Premium."
+                ) : (
+                    <>Te quedan <span className="font-bold text-blue-600">{credits} explicaciones</span> gratuitas hoy.</>
+                )}
             </p>
             <Button
                 onClick={handleReveal}
                 className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-6 h-auto text-lg shadow-blue-200 shadow-xl transition-all hover:scale-105"
             >
                 Revelar Explicación
-                <span className="ml-2 text-xs bg-blue-700/50 px-2 py-0.5 rounded text-blue-100 border border-blue-500/30">
-                    -1 crédito
-                </span>
+                {tier === 'free' && (
+                    <span className="ml-2 text-xs bg-blue-700/50 px-2 py-0.5 rounded text-blue-100 border border-blue-500/30">
+                        -1 crédito
+                    </span>
+                )}
             </Button>
         </div>
     )

@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { BarChart3, Clock, Target, TrendingUp, ArrowRight, Flame, Heart, Zap, Trophy, AlertCircle } from "lucide-react"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 
 import { useSubject } from "@/components/providers/SubjectContext"
 import { AchievementNotification } from "@/components/achievements/AchievementNotification"
@@ -25,7 +26,8 @@ export default function DashboardPage() {
         replenishAt: null as string | null,
         rank: null as number | null,
         score: 0,
-        mistakes: 0
+        mistakes: 0,
+        tier: 'free'
     })
     const [timeLeft, setTimeLeft] = useState<string>("")
     const [ejes, setEjes] = useState<any[]>([])
@@ -55,11 +57,12 @@ export default function DashboardPage() {
                     }
                 }
 
-                // 1. Parallel Fetch: Stats (RPC), Lives, Leaderboard
-                const [statsResult, livesResult, leaderboardResult] = await Promise.all([
+                // 1. Parallel Fetch: Stats (RPC), Lives, Leaderboard, Profile Tier
+                const [statsResult, livesResult, leaderboardResult, profileResult] = await Promise.all([
                     supabase.rpc('get_dashboard_stats', { p_user_id: user.id, p_subject: subject }),
                     supabase.rpc('check_and_replenish_lives', { p_user_id: user.id, p_subject: subject }),
-                    supabase.rpc('get_leaderboard', { p_subject: subject })
+                    supabase.rpc('get_leaderboard', { p_subject: subject }),
+                    supabase.from('profiles').select('subscription_tier').eq('id', user.id).single()
                 ])
 
                 if (!isMounted) return
@@ -67,6 +70,9 @@ export default function DashboardPage() {
                 const { data: dashboardStats, error: statsError } = statsResult
                 const { data: livesData } = livesResult
                 const { data: leaderboardData } = leaderboardResult
+                const { data: profileData } = profileResult
+
+                const tier = profileData?.subscription_tier || 'free'
 
                 if (statsError) throw statsError
 
@@ -106,9 +112,13 @@ export default function DashboardPage() {
                     replenishAt: replenishAt,
                     rank: userRank,
                     score: userScore,
-                    mistakes: activeMistakes
+                    mistakes: activeMistakes,
+                    tier: tier
                 })
 
+                // Add tier to local state if needed or just use profileData directly
+                // For now let's just use profileData for the UI logic below
+                const userTier = tier
                 setEjes(processedEjes)
 
             } catch (error) {
@@ -157,7 +167,7 @@ export default function DashboardPage() {
                         </div>
                     </div>
                 </div>
-                {stats.lives !== null && stats.lives > 0 && (
+                {stats.lives !== null && (stats.lives > 0 || stats.tier !== 'free') && (
                     <Link href="/app/practice" className="w-full md:w-auto">
                         <Button size="lg" className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 font-bold text-base px-6 h-12 rounded-xl">
                             <Zap className="w-5 h-5 mr-2 fill-current" />
@@ -173,7 +183,11 @@ export default function DashboardPage() {
                     <div className="flex items-start justify-between">
                         <div>
                             <h3 className="text-slate-500 font-semibold text-sm">Vidas</h3>
-                            {stats.lives && stats.lives > 0 ? (
+                            {stats.tier !== 'free' ? (
+                                <div className="text-2xl md:text-3xl font-extrabold text-slate-900 mt-2 flex items-center gap-2">
+                                    ILIMITADAS
+                                </div>
+                            ) : stats.lives !== null && stats.lives > 0 ? (
                                 <div className="text-2xl md:text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
                                     {stats.lives}
                                 </div>
@@ -183,17 +197,29 @@ export default function DashboardPage() {
                                 </div>
                             )}
                             <p className="text-xs text-slate-400 mt-1">
-                                {stats.lives && stats.lives > 0 ? "¡Sigue así!" : "Recargando..."}
+                                {stats.tier !== 'free' ? "Beneficio Premium" : stats.lives && stats.lives > 0 ? "¡Sigue así!" : "Recargando..."}
                             </p>
                         </div>
-                        <div className="w-8 h-8 md:w-10 md:h-10 bg-red-50 text-red-500 rounded-lg flex items-center justify-center">
-                            {stats.lives === 0 ? <Clock size={16} className="md:w-5 md:h-5" /> : <Heart size={16} className="fill-red-500 md:w-5 md:h-5" />}
+                        <div className={cn(
+                            "w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center",
+                            stats.tier !== 'free' ? "bg-amber-50 text-amber-500" : "bg-red-50 text-red-500"
+                        )}>
+                            {stats.tier !== 'free' ? (
+                                <Zap size={16} className="fill-amber-500 md:w-5 md:h-5" />
+                            ) : stats.lives === 0 ? (
+                                <Clock size={16} className="md:w-5 md:h-5" />
+                            ) : (
+                                <Heart size={16} className="fill-red-500 md:w-5 md:h-5" />
+                            )}
                         </div>
                     </div>
                     <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
                         <div
-                            className={`h-full transition-all duration-1000 ${stats.lives && stats.lives > 1 ? 'bg-red-500' : 'bg-red-300'}`}
-                            style={{ width: `${Math.min(((stats.lives || 0) / 5) * 100, 100)}%` }}
+                            className={cn(
+                                "h-full transition-all duration-1000",
+                                stats.tier !== 'free' ? "bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.5)]" : (stats.lives && stats.lives > 1 ? 'bg-red-500' : 'bg-red-300')
+                            )}
+                            style={{ width: `${stats.tier !== 'free' ? 100 : Math.min(((stats.lives || 0) / 10) * 100, 100)}%` }}
                         />
                     </div>
                 </div>

@@ -1,19 +1,20 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Heart, Clock } from "lucide-react"
+import { Heart, Clock, Zap } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 type LivesCounterProps = {
     lives: number
     replenishAt: string | null // ISO string
+    tier?: string
 }
 
-export function LivesCounter({ lives, replenishAt }: LivesCounterProps) {
+export function LivesCounter({ lives, replenishAt, tier = 'free' }: LivesCounterProps) {
     const [timeLeft, setTimeLeft] = useState<string>("")
 
     useEffect(() => {
-        if (lives > 0 || !replenishAt) return
+        if (tier !== 'free' || lives > 0 || !replenishAt) return
 
         const updateTimer = () => {
             const now = new Date()
@@ -38,7 +39,16 @@ export function LivesCounter({ lives, replenishAt }: LivesCounterProps) {
         const interval = setInterval(updateTimer, 1000)
 
         return () => clearInterval(interval)
-    }, [lives, replenishAt])
+    }, [lives, replenishAt, tier])
+
+    if (tier !== 'free') {
+        return (
+            <div className="flex items-center gap-1.5 bg-amber-50 text-amber-600 px-3 py-1.5 rounded-full border border-amber-100 shadow-sm">
+                <Zap size={18} className="fill-amber-500 text-amber-500" />
+                <span className="text-lg font-black tracking-tighter">∞</span>
+            </div>
+        )
+    }
 
     if (lives === 0 && replenishAt) {
         return (

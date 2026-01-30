@@ -37,23 +37,31 @@ function PracticeContent() {
     // Lives System State
     const [lives, setLives] = useState(10)
     const [replenishAt, setReplenishAt] = useState<string | null>(null)
+    const [tier, setTier] = useState<string>('free')
 
     const supabase = createClient()
 
-    // Initialize Lives
+    // Initialize Lives & Tier
     useEffect(() => {
-        const initLives = async () => {
+        const initPractice = async () => {
             const { data: { user } } = await supabase.auth.getUser()
             if (!user) return
 
-            const { data } = await supabase.rpc('check_and_replenish_lives', { p_user_id: user.id, p_subject: subject })
+            const [livesResult, profileResult] = await Promise.all([
+                supabase.rpc('check_and_replenish_lives', { p_user_id: user.id, p_subject: subject }),
+                supabase.from('profiles').select('subscription_tier').eq('id', user.id).single()
+            ])
 
-            if (data && data.length > 0) {
-                setLives(data[0].current_lives)
-                setReplenishAt(data[0].replenish_at)
+            if (livesResult.data && livesResult.data.length > 0) {
+                setLives(livesResult.data[0].current_lives)
+                setReplenishAt(livesResult.data[0].replenish_at)
+            }
+
+            if (profileResult.data) {
+                setTier(profileResult.data.subscription_tier || 'free')
             }
         }
-        initLives()
+        initPractice()
     }, [subject])
 
     const fetchQuestion = async () => {
@@ -110,12 +118,12 @@ function PracticeContent() {
         setCompleted(false)
     }, [retryMode, subject])
 
-    // Fetch Question if missing (and we have lives)
+    // Fetch Question if missing (and we have lives or are premium)
     useEffect(() => {
-        if (lives > 0 && !question && !completed) {
+        if ((lives > 0 || tier !== 'free') && !question && !completed) {
             fetchQuestion()
         }
-    }, [lives, question, completed])
+    }, [lives, question, completed, tier])
 
     const handleWrongAnswer = async () => {
         const { data: { user } } = await supabase.auth.getUser()
@@ -131,7 +139,7 @@ function PracticeContent() {
         }
     }
 
-    if (loading && !question && lives > 0) {
+    if (loading && !question && (lives > 0 || tier !== 'free')) {
         return (
             <div className="flex h-[80vh] items-center justify-center flex-col gap-4">
                 <Loader2 className="animate-spin text-blue-600" size={40} />
@@ -142,8 +150,8 @@ function PracticeContent() {
         )
     }
 
-    // Cooldown / No Lives Screen
-    if (lives === 0 && replenishAt) {
+    // Cooldown / No Lives Screen (Only for free users)
+    if (tier === 'free' && lives === 0 && replenishAt) {
         return (
             <div className="flex h-[80vh] items-center justify-center flex-col gap-8 px-4 text-center max-w-md mx-auto animate-in fade-in zoom-in duration-300">
                 <div className="relative">
@@ -232,7 +240,7 @@ function PracticeContent() {
                     {retryMode && <AlertCircle size={14} className="text-orange-500" />}
                 </div>
 
-                <LivesCounter lives={lives} replenishAt={replenishAt} />
+                <LivesCounter lives={lives} replenishAt={replenishAt} tier={tier} />
             </div>
 
             {debugMsg && (
