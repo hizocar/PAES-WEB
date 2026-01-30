@@ -10,7 +10,7 @@ as $$
 begin
     -- 1. Update the profile
     update public.profiles
-    set subscription_tier = lower(p_tier)
+    set subscription_tier = lower(p_tier)::public.subscription_tier
     where id = p_user_id;
 
     -- 2. Ensure an active subscription record exists for this tier
