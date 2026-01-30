@@ -103,10 +103,11 @@ export function MobileNav({ user }: { user: any }) {
                         </nav>
 
                         <div className="pt-6 border-t border-slate-100 space-y-3 mt-auto">
-                            <div className="flex flex-col gap-2">
+                            <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col gap-3">
                                 <UserProfile user={user} />
-                                <div className="flex justify-center items-center w-full pb-2">
-                                    <Link href="/app/pricing" onClick={() => setOpen(false)}>
+                                <div className="flex items-center justify-between px-1 pt-2 border-t border-slate-100">
+                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Estado</span>
+                                    <Link href="/app/pricing" onClick={() => setOpen(false)} className="hover:opacity-80 transition-opacity">
                                         <SubscriptionBadge tier={user?.subscription_tier} />
                                     </Link>
                                 </div>

@@ -15,7 +15,7 @@ export function SubscriptionBadge({ tier = 'free', className = '' }: Subscriptio
     if (normalizedTier === 'free') {
         return (
             <div className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200 ${className}`}>
-                <span>PLAN FREE</span>
+                <span>FREE</span>
             </div>
         )
     }
@@ -24,7 +24,7 @@ export function SubscriptionBadge({ tier = 'free', className = '' }: Subscriptio
         return (
             <div className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-gradient-to-r from-amber-200 to-yellow-400 text-yellow-900 border border-yellow-400/50 shadow-sm ${className}`}>
                 <Crown size={10} className="fill-yellow-600 text-yellow-800" />
-                <span>PLAN PREMIUM</span>
+                <span>PREMIUM</span>
             </div>
         )
     }
@@ -33,7 +33,7 @@ export function SubscriptionBadge({ tier = 'free', className = '' }: Subscriptio
         return (
             <div className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-gradient-to-r from-slate-900 to-slate-700 text-white border border-slate-700 shadow-sm ${className}`}>
                 <Crown size={10} className="fill-purple-400 text-purple-200" />
-                <span>PLAN SIGNATURE</span>
+                <span>SIGNATURE</span>
             </div>
         )
     }

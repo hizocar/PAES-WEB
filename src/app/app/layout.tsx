@@ -103,11 +103,12 @@ export default async function AppLayout({
                         </Link>
                     </nav>
 
-                    <div className="p-4 border-t border-slate-100 space-y-2">
-                        <div className="flex flex-col gap-2 mb-2">
+                    <div className="mt-auto p-4 border-t border-slate-100 bg-slate-50/50 flex flex-col gap-2">
+                        <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col gap-3 mb-2">
                             <UserProfile user={userWithProfile} />
-                            <div className="flex justify-center items-center w-full pb-4">
-                                <Link href="/app/pricing">
+                            <div className="flex items-center justify-between px-1 pt-2 border-t border-slate-50">
+                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Estado</span>
+                                <Link href="/app/pricing" className="hover:opacity-80 transition-opacity">
                                     <SubscriptionBadge tier={userWithProfile?.subscription_tier} />
                                 </Link>
                             </div>
@@ -134,7 +135,7 @@ export default async function AppLayout({
                         {children}
                     </StudyTrackerProvider>
                 </main>
-            </div>
-        </SubjectProvider>
+            </div >
+        </SubjectProvider >
     )
 }
