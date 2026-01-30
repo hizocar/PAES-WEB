@@ -42,16 +42,6 @@ export async function createSubscriptionPreference(planId: string) {
         return { error: "Ya tienes este plan activo" }
     }
 
-    if (!accessToken) {
-        console.warn("MERCADOPAGO_ACCESS_TOKEN not set, using mock redirect")
-        const mockExternalReference = JSON.stringify({
-            userId: session.user.id,
-            planId: plan.id,
-            tier: plan.tier
-        })
-        return { url: `/app/pricing/success?status=approved&external_reference=${encodeURIComponent(mockExternalReference)}` }
-    }
-
     try {
         const client = new MercadoPagoConfig({ accessToken })
         const preApproval = new PreApproval(client)
@@ -87,58 +77,75 @@ export async function createSubscriptionPreference(planId: string) {
     }
 }
 
-export async function updateUserSubscription(paymentId: string, status: string, externalReference: string) {
-    const isApproved = status === "approved" || status === "authorized"
-
-    if (!isApproved) {
-        return { error: `La suscripción no está activa (Estado: ${status})` }
-    }
-
+export async function updateUserSubscription(paymentId: string, status: string | null, externalReference: string) {
+    const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN
     const supabase = await createClient()
 
+    console.log(`[Subscription Update] Processing ID: ${paymentId}, Status: ${status}`)
+
     try {
-        let userId, tier
+        let userId, tier, finalStatus = status
 
-        if (externalReference) {
-            const data = JSON.parse(externalReference)
-            userId = data.userId
-            tier = data.tier
-        }
+        // 1. Fetch real status from MP if we have a token and ID (most reliable)
+        if (accessToken && paymentId && paymentId !== 'n/a') {
+            try {
+                const client = new MercadoPagoConfig({ accessToken })
+                const preApproval = new PreApproval(client)
+                const subData = await preApproval.get({ id: paymentId })
 
-        // 1. If we don't have metadata yet, try to find by preapproval_id in the subscriptions table
-        // (This might happen if the webhook arrived first)
-        if (!userId && paymentId && paymentId !== 'n/a') {
-            const { data: sub } = await supabase
-                .from("subscriptions")
-                .select("user_id, plan_id")
-                .eq("mp_preapproval_id", paymentId)
-                .single()
+                finalStatus = subData.status
+                console.log(`[Subscription Update] Verified Status: ${finalStatus}`)
 
-            if (sub) {
-                userId = sub.user_id
-                // We'd need to fetch the tier from plans if we only have plan_id
-                const { data: plan } = await supabase.from("plans").select("tier").eq("id", sub.plan_id).single()
-                tier = plan?.tier
+                // Recover metadata if missing
+                const mpRef = JSON.parse(subData.external_reference || "{}")
+                userId = userId || mpRef.userId
+                tier = tier || mpRef.tier
+            } catch (mpError) {
+                console.error("[Subscription Update] MP check failed (using fallback):", mpError)
             }
         }
 
-        if (!userId) {
-            // Still loading? Maybe wait for webhook? 
-            // For now, let's assume we need metadata to proceed
-            return { error: "No se pudieron verificar los datos de usuario" }
+        // 2. Fallback: Parse external metadata if present
+        if (externalReference && (!userId || !tier)) {
+            try {
+                const data = JSON.parse(externalReference)
+                userId = userId || data.userId
+                tier = tier || data.tier
+            } catch (e) {
+                console.error("[Subscription Update] Metadata parse fail:", e)
+            }
         }
 
-        // Update profile
+        const isApproved = finalStatus === "authorized" || finalStatus === "approved"
+        if (!isApproved) {
+            return { error: `La suscripción no está activa (Estado: ${finalStatus || 'desconocido'})` }
+        }
+
+        if (!userId || !tier) {
+            return { error: "No se pudieron verificar los datos de usuario para la suscripción." }
+        }
+
+        // 3. Update profile
+        console.log(`[Subscription Update] Activating ${tier} for ${userId}`)
         const { error: updateError } = await supabase
             .from("profiles")
-            .update({ subscription_tier: tier })
+            .update({ subscription_tier: tier.toLowerCase() })
             .eq("id", userId)
 
         if (updateError) throw updateError
 
-        return { success: true, tier }
-    } catch (error) {
-        console.error("Error updating subscription:", error)
-        return { error: "Error al actualizar la suscripción" }
+        // Ensure subscription record exists
+        await supabase
+            .from("subscriptions")
+            .upsert({
+                user_id: userId,
+                status: "active",
+                mp_preapproval_id: paymentId !== 'n/a' ? paymentId : null,
+            })
+
+        return { success: true, tier: tier.charAt(0).toUpperCase() + tier.slice(1) }
+    } catch (error: any) {
+        console.error("[Subscription Update] Critical Error:", error)
+        return { error: `Error: ${error.message || "desconocido"}` }
     }
 }

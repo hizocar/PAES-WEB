@@ -20,15 +20,15 @@ function SuccessContent() {
             const paymentStatus = searchParams.get('status')
             const externalReference = searchParams.get('external_reference')
 
-            const isApproved = paymentStatus === 'approved' || paymentStatus === 'authorized'
-
-            if (!paymentStatus || !isApproved) {
+            // For subscriptions, sometimes status is missing, but preapprovalId is present
+            if (!paymentId && !preapprovalId) {
                 setStatus('error')
-                setMessage('El pago no fue aprobado o los datos son inválidos.')
+                setMessage('No se encontraron parámetros de pago en la URL.')
                 return
             }
 
             try {
+                // We let the server verify the status if it's not clear from the URL
                 const result = await updateUserSubscription(
                     paymentId || 'n/a',
                     paymentStatus,
@@ -38,7 +38,6 @@ function SuccessContent() {
                 if (result.success) {
                     setStatus('success')
                     setMessage(`¡Bienvenido al plan ${result.tier}!`)
-                    // Refresh the page/auth state
                     router.refresh()
                 } else {
                     setStatus('error')
