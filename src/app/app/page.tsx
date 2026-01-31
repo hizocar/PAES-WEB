@@ -88,7 +88,8 @@ export default function DashboardPage() {
         score: 0,
         mistakes: 0,
         tier: 'free',
-        habilidades: [] as any[]
+        habilidades: [] as any[],
+        userName: ""
     })
     const [timeLeft, setTimeLeft] = useState<string>("")
     const [ejes, setEjes] = useState<any[]>([])
@@ -134,6 +135,7 @@ export default function DashboardPage() {
                 const { data: profileData, error: profileError } = profileResult
 
                 const tier = profileData?.subscription_tier || 'free'
+                const name = (profileData as any)?.full_name?.split(' ')[0] || 'Aspirante'
                 const onboardingCompleted = (profileData as any)?.onboarding_completed || false
 
                 if (!onboardingCompleted) {
@@ -181,7 +183,8 @@ export default function DashboardPage() {
                     score: userScore,
                     mistakes: activeMistakes,
                     tier: tier,
-                    habilidades: processedHabilidades
+                    habilidades: processedHabilidades,
+                    userName: name
                 })
 
                 // Add tier to local state if needed or just use profileData directly
@@ -249,40 +252,67 @@ export default function DashboardPage() {
         )
     }
 
+    const getStatusMessage = () => {
+        if (stats.streak >= 7) return "¡Nivel: Constancia Pura! Estás en el top de regularidad esta semana 🔥";
+        if (stats.dailyProgress >= stats.dailyTarget) return "¡Meta cumplida! Has dado un paso gigante hacia la universidad hoy 🚀";
+        if (stats.mistakes > 10) return "Tienes varios errores pendientes. ¡A repasarlos para limpiar tu historial! 🧠";
+        if (stats.streak > 0) return "Mantener la racha es la clave del puntaje nacional. ¡Sigue así!";
+        return "El éxito es la suma de pequeños esfuerzos diarios. ¡Vamos por esos puntos!";
+    }
+
+    const bestEje = ejes.length > 0 ? [...ejes].sort((a, b) => b.progress - a.progress)[0] : null;
+
     return (
         <div className="p-6 max-w-7xl mx-auto space-y-6">
             <AchievementNotification
                 achievement={unlockedAchievement}
                 onClose={() => setUnlockedAchievement(null)}
             />
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                <div className="w-full">
-                    <div className="flex items-center justify-between w-full">
-                        <h1 className="text-2xl font-bold text-slate-900">Hola, Futuro Universitario 👋</h1>
-                        {/* Streak Badge (Mobile Right) */}
-                        <div className="md:hidden flex items-center gap-1.5 px-2 py-1 bg-orange-50 text-orange-600 rounded-full border border-orange-100 shadow-sm shrink-0">
-                            <Flame size={12} className="fill-orange-500" />
-                            <span className="text-xs font-bold">{stats.streak} {stats.streak === 1 ? 'día' : 'días'}</span>
-                        </div>
+
+            {/* Smart Dashboard Hero */}
+            <div className="relative overflow-hidden bg-white p-6 md:p-10 rounded-[2rem] border border-slate-100 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8 group">
+                {/* Decorative background element */}
+                <div className="absolute top-0 right-0 -translate-y-12 translate-x-12 w-64 h-64 bg-blue-50/50 rounded-full blur-3xl group-hover:bg-blue-100/50 transition-colors duration-700" />
+                <div className="absolute bottom-0 left-0 translate-y-24 -translate-x-12 w-48 h-48 bg-purple-50/30 rounded-full blur-3xl pointer-events-none" />
+
+                <div className="relative z-10 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+                    <div className="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl flex items-center justify-center text-white shadow-2xl shadow-blue-200 shrink-0 transform group-hover:rotate-3 transition-transform duration-500">
+                        <Trophy size={40} className="fill-white/20" />
                     </div>
 
-                    <div className="flex items-center gap-3 mt-1">
-                        <p className="text-sm text-slate-500">Continuemos tu preparación.</p>
-                        {/* Streak Badge (Desktop) */}
-                        <div className="hidden md:flex items-center gap-1.5 px-3 py-1 bg-orange-50 text-orange-600 rounded-full border border-orange-100 shadow-sm" title="Racha de días seguidos">
-                            <Flame size={14} className="fill-orange-500" />
-                            <span className="text-sm font-bold">{stats.streak} {stats.streak === 1 ? 'día' : 'días'}</span>
+                    <div className="space-y-2">
+                        <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight">
+                            ¡Hola de nuevo, <span className="text-blue-600">{stats.userName}</span>! 👋
+                        </h1>
+                        <p className="text-slate-500 font-medium max-w-xl text-lg md:text-xl leading-relaxed">
+                            {getStatusMessage()}
+                        </p>
+
+                        <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mt-4">
+                            <div className="flex items-center gap-1.5 px-4 py-1.5 bg-orange-50 text-orange-600 rounded-full border border-orange-100 text-sm font-bold shadow-sm" title="Racha de días seguidos">
+                                <Flame size={16} className="fill-orange-500" />
+                                {stats.streak} {stats.streak === 1 ? 'día' : 'días'} de racha
+                            </div>
+                            {bestEje && bestEje.progress > 0 && (
+                                <div className="flex items-center gap-1.5 px-4 py-1.5 bg-green-50 text-green-600 rounded-full border border-green-100 text-sm font-bold shadow-sm">
+                                    <Star size={16} className="fill-green-500" />
+                                    Master: {bestEje.name}
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
-                {stats.lives !== null && (stats.lives > 0 || stats.tier !== 'free') && (
-                    <Link href="/app/practice" className="w-full md:w-auto">
-                        <Button size="lg" className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 font-bold text-base px-6 h-12 rounded-xl">
-                            <Zap className="w-5 h-5 mr-2 fill-current" />
-                            ¡Practicar Ahora!
-                        </Button>
-                    </Link>
-                )}
+
+                <div className="relative z-10 w-full md:w-auto">
+                    {(stats.lives !== null && (stats.lives > 0 || stats.tier !== 'free')) && (
+                        <Link href="/app/practice">
+                            <Button size="lg" className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white shadow-xl shadow-blue-200 transform hover:-translate-y-1 transition-all h-16 px-10 rounded-2xl font-bold text-xl border-b-4 border-blue-800 active:border-b-0 active:translate-y-0">
+                                <Zap className="w-6 h-6 mr-2 fill-current" />
+                                Entrenar Ahora
+                            </Button>
+                        </Link>
+                    )}
+                </div>
             </div>
 
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
