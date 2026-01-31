@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
-import { BarChart3, Clock, Target, TrendingUp, ArrowRight, Flame, Heart, Zap, Trophy, AlertCircle, Star } from "lucide-react"
+import { BarChart3, Clock, Target, TrendingUp, ArrowRight, Flame, Heart, Zap, Trophy, AlertCircle, Star, RotateCcw } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 
@@ -13,59 +13,52 @@ import { OnboardingTour, OnboardingStep } from "@/components/onboarding/Onboardi
 
 const DASHBOARD_STEPS: OnboardingStep[] = [
     {
-        title: "¡Bienvenido a PAES Lab!",
-        description: "Estamos aquí para ayudarte a entrar a la universidad de tus sueños. Vamos a darte un tour rápido por tu nuevo centro de entrenamiento.",
+        title: "¡Bienvenido a tu Centro de Alto Rendimiento! 🚀",
+        description: "PAES Lab no es solo una app de ejercicios. Es un sistema diseñado para detectar cada uno de tus vacíos y llevarte al puntaje nacional.",
         icon: <Star className="text-yellow-500 fill-yellow-500" />,
         position: 'center'
     },
     {
-        targetId: "tour-switcher",
-        title: "Cambia de asignatura",
-        description: "Puedes alternar entre M1 y M2 en cualquier momento. Cada una tiene su propio progreso, ranking y banco de errores independiente.",
-        icon: <ArrowRight className="text-blue-500" />,
-        position: 'right'
+        targetId: "tour-ejes",
+        title: "Tu Mapa del Éxito (DEMRE)",
+        description: "Aquí verás tu dominio real en los Ejes Temáticos oficiales de la PAES. Medimos tu precisión según el temario actualizado del DEMRE para que sepas dónde enfocar tu estudio.",
+        icon: <Target className="text-blue-500" />,
+        position: 'top'
+    },
+    {
+        targetId: "tour-habilidades",
+        title: "Tus Habilidades de Pensador",
+        description: "La PAES evalúa cómo razonas. Aquí rastreamos tu fortaleza en Resolver Problemas, Modelar, Representar y Argumentar. ¡Conviértete en un experto en las 4!",
+        icon: <TrendingUp className="text-indigo-500" />,
+        position: 'top'
     },
     {
         targetId: "tour-practice",
-        title: "Entrena sin límites",
-        description: "En 'Practicar' encontrarás miles de ejercicios actualizados a los nuevos temarios PAES. Es el corazón de tu estudio.",
+        title: "Entrenamiento Inteligente",
+        description: "El botón 'Practicar' te dará ejercicios adaptados a tu nivel actual. Cada respuesta nos ayuda a conocerte mejor.",
         icon: <Zap className="text-blue-500 fill-blue-500" />,
         position: 'right'
     },
     {
         targetId: "tour-mistakes",
-        title: "Tus errores son tus maestros",
-        description: "El 'Modo Repaso' guarda tus fallos automáticamente para que puedas volver a intentarlos hasta dominarlos.",
-        icon: <Target className="text-red-500" />,
+        title: "Modo Repaso: Sin fallos",
+        description: "Tus errores son oro. En el 'Modo Repaso' guardamos tus fallos para que los enfrentes una y otra vez hasta que desaparezcan de tu banco de errores.",
+        icon: <RotateCcw className="text-orange-500" />,
         position: 'right'
     },
     {
         targetId: "tour-lives",
-        title: "Cuida tus vidas",
-        description: "Cada error resta una vida. Se recargan cada 12 horas, ¡así que piensa bien tus respuestas! (O hazte Premium para ∞ vidas).",
+        title: "El Sistema de Vidas",
+        description: "Entrenar con seriedad requiere concentración. Cada error consume una vida. Se recargan con el tiempo, ¡así que cuídalas!",
         icon: <Heart className="text-red-500 fill-red-500" />,
         position: 'bottom'
     },
     {
-        targetId: "tour-target",
-        title: "Tu meta diaria",
-        description: "Intenta responder al menos 10 preguntas al día. La constancia es lo que te llevará al puntaje nacional.",
-        icon: <Target className="text-green-500" />,
-        position: 'bottom'
-    },
-    {
         targetId: "tour-ranking",
-        title: "Compite con Chile",
-        description: "Mira cómo subes en el ranking nacional. ¡Cada punto acumulado te acerca más a la cima! Haz clic para ver la tabla completa.",
+        title: "Mídete con Chile",
+        description: "Mira cómo subes en el ranking nacional mientras acumulas puntos. ¡La competencia sana te llevará más lejos!",
         icon: <Trophy className="text-yellow-500 fill-yellow-600" />,
         position: 'top'
-    },
-    {
-        targetId: "tour-profile",
-        title: "Tu identidad PAES",
-        description: "Aquí puedes ver tu alias y avatar. Ve a 'Configuración' para cambiarlos y darle tu toque personal a tu perfil.",
-        icon: <Star className="text-purple-500 fill-purple-500" />,
-        position: 'right'
     }
 ]
 
@@ -441,7 +434,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Ejes Grid */}
-            <div className="space-y-6">
+            <div className="space-y-6" id="tour-ejes">
                 <div className="flex items-center justify-between">
                     <h2 className="text-xl font-bold text-slate-900">Progreso por Eje Temático</h2>
                     <Link href="/app/progress" className="text-sm font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1">
@@ -480,7 +473,7 @@ export default function DashboardPage() {
                     ))}
                 </div>
 
-                <div className="pt-4">
+                <div className="pt-4" id="tour-habilidades">
                     <h2 className="text-xl font-bold text-slate-900 mb-4">Fortaleza por Habilidad</h2>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {stats.habilidades.map((hab: any) => (
