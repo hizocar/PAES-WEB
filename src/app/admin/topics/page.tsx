@@ -1,17 +1,18 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
-import { Plus, Trash, Edit, Save, X, BookOpen, Layers } from "lucide-react"
+import { Plus, Trash, Edit, Save, X, BookOpen, Layers, Search, ChevronRight, ChevronDown } from "lucide-react"
 
 export default function AdminTopicsPage() {
     const supabase = createClient()
     const [loading, setLoading] = useState(false)
     const [ejes, setEjes] = useState<any[]>([])
     const [topics, setTopics] = useState<any[]>([])
+    const [searchQuery, setSearchQuery] = useState("")
 
-    const [subject, setSubject] = useState<'m1' | 'm2'>('m2')
+    const [subject, setSubject] = useState<'m1' | 'm2'>('m1')
 
     // Eje Form State
     const [isEditingEje, setIsEditingEje] = useState(false)
@@ -62,6 +63,33 @@ export default function AdminTopicsPage() {
         }
         setLoading(false)
     }
+
+    // --- GROUPED DATA AND FILTERING ---
+    const filteredAndGroupedData = useMemo(() => {
+        const query = searchQuery.toLowerCase()
+
+        return ejes.map(eje => {
+            const ejeTopics = topics.filter(t => t.eje_id === eje.id)
+            const filteredTopics = ejeTopics.filter(t =>
+                t.name.toLowerCase().includes(query) ||
+                eje.name.toLowerCase().includes(query)
+            )
+
+            // If Eje matches query but topics don't, we still might want to show Eje
+            // or if any topics match, we show Eje.
+            const ejeMatches = eje.name.toLowerCase().includes(query)
+
+            if (ejeMatches || filteredTopics.length > 0) {
+                return {
+                    ...eje,
+                    topics: ejeTopics, // All topics for visibility or just filtered? 
+                    // Let's show filtered topics if there is a query, else all.
+                    filteredTopics: query ? filteredTopics : ejeTopics
+                }
+            }
+            return null
+        }).filter(Boolean)
+    }, [ejes, topics, searchQuery])
 
     // --- EJES ACTIONS ---
 
@@ -156,226 +184,272 @@ export default function AdminTopicsPage() {
     }
 
     return (
-        <div className="space-y-12 pb-20">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="max-w-6xl mx-auto space-y-8 pb-20">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-100">
                 <div>
-                    <h2 className="text-2xl font-bold text-slate-900">Gestión de Temario</h2>
-                    <p className="text-slate-500 text-sm">Administra los Ejes Temáticos y sus Temas Específicos.</p>
+                    <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Gestión de Temario</h2>
+                    <p className="text-slate-500 mt-1">Organiza los ejes y temas de la PAES.</p>
                 </div>
-                {/* Subject Switcher */}
-                <div className="bg-slate-100 p-1 rounded-lg flex items-center gap-1">
-                    <button
-                        onClick={() => setSubject('m1')}
-                        className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${subject === 'm1'
-                            ? 'bg-white text-slate-900 shadow-sm'
-                            : 'text-slate-500 hover:text-slate-700'
-                            }`}
-                    >
-                        M1
-                    </button>
-                    <button
-                        onClick={() => setSubject('m2')}
-                        className={`px-4 py-2 rounded-md text-sm font-bold transition-all ${subject === 'm2'
-                            ? 'bg-white text-slate-900 shadow-sm'
-                            : 'text-slate-500 hover:text-slate-700'
-                            }`}
-                    >
-                        M2
-                    </button>
+
+                <div className="flex items-center gap-4">
+                    {/* Subject Switcher */}
+                    <div className="bg-slate-100 p-1 rounded-xl flex items-center shadow-inner">
+                        <button
+                            onClick={() => setSubject('m1')}
+                            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all duration-200 ${subject === 'm1'
+                                ? 'bg-white text-blue-600 shadow-md transform scale-105'
+                                : 'text-slate-500 hover:text-slate-700'
+                                }`}
+                        >
+                            M1
+                        </button>
+                        <button
+                            onClick={() => setSubject('m2')}
+                            className={`px-6 py-2 rounded-lg text-sm font-bold transition-all duration-200 ${subject === 'm2'
+                                ? 'bg-white text-indigo-600 shadow-md transform scale-105'
+                                : 'text-slate-500 hover:text-slate-700'
+                                }`}
+                        >
+                            M2
+                        </button>
+                    </div>
+
+                    <Button onClick={() => setIsEditingEje(true)} className="bg-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-200">
+                        <Plus size={18} className="mr-2" /> Nuevo Eje
+                    </Button>
                 </div>
             </div>
 
-            {/* SECCION EJES */}
-            <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                        <Layers className="text-blue-600" size={20} />
-                        Ejes Temáticos ({subject.toUpperCase()})
-                    </h3>
-                    {!isEditingEje && (
-                        <Button size="sm" onClick={() => setIsEditingEje(true)}>
-                            <Plus size={16} className="mr-2" /> Nuevo Eje
-                        </Button>
-                    )}
+            {/* Search and Quick Filters */}
+            <div className="relative group">
+                <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
+                    <Search size={20} />
                 </div>
+                <input
+                    type="text"
+                    placeholder="Buscar eje o tema específico..."
+                    className="w-full pl-12 pr-4 py-4 bg-white border border-slate-200 rounded-2xl shadow-sm focus:ring-4 focus:ring-blue-100 focus:border-blue-400 transition-all outline-none text-lg"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+            </div>
 
-                {isEditingEje && (
-                    <div className="bg-blue-50 p-4 rounded-xl border border-blue-200 flex flex-wrap gap-4 items-end">
-                        <div className="flex-1 min-w-[200px]">
-                            <label className="text-xs font-bold text-slate-500 uppercase">Nombre</label>
+            {/* Forms Modals/Sections */}
+            {isEditingEje && (
+                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-100 shadow-inner space-y-4">
+                    <div className="flex items-center justify-between">
+                        <h4 className="font-bold text-blue-900 flex items-center gap-2">
+                            <Layers size={18} />
+                            {ejeForm.id ? "Editar Eje Temático" : "Crear Nuevo Eje Temático"}
+                        </h4>
+                        <button onClick={() => { setIsEditingEje(false); setEjeForm({ id: "", name: "", slug: "" }) }} className="text-blue-400 hover:text-blue-600">
+                            <X size={20} />
+                        </button>
+                    </div>
+                    <div className="grid md:grid-cols-2 gap-6 items-end">
+                        <div className="space-y-2">
+                            <label className="text-xs font-bold text-blue-700 uppercase tracking-wider">Nombre del Eje</label>
                             <input
-                                className="w-full p-2 border rounded-md text-sm"
+                                className="w-full p-3 bg-white border border-blue-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-400 outline-none"
                                 placeholder="Ej: Álgebra y Propiedades"
                                 value={ejeForm.name}
                                 onChange={e => setEjeForm({ ...ejeForm, name: e.target.value })}
                             />
                         </div>
-                        <div className="flex-1 min-w-[200px]">
-                            <label className="text-xs font-bold text-slate-500 uppercase">Slug (URL)</label>
+                        <div className="space-y-2">
+                            <label className="text-xs font-bold text-blue-700 uppercase tracking-wider">Slug (URL)</label>
                             <input
-                                className="w-full p-2 border rounded-md text-sm font-mono text-slate-600"
+                                className="w-full p-3 bg-white border border-blue-200 rounded-xl text-sm font-mono focus:ring-2 focus:ring-blue-400 outline-none"
                                 placeholder="Ej: algebra-y-propiedades"
                                 value={ejeForm.slug}
                                 onChange={e => setEjeForm({ ...ejeForm, slug: e.target.value })}
                             />
                         </div>
-                        <div className="flex gap-2">
-                            <Button size="sm" onClick={handleSaveEje} disabled={loading}>
-                                <Save size={16} className="mr-2" /> Guardar en {subject.toUpperCase()}
-                            </Button>
-                            <Button size="sm" variant="ghost" onClick={() => { setIsEditingEje(false); setEjeForm({ id: "", name: "", slug: "" }) }}>
-                                <X size={16} /> Cancelar
-                            </Button>
-                        </div>
                     </div>
-                )}
-
-                <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-                    <table className="w-full text-sm text-left">
-                        <thead className="bg-slate-50 text-slate-500 font-bold border-b">
-                            <tr>
-                                <th className="p-4">Nombre</th>
-                                <th className="p-4">Preguntas (aprox)</th>
-                                <th className="p-4">Slug</th>
-                                <th className="p-4 text-right">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100">
-                            {ejes.map((eje) => (
-                                <tr key={eje.id} className="hover:bg-slate-50">
-                                    <td className="p-4 font-medium text-slate-900">{eje.name}</td>
-                                    <td className="p-4">
-                                        <span className={`px-2 py-1 rounded text-xs font-bold ${eje.question_count > 0 ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-400'}`}>
-                                            {eje.question_count || 0}
-                                        </span>
-                                    </td>
-                                    <td className="p-4 text-slate-500 font-mono text-xs">{eje.slug}</td>
-                                    <td className="p-4 flex gap-2 justify-end">
-                                        <button onClick={() => editEje(eje)} className="p-1 hover:bg-blue-100 text-blue-600 rounded">
-                                            <Edit size={16} />
-                                        </button>
-                                        <button onClick={() => handleDeleteEje(eje.id)} className="p-1 hover:bg-red-100 text-red-600 rounded">
-                                            <Trash size={16} />
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                            {ejes.length === 0 && (
-                                <tr>
-                                    <td colSpan={4} className="p-8 text-center text-slate-400">No hay ejes creados para {subject.toUpperCase()}</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <hr className="border-slate-200" />
-
-            {/* SECCION TEMAS */}
-            <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-bold text-slate-800 flex items-center gap-2">
-                        <BookOpen className="text-purple-600" size={20} />
-                        Temas Específicos
-                    </h3>
-                    {!isEditingTopic && (
-                        <Button size="sm" onClick={() => setIsEditingTopic(true)}>
-                            <Plus size={16} className="mr-2" /> Nuevo Tema
+                    <div className="flex justify-end pt-2">
+                        <Button onClick={handleSaveEje} disabled={loading} className="px-8">
+                            <Save size={18} className="mr-2" /> Guardar en {subject.toUpperCase()}
                         </Button>
-                    )}
+                    </div>
                 </div>
+            )}
 
-                {isEditingTopic && (
-                    <div className="bg-purple-50 p-4 rounded-xl border border-purple-200 grid gap-4">
-                        <div className="grid md:grid-cols-3 gap-4">
-                            <div>
-                                <label className="text-xs font-bold text-slate-500 uppercase">Eje Temático</label>
-                                <select
-                                    className="w-full p-2 border rounded-md text-sm bg-white"
-                                    value={topicForm.eje_id}
-                                    onChange={e => setTopicForm({ ...topicForm, eje_id: e.target.value })}
-                                >
-                                    <option value="">Selecciona Eje</option>
-                                    {ejes.map(e => (
-                                        <option key={e.id} value={e.id}>{e.name}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div>
-                                <label className="text-xs font-bold text-slate-500 uppercase">Nombre</label>
-                                <input
-                                    className="w-full p-2 border rounded-md text-sm"
-                                    placeholder="Ej: Ecuación Cuadrática"
-                                    value={topicForm.name}
-                                    onChange={e => setTopicForm({ ...topicForm, name: e.target.value })}
-                                />
-                            </div>
-                            <div>
-                                <label className="text-xs font-bold text-slate-500 uppercase">Slug (URL)</label>
-                                <input
-                                    className="w-full p-2 border rounded-md text-sm font-mono text-slate-600"
-                                    placeholder="Ej: ecuacion-cuadratica"
-                                    value={topicForm.slug}
-                                    onChange={e => setTopicForm({ ...topicForm, slug: e.target.value })}
-                                />
-                            </div>
+            {isEditingTopic && (
+                <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-2xl border border-purple-100 shadow-inner space-y-4">
+                    <div className="flex items-center justify-between">
+                        <h4 className="font-bold text-purple-900 flex items-center gap-2">
+                            <BookOpen size={18} />
+                            {topicForm.id ? "Editar Tema Específico" : "Crear Nuevo Tema Específico"}
+                        </h4>
+                        <button onClick={() => { setIsEditingTopic(false); setTopicForm({ id: "", name: "", slug: "", eje_id: "" }) }} className="text-purple-400 hover:text-purple-600">
+                            <X size={20} />
+                        </button>
+                    </div>
+                    <div className="grid md:grid-cols-3 gap-6 items-end">
+                        <div className="space-y-2">
+                            <label className="text-xs font-bold text-purple-700 uppercase tracking-wider">Eje Temático</label>
+                            <select
+                                className="w-full p-3 bg-white border border-purple-200 rounded-xl text-sm focus:ring-2 focus:ring-purple-400 outline-none"
+                                value={topicForm.eje_id}
+                                onChange={e => setTopicForm({ ...topicForm, eje_id: e.target.value })}
+                            >
+                                <option value="">Selecciona Eje</option>
+                                {ejes.map(e => (
+                                    <option key={e.id} value={e.id}>{e.name}</option>
+                                ))}
+                            </select>
                         </div>
-                        <div className="flex gap-2 justify-end">
-                            <Button size="sm" onClick={handleSaveTopic} disabled={loading}>
-                                <Save size={16} className="mr-2" /> Guardar Tema
-                            </Button>
-                            <Button size="sm" variant="ghost" onClick={() => { setIsEditingTopic(false); setTopicForm({ id: "", name: "", slug: "", eje_id: "" }) }}>
-                                <X size={16} /> Cancelar
-                            </Button>
+                        <div className="space-y-2">
+                            <label className="text-xs font-bold text-purple-700 uppercase tracking-wider">Nombre del Tema</label>
+                            <input
+                                className="w-full p-3 bg-white border border-purple-200 rounded-xl text-sm focus:ring-2 focus:ring-purple-400 outline-none"
+                                placeholder="Ej: Ecuación Cuadrática"
+                                value={topicForm.name}
+                                onChange={e => setTopicForm({ ...topicForm, name: e.target.value })}
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-xs font-bold text-purple-700 uppercase tracking-wider">Slug (URL)</label>
+                            <input
+                                className="w-full p-3 bg-white border border-purple-200 rounded-xl text-sm font-mono focus:ring-2 focus:ring-purple-400 outline-none"
+                                placeholder="Ej: ecuacion-cuadratica"
+                                value={topicForm.slug}
+                                onChange={e => setTopicForm({ ...topicForm, slug: e.target.value })}
+                            />
                         </div>
                     </div>
-                )}
-
-                <div className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
-                    <table className="w-full text-sm text-left">
-                        <thead className="bg-slate-50 text-slate-500 font-bold border-b">
-                            <tr>
-                                <th className="p-4">Tema Específico</th>
-                                <th className="p-4">Eje Pertenece</th>
-                                <th className="p-4">Preguntas</th>
-                                <th className="p-4">Slug</th>
-                                <th className="p-4 text-right">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100">
-                            {topics.map((topic) => (
-                                <tr key={topic.id} className="hover:bg-slate-50">
-                                    <td className="p-4 font-medium text-slate-900">{topic.name}</td>
-                                    <td className="p-4">
-                                        <span className="bg-slate-100 text-slate-600 px-2 py-1 rounded text-xs font-bold">
-                                            {topic.ejes?.name || '---'}
-                                        </span>
-                                    </td>
-                                    <td className="p-4">
-                                        <span className={`px-2 py-1 rounded text-xs font-bold ${topic.question_count > 0 ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-400'}`}>
-                                            {topic.question_count}
-                                        </span>
-                                    </td>
-                                    <td className="p-4 text-slate-500 font-mono text-xs">{topic.slug}</td>
-                                    <td className="p-4 flex gap-2 justify-end">
-                                        <button onClick={() => editTopic(topic)} className="p-1 hover:bg-purple-100 text-purple-600 rounded">
-                                            <Edit size={16} />
-                                        </button>
-                                        <button onClick={() => handleDeleteTopic(topic.id)} className="p-1 hover:bg-red-100 text-red-600 rounded">
-                                            <Trash size={16} />
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                            {topics.length === 0 && (
-                                <tr>
-                                    <td colSpan={5} className="p-8 text-center text-slate-400">No hay temas creados para {subject.toUpperCase()}</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                    <div className="flex justify-end pt-2">
+                        <Button onClick={handleSaveTopic} disabled={loading} className="bg-purple-600 hover:bg-purple-700 px-8">
+                            <Save size={18} className="mr-2" /> Guardar Tema
+                        </Button>
+                    </div>
                 </div>
+            )}
+
+            {/* Hierarchical View */}
+            <div className="space-y-8">
+                {filteredAndGroupedData.map((eje: any) => (
+                    <div key={eje.id} className="bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                        {/* Eje Header */}
+                        <div className="bg-slate-50 px-8 py-5 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 rounded-2xl bg-white shadow-sm flex items-center justify-center text-blue-600 border border-slate-100">
+                                    <Layers size={24} />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold text-slate-900 leading-tight">{eje.name}</h3>
+                                    <div className="flex items-center gap-3 mt-1 text-xs font-medium uppercase tracking-widest">
+                                        <span className="text-slate-400">{eje.slug}</span>
+                                        <span className="w-1 h-1 rounded-full bg-slate-300" />
+                                        <span className="text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">{eje.question_count} preguntas</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => editEje(eje)}
+                                    className="text-slate-400 hover:text-blue-600 hover:bg-blue-50"
+                                >
+                                    <Edit size={16} className="mr-2" /> Editar Eje
+                                </Button>
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    onClick={() => handleDeleteEje(eje.id)}
+                                    className="text-slate-400 hover:text-red-600 hover:bg-red-50"
+                                >
+                                    <Trash size={16} />
+                                </Button>
+                                <div className="w-px h-6 bg-slate-200 mx-2" />
+                                <Button
+                                    size="sm"
+                                    onClick={() => {
+                                        setTopicForm({ ...topicForm, eje_id: eje.id });
+                                        setIsEditingTopic(true);
+                                    }}
+                                    className="bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-sm"
+                                >
+                                    <Plus size={16} className="mr-2" /> Nuevo Tema
+                                </Button>
+                            </div>
+                        </div>
+
+                        {/* Topics List */}
+                        <div className="px-8 py-2">
+                            {eje.filteredTopics.length > 0 ? (
+                                <table className="w-full text-sm">
+                                    <thead>
+                                        <tr className="text-slate-400 text-[10px] font-black uppercase tracking-widest border-b border-slate-50">
+                                            <th className="py-4 text-left font-black">Tema Específico</th>
+                                            <th className="py-4 text-center font-black">Preguntas</th>
+                                            <th className="py-4 text-left font-black">Slug</th>
+                                            <th className="py-4 text-right font-black">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-slate-50">
+                                        {eje.filteredTopics.map((topic: any) => (
+                                            <tr key={topic.id} className="group hover:bg-slate-50/50 transition-colors">
+                                                <td className="py-4">
+                                                    <div className="flex items-center gap-3">
+                                                        <BookOpen size={14} className="text-slate-300" />
+                                                        <span className="font-semibold text-slate-700">{topic.name}</span>
+                                                    </div>
+                                                </td>
+                                                <td className="py-4 text-center">
+                                                    <span className={`inline-flex items-center justify-center w-8 h-8 rounded-lg text-xs font-bold ${topic.question_count > 0 ? 'bg-indigo-50 text-indigo-600' : 'bg-slate-50 text-slate-400'}`}>
+                                                        {topic.question_count}
+                                                    </span>
+                                                </td>
+                                                <td className="py-4 font-mono text-[10px] text-slate-400">{topic.slug}</td>
+                                                <td className="py-4 text-right">
+                                                    <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                        <button
+                                                            onClick={() => editTopic(topic)}
+                                                            className="p-2 hover:bg-white hover:shadow-sm text-slate-400 hover:text-purple-600 rounded-lg transition-all"
+                                                            title="Editar Tema"
+                                                        >
+                                                            <Edit size={14} />
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleDeleteTopic(topic.id)}
+                                                            className="p-2 hover:bg-white hover:shadow-sm text-slate-400 hover:text-red-600 rounded-lg transition-all"
+                                                            title="Eliminar Tema"
+                                                        >
+                                                            <Trash size={14} />
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            ) : (
+                                <div className="py-12 text-center text-slate-400 italic">
+                                    {searchQuery ? "No se encontraron temas que coincidan con la búsqueda." : "No hay temas creados en este eje."}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                ))}
+
+                {filteredAndGroupedData.length === 0 && (
+                    <div className="bg-white rounded-3xl border border-dashed border-slate-300 p-20 text-center">
+                        <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300">
+                            <Search size={40} />
+                        </div>
+                        <h4 className="text-xl font-bold text-slate-900">No encontramos nada</h4>
+                        <p className="text-slate-500 mt-2 max-w-xs mx-auto">Prueba ajustando el término de búsqueda o cambia la prueba (M1/M2).</p>
+                        <Button
+                            variant="ghost"
+                            className="mt-4 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                            onClick={() => setSearchQuery("")}
+                        >
+                            Limpiar búsqueda
+                        </Button>
+                    </div>
+                )}
             </div>
         </div>
     )
