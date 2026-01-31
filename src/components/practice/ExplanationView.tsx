@@ -62,7 +62,7 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
 
             updateTimer()
             interval = setInterval(updateTimer, 1000)
-        } else {
+        } else if (credits !== null && credits > 0) {
             setTimeRemaining("")
         }
         return () => clearInterval(interval)
@@ -169,9 +169,9 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
                 <p className="text-slate-500 mb-6 max-w-sm mx-auto text-sm">
                     Has usado tus 5 explicaciones gratuitas de hoy. Vuelven en:
                 </p>
-                <div className="inline-flex items-center gap-2 bg-slate-200 text-slate-700 px-4 py-2 rounded-lg font-mono font-bold text-lg mb-6">
-                    <Clock size={20} />
-                    {timeRemaining || (loading ? "Calculando..." : "Sincronizando...")}
+                <div className="inline-flex items-center gap-2 bg-slate-900 text-white px-5 py-3 rounded-2xl font-mono font-bold text-xl mb-6 shadow-xl border-b-4 border-slate-700">
+                    <Clock size={20} className="text-blue-400" />
+                    {timeRemaining || (loading ? "Sincronizando..." : "Calculando...")}
                 </div>
                 {!loading && (
                     <button

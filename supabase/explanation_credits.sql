@@ -57,7 +57,7 @@ begin
         update public.profiles
         set explanation_credits = explanation_credits - 1,
             explanation_replenish_at = case 
-                when explanation_credits - 1 = 0 then now() + interval '24 hours'
+                when explanation_credits - 1 = 0 then now() + interval '6 hours'
                 else explanation_replenish_at 
             end
         where id = p_user_id;
