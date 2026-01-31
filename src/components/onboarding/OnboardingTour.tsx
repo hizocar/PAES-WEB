@@ -107,9 +107,9 @@ export function OnboardingTour({ steps, onComplete }: OnboardingTourProps) {
 
         let top = 0
         let left = 0
-        const boxWidth = 360
-        const boxHeight = 240 // heuristic
-        const margin = 16
+        const boxWidth = isMobile ? 320 : 380
+        const boxHeight = 320 // Increased heuristic for taller descriptions
+        const margin = 20
 
         if (currentData.position === 'bottom') {
             top = coords.top + coords.height + margin
@@ -129,13 +129,12 @@ export function OnboardingTour({ steps, onComplete }: OnboardingTourProps) {
         const viewportWidth = window.innerWidth
         const viewportHeight = window.innerHeight
 
-        // Simple flip logic if it's too close to the edge
+        // Smart flip: If positioning bottom overlaps the edge, flip to top
         if (currentData.position === 'bottom' && top + boxHeight > viewportHeight - margin) {
             top = coords.top - boxHeight - margin
-        } else if (currentData.position === 'top' && top < margin) {
-            top = coords.top + coords.height + margin
         }
 
+        // Final bounds check
         left = Math.max(margin, Math.min(left, viewportWidth - boxWidth - margin))
         top = Math.max(margin, Math.min(top, viewportHeight - boxHeight - margin))
 
