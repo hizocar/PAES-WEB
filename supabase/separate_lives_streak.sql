@@ -48,7 +48,7 @@ begin
     new_lives_count := current_lives - 1;
     
     if new_lives_count = 0 then
-        new_replenish_at := now() + interval '24 hours';
+        new_replenish_at := now() + interval '4 hours';
     else
         new_replenish_at := null;
     end if;
