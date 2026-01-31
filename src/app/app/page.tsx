@@ -298,7 +298,7 @@ export default function DashboardPage() {
 
                 <div className="relative z-10 w-full md:w-auto">
                     {(stats.lives !== null && (stats.lives > 0 || stats.tier !== 'free')) && (
-                        <Link href="/app/practice">
+                        <Link href="/app/practice" id="tour-practice">
                             <Button size="lg" className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white shadow-xl shadow-blue-200 transform hover:-translate-y-1 transition-all h-16 px-10 rounded-2xl font-bold text-xl border-b-4 border-blue-800 active:border-b-0 active:translate-y-0">
                                 <Zap className="w-6 h-6 mr-2 fill-current" />
                                 Entrenar Ahora
@@ -407,7 +407,7 @@ export default function DashboardPage() {
                 </Link>
 
                 {/* Banco de Errores */}
-                <Link href="/app/practice?mode=retry">
+                <Link href="/app/practice?mode=retry" id="tour-mistakes">
                     <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40 hover:border-red-200 hover:shadow-md transition-all cursor-pointer group">
                         <div className="flex items-start justify-between">
                             <div>
@@ -434,14 +434,14 @@ export default function DashboardPage() {
             </div>
 
             {/* Ejes Grid */}
-            <div className="space-y-6" id="tour-ejes">
+            <div className="space-y-6">
                 <div className="flex items-center justify-between">
                     <h2 className="text-xl font-bold text-slate-900">Progreso por Eje Temático</h2>
                     <Link href="/app/progress" className="text-sm font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1">
                         Ver todo <ArrowRight size={14} />
                     </Link>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="tour-ejes">
                     {ejes.map((eje) => (
                         <Link href="/app/progress" key={eje.id}>
                             <div className="group bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer">

@@ -37,23 +37,29 @@ export function OnboardingTour({ steps, onComplete }: OnboardingTourProps) {
             const step = steps[currentStep]
             let targetId = step.targetId
 
-            // On mobile, point to the menu button for sidebar items
-            if (isMobile && targetId && ['tour-switcher', 'tour-practice', 'tour-mistakes', 'tour-profile', 'tour-ranking'].includes(targetId)) {
-                targetId = 'tour-mobile-menu'
+            if (!targetId) {
+                setCoords({ top: 0, left: 0, width: 0, height: 0 })
+                return
             }
 
-            if (targetId) {
-                const el = document.getElementById(targetId)
-                if (el) {
-                    const rect = el.getBoundingClientRect()
-                    setCoords({
-                        top: rect.top - padding,
-                        left: rect.left - padding,
-                        width: rect.width + (padding * 2),
-                        height: rect.height + (padding * 2)
-                    })
-                    el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-                }
+            let el = document.getElementById(targetId)
+
+            // On mobile, if element is back in the sidebar/menu and not on screen
+            if (isMobile && !el) {
+                el = document.getElementById('tour-mobile-menu')
+            }
+
+            if (el) {
+                const rect = el.getBoundingClientRect()
+                setCoords({
+                    top: rect.top - padding,
+                    left: rect.left - padding,
+                    width: rect.width + (padding * 2),
+                    height: rect.height + (padding * 2)
+                })
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+            } else {
+                setCoords({ top: 0, left: 0, width: 0, height: 0 })
             }
         }
 
