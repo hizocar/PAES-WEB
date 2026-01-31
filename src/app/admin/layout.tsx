@@ -29,7 +29,7 @@ export default async function AdminLayout({
     }
 
     return (
-        <div className="flex h-screen w-full fixed inset-0 bg-slate-100 overflow-hidden">
+        <div className="flex flex-col md:flex-row min-h-[100dvh] md:h-screen w-full bg-slate-100 md:overflow-hidden">
             {/* Sidebar */}
             <aside className="w-64 bg-slate-900 text-slate-300 border-r border-slate-800 flex flex-col">
                 <div className="p-6 border-b border-slate-800">
@@ -99,7 +99,7 @@ export default async function AdminLayout({
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 overflow-y-auto">
+            <main className="flex-1 md:overflow-y-auto">
                 <header className="h-16 bg-white border-b border-slate-200 flex items-center px-8 shadow-sm">
                     <h1 className="text-lg font-semibold text-slate-800">Administración</h1>
                 </header>

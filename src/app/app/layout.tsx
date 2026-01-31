@@ -45,7 +45,7 @@ export default async function AppLayout({
 
     return (
         <SubjectProvider>
-            <div className="flex h-screen bg-slate-50 flex-col md:flex-row overflow-hidden">
+            <div className="flex flex-col md:flex-row min-h-[100dvh] md:h-screen bg-slate-50 md:overflow-hidden">
                 {/* Mobile Navigation */}
                 <MobileNav user={userWithProfile} />
 
@@ -130,7 +130,7 @@ export default async function AppLayout({
                 </aside>
 
                 {/* Main Content */}
-                <main className="flex-1 overflow-y-auto">
+                <main className="flex-1 md:overflow-y-auto">
                     <StudyTrackerProvider>
                         {children}
                     </StudyTrackerProvider>
