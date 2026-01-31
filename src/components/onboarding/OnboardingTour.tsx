@@ -57,7 +57,18 @@ export function OnboardingTour({ steps, onComplete }: OnboardingTourProps) {
                     width: rect.width + (padding * 2),
                     height: rect.height + (padding * 2)
                 })
-                el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                el.scrollIntoView({ behavior: 'auto', block: 'center' })
+
+                // Double check after a tiny delay to ensure layout is settled
+                setTimeout(() => {
+                    const rect = el.getBoundingClientRect()
+                    setCoords({
+                        top: rect.top - padding,
+                        left: rect.left - padding,
+                        width: rect.width + (padding * 2),
+                        height: rect.height + (padding * 2)
+                    })
+                }, 10)
             } else {
                 setCoords({ top: 0, left: 0, width: 0, height: 0 })
             }
@@ -141,7 +152,7 @@ export function OnboardingTour({ steps, onComplete }: OnboardingTourProps) {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 style={{
-                    clipPath: (currentData.targetId && (!isMobile || (currentData.targetId !== 'tour-switcher' && currentData.targetId !== 'tour-practice' && currentData.targetId !== 'tour-mistakes' && currentData.targetId !== 'tour-profile')) || document.getElementById('tour-mobile-menu'))
+                    clipPath: (currentData.targetId && coords.width > 0)
                         ? `polygon(0% 0%, 0% 100%, ${coords.left}px 100%, ${coords.left}px ${coords.top}px, ${coords.left + coords.width}px ${coords.top}px, ${coords.left + coords.width}px ${coords.top + coords.height}px, ${coords.left}px ${coords.top + coords.height}px, ${coords.left}px 100%, 100% 100%, 100% 0%)`
                         : 'none'
                 }}

@@ -19,31 +19,10 @@ const DASHBOARD_STEPS: OnboardingStep[] = [
         position: 'center'
     },
     {
-        targetId: "tour-ejes",
-        title: "Tu Mapa del Éxito (DEMRE)",
-        description: "Aquí verás tu dominio real en los Ejes Temáticos oficiales de la PAES. Medimos tu precisión según el temario actualizado del DEMRE para que sepas dónde enfocar tu estudio.",
-        icon: <Target className="text-blue-500" />,
-        position: 'top'
-    },
-    {
-        targetId: "tour-habilidades",
-        title: "Tus Habilidades de Pensador",
-        description: "La PAES evalúa cómo razonas. Aquí rastreamos tu fortaleza en Resolver Problemas, Modelar, Representar y Argumentar. ¡Conviértete en un experto en las 4!",
-        icon: <TrendingUp className="text-indigo-500" />,
-        position: 'top'
-    },
-    {
         targetId: "tour-practice",
         title: "Entrenamiento Inteligente",
         description: "El botón 'Practicar' te dará ejercicios adaptados a tu nivel actual. Cada respuesta nos ayuda a conocerte mejor.",
         icon: <Zap className="text-blue-500 fill-blue-500" />,
-        position: 'right'
-    },
-    {
-        targetId: "tour-mistakes",
-        title: "Modo Repaso: Sin fallos",
-        description: "Tus errores son oro. En el 'Modo Repaso' guardamos tus fallos para que los enfrentes una y otra vez hasta que desaparezcan de tu banco de errores.",
-        icon: <RotateCcw className="text-orange-500" />,
         position: 'right'
     },
     {
@@ -58,6 +37,27 @@ const DASHBOARD_STEPS: OnboardingStep[] = [
         title: "Mídete con Chile",
         description: "Mira cómo subes en el ranking nacional mientras acumulas puntos. ¡La competencia sana te llevará más lejos!",
         icon: <Trophy className="text-yellow-500 fill-yellow-600" />,
+        position: 'top'
+    },
+    {
+        targetId: "tour-mistakes",
+        title: "Modo Repaso: Sin fallos",
+        description: "Tus errores son oro. En el 'Modo Repaso' guardamos tus fallos para que los enfrentes una y otra vez hasta que desaparezcan de tu banco de errores.",
+        icon: <RotateCcw className="text-orange-500" />,
+        position: 'right'
+    },
+    {
+        targetId: "tour-ejes",
+        title: "Tu Mapa del Éxito (DEMRE)",
+        description: "Aquí verás tu dominio real en los Ejes Temáticos oficiales de la PAES. Medimos tu precisión según el temario actualizado del DEMRE para que sepas dónde enfocar tu estudio.",
+        icon: <Target className="text-blue-500" />,
+        position: 'top'
+    },
+    {
+        targetId: "tour-habilidades",
+        title: "Tus Habilidades de Pensador",
+        description: "La PAES evalúa cómo razonas. Aquí rastreamos tu fortaleza en Resolver Problemas, Modelar, Representar y Argumentar. ¡Conviértete en un experto en las 4!",
+        icon: <TrendingUp className="text-indigo-500" />,
         position: 'top'
     }
 ]
