@@ -123,3 +123,77 @@ export async function generateQuestionSolution(question: string, alternatives: a
         throw new Error("Failed to generate solution: " + error.message)
     }
 }
+
+export async function categorizeQuestion(question: string, ejes: any[], topics: any[], subject: string = 'm2') {
+    if (!process.env.OPENAI_API_KEY) throw new Error('OpenAI API Key not configured')
+
+    try {
+        const completion = await openai.chat.completions.create({
+            model: "gpt-4o",
+            messages: [
+                {
+                    role: "system",
+                    content: `You are an expert in the Chilean PAES mathematics exams (M1 and M2). 
+                    Your task is to categorize a math question based on the content provided.
+                    
+                    CURRENT CONTEXT: This question is for the ${subject.toUpperCase()} exam.
+                    
+                    CRITICAL: Output valid JSON.
+                    
+                    Categorization Criteria:
+                    1. **Eje Temático**: Must match one of the provided Ejes names.
+                    2. **Tema Específico**: Must match one of the provided Topics names that belong to the chosen Eje.
+                    3. **Dificultad**: easy (Principiante), medium (Intermedio), or hard (Avanzado).
+                    4. **Habilidad**: resolver_problemas, modelar, representar, or argumentar.
+
+                    Skill Definitions:
+                    - **resolver_problemas**: Solucionar situaciones rutinarias o no rutinarias, aplicar cálculos, evaluar resultados.
+                    - **modelar**: Usar, entender y comparar expresiones matemáticas que describen situaciones reales, ajustar modelos.
+                    - **representar**: Transferir información entre representaciones (tablas, gráficos, símbolos), traducir lenguaje natural a matemático.
+                    - **argumentar**: Justificar procedimientos, pasos deductivos, detectar errores, evaluar validez de afirmaciones.
+
+                    Curriculum Context (M1 vs M2):
+                    - **M1 (Competencia Matemática 1)**: Focusing on basic operations, percentages, linear equations, basic geometry, and descriptive statistics.
+                    - **M2 (Competencia Matemática 2)**: Higher complexity. Includes everything in M1 PLUS:
+                        - **Números**: Real numbers, Financial Math (AFP, credits), Logarithms.
+                        - **Álgebra**: Advanced systems (inf. solutions), Power/Log/Exponential functions, Trigonometric functions.
+                        - **Geometría**: Homothety, Trig in right triangles (sin, cos, tan), Metric relations in circles.
+                        - **Probabilidad**: Dispersion measures, Conditional probability, Combinatorics (permutatory), Binomial/Normal distributions.
+
+                    Eje-Specific Context:
+                    - **Números**: Conjuntos numéricos, porcentajes, potencias, raíces, logaritmos, matemática financiera.
+                    - **Álgebra y Funciones**: Algebra, proportionality, equations, functions (linear, affine, quadratic, power, log, exponential, trig).
+                    - **Geometría**: Figures (Pythagoras, area), Solids (volume), Transformations, Homothety, Trigonometry, Circle relations.
+                    - **Probabilidad y Estadística**: Data (tables/graphs), Position measures, Dispersion, Combinatorics, Probability rules, Conditional, Binomial/Normal.
+
+                    Available Ejes and Topics for ${subject.toUpperCase()} (ID and Name):
+                    ${ejes.map(e => `Eje: ${e.name} (UUID: ${e.id})`).join('\n')}
+                    ${topics.map(t => `Topic: ${t.name} (UUID: ${t.id}, Eje UUID: ${t.eje_id})`).join('\n')}
+
+                    Structure:
+                    {
+                        "eje_id": "UUID of the matching Eje",
+                        "topic_id": "UUID of the matching Topic",
+                        "difficulty": "easy | medium | hard",
+                        "habilidad": "resolver_problemas | modelar | representar | argumentar"
+                    }
+                    `
+                },
+                {
+                    role: "user",
+                    content: `Categorize this question:\n\n${question}`
+                }
+            ],
+            response_format: { type: "json_object" },
+        })
+
+        const content = completion.choices[0].message.content
+        if (!content) throw new Error("No content returned")
+
+        return JSON.parse(content)
+
+    } catch (error: any) {
+        console.error("Error categorizing question:", error)
+        throw new Error("Failed to categorize question: " + error.message)
+    }
+}

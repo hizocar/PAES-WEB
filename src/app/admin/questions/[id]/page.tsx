@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowLeft, Save, Trash, Upload, X, Wand2 } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { processQuestionImage } from "@/app/actions/process-image"
+import { processQuestionImage, categorizeQuestion } from "@/app/actions/process-image"
 import 'katex/dist/katex.min.css'
 // @ts-ignore
 import Latex from '@/components/ui/latex-renderer'
@@ -19,6 +19,7 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
     const [saving, setSaving] = useState(false)
     const [uploading, setUploading] = useState(false)
     const [processing, setProcessing] = useState(false)
+    const [categorizing, setCategorizing] = useState(false)
     const [isDragging, setIsDragging] = useState(false)
     const [ejes, setEjes] = useState<any[]>([])
     const [topics, setTopics] = useState<any[]>([])
@@ -204,6 +205,32 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
             alert("Error al procesar la imagen: " + error.message)
         } finally {
             setProcessing(false)
+        }
+    }
+
+    const handleCategorize = async () => {
+        if (!formData.content) {
+            alert("Primero debes tener un enunciado.")
+            return
+        }
+
+        setCategorizing(true)
+        try {
+            const currentEjes = ejes.filter(e => e.subject === subject)
+            const currentTopics = topics.filter(t => currentEjes.some(ce => ce.id === t.eje_id))
+            const result = await categorizeQuestion(formData.content, currentEjes, currentTopics, subject)
+
+            setFormData(prev => ({
+                ...prev,
+                eje_id: result.eje_id || prev.eje_id,
+                topic_id: result.topic_id || prev.topic_id,
+                difficulty: result.difficulty || prev.difficulty,
+                habilidad: result.habilidad || prev.habilidad,
+            }))
+        } catch (error: any) {
+            alert("Error categorizando: " + error.message)
+        } finally {
+            setCategorizing(false)
         }
     }
 
@@ -573,6 +600,19 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
                                 <option value="argumentar">Argumentar</option>
                             </select>
                         </div>
+
+                        <Button
+                            onClick={handleCategorize}
+                            disabled={categorizing || !formData.content}
+                            variant="outline"
+                            className="w-full bg-purple-50 text-purple-700 border-purple-200 hover:bg-purple-100"
+                        >
+                            {categorizing ? (
+                                <><div className="animate-spin rounded-full h-4 w-4 border-2 border-purple-600 border-t-transparent mr-2" /> Categorizando...</>
+                            ) : (
+                                <><Wand2 size={16} className="mr-2" /> Categorizar con IA</>
+                            )}
+                        </Button>
 
                         <Button onClick={handleSubmit} disabled={saving} className="w-full bg-blue-600 hover:bg-blue-700">
                             <Save className="mr-2" size={18} />
