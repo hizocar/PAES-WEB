@@ -11,7 +11,8 @@ import { useSubject } from "@/components/providers/SubjectContext"
 import { useSearchParams } from 'next/navigation'
 
 import { OnboardingTour, OnboardingStep } from "@/components/onboarding/OnboardingTour"
-import { Clock, Heart, Lightbulb, Star } from "lucide-react"
+import { Clock, Heart, Lightbulb, Star, PlayCircle } from "lucide-react"
+import { RewardedAdModal } from "@/components/practice/RewardedAdModal"
 
 const PRACTICE_STEPS: OnboardingStep[] = [
     {
@@ -73,6 +74,8 @@ function PracticeContent() {
     const [lives, setLives] = useState(10)
     const [replenishAt, setReplenishAt] = useState<string | null>(null)
     const [tier, setTier] = useState<string>('free')
+    const [showAdModal, setShowAdModal] = useState(false)
+    const [canClaimAdReward, setCanClaimAdReward] = useState(false)
 
     const supabase = createClient()
 
@@ -99,6 +102,11 @@ function PracticeContent() {
                     if (!practiceOnboardingCompleted) {
                         setShowOnboarding(true)
                     }
+
+                    // Check if ad reward is available
+                    const lastAd = (profileResult.data as any)?.last_rewarded_ad_at
+                    const canClaim = !lastAd || (new Date().getTime() - new Date(lastAd).getTime() > 24 * 60 * 60 * 1000)
+                    setCanClaimAdReward(canClaim)
                 }
             } catch (e) {
                 console.error("Error initializing practice:", e)
@@ -187,6 +195,24 @@ function PracticeContent() {
         }
     }
 
+    const handleClaimAdReward = async () => {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) return
+
+        const { data, error } = await supabase.rpc('claim_rewarded_ad', {
+            p_user_id: user.id,
+            p_reward_type: 'life',
+            p_subject: subject
+        })
+
+        if (data?.success) {
+            setLives(prev => prev + 1)
+            setCanClaimAdReward(false)
+        } else {
+            alert(data?.message || "Error al reclamar recompensa")
+        }
+    }
+
     if (loading && !question && (lives > 0 || tier !== 'free')) {
         return (
             <div className="flex h-[80vh] items-center justify-center flex-col gap-4">
@@ -227,12 +253,30 @@ function PracticeContent() {
                             Obtener Vidas Ilimitadas
                         </Button>
                     </Link>
+                    {canClaimAdReward && (
+                        <Button
+                            onClick={() => setShowAdModal(true)}
+                            variant="outline"
+                            size="lg"
+                            className="w-full h-14 text-lg font-bold border-2 border-orange-200 text-orange-600 hover:bg-orange-50 hover:border-orange-300"
+                        >
+                            <PlayCircle className="mr-2" size={24} />
+                            Ver anuncio para +1 Vida
+                        </Button>
+                    )}
                     <Link href="/app" className="w-full">
                         <Button size="lg" variant="ghost" className="w-full h-12 text-slate-500 hover:text-slate-900 font-semibold">
                             Volver al Inicio
                         </Button>
                     </Link>
                 </div>
+
+                <RewardedAdModal
+                    isOpen={showAdModal}
+                    onClose={() => setShowAdModal(false)}
+                    onRewardClaimed={handleClaimAdReward}
+                    rewardType="life"
+                />
             </div>
         )
     }
