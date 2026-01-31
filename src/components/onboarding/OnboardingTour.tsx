@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Zap, Heart, Trophy, Target, ArrowLeft, ArrowRight, X, Star } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 export interface OnboardingStep {
     targetId?: string
@@ -23,7 +24,7 @@ export function OnboardingTour({ steps, onComplete }: OnboardingTourProps) {
     const [coords, setCoords] = useState({ top: 0, left: 0, width: 0, height: 0 })
     const [isMobile, setIsMobile] = useState(false)
     const tourBoxRef = useRef<HTMLDivElement>(null)
-    const padding = 8
+    const padding = isMobile ? 12 : 8
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 768)
@@ -105,10 +106,33 @@ export function OnboardingTour({ steps, onComplete }: OnboardingTourProps) {
             }
         }
 
+        // On mobile, use fixed positioning either at bottom or top of screen
+        if (isMobile) {
+            const viewportHeight = window.innerHeight
+            const margin = 16
+
+            // If the element is in the bottom half of the screen, show box at the top
+            const isElementLow = coords.top > viewportHeight / 2
+
+            if (isElementLow) {
+                return {
+                    top: margin,
+                    left: margin,
+                    right: margin,
+                }
+            } else {
+                return {
+                    bottom: margin,
+                    left: margin,
+                    right: margin,
+                }
+            }
+        }
+
         let top = 0
         let left = 0
-        const boxWidth = isMobile ? 320 : 380
-        const boxHeight = 320 // Increased heuristic for taller descriptions
+        const boxWidth = 380
+        const boxHeight = 320 // heuristic
         const margin = 20
 
         if (currentData.position === 'bottom') {
@@ -125,16 +149,14 @@ export function OnboardingTour({ steps, onComplete }: OnboardingTourProps) {
             left = coords.left + (coords.width / 2) - (boxWidth / 2)
         }
 
-        // Keep inside viewport
+        // Keep inside viewport on desktop
         const viewportWidth = window.innerWidth
         const viewportHeight = window.innerHeight
 
-        // Smart flip: If positioning bottom overlaps the edge, flip to top
         if (currentData.position === 'bottom' && top + boxHeight > viewportHeight - margin) {
             top = coords.top - boxHeight - margin
         }
 
-        // Final bounds check
         left = Math.max(margin, Math.min(left, viewportWidth - boxWidth - margin))
         top = Math.max(margin, Math.min(top, viewportHeight - boxHeight - margin))
 
@@ -187,7 +209,10 @@ export function OnboardingTour({ steps, onComplete }: OnboardingTourProps) {
                     }}
                     exit={{ opacity: 0, scale: 0.9, y: 10 }}
                     transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                    className="absolute z-[101] w-[320px] md:w-[380px] bg-white rounded-3xl shadow-2xl p-6 pointer-events-auto border border-blue-50"
+                    className={cn(
+                        "absolute z-[101] bg-white rounded-3xl shadow-2xl p-6 pointer-events-auto border border-blue-50 transition-all duration-300",
+                        isMobile ? "w-auto" : "w-[380px]"
+                    )}
                 >
                     <div className="flex items-start justify-between mb-4">
                         <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl shadow-inner">
