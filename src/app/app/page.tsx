@@ -246,10 +246,28 @@ export default function DashboardPage() {
     }
 
     const getStatusMessage = () => {
+        // 1. Goal Met Today
+        if (stats.dailyProgress >= stats.dailyTarget) {
+            return "¡Meta cumplida! Has dado un paso gigante hacia la universidad hoy 🚀";
+        }
+
+        // 2. Streak in Danger (Has streak but hasn't finished today's goal)
+        if (stats.streak > 0 && stats.dailyProgress < stats.dailyTarget) {
+            return `¡Tu racha de ${stats.streak} ${stats.streak === 1 ? 'día' : 'días'} está en riesgo! Haz ${stats.dailyTarget - stats.dailyProgress} ejercicios más para mantenerla 🔥`;
+        }
+
+        // 3. No streak (Either lost it or never had one)
+        if (stats.streak === 0) {
+            if (stats.dailyProgress > 0) {
+                return `¡Buen comienzo! Te faltan ${stats.dailyTarget - stats.dailyProgress} ejercicios más para iniciar tu primera racha.`;
+            }
+            return "¡Oh no! No tienes racha activa. Haz 10 ejercicios hoy para empezar tu camino al puntaje nacional ⚡";
+        }
+
+        // 4. Achievement highlights (Fallback if something fails)
         if (stats.streak >= 7) return "¡Nivel: Constancia Pura! Estás en el top de regularidad esta semana 🔥";
-        if (stats.dailyProgress >= stats.dailyTarget) return "¡Meta cumplida! Has dado un paso gigante hacia la universidad hoy 🚀";
         if (stats.mistakes > 10) return "Tienes varios errores pendientes. ¡A repasarlos para limpiar tu historial! 🧠";
-        if (stats.streak > 0) return "Mantener la racha es la clave del puntaje nacional. ¡Sigue así!";
+
         return "El éxito es la suma de pequeños esfuerzos diarios. ¡Vamos por esos puntos!";
     }
 
