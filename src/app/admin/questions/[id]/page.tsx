@@ -320,7 +320,7 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
     if (loading) return <div className="p-8">Cargando...</div>
 
     return (
-        <div className="max-w-4xl mx-auto space-y-8 pb-20">
+        <div className="max-w-4xl mx-auto space-y-8 pb-8">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                     <Link href="/admin/questions">
