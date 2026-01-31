@@ -41,7 +41,8 @@ export default function NewQuestionPage() {
         eje_id: "",
         topic_id: "",
         image_url: "",
-        explanation_video_path: ""
+        explanation_video_path: "",
+        habilidad: ""
     })
 
     useEffect(() => {
@@ -279,7 +280,8 @@ export default function NewQuestionPage() {
                     image_url: formData.image_url,
                     explanation_video_path: formData.explanation_video_path,
                     is_active: true,
-                    subject: subject // Add Subject
+                    subject: subject,
+                    habilidad: formData.habilidad
                 })
                 .select()
                 .single()
@@ -599,6 +601,21 @@ export default function NewQuestionPage() {
                                 <option value="easy">Principiante</option>
                                 <option value="medium">Intermedio</option>
                                 <option value="hard">Avanzado</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Habilidad PAES</label>
+                            <select
+                                className="w-full p-2 border rounded-md text-sm bg-white text-slate-900"
+                                value={formData.habilidad}
+                                onChange={e => setFormData({ ...formData, habilidad: e.target.value })}
+                            >
+                                <option value="">Selecciona Habilidad</option>
+                                <option value="resolver_problemas">Resolver Problemas</option>
+                                <option value="modelar">Modelar</option>
+                                <option value="representar">Representar</option>
+                                <option value="argumentar">Argumentar</option>
                             </select>
                         </div>
 

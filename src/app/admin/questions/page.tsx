@@ -20,6 +20,7 @@ export default function AdminQuestionsPage() {
     const [filterEje, setFilterEje] = useState("all")
     const [filterTopic, setFilterTopic] = useState("all")
     const [filterDifficulty, setFilterDifficulty] = useState("all")
+    const [filterHabilidad, setFilterHabilidad] = useState("all")
 
     const supabase = createClient()
 
@@ -50,8 +51,12 @@ export default function AdminQuestionsPage() {
             res = res.filter(q => q.difficulty === filterDifficulty)
         }
 
+        if (filterHabilidad !== "all") {
+            res = res.filter(q => q.habilidad === filterHabilidad)
+        }
+
         setFilteredQuestions(res)
-    }, [questions, filterEje, filterTopic, filterDifficulty, topics, subject])
+    }, [questions, filterEje, filterTopic, filterDifficulty, filterHabilidad, topics, subject])
 
     const fetchData = async () => {
         // 1. Fetch Ejes and Topics
@@ -129,10 +134,20 @@ export default function AdminQuestionsPage() {
 
     const getDifficultyLabel = (d: string) => {
         switch (d) {
-            case 'easy': return '🟢 Principiante'
-            case 'medium': return '🟡 Intermedio'
-            case 'hard': return '🔴 Avanzado'
+            case 'easy': return 'Principiante'
+            case 'medium': return 'Intermedio'
+            case 'hard': return 'Avanzado'
             default: return d
+        }
+    }
+
+    const getHabilidadLabel = (h: string) => {
+        switch (h) {
+            case 'resolver_problemas': return 'Resolver Problemas'
+            case 'modelar': return 'Modelar'
+            case 'representar': return 'Representar'
+            case 'argumentar': return 'Argumentar'
+            default: return h
         }
     }
 
@@ -214,10 +229,21 @@ export default function AdminQuestionsPage() {
                         value={filterDifficulty}
                         onChange={e => setFilterDifficulty(e.target.value)}
                     >
-                        <option value="all">Todas</option>
-                        <option value="easy">Principiante</option>
-                        <option value="medium">Intermedio</option>
                         <option value="hard">Avanzado</option>
+                    </select>
+                </div>
+                <div className="flex-1">
+                    <label className="text-xs font-bold text-slate-500 uppercase mb-1 block">Filtrar por Habilidad</label>
+                    <select
+                        className="w-full p-2 border rounded-md text-sm"
+                        value={filterHabilidad}
+                        onChange={e => setFilterHabilidad(e.target.value)}
+                    >
+                        <option value="all">Todas</option>
+                        <option value="resolver_problemas">Resolver Problemas</option>
+                        <option value="modelar">Modelar</option>
+                        <option value="representar">Representar</option>
+                        <option value="argumentar">Argumentar</option>
                     </select>
                 </div>
             </div>
@@ -235,6 +261,11 @@ export default function AdminQuestionsPage() {
                                 {q.topic_name && (
                                     <span className="px-2 py-0.5 rounded textxs font-bold uppercase tracking-wider text-[10px] bg-purple-100 text-purple-600">
                                         {q.topic_name}
+                                    </span>
+                                )}
+                                {q.habilidad && (
+                                    <span className="px-2 py-0.5 rounded textxs font-bold uppercase tracking-wider text-[10px] bg-indigo-100 text-indigo-600">
+                                        {getHabilidadLabel(q.habilidad)}
                                     </span>
                                 )}
                                 <span className="text-xs text-slate-400 font-mono">ID: {q.id.slice(0, 8)}</span>
@@ -302,7 +333,9 @@ export default function AdminQuestionsPage() {
                                 Respuesta: <span className="text-slate-900 font-bold">{q.correct_answer}</span>
                             </span>
                             <span className="w-1 h-1 rounded-full bg-slate-300"></span>
-                            <span>{getDifficultyLabel(q.difficulty)}</span>
+                            <span className="flex items-center gap-1.5">
+                                {q.difficulty === 'easy' ? '🟢' : q.difficulty === 'medium' ? '🟡' : '🔴'} {getDifficultyLabel(q.difficulty)}
+                            </span>
                         </div>
                     </div>
                 ))

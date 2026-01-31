@@ -25,6 +25,7 @@ type Question = {
     eje?: string
     explanation_video_path?: string
     image_url?: string
+    habilidad?: string
 }
 
 type QuestionCardProps = {
@@ -185,6 +186,14 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
                         {question.topic && (
                             <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-slate-100 text-slate-600">
                                 {question.topic}
+                            </span>
+                        )}
+
+                        {question.habilidad && (
+                            <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-indigo-100 text-indigo-600">
+                                {question.habilidad === 'resolver_problemas' ? 'Resolver Problemas' :
+                                    question.habilidad === 'modelar' ? 'Modelar' :
+                                        question.habilidad === 'representar' ? 'Representar' : 'Argumentar'}
                             </span>
                         )}
                     </div>

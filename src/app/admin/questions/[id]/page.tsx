@@ -40,7 +40,8 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
         eje_id: "",
         topic_id: "",
         image_url: "",
-        explanation_video_path: ""
+        explanation_video_path: "",
+        habilidad: ""
     })
 
     // Filter Ejes based on selected Subject
@@ -103,7 +104,8 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
             eje_id: (Array.isArray(qt?.topics) ? qt.topics[0]?.eje_id : (qt?.topics as any)?.eje_id) || "",
             topic_id: qt?.topic_id || "",
             image_url: q.image_url || "",
-            explanation_video_path: q.explanation_video_path || ""
+            explanation_video_path: q.explanation_video_path || "",
+            habilidad: q.habilidad || ""
         })
     }
 
@@ -258,7 +260,8 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
                     difficulty: formData.difficulty,
                     image_url: formData.image_url,
                     explanation_video_path: formData.explanation_video_path,
-                    subject: subject // Updated subject
+                    subject: subject, // Updated subject
+                    habilidad: formData.habilidad
                 })
                 .eq('id', id)
 
@@ -553,6 +556,21 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
                                 <option value="easy">Principiante</option>
                                 <option value="medium">Intermedio</option>
                                 <option value="hard">Avanzado</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Habilidad PAES</label>
+                            <select
+                                className="w-full p-2 border rounded-md text-sm bg-white text-slate-900"
+                                value={formData.habilidad}
+                                onChange={e => setFormData({ ...formData, habilidad: e.target.value })}
+                            >
+                                <option value="">Selecciona Habilidad</option>
+                                <option value="resolver_problemas">Resolver Problemas</option>
+                                <option value="modelar">Modelar</option>
+                                <option value="representar">Representar</option>
+                                <option value="argumentar">Argumentar</option>
                             </select>
                         </div>
 
