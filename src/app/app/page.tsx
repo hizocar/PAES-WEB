@@ -135,7 +135,7 @@ export default function DashboardPage() {
                 const { data: profileData, error: profileError } = profileResult
 
                 const tier = profileData?.subscription_tier || 'free'
-                const name = (profileData as any)?.full_name?.split(' ')[0] || 'Aspirante'
+                const name = ((profileData as any)?.full_name || user.user_metadata?.full_name || 'Aspirante').split(' ')[0]
                 const onboardingCompleted = (profileData as any)?.onboarding_completed || false
 
                 if (!onboardingCompleted) {
