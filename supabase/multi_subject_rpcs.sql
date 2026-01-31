@@ -89,6 +89,7 @@ declare
     v_daily_progress int;
     v_mistakes_count int;
     v_ejes_stats json;
+    v_habilidades_stats json;
     v_start_of_day timestamptz;
     v_streak int := 0;
     v_today date;
@@ -156,6 +157,38 @@ begin
     )
     into v_ejes_stats
     from eje_aggregates as ea;
+    
+    -- 4. Habilidades Stats
+    with skill_list as (
+        select unnest(array['resolver_problemas', 'modelar', 'representar', 'argumentar']) as skill_name
+    ),
+    user_attempts_enriched as (
+        select 
+            q.habilidad as skill_name,
+            a.is_correct
+        from attempts a
+        join questions q on a.question_id = q.id 
+        where a.user_id = p_user_id
+        and q.subject = p_subject
+    ),
+    skill_aggregates as (
+        select 
+            sl.skill_name,
+            count(ua.is_correct) as total_attempts,
+            sum(case when ua.is_correct then 1 else 0 end) as correct_count
+        from skill_list sl
+        left join user_attempts_enriched ua on sl.skill_name = ua.skill_name
+        group by sl.skill_name
+    )
+    select json_agg(
+        json_build_object(
+            'name', sa.skill_name,
+            'total_attempts', sa.total_attempts,
+            'progress', case when sa.total_attempts > 0 then round((sa.correct_count::numeric / sa.total_attempts) * 100) else 0 end
+        )
+    )
+    into v_habilidades_stats
+    from skill_aggregates sa;
 
     -- 4. Streak Calculation
     -- Check today
@@ -194,6 +227,7 @@ begin
         'daily_progress', v_daily_progress,
         'active_mistakes', v_mistakes_count,
         'ejes_stats', coalesce(v_ejes_stats, '[]'::json),
+        'habilidades_stats', coalesce(v_habilidades_stats, '[]'::json),
         'streak', v_streak
     );
 end;

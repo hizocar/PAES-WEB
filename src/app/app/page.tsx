@@ -87,7 +87,8 @@ export default function DashboardPage() {
         rank: null as number | null,
         score: 0,
         mistakes: 0,
-        tier: 'free'
+        tier: 'free',
+        habilidades: [] as any[]
     })
     const [timeLeft, setTimeLeft] = useState<string>("")
     const [ejes, setEjes] = useState<any[]>([])
@@ -145,6 +146,7 @@ export default function DashboardPage() {
                 const currentDailyProgress = dashboardStats?.daily_progress || 0
                 const activeMistakes = dashboardStats?.active_mistakes || 0
                 const processedEjes = dashboardStats?.ejes_stats || []
+                const processedHabilidades = dashboardStats?.habilidades_stats || []
                 const currentStreak = dashboardStats?.streak || 0
 
                 // Process Lives
@@ -178,7 +180,8 @@ export default function DashboardPage() {
                     rank: userRank,
                     score: userScore,
                     mistakes: activeMistakes,
-                    tier: tier
+                    tier: tier,
+                    habilidades: processedHabilidades
                 })
 
                 // Add tier to local state if needed or just use profileData directly
@@ -227,6 +230,16 @@ export default function DashboardPage() {
         const interval = setInterval(updateTimer, 1000)
         return () => clearInterval(interval)
     }, [stats.lives, stats.replenishAt, stats.tier])
+
+    const getHabilidadLabel = (h: string) => {
+        const labels: Record<string, string> = {
+            'resolver_problemas': 'Resolver Problemas',
+            'modelar': 'Modelar',
+            'representar': 'Representar',
+            'argumentar': 'Argumentar'
+        }
+        return labels[h] || h
+    }
 
     if (loading) {
         return (
@@ -398,32 +411,69 @@ export default function DashboardPage() {
             </div>
 
             {/* Ejes Grid */}
-            <div>
-                <h2 className="text-xl font-bold text-slate-900 mb-4">Tus Ejes Temáticos</h2>
-                <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4">
+            <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                    <h2 className="text-xl font-bold text-slate-900">Progreso por Eje Temático</h2>
+                    <Link href="/app/progress" className="text-sm font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1">
+                        Ver todo <ArrowRight size={14} />
+                    </Link>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {ejes.map((eje) => (
                         <Link href="/app/progress" key={eje.id}>
-                            <div className="group bg-white p-4 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between h-full">
-                                <div className="flex items-center gap-4">
-                                    <div className="w-10 h-10 rounded-full bg-slate-100 group-hover:bg-blue-50 transition-colors flex items-center justify-center text-slate-500 group-hover:text-blue-600 font-bold text-lg">
+                            <div className="group bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer">
+                                <div className="flex items-center justify-between mb-3">
+                                    <div className="w-10 h-10 rounded-xl bg-slate-50 group-hover:bg-blue-50 transition-colors flex items-center justify-center text-slate-500 group-hover:text-blue-600 font-bold text-lg">
                                         {eje.name.charAt(0)}
                                     </div>
-                                    <div>
-                                        <h3 className="font-bold text-sm text-slate-900 line-clamp-1">{eje.name}</h3>
-                                        <p className="text-xs text-slate-500 mt-0.5">{eje.progress}% precisión</p>
-                                    </div>
+                                    <span className={cn(
+                                        "px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest",
+                                        eje.progress >= 70 ? "bg-green-100 text-green-700" :
+                                            eje.progress >= 40 ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-500"
+                                    )}>
+                                        {eje.progress}% Precisión
+                                    </span>
                                 </div>
-                                <div className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-300 group-hover:border-blue-200 group-hover:text-blue-500 transition-colors shrink-0">
-                                    <ArrowRight size={16} />
+                                <h3 className="font-bold text-sm text-slate-900 line-clamp-1">{eje.name}</h3>
+                                <div className="w-full bg-slate-100 h-1.5 rounded-full mt-3 overflow-hidden">
+                                    <div
+                                        className={cn(
+                                            "h-full transition-all duration-1000",
+                                            eje.progress >= 70 ? "bg-green-500" :
+                                                eje.progress >= 40 ? "bg-blue-500" : "bg-slate-300"
+                                        )}
+                                        style={{ width: `${eje.progress}%` }}
+                                    />
                                 </div>
                             </div>
                         </Link>
                     ))}
-                    {ejes.length === 0 && (
-                        <div className="col-span-2 text-center py-8 text-slate-500 text-sm">
-                            Cargando ejes temáticos...
-                        </div>
-                    )}
+                </div>
+
+                <div className="pt-4">
+                    <h2 className="text-xl font-bold text-slate-900 mb-4">Fortaleza por Habilidad</h2>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {stats.habilidades.map((hab: any) => (
+                            <div key={hab.name} className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-center text-center group">
+                                <div className={cn(
+                                    "w-12 h-12 rounded-2xl flex items-center justify-center mb-3 transition-transform group-hover:scale-110",
+                                    hab.progress >= 70 ? "bg-green-50 text-green-600" :
+                                        hab.progress >= 40 ? "bg-indigo-50 text-indigo-600" : "bg-slate-50 text-slate-400"
+                                )}>
+                                    <BarChart3 size={24} />
+                                </div>
+                                <h4 className="text-xs font-bold text-slate-500 uppercase tracking-tighter mb-1 line-clamp-1">
+                                    {getHabilidadLabel(hab.name)}
+                                </h4>
+                                <div className="text-xl font-black text-slate-900">
+                                    {hab.progress}%
+                                </div>
+                                <div className="text-[10px] text-slate-400 mt-1">
+                                    {hab.total_attempts} intentos
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
 
