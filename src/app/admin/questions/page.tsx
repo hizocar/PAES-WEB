@@ -229,6 +229,9 @@ export default function AdminQuestionsPage() {
                         value={filterDifficulty}
                         onChange={e => setFilterDifficulty(e.target.value)}
                     >
+                        <option value="all">Todos</option>
+                        <option value="easy">Principiante</option>
+                        <option value="medium">Intermedio</option>
                         <option value="hard">Avanzado</option>
                     </select>
                 </div>
