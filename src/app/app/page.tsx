@@ -10,6 +10,8 @@ import { cn } from "@/lib/utils"
 import { useSubject } from "@/components/providers/SubjectContext"
 import { AchievementNotification } from "@/components/achievements/AchievementNotification"
 import { OnboardingTour, OnboardingStep } from "@/components/onboarding/OnboardingTour"
+import { RewardedAdModal } from "@/components/practice/RewardedAdModal"
+import { PlayCircle } from "lucide-react"
 
 const DASHBOARD_STEPS: OnboardingStep[] = [
     {
@@ -86,6 +88,8 @@ export default function DashboardPage() {
     })
     const [timeLeft, setTimeLeft] = useState<string>("")
     const [ejes, setEjes] = useState<any[]>([])
+    const [showAdModal, setShowAdModal] = useState(false)
+    const [canClaimAdReward, setCanClaimAdReward] = useState(false)
 
     const supabase = createClient()
 
@@ -117,7 +121,7 @@ export default function DashboardPage() {
                     supabase.rpc('get_dashboard_stats', { p_user_id: user.id, p_subject: subject }),
                     supabase.rpc('check_and_replenish_lives', { p_user_id: user.id, p_subject: subject }),
                     supabase.rpc('get_leaderboard', { p_subject: subject }),
-                    supabase.from('profiles').select('subscription_tier, onboarding_completed').eq('id', user.id).single()
+                    supabase.from('profiles').select('subscription_tier, onboarding_completed, last_rewarded_ad_at').eq('id', user.id).single()
                 ])
 
                 if (!isMounted) return
@@ -180,6 +184,11 @@ export default function DashboardPage() {
                     userName: name
                 })
 
+                // Check if ad reward is available
+                const lastAd = (profileResult.data as any)?.last_rewarded_ad_at
+                const canClaim = !lastAd || (new Date().getTime() - new Date(lastAd).getTime() > 24 * 60 * 60 * 1000)
+                setCanClaimAdReward(canClaim)
+
                 // Add tier to local state if needed or just use profileData directly
                 // For now let's just use profileData for the UI logic below
                 const userTier = tier
@@ -226,6 +235,26 @@ export default function DashboardPage() {
         const interval = setInterval(updateTimer, 1000)
         return () => clearInterval(interval)
     }, [stats.lives, stats.replenishAt, stats.tier])
+    const handleClaimAdReward = async () => {
+        const { data: { user } } = await supabase.auth.getUser()
+        if (!user) return
+
+        const { data, error } = await supabase.rpc('claim_rewarded_ad', {
+            p_user_id: user.id,
+            p_reward_type: 'life',
+            p_subject: subject
+        })
+
+        if (data?.success) {
+            setStats(prev => ({
+                ...prev,
+                lives: (prev.lives || 0) + 1
+            }))
+            setCanClaimAdReward(false)
+        } else {
+            alert(data?.message || "Error al reclamar recompensa")
+        }
+    }
 
     const getHabilidadLabel = (h: string) => {
         const labels: Record<string, string> = {
@@ -328,8 +357,8 @@ export default function DashboardPage() {
 
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                 {/* Vidas Card (Simple) */}
-                <Link href="/app/pricing" className="group" id="tour-lives">
-                    <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40 group-hover:border-blue-200 transition-all">
+                <div className="group relative" id="tour-lives">
+                    <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40 group-hover:border-blue-200 transition-all overflow-hidden">
                         <div className="flex items-start justify-between">
                             <div>
                                 <h3 className="text-slate-500 font-semibold text-sm group-hover:text-blue-600 transition-colors">Vidas</h3>
@@ -347,7 +376,7 @@ export default function DashboardPage() {
                                     </div>
                                 )}
                                 <p className="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">
-                                    {stats.tier !== 'free' ? "Beneficio Premium" : stats.lives && stats.lives > 0 ? "¡Sigue así!" : "Siguiente vida en:"}
+                                    {stats.tier !== 'free' ? "Beneficio Premium" : stats.lives !== null && stats.lives > 0 ? "¡Sigue así!" : "Siguiente vida en:"}
                                 </p>
                             </div>
                             <div className={cn(
@@ -358,19 +387,31 @@ export default function DashboardPage() {
                                 {stats.tier !== 'free' ? <Zap size={20} className="fill-amber-500" /> : <Heart size={20} className={stats.lives === 0 ? "fill-red-500" : ""} />}
                             </div>
                         </div>
-                        <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                            <div
-                                className={cn(
-                                    "h-full transition-all duration-1000",
-                                    stats.tier !== 'free' ? "bg-amber-500" :
-                                        stats.lives && stats.lives > 5 ? 'bg-blue-500' :
-                                            stats.lives && stats.lives > 2 ? 'bg-orange-500' : 'bg-red-500'
-                                )}
-                                style={{ width: stats.tier !== 'free' ? '100%' : `${(stats.lives || 0) * 10}%` }}
-                            />
-                        </div>
+
+                        {/* Progress or Reward Button */}
+                        {stats.tier === 'free' && stats.lives === 0 && canClaimAdReward ? (
+                            <button
+                                onClick={() => setShowAdModal(true)}
+                                className="w-full mt-2 py-1.5 bg-orange-50 hover:bg-orange-100 text-orange-600 text-[10px] md:text-xs font-bold rounded-lg border border-orange-200 transition-colors flex items-center justify-center gap-1.5 animate-pulse"
+                            >
+                                <PlayCircle size={14} />
+                                OBTENER +1 CON ANUNCIO
+                            </button>
+                        ) : (
+                            <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden mt-4">
+                                <div
+                                    className={cn(
+                                        "h-full transition-all duration-1000",
+                                        stats.tier !== 'free' ? "bg-amber-500" :
+                                            stats.lives && stats.lives > 5 ? 'bg-blue-500' :
+                                                stats.lives && stats.lives > 2 ? 'bg-orange-500' : 'bg-red-500'
+                                    )}
+                                    style={{ width: stats.tier !== 'free' ? '100%' : `${(stats.lives || 0) * 10}%` }}
+                                />
+                            </div>
+                        )}
                     </div>
-                </Link>
+                </div>
 
                 {/* Meta Diaria */}
                 <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40" id="tour-target">
@@ -530,6 +571,13 @@ export default function DashboardPage() {
                     }}
                 />
             )}
+
+            <RewardedAdModal
+                isOpen={showAdModal}
+                onClose={() => setShowAdModal(false)}
+                onRewardClaimed={handleClaimAdReward}
+                rewardType="life"
+            />
         </div>
     )
 }

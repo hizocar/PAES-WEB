@@ -162,7 +162,7 @@ export function RewardedAdModal({ isOpen, onClose, onRewardClaimed, rewardType }
                             <div>
                                 <h2 className="text-2xl font-bold text-slate-900">¿Necesitas una ayuda?</h2>
                                 <p className="text-slate-500 mt-2 text-lg">
-                                    Mira un anuncio y obtén **1 {rewardType === 'life' ? 'vida' : 'explicación'} extra**.
+                                    Mira un anuncio y obtén <span className="font-bold text-slate-900">1 {rewardType === 'life' ? 'vida' : 'explicación'} extra</span>.
                                 </p>
                             </div>
                             <Button
@@ -230,7 +230,7 @@ export function RewardedAdModal({ isOpen, onClose, onRewardClaimed, rewardType }
                                 </div>
                                 <h2 className="text-3xl font-black text-slate-900">Recompensa Lista</h2>
                                 <p className="text-slate-500 mt-2 text-lg leading-relaxed">
-                                    Has ganado **1 {rewardType === 'life' ? 'vida' : 'explicación'}** tras ver el anuncio.
+                                    Has ganado <span className="font-bold text-slate-900">1 {rewardType === 'life' ? 'vida' : 'explicación'}</span> tras ver el anuncio.
                                 </p>
                             </div>
                             <Button

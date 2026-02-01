@@ -227,7 +227,7 @@ function PracticeContent() {
     // Cooldown / No Lives Screen (Only for free users)
     if (tier === 'free' && lives === 0 && replenishAt) {
         return (
-            <div className="flex h-[80vh] items-center justify-center flex-col gap-8 px-4 text-center max-w-md mx-auto animate-in fade-in zoom-in duration-300">
+            <div className="flex min-h-[85dvh] items-center justify-center flex-col gap-8 px-4 text-center max-w-md mx-auto animate-in fade-in zoom-in duration-300">
                 <div className="relative">
                     <div className="absolute inset-0 bg-red-100 rounded-full animate-ping opacity-20"></div>
                     <div className="w-32 h-32 bg-red-50 rounded-full flex items-center justify-center relative border-4 border-white shadow-xl">
