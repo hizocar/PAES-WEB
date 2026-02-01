@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import Latex from '@/components/ui/latex-renderer'
 import { Lock, PlayCircle, Crown, Lightbulb, Clock } from "lucide-react"
 import Link from "next/link"
-import { RewardedAdModal } from "./RewardedAdModal"
 
 type ExplanationProps = {
     questionId: string
@@ -23,8 +22,6 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
     const [tier, setTier] = useState<string>('free')
     const [videoSignedUrl, setVideoSignedUrl] = useState<string | null>(null)
     const [timeRemaining, setTimeRemaining] = useState<string>("")
-    const [showAdModal, setShowAdModal] = useState(false)
-    const [canClaimAdReward, setCanClaimAdReward] = useState(false)
 
     const supabase = createClient()
 
@@ -94,11 +91,6 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
 
             if (profileResult.data) {
                 setTier(profileResult.data.subscription_tier || 'free')
-
-                // Ad Reward logic
-                const lastAd = (profileResult.data as any)?.last_rewarded_ad_at
-                const canClaim = !lastAd || (new Date().getTime() - new Date(lastAd).getTime() > 24 * 60 * 60 * 1000)
-                setCanClaimAdReward(canClaim)
             }
         } catch (error) {
             console.error("Error checking credits:", error)
@@ -130,22 +122,6 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
         }
     }
 
-    const handleClaimAdReward = async () => {
-        const { data: { user } } = await supabase.auth.getUser()
-        if (!user) return
-
-        const { data, error } = await supabase.rpc('claim_rewarded_ad', {
-            p_user_id: user.id,
-            p_reward_type: 'explanation'
-        })
-
-        if (data?.success) {
-            setCredits(prev => (prev !== null ? prev + 1 : 1))
-            setCanClaimAdReward(false)
-        } else {
-            alert(data?.message || "Error al reclamar recompensa")
-        }
-    }
 
     if (loading && !isRevealed) return <div className="p-4 animate-pulse bg-slate-100 rounded-xl h-32" />
 
@@ -213,23 +189,6 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
                     </Button>
                 </Link>
 
-                {canClaimAdReward && (
-                    <Button
-                        onClick={() => setShowAdModal(true)}
-                        variant="outline"
-                        className="w-full max-w-xs border-blue-200 text-blue-600 hover:bg-blue-50"
-                    >
-                        <PlayCircle size={18} className="mr-2" />
-                        Obtener +1 hoy con anuncio
-                    </Button>
-                )}
-
-                <RewardedAdModal
-                    isOpen={showAdModal}
-                    onClose={() => setShowAdModal(false)}
-                    onRewardClaimed={handleClaimAdReward}
-                    rewardType="explanation"
-                />
             </div>
         )
     }
