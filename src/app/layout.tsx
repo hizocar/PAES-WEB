@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/auth-provider";
-import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -59,13 +58,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <head>
-        <Script
-          async
-          src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"
-          strategy="afterInteractive"
-        />
-      </head>
       <body className={inter.className}>
         <AuthProvider>
           {children}
