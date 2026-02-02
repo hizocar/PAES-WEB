@@ -5,7 +5,7 @@ import { useAuth } from "@/context/auth-provider"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
-import { Loader2, Chrome } from "lucide-react"
+import { Loader2, Chrome, Check, X } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
@@ -19,16 +19,17 @@ export default function RegisterPage() {
     const { signUpWithEmail, signInWithGoogle } = useAuth()
     const router = useRouter()
 
+    // Validations
+    const hasMinLength = password.length >= 8
+    const hasNumber = /\d/.test(password)
+    const hasUppercase = /[A-Z]/.test(password)
+    const passwordsMatch = password !== "" && password === confirmPassword
+
+    const isFormValid = hasMinLength && hasNumber && hasUppercase && passwordsMatch && email.includes("@")
+
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault()
-        if (password !== confirmPassword) {
-            setError("Las contraseñas no coinciden")
-            return
-        }
-        if (password.length < 6) {
-            setError("La contraseña debe tener al menos 6 caracteres")
-            return
-        }
+        if (!isFormValid) return
 
         setLoading(true)
         setError(null)
@@ -47,6 +48,7 @@ export default function RegisterPage() {
     }
 
     if (success) {
+        // ... (remaining success state code from previous implementation)
         return (
             <div className="min-h-screen flex items-center justify-center bg-slate-950 p-4">
                 <Card className="w-full max-w-md bg-slate-900 border-slate-800 text-white p-8 text-center rounded-3xl">
@@ -101,6 +103,22 @@ export default function RegisterPage() {
                                 required
                                 className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 h-14 rounded-xl focus:ring-blue-600 focus:border-blue-600"
                             />
+
+                            {/* Password hints */}
+                            <div className="grid grid-cols-1 gap-1 px-1 pt-1">
+                                <div className={`flex items-center gap-2 text-xs ${hasMinLength ? 'text-emerald-400' : 'text-slate-500'}`}>
+                                    {hasMinLength ? <Check size={12} /> : <X size={12} />}
+                                    <span>Mínimo 8 caracteres</span>
+                                </div>
+                                <div className={`flex items-center gap-2 text-xs ${hasNumber ? 'text-emerald-400' : 'text-slate-500'}`}>
+                                    {hasNumber ? <Check size={12} /> : <X size={12} />}
+                                    <span>Al menos un número</span>
+                                </div>
+                                <div className={`flex items-center gap-2 text-xs ${hasUppercase ? 'text-emerald-400' : 'text-slate-500'}`}>
+                                    {hasUppercase ? <Check size={12} /> : <X size={12} />}
+                                    <span>Al menos una mayúscula</span>
+                                </div>
+                            </div>
                         </div>
                         <div className="space-y-2">
                             <Input
@@ -111,6 +129,12 @@ export default function RegisterPage() {
                                 required
                                 className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 h-14 rounded-xl focus:ring-blue-600 focus:border-blue-600"
                             />
+                            {confirmPassword !== "" && (
+                                <div className={`flex items-center gap-2 text-xs px-1 ${passwordsMatch ? 'text-emerald-400' : 'text-red-400'}`}>
+                                    {passwordsMatch ? <Check size={12} /> : <X size={12} />}
+                                    <span>Las contraseñas {passwordsMatch ? 'coinciden' : 'no coinciden'}</span>
+                                </div>
+                            )}
                         </div>
 
                         {error && (
@@ -119,8 +143,8 @@ export default function RegisterPage() {
 
                         <Button
                             type="submit"
-                            disabled={loading}
-                            className="w-full h-14 bg-slate-800 hover:bg-slate-700 text-slate-200 font-black text-lg uppercase tracking-widest transition-all active:scale-95 disabled:opacity-50 border-b-4 border-slate-950 rounded-xl"
+                            disabled={loading || !isFormValid}
+                            className={`w-full h-14 font-black text-lg uppercase tracking-widest transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed rounded-xl border-b-4 ${isFormValid ? 'bg-blue-600 hover:bg-blue-700 border-blue-900 text-white' : 'bg-slate-800 text-slate-400 border-slate-950'}`}
                         >
                             {loading ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : "REGISTRARME"}
                         </Button>
