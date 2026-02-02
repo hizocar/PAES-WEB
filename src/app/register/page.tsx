@@ -10,6 +10,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 
 export default function RegisterPage() {
+    const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
@@ -25,7 +26,7 @@ export default function RegisterPage() {
     const hasUppercase = /[A-Z]/.test(password)
     const passwordsMatch = password !== "" && password === confirmPassword
 
-    const isFormValid = hasMinLength && hasNumber && hasUppercase && passwordsMatch && email.includes("@")
+    const isFormValid = name.trim().length >= 3 && hasMinLength && hasNumber && hasUppercase && passwordsMatch && email.includes("@")
 
     const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -34,7 +35,7 @@ export default function RegisterPage() {
         setLoading(true)
         setError(null)
         try {
-            const { error } = await signUpWithEmail(email, password)
+            const { error } = await signUpWithEmail(email, password, name)
             if (error) {
                 setError(error.message || "Error al registrarse")
             } else {
@@ -84,6 +85,16 @@ export default function RegisterPage() {
                 </CardHeader>
                 <CardContent className="space-y-6 px-8">
                     <form onSubmit={handleRegister} className="space-y-4">
+                        <div className="space-y-2">
+                            <Input
+                                type="text"
+                                placeholder="Nombre Completo"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                                className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 h-14 rounded-xl focus:ring-blue-600 focus:border-blue-600"
+                            />
+                        </div>
                         <div className="space-y-2">
                             <Input
                                 type="email"
