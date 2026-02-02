@@ -3,6 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/context/auth-provider";
 
+import { FacebookPixel } from "@/components/analytics/FacebookPixel";
+import { Suspense } from "react";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -60,6 +63,9 @@ export default function RootLayout({
     <html lang="es">
       <body className={inter.className}>
         <AuthProvider>
+          <Suspense fallback={null}>
+            <FacebookPixel />
+          </Suspense>
           {children}
         </AuthProvider>
       </body>
