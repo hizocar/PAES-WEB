@@ -35,17 +35,22 @@ export async function updateSession(request: NextRequest) {
 
     if (request.nextUrl.pathname.startsWith('/app') && !user) {
         const url = request.nextUrl.clone()
-        url.pathname = '/'
+        url.pathname = '/login'
         return NextResponse.redirect(url)
     }
 
     if (request.nextUrl.pathname.startsWith('/admin')) {
-        // Basic check, robust check should happen in layout or page
         if (!user) {
             const url = request.nextUrl.clone()
-            url.pathname = '/'
+            url.pathname = '/login'
             return NextResponse.redirect(url)
         }
+    }
+
+    if ((request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/register') && user) {
+        const url = request.nextUrl.clone()
+        url.pathname = '/app'
+        return NextResponse.redirect(url)
     }
 
     return supabaseResponse

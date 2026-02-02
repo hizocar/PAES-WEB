@@ -5,15 +5,18 @@ import { useAuth } from "@/context/auth-provider"
 import { ComponentProps } from "react"
 import { Loader2 } from "lucide-react"
 
+import { useRouter } from "next/navigation"
+
 type LoginButtonProps = ComponentProps<typeof Button> & {
     children: React.ReactNode
 }
 
 export function LoginButton({ children, className, ...props }: LoginButtonProps) {
-    const { signInWithGoogle, loading } = useAuth()
+    const { loading } = useAuth()
+    const router = useRouter()
 
-    const handleLogin = async () => {
-        await signInWithGoogle()
+    const handleLogin = () => {
+        router.push("/login")
     }
 
     return (
@@ -23,7 +26,6 @@ export function LoginButton({ children, className, ...props }: LoginButtonProps)
             className={className}
             {...props}
         >
-            {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
             {children}
         </Button>
     )
@@ -34,11 +36,12 @@ type LoginTriggerProps = React.HTMLAttributes<HTMLDivElement> & {
 }
 
 export function LoginTrigger({ children, className, ...props }: LoginTriggerProps) {
-    const { signInWithGoogle, loading } = useAuth()
+    const { loading } = useAuth()
+    const router = useRouter()
 
-    const handleLogin = async () => {
+    const handleLogin = () => {
         if (loading) return
-        await signInWithGoogle()
+        router.push("/login")
     }
 
     return (
