@@ -46,6 +46,13 @@ export function PlanButton({ planId, tier, currentTier, isSignature }: PlanButto
         // 2. Logic for SUBSCRIBING (Premium)
         setLoading(true)
         try {
+            if ((window as any).fbq) {
+                (window as any).fbq("track", "InitiateCheckout", {
+                    content_name: `Plan ${tier}`,
+                    value: tier === 'premium' ? 1990 : 29990,
+                    currency: 'CLP'
+                })
+            }
             const result = await createSubscriptionPreference(planId)
 
             if (result.error) {

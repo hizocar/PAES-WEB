@@ -109,6 +109,9 @@ function PracticeContent() {
         initPractice()
     }, [subject])
 
+    // Track First Practice Event (Meta Pixel)
+    const trackedFirstPractice = useRef(false)
+
     const fetchQuestion = async () => {
         if (loading) return
 
@@ -148,6 +151,13 @@ function PracticeContent() {
                     topic: qRaw.topic_name || 'General',
                     eje: qRaw.eje_name || 'General'
                 }
+
+                // Tracking Meta Pixel: First Practice
+                if (!trackedFirstPractice.current && (window as any).fbq) {
+                    (window as any).fbq("trackCustom", "FirstPractice")
+                    trackedFirstPractice.current = true
+                }
+
                 setQuestion(qFormatted)
                 setCompleted(false)
             }

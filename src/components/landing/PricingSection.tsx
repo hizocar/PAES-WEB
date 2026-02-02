@@ -127,6 +127,15 @@ export function PricingSection({ plans = DEFAULT_PLANS }: { plans?: Plan[] }) {
                                 <LoginButton
                                     size="lg"
                                     disabled={isSignature}
+                                    onClick={() => {
+                                        if (isPremium && (window as any).fbq) {
+                                            (window as any).fbq("track", "InitiateCheckout", {
+                                                content_name: 'Premium Plan (Landing)',
+                                                value: 1990.00,
+                                                currency: 'CLP'
+                                            })
+                                        }
+                                    }}
                                     className={`w-full h-16 rounded-[1.25rem] font-black text-lg transition-all border-b-4 active:border-b-0 active:translate-y-1 ${isPremium ? 'bg-blue-600 hover:bg-blue-700 text-white border-blue-800 shadow-xl shadow-blue-200' :
                                         isSignature ? 'bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed' :
                                             'bg-slate-100 hover:bg-slate-200 text-slate-900 border-slate-300'

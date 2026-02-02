@@ -30,6 +30,9 @@ function AuthCallbackContent() {
                     setTimeout(() => router.replace("/login?error=auth_exchange_failed"), 3000)
                 } else {
                     // Success! Redirect to the destination
+                    if ((window as any).fbq) {
+                        (window as any).fbq("track", "CompleteRegistration")
+                    }
                     router.refresh() // Refresh to update auth state in context
                     router.replace(next)
                 }

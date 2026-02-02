@@ -40,6 +40,9 @@ export default function RegisterPage() {
                 setError(error.message || "Error al registrarse")
             } else {
                 setSuccess(true)
+                if ((window as any).fbq) {
+                    (window as any).fbq("track", "CompleteRegistration")
+                }
             }
         } catch (err) {
             setError("Ocurrió un error al intentar registrarse")
