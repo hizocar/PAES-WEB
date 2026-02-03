@@ -4,11 +4,12 @@ import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { BarChart3, ChevronRight, LineChart, RotateCcw, Search, Trash2, X } from "lucide-react"
+import { BarChart3, ChevronRight, LineChart, RotateCcw, Search, Trash2, X, Clock } from "lucide-react"
 import { adminUpdateUserTier } from "@/app/actions/subscription"
 import { adminDeleteUser } from "@/app/actions/admin"
 import { SubscriptionBadge } from "@/components/subscription-badge"
 import { cn } from "@/lib/utils"
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts"
 
 type UserStat = {
     user_id: string
@@ -80,6 +81,7 @@ export default function AdminUsersPage() {
 
         if (error) {
             console.error("Error fetching student stats:", error)
+            setStudentStats(null)
         } else {
             setStudentStats(data)
         }
@@ -179,6 +181,33 @@ export default function AdminUsersPage() {
         })
     }
 
+    // Helper for color coding logic
+    const getProgressColor = (progress: number) => {
+        if (progress >= 80) return { text: 'text-green-600', bg: 'bg-green-500', bgSoft: 'bg-green-100' }
+        if (progress >= 50) return { text: 'text-yellow-600', bg: 'bg-yellow-500', bgSoft: 'bg-yellow-100' }
+        return { text: 'text-red-600', bg: 'bg-red-500', bgSoft: 'bg-red-100' }
+    }
+
+    // Process usage stats for chart
+    const getHourlyUsageData = (usageStats: Record<string, number> = {}) => {
+        return Array.from({ length: 24 }, (_, i) => ({
+            hour: i,
+            count: usageStats[i.toString()] || 0
+        }))
+    }
+
+    const CustomTooltip = ({ active, payload, label }: any) => {
+        if (active && payload && payload.length) {
+            return (
+                <div className="bg-slate-800 text-white text-xs p-2 rounded-lg shadow-xl">
+                    <p className="font-bold mb-1">{`${label}:00 - ${label}:59`}</p>
+                    <p className="text-slate-300">{`Ejercicios: ${payload[0].value}`}</p>
+                </div>
+            )
+        }
+        return null
+    }
+
     return (
         <div className="space-y-6 pb-20">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -225,6 +254,8 @@ export default function AdminUsersPage() {
                         ) : (
                             filteredUsers.map((user) => {
                                 const successRate = user.total_attempts > 0 ? Math.round((user.correct_attempts / user.total_attempts) * 100) : 0
+                                const colors = getProgressColor(successRate)
+
                                 return (
                                     <tr
                                         key={user.user_id}
@@ -269,9 +300,12 @@ export default function AdminUsersPage() {
                                         </td>
                                         <td className="px-6 py-4">
                                             <div className="flex flex-col gap-1 min-w-[100px]">
-                                                <div className="flex justify-between text-[10px] font-medium text-slate-600"><span>{successRate}%</span><span>{user.correct_attempts}/{user.total_attempts}</span></div>
+                                                <div className="flex justify-between text-[10px] font-medium text-slate-600">
+                                                    <span className={colors.text}>{successRate}%</span>
+                                                    <span>{user.correct_attempts}/{user.total_attempts}</span>
+                                                </div>
                                                 <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-                                                    <div className={`h-full rounded-full ${successRate >= 70 ? 'bg-green-500' : successRate >= 40 ? 'bg-yellow-500' : 'bg-red-500'}`} style={{ width: `${successRate}%` }} />
+                                                    <div className={`h-full rounded-full ${colors.bg}`} style={{ width: `${successRate}%` }} />
                                                 </div>
                                             </div>
                                         </td>
@@ -347,6 +381,36 @@ export default function AdminUsersPage() {
                                         </div>
                                     </div>
 
+                                    {/* Usage Chart */}
+                                    <div className="bg-white p-4 rounded-2xl border border-slate-100">
+                                        <div className="flex items-center gap-2 mb-4">
+                                            <Clock className="text-orange-500" size={18} />
+                                            <h4 className="font-bold text-slate-800">Horas de Conexión</h4>
+                                        </div>
+                                        <div className="h-48 w-full">
+                                            <ResponsiveContainer width="100%" height="100%">
+                                                <BarChart data={getHourlyUsageData(studentStats.usage)}>
+                                                    <XAxis
+                                                        dataKey="hour"
+                                                        fontSize={10}
+                                                        tickLine={false}
+                                                        axisLine={false}
+                                                        tickFormatter={(val) => `${val}h`}
+                                                    />
+                                                    <Tooltip content={<CustomTooltip />} cursor={{ fill: 'transparent' }} />
+                                                    <Bar dataKey="count" radius={[4, 4, 0, 0]}>
+                                                        {getHourlyUsageData(studentStats.usage).map((entry, index) => (
+                                                            <Cell
+                                                                key={`cell-${index}`}
+                                                                fill={entry.count > 0 ? (entry.hour >= 5 && entry.hour < 12 ? '#f59e0b' : entry.hour >= 20 || entry.hour < 5 ? '#6366f1' : '#3b82f6') : '#e2e8f0'}
+                                                            />
+                                                        ))}
+                                                    </Bar>
+                                                </BarChart>
+                                            </ResponsiveContainer>
+                                        </div>
+                                    </div>
+
                                     <div className="grid md:grid-cols-2 gap-8">
                                         {/* Ejes Breakdown */}
                                         <div className="space-y-4">
@@ -355,25 +419,25 @@ export default function AdminUsersPage() {
                                                 <h4 className="font-bold text-slate-800">Rendimiento por Eje</h4>
                                             </div>
                                             <div className="space-y-3">
-                                                {studentStats.ejes.map((eje: any) => (
-                                                    <div key={eje.name} className="space-y-1.5">
-                                                        <div className="flex justify-between text-xs font-bold text-slate-600 px-1">
-                                                            <span>{eje.name}</span>
-                                                            <span className={eje.progress >= 70 ? 'text-green-600' : eje.progress >= 40 ? 'text-blue-600' : 'text-slate-400'}>
-                                                                {eje.progress}% ({eje.correct}/{eje.total})
-                                                            </span>
+                                                {studentStats.ejes.map((eje: any) => {
+                                                    const colors = getProgressColor(eje.progress)
+                                                    return (
+                                                        <div key={eje.name} className="space-y-1.5">
+                                                            <div className="flex justify-between text-xs font-bold text-slate-600 px-1">
+                                                                <span>{eje.name}</span>
+                                                                <span className={colors.text}>
+                                                                    {eje.progress}% ({eje.correct}/{eje.total})
+                                                                </span>
+                                                            </div>
+                                                            <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                                                                <div
+                                                                    className={cn("h-full rounded-full transition-all duration-1000", colors.bg)}
+                                                                    style={{ width: `${eje.progress}%` }}
+                                                                />
+                                                            </div>
                                                         </div>
-                                                        <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                                                            <div
-                                                                className={cn(
-                                                                    "h-full rounded-full transition-all duration-1000",
-                                                                    eje.progress >= 70 ? 'bg-green-500' : eje.progress >= 40 ? 'bg-blue-500' : 'bg-slate-300'
-                                                                )}
-                                                                style={{ width: `${eje.progress}%` }}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                ))}
+                                                    )
+                                                })}
                                             </div>
                                         </div>
 
@@ -384,22 +448,22 @@ export default function AdminUsersPage() {
                                                 <h4 className="font-bold text-slate-800">Habilidades PAES</h4>
                                             </div>
                                             <div className="grid grid-cols-2 gap-3">
-                                                {studentStats.habilidades.map((hab: any) => (
-                                                    <div key={hab.name} className="bg-slate-50/50 p-3 rounded-xl border border-slate-100 flex flex-col items-center text-center">
-                                                        <p className="text-[10px] font-black uppercase tracking-tighter text-slate-400 mb-1 leading-tight h-6 flex items-center">
-                                                            {getHabilidadLabel(hab.name)}
-                                                        </p>
-                                                        <p className={cn(
-                                                            "text-lg font-black",
-                                                            hab.progress >= 70 ? "text-green-600" : hab.progress >= 40 ? "text-indigo-600" : "text-slate-400"
-                                                        )}>
-                                                            {hab.progress}%
-                                                        </p>
-                                                        <p className="text-[10px] text-slate-400 font-medium">
-                                                            {hab.total} intentos
-                                                        </p>
-                                                    </div>
-                                                ))}
+                                                {studentStats.habilidades.map((hab: any) => {
+                                                    const colors = getProgressColor(hab.progress)
+                                                    return (
+                                                        <div key={hab.name} className="bg-slate-50/50 p-3 rounded-xl border border-slate-100 flex flex-col items-center text-center">
+                                                            <p className="text-[10px] font-black uppercase tracking-tighter text-slate-400 mb-1 leading-tight h-6 flex items-center">
+                                                                {getHabilidadLabel(hab.name)}
+                                                            </p>
+                                                            <p className={cn("text-lg font-black", colors.text)}>
+                                                                {hab.progress}%
+                                                            </p>
+                                                            <p className="text-[10px] text-slate-400 font-medium">
+                                                                {hab.total} intentos
+                                                            </p>
+                                                        </div>
+                                                    )
+                                                })}
                                             </div>
                                         </div>
                                     </div>
@@ -421,25 +485,28 @@ export default function AdminUsersPage() {
                                                     </tr>
                                                 </thead>
                                                 <tbody className="divide-y divide-slate-50">
-                                                    {studentStats.topics.map((topic: any) => (
-                                                        <tr key={topic.name} className="hover:bg-slate-50/50 transition-colors">
-                                                            <td className="px-4 py-3">
-                                                                <p className="text-[10px] text-blue-500 font-bold uppercase tracking-tight">{topic.eje_name}</p>
-                                                                <p className="font-bold text-slate-700">{topic.name}</p>
-                                                            </td>
-                                                            <td className="px-4 py-3 text-center font-medium text-slate-500">{topic.total}</td>
-                                                            <td className="px-4 py-3 text-center font-bold text-slate-900">{topic.correct}</td>
-                                                            <td className="px-4 py-3 text-right">
-                                                                <span className={cn(
-                                                                    "px-2 py-1 rounded-lg font-black",
-                                                                    topic.progress >= 70 ? "bg-green-100 text-green-700" :
-                                                                        topic.progress >= 40 ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-500"
-                                                                )}>
-                                                                    {topic.progress}%
-                                                                </span>
-                                                            </td>
-                                                        </tr>
-                                                    ))}
+                                                    {studentStats.topics.map((topic: any) => {
+                                                        const colors = getProgressColor(topic.progress)
+                                                        return (
+                                                            <tr key={topic.name} className="hover:bg-slate-50/50 transition-colors">
+                                                                <td className="px-4 py-3">
+                                                                    <p className="text-[10px] text-blue-500 font-bold uppercase tracking-tight">{topic.eje_name}</p>
+                                                                    <p className="font-bold text-slate-700">{topic.name}</p>
+                                                                </td>
+                                                                <td className="px-4 py-3 text-center font-medium text-slate-500">{topic.total}</td>
+                                                                <td className="px-4 py-3 text-center font-bold text-slate-900">{topic.correct}</td>
+                                                                <td className="px-4 py-3 text-right">
+                                                                    <span className={cn(
+                                                                        "px-2 py-1 rounded-lg font-black",
+                                                                        colors.bgSoft,
+                                                                        colors.text
+                                                                    )}>
+                                                                        {topic.progress}%
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        )
+                                                    })}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -453,26 +520,29 @@ export default function AdminUsersPage() {
                                                 <h4 className="font-bold text-slate-800">Matriz de Rendimiento (Eje + Tema + Habilidad)</h4>
                                             </div>
                                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                                                {studentStats.matrix.map((item: any, idx: number) => (
-                                                    <div key={idx} className="p-3 rounded-xl border border-dashed border-slate-200 bg-slate-50 flex flex-col justify-between">
-                                                        <div>
-                                                            <p className="text-[9px] text-blue-600 font-black uppercase tracking-widest">{item.eje_name}</p>
-                                                            <p className="text-xs font-bold text-slate-800 line-clamp-1">{item.topic_name}</p>
-                                                            <p className="text-[10px] font-medium text-indigo-500 mt-1">{getHabilidadLabel(item.skill_name)}</p>
-                                                        </div>
-                                                        <div className="mt-2 flex items-center justify-between">
-                                                            <div className="flex gap-1">
-                                                                {[...Array(5)].map((_, i) => (
-                                                                    <div key={i} className={cn(
-                                                                        "w-3 h-1 rounded-full",
-                                                                        i < (item.progress / 20) ? (item.progress >= 70 ? "bg-green-500" : "bg-blue-500") : "bg-slate-200"
-                                                                    )} />
-                                                                ))}
+                                                {studentStats.matrix.map((item: any, idx: number) => {
+                                                    const colors = getProgressColor(item.progress)
+                                                    return (
+                                                        <div key={idx} className="p-3 rounded-xl border border-dashed border-slate-200 bg-slate-50 flex flex-col justify-between">
+                                                            <div>
+                                                                <p className="text-[9px] text-blue-600 font-black uppercase tracking-widest">{item.eje_name}</p>
+                                                                <p className="text-xs font-bold text-slate-800 line-clamp-1">{item.topic_name}</p>
+                                                                <p className="text-[10px] font-medium text-indigo-500 mt-1">{getHabilidadLabel(item.skill_name)}</p>
                                                             </div>
-                                                            <span className="text-[10px] font-black text-slate-900">{item.progress}%</span>
+                                                            <div className="mt-2 flex items-center justify-between">
+                                                                <div className="flex gap-1">
+                                                                    {[...Array(5)].map((_, i) => (
+                                                                        <div key={i} className={cn(
+                                                                            "w-3 h-1 rounded-full",
+                                                                            i < (item.progress / 20) ? colors.bg : "bg-slate-200"
+                                                                        )} />
+                                                                    ))}
+                                                                </div>
+                                                                <span className="text-[10px] font-black text-slate-900">{item.progress}%</span>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                ))}
+                                                    )
+                                                })}
                                             </div>
                                         </div>
                                     )}
