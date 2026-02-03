@@ -114,9 +114,8 @@ declare
     v_daily_progress int;
     v_mistakes_count int;
     v_ejes_stats json;
+    v_habilidades_stats json;
     v_start_of_day timestamp;
-    
-    -- Streak vars
     v_streak int := 0;
     v_check_date date;
     v_count int;
@@ -132,7 +131,7 @@ begin
     join questions q on a.question_id = q.id 
     where a.user_id = p_user_id
     and a.created_at >= v_start_of_day
-    and q.subject = p_subject;
+    and lower(q.subject) = lower(p_subject);
 
     -- B. Mistakes Count
     select count(distinct a.question_id)
@@ -141,7 +140,7 @@ begin
     join questions q on a.question_id = q.id
     where a.user_id = p_user_id
     and a.is_correct = false
-    and q.subject = p_subject
+    and lower(q.subject) = lower(p_subject)
     and not exists (
         select 1 from attempts a2
         where a2.user_id = p_user_id
@@ -150,72 +149,74 @@ begin
     );
 
     -- C. Ejes Stats
-    with user_attempts_enriched as (
+    select json_agg(ea)
+    into v_ejes_stats
+    from (
         select 
-            e.id as eje_id,
-            a.is_correct
+            e.id as id,
+            e.name as name,
+            count(a.is_correct) as total_attempts,
+            case when count(a.is_correct) > 0 then 
+                round((count(a.is_correct) filter (where a.is_correct)::numeric / count(a.is_correct)) * 100) 
+            else 0 end as progress
         from ejes e
         left join topics t on t.eje_id = e.id
         left join question_topics qt on qt.topic_id = t.id
-        left join questions q on qt.question_id = q.id and q.subject = p_subject
+        left join questions q on qt.question_id = q.id and lower(q.subject) = lower(p_subject)
         left join attempts a on a.question_id = q.id and a.user_id = p_user_id
-        where e.subject = p_subject
-    ),
-    eje_aggregates as (
-        select 
-            e.id as eje_id,
-            e.name as eje_name,
-            count(ua.is_correct) as total_attempts,
-            sum(case when ua.is_correct then 1 else 0 end) as correct_count
-        from ejes e
-        left join user_attempts_enriched ua on e.id = ua.eje_id
-        where e.subject = p_subject
+        where lower(e.subject) = lower(p_subject)
         group by e.id, e.name
-    )
-    select json_agg(
-        json_build_object(
-            'id', ea.eje_id,
-            'name', ea.eje_name,
-            'total_attempts', ea.total_attempts,
-            'progress', case when ea.total_attempts > 0 then round((ea.correct_count::numeric / ea.total_attempts) * 100) else 0 end
-        )
-    )
-    into v_ejes_stats
-    from eje_aggregates as ea;
+    ) ea;
 
-    -- D. Streak Calculation (Server Side)
-    -- Logic: Provide consecutive days ending today (or yesterday) where user made >= 10 attempts
-    
-    -- Check today first
+    -- D. Habilidades Stats
+    select json_agg(ha)
+    into v_habilidades_stats
+    from (
+        select 
+            hl.name,
+            count(uah.is_correct) as total_attempts,
+            case when count(uah.is_correct) > 0 then 
+                round((count(uah.is_correct) filter (where uah.is_correct)::numeric / count(uah.is_correct)) * 100) 
+            else 0 end as progress
+        from (
+            select 'resolver_problemas' as name union all 
+            select 'modelar' union all 
+            select 'representar' union all 
+            select 'argumentar'
+        ) hl
+        left join (
+            select q.habilidad, a.is_correct
+            from attempts a
+            join questions q on a.question_id = q.id
+            where a.user_id = p_user_id and lower(q.subject) = lower(p_subject)
+        ) uah on lower(hl.name) = lower(uah.habilidad)
+        group by hl.name
+    ) ha;
+
+    -- E. Streak Calculation
     select count(*) into v_count
     from attempts a
     join questions q on a.question_id = q.id
-    where a.user_id = p_user_id
-    and q.subject = p_subject
-    and date(a.created_at) = v_today;
+    where a.user_id = p_user_id and lower(q.subject) = lower(p_subject) and date(a.created_at) = v_today;
 
     if v_count >= 10 then
         v_streak := 1;
         v_check_date := v_today - 1;
     else
-        -- Current streak broken today? If so, check if valid yesterday
         v_check_date := v_today - 1;
     end if;
 
-    -- Iterate backwards
     while true loop
         select count(*) into v_count
         from attempts a
         join questions q on a.question_id = q.id
-        where a.user_id = p_user_id
-        and q.subject = p_subject
-        and date(a.created_at) = v_check_date;
+        where a.user_id = p_user_id and lower(q.subject) = lower(p_subject) and date(a.created_at) = v_check_date;
 
         if v_count >= 10 then
             v_streak := v_streak + 1;
             v_check_date := v_check_date - 1;
         else
-            exit; -- Break loop
+            exit;
         end if;
     end loop;
 
@@ -223,6 +224,7 @@ begin
         'daily_progress', v_daily_progress,
         'active_mistakes', v_mistakes_count,
         'ejes_stats', coalesce(v_ejes_stats, '[]'::json),
+        'habilidades_stats', coalesce(v_habilidades_stats, '[]'::json),
         'streak', v_streak
     );
 end;
