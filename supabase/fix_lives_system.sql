@@ -124,7 +124,6 @@ begin
     else
         update profiles set lives_m2 = v_new_lives, replenish_at_m2 = v_new_replenish_at where id = p_user_id;
     end if;
-
     return query select v_new_lives, v_new_replenish_at;
 end;
-$$;
+$$; 
