@@ -4,14 +4,13 @@ import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { BarChart3, ChevronRight, LineChart, RotateCcw, Search, Trash2, X, Clock } from "lucide-react"
+import { BarChart3, ChevronRight, LineChart, RotateCcw, Search, Trash2, X, Clock, PieChart as PieChartIcon, Send } from "lucide-react"
 import { adminUpdateUserTier } from "@/app/actions/subscription"
 import { adminDeleteUser } from "@/app/actions/admin"
 import { SubscriptionBadge } from "@/components/subscription-badge"
 import { cn } from "@/lib/utils"
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts"
+import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, Cell } from "recharts"
 import { sendCampaignEmail } from "@/app/actions/campaigns"
-import { Send } from "lucide-react"
 
 type UserStat = {
     user_id: string
@@ -39,6 +38,16 @@ export default function AdminUsersPage() {
     const [selectedUser, setSelectedUser] = useState<UserStat | null>(null)
     const [studentStats, setStudentStats] = useState<any>(null)
     const [statsLoading, setStatsLoading] = useState(false)
+
+    // Campaign State
+    const [campaignModalOpen, setCampaignModalOpen] = useState(false)
+    const [campaignUser, setCampaignUser] = useState<{ id: string, email: string, name: string } | null>(null)
+    const [selectedTemplate, setSelectedTemplate] = useState<'start-practice' | 'reminder' | 'new-features'>('start-practice')
+    const [sendingEmail, setSendingEmail] = useState(false)
+
+    // Customization State
+    const [customSubject, setCustomSubject] = useState("")
+    const [customMessage, setCustomMessage] = useState("")
 
     const supabase = createClient()
 
@@ -72,6 +81,41 @@ export default function AdminUsersPage() {
             setFilteredUsers(filtered)
         }
     }, [search, users])
+
+    useEffect(() => {
+        // Reset customization when template changes
+        let defaultSubject = ""
+        let defaultMessage = ""
+
+        switch (selectedTemplate) {
+            case 'start-practice':
+                defaultSubject = 'Tu puntaje nacional te está esperando 🚀'
+                defaultMessage = `Vemos que ya creaste tu cuenta, pero aún no has realizado tu primer entrenamiento. ¿Sabías que la única forma de mejorar en la PAES es practicando?
+
+En PAES Lab tienes acceso a:
+✅ Ejercicios DEMRE reales y actualizados.
+✅ Detección automática de tus puntos débiles.
+✅ Explicaciones detalladas paso a paso.
+✅ Todo 100% Gratis.`
+                break
+            case 'reminder':
+                defaultSubject = '🔥 No pierdas tu racha en PAES Lab'
+                defaultMessage = `La constancia es la clave para un puntaje nacional. Notamos que hace unos días no entras a practicar y tu racha podría estar en peligro.
+
+Recuerda que solo 10 minutos al día pueden hacer una gran diferencia en tu resultado final.`
+                break
+            case 'new-features':
+                defaultSubject = '✨ Descubre lo nuevo en PAES Lab'
+                defaultMessage = `Hemos estado trabajando duro para mejorar tu experiencia de estudio. Acabamos de lanzar nuevas funcionalidades que te ayudarán a prepararte mejor.
+
+🆕 Modo Repaso: Vuelve a intentar solo los ejercicios en los que te equivocaste.
+📊 Estadísticas Mejoradas: Ahora puedes ver tu progreso por eje temático con más detalle.
+🚀 Interfaz Más Rápida: Optimizamos todo para que pierdas menos tiempo esperando.`
+                break
+        }
+        setCustomSubject(defaultSubject)
+        setCustomMessage(defaultMessage)
+    }, [selectedTemplate, campaignModalOpen])
 
     const fetchStudentStats = async (user: UserStat) => {
         setStatsLoading(true)
@@ -166,15 +210,6 @@ export default function AdminUsersPage() {
         }
     }
 
-
-
-    const [campaignModalOpen, setCampaignModalOpen] = useState(false)
-    const [campaignUser, setCampaignUser] = useState<{ id: string, email: string, name: string } | null>(null)
-    const [selectedTemplate, setSelectedTemplate] = useState<'start-practice' | 'reminder' | 'new-features'>('start-practice')
-    const [sendingEmail, setSendingEmail] = useState(false)
-
-    // ... (fetchStudentStats and other handlers remain same until handleSendCampaign)
-
     const openCampaignModal = (user: UserStat) => {
         setCampaignUser({
             id: user.user_id,
@@ -188,7 +223,13 @@ export default function AdminUsersPage() {
         if (!campaignUser) return
 
         setSendingEmail(true)
-        const result = await sendCampaignEmail(campaignUser.email, campaignUser.name, selectedTemplate)
+        const result = await sendCampaignEmail(
+            campaignUser.email,
+            campaignUser.name,
+            selectedTemplate,
+            customSubject,
+            customMessage
+        )
         setSendingEmail(false)
 
         if (result.error) {
@@ -200,6 +241,7 @@ export default function AdminUsersPage() {
         }
     }
 
+    // Helper functions
     const getHabilidadLabel = (h: string) => {
         const labels: Record<string, string> = {
             'resolver_problemas': 'Resolver Problemas',
@@ -217,14 +259,12 @@ export default function AdminUsersPage() {
         })
     }
 
-    // Helper for color coding logic
     const getProgressColor = (progress: number) => {
         if (progress >= 80) return { text: 'text-green-600', bg: 'bg-green-500', bgSoft: 'bg-green-100' }
         if (progress >= 50) return { text: 'text-yellow-600', bg: 'bg-yellow-500', bgSoft: 'bg-yellow-100' }
         return { text: 'text-red-600', bg: 'bg-red-500', bgSoft: 'bg-red-100' }
     }
 
-    // Process usage stats for chart
     const getHourlyUsageData = (usageStats: Record<string, number> = {}) => {
         return Array.from({ length: 24 }, (_, i) => ({
             hour: i,
@@ -244,12 +284,8 @@ export default function AdminUsersPage() {
         return null
     }
 
-
-    // ... (formatDate, getProgressColor, getHourlyUsageData, CustomTooltip unchanged)
-
     return (
         <div className="space-y-6 pb-20">
-            {/* ... (Header and Filters unchanged) ... */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h2 className="text-2xl font-bold text-slate-900">Gestión de Usuarios</h2>
@@ -302,7 +338,7 @@ export default function AdminUsersPage() {
                                         className="hover:bg-slate-50 transition-colors cursor-pointer group"
                                         onClick={(e) => {
                                             const target = e.target as HTMLElement
-                                            if (target.closest('button') || target.closest('select')) return
+                                            if (target.closest('button') || target.closest('select') || target.closest('textarea') || target.closest('input')) return
                                             fetchStudentStats(user)
                                         }}
                                     >
@@ -331,7 +367,7 @@ export default function AdminUsersPage() {
                                         <td className="px-6 py-4 text-center">
                                             <div className="flex flex-col items-center gap-2">
                                                 <SubscriptionBadge tier={user.subscription_tier} />
-                                                <select value={user.subscription_tier} onChange={(e) => handleUpdateTier(user.user_id, e.target.value, user.full_name || user.email)} disabled={updatingTier === user.user_id} className="text-[10px] px-2 py-1 border rounded bg-white font-medium text-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50">
+                                                <select onClick={(e) => e.stopPropagation()} value={user.subscription_tier} onChange={(e) => handleUpdateTier(user.user_id, e.target.value, user.full_name || user.email)} disabled={updatingTier === user.user_id} className="text-[10px] px-2 py-1 border rounded bg-white font-medium text-slate-600 focus:outline-none focus:ring-1 focus:ring-blue-500 disabled:opacity-50">
                                                     <option value="free">FREE</option>
                                                     <option value="premium">PREMIUM</option>
                                                     <option value="signature">SIGNATURE</option>
@@ -359,15 +395,15 @@ export default function AdminUsersPage() {
                                                     size="sm"
                                                     variant="outline"
                                                     className="h-8 w-8 p-0 text-indigo-600 border-indigo-100 hover:bg-indigo-50"
-                                                    onClick={() => openCampaignModal(user)}
+                                                    onClick={(e) => { e.stopPropagation(); openCampaignModal(user); }}
                                                     title="Enviar Campaña / Email"
                                                 >
                                                     <Send size={14} />
                                                 </Button>
-                                                <Button size="sm" variant="outline" className="h-8 w-8 p-0 text-blue-600 border-blue-100 hover:bg-blue-50" onClick={() => handleGrantCredits(user.user_id, user.full_name || user.email)} title="Regalar +5 Explicaciones">💡</Button>
-                                                <Button size="sm" variant="outline" className="h-8 w-8 p-0 text-red-600 border-red-100 hover:bg-red-50" onClick={() => handleRefillLives(user.user_id, user.full_name || user.email)} disabled={user.lives >= 10 || user.subscription_tier !== 'free'} title="Recargar Vidas">❤️</Button>
-                                                <Button size="sm" variant="outline" className="h-8 w-8 p-0 text-slate-400 border-slate-100 hover:text-red-700 hover:border-red-100" onClick={() => handleReset(user.user_id, user.full_name || user.email)} title="Resetear Progreso"><RotateCcw size={14} /></Button>
-                                                <Button size="sm" variant="outline" className="h-8 w-8 p-0 text-slate-300 border-slate-100 hover:text-red-600 hover:border-red-200" onClick={() => handleDelete(user.user_id, user.full_name || user.email)} disabled={isDeleting === user.user_id} title="ELIMINAR USUARIO"><Trash2 size={14} className={isDeleting === user.user_id ? "animate-pulse" : ""} /></Button>
+                                                <Button size="sm" variant="outline" className="h-8 w-8 p-0 text-blue-600 border-blue-100 hover:bg-blue-50" onClick={(e) => { e.stopPropagation(); handleGrantCredits(user.user_id, user.full_name || user.email); }} title="Regalar +5 Explicaciones">💡</Button>
+                                                <Button size="sm" variant="outline" className="h-8 w-8 p-0 text-red-600 border-red-100 hover:bg-red-50" onClick={(e) => { e.stopPropagation(); handleRefillLives(user.user_id, user.full_name || user.email); }} disabled={user.lives >= 10 || user.subscription_tier !== 'free'} title="Recargar Vidas">❤️</Button>
+                                                <Button size="sm" variant="outline" className="h-8 w-8 p-0 text-slate-400 border-slate-100 hover:text-red-700 hover:border-red-100" onClick={(e) => { e.stopPropagation(); handleReset(user.user_id, user.full_name || user.email); }} title="Resetear Progreso"><RotateCcw size={14} /></Button>
+                                                <Button size="sm" variant="outline" className="h-8 w-8 p-0 text-slate-300 border-slate-100 hover:text-red-600 hover:border-red-200" onClick={(e) => { e.stopPropagation(); handleDelete(user.user_id, user.full_name || user.email); }} disabled={isDeleting === user.user_id} title="ELIMINAR USUARIO"><Trash2 size={14} className={isDeleting === user.user_id ? "animate-pulse" : ""} /></Button>
                                             </div>
                                         </td>
                                     </tr>
@@ -381,7 +417,7 @@ export default function AdminUsersPage() {
             {/* Campaign Selection Modal */}
             {campaignModalOpen && campaignUser && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
-                    <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 animate-in zoom-in-95 duration-200">
+                    <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl p-6 animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
                         <div className="flex justify-between items-start mb-4">
                             <div>
                                 <h3 className="text-lg font-bold text-slate-900">Enviar Correo</h3>
@@ -406,11 +442,24 @@ export default function AdminUsersPage() {
                                 </select>
                             </div>
 
-                            <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 text-xs text-slate-500">
-                                <p className="font-bold mb-1">Previsualización del Asunto:</p>
-                                {selectedTemplate === 'start-practice' && "Tu puntaje nacional te está esperando 🚀"}
-                                {selectedTemplate === 'reminder' && "🔥 No pierdas tu racha en PAES Lab"}
-                                {selectedTemplate === 'new-features' && "✨ Descubre lo nuevo en PAES Lab"}
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">Asunto del Correo</label>
+                                <input
+                                    type="text"
+                                    className="w-full p-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                                    value={customSubject}
+                                    onChange={(e) => setCustomSubject(e.target.value)}
+                                />
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">Mensaje (Cuerpo)</label>
+                                <textarea
+                                    className="w-full p-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none min-h-[150px]"
+                                    value={customMessage}
+                                    onChange={(e) => setCustomMessage(e.target.value)}
+                                />
+                                <p className="text-xs text-slate-400 mt-1">Este texto reemplazará el contenido principal del correo.</p>
                             </div>
 
                             <div className="flex gap-2 justify-end mt-6">
@@ -428,7 +477,7 @@ export default function AdminUsersPage() {
                 </div>
             )}
 
-            {/* Student Detail Modal (unchanged) */}
+            {/* Student Detail Modal */}
             {selectedUser && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
                     <div className="bg-white w-full max-w-4xl max-h-[90dvh] rounded-3xl shadow-2xl overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
@@ -659,11 +708,4 @@ export default function AdminUsersPage() {
     )
 }
 
-function PieChartIcon({ size, className }: { size: number, className: string }) {
-    return (
-        <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-            <path d="M21.21 15.89A10 10 0 1 1 8 2.83" />
-            <path d="M22 12A10 10 0 0 0 12 2v10z" />
-        </svg>
-    )
-}
+

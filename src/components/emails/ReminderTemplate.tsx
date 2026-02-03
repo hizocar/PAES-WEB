@@ -3,11 +3,13 @@ import React from 'react';
 interface ReminderTemplateProps {
     userName: string;
     actionUrl: string;
+    customMessage?: string;
 }
 
 export const ReminderTemplate: React.FC<ReminderTemplateProps> = ({
     userName,
-    actionUrl
+    actionUrl,
+    customMessage
 }) => (
     <div style={{ fontFamily: 'sans-serif', maxWidth: '600px', margin: '0 auto', padding: '20px', color: '#1e293b' }}>
         <div style={{ textAlign: 'center', marginBottom: '30px' }}>
@@ -16,13 +18,21 @@ export const ReminderTemplate: React.FC<ReminderTemplateProps> = ({
 
         <h2 style={{ fontSize: '20px', marginBottom: '20px' }}>¡No pierdas el ritmo, {userName}! 🔥</h2>
 
-        <p style={{ lineHeight: '1.6', marginBottom: '15px' }}>
-            La constancia es la clave para un puntaje nacional. Notamos que hace unos días no entras a practicar y tu racha podría estar en peligro.
-        </p>
+        {customMessage ? (
+            <div style={{ lineHeight: '1.6', marginBottom: '15px', whiteSpace: 'pre-wrap' }}>
+                {customMessage}
+            </div>
+        ) : (
+            <>
+                <p style={{ lineHeight: '1.6', marginBottom: '15px' }}>
+                    La constancia es la clave para un puntaje nacional. Notamos que hace unos días no entras a practicar y tu racha podría estar en peligro.
+                </p>
 
-        <p style={{ lineHeight: '1.6', marginBottom: '25px' }}>
-            Recuerda que solo 10 minutos al día pueden hacer una gran diferencia en tu resultado final.
-        </p>
+                <p style={{ lineHeight: '1.6', marginBottom: '25px' }}>
+                    Recuerda que solo 10 minutos al día pueden hacer una gran diferencia en tu resultado final.
+                </p>
+            </>
+        )}
 
         <div style={{ textAlign: 'center', margin: '40px 0' }}>
             <a

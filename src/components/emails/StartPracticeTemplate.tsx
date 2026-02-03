@@ -3,11 +3,13 @@ import React from 'react';
 interface StartPracticeTemplateProps {
     userName: string;
     actionUrl: string;
+    customMessage?: string;
 }
 
 export const StartPracticeTemplate: React.FC<StartPracticeTemplateProps> = ({
     userName,
-    actionUrl
+    actionUrl,
+    customMessage
 }) => (
     <div style={{ fontFamily: 'sans-serif', maxWidth: '600px', margin: '0 auto', padding: '20px', color: '#1e293b' }}>
         <div style={{ textAlign: 'center', marginBottom: '30px' }}>
@@ -16,20 +18,28 @@ export const StartPracticeTemplate: React.FC<StartPracticeTemplateProps> = ({
 
         <h2 style={{ fontSize: '20px', marginBottom: '20px' }}>¡Hola {userName}! 👋</h2>
 
-        <p style={{ lineHeight: '1.6', marginBottom: '15px' }}>
-            Vemos que ya creaste tu cuenta, pero aún no has realizado tu primer entrenamiento. ¿Sabías que la única forma de mejorar en la PAES es practicando?
-        </p>
+        {customMessage ? (
+            <div style={{ lineHeight: '1.6', marginBottom: '15px', whiteSpace: 'pre-wrap' }}>
+                {customMessage}
+            </div>
+        ) : (
+            <>
+                <p style={{ lineHeight: '1.6', marginBottom: '15px' }}>
+                    Vemos que ya creaste tu cuenta, pero aún no has realizado tu primer entrenamiento. ¿Sabías que la única forma de mejorar en la PAES es practicando?
+                </p>
 
-        <p style={{ lineHeight: '1.6', marginBottom: '25px' }}>
-            En PAES Lab tienes acceso a:
-        </p>
+                <p style={{ lineHeight: '1.6', marginBottom: '25px' }}>
+                    En PAES Lab tienes acceso a:
+                </p>
 
-        <ul style={{ paddingLeft: '20px', marginBottom: '30px', lineHeight: '1.6' }}>
-            <li>✅ Ejercicios DEMRE reales y actualizados.</li>
-            <li>✅ Detección automática de tus puntos débiles.</li>
-            <li>✅ Explicaciones detalladas paso a paso.</li>
-            <li>✅ Todo 100% Gratis.</li>
-        </ul>
+                <ul style={{ paddingLeft: '20px', marginBottom: '30px', lineHeight: '1.6' }}>
+                    <li>✅ Ejercicios DEMRE reales y actualizados.</li>
+                    <li>✅ Detección automática de tus puntos débiles.</li>
+                    <li>✅ Explicaciones detalladas paso a paso.</li>
+                    <li>✅ Todo 100% Gratis.</li>
+                </ul>
+            </>
+        )}
 
         <div style={{ textAlign: 'center', margin: '40px 0' }}>
             <a

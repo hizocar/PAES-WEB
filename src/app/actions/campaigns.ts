@@ -7,7 +7,13 @@ import { NewFeaturesTemplate } from "@/components/emails/NewFeaturesTemplate"
 
 export type TemplateId = 'start-practice' | 'reminder' | 'new-features'
 
-export async function sendCampaignEmail(email: string, userName: string, templateId: TemplateId) {
+export async function sendCampaignEmail(
+    email: string,
+    userName: string,
+    templateId: TemplateId,
+    customSubject?: string,
+    customMessage?: string
+) {
     try {
         console.log(` Attempting to send email [${templateId}] to ${email}...`)
 
@@ -21,22 +27,22 @@ export async function sendCampaignEmail(email: string, userName: string, templat
             console.warn("⚠️ Using Dummy RESEND_API_KEY. Email will likely fail or be mocked.")
         }
 
-        let subject = ""
+        let subject = customSubject || ""
         let reactElement: React.ReactElement | null = null
         const actionUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/login`
 
         switch (templateId) {
             case 'start-practice':
-                subject = 'Tu puntaje nacional te está esperando 🚀'
-                reactElement = StartPracticeTemplate({ userName, actionUrl }) as any
+                if (!subject) subject = 'Tu puntaje nacional te está esperando 🚀'
+                reactElement = StartPracticeTemplate({ userName, actionUrl, customMessage }) as any
                 break
             case 'reminder':
-                subject = '🔥 No pierdas tu racha en PAES Lab'
-                reactElement = ReminderTemplate({ userName, actionUrl }) as any
+                if (!subject) subject = '🔥 No pierdas tu racha en PAES Lab'
+                reactElement = ReminderTemplate({ userName, actionUrl, customMessage }) as any
                 break
             case 'new-features':
-                subject = '✨ Descubre lo nuevo en PAES Lab'
-                reactElement = NewFeaturesTemplate({ userName, actionUrl }) as any
+                if (!subject) subject = '✨ Descubre lo nuevo en PAES Lab'
+                reactElement = NewFeaturesTemplate({ userName, actionUrl, customMessage }) as any
                 break
             default:
                 return { error: "Plantilla no válida" }
