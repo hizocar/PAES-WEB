@@ -4,12 +4,12 @@ import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { BarChart3, ChevronRight, LineChart, RotateCcw, Search, Trash2, X, Clock, PieChart as PieChartIcon, Send } from "lucide-react"
+import { BarChart3, ChevronRight, LineChart as LineChartIcon, RotateCcw, Search, Trash2, X, Clock, PieChart as PieChartIcon, Send } from "lucide-react"
 import { adminUpdateUserTier } from "@/app/actions/subscription"
 import { adminDeleteUser } from "@/app/actions/admin"
 import { SubscriptionBadge } from "@/components/subscription-badge"
 import { cn } from "@/lib/utils"
-import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, Cell } from "recharts"
+import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, Cell, LineChart, Line } from "recharts"
 import { sendCampaignEmail } from "@/app/actions/campaigns"
 
 type UserStat = {
@@ -118,21 +118,107 @@ Recuerda que solo 10 minutos al día pueden hacer una gran diferencia en tu resu
         setCustomMessage(defaultMessage)
     }, [selectedTemplate, campaignModalOpen])
 
+    const [scoreHistory, setScoreHistory] = useState<any[]>([])
+
     const fetchStudentStats = async (user: UserStat) => {
         setStatsLoading(true)
         setSelectedUser(user)
-        const { data, error } = await supabase.rpc('get_admin_student_performance', {
-            p_user_id: user.user_id,
-            p_subject: subject
-        })
 
-        if (error) {
-            console.error("Error fetching student stats:", error)
+        // Parallel fetching for performance
+        const [statsRes, historyRes] = await Promise.all([
+            supabase.rpc('get_admin_student_performance', {
+                p_user_id: user.user_id,
+                p_subject: subject
+            }),
+            supabase.rpc('get_student_score_history', {
+                p_user_id: user.user_id,
+                p_subject: subject
+            })
+        ])
+
+        if (statsRes.error) {
+            console.error("Error fetching student stats:", statsRes.error)
             setStudentStats(null)
         } else {
-            setStudentStats(data)
+            setStudentStats(statsRes.data)
         }
+
+        if (historyRes.error) {
+            console.error("Error fetching score history:", historyRes.error)
+            setScoreHistory([])
+        } else {
+            setScoreHistory(historyRes.data || [])
+        }
+
         setStatsLoading(false)
+    }
+    // ... (rest of code)
+    // Inside the Modal render, add the new chart:
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
+        {/* Existing Cards... */}
+        <div className="rounded-xl border bg-card text-card-foreground shadow-sm p-6">
+            <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <h3 className="tracking-tight text-sm font-medium">Puntaje Estimado</h3>
+                <LineChart className="h-4 w-4 text-muted-foreground" />
+            </div>
+            <div className="text-2xl font-bold">
+                {scoreHistory.length > 0
+                    ? scoreHistory[scoreHistory.length - 1].estimated_score
+                    : "N/A"}
+            </div>
+            <p className="text-xs text-muted-foreground">
+                Tendencia basada en precisión acumulada
+            </p>
+        </div>
+    </div>
+
+    {/* Score Evolution Chart */ }
+    {
+        scoreHistory.length > 0 && (
+            <div className="mb-6 rounded-xl border bg-card text-card-foreground shadow-sm p-6">
+                <h3 className="font-semibold mb-4">Evolución de Puntaje Estimado</h3>
+                <div className="h-[300px] w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={scoreHistory}>
+                            <XAxis
+                                dataKey="date"
+                                tickFormatter={(date) => new Date(date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                                stroke="#888888"
+                                fontSize={12}
+                                tickLine={false}
+                                axisLine={false}
+                            />
+                            <Tooltip
+                                content={({ active, payload }) => {
+                                    if (active && payload && payload.length) {
+                                        return (
+                                            <div className="rounded-lg border bg-background p-2 shadow-sm">
+                                                <div className="grid grid-cols-2 gap-2">
+                                                    <div className="flex flex-col">
+                                                        <span className="text-[0.70rem] uppercase text-muted-foreground">Puntaje</span>
+                                                        <span className="font-bold text-muted-foreground">
+                                                            {payload[0].value}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )
+                                    }
+                                    return null
+                                }}
+                            />
+                            <Line
+                                type="monotone"
+                                dataKey="estimated_score"
+                                stroke="#2563eb"
+                                strokeWidth={2}
+                                dot={false}
+                            />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </div>
+            </div>
+        )
     }
 
     const handleUpdateTier = async (userId: string, newTier: string, userName: string) => {
@@ -620,7 +706,7 @@ Recuerda que solo 10 minutos al día pueden hacer una gran diferencia en tu resu
                                     {/* Detailed Topics Table */}
                                     <div className="space-y-4">
                                         <div className="flex items-center gap-2">
-                                            <LineChart className="text-blue-600" size={18} />
+                                            <LineChartIcon className="text-blue-600" size={18} />
                                             <h4 className="font-bold text-slate-800">Desglose por Tema</h4>
                                         </div>
                                         <div className="rounded-2xl border border-slate-100 overflow-hidden">
