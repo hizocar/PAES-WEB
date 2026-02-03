@@ -322,7 +322,7 @@ export default function DashboardPage() {
                         <Link href="/app/practice" id="tour-practice">
                             <Button size="lg" className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white shadow-xl shadow-blue-200 transform hover:-translate-y-1 transition-all h-16 px-10 rounded-2xl font-bold text-xl border-b-4 border-blue-800 active:border-b-0 active:translate-y-0">
                                 <Zap className="w-6 h-6 mr-2 fill-current" />
-                                <Entrenar Ahora
+                                Entrenar Ahora
                             </Button>
                         </Link>
                     )}

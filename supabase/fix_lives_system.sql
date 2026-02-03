@@ -65,6 +65,18 @@ begin
         end if;
 
         v_replenish_at := v_new_replenish_at;
+    
+    -- EDGE CASE: User has < 10 lives BUT no timer set (legacy data or error). Start timer now.
+    elsif v_lives < 10 and v_replenish_at is null then
+        v_new_replenish_at := now() + interval '1 hour';
+        
+        if p_subject = 'm1' then
+            update profiles set replenish_at_m1 = v_new_replenish_at where id = p_user_id;
+        else
+            update profiles set replenish_at_m2 = v_new_replenish_at where id = p_user_id;
+        end if;
+        
+        v_replenish_at := v_new_replenish_at;
     end if;
 
     -- Return current state
