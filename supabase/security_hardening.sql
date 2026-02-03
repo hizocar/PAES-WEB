@@ -3,17 +3,20 @@ create or replace function public.is_admin()
 returns boolean
 language sql
 security definer
+set search_path = public
 stable
 as $$
   select exists (
     select 1 from public.profiles
     where id = auth.uid()
-    and role = 'admin'
+    and role = 'admin'::public.user_role
   );
 $$;
 
 -- 1. Secure get_admin_users_stats
+drop function if exists public.get_admin_users_stats();
 drop function if exists public.get_admin_users_stats(text);
+
 create or replace function public.get_admin_users_stats(p_subject text default 'm1')
 returns table (
     user_id uuid,
@@ -31,6 +34,7 @@ returns table (
 )
 language plpgsql
 security definer
+set search_path = public
 as $$
 begin
     -- Security Check
@@ -65,6 +69,7 @@ create or replace function public.reset_user_progress(p_user_id uuid)
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 begin
     -- Security Check
@@ -84,6 +89,7 @@ create or replace function public.admin_delete_user_data(p_user_id uuid)
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 begin
     -- Security Check
@@ -103,6 +109,7 @@ create or replace function public.admin_grant_explanation_credits(p_user_id uuid
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 begin
     if not public.is_admin() then
@@ -121,6 +128,7 @@ create or replace function public.admin_refill_lives(p_user_id uuid, p_subject t
 returns void
 language plpgsql
 security definer
+set search_path = public
 as $$
 begin
     if not public.is_admin() then
@@ -132,3 +140,12 @@ begin
     where id = p_user_id;
 end;
 $$;
+
+-- 6. GRANT PERMISSIONS (Critical for RPC access)
+grant execute on function public.is_admin() to authenticated, service_role;
+grant execute on function public.get_admin_users_stats(text) to authenticated, service_role;
+grant execute on function public.reset_user_progress(uuid) to authenticated, service_role;
+grant execute on function public.admin_delete_user_data(uuid) to authenticated, service_role;
+grant execute on function public.admin_grant_explanation_credits(uuid) to authenticated, service_role;
+grant execute on function public.admin_refill_lives(uuid, text) to authenticated, service_role;
+

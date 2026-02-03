@@ -57,7 +57,8 @@ export default function AdminUsersPage() {
 
         if (error) {
             console.error("Error fetching users:", error)
-            alert("Error al cargar usuarios")
+            // Show detailed error to help debugging
+            alert(`Error al cargar usuarios: ${error.message || JSON.stringify(error)}`)
         } else {
             setUsers(data || [])
             setFilteredUsers(data || [])
