@@ -10,7 +10,7 @@ import { adminDeleteUser } from "@/app/actions/admin"
 import { SubscriptionBadge } from "@/components/subscription-badge"
 import { cn } from "@/lib/utils"
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts"
-import { sendStartPracticeEmail } from "@/app/actions/campaigns"
+import { sendCampaignEmail } from "@/app/actions/campaigns"
 import { Send } from "lucide-react"
 
 type UserStat = {
@@ -166,17 +166,37 @@ export default function AdminUsersPage() {
         }
     }
 
-    const handleSendCampaign = async (userId: string, email: string, userName: string) => {
-        if (!confirm(`¿Enviar recordatorio "Comienza a Practicar" a ${userName}?`)) {
-            return
-        }
 
-        const result = await sendStartPracticeEmail(email, userName)
+
+    const [campaignModalOpen, setCampaignModalOpen] = useState(false)
+    const [campaignUser, setCampaignUser] = useState<{ id: string, email: string, name: string } | null>(null)
+    const [selectedTemplate, setSelectedTemplate] = useState<'start-practice' | 'reminder' | 'new-features'>('start-practice')
+    const [sendingEmail, setSendingEmail] = useState(false)
+
+    // ... (fetchStudentStats and other handlers remain same until handleSendCampaign)
+
+    const openCampaignModal = (user: UserStat) => {
+        setCampaignUser({
+            id: user.user_id,
+            email: user.email,
+            name: user.full_name || user.email
+        })
+        setCampaignModalOpen(true)
+    }
+
+    const handleSendCampaign = async () => {
+        if (!campaignUser) return
+
+        setSendingEmail(true)
+        const result = await sendCampaignEmail(campaignUser.email, campaignUser.name, selectedTemplate)
+        setSendingEmail(false)
 
         if (result.error) {
             alert("❌ " + result.error)
         } else {
             alert("✅ Correo enviado con éxito")
+            setCampaignModalOpen(false)
+            setCampaignUser(null)
         }
     }
 
@@ -224,8 +244,12 @@ export default function AdminUsersPage() {
         return null
     }
 
+
+    // ... (formatDate, getProgressColor, getHourlyUsageData, CustomTooltip unchanged)
+
     return (
         <div className="space-y-6 pb-20">
+            {/* ... (Header and Filters unchanged) ... */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                     <h2 className="text-2xl font-bold text-slate-900">Gestión de Usuarios</h2>
@@ -331,17 +355,15 @@ export default function AdminUsersPage() {
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end gap-1.5">
-                                                {user.total_attempts === 0 && (
-                                                    <Button
-                                                        size="sm"
-                                                        variant="outline"
-                                                        className="h-8 w-8 p-0 text-indigo-600 border-indigo-100 hover:bg-indigo-50"
-                                                        onClick={() => handleSendCampaign(user.user_id, user.email, user.full_name || user.email)}
-                                                        title="Enviar Recordatorio de Práctica"
-                                                    >
-                                                        <Send size={14} />
-                                                    </Button>
-                                                )}
+                                                <Button
+                                                    size="sm"
+                                                    variant="outline"
+                                                    className="h-8 w-8 p-0 text-indigo-600 border-indigo-100 hover:bg-indigo-50"
+                                                    onClick={() => openCampaignModal(user)}
+                                                    title="Enviar Campaña / Email"
+                                                >
+                                                    <Send size={14} />
+                                                </Button>
                                                 <Button size="sm" variant="outline" className="h-8 w-8 p-0 text-blue-600 border-blue-100 hover:bg-blue-50" onClick={() => handleGrantCredits(user.user_id, user.full_name || user.email)} title="Regalar +5 Explicaciones">💡</Button>
                                                 <Button size="sm" variant="outline" className="h-8 w-8 p-0 text-red-600 border-red-100 hover:bg-red-50" onClick={() => handleRefillLives(user.user_id, user.full_name || user.email)} disabled={user.lives >= 10 || user.subscription_tier !== 'free'} title="Recargar Vidas">❤️</Button>
                                                 <Button size="sm" variant="outline" className="h-8 w-8 p-0 text-slate-400 border-slate-100 hover:text-red-700 hover:border-red-100" onClick={() => handleReset(user.user_id, user.full_name || user.email)} title="Resetear Progreso"><RotateCcw size={14} /></Button>
@@ -356,7 +378,57 @@ export default function AdminUsersPage() {
                 </table>
             </div>
 
-            {/* Student Detail Modal */}
+            {/* Campaign Selection Modal */}
+            {campaignModalOpen && campaignUser && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+                    <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl p-6 animate-in zoom-in-95 duration-200">
+                        <div className="flex justify-between items-start mb-4">
+                            <div>
+                                <h3 className="text-lg font-bold text-slate-900">Enviar Correo</h3>
+                                <p className="text-sm text-slate-500">Para: {campaignUser.name}</p>
+                            </div>
+                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-full" onClick={() => setCampaignModalOpen(false)}>
+                                <X size={18} />
+                            </Button>
+                        </div>
+
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1">Selecciona Plantilla</label>
+                                <select
+                                    className="w-full p-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 outline-none"
+                                    value={selectedTemplate}
+                                    onChange={(e) => setSelectedTemplate(e.target.value as any)}
+                                >
+                                    <option value="start-practice">🚀 Comienza a Practicar (Onboarding)</option>
+                                    <option value="reminder">🔥 Recordatorio de Racha</option>
+                                    <option value="new-features">✨ Nuevas Funcionalidades</option>
+                                </select>
+                            </div>
+
+                            <div className="bg-slate-50 p-3 rounded-lg border border-slate-100 text-xs text-slate-500">
+                                <p className="font-bold mb-1">Previsualización del Asunto:</p>
+                                {selectedTemplate === 'start-practice' && "Tu puntaje nacional te está esperando 🚀"}
+                                {selectedTemplate === 'reminder' && "🔥 No pierdas tu racha en PAES Lab"}
+                                {selectedTemplate === 'new-features' && "✨ Descubre lo nuevo en PAES Lab"}
+                            </div>
+
+                            <div className="flex gap-2 justify-end mt-6">
+                                <Button variant="ghost" onClick={() => setCampaignModalOpen(false)}>Cancelar</Button>
+                                <Button
+                                    onClick={handleSendCampaign}
+                                    disabled={sendingEmail}
+                                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                                >
+                                    {sendingEmail ? "Enviando..." : "Enviar Correo"} <Send size={14} className="ml-2" />
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Student Detail Modal (unchanged) */}
             {selectedUser && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
                     <div className="bg-white w-full max-w-4xl max-h-[90dvh] rounded-3xl shadow-2xl overflow-hidden flex flex-col animate-in zoom-in-95 duration-200">
