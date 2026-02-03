@@ -152,74 +152,6 @@ Recuerda que solo 10 minutos al día pueden hacer una gran diferencia en tu resu
 
         setStatsLoading(false)
     }
-    // ... (rest of code)
-    // Inside the Modal render, add the new chart:
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
-        {/* Existing Cards... */}
-        <div className="rounded-xl border bg-card text-card-foreground shadow-sm p-6">
-            <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <h3 className="tracking-tight text-sm font-medium">Puntaje Estimado</h3>
-                <LineChart className="h-4 w-4 text-muted-foreground" />
-            </div>
-            <div className="text-2xl font-bold">
-                {scoreHistory.length > 0
-                    ? scoreHistory[scoreHistory.length - 1].estimated_score
-                    : "N/A"}
-            </div>
-            <p className="text-xs text-muted-foreground">
-                Tendencia basada en precisión acumulada
-            </p>
-        </div>
-    </div>
-
-    {/* Score Evolution Chart */ }
-    {
-        scoreHistory.length > 0 && (
-            <div className="mb-6 rounded-xl border bg-card text-card-foreground shadow-sm p-6">
-                <h3 className="font-semibold mb-4">Evolución de Puntaje Estimado</h3>
-                <div className="h-[300px] w-full">
-                    <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={scoreHistory}>
-                            <XAxis
-                                dataKey="date"
-                                tickFormatter={(date) => new Date(date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
-                                stroke="#888888"
-                                fontSize={12}
-                                tickLine={false}
-                                axisLine={false}
-                            />
-                            <Tooltip
-                                content={({ active, payload }) => {
-                                    if (active && payload && payload.length) {
-                                        return (
-                                            <div className="rounded-lg border bg-background p-2 shadow-sm">
-                                                <div className="grid grid-cols-2 gap-2">
-                                                    <div className="flex flex-col">
-                                                        <span className="text-[0.70rem] uppercase text-muted-foreground">Puntaje</span>
-                                                        <span className="font-bold text-muted-foreground">
-                                                            {payload[0].value}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        )
-                                    }
-                                    return null
-                                }}
-                            />
-                            <Line
-                                type="monotone"
-                                dataKey="estimated_score"
-                                stroke="#2563eb"
-                                strokeWidth={2}
-                                dot={false}
-                            />
-                        </LineChart>
-                    </ResponsiveContainer>
-                </div>
-            </div>
-        )
-    }
 
     const handleUpdateTier = async (userId: string, newTier: string, userName: string) => {
         if (!confirm(`¿Cambiar el plan de ${userName} a ${newTier.toUpperCase()}?`)) {
@@ -615,6 +547,69 @@ Recuerda que solo 10 minutos al día pueden hacer una gran diferencia en tu resu
                                             <p className="text-sm font-bold text-slate-700 mt-1">{formatDate(selectedUser.last_activity)}</p>
                                         </div>
                                     </div>
+
+                                    {/* Estimated Score & Evolution */}
+                                    {scoreHistory.length > 0 && (
+                                        <div className="mb-6 space-y-4">
+                                            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+                                                <div className="rounded-xl border bg-white text-slate-900 shadow-sm p-6 border-slate-100">
+                                                    <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                                        <h3 className="tracking-tight text-sm font-medium text-slate-500">Puntaje Estimado</h3>
+                                                        <LineChartIcon className="h-4 w-4 text-blue-500" />
+                                                    </div>
+                                                    <div className="text-3xl font-black text-blue-600">
+                                                        {scoreHistory[scoreHistory.length - 1].estimated_score}
+                                                    </div>
+                                                    <p className="text-xs text-slate-400 mt-1">
+                                                        Basado en precisión histórica
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div className="rounded-xl border bg-white text-slate-900 shadow-sm p-6 border-slate-100">
+                                                <h3 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                                                    <LineChartIcon size={18} className="text-blue-500" /> Evolución de Puntaje
+                                                </h3>
+                                                <div className="h-[250px] w-full">
+                                                    <ResponsiveContainer width="100%" height="100%">
+                                                        <LineChart data={scoreHistory}>
+                                                            <XAxis
+                                                                dataKey="date"
+                                                                tickFormatter={(date) => new Date(date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                                                                stroke="#94a3b8"
+                                                                fontSize={12}
+                                                                tickLine={false}
+                                                                axisLine={false}
+                                                            />
+                                                            <Tooltip
+                                                                content={({ active, payload, label }) => {
+                                                                    if (active && payload && payload.length && label) {
+                                                                        return (
+                                                                            <div className="bg-slate-800 text-white text-xs p-2 rounded-lg shadow-xl border border-slate-700">
+                                                                                <p className="font-bold mb-1">{new Date(label).toLocaleDateString()}</p>
+                                                                                <div className="flex flex-col gap-1">
+                                                                                    <span className="text-slate-300">Puntaje: <span className="font-bold text-white">{payload[0].value}</span></span>
+                                                                                </div>
+                                                                            </div>
+                                                                        )
+                                                                    }
+                                                                    return null
+                                                                }}
+                                                            />
+                                                            <Line
+                                                                type="monotone"
+                                                                dataKey="estimated_score"
+                                                                stroke="#3b82f6"
+                                                                strokeWidth={3}
+                                                                dot={{ r: 4, fill: "#3b82f6", strokeWidth: 2, stroke: "#fff" }}
+                                                                activeDot={{ r: 6, strokeWidth: 0 }}
+                                                            />
+                                                        </LineChart>
+                                                    </ResponsiveContainer>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
 
                                     {/* Usage Chart */}
                                     <div className="bg-white p-4 rounded-2xl border border-slate-100">
