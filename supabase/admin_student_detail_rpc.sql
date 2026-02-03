@@ -124,7 +124,7 @@ begin
     -- 5. Usage By Hour (0-23)
     with hourly_usage as (
         select 
-            extract(hour from a.created_at) as hour_of_day,
+            extract(hour from (a.created_at at time zone 'America/Santiago')) as hour_of_day,
             count(*) as count
         from attempts a
         join questions q on a.question_id = q.id
