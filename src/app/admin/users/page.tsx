@@ -10,6 +10,8 @@ import { adminDeleteUser } from "@/app/actions/admin"
 import { SubscriptionBadge } from "@/components/subscription-badge"
 import { cn } from "@/lib/utils"
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts"
+import { sendStartPracticeEmail } from "@/app/actions/campaigns"
+import { Send } from "lucide-react"
 
 type UserStat = {
     user_id: string
@@ -164,6 +166,20 @@ export default function AdminUsersPage() {
         }
     }
 
+    const handleSendCampaign = async (userId: string, email: string, userName: string) => {
+        if (!confirm(`¿Enviar recordatorio "Comienza a Practicar" a ${userName}?`)) {
+            return
+        }
+
+        const result = await sendStartPracticeEmail(email, userName)
+
+        if (result.error) {
+            alert("❌ " + result.error)
+        } else {
+            alert("✅ Correo enviado con éxito")
+        }
+    }
+
     const getHabilidadLabel = (h: string) => {
         const labels: Record<string, string> = {
             'resolver_problemas': 'Resolver Problemas',
@@ -315,6 +331,17 @@ export default function AdminUsersPage() {
                                         </td>
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex items-center justify-end gap-1.5">
+                                                {user.total_attempts === 0 && (
+                                                    <Button
+                                                        size="sm"
+                                                        variant="outline"
+                                                        className="h-8 w-8 p-0 text-indigo-600 border-indigo-100 hover:bg-indigo-50"
+                                                        onClick={() => handleSendCampaign(user.user_id, user.email, user.full_name || user.email)}
+                                                        title="Enviar Recordatorio de Práctica"
+                                                    >
+                                                        <Send size={14} />
+                                                    </Button>
+                                                )}
                                                 <Button size="sm" variant="outline" className="h-8 w-8 p-0 text-blue-600 border-blue-100 hover:bg-blue-50" onClick={() => handleGrantCredits(user.user_id, user.full_name || user.email)} title="Regalar +5 Explicaciones">💡</Button>
                                                 <Button size="sm" variant="outline" className="h-8 w-8 p-0 text-red-600 border-red-100 hover:bg-red-50" onClick={() => handleRefillLives(user.user_id, user.full_name || user.email)} disabled={user.lives >= 10 || user.subscription_tier !== 'free'} title="Recargar Vidas">❤️</Button>
                                                 <Button size="sm" variant="outline" className="h-8 w-8 p-0 text-slate-400 border-slate-100 hover:text-red-700 hover:border-red-100" onClick={() => handleReset(user.user_id, user.full_name || user.email)} title="Resetear Progreso"><RotateCcw size={14} /></Button>
