@@ -45,6 +45,25 @@ export async function updateSession(request: NextRequest) {
             url.pathname = '/login'
             return NextResponse.redirect(url)
         }
+
+        // Security Hardening: Check for admin metadata
+        // Note: For stronger security, we should ideally fetch the profile role from DB,
+        // but checking JWT metadata is faster and sufficient if we sync role to metadata on login/update.
+        // Assuming 'role' is not in metadata yet, we might need a DB call which is tricky in Middleware (Edge).
+        // Best approach for Middleware + Supabase:
+        // Use the supabase client to check the profile table if user is present.
+
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single()
+
+        if (profile?.role !== 'admin') {
+            const url = request.nextUrl.clone()
+            url.pathname = '/app' // Redirect non-admins to app dashboard
+            return NextResponse.redirect(url)
+        }
     }
 
     if ((request.nextUrl.pathname === '/login' || request.nextUrl.pathname === '/register') && user) {

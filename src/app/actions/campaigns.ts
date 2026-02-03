@@ -22,6 +22,23 @@ export async function sendCampaignEmail(
             return { error: "Falta configurar la RESEND_API_KEY en el servidor." }
         }
 
+        // Security Hardening: Check Admin Permission
+        const supabase = await import("@/lib/supabase/server").then(m => m.createClient())
+        const { data: { user } } = await supabase.auth.getUser()
+
+        if (!user) return { error: "No autorizado" }
+
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .single()
+
+        if (profile?.role !== 'admin') {
+            console.warn(`🚨 Unauthorized email attempt by user ${user.id}`)
+            return { error: "No tienes permisos para realizar esta acción." }
+        }
+
         // Dummy check just for the walkthrough warning, you can remove this if you have a real key format check
         if (process.env.RESEND_API_KEY.startsWith('re_123')) {
             console.warn("⚠️ Using Dummy RESEND_API_KEY. Email will likely fail or be mocked.")
