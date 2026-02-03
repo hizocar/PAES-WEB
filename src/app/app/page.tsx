@@ -200,7 +200,8 @@ export default function DashboardPage() {
 
     // Countdown logic for lives
     useEffect(() => {
-        if (stats.tier !== 'free' || (stats.lives !== null && stats.lives > 0) || !stats.replenishAt) {
+        // Run timer if not premium AND (lives < 10 OR lives is null) AND replenishAt exists
+        if (stats.tier !== 'free' || (stats.lives !== null && stats.lives >= 10) || !stats.replenishAt) {
             return
         }
 
@@ -211,6 +212,7 @@ export default function DashboardPage() {
 
             if (diff <= 0) {
                 setTimeLeft("00:00:00")
+                // Optional: Trigger a refresh here if you want immediate update
                 return
             }
 
@@ -219,7 +221,7 @@ export default function DashboardPage() {
             const secs = Math.floor((diff % (1000 * 60)) / 1000)
 
             setTimeLeft(
-                `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
+                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
             )
         }
 
@@ -320,7 +322,7 @@ export default function DashboardPage() {
                         <Link href="/app/practice" id="tour-practice">
                             <Button size="lg" className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white shadow-xl shadow-blue-200 transform hover:-translate-y-1 transition-all h-16 px-10 rounded-2xl font-bold text-xl border-b-4 border-blue-800 active:border-b-0 active:translate-y-0">
                                 <Zap className="w-6 h-6 mr-2 fill-current" />
-                                Entrenar Ahora
+                                <Entrenar Ahora
                             </Button>
                         </Link>
                     )}
@@ -338,17 +340,21 @@ export default function DashboardPage() {
                                     <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-amber-500 to-yellow-300 bg-clip-text text-transparent mt-1 drop-shadow-[0_0_8px_rgba(245,158,11,0.3)]">
                                         ∞
                                     </div>
-                                ) : stats.lives !== null && stats.lives > 0 ? (
-                                    <div className="text-2xl md:text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
-                                        {stats.lives}
-                                    </div>
                                 ) : (
-                                    <div className="text-xl font-bold text-slate-900 mt-2 font-mono text-red-600">
-                                        {timeLeft}
+                                    <div className="mt-2">
+                                        <div className="text-2xl md:text-3xl font-bold text-slate-900 flex items-center gap-2">
+                                            {stats.lives !== null ? stats.lives : 0}
+                                        </div>
+                                        {stats.lives !== null && stats.lives < 10 && (
+                                            <div className="text-xs font-mono font-bold text-blue-500 bg-blue-50 px-2 py-0.5 rounded-md w-fit mt-1 flex items-center gap-1">
+                                                <Clock size={10} />
+                                                Next: {timeLeft}
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                                 <p className="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">
-                                    {stats.tier !== 'free' ? "Beneficio Premium" : stats.lives !== null && stats.lives > 0 ? "¡Sigue así!" : "Siguiente vida en:"}
+                                    {stats.tier !== 'free' ? "Beneficio Premium" : stats.lives !== null && stats.lives > 0 ? "¡Sigue así!" : "Sin Vidas"}
                                 </p>
                             </div>
                             <div className={cn(
