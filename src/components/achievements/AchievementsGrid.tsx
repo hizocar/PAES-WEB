@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
-import { Loader2, Lock, Flame, Zap, Award, Footprints, GraduationCap, Crosshair } from "lucide-react"
+import { Loader2, Lock, Flame, Zap, Award, Footprints, GraduationCap, Crosshair, Sun, Moon, Calendar, Calculator, Shapes, PieChart, SquareFunction } from "lucide-react"
 import { motion } from "framer-motion"
+import { cn } from "@/lib/utils"
 
 const IconMap: Record<string, any> = {
     'Footprints': Footprints,
@@ -11,7 +12,14 @@ const IconMap: Record<string, any> = {
     'Zap': Zap,
     'Crosshair': Crosshair,
     'GraduationCap': GraduationCap,
-    'Award': Award
+    'Award': Award,
+    'Sun': Sun,
+    'Moon': Moon,
+    'Calendar': Calendar,
+    'Calculator': Calculator,
+    'Shapes': Shapes,
+    'PieChart': PieChart,
+    'FunctionSquare': SquareFunction
 }
 
 type Achievement = {
@@ -20,7 +28,8 @@ type Achievement = {
     name: string
     description: string
     icon_name: string
-    unlocked_at?: string // If present, it's unlocked
+    xp_reward: number
+    unlocked_at?: string
 }
 
 import { useSubject } from "@/components/providers/SubjectContext"
@@ -40,16 +49,13 @@ export function AchievementsGrid() {
                 return
             }
 
-            // 1. Get all definitions
             const { data: allAch } = await supabase.from('achievements').select('*').order('xp_reward', { ascending: true })
 
-            // 2. Get user unlocks (FILTERED BY SUBJECT)
             const { data: unlocked } = await supabase.from('user_achievements')
                 .select('achievement_id, unlocked_at')
                 .eq('user_id', user.id)
-                .eq('subject', subject) // Essential filter
+                .eq('subject', subject)
 
-            // 3. Merge
             const unlockedMap = new Set(unlocked?.map(u => u.achievement_id))
             const merged = allAch?.map(a => ({
                 ...a,
@@ -62,45 +68,71 @@ export function AchievementsGrid() {
         fetchAchievements()
     }, [subject])
 
-    if (loading) return <Loader2 className="animate-spin text-slate-400" />
+    const getTierStyles = (xp: number, isUnlocked: boolean) => {
+        if (!isUnlocked) return "bg-slate-50 border-slate-100 opacity-60 grayscale hover:opacity-100 hover:grayscale transition-all duration-300"
+
+        if (xp >= 500) return "bg-gradient-to-br from-yellow-50 to-amber-100 border-amber-200 shadow-amber-100" // Gold/Legendary
+        if (xp >= 200) return "bg-gradient-to-br from-slate-50 to-slate-200 border-slate-300 shadow-slate-100" // Silver
+        return "bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200 shadow-orange-100" // Bronze
+    }
+
+    const getIconStyles = (xp: number, isUnlocked: boolean) => {
+        if (!isUnlocked) return "bg-slate-200 border-slate-300 text-slate-400"
+
+        if (xp >= 500) return "bg-yellow-400 border-yellow-500 text-white shadow-lg shadow-yellow-200"
+        if (xp >= 200) return "bg-slate-400 border-slate-500 text-white shadow-lg shadow-slate-200"
+        return "bg-orange-400 border-orange-500 text-white shadow-lg shadow-orange-200"
+    }
+
+    if (loading) return (
+        <div className="flex justify-center py-12">
+            <Loader2 className="animate-spin text-blue-500 w-8 h-8" />
+        </div>
+    )
 
     return (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {achievements.map((ach) => {
                 const isUnlocked = !!ach.unlocked_at
                 const Icon = IconMap[ach.icon_name] || Award
+                const tierClass = getTierStyles(ach.xp_reward, isUnlocked)
+                const iconClass = getIconStyles(ach.xp_reward, isUnlocked)
 
                 return (
                     <motion.div
                         key={ach.id}
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className={`relative p-4 rounded-xl border flex flex-col items-center text-center gap-3 transition-all
-                            ${isUnlocked
-                                ? 'bg-white border-yellow-200 shadow-sm hover:shadow-md hover:border-yellow-300'
-                                : 'bg-slate-50 border-slate-100 opacity-70 grayscale hover:opacity-100 hover:grayscale-0'
-                            }`}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        whileHover={{ y: -4 }}
+                        className={cn(
+                            "relative p-5 rounded-2xl border flex flex-col items-center text-center gap-4 transition-all shadow-sm hover:shadow-lg",
+                            tierClass
+                        )}
                     >
-                        <div className={`w-14 h-14 rounded-full flex items-center justify-center border-4 
-                            ${isUnlocked
-                                ? 'bg-yellow-50 border-yellow-400 text-yellow-600'
-                                : 'bg-slate-200 border-slate-300 text-slate-400'
-                            }`}>
-                            {isUnlocked ? <Icon size={28} /> : <Lock size={20} />}
+                        <div className={cn(
+                            "w-16 h-16 rounded-2xl flex items-center justify-center border-2 transform rotate-3 transition-transform group-hover:rotate-6",
+                            iconClass
+                        )}>
+                            {isUnlocked ? <Icon size={32} strokeWidth={2.5} /> : <Lock size={24} />}
                         </div>
 
-                        <div>
-                            <h4 className={`font-bold text-sm ${isUnlocked ? 'text-slate-800' : 'text-slate-500'}`}>
+                        <div className="space-y-1">
+                            <h4 className={cn(
+                                "font-bold text-base leading-tight",
+                                isUnlocked ? "text-slate-900" : "text-slate-500"
+                            )}>
                                 {ach.name}
                             </h4>
-                            <p className="text-xs text-slate-400 mt-1 line-clamp-2">
+                            <p className="text-xs text-slate-500 leading-snug line-clamp-2">
                                 {ach.description}
                             </p>
                         </div>
 
                         {isUnlocked && (
-                            <div className="absolute top-2 right-2 text-yellow-500">
-                                <Award size={14} />
+                            <div className="absolute top-3 right-3">
+                                <span className="text-[10px] font-black bg-white/50 px-2 py-0.5 rounded-full text-slate-600 border border-black/5">
+                                    +{ach.xp_reward} XP
+                                </span>
                             </div>
                         )}
                     </motion.div>
