@@ -12,6 +12,7 @@ declare
     v_habilidades_stats json;
     v_topics_stats json;
     v_matrix_stats json;
+    v_usage_stats json;
 begin
     -- 1. Ejes Performance
     with user_attempts as (
@@ -120,11 +121,27 @@ begin
         order by eje_name, topic_name, skill_name
     ) row;
 
+    -- 5. Usage By Hour (0-23)
+    with hourly_usage as (
+        select 
+            extract(hour from a.created_at) as hour_of_day,
+            count(*) as count
+        from attempts a
+        join questions q on a.question_id = q.id
+        where a.user_id = p_user_id
+        and q.subject = p_subject
+        group by 1
+        order by 1
+    )
+    select json_object_agg(row.hour_of_day, row.count) into v_usage_stats
+    from hourly_usage row;
+
     return json_build_object(
         'ejes', coalesce(v_ejes_stats, '[]'::json),
         'habilidades', coalesce(v_habilidades_stats, '[]'::json),
         'topics', coalesce(v_topics_stats, '[]'::json),
-        'matrix', coalesce(v_matrix_stats, '[]'::json)
+        'matrix', coalesce(v_matrix_stats, '[]'::json),
+        'usage', coalesce(v_usage_stats, '{}'::json)
     );
 end;
 $$;
