@@ -1,14 +1,7 @@
--- FIX: Ensure Admin Panel countdown matches User Dashboard exactly.
--- The user dashboard counts down to the *next* life replenishment.
--- Rules:
--- 1. Lives are calculated = Stored + Hours Elapsed (capped at 10).
--- 2. Replenish At = The EXACT time the *next* life will be added.
---    This corresponds to: (Last Activity + (N+1) Hours).
+-- FORCE: Create a V2 function to guarantee new logic is used and avoid return type conflicts.
+-- Logic: 1 Life per Hour. Exact replenishment timestamp.
 
--- DROP function first to allow return type change
-drop function if exists public.get_admin_users_stats(text);
-
-create or replace function public.get_admin_users_stats(p_subject text default 'm1')
+create or replace function public.get_admin_users_stats_v2(p_subject text default 'm1')
 returns table (
     user_id uuid,
     email text,
@@ -20,7 +13,7 @@ returns table (
     correct_attempts bigint,
     last_activity timestamptz,
     lives integer,
-    replenish_at timestamptz, -- Return TIMESTAMP, let frontend handle countdown
+    replenish_at timestamptz, -- Exact timestamp for next life
     explanation_credits integer,
     subscription_tier text
 )
@@ -73,9 +66,10 @@ begin
             end)::integer as stored_lives,
             
             -- Lives to add (full hours passed)
+            -- If last_activity is null, result is 0
             coalesce(floor(extract(epoch from (now() - max(a.created_at))) / 3600), 0)::integer as lives_to_add,
             
-            -- Effective lives
+            -- Effective lives logic
             least(10, (
                 (case 
                     when p_subject = 'm1' then coalesce(p.lives_m1, 10) 
@@ -99,4 +93,4 @@ begin
 end;
 $$;
 
-grant execute on function public.get_admin_users_stats(text) to authenticated, service_role;
+grant execute on function public.get_admin_users_stats_v2(text) to authenticated, service_role;

@@ -76,7 +76,7 @@ export default function AdminUsersPage() {
 
     const fetchUsers = async () => {
         setLoading(true)
-        const { data, error } = await supabase.rpc('get_admin_users_stats', { p_subject: subject })
+        const { data, error } = await supabase.rpc('get_admin_users_stats_v2', { p_subject: subject })
 
         if (error) {
             console.error("Error fetching users:", error)
