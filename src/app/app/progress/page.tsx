@@ -397,39 +397,54 @@ export default function ProgressPage() {
                             </div>
                         </div>
 
-                        {/* Performance Matrix */}
-                        <div className="space-y-6">
-                            <h2 className="text-xl font-bold text-slate-900">Matriz de Rendimiento (Detallado)</h2>
-                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                {matrixStats.map((item, idx) => (
-                                    <div key={idx} className="bg-white p-5 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                                        <div className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">
-                                            {item.eje_name}
-                                        </div>
-                                        <h4 className="font-bold text-slate-800 mb-2 line-clamp-2 min-h-[3rem]">
-                                            {item.topic_name}
-                                        </h4>
-                                        <div className="flex justify-between items-center text-sm text-slate-500 mb-3">
-                                            <span className="bg-slate-100 px-2 py-1 rounded text-xs font-medium">{item.skill_name}</span>
-                                        </div>
+                        {/* Performance Matrix - Sorted & Grouped */}
+                        <div className="space-y-8">
+                            <h2 className="text-xl font-bold text-slate-900">Matriz de Rendimiento Detallada</h2>
 
-                                        <div className="flex items-end justify-between">
-                                            <div className="flex gap-1">
-                                                {/* Simple pills for score visualization */}
-                                                {[20, 40, 60, 80, 100].map((t) => (
-                                                    <div
-                                                        key={t}
-                                                        className={`h-1.5 w-6 rounded-full ${item.progress >= t ?
-                                                            (item.progress >= 70 ? 'bg-green-500' : item.progress >= 40 ? 'bg-yellow-400' : 'bg-red-400')
-                                                            : 'bg-slate-100'}`}
-                                                    />
-                                                ))}
-                                            </div>
-                                            <span className="font-black text-lg text-slate-900">{item.progress}%</span>
-                                        </div>
+                            {/* Weak Areas */}
+                            {matrixStats.filter(m => m.progress < 45).length > 0 && (
+                                <div className="space-y-3">
+                                    <h3 className="text-sm font-bold text-red-600 uppercase tracking-wider flex items-center gap-2">
+                                        <div className="w-2 h-2 rounded-full bg-red-500" />
+                                        Áreas por Reforzar (Débiles)
+                                    </h3>
+                                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                        {matrixStats.filter(m => m.progress < 45).map((item, idx) => (
+                                            <MatrixCard key={idx} item={item} />
+                                        ))}
                                     </div>
-                                ))}
-                            </div>
+                                </div>
+                            )}
+
+                            {/* Regular Areas */}
+                            {matrixStats.filter(m => m.progress >= 45 && m.progress < 75).length > 0 && (
+                                <div className="space-y-3">
+                                    <h3 className="text-sm font-bold text-yellow-600 uppercase tracking-wider flex items-center gap-2">
+                                        <div className="w-2 h-2 rounded-full bg-yellow-500" />
+                                        Áreas en Desarrollo (Regulares)
+                                    </h3>
+                                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                        {matrixStats.filter(m => m.progress >= 45 && m.progress < 75).map((item, idx) => (
+                                            <MatrixCard key={idx} item={item} />
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Strong Areas */}
+                            {matrixStats.filter(m => m.progress >= 75).length > 0 && (
+                                <div className="space-y-3">
+                                    <h3 className="text-sm font-bold text-green-600 uppercase tracking-wider flex items-center gap-2">
+                                        <div className="w-2 h-2 rounded-full bg-green-500" />
+                                        Fortalezas (Fuertes)
+                                    </h3>
+                                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                        {matrixStats.filter(m => m.progress >= 75).map((item, idx) => (
+                                            <MatrixCard key={idx} item={item} />
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}
@@ -469,6 +484,37 @@ export default function ProgressPage() {
                         </div>
                     ))}
                 </div>
+            </div>
+        </div>
+    )
+}
+
+function MatrixCard({ item }: { item: any }) {
+    return (
+        <div className="bg-white p-5 rounded-xl border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
+            <div className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">
+                {item.eje_name}
+            </div>
+            <h4 className="font-bold text-slate-800 mb-2 line-clamp-2 min-h-[3rem]">
+                {item.topic_name}
+            </h4>
+            <div className="flex justify-between items-center text-sm text-slate-500 mb-3">
+                <span className="bg-slate-100 px-2 py-1 rounded text-xs font-medium">{item.skill_name}</span>
+            </div>
+
+            <div className="flex items-end justify-between">
+                <div className="flex gap-1">
+                    {/* Simple pills for score visualization */}
+                    {[20, 40, 60, 80, 100].map((t) => (
+                        <div
+                            key={t}
+                            className={`h-1.5 w-6 rounded-full ${item.progress >= t ?
+                                (item.progress >= 75 ? 'bg-green-500' : item.progress >= 45 ? 'bg-yellow-400' : 'bg-red-400')
+                                : 'bg-slate-100'}`}
+                        />
+                    ))}
+                </div>
+                <span className="font-black text-lg text-slate-900">{item.progress}%</span>
             </div>
         </div>
     )
