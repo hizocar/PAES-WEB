@@ -11,6 +11,7 @@ import { SubscriptionBadge } from "@/components/subscription-badge"
 import { cn } from "@/lib/utils"
 import { BarChart, Bar, XAxis, Tooltip, ResponsiveContainer, Cell, LineChart, Line } from "recharts"
 import { sendCampaignEmail } from "@/app/actions/campaigns"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 type UserStat = {
     user_id: string
@@ -66,22 +67,60 @@ export default function AdminUsersPage() {
         setLoading(false)
     }
 
+    const [activeTab, setActiveTab] = useState("all")
+
     useEffect(() => {
         fetchUsers()
     }, [subject])
 
     useEffect(() => {
-        if (!search.trim()) {
-            setFilteredUsers(users)
-        } else {
+        let filtered = users
+
+        // 1. Tab Filter
+        const now = new Date()
+        const oneDayMs = 24 * 60 * 60 * 1000
+
+        switch (activeTab) {
+            case "active_24h":
+                filtered = users.filter(u => {
+                    if (!u.last_activity && !u.last_sign_in_at) return false
+                    const lastAct = u.last_activity ? new Date(u.last_activity).getTime() : 0
+                    const lastLogin = u.last_sign_in_at ? new Date(u.last_sign_in_at).getTime() : 0
+                    const mostRecent = Math.max(lastAct, lastLogin)
+                    return (now.getTime() - mostRecent) < oneDayMs
+                })
+                break
+            case "history":
+                filtered = users.filter(u => {
+                    // Has attempted at least once, but NOT in the last 24h
+                    if (u.total_attempts === 0) return false
+
+                    const lastAct = u.last_activity ? new Date(u.last_activity).getTime() : 0
+                    const lastLogin = u.last_sign_in_at ? new Date(u.last_sign_in_at).getTime() : 0
+                    const mostRecent = Math.max(lastAct, lastLogin)
+                    return (now.getTime() - mostRecent) >= oneDayMs
+                })
+                break
+            case "inactive":
+                filtered = users.filter(u => u.total_attempts === 0)
+                break
+            case "all":
+            default:
+                // Show all
+                break
+        }
+
+        // 2. Search Filter (Refinement)
+        if (search.trim()) {
             const lowerSearch = search.toLowerCase()
-            const filtered = users.filter(u =>
+            filtered = filtered.filter(u =>
                 u.email?.toLowerCase().includes(lowerSearch) ||
                 u.full_name?.toLowerCase().includes(lowerSearch)
             )
-            setFilteredUsers(filtered)
         }
-    }, [search, users])
+
+        setFilteredUsers(filtered)
+    }, [search, users, activeTab])
 
     useEffect(() => {
         // Reset customization when template changes
