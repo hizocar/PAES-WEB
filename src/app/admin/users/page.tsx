@@ -455,15 +455,43 @@ Recuerda que solo 10 minutos al día pueden hacer una gran diferencia en tu resu
                 </div>
             </div>
 
-            <div className="mb-6">
+            <div className="mb-6 space-y-4">
                 <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="w-full">
-                    <TabsList className="grid w-full max-w-[600px] grid-cols-4 bg-slate-100 p-1">
-                        <TabsTrigger value="all" className="text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm">Todos</TabsTrigger>
-                        <TabsTrigger value="active_24h" className="text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm text-green-700">🟢 Activos Hoy</TabsTrigger>
-                        <TabsTrigger value="history" className="text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm text-blue-700">🕒 Históricos</TabsTrigger>
-                        <TabsTrigger value="inactive" className="text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm text-slate-500">💤 Sin Actividad</TabsTrigger>
+                    <TabsList className="grid w-full h-auto max-w-4xl grid-cols-2 md:grid-cols-5 bg-slate-100 p-1">
+                        <TabsTrigger value="all" className="text-xs py-2 data-[state=active]:bg-white data-[state=active]:shadow-sm">
+                            Todos
+                        </TabsTrigger>
+                        <TabsTrigger value="new_today" className="text-xs py-2 data-[state=active]:bg-white data-[state=active]:shadow-sm text-purple-700">
+                            ✨ Nuevos Hoy
+                        </TabsTrigger>
+                        <TabsTrigger value="active_today" className="text-xs py-2 data-[state=active]:bg-white data-[state=active]:shadow-sm text-green-700">
+                            🟢 Activos Hoy
+                        </TabsTrigger>
+                        <TabsTrigger value="past_activity" className="text-xs py-2 data-[state=active]:bg-white data-[state=active]:shadow-sm text-orange-700">
+                            🏚 Inactivos ({'>'}2d)
+                        </TabsTrigger>
+                        <TabsTrigger value="no_activity" className="text-xs py-2 data-[state=active]:bg-white data-[state=active]:shadow-sm text-slate-500">
+                            💤 Sin Actividad
+                        </TabsTrigger>
                     </TabsList>
                 </Tabs>
+
+                {activeTab !== 'all' && filteredUsers.length > 0 && (
+                    <div className="flex items-center justify-between bg-blue-50 border border-blue-100 p-4 rounded-xl animate-in slide-in-from-top-2">
+                        <div className="flex items-center gap-2 text-blue-800">
+                            <Send size={18} />
+                            <span className="font-semibold text-sm">
+                                ¿Quieres contactar a estos {filteredUsers.length} usuarios?
+                            </span>
+                        </div>
+                        <Button
+                            onClick={() => openCampaignModal(null, true)}
+                            className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-500/20"
+                        >
+                            Enviar Campaña Masiva ({filteredUsers.length})
+                        </Button>
+                    </div>
+                )}
             </div>
 
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden overflow-x-auto">
