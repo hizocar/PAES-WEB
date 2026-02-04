@@ -103,6 +103,9 @@ export default function AdminUsersPage() {
     useEffect(() => {
         let filtered = users
 
+        const now = new Date()
+        const oneDayMs = 24 * 60 * 60 * 1000
+
         // Helper to check if a date is "Today" in Chile
         const isTodayInChile = (dateString: string | null) => {
             if (!dateString) return false
