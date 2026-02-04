@@ -103,30 +103,28 @@ export default function AdminUsersPage() {
     useEffect(() => {
         let filtered = users
 
-        // 1. Tab Filter
-        const now = new Date()
-        const oneDayMs = 24 * 60 * 60 * 1000
+        // Helper to check if a date is "Today" in Chile
+        const isTodayInChile = (dateString: string | null) => {
+            if (!dateString) return false
+            const chileTime = new Date().toLocaleDateString('es-CL', { timeZone: 'America/Santiago' })
+            const userTime = new Date(dateString).toLocaleDateString('es-CL', { timeZone: 'America/Santiago' })
+            return chileTime === userTime
+        }
 
         switch (activeTab) {
-            case "new_today": // Nuevos Hoy
-                filtered = users.filter(u => {
-                    const created = new Date(u.created_at).getTime()
-                    return (now.getTime() - created) < oneDayMs
-                })
+            case "new_today": // Nuevos Hoy (Calendar Day in Chile)
+                filtered = users.filter(u => isTodayInChile(u.created_at))
                 break
-            case "active_today": // Activos Hoy
+            case "active_today": // Activos Hoy (Calendar Day in Chile)
+                filtered = users.filter(u => isTodayInChile(u.last_activity))
+                break
+            case "past_activity": // Inactivos (>48h sliding window is fine, or strict 2 days ago?)
+                // Keep the existing logic for "older than 2 days" as it makes sense to be a duration
                 filtered = users.filter(u => {
+                    if (u.total_attempts === 0) return false
                     if (!u.last_activity) return false
                     const lastAct = new Date(u.last_activity).getTime()
-                    return (now.getTime() - lastAct) < oneDayMs
-                })
-                break
-            case "past_activity": // Inactivos (>2d)
-                filtered = users.filter(u => {
-                    if (u.total_attempts === 0) return false // Must have attempted at least once
-                    if (!u.last_activity) return false
-                    const lastAct = new Date(u.last_activity).getTime()
-                    // Older than 48 hours (2 days)
+                    // Older than 48 hours
                     return (now.getTime() - lastAct) >= (oneDayMs * 2)
                 })
                 break
@@ -135,7 +133,6 @@ export default function AdminUsersPage() {
                 break
             case "all":
             default:
-                // Show all
                 break
         }
 
