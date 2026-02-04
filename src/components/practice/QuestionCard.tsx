@@ -225,7 +225,7 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
                     let className = "w-full justify-start p-6 h-auto text-lg border-2"
 
                     if (submitted) {
-                        if (alt.id === question.correct_answer) {
+                        if (alt.id === question.correct_answer && isCorrect) {
                             className += " border-green-500 bg-green-50 text-green-700 hover:bg-green-50"
                         } else if (isSelected && !isCorrect) {
                             className += " border-red-500 bg-red-50 text-red-700 hover:bg-red-50"
@@ -254,7 +254,7 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
                             <span className="flex-1 text-left">
                                 <Latex>{alt.content}</Latex>
                             </span>
-                            {submitted && alt.id === question.correct_answer && (
+                            {submitted && alt.id === question.correct_answer && isCorrect && (
                                 <CheckCircle2 className="text-green-600 ml-4 shrink-0" />
                             )}
                             {submitted && isSelected && !isCorrect && (
@@ -312,10 +312,10 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
                                 </div>
                                 <div className="flex-1">
                                     <h3 className={`font-bold text-lg ${isCorrect ? 'text-green-800' : 'text-red-800'}`}>
-                                        {isCorrect ? '¡Correcto!' : 'Incorrecto'}
+                                        {isCorrect ? '¡Correcto!' : '¡Respuesta Incorrecta!'}
                                     </h3>
                                     <p className="text-sm text-slate-500">
-                                        {isCorrect ? 'Gran trabajo.' : 'No te preocupes, revisa la explicación.'}
+                                        {isCorrect ? 'Gran trabajo.' : 'Revisa la explicación abajo para entender la solución.'}
                                     </p>
                                 </div>
                                 <Button onClick={handleNext} size="lg" className={`px-8 h-12 text-lg ${isCorrect ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}`}>
