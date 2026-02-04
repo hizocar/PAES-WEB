@@ -24,9 +24,11 @@ type UserStat = {
     correct_attempts: number
     last_activity: string
     lives: number
+    replenish_at: string | null
     explanation_credits: number
     subscription_tier: string
 }
+
 
 export default function AdminUsersPage() {
     const [users, setUsers] = useState<UserStat[]>([])
@@ -37,8 +39,27 @@ export default function AdminUsersPage() {
     const [updatingTier, setUpdatingTier] = useState<string | null>(null)
     const [isDeleting, setIsDeleting] = useState<string | null>(null)
     const [selectedUser, setSelectedUser] = useState<UserStat | null>(null)
-    const [studentStats, setStudentStats] = useState<any>(null)
     const [statsLoading, setStatsLoading] = useState(false)
+
+    // Live Countdown Timer
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setUsers(prevUsers => prevUsers.map(u => ({ ...u }))) // Trigger re-render
+        }, 1000)
+        return () => clearInterval(interval)
+    }, [])
+
+    // Helper to calculate time remaining in MM:SS
+    const getTimeRemaining = (dateStr: string | null) => {
+        if (!dateStr) return null
+        const diff = new Date(dateStr).getTime() - new Date().getTime()
+        if (diff <= 0) return "00:00"
+
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+        const seconds = Math.floor((diff % (1000 * 60)) / 1000)
+
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+    }
 
     // Campaign State
     const [campaignModalOpen, setCampaignModalOpen] = useState(false)
