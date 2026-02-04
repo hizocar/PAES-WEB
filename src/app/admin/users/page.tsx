@@ -40,6 +40,7 @@ export default function AdminUsersPage() {
     const [isDeleting, setIsDeleting] = useState<string | null>(null)
     const [selectedUser, setSelectedUser] = useState<UserStat | null>(null)
     const [statsLoading, setStatsLoading] = useState(false)
+    const [studentStats, setStudentStats] = useState<any>(null)
 
     // Live Countdown Timer
     useEffect(() => {
