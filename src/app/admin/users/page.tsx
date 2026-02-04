@@ -367,6 +367,17 @@ Recuerda que solo 10 minutos al día pueden hacer una gran diferencia en tu resu
                 </div>
             </div>
 
+            <div className="mb-6">
+                <Tabs defaultValue="all" value={activeTab} onValueChange={setActiveTab} className="w-full">
+                    <TabsList className="grid w-full max-w-[600px] grid-cols-4 bg-slate-100 p-1">
+                        <TabsTrigger value="all" className="text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm">Todos</TabsTrigger>
+                        <TabsTrigger value="active_24h" className="text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm text-green-700">🟢 Activos Hoy</TabsTrigger>
+                        <TabsTrigger value="history" className="text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm text-blue-700">🕒 Históricos</TabsTrigger>
+                        <TabsTrigger value="inactive" className="text-xs data-[state=active]:bg-white data-[state=active]:shadow-sm text-slate-500">💤 Sin Actividad</TabsTrigger>
+                    </TabsList>
+                </Tabs>
+            </div>
+
             <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden overflow-x-auto">
                 <table className="w-full text-sm text-left">
                     <thead className="bg-slate-50 border-b border-slate-200 text-xs uppercase text-slate-500 font-semibold">
