@@ -1,5 +1,6 @@
 "use client"
 
+
 import { useEffect, useState, useCallback } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
@@ -10,6 +11,8 @@ import { cn } from "@/lib/utils"
 import { useSubject } from "@/components/providers/SubjectContext"
 import { AchievementNotification } from "@/components/achievements/AchievementNotification"
 import { OnboardingTour, OnboardingStep } from "@/components/onboarding/OnboardingTour"
+import { PaesInfoModal } from "@/components/dashboard/PaesInfoModal"
+import { PaesCountdown } from "@/components/dashboard/PaesCountdown"
 
 const DASHBOARD_STEPS: OnboardingStep[] = [
     {
@@ -274,6 +277,7 @@ export default function DashboardPage() {
 
     return (
         <div className="p-6 max-w-7xl mx-auto space-y-6">
+            <PaesInfoModal />
             <AchievementNotification
                 achievement={unlockedAchievement}
                 onClose={() => setUnlockedAchievement(null)}
@@ -298,17 +302,23 @@ export default function DashboardPage() {
                             {getStatusMessage()}
                         </p>
 
-                        <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mt-4">
-                            <div className="flex items-center gap-1.5 px-4 py-1.5 bg-orange-50 text-orange-600 rounded-full border border-orange-100 text-sm font-bold shadow-sm" title="Racha de días seguidos">
-                                <Flame size={16} className="fill-orange-500" />
-                                {stats.streak} {stats.streak === 1 ? 'día' : 'días'} de racha
-                            </div>
-                            {bestEje && bestEje.progress > 0 && (
-                                <div className="flex items-center gap-1.5 px-4 py-1.5 bg-green-50 text-green-600 rounded-full border border-green-100 text-sm font-bold shadow-sm">
-                                    <Star size={16} className="fill-green-500" />
-                                    Master: {bestEje.name}
+                        <div className="flex flex-col md:flex-row items-center gap-4 mt-4">
+                            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
+                                <div className="flex items-center gap-1.5 px-4 py-1.5 bg-orange-50 text-orange-600 rounded-full border border-orange-100 text-sm font-bold shadow-sm" title="Racha de días seguidos">
+                                    <Flame size={16} className="fill-orange-500" />
+                                    {stats.streak} {stats.streak === 1 ? 'día' : 'días'} de racha
                                 </div>
-                            )}
+                                {bestEje && bestEje.progress > 0 && (
+                                    <div className="flex items-center gap-1.5 px-4 py-1.5 bg-green-50 text-green-600 rounded-full border border-green-100 text-sm font-bold shadow-sm">
+                                        <Star size={16} className="fill-green-500" />
+                                        Master: {bestEje.name}
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Countdown Integration */}
+                            <div className="hidden md:block h-8 w-px bg-slate-200 mx-2"></div>
+                            <PaesCountdown />
                         </div>
                     </div>
                 </div>
