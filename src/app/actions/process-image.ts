@@ -102,6 +102,8 @@ export async function generateQuestionSolution(question: string, alternatives: a
                     - TODAS las expresiones matemáticas deben usar \\displaystyle.
                     - Mantén una estructura clara y ordenada.
                     - NO uses \\begin{itemize} \\end{itemize}.
+                    - Si usas \textbf{} debe comenzar y terminar con $...$.
+                    - NO uses \\ para saltos de línea, simplemente salta una línea.
 
                     ESTRUCTURA OBLIGATORIA DE LA RESPUESTA (dentro del campo explanations):
                     1) **Datos**: Presenta los datos relevantes del problema.
