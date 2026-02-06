@@ -18,7 +18,7 @@ export async function processQuestionImage(formData: FormData) {
 
     try {
         const completion = await openai.chat.completions.create({
-            model: "gpt-4o",
+            model: "o3-mini",
             messages: [
                 {
                     role: "system",
@@ -78,7 +78,7 @@ export async function generateQuestionSolution(question: string, alternatives: a
 
     try {
         const completion = await openai.chat.completions.create({
-            model: "gpt-4o",
+            model: "o3-mini",
             messages: [
                 {
                     role: "system",
@@ -147,7 +147,7 @@ export async function categorizeQuestion(question: string, ejes: any[], topics: 
 
     try {
         const completion = await openai.chat.completions.create({
-            model: "gpt-4o",
+            model: "o3-mini",
             messages: [
                 {
                     role: "system",
