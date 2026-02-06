@@ -98,11 +98,11 @@ export async function generateQuestionSolution(question: string, alternatives: a
                     Resuelve el ejercicio paso a paso con enfoque PAES.
                     
                     REQUISITOS OBLIGATORIOS DE FORMATO:
-                    - Usa bloques de ecuaciones delimitados exclusivamente por $$$...$$$ (NO uses \[ \], ni doble signo pesos sueltos).
+                    - Usa bloques de ecuaciones delimitados exclusivamente por $$$...$$$ (NO uses \[ \] \( \), ni doble signo pesos sueltos).
                     - TODAS las expresiones matemáticas deben usar \\displaystyle.
                     - Mantén una estructura clara y ordenada.
                     - NO uses \\begin{itemize} \\end{itemize}.
-                    - Si usas \textbf{} debe comenzar y terminar con $...$.
+                    - Si usas \textbf{} debe comenzar y terminar con $...$. Ejemplo $\textbf{...}$
                     - NO uses \\ para saltos de línea, simplemente salta una línea.
 
                     ESTRUCTURA OBLIGATORIA DE LA RESPUESTA (dentro del campo explanations):
