@@ -121,6 +121,7 @@ export async function generateQuestionSolution(question: string, alternatives: a
                     - No uses lenguaje informal.
                     - En ejercicios de estadística, explica el criterio usado.
                     - En problemas de traducción algebraica, separa la frase en partes.
+                    - REVISA TODO EL TEXTO ANTES DE ENVIAR LA RESPUESTA. SI ENCUENTRAS UN \( o \) reemplazalo por $
 
                     **IMPORTANT ESCAPING RULE**:
                     Since the output is JSON, you MUST double-escape all backslashes in LaTeX strings.
