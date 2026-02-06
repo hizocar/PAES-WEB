@@ -18,7 +18,7 @@ export async function processQuestionImage(formData: FormData) {
 
     try {
         const completion = await openai.chat.completions.create({
-            model: "o3-mini",
+            model: "gpt-4o",
             messages: [
                 {
                     role: "system",
