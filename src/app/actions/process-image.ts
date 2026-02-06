@@ -99,29 +99,25 @@ export async function generateQuestionSolution(question: string, alternatives: a
                     **CONTENT GENERATION RULES (For the "explanation" field)**:
                     Resuelve el ejercicio paso a paso con enfoque PAES.
                     
-                    REQUISITOS OBLIGATORIOS DE FORMATO:
-                    - Usa bloques de ecuaciones delimitados exclusivamente por $$$...$$$ (NO uses \[ \] \( \), ni doble signo pesos sueltos).
-                    - TODAS las expresiones matemáticas deben usar \\displaystyle.
-                    - Mantén una estructura clara y ordenada.
-                    - NO uses \\begin{itemize} \\end{itemize}.
-                    - Si usas \textbf{} debe comenzar y terminar con $...$. Ejemplo $\textbf{...}$
-                    - NO uses \\ para saltos de línea, simplemente salta una línea.
-                    - NO uses \( o \) para encerrar ecuaciones. En su lugar usa $...$.
-
-                    ESTRUCTURA OBLIGATORIA DE LA RESPUESTA (dentro del campo explanations):
-                    1) **Datos**: Presenta los datos relevantes del problema.
-                    2) **Procedimiento**: Desarrolla el procedimiento matemático paso a paso.
-                    3) **Justificación**: Justifica cada paso con una explicación breve y clara.
-                    4) **Conclusión**: Indica explícitamente la conclusión.
-                    5) **Alternativa**: Muestra la alternativa correcta encerrada como $\\boxed{\\textbf{letra}}$ (dentro de bloques math si es necesario).
-
-                    RESTRICCIONES:
-                    - No omitas pasos.
-                    - No resuelvas “de cabeza”.
-                    - No uses lenguaje informal.
-                    - En ejercicios de estadística, explica el criterio usado.
-                    - En problemas de traducción algebraica, separa la frase en partes.
-                    - REVISA TODO EL TEXTO ANTES DE ENVIAR LA RESPUESTA. SI ENCUENTRAS UN \( o \) reemplazalo por $
+                    **REGLAS DE FORMATO ESTRICTAS (CRÍTICO):**
+                    1. **ECUACIONES**:
+                       - USA SOLO $$$...$$$ para ecuaciones largas o importantes.
+                       - USA SOLO $...$ para ecuaciones en línea.
+                       - **PROHIBIDO** usar \\( ... \\) o \\[ ... \\].
+                       - **SIEMPRE** inicia las ecuaciones con \\displaystyle dentro de los signos pesos.
+                       - Ejemplo CORRECTO: "$\\displaystyle 2x + 1 = 0$"
+                       - Ejemplo INCORRECTO: "\\( 2x + 1 = 0 \\)" 
+                    
+                    2. **TEXTO EN NEGRITA (TEXTBF)**:
+                       - Si quieres poner algo en negrita que contiene matemáticas, ENCIERRA TODO EL COMANDO EN SIGNOS PESOS.
+                       - **NUNCA** pongas el signo peso *dentro* del comando \\textbf.
+                       - Ejemplo CORRECTO: "$\\displaystyle \\textbf{Paso 1: Calcular}$"
+                       - Ejemplo INCORRECTO: "\\displaystyle \\textbf{$Paso 1: Calcular$}"
+                       - Ejemplo INCORRECTO: "Texto normal \\textbf{$negrita con math$}" -> DEBE SER "$\\displaystyle \\textbf{negrita con math}$"
+                    
+                    3. **ESTRUCTURA**:
+                       - Mantén un orden claro: Datos, Procedimiento, Justificación, Conclusión.
+                       - La alternativa final debe ir así: "$\\boxed{\\textbf{A}}$"
 
                     **IMPORTANT ESCAPING RULE**:
                     Since the output is JSON, you MUST double-escape all backslashes in LaTeX strings.
