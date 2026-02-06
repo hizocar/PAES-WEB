@@ -49,6 +49,8 @@ export async function processQuestionImage(formData: FormData) {
                        - Use '\\\\' for line breaks in matrices (escaped as \\\\\\\\ in JSON string).
                     3. **No Solving**: Just transcribe.
                     4. **Alternatives**: Extract options exactly.
+                    5. **Text Formatting**: 
+                       - Don't use \n\n for line breaks, just use a line break.
                     `
                 },
                 {
@@ -104,6 +106,7 @@ export async function generateQuestionSolution(question: string, alternatives: a
                     - NO uses \\begin{itemize} \\end{itemize}.
                     - Si usas \textbf{} debe comenzar y terminar con $...$. Ejemplo $\textbf{...}$
                     - NO uses \\ para saltos de línea, simplemente salta una línea.
+                    - NO uses \( o \) para encerrar ecuaciones. En su lugar usa $...$.
 
                     ESTRUCTURA OBLIGATORIA DE LA RESPUESTA (dentro del campo explanations):
                     1) **Datos**: Presenta los datos relevantes del problema.
