@@ -217,3 +217,50 @@ export async function categorizeQuestion(question: string, ejes: any[], topics: 
         throw new Error("Failed to categorize question: " + error.message)
     }
 }
+
+export async function fixLatexFormatting(explanation: string) {
+    if (!process.env.OPENAI_API_KEY) throw new Error('OpenAI API Key not configured')
+    if (!explanation) return { explanation: "" }
+
+    try {
+        const completion = await openai.chat.completions.create({
+            model: "gpt-4o",
+            messages: [
+                {
+                    role: "system",
+                    content: `You are a specialized LaTeX formatting assistant for Chilean PAES math exams.
+                    Your goal is to adjust the formatting of a math explanation to follow strict LaTeX rules.
+
+                    RULES:
+                    1. **Line Breaks**: Replace all instances of "\\newline" and "\\n" with a simple space.
+                    2. **Datos Formatting**: Ensure "Datos:" starts and ends correctly as: "$\\displaystyle \\textbf{Datos:}$"
+                    3. **Steps Formatting**: Ensure any step header (e.g., "Paso 1: ...") is wrapped in "$" and starts with \\displaystyle.
+                       Example: "$\\displaystyle \\textbf{Paso 1: Calcular la fracción.}$"
+                    4. **Answer Formatting**: Ensure boxed answers like "\\boxed{\\textbf{B}}" are wrapped in "$" and start with \\displaystyle.
+                       Example: "$\\displaystyle \\boxed{\\textbf{B}}$"
+                    5. **Display Math**: If you see something that starts and ends with "$$", change it to start and end with "$$$".
+                       Example: "$$\\displaystyle \\frac{a}{b}$$" becomes "$$$\\displaystyle \\frac{a}{b}$$$"
+                    6. **Displaystyle**: Ensure ALL math expressions (inline or block) start with "\\displaystyle" inside the dollar signs.
+                    7. **Double Escape**: Since we are returning JSON, double-escape all backslashes in the LaTeX strings (e.g., \\\\displaystyle, \\\\textbf, \\\\frac).
+                    
+                    Respond ONLY with the corrected explanation in a JSON field "explanation".
+                    `
+                },
+                {
+                    role: "user",
+                    content: `Correct the LaTeX formatting of this explanation:\n\n${explanation}`
+                }
+            ],
+            response_format: { type: "json_object" },
+        })
+
+        const content = completion.choices[0].message.content
+        if (!content) throw new Error("No content returned")
+
+        return JSON.parse(content)
+
+    } catch (error: any) {
+        console.error("Error fixing LaTeX formatting:", error)
+        throw new Error("Failed to adjust formatting: " + error.message)
+    }
+}

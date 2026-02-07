@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowLeft, Save, Trash, Upload, X, Wand2 } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { processQuestionImage, categorizeQuestion } from "@/app/actions/process-image"
+import { processQuestionImage, categorizeQuestion, fixLatexFormatting } from "@/app/actions/process-image"
 import 'katex/dist/katex.min.css'
 // @ts-ignore
 import Latex from '@/components/ui/latex-renderer'
@@ -20,6 +20,7 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
     const [uploading, setUploading] = useState(false)
     const [processing, setProcessing] = useState(false)
     const [categorizing, setCategorizing] = useState(false)
+    const [adjustingFormat, setAdjustingFormat] = useState(false)
     const [isDragging, setIsDragging] = useState(false)
     const [ejes, setEjes] = useState<any[]>([])
     const [topics, setTopics] = useState<any[]>([])
@@ -231,6 +232,26 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
             alert("Error categorizando: " + error.message)
         } finally {
             setCategorizing(false)
+        }
+    }
+
+    const handleAdjustFormat = async () => {
+        if (!formData.explanation) {
+            alert("No hay explicación para ajustar.")
+            return
+        }
+
+        setAdjustingFormat(true)
+        try {
+            const result = await fixLatexFormatting(formData.explanation)
+            setFormData(prev => ({
+                ...prev,
+                explanation: result.explanation || prev.explanation,
+            }))
+        } catch (error: any) {
+            alert("Error ajustando formato: " + error.message)
+        } finally {
+            setAdjustingFormat(false)
         }
     }
 
@@ -494,7 +515,28 @@ export default function EditQuestionPage({ params }: { params: Promise<{ id: str
 
                     {/* Explanation */}
                     <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
-                        <label className="block text-sm font-semibold text-slate-700 mb-2">Explicación</label>
+                        <div className="flex items-center justify-between mb-2">
+                            <label className="block text-sm font-semibold text-slate-700">Explicación</label>
+                            <Button
+                                onClick={handleAdjustFormat}
+                                disabled={adjustingFormat || !formData.explanation}
+                                variant="ghost"
+                                size="sm"
+                                className="h-8 text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 gap-1 text-xs font-bold"
+                            >
+                                {adjustingFormat ? (
+                                    <>
+                                        <div className="animate-spin rounded-full h-3 w-3 border-2 border-indigo-600 border-t-transparent" />
+                                        Ajustando...
+                                    </>
+                                ) : (
+                                    <>
+                                        <Wand2 size={14} />
+                                        Ajustar formato
+                                    </>
+                                )}
+                            </Button>
+                        </div>
                         <textarea
                             className="w-full p-3 border rounded-lg font-mono text-sm bg-white text-slate-900 min-h-[100px] focus:ring-2 focus:ring-blue-500 focus:outline-none"
                             value={formData.explanation}
