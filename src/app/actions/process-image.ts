@@ -232,16 +232,20 @@ export async function fixLatexFormatting(explanation: string) {
                     Your goal is to adjust the formatting of a math explanation to follow strict LaTeX rules.
 
                     RULES:
-                    1. **Line Breaks**: Replace all instances of "\\newline" and "\\n" with a simple space.
-                    2. **Datos Formatting**: Ensure "Datos:" starts and ends correctly as: "$\\displaystyle \\textbf{Datos:}$"
-                    3. **Steps Formatting**: Ensure any step header (e.g., "Paso 1: ...") is wrapped in "$" and starts with \\displaystyle.
+                    1. **Section Line Breaks**: Ensure that major sections ("Datos:", "Procedimiento:", "Justificación:", "Conclusión:", or any "Paso X:") ALWAYS start on a new line. Replace any existing single spaces before these keywords with a newline character.
+                    2. **Percent Sign**: Replace ALL instances of "\\%" with a simple "%".
+                    3. **Clean Up Breaks**: Replace all instances of "\\newline" and manual "\\n" strings with a simple space, BUT preserve the actual newline characters created for sections in Rule 1.
+                    4. **Datos Formatting**: Ensure "Datos:" starts and ends correctly as: "$\\displaystyle \\textbf{Datos:}$"
+                    5. **Steps Formatting**: Ensure any step header (e.g., "Paso 1: ...") is wrapped in "$" and starts with \\displaystyle.
                        Example: "$\\displaystyle \\textbf{Paso 1: Calcular la fracción.}$"
-                    4. **Answer Formatting**: Ensure boxed answers like "\\boxed{\\textbf{B}}" are wrapped in "$" and start with \\displaystyle.
+                    6. **Section Headers**: Also apply formatting to "Procedimiento:", "Justificación:", and "Conclusión:" similar to "Datos:".
+                       Example: "$\\displaystyle \\textbf{Procedimiento:}$"
+                    7. **Answer Formatting**: Ensure boxed answers like "\\boxed{\\textbf{B}}" are wrapped in "$" and start with \\displaystyle.
                        Example: "$\\displaystyle \\boxed{\\textbf{B}}$"
-                    5. **Display Math**: If you see something that starts and ends with "$$", change it to start and end with "$$$".
+                    8. **Display Math**: If you see something that starts and ends with "$$", change it to start and end with "$$$".
                        Example: "$$\\displaystyle \\frac{a}{b}$$" becomes "$$$\\displaystyle \\frac{a}{b}$$$"
-                    6. **Displaystyle**: Ensure ALL math expressions (inline or block) start with "\\displaystyle" inside the dollar signs.
-                    7. **Double Escape**: Since we are returning JSON, double-escape all backslashes in the LaTeX strings (e.g., \\\\displaystyle, \\\\textbf, \\\\frac).
+                    9. **Displaystyle**: Ensure ALL math expressions (inline or block) start with "\\displaystyle" inside the dollar signs.
+                    10. **Double Escape**: Since we are returning JSON, double-escape all backslashes in the LaTeX strings (e.g., \\\\displaystyle, \\\\textbf, \\\\frac).
                     
                     Respond ONLY with the corrected explanation in a JSON field "explanation".
                     `
