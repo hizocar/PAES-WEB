@@ -17,12 +17,14 @@ export default function LatexRenderer({ children }: { children: string }) {
                     const content = part.slice(1, -1)
                     if (!content) return null
 
+                    const isDisplayMode = content.trim().startsWith('\\displaystyle')
+
                     try {
                         const html = katex.renderToString(content, {
                             throwOnError: false, // Don't throw, render error in red
-                            displayMode: false
+                            displayMode: isDisplayMode
                         })
-                        return <span key={i} dangerouslySetInnerHTML={{ __html: html }} />
+                        return <span key={i} dangerouslySetInnerHTML={{ __html: html }} className={isDisplayMode ? "block [&_.katex-display]:text-left [&_.katex-display]:my-1" : ""} />
                     } catch (error) {
                         // Fallback in case something really bad happens
                         return <span key={i} className="text-red-500 font-mono text-xs">{part}</span>
