@@ -115,6 +115,9 @@ function PracticeContent() {
     const fetchQuestion = async () => {
         if (loading) return
 
+        // Safety Guard: Don't fetch if out of lives (Free Tier)
+        if (tier === 'free' && lives <= 0) return
+
         // Increment Request ID
         const currentReqId = ++reqIdRef.current
 
@@ -210,7 +213,8 @@ function PracticeContent() {
     }
 
     // Cooldown / No Lives Screen (Only for free users)
-    if (tier === 'free' && lives === 0 && replenishAt) {
+    // Modified to show even if replenishAt is still calculating (to avoid empty screen)
+    if (tier === 'free' && lives <= 0) {
         return (
             <div className="flex min-h-[85dvh] items-center justify-center flex-col gap-8 px-4 text-center max-w-md mx-auto animate-in fade-in zoom-in duration-300">
                 <div className="relative">
@@ -227,8 +231,15 @@ function PracticeContent() {
                     </p>
                 </div>
 
-                <div className="bg-slate-900 text-white text-3xl font-mono py-4 px-8 rounded-2xl shadow-lg border-b-4 border-slate-700">
-                    <LivesCounter lives={0} replenishAt={replenishAt} />
+                <div className="bg-slate-900 text-white text-3xl font-mono py-4 px-8 rounded-2xl shadow-lg border-b-4 border-slate-700 min-h-[80px] flex items-center justify-center">
+                    {replenishAt ? (
+                        <LivesCounter lives={0} replenishAt={replenishAt} />
+                    ) : (
+                        <div className="flex items-center gap-2">
+                            <Loader2 className="animate-spin text-slate-400" size={20} />
+                            <span className="text-sm text-slate-400">Calculando...</span>
+                        </div>
+                    )}
                 </div>
 
                 <div className="pt-8 flex flex-col gap-3 w-full">

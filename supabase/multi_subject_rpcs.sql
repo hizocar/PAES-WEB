@@ -25,27 +25,72 @@ security definer
 as $$
 declare
     v_question_id uuid;
+    v_target_eje_id uuid;
 begin
-    -- 1. Select a random question ID based on weights
+    -- 0. Identify the "Stalest" Axis (LRU - Least Recently Used)
+    --    We only consider axes that actually have valid questions for the user in the current mode.
+    
+    with available_questions_cte as (
+        select q.id
+        from questions q
+        where q.subject = p_subject
+        and (
+            (p_retry_mode = false and not exists (select 1 from attempts a where a.question_id = q.id and a.user_id = p_user_id and a.is_correct = true))
+            or
+            (p_retry_mode = true and exists (select 1 from attempts a where a.question_id = q.id and a.user_id = p_user_id))
+        )
+    ),
+    available_axes as (
+        select distinct e.id as eje_id
+        from available_questions_cte aq
+        join question_topics qt on aq.id = qt.question_id
+        join topics t on qt.topic_id = t.id
+        join ejes e on t.eje_id = e.id
+    ),
+    axis_last_seen as (
+        select 
+            aa.eje_id,
+            max(a.created_at) as last_seen
+        from available_axes aa
+        left join topics t on t.eje_id = aa.eje_id
+        left join question_topics qt on qt.topic_id = t.id
+        left join attempts a on a.question_id = qt.question_id and a.user_id = p_user_id
+        group by aa.eje_id
+    )
+    select eje_id into v_target_eje_id
+    from axis_last_seen
+    order by last_seen asc nulls first, random() -- Oldest first (NULL = never seen), random tie-break
+    limit 1;
+
+    -- If no target axis found (no questions available at all), return empty
+    if v_target_eje_id is null then
+        return;
+    end if;
+
+    -- 1. Select a random question ID from the Target Axis
     with weighted_questions as (
         select
             q.id,
             case
                 when p_retry_mode = false then
                     case
-                        when exists (select 1 from attempts a where a.question_id = q.id and a.user_id = p_user_id and a.is_correct = true) then 0
-                        when exists (select 1 from attempts a where a.question_id = q.id and a.user_id = p_user_id) then 1
-                        else 10
+                         -- Already filtered by "not mastered" in step 0 conceptually, but repeating logic for safety/weights
+                        when exists (select 1 from attempts a where a.question_id = q.id and a.user_id = p_user_id) then 1 -- Failed before
+                        else 10 -- New
                     end
-                else -- RETRY MODE: All attempted questions, prioritized by errors
-                    case
-                        when exists (select 1 from attempts a where a.question_id = q.id and a.user_id = p_user_id) then 
-                             1 + (select count(*) * 10 from attempts a where a.question_id = q.id and a.user_id = p_user_id and a.is_correct = false)
-                        else 0
-                    end
+                else -- RETRY MODE
+                     1 + (select count(*) * 10 from attempts a where a.question_id = q.id and a.user_id = p_user_id and a.is_correct = false)
             end as weight
         from questions q
-        where q.subject = p_subject -- FILTER BY SUBJECT
+        join question_topics qt on q.id = qt.question_id
+        join topics t on qt.topic_id = t.id
+        where q.subject = p_subject
+        and t.eje_id = v_target_eje_id -- STRICT FILTER: Only from target axis
+        and (
+             (p_retry_mode = false and not exists (select 1 from attempts a where a.question_id = q.id and a.user_id = p_user_id and a.is_correct = true))
+             or
+             (p_retry_mode = true and exists (select 1 from attempts a where a.question_id = q.id and a.user_id = p_user_id))
+        )
     ),
     valid_questions as (
         select * from weighted_questions where weight > 0
