@@ -4,7 +4,7 @@
 import { useEffect, useState, useCallback } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
-import { BarChart3, Clock, Target, TrendingUp, ArrowRight, Flame, Heart, Zap, Trophy, AlertCircle, Star, RotateCcw } from "lucide-react"
+import { BarChart3, Clock, Target, TrendingUp, ArrowRight, Flame, Heart, Zap, Trophy, AlertCircle, Star, RotateCcw, Calculator, Tangent, Shapes, PieChart, MessageSquareQuote, Network, BoxSelect, Lightbulb } from "lucide-react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 
@@ -229,6 +229,17 @@ export default function DashboardPage() {
         return () => clearInterval(interval)
     }, [stats.lives, stats.replenishAt, stats.tier, fetchData])
 
+    const getHabilidadIcon = (h: string) => {
+        const iconSize = 24
+        switch (h) {
+            case 'resolver_problemas': return <Lightbulb size={iconSize} />
+            case 'modelar': return <BoxSelect size={iconSize} />
+            case 'representar': return <Network size={iconSize} />
+            case 'argumentar': return <MessageSquareQuote size={iconSize} />
+            default: return <BarChart3 size={iconSize} />
+        }
+    }
+
     const getHabilidadLabel = (h: string) => {
         const labels: Record<string, string> = {
             'resolver_problemas': 'Resolver Problemas',
@@ -237,6 +248,15 @@ export default function DashboardPage() {
             'argumentar': 'Argumentar'
         }
         return labels[h] || h
+    }
+
+    const getEjeIcon = (ejeName: string) => {
+        const iconSize = 20
+        if (ejeName.includes('Números')) return <Calculator size={iconSize} />
+        if (ejeName.includes('Álgebra')) return <Tangent size={iconSize} />
+        if (ejeName.includes('Geometría')) return <Shapes size={iconSize} />
+        if (ejeName.includes('Probabilidad')) return <PieChart size={iconSize} />
+        return <Star size={iconSize} />
     }
 
     if (loading) {
@@ -477,8 +497,8 @@ export default function DashboardPage() {
                         <Link href="/app/progress" key={eje.id}>
                             <div className="group bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer">
                                 <div className="flex items-center justify-between mb-3">
-                                    <div className="w-10 h-10 rounded-xl bg-slate-50 group-hover:bg-blue-50 transition-colors flex items-center justify-center text-slate-500 group-hover:text-blue-600 font-bold text-lg">
-                                        {eje.name.charAt(0)}
+                                    <div className="w-10 h-10 rounded-xl bg-slate-50 group-hover:bg-blue-50 transition-colors flex items-center justify-center text-slate-500 group-hover:text-blue-600">
+                                        {getEjeIcon(eje.name)}
                                     </div>
                                     <span className={cn(
                                         "px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest",
@@ -514,7 +534,7 @@ export default function DashboardPage() {
                                     hab.progress >= 70 ? "bg-green-50 text-green-600" :
                                         hab.progress >= 40 ? "bg-indigo-50 text-indigo-600" : "bg-slate-50 text-slate-400"
                                 )}>
-                                    <BarChart3 size={24} />
+                                    {getHabilidadIcon(hab.name)}
                                 </div>
                                 <h4 className="text-xs font-bold text-slate-500 uppercase tracking-tighter mb-1 line-clamp-1">
                                     {getHabilidadLabel(hab.name)}
