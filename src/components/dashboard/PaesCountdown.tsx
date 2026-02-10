@@ -5,32 +5,27 @@ import { motion } from "framer-motion"
 import { Clock } from "lucide-react"
 
 export function PaesCountdown() {
-    const [timeLeft, setTimeLeft] = useState({
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0
-    })
+    const calculateTimeLeft = () => {
+        const targetDate = new Date("2026-06-15T08:00:00").getTime()
+        const now = new Date().getTime()
+        const difference = targetDate - now
+
+        if (difference > 0) {
+            return {
+                days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+                hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+                minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+                seconds: Math.floor((difference % (1000 * 60)) / 1000)
+            }
+        }
+        return { days: 0, hours: 0, minutes: 0, seconds: 0 }
+    }
+
+    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft())
 
     useEffect(() => {
-        // Target Date: June 15, 2026 09:00:00 (Assuming 9am start for consistency with inscription time, or simply 00:00)
-        // User request: "15 de junio de 2026 se aplicará..."
-        const targetDate = new Date("2026-06-15T08:00:00").getTime() // 8 AM typical start
-
         const interval = setInterval(() => {
-            const now = new Date().getTime()
-            const difference = targetDate - now
-
-            if (difference > 0) {
-                const days = Math.floor(difference / (1000 * 60 * 60 * 24))
-                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
-                const seconds = Math.floor((difference % (1000 * 60)) / 1000)
-
-                setTimeLeft({ days, hours, minutes, seconds })
-            } else {
-                clearInterval(interval)
-            }
+            setTimeLeft(calculateTimeLeft())
         }, 1000)
 
         return () => clearInterval(interval)
@@ -43,7 +38,7 @@ export function PaesCountdown() {
                 flex items-center justify-center shadow-lg border-b-4 
                 ${color}
             `}>
-                <span className="text-xl sm:text-2xl font-black text-slate-800 font-mono tracking-tight">
+                <span suppressHydrationWarning className="text-xl sm:text-2xl font-black text-slate-800 font-mono tracking-tight">
                     {value.toString().padStart(2, '0')}
                 </span>
             </div>
