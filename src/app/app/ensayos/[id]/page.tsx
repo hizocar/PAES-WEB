@@ -238,7 +238,7 @@ export default function EnsayoRunnerPage() {
 
                         {/* Alternatives */}
                         <div className="grid gap-3">
-                            {currentQuestion.alternatives.map((alt: any) => {
+                            {currentQuestion.alternatives.filter((alt: any) => alt.id !== 'E').map((alt: any) => {
                                 const isSelected = answers[currentQuestion.question_id] === alt.id
                                 return (
                                     <div

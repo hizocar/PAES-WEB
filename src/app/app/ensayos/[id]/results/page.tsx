@@ -40,33 +40,16 @@ export default function EnsayoResultsPage() {
             // For now, let's process the raw data to be robust.
 
             const processedStats = {
-                numeros: { correct: 0, total: 0 },
-                algebra: { correct: 0, total: 0 },
-                geometria: { correct: 0, total: 0 },
-                probabilidad: { correct: 0, total: 0 }
+                numeros: { correct: 0, total: 0, topics: {} as Record<string, { correct: number, total: number }> },
+                algebra: { correct: 0, total: 0, topics: {} as Record<string, { correct: number, total: number }> },
+                geometria: { correct: 0, total: 0, topics: {} as Record<string, { correct: number, total: number }> },
+                probabilidad: { correct: 0, total: 0, topics: {} as Record<string, { correct: number, total: number }> }
             }
-
-            // Logic to populate processedStats by iterating questions_data
-            // We need correct answers for this to work 100% client side if not returned by API
-            // But wait, the questions_data usually stores the QUESTION content, not the result.
-            // The score is in data.score.
-            // The breakdown might need an extra RPC call or logic if we want details.
-            // Let's assume we call a helper RPC "get_ensayo_results" or similar, OR we improve the previous RPC to save stats.
-            // As a fallback, we can fetch question details.
-            // Actually, let's create a small helper function here to simulate the breakdown if data.axis_stats isn't available.
-
-            // To be precise: The submit RPC returned the stats, but didn't save them in a structured column (just updated score).
-            // We should have saved the detailed stats or returned them. 
-            // In a real app, storing `results_summary` JSONB on the ensayo row is best.
-            // For now, we will perform a quick calculation if we have the answers.
-            // Limitation: We don't have the "correct_answer" visible on the client in questions_data for security (usually).
-            // Valid constraint: The client shouldn't know correct answers until after submission.
-            // Fix: We'll fetch the FULL question data (including correct answer) since the exam is COMPLETED.
 
             const questionIds = (data.questions_data as any[]).map(q => q.question_id)
             const { data: fullQuestions } = await supabase
                 .from('questions')
-                .select('id, correct_answer, question_topics(topics(ejes(slug)))')
+                .select('id, correct_answer, question_topics(topics(name, ejes(slug)))')
                 .in('id', questionIds)
 
             if (fullQuestions) {
@@ -74,20 +57,31 @@ export default function EnsayoResultsPage() {
                     const userAnswer = (data.answers as Record<string, string>)[q.id]
                     const isCorrect = userAnswer === q.correct_answer
                     // @ts-ignore
-                    const ejeSlug = q.question_topics[0]?.topics?.ejes?.slug
+                    const topicInner = q.question_topics[0]?.topics
+                    const topicData = Array.isArray(topicInner) ? topicInner[0] : topicInner
 
-                    if (ejeSlug === 'numeros') {
-                        processedStats.numeros.total++
-                        if (isCorrect) processedStats.numeros.correct++
-                    } else if (ejeSlug === 'algebra-y-funciones') {
-                        processedStats.algebra.total++
-                        if (isCorrect) processedStats.algebra.correct++
-                    } else if (ejeSlug === 'geometria') {
-                        processedStats.geometria.total++
-                        if (isCorrect) processedStats.geometria.correct++
-                    } else if (ejeSlug === 'probabilidad-y-estadistica') {
-                        processedStats.probabilidad.total++
-                        if (isCorrect) processedStats.probabilidad.correct++
+                    // @ts-ignore
+                    const ejeInner = topicData?.ejes
+                    const ejeData = Array.isArray(ejeInner) ? ejeInner[0] : ejeInner
+
+                    const ejeSlug = ejeData?.slug
+                    const topicName = topicData?.name || "General"
+
+                    let targetAxis = null
+                    if (ejeSlug === 'numeros') targetAxis = processedStats.numeros
+                    else if (ejeSlug === 'algebra-y-funciones') targetAxis = processedStats.algebra
+                    else if (ejeSlug === 'geometria') targetAxis = processedStats.geometria
+                    else if (ejeSlug === 'probabilidad-y-estadistica') targetAxis = processedStats.probabilidad
+
+                    if (targetAxis) {
+                        targetAxis.total++
+                        if (isCorrect) targetAxis.correct++
+
+                        if (!targetAxis.topics[topicName]) {
+                            targetAxis.topics[topicName] = { correct: 0, total: 0 }
+                        }
+                        targetAxis.topics[topicName].total++
+                        if (isCorrect) targetAxis.topics[topicName].correct++
                     }
                 })
             }
@@ -152,30 +146,56 @@ export default function EnsayoResultsPage() {
                 {Object.entries(stats).map(([key, stat]: [string, any]) => {
                     const percentage = Math.round((stat.correct / stat.total) * 100) || 0
                     return (
-                        <div key={key} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center gap-5">
-                            <div className={`
-                                w-14 h-14 rounded-xl flex items-center justify-center text-white shadow-lg
-                                ${percentage >= 70 ? 'bg-green-500 shadow-green-200' :
-                                    percentage >= 40 ? 'bg-blue-500 shadow-blue-200' : 'bg-orange-400 shadow-orange-200'}
-                            `}>
-                                {getAxisIcon(key)}
+                        <div key={key} className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+                            <div className="p-6 flex items-center gap-5 border-b border-slate-50">
+                                <div className={`
+                                    w-14 h-14 rounded-xl flex items-center justify-center text-white shadow-lg shrink-0
+                                    ${percentage >= 70 ? 'bg-green-500 shadow-green-200' :
+                                        percentage >= 40 ? 'bg-blue-500 shadow-blue-200' : 'bg-orange-400 shadow-orange-200'}
+                                `}>
+                                    {getAxisIcon(key)}
+                                </div>
+                                <div className="flex-1 space-y-2">
+                                    <div className="flex justify-between items-center">
+                                        <h3 className="font-bold text-slate-700">{getAxisName(key)}</h3>
+                                        <span className={`font-black text-lg ${percentage >= 70 ? 'text-green-600' : percentage >= 40 ? 'text-blue-600' : 'text-orange-500'}`}>
+                                            {percentage}%
+                                        </span>
+                                    </div>
+                                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                                        <div
+                                            className={`h-full rounded-full ${percentage >= 70 ? 'bg-green-500' : percentage >= 40 ? 'bg-blue-500' : 'bg-orange-400'}`}
+                                            style={{ width: `${percentage}%` }}
+                                        />
+                                    </div>
+                                    <p className="text-xs text-slate-400 font-medium">
+                                        {stat.correct} de {stat.total} respuestas correctas
+                                    </p>
+                                </div>
                             </div>
-                            <div className="flex-1 space-y-2">
-                                <div className="flex justify-between items-center">
-                                    <h3 className="font-bold text-slate-700">{getAxisName(key)}</h3>
-                                    <span className={`font-black text-lg ${percentage >= 70 ? 'text-green-600' : percentage >= 40 ? 'text-blue-600' : 'text-orange-500'}`}>
-                                        {percentage}%
-                                    </span>
-                                </div>
-                                <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                                    <div
-                                        className={`h-full rounded-full ${percentage >= 70 ? 'bg-green-500' : percentage >= 40 ? 'bg-blue-500' : 'bg-orange-400'}`}
-                                        style={{ width: `${percentage}%` }}
-                                    />
-                                </div>
-                                <p className="text-xs text-slate-400 font-medium">
-                                    {stat.correct} de {stat.total} respuestas correctas
-                                </p>
+
+                            {/* Topic Breakdown */}
+                            <div className="bg-slate-50/50 p-4 space-y-3">
+                                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Detalle por Tema</h4>
+                                {Object.entries(stat.topics).map(([topicName, topicStat]: [string, any]) => {
+                                    const topicPct = Math.round((topicStat.correct / topicStat.total) * 100) || 0
+                                    return (
+                                        <div key={topicName} className="flex flex-col gap-1">
+                                            <div className="flex justify-between text-sm">
+                                                <span className="text-slate-600 font-medium">{topicName}</span>
+                                                <span className={`font-bold ${topicPct >= 70 ? 'text-green-600' : topicPct >= 40 ? 'text-blue-600' : 'text-orange-500'}`}>
+                                                    {topicStat.correct}/{topicStat.total} ({topicPct}%)
+                                                </span>
+                                            </div>
+                                            <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                                                <div
+                                                    className={`h-full rounded-full ${topicPct >= 70 ? 'bg-green-500' : topicPct >= 40 ? 'bg-blue-500' : 'bg-orange-400'}`}
+                                                    style={{ width: `${topicPct}%` }}
+                                                />
+                                            </div>
+                                        </div>
+                                    )
+                                })}
                             </div>
                         </div>
                     )

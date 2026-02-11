@@ -61,7 +61,7 @@ begin
   -- Select 15 Random Questions from each Axis
   with selected_questions as (
     (
-      select id, content, alternatives, eje_id, 'numeros' as eje_slug
+      select id, content, alternatives, 'numeros' as eje_slug
       from public.questions 
       where id in (select question_id from public.question_topics where topic_id in (select id from public.topics where eje_id = v_numeros_id))
       order by random() 
@@ -69,7 +69,7 @@ begin
     )
     union all
     (
-      select id, content, alternatives, eje_id, 'algebra-y-funciones' as eje_slug
+      select id, content, alternatives, 'algebra-y-funciones' as eje_slug
       from public.questions 
       where id in (select question_id from public.question_topics where topic_id in (select id from public.topics where eje_id = v_algebra_id))
       order by random() 
@@ -77,7 +77,7 @@ begin
     )
     union all
     (
-      select id, content, alternatives, eje_id, 'geometria' as eje_slug
+      select id, content, alternatives, 'geometria' as eje_slug
       from public.questions 
       where id in (select question_id from public.question_topics where topic_id in (select id from public.topics where eje_id = v_geometria_id))
       order by random() 
@@ -85,7 +85,7 @@ begin
     )
     union all
     (
-      select id, content, alternatives, eje_id, 'probabilidad-y-estadistica' as eje_slug
+      select id, content, alternatives, 'probabilidad-y-estadistica' as eje_slug
       from public.questions 
       where id in (select question_id from public.question_topics where topic_id in (select id from public.topics where eje_id = v_probabilidad_id))
       order by random() 
