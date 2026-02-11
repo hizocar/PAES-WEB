@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { BarChart3, Clock, Home, LogOut, Menu, Settings, Trophy, X, RotateCcw, Award } from "lucide-react"
+import { BarChart3, Clock, Home, LogOut, Menu, Settings, Trophy, X, RotateCcw, Award, FileText } from "lucide-react"
 import { UserProfile } from "@/components/ui/user-profile"
 import { useSubject, Subject } from "@/components/providers/SubjectContext"
 import { SubscriptionBadge } from "./subscription-badge"
@@ -80,6 +80,12 @@ export function MobileNav({ user }: { user: any }) {
                                 <Button variant="ghost" className="w-full justify-start gap-3 h-12 text-base font-medium text-orange-600 hover:bg-orange-50 hover:text-orange-700">
                                     <RotateCcw size={20} />
                                     Modo Repaso
+                                </Button>
+                            </Link>
+                            <Link href="/app/ensayos" onClick={() => setOpen(false)}>
+                                <Button variant={pathname === "/app/ensayos" ? "secondary" : "ghost"} className="w-full justify-start gap-3 h-12 text-base font-medium text-indigo-600 hover:bg-indigo-50 hover:text-indigo-700">
+                                    <FileText size={20} />
+                                    Ensayos
                                 </Button>
                             </Link>
                             <Link href="/app/progress" onClick={() => setOpen(false)}>
