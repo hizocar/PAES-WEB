@@ -4,12 +4,15 @@ import { useEffect, useState } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
-import { Loader2, Play, LayoutGrid, Clock, Trophy, History } from "lucide-react"
+import { Loader2, Play, LayoutGrid, Clock, Trophy, History, Construction, AlertCircle } from "lucide-react"
 import Link from "next/link"
+import { useSubject } from "@/components/providers/SubjectContext"
 
 export default function EnsayosDashboard() {
+    const { subject } = useSubject()
     const [loading, setLoading] = useState(true)
     const [creating, setCreating] = useState(false)
+    const [error, setError] = useState<string | null>(null)
     const [ensayos, setEnsayos] = useState<any[]>([])
     const supabase = createClient()
     const router = useRouter()
@@ -23,39 +26,72 @@ export default function EnsayosDashboard() {
                 .from('ensayos')
                 .select('*')
                 .eq('user_id', user.id)
+                .eq('subject', subject) // Filter by subject
                 .order('started_at', { ascending: false })
 
             if (data) setEnsayos(data)
             setLoading(false)
         }
         fetchEnsayos()
-    }, [])
+    }, [subject]) // Refetch when subject changes
 
     const handleStartEnsayo = async () => {
         setCreating(true)
+        setError(null)
         try {
             const { data: { user } } = await supabase.auth.getUser()
-            if (!user) return
+            if (!user) {
+                setError("Debes iniciar sesión para comenzar.")
+                setCreating(false)
+                return
+            }
 
             // Call RPC to create ensayo and get ID
             const { data, error } = await supabase.rpc('create_ensayo_m1', { p_user_id: user.id })
 
-            if (error) throw error
+            if (error) {
+                console.error("RPC Error:", error)
+                throw error
+            }
+
+            if (!data || !(data as any).ensayo_id) {
+                throw new Error("No se recibió el ID del ensayo.")
+            }
 
             // Redirect to the new ensayo
             const ensayoId = (data as any).ensayo_id
             router.push(`/app/ensayos/${ensayoId}`)
-        } catch (e) {
+        } catch (e: any) {
             console.error("Error creating ensayo:", e)
+            setError(e.message || "Error desconocido al crear el ensayo.")
             setCreating(false)
         }
+    }
+
+    if (subject === 'm2') {
+        return (
+            <div className="max-w-5xl mx-auto p-6 space-y-8 flex flex-col items-center justify-center min-h-[60vh] text-center">
+                <div className="bg-blue-50 p-6 rounded-full inline-flex mb-4">
+                    <Construction size={48} className="text-blue-600" />
+                </div>
+                <h1 className="text-3xl font-black text-slate-900">Ensayos M2: Próximamente</h1>
+                <p className="text-slate-500 text-lg max-w-md">
+                    Estamos calibrando los instrumentos para la prueba de Matemática M2.
+                    Muy pronto podrás acceder a ensayos completos para esta competencia.
+                </p>
+                <Link href="/app/practice">
+                    <Button variant="outline" className="mt-4">
+                        Seguir practicando ejercicios sueltos
+                    </Button>
+                </Link>
+            </div>
+        )
     }
 
     if (loading) {
         return <div className="flex h-96 items-center justify-center"><Loader2 className="animate-spin text-blue-600" /></div>
     }
 
-    const lastEnsayo = ensayos[0]
     const history = ensayos.slice(0) // All essays
 
     return (
@@ -85,15 +121,23 @@ export default function EnsayosDashboard() {
                         </div>
                     </div>
 
-                    <Button
-                        size="lg"
-                        onClick={handleStartEnsayo}
-                        disabled={creating}
-                        className="h-16 px-8 text-xl font-bold bg-white text-blue-600 hover:bg-blue-50 hover:scale-105 transition-all shadow-lg shrink-0"
-                    >
-                        {creating ? <Loader2 className="animate-spin mr-2" /> : <Play className="mr-2 fill-current" />}
-                        {creating ? "Generando..." : "Comenzar Ensayo"}
-                    </Button>
+                    <div className="flex flex-col gap-2 items-end">
+                        <Button
+                            size="lg"
+                            onClick={handleStartEnsayo}
+                            disabled={creating}
+                            className="h-16 px-8 text-xl font-bold bg-white text-blue-600 hover:bg-blue-50 hover:scale-105 transition-all shadow-lg shrink-0"
+                        >
+                            {creating ? <Loader2 className="animate-spin mr-2" /> : <Play className="mr-2 fill-current" />}
+                            {creating ? "Generando..." : "Comenzar Ensayo"}
+                        </Button>
+                        {error && (
+                            <div className="flex items-center gap-2 text-red-100 bg-red-500/20 px-3 py-1 rounded-lg text-sm backdrop-blur-sm">
+                                <AlertCircle size={14} />
+                                {error}
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
 
