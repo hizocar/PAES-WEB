@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation"
 import { Loader2, Play, LayoutGrid, Clock, Trophy, History, Construction, AlertCircle } from "lucide-react"
 import Link from "next/link"
 import { useSubject } from "@/components/providers/SubjectContext"
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
 export default function EnsayosDashboard() {
     const { subject } = useSubject()
@@ -100,6 +101,71 @@ export default function EnsayosDashboard() {
                 <h1 className="text-3xl font-black text-slate-900">Ensayos M1</h1>
                 <p className="text-slate-500 text-lg">Simula la experiencia real de la PAES. 60 preguntas, 2 horas 20 minutos.</p>
             </header>
+
+            {/* Score Evolution Chart */}
+            {ensayos.filter(e => e.status === 'completed').length > 1 && (
+                <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-xl space-y-6">
+                    <div className="flex items-center gap-3">
+                        <div className="bg-blue-100 p-2 rounded-lg text-blue-600">
+                            <Trophy size={24} />
+                        </div>
+                        <div>
+                            <h2 className="text-xl font-bold text-slate-800">Evolución de Puntajes</h2>
+                            <p className="text-slate-500 text-sm">Tu progreso en los últimos ensayos</p>
+                        </div>
+                    </div>
+
+                    <div className="h-[300px] w-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <AreaChart
+                                data={ensayos
+                                    .filter(e => e.status === 'completed')
+                                    .sort((a, b) => new Date(a.started_at).getTime() - new Date(b.started_at).getTime())
+                                    .map(e => ({
+                                        date: new Date(e.started_at).toLocaleDateString('es-CL', { day: '2-digit', month: 'short' }),
+                                        score: e.score
+                                    }))
+                                }
+                                margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+                            >
+                                <defs>
+                                    <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
+                                        <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                                    </linearGradient>
+                                </defs>
+                                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                                <XAxis
+                                    dataKey="date"
+                                    axisLine={false}
+                                    tickLine={false}
+                                    tick={{ fill: '#94a3b8', fontSize: 12 }}
+                                    dy={10}
+                                />
+                                <YAxis
+                                    axisLine={false}
+                                    tickLine={false}
+                                    tick={{ fill: '#94a3b8', fontSize: 12 }}
+                                    domain={[0, 1000]}
+                                />
+                                <Tooltip
+                                    contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
+                                    cursor={{ stroke: '#3b82f6', strokeWidth: 2 }}
+                                />
+                                <Area
+                                    type="monotone"
+                                    dataKey="score"
+                                    stroke="#3b82f6"
+                                    strokeWidth={4}
+                                    fillOpacity={1}
+                                    fill="url(#colorScore)"
+                                    activeDot={{ r: 6, strokeWidth: 0, fill: '#2563eb' }}
+                                />
+                            </AreaChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+            )}
 
             {/* Smart Start Card */}
             <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-8 md:p-10 text-white shadow-xl relative overflow-hidden group">
