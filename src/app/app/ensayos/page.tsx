@@ -102,16 +102,68 @@ export default function EnsayosDashboard() {
                 <p className="text-slate-500 text-lg">Simula la experiencia real de la PAES. 60 preguntas, 2 horas 20 minutos.</p>
             </header>
 
+
+
+            {/* Smart Start Card */}
+            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-8 md:p-10 text-white shadow-xl relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-12 translate-x-12 opacity-50" />
+
+                <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                    <div className="space-y-4 max-w-xl">
+                        <div className="flex items-center gap-2 bg-blue-500/30 w-fit px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-white/20">
+                            <Clock size={12} />
+                            2h 20m Duración
+                        </div>
+                        <h2 className="text-3xl font-bold">Nuevo Ensayo Completo</h2>
+                        <p className="text-blue-100 text-lg leading-relaxed">
+                            Ponte a prueba con 60 preguntas seleccionadas aleatoriamente (15 por eje) y obtén tu puntaje en escala PAES real (100-1000).
+                        </p>
+                        <div className="flex items-center gap-6 pt-2 text-sm font-medium text-blue-200">
+                            <span className="flex items-center gap-2"><LayoutGrid size={16} /> 60 Preguntas</span>
+                            <span className="flex items-center gap-2"><Trophy size={16} /> Escala Real</span>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-2 items-end">
+                        <Button
+                            size="lg"
+                            onClick={handleStartEnsayo}
+                            disabled={creating}
+                            className="h-16 px-8 text-xl font-bold bg-white text-blue-600 hover:bg-blue-50 hover:scale-105 transition-all shadow-lg shrink-0"
+                        >
+                            {creating ? <Loader2 className="animate-spin mr-2" /> : <Play className="mr-2 fill-current" />}
+                            {creating ? "Generando..." : "Comenzar Ensayo"}
+                        </Button>
+                        {error && (
+                            <div className="flex items-center gap-2 text-red-100 bg-red-500/20 px-3 py-1 rounded-lg text-sm backdrop-blur-sm">
+                                <AlertCircle size={14} />
+                                {error}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            </div>
+
             {/* Score Evolution Chart */}
             {ensayos.filter(e => e.status === 'completed').length > 1 && (
                 <div className="bg-white p-6 md:p-8 rounded-3xl border border-slate-100 shadow-xl space-y-6">
-                    <div className="flex items-center gap-3">
-                        <div className="bg-blue-100 p-2 rounded-lg text-blue-600">
-                            <Trophy size={24} />
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                            <div className="bg-blue-100 p-2 rounded-lg text-blue-600">
+                                <Trophy size={24} />
+                            </div>
+                            <div>
+                                <h2 className="text-xl font-bold text-slate-800">Evolución de Puntajes</h2>
+                                <p className="text-slate-500 text-sm">Tu progreso en los últimos ensayos</p>
+                            </div>
                         </div>
-                        <div>
-                            <h2 className="text-xl font-bold text-slate-800">Evolución de Puntajes</h2>
-                            <p className="text-slate-500 text-sm">Tu progreso en los últimos ensayos</p>
+                        <div className="text-right">
+                            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">Último Puntaje</span>
+                            <span className="text-2xl font-black text-blue-600">
+                                {ensayos
+                                    .filter(e => e.status === 'completed')
+                                    .sort((a, b) => new Date(b.started_at).getTime() - new Date(a.started_at).getTime())[0]?.score}
+                            </span>
                         </div>
                     </div>
 
@@ -166,46 +218,6 @@ export default function EnsayosDashboard() {
                     </div>
                 </div>
             )}
-
-            {/* Smart Start Card */}
-            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-8 md:p-10 text-white shadow-xl relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-12 translate-x-12 opacity-50" />
-
-                <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                    <div className="space-y-4 max-w-xl">
-                        <div className="flex items-center gap-2 bg-blue-500/30 w-fit px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-white/20">
-                            <Clock size={12} />
-                            2h 20m Duración
-                        </div>
-                        <h2 className="text-3xl font-bold">Nuevo Ensayo Completo</h2>
-                        <p className="text-blue-100 text-lg leading-relaxed">
-                            Ponte a prueba con 60 preguntas seleccionadas aleatoriamente (15 por eje) y obtén tu puntaje en escala PAES real (100-1000).
-                        </p>
-                        <div className="flex items-center gap-6 pt-2 text-sm font-medium text-blue-200">
-                            <span className="flex items-center gap-2"><LayoutGrid size={16} /> 60 Preguntas</span>
-                            <span className="flex items-center gap-2"><Trophy size={16} /> Escala Real</span>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col gap-2 items-end">
-                        <Button
-                            size="lg"
-                            onClick={handleStartEnsayo}
-                            disabled={creating}
-                            className="h-16 px-8 text-xl font-bold bg-white text-blue-600 hover:bg-blue-50 hover:scale-105 transition-all shadow-lg shrink-0"
-                        >
-                            {creating ? <Loader2 className="animate-spin mr-2" /> : <Play className="mr-2 fill-current" />}
-                            {creating ? "Generando..." : "Comenzar Ensayo"}
-                        </Button>
-                        {error && (
-                            <div className="flex items-center gap-2 text-red-100 bg-red-500/20 px-3 py-1 rounded-lg text-sm backdrop-blur-sm">
-                                <AlertCircle size={14} />
-                                {error}
-                            </div>
-                        )}
-                    </div>
-                </div>
-            </div>
 
             {/* History Section */}
             <div className="space-y-4">
