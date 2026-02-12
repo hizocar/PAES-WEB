@@ -236,6 +236,21 @@ export default function EnsayoRunnerPage() {
                             <Latex>{currentQuestion.content}</Latex>
                         </div>
 
+                        {/* Image if present */}
+                        {currentQuestion.image_url && (
+                            <div className="my-6 flex justify-center">
+                                <img
+                                    src={currentQuestion.image_url}
+                                    alt="Pregunta"
+                                    className="max-w-full max-h-96 rounded-lg border border-slate-200"
+                                    onError={(e) => {
+                                        // Fallback if image fails to load
+                                        (e.target as HTMLImageElement).style.display = 'none'
+                                    }}
+                                />
+                            </div>
+                        )}
+
                         {/* Alternatives */}
                         <div className="grid gap-3">
                             {currentQuestion.alternatives.filter((alt: any) => alt.id !== 'E').map((alt: any) => {
