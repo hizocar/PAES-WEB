@@ -4,69 +4,69 @@
 import { useEffect, useState, useCallback } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
-import { BarChart3, Clock, Target, TrendingUp, ArrowRight, Flame, Heart, Zap, Trophy, AlertCircle, Star, RotateCcw, Calculator, Tangent, Shapes, PieChart, MessageSquareQuote, Network, BoxSelect, Lightbulb } from "lucide-react"
+import { BarChart3, Target, ArrowRight, Flame, Heart, Zap, Trophy, AlertCircle, Star, Calculator, Tangent, Shapes, PieChart, MessageSquareQuote, Network, BoxSelect, Lightbulb, Sparkles } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 
 import { useSubject } from "@/components/providers/SubjectContext"
 import { AchievementNotification } from "@/components/achievements/AchievementNotification"
 import { OnboardingTour, OnboardingStep } from "@/components/onboarding/OnboardingTour"
-import { PaesInfoModal } from "@/components/dashboard/PaesInfoModal"
 import { PaesCountdown } from "@/components/dashboard/PaesCountdown"
 
-const DASHBOARD_STEPS: OnboardingStep[] = [
-    {
-        title: "¡Bienvenido a tu Centro de Alto Rendimiento! 🚀",
-        description: "PAES Lab no es solo una app de ejercicios. Es un sistema diseñado para detectar cada uno de tus vacíos y llevarte al puntaje nacional.",
-        icon: <Star className="text-yellow-500 fill-yellow-500" />,
-        position: 'center'
-    },
-    {
-        targetId: "tour-practice",
-        title: "Entrenamiento Inteligente",
-        description: "El botón 'Practicar' te dará ejercicios adaptados a tu nivel actual. Cada respuesta nos ayuda a conocerte mejor.",
-        icon: <Zap className="text-blue-500 fill-blue-500" />,
-        position: 'right'
-    },
-    {
-        targetId: "tour-lives",
-        title: "El Sistema de Vidas",
-        description: "Entrenar con seriedad requiere concentración. Cada error consume una vida. Se recargan con el tiempo, ¡así que cuídalas!",
-        icon: <Heart className="text-red-500 fill-red-500" />,
-        position: 'bottom'
-    },
-    {
-        targetId: "tour-ranking",
-        title: "Mídete con Chile",
-        description: "Mira cómo subes en el ranking nacional mientras acumulas puntos. ¡La competencia sana te llevará más lejos!",
-        icon: <Trophy className="text-yellow-500 fill-yellow-600" />,
-        position: 'top'
-    },
-    {
-        targetId: "tour-mistakes",
-        title: "Modo Repaso: Sin fallos",
-        description: "Tus errores son oro. En el 'Modo Repaso' guardamos tus fallos para que los enfrentes una y otra vez hasta que desaparezcan de tu banco de errores.",
-        icon: <RotateCcw className="text-orange-500" />,
-        position: 'right'
-    },
-    {
-        targetId: "tour-ejes",
-        title: "Tu Mapa del Éxito (DEMRE)",
-        description: "Aquí verás tu dominio real en los Ejes Temáticos oficiales de la PAES. Medimos tu precisión según el temario actualizado del DEMRE para que sepas dónde enfocar tu estudio.",
-        icon: <Target className="text-blue-500" />,
-        position: 'top'
-    },
-    {
-        targetId: "tour-habilidades",
-        title: "Tus Habilidades de Pensador",
-        description: "La PAES evalúa cómo razonas. Aquí rastreamos tu fortaleza en Resolver Problemas, Modelar, Representar y Argumentar. ¡Conviértete en un experto en las 4!",
-        icon: <TrendingUp className="text-indigo-500" />,
-        position: 'top'
-    }
-]
+function buildDashboardSteps(subject: "m1" | "m2", setSubject: (s: "m1" | "m2") => void): OnboardingStep[] {
+    return [
+        {
+            title: "¡Bienvenido a PAES Lab!",
+            description: "Aquí entrenas la PAES de Matemática como un juego: respondes, sumas racha y subes en el ranking. ¿Qué prueba quieres preparar primero?",
+            icon: <Image src="/mascot/happy.webp" alt="" width={36} height={36} />,
+            position: "center",
+            content: (
+                <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Prueba a preparar">
+                    {([
+                        { id: "m1", name: "M1", hint: "Obligatoria" },
+                        { id: "m2", name: "M2", hint: "Ciencias e ingeniería" },
+                    ] as const).map((o) => (
+                        <button
+                            key={o.id}
+                            type="button"
+                            role="radio"
+                            aria-checked={subject === o.id}
+                            onClick={() => setSubject(o.id)}
+                            className={cn(
+                                "rounded-2xl border-2 px-3 py-3 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600",
+                                subject === o.id ? "border-blue-600 bg-blue-50" : "border-slate-200 hover:border-slate-300"
+                            )}
+                        >
+                            <span className="block text-lg font-black text-slate-900">{o.name}</span>
+                            <span className="block text-xs font-semibold text-slate-500">{o.hint}</span>
+                        </button>
+                    ))}
+                </div>
+            ),
+        },
+        {
+            targetId: "tour-lives",
+            title: "Tus vidas",
+            description: "Tienes 10 vidas por materia. Cada error gasta una y se recargan solas con el tiempo. ¡Cuídalas!",
+            icon: <Heart className="text-red-500 fill-red-500" size={22} />,
+            position: "bottom",
+        },
+        {
+            targetId: "tour-practice",
+            title: "Tu primer desafío",
+            description: "Responde 10 preguntas al día para mantener tu racha 🔥. Puedes cambiar entre M1 y M2 cuando quieras desde el menú.",
+            icon: <Zap className="text-blue-600 fill-blue-600" size={22} />,
+            position: "bottom",
+            primaryLabel: "¡A la primera pregunta!",
+        },
+    ]
+}
 
 export default function DashboardPage() {
-    const { subject } = useSubject()
+    const { subject, setSubject } = useSubject()
+    const router = useRouter()
     const [loading, setLoading] = useState(true)
     const [unlockedAchievement, setUnlockedAchievement] = useState<any>(null)
     const [showOnboarding, setShowOnboarding] = useState(false)
@@ -182,7 +182,9 @@ export default function DashboardPage() {
 
             // Add tier to local state if needed or just use profileData directly
             // For now let's just use profileData for the UI logic below
-            setEjes(processedEjes)
+            const EJE_ORDER = ["Números", "Álgebra", "Geometría", "Probabilidad"]
+            const rank = (n: string) => { const i = EJE_ORDER.findIndex((k) => n?.startsWith(k)); return i === -1 ? 99 : i }
+            setEjes([...processedEjes].sort((a: any, b: any) => rank(a.name) - rank(b.name)))
 
         } catch (error) {
             console.error("Error fetching dashboard:", error)
@@ -190,6 +192,16 @@ export default function DashboardPage() {
             setLoading(false)
         }
     }, [subject, supabase, stats.lives])
+
+    // Meta Pixel: el callback de auth redirige con ?login=ok; lo registramos y limpiamos la URL
+    useEffect(() => {
+        const url = new URL(window.location.href)
+        if (url.searchParams.get("login") === "ok") {
+            if ((window as any).fbq) (window as any).fbq("track", "CompleteRegistration")
+            url.searchParams.delete("login")
+            window.history.replaceState(null, "", url.pathname + url.search)
+        }
+    }, [])
 
     useEffect(() => {
         let isMounted = true
@@ -280,10 +292,13 @@ export default function DashboardPage() {
 
         // 3. No streak (Either lost it or never had one)
         if (stats.streak === 0) {
+            if (stats.dailyProgress === 0 && stats.mistakes === 0 && stats.score === 0) {
+                return "Responde tus primeras 10 preguntas hoy y enciende tu racha 🔥";
+            }
             if (stats.dailyProgress > 0) {
                 return `¡Buen comienzo! Te faltan ${stats.dailyTarget - stats.dailyProgress} ejercicios más para iniciar tu primera racha.`;
             }
-            return "¡Oh no! No tienes racha activa. Haz 10 ejercicios hoy para empezar tu camino al puntaje nacional ⚡";
+            return "Perdiste tu racha, ¡pero hoy la recuperas! Haz 10 preguntas para encenderla de nuevo 🔥";
         }
 
         // 4. Achievement highlights (Fallback if something fails)
@@ -293,277 +308,236 @@ export default function DashboardPage() {
         return "El éxito es la suma de pequeños esfuerzos diarios. ¡Vamos por esos puntos!";
     }
 
-    const bestEje = ejes.length > 0 ? [...ejes].sort((a, b) => b.progress - a.progress)[0] : null;
+    const bestEje = ejes.length > 0 ? [...ejes].sort((a, b) => b.progress - a.progress)[0] : null
+    const hasActivity = ejes.some((e: any) => e.progress > 0) || stats.habilidades.some((h: any) => (h.total_attempts ?? 0) > 0)
+    const goalDone = stats.dailyProgress >= stats.dailyTarget
+    const noLives = stats.tier === "free" && stats.lives === 0
+    const steps = buildDashboardSteps(subject, setSubject)
 
     return (
-        <div className="p-6 max-w-7xl mx-auto space-y-6">
-            <PaesInfoModal />
+        <div className="mx-auto max-w-7xl space-y-6 p-4 md:p-6">
             <AchievementNotification
                 achievement={unlockedAchievement}
                 onClose={() => setUnlockedAchievement(null)}
             />
 
-            {/* Smart Dashboard Hero */}
-            <div className="relative overflow-hidden bg-white p-6 md:p-10 rounded-[2rem] border border-slate-100 shadow-sm flex flex-col md:flex-row items-center justify-between gap-8 group">
-                {/* Decorative background element */}
-                <div className="absolute top-0 right-0 -translate-y-12 translate-x-12 w-64 h-64 bg-blue-50/50 rounded-full blur-3xl group-hover:bg-blue-100/50 transition-colors duration-700" />
-                <div className="absolute bottom-0 left-0 translate-y-24 -translate-x-12 w-48 h-48 bg-purple-50/30 rounded-full blur-3xl pointer-events-none" />
-
-                <div className="relative z-10 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
-                    <div className="w-20 h-20 md:w-24 md:h-24 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl flex items-center justify-center text-white shadow-2xl shadow-blue-200 shrink-0 transform group-hover:rotate-3 transition-transform duration-500">
-                        <Trophy size={40} className="fill-white/20" />
-                    </div>
-
-                    <div className="space-y-2">
-                        <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-tight">
-                            ¡Hola de nuevo, <span className="text-blue-600">{stats.userName}</span>! 👋
+            {/* Saludo + cuenta regresiva PAES */}
+            <div className="grid gap-4 lg:grid-cols-3">
+                <section className="flex flex-col gap-6 rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm md:flex-row md:items-center md:p-8 lg:col-span-2">
+                    <Image
+                        src={noLives ? "/mascot/sad.webp" : "/mascot/happy.webp"}
+                        alt=""
+                        width={112}
+                        height={112}
+                        priority
+                        className="h-20 w-20 shrink-0 self-center md:h-28 md:w-28"
+                    />
+                    <div className="min-w-0 flex-1 text-center md:text-left">
+                        <h1 className="text-3xl font-black leading-tight tracking-tight text-slate-900 md:text-4xl">
+                            ¡Hola, <span className="text-blue-600">{stats.userName}</span>!
                         </h1>
-                        <p className="text-slate-500 font-medium max-w-xl text-lg md:text-xl leading-relaxed">
+                        <p className="mt-2 max-w-xl text-base font-medium leading-relaxed text-slate-600 md:text-lg">
                             {getStatusMessage()}
                         </p>
-
-                        <div className="flex flex-col md:flex-row items-center gap-4 mt-4">
-                            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-                                <div className="flex items-center gap-1.5 px-4 py-1.5 bg-orange-50 text-orange-600 rounded-full border border-orange-100 text-sm font-bold shadow-sm" title="Racha de días seguidos">
-                                    <Flame size={16} className="fill-orange-500" />
-                                    {stats.streak} {stats.streak === 1 ? 'día' : 'días'} de racha
-                                </div>
-                                {bestEje && bestEje.progress > 0 && (
-                                    <div className="flex items-center gap-1.5 px-4 py-1.5 bg-green-50 text-green-600 rounded-full border border-green-100 text-sm font-bold shadow-sm">
-                                        <Star size={16} className="fill-green-500" />
-                                        Master: {bestEje.name}
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Countdown Integration */}
-                            <div className="hidden md:block h-8 w-px bg-slate-200 mx-2"></div>
-                            <PaesCountdown />
+                        <div className="mt-4 flex flex-wrap items-center justify-center gap-2 md:justify-start">
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-50 px-3 py-1.5 text-sm font-bold text-orange-700" title="Días seguidos cumpliendo la meta">
+                                <Flame size={16} className="fill-orange-500 text-orange-500" aria-hidden />
+                                {stats.streak} {stats.streak === 1 ? "día" : "días"} de racha
+                            </span>
+                            {bestEje && bestEje.progress > 0 && (
+                                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1.5 text-sm font-bold text-emerald-700">
+                                    <Star size={16} className="fill-emerald-500 text-emerald-500" aria-hidden />
+                                    Tu mejor eje: {bestEje.name}
+                                </span>
+                            )}
+                        </div>
+                        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center md:justify-start">
+                            {noLives ? (
+                                <Link href="/app/practice?mode=retry" className="w-full sm:w-auto">
+                                    <Button size="lg" variant="outline" className="h-14 w-full whitespace-nowrap rounded-2xl px-8 text-lg font-bold sm:w-auto">
+                                        Repasar mientras recargas
+                                    </Button>
+                                </Link>
+                            ) : (
+                                <Link href="/app/practice" id="tour-practice" className="w-full sm:w-auto">
+                                    <Button size="lg" className="h-14 w-full whitespace-nowrap rounded-2xl border-b-4 border-blue-800 bg-blue-600 px-8 text-lg font-black text-white shadow-[0_8px_20px_-6px_rgba(37,99,235,0.6)] transition-transform hover:bg-blue-700 active:translate-y-0.5 active:border-b-2 sm:w-auto">
+                                        <Zap className="mr-2 h-5 w-5 fill-current" aria-hidden />
+                                        {goalDone ? "Seguir entrenando" : "Entrenar ahora"}
+                                    </Button>
+                                </Link>
+                            )}
+                            <Link href="/app/temas" className="w-full sm:w-auto">
+                                <Button size="lg" variant="ghost" className="h-14 w-full whitespace-nowrap rounded-2xl px-6 text-base font-bold text-slate-700 hover:bg-slate-100 sm:w-auto">
+                                    <Target className="mr-2 h-5 w-5" aria-hidden />
+                                    Practicar por tema
+                                </Button>
+                            </Link>
                         </div>
                     </div>
-                </div>
+                </section>
 
-                <div className="relative z-10 w-full md:w-auto">
-                    {(stats.lives !== null && (stats.lives > 0 || stats.tier !== 'free')) && (
-                        <Link href="/app/practice" id="tour-practice">
-                            <Button size="lg" className="w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white shadow-xl shadow-blue-200 transform hover:-translate-y-1 transition-all h-16 px-10 rounded-2xl font-bold text-xl border-b-4 border-blue-800 active:border-b-0 active:translate-y-0">
-                                <Zap className="w-6 h-6 mr-2 fill-current" />
-                                Entrenar Ahora
-                            </Button>
-                        </Link>
-                    )}
-                </div>
+                <PaesCountdown className="lg:col-span-1" />
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-                {/* Vidas Card (Simple) */}
-                <Link href="/app/pricing" className="group" id="tour-lives">
-                    <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40 group-hover:border-blue-200 transition-all">
-                        <div className="flex items-start justify-between">
+            <div className="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-4">
+                {/* Vidas */}
+                <Link href="/app/pricing" className="group rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600" id="tour-lives">
+                    <div className="flex h-full min-h-36 flex-col justify-between rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-colors group-hover:border-blue-300 md:p-5">
+                        <div className="flex items-start justify-between gap-2">
                             <div>
-                                <h3 className="text-slate-500 font-semibold text-sm group-hover:text-blue-600 transition-colors">Vidas</h3>
-                                {stats.tier !== 'free' ? (
-                                    <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-amber-500 to-yellow-300 bg-clip-text text-transparent mt-1 drop-shadow-[0_0_8px_rgba(245,158,11,0.3)]">
-                                        ∞
-                                    </div>
+                                <h3 className="text-sm font-semibold text-slate-500">Vidas</h3>
+                                {stats.tier !== "free" ? (
+                                    <p className="mt-1 text-4xl font-black text-amber-500" aria-label="Vidas ilimitadas">∞</p>
                                 ) : (
-                                    <div className="mt-2">
-                                        <div className="text-2xl md:text-3xl font-bold text-slate-900 flex items-center gap-2">
-                                            {stats.lives !== null ? stats.lives : 0}
-                                        </div>
-                                        {stats.lives !== null && stats.lives < 10 && (
-                                            <div className="text-[10px] sm:text-xs font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full w-fit mt-1 flex items-center gap-1 border border-blue-100">
-                                                <Heart size={10} className="fill-blue-600" />
-                                                +1 en {timeLeft}
-                                            </div>
-                                        )}
-                                    </div>
+                                    <p className="mt-1 text-3xl font-black text-slate-900 tabular-nums">{stats.lives ?? 0}<span className="text-base font-bold text-slate-400">/10</span></p>
                                 )}
-                                <p className="text-xs text-slate-400 mt-1 uppercase tracking-wider font-semibold">
-                                    {stats.tier !== 'free' ? "Beneficio Premium" : stats.lives !== null && stats.lives > 0 ? "¡Sigue así!" : "Sin Vidas"}
-                                </p>
                             </div>
-                            <div className={cn(
-                                "w-10 h-10 rounded-lg flex items-center justify-center transition-transform group-hover:scale-110",
-                                stats.tier !== 'free' ? "bg-amber-50 text-amber-500" :
-                                    stats.lives === 0 ? "bg-red-50 text-red-500" : "bg-blue-50 text-blue-500"
-                            )}>
-                                {stats.tier !== 'free' ? <Zap size={20} className="fill-amber-500" /> : <Heart size={20} className={stats.lives === 0 ? "fill-red-500" : ""} />}
+                            <div className={cn("flex h-10 w-10 items-center justify-center rounded-xl",
+                                stats.tier !== "free" ? "bg-amber-50 text-amber-500" : stats.lives === 0 ? "bg-red-50 text-red-500" : "bg-rose-50 text-rose-500")}>
+                                {stats.tier !== "free" ? <Zap size={20} className="fill-amber-500" /> : <Heart size={20} className="fill-current" />}
                             </div>
                         </div>
-                        <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden mt-4">
-                            <div
-                                className={cn(
-                                    "h-full transition-all duration-1000",
-                                    stats.tier !== 'free' ? "bg-amber-500" :
-                                        stats.lives && stats.lives > 5 ? 'bg-blue-500' :
-                                            stats.lives && stats.lives > 2 ? 'bg-orange-500' : 'bg-red-500'
-                                )}
-                                style={{ width: stats.tier !== 'free' ? '100%' : `${(stats.lives || 0) * 10}%` }}
-                            />
+                        <div>
+                            <p className="mb-2 text-xs font-semibold text-slate-500 tabular-nums">
+                                {stats.tier !== "free" ? "Ilimitadas con Premium" : stats.lives !== null && stats.lives < 10 && timeLeft ? `+1 vida en ${timeLeft}` : "Vidas completas"}
+                            </p>
+                            <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
+                                <div className={cn("h-full rounded-full transition-[width] duration-700",
+                                    stats.tier !== "free" ? "bg-amber-400" : (stats.lives ?? 0) > 5 ? "bg-rose-500" : (stats.lives ?? 0) > 2 ? "bg-orange-500" : "bg-red-500")}
+                                    style={{ width: stats.tier !== "free" ? "100%" : `${(stats.lives || 0) * 10}%` }} />
+                            </div>
                         </div>
                     </div>
                 </Link>
 
-                {/* Meta Diaria */}
-                <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40" id="tour-target">
-                    <div className="flex items-start justify-between">
+                {/* Meta diaria */}
+                <div className="flex min-h-36 flex-col justify-between rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:p-5" id="tour-target">
+                    <div className="flex items-start justify-between gap-2">
                         <div>
-                            <h3 className="text-slate-500 font-semibold text-sm">Meta Diaria</h3>
-                            <div className="text-2xl md:text-3xl font-bold text-slate-900 mt-2 whitespace-nowrap">
-                                {stats.dailyProgress} / {stats.dailyTarget}
-                            </div>
-                            <p className={`text-xs mt-1 font-medium ${stats.dailyProgress >= stats.dailyTarget ? 'text-green-600' : 'text-slate-400'}`}>
-                                {stats.dailyProgress >= stats.dailyTarget
-                                    ? "¡Meta cumplida!"
-                                    : `Faltan ${stats.dailyTarget - stats.dailyProgress}`}
-                            </p>
+                            <h3 className="text-sm font-semibold text-slate-500">Meta diaria</h3>
+                            <p className="mt-1 text-3xl font-black text-slate-900 tabular-nums">{stats.dailyProgress}<span className="text-base font-bold text-slate-400">/{stats.dailyTarget}</span></p>
                         </div>
-                        <div className={`w-8 h-8 md:w-10 md:h-10 rounded-lg flex items-center justify-center text-lg md:text-xl ${stats.dailyProgress >= stats.dailyTarget ? 'bg-green-100 text-green-600' : 'bg-slate-100 text-slate-400'}`}>
-                            🎯
+                        <div className={cn("flex h-10 w-10 items-center justify-center rounded-xl", goalDone ? "bg-emerald-50 text-emerald-600" : "bg-blue-50 text-blue-600")}>
+                            <Target size={20} aria-hidden />
                         </div>
                     </div>
-                    <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                        <div
-                            className={`h-full transition-all duration-1000 ${stats.dailyProgress >= stats.dailyTarget ? 'bg-green-500' : 'bg-blue-500'}`}
-                            style={{ width: `${Math.min((stats.dailyProgress / stats.dailyTarget) * 100, 100)}%` }}
-                        />
+                    <div>
+                        <p className={cn("mb-2 text-xs font-semibold", goalDone ? "text-emerald-700" : "text-slate-500")}>
+                            {goalDone ? "¡Meta cumplida!" : `Faltan ${stats.dailyTarget - stats.dailyProgress}`}
+                        </p>
+                        <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
+                            <div className={cn("h-full rounded-full transition-[width] duration-700", goalDone ? "bg-emerald-500" : "bg-blue-600")}
+                                style={{ width: `${Math.min((stats.dailyProgress / stats.dailyTarget) * 100, 100)}%` }} />
+                        </div>
                     </div>
                 </div>
 
                 {/* Ranking */}
-                <Link href="/app/leaderboard" id="tour-ranking">
-                    <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40 hover:border-yellow-200 hover:shadow-md transition-all cursor-pointer group">
-                        <div className="flex items-start justify-between">
+                <Link href="/app/leaderboard" id="tour-ranking" className="group rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                    <div className="flex h-full min-h-36 flex-col justify-between rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-colors group-hover:border-amber-300 md:p-5">
+                        <div className="flex items-start justify-between gap-2">
                             <div>
-                                <h3 className="text-slate-500 font-semibold text-sm group-hover:text-yellow-600 transition-colors">Tu Ranking</h3>
-                                <div className="text-2xl md:text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
-                                    {stats.rank ? `#${stats.rank}` : '-'}
-                                </div>
-                                <p className="text-xs text-slate-400 mt-1">
-                                    {stats.score} pts totales
-                                </p>
+                                <h3 className="text-sm font-semibold text-slate-500">Tu ranking</h3>
+                                <p className="mt-1 text-3xl font-black text-slate-900 tabular-nums">{stats.rank ? `#${stats.rank}` : "—"}</p>
                             </div>
-                            <div className="w-8 h-8 md:w-10 md:h-10 bg-yellow-100 text-yellow-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <Trophy size={16} className="fill-yellow-600 md:w-5 md:h-5" />
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
+                                <Trophy size={20} className="fill-amber-500" aria-hidden />
                             </div>
                         </div>
-                        <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                            <div
-                                className="bg-yellow-500 h-full transition-all duration-1000"
-                                style={{ width: `${Math.max(5, Math.min(stats.score / 10, 100))}%` }}
-                            />
-                        </div>
+                        <p className="text-xs font-semibold text-slate-500 tabular-nums">{stats.score} pts · {stats.rank ? "sigue sumando" : "responde para entrar"}</p>
                     </div>
                 </Link>
 
-                {/* Banco de Errores */}
-                <Link href="/app/practice?mode=retry" id="tour-mistakes">
-                    <div className="bg-white p-3 md:p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between h-32 md:h-40 hover:border-red-200 hover:shadow-md transition-all cursor-pointer group">
-                        <div className="flex items-start justify-between">
+                {/* Banco de errores */}
+                <Link href="/app/practice?mode=retry" id="tour-mistakes" className="group rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                    <div className="flex h-full min-h-36 flex-col justify-between rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-colors group-hover:border-red-300 md:p-5">
+                        <div className="flex items-start justify-between gap-2">
                             <div>
-                                <h3 className="text-slate-500 font-semibold text-sm group-hover:text-red-500 transition-colors">Banco de Errores</h3>
-                                <div className="text-3xl font-bold text-slate-900 mt-2 flex items-center gap-2">
-                                    {stats.mistakes}
-                                </div>
-                                <p className="text-xs text-slate-400 mt-1">
-                                    {stats.mistakes > 0 ? "Preguntas por corregir" : "¡Todo limpio!"}
-                                </p>
+                                <h3 className="text-sm font-semibold text-slate-500">Errores por repasar</h3>
+                                <p className="mt-1 text-3xl font-black text-slate-900 tabular-nums">{stats.mistakes}</p>
                             </div>
-                            <div className="w-10 h-10 bg-red-50 text-red-500 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <AlertCircle size={20} />
+                            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-500">
+                                <AlertCircle size={20} aria-hidden />
                             </div>
                         </div>
-                        <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                            <div
-                                className={`h-full transition-all duration-1000 ${stats.mistakes > 5 ? 'bg-red-500' : 'bg-green-500'}`}
-                                style={{ width: `${Math.min(stats.mistakes * 5, 100)}%` }}
-                            />
-                        </div>
+                        <p className="text-xs font-semibold text-slate-500">{stats.mistakes > 0 ? "Toca para repasarlos" : "¡Todo limpio!"}</p>
                     </div>
                 </Link>
             </div>
 
-            {/* Ejes Grid */}
-            <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                    <h2 className="text-xl font-bold text-slate-900">Progreso por Eje Temático</h2>
-                    <Link href="/app/progress" className="text-sm font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1">
-                        Ver todo <ArrowRight size={14} />
+            {/* Progreso por eje y habilidad */}
+            <section className="space-y-4" aria-labelledby="ejes-title">
+                <div className="flex items-end justify-between gap-4">
+                    <h2 id="ejes-title" className="text-xl font-black text-slate-900">Tu dominio por eje</h2>
+                    <Link href="/app/temas" className="flex items-center gap-1 text-sm font-bold text-blue-700 hover:text-blue-800">
+                        Ver por tema <ArrowRight size={14} aria-hidden />
                     </Link>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="tour-ejes">
+
+                {!hasActivity && (
+                    <div className="flex flex-col items-start gap-3 rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-5 sm:flex-row sm:items-center sm:justify-between">
+                        <div className="flex items-center gap-3">
+                            <Sparkles className="shrink-0 text-blue-600" size={22} aria-hidden />
+                            <p className="text-sm font-medium text-slate-700">
+                                Aquí verás qué tan bien dominas cada eje y habilidad de la PAES. Se llena a medida que respondes.
+                            </p>
+                        </div>
+                        <Link href="/app/practice" className="shrink-0 text-sm font-black text-blue-700 hover:text-blue-800">
+                            Responder ahora →
+                        </Link>
+                    </div>
+                )}
+
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4" id="tour-ejes">
                     {ejes.map((eje) => (
-                        <Link href="/app/progress" key={eje.id}>
-                            <div className="group bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all cursor-pointer">
-                                <div className="flex items-center justify-between mb-3">
-                                    <div className="w-10 h-10 rounded-xl bg-slate-50 group-hover:bg-blue-50 transition-colors flex items-center justify-center text-slate-500 group-hover:text-blue-600">
+                        <Link href={`/app/temas#eje-${eje.id}`} key={eje.id} className="group rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">
+                            <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm transition-colors group-hover:border-blue-300">
+                                <div className="mb-3 flex items-center justify-between">
+                                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-50 text-slate-500 transition-colors group-hover:bg-blue-50 group-hover:text-blue-600">
                                         {getEjeIcon(eje.name)}
                                     </div>
-                                    <span className={cn(
-                                        "px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest",
-                                        eje.progress >= 70 ? "bg-green-100 text-green-700" :
-                                            eje.progress >= 40 ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-500"
-                                    )}>
-                                        {eje.progress}% Precisión
-                                    </span>
+                                    <span className="text-lg font-black text-slate-900 tabular-nums">{eje.progress}%</span>
                                 </div>
-                                <h3 className="font-bold text-sm text-slate-900 line-clamp-1">{eje.name}</h3>
-                                <div className="w-full bg-slate-100 h-1.5 rounded-full mt-3 overflow-hidden">
-                                    <div
-                                        className={cn(
-                                            "h-full transition-all duration-1000",
-                                            eje.progress >= 70 ? "bg-green-500" :
-                                                eje.progress >= 40 ? "bg-blue-500" : "bg-slate-300"
-                                        )}
-                                        style={{ width: `${eje.progress}%` }}
-                                    />
+                                <h3 className="line-clamp-1 text-sm font-bold text-slate-900">{eje.name}</h3>
+                                <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
+                                    <div className={cn("h-full rounded-full transition-[width] duration-700",
+                                        eje.progress >= 70 ? "bg-emerald-500" : eje.progress >= 40 ? "bg-blue-600" : "bg-slate-300")}
+                                        style={{ width: `${eje.progress}%` }} />
                                 </div>
                             </div>
                         </Link>
                     ))}
                 </div>
 
-                <div className="pt-4" id="tour-habilidades">
-                    <h2 className="text-xl font-bold text-slate-900 mb-4">Fortaleza por Habilidad</h2>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="pt-2" id="tour-habilidades">
+                    <h2 className="mb-3 text-xl font-black text-slate-900">Tu dominio por habilidad</h2>
+                    <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
                         {stats.habilidades.map((hab: any) => (
-                            <div key={hab.name} className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col items-center text-center group">
-                                <div className={cn(
-                                    "w-12 h-12 rounded-2xl flex items-center justify-center mb-3 transition-transform group-hover:scale-110",
-                                    hab.progress >= 70 ? "bg-green-50 text-green-600" :
-                                        hab.progress >= 40 ? "bg-indigo-50 text-indigo-600" : "bg-slate-50 text-slate-400"
-                                )}>
+                            <div key={hab.name} className="flex flex-col items-center rounded-2xl border border-slate-200 bg-white p-4 text-center shadow-sm">
+                                <div className={cn("mb-3 flex h-12 w-12 items-center justify-center rounded-2xl",
+                                    hab.progress >= 70 ? "bg-emerald-50 text-emerald-600" : hab.progress >= 40 ? "bg-indigo-50 text-indigo-600" : "bg-slate-50 text-slate-500")}>
                                     {getHabilidadIcon(hab.name)}
                                 </div>
-                                <h4 className="text-xs font-bold text-slate-500 uppercase tracking-tighter mb-1 line-clamp-1">
-                                    {getHabilidadLabel(hab.name)}
-                                </h4>
-                                <div className="text-xl font-black text-slate-900">
-                                    {hab.progress}%
-                                </div>
-                                <div className="text-[10px] text-slate-400 mt-1">
-                                    {hab.total_attempts} intentos
-                                </div>
+                                <h3 className="text-sm font-bold text-slate-700">{getHabilidadLabel(hab.name)}</h3>
+                                <p className="text-xl font-black text-slate-900 tabular-nums">{hab.progress}%</p>
+                                <p className="mt-0.5 text-xs text-slate-500 tabular-nums">{hab.total_attempts} {hab.total_attempts === 1 ? "respuesta" : "respuestas"}</p>
                             </div>
                         ))}
                     </div>
                 </div>
-            </div>
+            </section>
 
             {showOnboarding && (
                 <OnboardingTour
-                    steps={DASHBOARD_STEPS}
-                    onComplete={async () => {
-                        const { data: { user } } = await supabase.auth.getUser()
-                        if (user) {
-                            await supabase.rpc('complete_onboarding', { p_user_id: user.id })
-                        }
+                    steps={steps}
+                    onComplete={async (reason) => {
                         setShowOnboarding(false)
+                        const { data: { user } } = await supabase.auth.getUser()
+                        if (user) await supabase.rpc("complete_onboarding", { p_user_id: user.id })
+                        if (reason === "done") router.push("/app/practice")
                     }}
                 />
             )}
-
         </div>
     )
 }

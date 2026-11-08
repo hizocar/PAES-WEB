@@ -138,4 +138,38 @@
   button {
     cursor: pointer;
   }
+
+  /* Superficies del navegador con la paleta de la marca */
+  ::selection {
+    background: rgb(37 99 235 / 0.18);
+    color: #0f172a;
+  }
+
+  input,
+  textarea {
+    caret-color: #2563eb;
+  }
+
+  :focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+  }
+
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }

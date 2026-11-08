@@ -1,268 +1,250 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Zap, Heart, Trophy, Target, ArrowLeft, ArrowRight, X, Star } from "lucide-react"
+import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type ReactNode } from "react"
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
+import { ArrowLeft, ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export interface OnboardingStep {
+    /** id del elemento a iluminar; sin targetId (o si no está visible) el paso se muestra centrado */
     targetId?: string
     title: string
     description: string
-    icon: React.ReactNode
-    position: 'center' | 'top' | 'bottom' | 'left' | 'right'
+    icon: ReactNode
+    /** Preferencia en escritorio; en celular siempre es una hoja inferior o superior */
+    position?: "center" | "top" | "bottom" | "left" | "right"
+    /** Contenido interactivo opcional bajo la descripción (por ejemplo, elegir materia) */
+    content?: ReactNode
+    /** Texto del botón principal de este paso */
+    primaryLabel?: string
 }
 
 interface OnboardingTourProps {
     steps: OnboardingStep[]
-    onComplete: () => void
+    /** reason = "done" al terminar el último paso, "skip" al saltar */
+    onComplete: (reason: "done" | "skip") => void
+}
+
+type Rect = { top: number; left: number; width: number; height: number }
+
+const PAD = 8
+const GAP = 16
+const EDGE = 16
+
+function visibleRect(id?: string): Rect | null {
+    if (!id) return null
+    const el = document.getElementById(id)
+    if (!el) return null
+    const r = el.getBoundingClientRect()
+    if (r.width < 4 || r.height < 4) return null // oculto (display:none o 1px)
+    return { top: r.top - PAD, left: r.left - PAD, width: r.width + PAD * 2, height: r.height + PAD * 2 }
 }
 
 export function OnboardingTour({ steps, onComplete }: OnboardingTourProps) {
-    const [currentStep, setCurrentStep] = useState(0)
-    const [coords, setCoords] = useState({ top: 0, left: 0, width: 0, height: 0 })
+    const [index, setIndex] = useState(0)
+    const [rect, setRect] = useState<Rect | null>(null)
+    const [box, setBox] = useState<{ top: number; left: number } | null>(null)
     const [isMobile, setIsMobile] = useState(false)
-    const tourBoxRef = useRef<HTMLDivElement>(null)
-    const padding = isMobile ? 12 : 8
+    const boxRef = useRef<HTMLDivElement>(null)
+    const primaryRef = useRef<HTMLButtonElement>(null)
+    const reduceMotion = useReducedMotion()
+    const titleId = useId()
+    const descId = useId()
 
+    const step = steps[index]
+    const isLast = index === steps.length - 1
+    const centered = !rect || step.position === "center"
+
+    // Medir el objetivo: al cambiar de paso lo traemos a la vista y seguimos scroll/resize
     useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < 768)
-        checkMobile()
-        window.addEventListener('resize', checkMobile)
-        return () => window.removeEventListener('resize', checkMobile)
-    }, [])
-
-    useEffect(() => {
-        const updateCoords = () => {
-            const step = steps[currentStep]
-            let targetId = step.targetId
-
-            if (!targetId) {
-                setCoords({ top: 0, left: 0, width: 0, height: 0 })
-                return
-            }
-
-            let el = document.getElementById(targetId)
-
-            // On mobile, if element is back in the sidebar/menu and not on screen
-            if (isMobile && !el) {
-                el = document.getElementById('tour-mobile-menu')
-            }
-
-            if (el) {
-                const rect = el.getBoundingClientRect()
-                setCoords({
-                    top: rect.top - padding,
-                    left: rect.left - padding,
-                    width: rect.width + (padding * 2),
-                    height: rect.height + (padding * 2)
-                })
-                el.scrollIntoView({ behavior: 'auto', block: 'center' })
-
-                // Double check after a tiny delay to ensure layout is settled
-                setTimeout(() => {
-                    const rect = el.getBoundingClientRect()
-                    setCoords({
-                        top: rect.top - padding,
-                        left: rect.left - padding,
-                        width: rect.width + (padding * 2),
-                        height: rect.height + (padding * 2)
-                    })
-                }, 10)
-            } else {
-                setCoords({ top: 0, left: 0, width: 0, height: 0 })
-            }
+        const check = () => setIsMobile(window.innerWidth < 768)
+        check()
+        const el = step.targetId ? document.getElementById(step.targetId) : null
+        if (el && step.position !== "center") {
+            el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "center" })
         }
-
-        updateCoords()
-        window.addEventListener('resize', updateCoords)
-        return () => window.removeEventListener('resize', updateCoords)
-    }, [currentStep, steps, isMobile])
-
-    const handleNext = () => {
-        if (currentStep < steps.length - 1) {
-            setCurrentStep(currentStep + 1)
-        } else {
-            onComplete()
+        let frame = 0
+        const update = () => {
+            cancelAnimationFrame(frame)
+            frame = requestAnimationFrame(() => {
+                check()
+                setRect(step.position === "center" ? null : visibleRect(step.targetId))
+            })
         }
-    }
-
-    const handleBack = () => {
-        if (currentStep > 0) {
-            setCurrentStep(currentStep - 1)
+        update()
+        const settle = window.setTimeout(update, 450) // tras el scroll suave
+        window.addEventListener("resize", update)
+        window.addEventListener("scroll", update, true)
+        return () => {
+            cancelAnimationFrame(frame)
+            clearTimeout(settle)
+            window.removeEventListener("resize", update)
+            window.removeEventListener("scroll", update, true)
         }
-    }
+    }, [step, reduceMotion])
 
-    const currentData = steps[currentStep]
-
-    // Calculate smart positioning for the tour box
-    const getBoxStyle = () => {
-        if (currentData.position === 'center') {
-            return {
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-            }
+    // Posicionar la caja con su tamaño real (escritorio)
+    useLayoutEffect(() => {
+        if (centered || isMobile || !boxRef.current || !rect) {
+            setBox(null)
+            return
         }
-
-        // On mobile, use fixed positioning either at bottom or top of screen
-        if (isMobile) {
-            const viewportHeight = window.innerHeight
-            const margin = 16
-
-            // If the element is in the bottom half of the screen, show box at the top
-            const isElementLow = coords.top > viewportHeight / 2
-
-            if (isElementLow) {
-                return {
-                    top: margin,
-                    left: margin,
-                    right: margin,
-                }
-            } else {
-                return {
-                    bottom: margin,
-                    left: margin,
-                    right: margin,
-                }
-            }
+        const { offsetWidth: w, offsetHeight: h } = boxRef.current
+        const vw = window.innerWidth
+        const vh = window.innerHeight
+        const fits = {
+            bottom: rect.top + rect.height + GAP + h <= vh - EDGE,
+            top: rect.top - GAP - h >= EDGE,
+            right: rect.left + rect.width + GAP + w <= vw - EDGE,
+            left: rect.left - GAP - w >= EDGE,
         }
-
+        const order = [step.position ?? "bottom", "bottom", "top", "right", "left"] as const
+        const side = order.find((s) => s !== "center" && fits[s as keyof typeof fits]) ?? "bottom"
         let top = 0
         let left = 0
-        const boxWidth = 380
-        const boxHeight = 320 // heuristic
-        const margin = 20
-
-        if (currentData.position === 'bottom') {
-            top = coords.top + coords.height + margin
-            left = coords.left + (coords.width / 2) - (boxWidth / 2)
-        } else if (currentData.position === 'right') {
-            top = coords.top + (coords.height / 2) - (boxHeight / 2)
-            left = coords.left + coords.width + margin
-        } else if (currentData.position === 'left') {
-            top = coords.top + (coords.height / 2) - (boxHeight / 2)
-            left = coords.left - boxWidth - margin
-        } else if (currentData.position === 'top') {
-            top = coords.top - boxHeight - margin
-            left = coords.left + (coords.width / 2) - (boxWidth / 2)
+        if (side === "bottom" || side === "top") {
+            top = side === "bottom" ? rect.top + rect.height + GAP : rect.top - GAP - h
+            left = rect.left + rect.width / 2 - w / 2
+        } else {
+            top = rect.top + rect.height / 2 - h / 2
+            left = side === "right" ? rect.left + rect.width + GAP : rect.left - GAP - w
         }
+        setBox({
+            top: Math.max(EDGE, Math.min(top, vh - h - EDGE)),
+            left: Math.max(EDGE, Math.min(left, vw - w - EDGE)),
+        })
+    }, [rect, centered, isMobile, step.position, index])
 
-        // Keep inside viewport on desktop
-        const viewportWidth = window.innerWidth
-        const viewportHeight = window.innerHeight
+    // Foco en la acción principal en cada paso
+    useEffect(() => {
+        const t = window.setTimeout(() => primaryRef.current?.focus({ preventScroll: true }), 60)
+        return () => clearTimeout(t)
+    }, [index])
 
-        if (currentData.position === 'bottom' && top + boxHeight > viewportHeight - margin) {
-            top = coords.top - boxHeight - margin
+    const next = useCallback(() => {
+        if (isLast) onComplete("done")
+        else setIndex((i) => i + 1)
+    }, [isLast, onComplete])
+    const back = useCallback(() => setIndex((i) => Math.max(0, i - 1)), [])
+    const skip = useCallback(() => onComplete("skip"), [onComplete])
+
+    useEffect(() => {
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === "Escape") skip()
+            if (e.key === "ArrowRight") next()
+            if (e.key === "ArrowLeft") back()
         }
+        window.addEventListener("keydown", onKey)
+        return () => window.removeEventListener("keydown", onKey)
+    }, [next, back, skip])
 
-        left = Math.max(margin, Math.min(left, viewportWidth - boxWidth - margin))
-        top = Math.max(margin, Math.min(top, viewportHeight - boxHeight - margin))
+    // En celular: hoja abajo, o arriba si el objetivo está en la mitad inferior
+    const mobileAtTop = isMobile && rect !== null && rect.top + rect.height / 2 > window.innerHeight / 2
 
-        return { top, left }
-    }
+    const boxPosition = centered
+        ? "left-1/2 top-1/2 w-[min(26rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2"
+        : isMobile
+            ? cn("inset-x-3", mobileAtTop ? "top-3" : "bottom-3")
+            : "w-[24rem]"
 
-    const boxStyle = getBoxStyle()
+    const ease = [0.16, 1, 0.3, 1] as const
 
     return (
-        <div className="fixed inset-0 z-[100] overflow-hidden pointer-events-none">
-            {/* Backdrop with path hole */}
-            <motion.div
-                className="absolute inset-0 bg-slate-900/70 backdrop-blur-[2px] pointer-events-auto"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                style={{
-                    clipPath: (currentData.targetId && coords.width > 0)
-                        ? `polygon(0% 0%, 0% 100%, ${coords.left}px 100%, ${coords.left}px ${coords.top}px, ${coords.left + coords.width}px ${coords.top}px, ${coords.left + coords.width}px ${coords.top + coords.height}px, ${coords.left}px ${coords.top + coords.height}px, ${coords.left}px 100%, 100% 100%, 100% 0%)`
-                        : 'none'
-                }}
-            />
-
-            {/* Glowing Border around target */}
-            {(currentData.targetId || (isMobile && (currentData.targetId === 'tour-switcher' || currentData.targetId === 'tour-practice' || currentData.targetId === 'tour-mistakes' || currentData.targetId === 'tour-profile'))) && (
+        <div className="fixed inset-0 z-[100]" role="presentation">
+            {/* Velo: con objetivo, un recorte por sombra; sin objetivo, velo completo */}
+            {rect && !centered ? (
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{
-                        opacity: 1,
-                        scale: 1,
-                        top: coords.top,
-                        left: coords.left,
-                        width: coords.width,
-                        height: coords.height
-                    }}
-                    transition={{ type: "spring", damping: 20, stiffness: 200 }}
-                    className="absolute border-2 border-blue-400 rounded-xl shadow-[0_0_15px_rgba(59,130,246,0.5)] z-[102] pointer-events-none"
+                    aria-hidden
+                    className="pointer-events-none absolute rounded-2xl ring-2 ring-blue-400"
+                    initial={false}
+                    animate={{ top: rect.top, left: rect.left, width: rect.width, height: rect.height }}
+                    transition={reduceMotion ? { duration: 0 } : { duration: 0.35, ease }}
+                    style={{ boxShadow: "0 0 0 9999px rgba(15, 23, 42, 0.62)" }}
                 />
+            ) : (
+                <div aria-hidden className="absolute inset-0 bg-slate-900/60" />
             )}
+            {/* Capa que bloquea clics en la página durante el tour */}
+            <div aria-hidden className="absolute inset-0" onClick={(e) => e.stopPropagation()} />
 
             <AnimatePresence mode="wait">
                 <motion.div
-                    key={currentStep}
-                    ref={tourBoxRef}
-                    initial={{ opacity: 0, scale: 0.9, y: 20 }}
-                    animate={{
-                        opacity: 1,
-                        scale: 1,
-                        y: 0,
-                        ...boxStyle
-                    }}
-                    exit={{ opacity: 0, scale: 0.9, y: 10 }}
-                    transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                    key={index}
+                    ref={boxRef}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby={titleId}
+                    aria-describedby={descId}
                     className={cn(
-                        "absolute z-[101] bg-white rounded-3xl shadow-2xl p-6 pointer-events-auto border border-blue-50 transition-all duration-300",
-                        isMobile ? "w-auto" : "w-[380px]"
+                        "absolute rounded-3xl bg-white p-6 shadow-[0_24px_60px_-12px_rgba(15,23,42,0.35)]",
+                        boxPosition
                     )}
+                    style={!centered && !isMobile ? { top: box?.top ?? -9999, left: box?.left ?? -9999 } : undefined}
+                    initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={reduceMotion ? undefined : { opacity: 0, y: -4 }}
+                    transition={{ duration: 0.28, ease }}
                 >
-                    <div className="flex items-start justify-between mb-4">
-                        <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-2xl shadow-inner">
-                            {currentData.icon}
+                    <div className="mb-4 flex items-center justify-between">
+                        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-blue-50" aria-hidden>
+                            {step.icon}
                         </div>
-                        <button
-                            onClick={onComplete}
-                            className="p-1.5 hover:bg-slate-100 rounded-xl text-slate-400 transition-colors"
-                        >
-                            <X size={18} />
-                        </button>
+                        <span className="text-xs font-bold text-slate-500 tabular-nums">
+                            Paso {index + 1} de {steps.length}
+                        </span>
                     </div>
 
-                    <h2 className="text-xl font-black text-slate-900 mb-2 leading-tight tracking-tight">
-                        {currentData.title}
+                    <h2 id={titleId} className="text-xl font-black leading-tight tracking-tight text-slate-900 text-balance">
+                        {step.title}
                     </h2>
-                    <p className="text-slate-600 text-[15px] leading-relaxed mb-8">
-                        {isMobile && (currentData.targetId === 'tour-switcher' || currentData.targetId === 'tour-practice' || currentData.targetId === 'tour-mistakes' || currentData.targetId === 'tour-profile')
-                            ? `En el menú (esquina superior derecha) ${currentData.description.toLowerCase()}`
-                            : currentData.description}
+                    <p id={descId} className="mt-2 text-[15px] leading-relaxed text-slate-600">
+                        {step.description}
                     </p>
 
-                    <div className="flex items-center justify-between mt-auto">
-                        <div className="flex gap-1.5">
-                            {steps.map((_, i) => (
-                                <div
-                                    key={i}
-                                    className={`h-1 rounded-full transition-all duration-500 ${i === currentStep ? 'w-8 bg-blue-600' : 'w-1.5 bg-slate-200'}`}
-                                />
-                            ))}
-                        </div>
+                    {step.content && <div className="mt-4">{step.content}</div>}
+
+                    <div className="mt-6 flex items-center justify-between gap-3">
+                        <button
+                            type="button"
+                            onClick={skip}
+                            className="shrink-0 whitespace-nowrap rounded-lg px-2 py-1.5 text-sm font-semibold text-slate-500 transition-colors hover:text-slate-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                        >
+                            Saltar tutorial
+                        </button>
                         <div className="flex items-center gap-2">
-                            {currentStep > 0 && (
+                            {index > 0 && (
                                 <button
-                                    onClick={handleBack}
-                                    className="p-2 text-slate-400 hover:text-slate-600 transition-colors"
-                                    title="Atrás"
+                                    type="button"
+                                    onClick={back}
+                                    aria-label="Paso anterior"
+                                    className="flex h-10 w-10 items-center justify-center rounded-full text-slate-500 transition-colors hover:bg-slate-100 hover:text-slate-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                                 >
                                     <ArrowLeft size={18} />
                                 </button>
                             )}
-                            <Button
-                                size="sm"
-                                onClick={handleNext}
-                                className="bg-blue-600 hover:bg-blue-700 text-white font-black rounded-full px-6 h-10 shadow-lg shadow-blue-200 group"
+                            <button
+                                ref={primaryRef}
+                                type="button"
+                                onClick={next}
+                                className="group inline-flex h-11 items-center gap-2 whitespace-nowrap rounded-full bg-blue-600 px-5 text-sm font-black text-white shadow-[0_6px_16px_-4px_rgba(37,99,235,0.55)] transition-[background-color,transform] hover:bg-blue-700 active:translate-y-px focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                             >
-                                {currentStep === steps.length - 1 ? "¡Todo claro!" : "Siguiente"}
-                                {currentStep < steps.length - 1 && <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />}
-                            </Button>
+                                {step.primaryLabel ?? (isLast ? "¡Listo!" : "Siguiente")}
+                                {!isLast && <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" aria-hidden />}
+                            </button>
                         </div>
+                    </div>
+
+                    {/* Progreso */}
+                    <div className="mt-5 flex gap-1.5" aria-hidden>
+                        {steps.map((_, i) => (
+                            <span
+                                key={i}
+                                className={cn(
+                                    "h-1.5 rounded-full transition-all duration-300",
+                                    i === index ? "w-6 bg-blue-600" : i < index ? "w-1.5 bg-blue-300" : "w-1.5 bg-slate-200"
+                                )}
+                            />
+                        ))}
                     </div>
                 </motion.div>
             </AnimatePresence>

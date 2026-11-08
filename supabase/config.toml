@@ -319,6 +319,14 @@ max_frequency = "5s"
 # Use an external OAuth provider. The full list of providers are: `apple`, `azure`, `bitbucket`,
 # `discord`, `facebook`, `github`, `gitlab`, `google`, `keycloak`, `linkedin_oidc`, `notion`, `twitch`,
 # `twitter`, `x`, `slack`, `spotify`, `workos`, `zoom`.
+[auth.external.google]
+# Cliente OAuth "Supabase login" del proyecto PAES-APP en Google Cloud.
+# El secreto vive en .env.local (GOOGLE_OAUTH_CLIENT_SECRET), nunca en git.
+enabled = true
+client_id = "121707349997-79qe254539vtf9l5vip9ai4v56sb5i68.apps.googleusercontent.com"
+secret = "env(GOOGLE_OAUTH_CLIENT_SECRET)"
+skip_nonce_check = false
+
 [auth.external.apple]
 enabled = false
 client_id = ""
