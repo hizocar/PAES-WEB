@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/components/landing/PlayableQuestion.tsx"
+        ],
+        "createdAt": "2026-11-08T03:58:50.631Z",
+        "reason": "Botón 3D presionable estilo Duolingo (border-b-4/border-b-2 en botones, no en tarjetas): patrón de la identidad existente de PAES Lab, que el dueño eligió conservar en un refinamiento, no un rebrand (2026-11-07)."
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/app/page.tsx"
+        ],
+        "createdAt": "2026-11-08T03:58:50.647Z",
+        "reason": "Botón 3D presionable estilo Duolingo (border-b-4/border-b-2 en botones, no en tarjetas): patrón de la identidad existente de PAES Lab, que el dueño eligió conservar en un refinamiento, no un rebrand (2026-11-07)."
+      }
+    ]
+  }
+}
