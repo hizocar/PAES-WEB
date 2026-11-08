@@ -1,11 +1,12 @@
 "use client"
 
 import { useEffect, useState, Suspense, useRef } from "react"
-import { createClient } from "@/lib/supabase/client"
+import { createClient, getSessionUser } from "@/lib/supabase/client"
 import { QuestionCard } from "@/components/practice/QuestionCard"
 import { Button } from "@/components/ui/button"
 import { Loader2, Trophy, RotateCcw, AlertCircle, HeartCrack, Crown, ArrowLeft } from "lucide-react"
 import { LivesCounter } from "@/components/practice/LivesCounter"
+import { Mascot } from "@/components/mascot/Mascot"
 import Link from "next/link"
 import { useSubject } from "@/components/providers/SubjectContext"
 import { useSearchParams } from 'next/navigation'
@@ -70,7 +71,7 @@ function PracticeContent() {
     useEffect(() => {
         const initPractice = async () => {
             try {
-                const { data: { user } } = await supabase.auth.getUser()
+                const user = await getSessionUser(supabase)
                 if (!user) return
 
                 const [livesResult, profileResult] = await Promise.all([
@@ -115,7 +116,7 @@ function PracticeContent() {
         setQuestion(null) // Clear current question to show loader
         setDebugMsg("")
         try {
-            const { data: { user } } = await supabase.auth.getUser()
+            const user = await getSessionUser(supabase)
 
             if (!user) {
                 setDebugMsg("error")
@@ -181,7 +182,7 @@ function PracticeContent() {
     }, [lives, question, completed, tier, loading])
 
     const handleWrongAnswer = async () => {
-        const { data: { user } } = await supabase.auth.getUser()
+        const user = await getSessionUser(supabase)
         if (!user) return
 
         // Deduct life in DB
@@ -197,11 +198,14 @@ function PracticeContent() {
 
     if (loading && !question && (lives > 0 || tier !== 'free')) {
         return (
-            <div className="flex h-[80vh] items-center justify-center flex-col gap-4">
-                <Loader2 className="animate-spin text-blue-600" size={40} />
-                <p className="text-slate-500 font-medium">
-                    {retryMode ? "Buscando preguntas para repasar..." : "Cargando siguiente desafío..."}
-                </p>
+            <div className="flex h-[70vh] items-center justify-center" aria-busy="true">
+                <Mascot
+                    mood="thinking"
+                    bubbleSide="top"
+                    interactive={false}
+                    message={retryMode ? "Buscando tus errores para repasar…" : "Buscando tu próximo desafío…"}
+                    size={96}
+                />
             </div>
         )
     }
@@ -211,12 +215,7 @@ function PracticeContent() {
     if (tier === 'free' && lives <= 0) {
         return (
             <div className="flex min-h-[85dvh] items-center justify-center flex-col gap-8 px-4 text-center max-w-md mx-auto animate-in fade-in zoom-in duration-300">
-                <div className="relative">
-                    <div className="absolute inset-0 bg-red-100 rounded-full animate-ping opacity-20"></div>
-                    <div className="w-32 h-32 bg-red-50 rounded-full flex items-center justify-center relative border-4 border-white shadow-xl">
-                        <HeartCrack className="text-red-500" size={64} />
-                    </div>
-                </div>
+                <Mascot mood="sad" bubbleSide="top" message="¡Uf! Me quedé sin energía…" size={128} />
 
                 <div className="space-y-2">
                     <h2 className="text-3xl font-bold text-slate-900">¡Te quedaste sin vidas!</h2>
@@ -257,9 +256,7 @@ function PracticeContent() {
     if (completed) {
         return (
             <div className="flex h-[80vh] items-center justify-center flex-col gap-6 px-4 text-center max-w-md mx-auto">
-                <div className="w-24 h-24 bg-yellow-100 rounded-full flex items-center justify-center mb-4">
-                    <Trophy className="text-yellow-600" size={48} />
-                </div>
+                <Mascot mood={retryMode ? "happy" : "celebrate"} message={false} size={112} />
 
                 {!retryMode ? (
                     <>
@@ -353,7 +350,7 @@ function PracticeContent() {
                 <OnboardingTour
                     steps={PRACTICE_STEPS}
                     onComplete={async () => {
-                        const { data: { user } } = await supabase.auth.getUser()
+                        const user = await getSessionUser(supabase)
                         if (user) {
                             await supabase.rpc('complete_practice_onboarding', { p_user_id: user.id })
                         }

@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { createClient } from "@/lib/supabase/client"
+import { createClient, getSessionUser } from "@/lib/supabase/client"
 import { BarChart3, Clock, Target, TrendingUp, Lock, Brain, LineChart as LineChartIcon } from "lucide-react"
 import { useSubject } from "@/components/providers/SubjectContext"
 import {
@@ -55,7 +55,7 @@ export default function ProgressPage() {
     const fetchData = async () => {
         setLoading(true)
         try {
-            const { data: { user } } = await supabase.auth.getUser()
+            const user = await getSessionUser(supabase)
             if (!user) return
 
             // 1. Fetch Study Sessions (Stats)

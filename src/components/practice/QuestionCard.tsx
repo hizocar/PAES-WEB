@@ -1,7 +1,8 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
-import { createClient } from "@/lib/supabase/client"
+import { useState, useEffect, useRef, useMemo } from "react"
+import { Mascot, pickLine } from "@/components/mascot/Mascot"
+import { createClient, getSessionUser } from "@/lib/supabase/client"
 import 'katex/dist/katex.min.css'
 // @ts-ignore
 import Latex from '@/components/ui/latex-renderer'
@@ -59,7 +60,7 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
 
     useEffect(() => {
         const fetchStats = async () => {
-            const { data: { user } } = await supabase.auth.getUser()
+            const user = await getSessionUser(supabase)
             if (!user) return
             const { data } = await supabase
                 .from('attempts')
@@ -82,6 +83,7 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
     }, [question.id])
 
     const isCorrect = selected === question.correct_answer
+    const feedbackLine = useMemo(() => pickLine("happy"), [question.id])
 
     const handleSubmit = async () => {
         if (!selected) return
@@ -95,7 +97,7 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
         }
 
         // Save attempt to DB
-        const { data: { user } } = await supabase.auth.getUser()
+        const user = await getSessionUser(supabase)
 
         if (user) {
             await supabase.from('attempts').insert({
@@ -142,7 +144,7 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
         }
 
         // 2. Insert TIMEOUT attempt
-        const { data: { user } } = await supabase.auth.getUser()
+        const user = await getSessionUser(supabase)
         if (user) {
             await supabase.from('attempts').insert({
                 user_id: user.id,
@@ -318,22 +320,24 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
                         initial={{ y: 100, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         exit={{ y: 100, opacity: 0 }}
-                        className="fixed bottom-0 right-0 left-0 md:left-72 bg-white border-t border-slate-200 p-4 md:p-6 z-20 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]"
+                        className={`fixed bottom-0 right-0 left-0 md:left-64 z-20 border-t-2 p-4 md:p-5 ${isCorrect ? 'border-emerald-200 bg-emerald-50' : 'border-red-200 bg-red-50'}`}
                     >
                         <div className="max-w-3xl mx-auto flex items-center justify-between">
-                            <div className="flex items-center gap-4 w-full">
-                                <div className={`p-3 rounded-full ${isCorrect ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                                    {isCorrect ? <CheckCircle2 size={24} /> : <XCircle size={24} />}
-                                </div>
-                                <div className="flex-1">
-                                    <h3 className={`font-bold text-lg ${isCorrect ? 'text-green-800' : 'text-red-800'}`}>
-                                        {isCorrect ? '¡Correcto!' : '¡Respuesta Incorrecta!'}
+                            <div className="flex items-center gap-3 md:gap-4 w-full">
+                                <Mascot
+                                    mood={isCorrect ? (question.difficulty === 'hard' ? 'celebrate' : 'happy') : 'sad'}
+                                    message={false}
+                                    size={64}
+                                />
+                                <div className="flex-1 min-w-0">
+                                    <h3 className={`font-black text-lg md:text-xl ${isCorrect ? 'text-emerald-800' : 'text-red-800'}`}>
+                                        {isCorrect ? (question.difficulty === 'hard' ? '¡Imparable! Esa era difícil 🔥' : feedbackLine) : '¡Casi!'}
                                     </h3>
-                                    <p className="text-sm text-slate-500">
-                                        {isCorrect ? 'Gran trabajo.' : 'Revisa la explicación abajo para entender la solución.'}
+                                    <p className={`text-sm font-medium ${isCorrect ? 'text-emerald-700' : 'text-red-700'}`}>
+                                        {isCorrect ? 'Respuesta correcta.' : `La correcta era la ${question.correct_answer}. Mira la explicación abajo.`}
                                     </p>
                                 </div>
-                                <Button onClick={handleNext} size="lg" className={`px-8 h-12 text-lg ${isCorrect ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'}`}>
+                                <Button onClick={handleNext} size="lg" className={`h-12 shrink-0 rounded-xl border-b-4 px-6 text-base font-black md:px-8 md:text-lg ${isCorrect ? 'bg-emerald-600 hover:bg-emerald-700 border-emerald-800' : 'bg-red-600 hover:bg-red-700 border-red-800'}`}>
                                     Continuar
                                 </Button>
                             </div>

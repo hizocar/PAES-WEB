@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { createClient } from "@/lib/supabase/client"
+import { createClient, getSessionUser } from "@/lib/supabase/client"
 import Image from "next/image"
 import { Heart, Clock } from "lucide-react"
 
@@ -15,7 +15,7 @@ export function MascotCard() {
 
     useEffect(() => {
         const fetchLives = async () => {
-            const { data: { user } } = await supabase.auth.getUser()
+            const user = await getSessionUser(supabase)
             if (!user) return
 
             const { data } = await supabase.rpc('check_and_replenish_lives', { p_user_id: user.id })

@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { createClient } from "@/lib/supabase/client"
+import { createClient, getSessionUser } from "@/lib/supabase/client"
 import { Loader2, Lock, Flame, Zap, Award, Footprints, GraduationCap, Crosshair, Sun, Moon, Calendar, Calculator, Shapes, PieChart, SquareFunction } from "lucide-react"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
@@ -43,7 +43,7 @@ export function AchievementsGrid() {
     useEffect(() => {
         const fetchAchievements = async () => {
             setLoading(true)
-            const { data: { user } } = await supabase.auth.getUser()
+            const user = await getSessionUser(supabase)
             if (!user) {
                 setLoading(false)
                 return

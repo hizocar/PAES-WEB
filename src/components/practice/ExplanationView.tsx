@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { createClient } from "@/lib/supabase/client"
+import { createClient, getSessionUser } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 // @ts-ignore
 import Latex from '@/components/ui/latex-renderer'
@@ -71,7 +71,7 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
     const checkCredits = async (showLoading = false) => {
         if (showLoading) setLoading(true)
 
-        const { data: { user } } = await supabase.auth.getUser()
+        const user = await getSessionUser(supabase)
         if (!user) {
             setLoading(false)
             return
@@ -102,7 +102,7 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
     const handleReveal = async () => {
         if (tier === 'free' && (credits === null || credits <= 0)) return
 
-        const { data: { user } } = await supabase.auth.getUser()
+        const user = await getSessionUser(supabase)
         if (!user) return
 
         const { data: success, error } = await supabase.rpc('deduct_explanation', {

@@ -2,11 +2,12 @@
 
 
 import { useEffect, useState, useCallback } from "react"
-import { createClient } from "@/lib/supabase/client"
+import { createClient, getSessionUser } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { BarChart3, Target, ArrowRight, Flame, Heart, Zap, Trophy, AlertCircle, Star, Calculator, Tangent, Shapes, PieChart, MessageSquareQuote, Network, BoxSelect, Lightbulb, Sparkles } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
+import { Mascot } from "@/components/mascot/Mascot"
 import { useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
 
@@ -97,21 +98,16 @@ export default function DashboardPage() {
         if (stats.lives === null) setLoading(true)
 
         try {
-            const { data: { user } } = await supabase.auth.getUser()
+            const user = await getSessionUser(supabase)
             if (!user) return
 
-            // 0. Check Achievements (Streak)
+            // 0. Logros de racha: en segundo plano, sin bloquear la carga del panel
             if (subject) {
-                const { data: newAchievements } = await supabase
-                    .rpc('check_and_unlock_achievement', {
-                        p_user_id: user.id,
-                        p_trigger_type: 'STREAK',
-                        p_subject: subject
+                supabase
+                    .rpc('check_and_unlock_achievement', { p_user_id: user.id, p_trigger_type: 'STREAK', p_subject: subject })
+                    .then(({ data: newAchievements }) => {
+                        if (newAchievements && newAchievements.length > 0) setUnlockedAchievement(newAchievements[0])
                     })
-
-                if (newAchievements && newAchievements.length > 0) {
-                    setUnlockedAchievement(newAchievements[0])
-                }
             }
 
             // 1. Parallel Fetch: Stats (RPC), Lives, Leaderboard, Profile Tier
@@ -324,13 +320,13 @@ export default function DashboardPage() {
             {/* Saludo + cuenta regresiva PAES */}
             <div className="grid gap-4 lg:grid-cols-3">
                 <section className="flex flex-col gap-6 rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-sm md:flex-row md:items-center md:p-8 lg:col-span-2">
-                    <Image
-                        src={noLives ? "/mascot/sad.webp" : "/mascot/happy.webp"}
-                        alt=""
-                        width={112}
-                        height={112}
+                    <Mascot
+                        mood={noLives ? "sad" : goalDone ? "celebrate" : "idle"}
+                        message={false}
+                        bubbleSide="top"
+                        size={112}
                         priority
-                        className="h-20 w-20 shrink-0 self-center md:h-28 md:w-28"
+                        className="self-center"
                     />
                     <div className="min-w-0 flex-1 text-center md:text-left">
                         <h1 className="text-3xl font-black leading-tight tracking-tight text-slate-900 md:text-4xl">
@@ -532,7 +528,7 @@ export default function DashboardPage() {
                     steps={steps}
                     onComplete={async (reason) => {
                         setShowOnboarding(false)
-                        const { data: { user } } = await supabase.auth.getUser()
+                        const user = await getSessionUser(supabase)
                         if (user) await supabase.rpc("complete_onboarding", { p_user_id: user.id })
                         if (reason === "done") router.push("/app/practice")
                     }}

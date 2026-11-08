@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { createClient } from "@/lib/supabase/client"
+import { createClient, getSessionUser } from "@/lib/supabase/client"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Trophy, Medal, Crown } from "lucide-react"
 
@@ -26,7 +26,7 @@ export default function LeaderboardPage() {
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true)
-            const { data: { user } } = await supabase.auth.getUser()
+            const user = await getSessionUser(supabase)
             if (user) setCurrentUser(user.id)
 
             const { data, error } = await supabase.rpc('get_leaderboard', { p_subject: subject })

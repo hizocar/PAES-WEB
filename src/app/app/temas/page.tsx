@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, Calculator, Crown, PieChart, RotateCcw, Shapes, Tangent } from "lucide-react"
-import { createClient } from "@/lib/supabase/client"
+import { createClient, getSessionUser } from "@/lib/supabase/client"
 import { useSubject } from "@/components/providers/SubjectContext"
 import { cn } from "@/lib/utils"
 
@@ -64,7 +64,7 @@ export default function TemasPage() {
         setRows(null)
         setError(false)
         ;(async () => {
-            const { data: { user } } = await supabase.auth.getUser()
+            const user = await getSessionUser(supabase)
             if (!user) return
             const { data, error } = await supabase.rpc("get_topic_progress", { p_user_id: user.id, p_subject: subject })
             if (!alive) return
