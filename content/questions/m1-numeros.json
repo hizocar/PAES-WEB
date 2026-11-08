@@ -1195,5 +1195,841 @@
     "correct": "B",
     "explanation": "Se factoriza la menor potencia en cada parte: $2^{10} + 2^{9} = 2^{9}(2 + 1) = 3 \\cdot 2^{9}$ y $2^{8} - 2^{6} = 2^{6}(4 - 1) = 3 \\cdot 2^{6}$. Entonces el cociente es $\\frac{3 \\cdot 2^{9}}{3 \\cdot 2^{6}} = 2^{3} = 8$.\nA considera solo los primeros términos: $2^{10} : 2^{8} = 4$.\nC divide término a término, lo que no es válido en una suma: $\\frac{2^{10}}{2^{8}} + \\frac{2^{9}}{2^{6}} = 4 + 8$.\nD suma exponentes en el numerador y en el denominador como si fueran productos: $\\frac{2^{19}}{2^{14}} = 2^{5}$.",
     "verify": "const x = (2 ** 10 + 2 ** 9) / (2 ** 8 - 2 ** 6)\nconst alts = { A: 4, B: 8, C: 12, D: 32 }\nconst k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9)\nreturn k.length === 1 ? k[0] : null"
+  },
+  {
+    "key": "m1-numeros-064",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "En un almacén de barrio de Valdivia, la dueña anota en una libreta la cuenta de cada cliente; lo que el cliente debe se registra con números negativos. La cuenta de Rodrigo comenzó la semana en $-4\\,800$ pesos. Luego Rodrigo pagó $3\\,000$ pesos, después llevó mercadería por $2\\,300$ pesos sin pagarla y, finalmente, pagó $5\\,000$ pesos.\n\n¿Cuál es el saldo de la cuenta de Rodrigo al terminar la semana?",
+    "alternatives": {
+      "A": "$-4\\,100$ pesos",
+      "B": "$-900$ pesos",
+      "C": "$900$ pesos",
+      "D": "$5\\,500$ pesos"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: los pagos suman al saldo y las compras sin pagar restan, partiendo desde la deuda inicial.\nPaso 1: después del primer pago el saldo es $-4\\,800 + 3\\,000 = -1\\,800$.\nPaso 2: la compra sin pagar resta: $-1\\,800 - 2\\,300 = -4\\,100$.\nPaso 3: el último pago suma: $-4\\,100 + 5\\,000 = 900$.\nRespuesta: C, el saldo es $900$ pesos a favor de Rodrigo.\nErrores frecuentes: La A olvida el último pago de $5\\,000$ pesos. La B obtiene el valor correcto pero con el signo cambiado, como si Rodrigo siguiera debiendo. La D suma la compra en lugar de restarla: $-4\\,800 + 3\\,000 + 2\\,300 + 5\\,000 = 5\\,500$.",
+    "verify": "const x = -4800 + 3000 - 2300 + 5000; const alts = { A: -4100, B: -900, C: 900, D: 5500 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-065",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Para una convivencia en un liceo de Linares se compraron $3$ botellas de jugo de $1{,}5$ litros cada una. El jugo se servirá en vasos de $\\frac{3}{8}$ de litro, llenando cada vaso por completo.\n\n¿Cuántos vasos se pueden llenar con todo el jugo?",
+    "alternatives": {
+      "A": "$4$",
+      "B": "$6$",
+      "C": "$12$",
+      "D": "$36$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: para saber cuántas veces cabe $\\frac{3}{8}$ en el total, se divide el total por $\\frac{3}{8}$.\nPaso 1: el total de jugo es $3 \\cdot 1{,}5 = 4{,}5$ litros, es decir, $\\frac{9}{2}$ litros.\nPaso 2: $\\frac{9}{2} : \\frac{3}{8} = \\frac{9}{2} \\cdot \\frac{8}{3} = \\frac{72}{6} = 12$.\nRespuesta: C, se pueden llenar $12$ vasos.\nErrores frecuentes: La A considera una sola botella: $1{,}5 : \\frac{3}{8} = 4$. La B divide por $\\frac{3}{4}$ en vez de $\\frac{3}{8}$. La D multiplica $4{,}5$ por $8$ y olvida dividir por $3$.",
+    "verify": "const x = (3 * 1.5) / (3 / 8); const alts = { A: 4, B: 6, C: 12, D: 36 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-066",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "La cumbre del volcán Ojos del Salado, en la Región de Atacama, está a $6\\,893$ m sobre el nivel del mar. El punto más profundo de la fosa de Atacama, frente a la costa del norte de Chile, está aproximadamente a $8\\,065$ m bajo el nivel del mar.\n\nSi las alturas sobre el nivel del mar se representan con números positivos y las profundidades con números negativos, ¿cuál es la diferencia de altitud entre la cumbre del volcán y el punto más profundo de la fosa?",
+    "alternatives": {
+      "A": "$1\\,172$ m",
+      "B": "$13\\,958$ m",
+      "C": "$14\\,858$ m",
+      "D": "$14\\,958$ m"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: la diferencia entre dos altitudes se calcula restando la menor a la mayor, aunque una sea negativa.\nPaso 1: la cumbre corresponde a $6\\,893$ y el fondo de la fosa a $-8\\,065$.\nPaso 2: $6\\,893 - (-8\\,065) = 6\\,893 + 8\\,065 = 14\\,958$.\nRespuesta: D, la diferencia es $14\\,958$ m.\nErrores frecuentes: La A resta los valores absolutos ($8\\,065 - 6\\,893$), como si ambos puntos estuvieran del mismo lado del nivel del mar. La B y la C tienen errores de reserva al sumar $6\\,893 + 8\\,065$.",
+    "verify": "const x = 6893 - (-8065); const alts = { A: 1172, B: 13958, C: 14858, D: 14958 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-067",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En música, la duración de cada figura se expresa como fracción de una redonda: una negra con puntillo dura $\\frac{3}{8}$ y una semicorchea dura $\\frac{1}{16}$. Ignacio escribe un compás de $\\frac{7}{8}$, es decir, las figuras del compás deben sumar exactamente $\\frac{7}{8}$ de redonda. Ya escribió una negra con puntillo y una semicorchea.\n\n¿Cuántas semicorcheas más necesita para completar el compás?",
+    "alternatives": {
+      "A": "$3$",
+      "B": "$4$",
+      "C": "$7$",
+      "D": "$8$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: se calcula la fracción que falta con denominador común y se cuenta cuántos dieciseisavos hay en ella.\nPaso 1: lo escrito suma $\\frac{3}{8} + \\frac{1}{16} = \\frac{6}{16} + \\frac{1}{16} = \\frac{7}{16}$.\nPaso 2: falta $\\frac{7}{8} - \\frac{7}{16} = \\frac{14}{16} - \\frac{7}{16} = \\frac{7}{16}$.\nPaso 3: cada semicorchea es $\\frac{1}{16}$, así que faltan $7$ semicorcheas.\nRespuesta: C, necesita $7$ semicorcheas.\nErrores frecuentes: La A resta solo los numeradores ($7 - 3 - 1$) sin igualar denominadores. La B calcula $\\frac{7}{8} - \\frac{3}{8} = \\frac{4}{8}$ y toma el $4$, sin descontar la semicorchea ni pasar a dieciseisavos. La D olvida la semicorchea ya escrita: $\\frac{4}{8} = \\frac{8}{16}$.",
+    "verify": "const x = (7/8 - 3/8 - 1/16) / (1/16); const alts = { A: 3, B: 4, C: 7, D: 8 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-068",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En una tienda de Puerto Varas se vende café en grano en cuatro formatos:\n\n$\\displaystyle \\begin{array}{|c|c|}\\hline \\text{Formato} & \\text{Precio (pesos)} \\\\ \\hline 250\\text{ g} & 4\\,300 \\\\ \\hline 500\\text{ g} & 8\\,900 \\\\ \\hline 750\\text{ g} & 13\\,200 \\\\ \\hline 1\\text{ kg} & 17\\,500 \\\\ \\hline \\end{array}$\n\n¿Cuál de los formatos tiene el menor precio por kilogramo?",
+    "alternatives": {
+      "A": "El formato de $250$ g",
+      "B": "El formato de $500$ g",
+      "C": "El formato de $750$ g",
+      "D": "El formato de $1$ kg"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: para comparar formatos distintos hay que llevar todos los precios a una misma cantidad, por ejemplo $1$ kg.\nPaso 1: $250$ g es $\\frac{1}{4}$ kg, así que el kilo sale $4\\,300 \\cdot 4 = 17\\,200$ pesos.\nPaso 2: $500$ g: $8\\,900 \\cdot 2 = 17\\,800$ pesos; $750$ g es $\\frac{3}{4}$ kg: $13\\,200 \\cdot \\frac{4}{3} = 17\\,600$ pesos; $1$ kg: $17\\,500$ pesos.\nPaso 3: el menor valor es $17\\,200$ pesos.\nRespuesta: A, el formato de $250$ g.\nErrores frecuentes: La D supone que el envase más grande siempre conviene, sin calcular. La C y la B no convierten bien las fracciones de kilo; por ejemplo, multiplicar $13\\,200$ por $\\frac{3}{4}$ en vez de dividir por $\\frac{3}{4}$ hace parecer barato el formato de $750$ g.",
+    "verify": "const perKg = { A: 4300 / 0.25, B: 8900 / 0.5, C: 13200 / 0.75, D: 17500 / 1 }; const min = Math.min(...Object.values(perKg)); const k = Object.keys(perKg).filter((l) => Math.abs(perKg[l] - min) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-069",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En una escuela de escalada del Cajón del Maipo, un instructor tiene un rollo de $12{,}6$ m de cuerda auxiliar y corta trozos de $0{,}85$ m cada uno para armar anillos de seguridad.\n\n¿Cuántos trozos completos obtiene y cuántos metros de cuerda le sobran?",
+    "alternatives": {
+      "A": "$14$ trozos y sobran $0{,}7$ m",
+      "B": "$14$ trozos y sobran $0{,}82$ m",
+      "C": "$15$ trozos y sobran $0{,}15$ m",
+      "D": "$148$ trozos y sobran $0{,}2$ m"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: la cantidad de trozos es la parte entera del cociente, y lo que sobra es el total menos lo usado.\nPaso 1: $12{,}6 : 0{,}85 = 1\\,260 : 85 \\approx 14{,}8$, así que se obtienen $14$ trozos completos.\nPaso 2: se usan $14 \\cdot 0{,}85 = 11{,}9$ m.\nPaso 3: sobran $12{,}6 - 11{,}9 = 0{,}7$ m.\nRespuesta: A, $14$ trozos y sobran $0{,}7$ m.\nErrores frecuentes: La B toma la parte decimal del cociente ($0{,}82$) como si fueran metros sobrantes. La C redondea hacia arriba, pero $15 \\cdot 0{,}85 = 12{,}75$ m supera el largo del rollo. La D corre mal la coma y divide $126$ por $0{,}85$.",
+    "verify": "const n = Math.floor(12.6 / 0.85 + 1e-12); const r = 12.6 - n * 0.85; const alts = { A: [14, 0.7], B: [14, 0.82], C: [15, 0.15], D: [148, 0.2] }; const k = Object.keys(alts).filter((l) => alts[l][0] === n && Math.abs(alts[l][1] - r) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-070",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un día de invierno en Fairbanks, Alaska, el termómetro marcó $-22$ grados Fahrenheit. Para convertir una temperatura de $F$ grados Fahrenheit a grados Celsius se usa la fórmula\n\n$\\displaystyle C = \\frac{5}{9}\\,(F - 32)$\n\n¿Cuál fue esa temperatura en grados Celsius?",
+    "alternatives": {
+      "A": "$-97{,}2\\,^{\\circ}\\text{C}$",
+      "B": "$-54\\,^{\\circ}\\text{C}$",
+      "C": "$-30\\,^{\\circ}\\text{C}$",
+      "D": "$-6\\,^{\\circ}\\text{C}$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: se reemplaza $F$ y se respeta el paréntesis y los signos antes de multiplicar.\nPaso 1: $F - 32 = -22 - 32 = -54$.\nPaso 2: $C = \\frac{5}{9} \\cdot (-54) = -\\frac{270}{9} = -30$.\nRespuesta: C, la temperatura fue $-30\\,^{\\circ}\\text{C}$.\nErrores frecuentes: La A invierte la fracción y calcula $-54 \\cdot \\frac{9}{5}$. La B se queda con el valor del paréntesis y olvida multiplicar por $\\frac{5}{9}$. La D divide $-54$ por $9$ pero no multiplica por $5$.",
+    "verify": "const x = (5 / 9) * (-22 - 32); const alts = { A: -97.2, B: -54, C: -30, D: -6 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-071",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Una emprendedora de Copiapó que vende empanadas registra cada semana la variación del dinero de su cuenta: positiva si aumentó y negativa si disminuyó. En cinco semanas, las variaciones, en pesos, fueron:\n\n$+35\\,000, \\; -12\\,000, \\; -48\\,000, \\; +20\\,000, \\; x$\n\nSi el promedio de las cinco variaciones fue de $-3\\,000$ pesos, ¿cuál es el valor de $x$?",
+    "alternatives": {
+      "A": "$-20\\,000$",
+      "B": "$-10\\,000$",
+      "C": "$2\\,000$",
+      "D": "$10\\,000$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: si el promedio de cinco datos es $-3\\,000$, la suma de los cinco datos es $5 \\cdot (-3\\,000)$.\nPaso 1: la suma total debe ser $5 \\cdot (-3\\,000) = -15\\,000$.\nPaso 2: las cuatro variaciones conocidas suman $35\\,000 - 12\\,000 - 48\\,000 + 20\\,000 = -5\\,000$.\nPaso 3: $-5\\,000 + x = -15\\,000$, de donde $x = -10\\,000$.\nRespuesta: B, $x = -10\\,000$ pesos.\nErrores frecuentes: La A resta $5\\,000$ en vez de restar $-5\\,000$: $-15\\,000 - 5\\,000$. La C compara la suma parcial con el promedio en lugar de con la suma total: $-3\\,000 - (-5\\,000)$. La D tiene el valor correcto con el signo cambiado.",
+    "verify": "const known = 35000 - 12000 - 48000 + 20000; const x = 5 * (-3000) - known; const alts = { A: -20000, B: -10000, C: 2000, D: 10000 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-072",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sean $a$ y $b$ números enteros positivos tales que $a < b$. Si al numerador y al denominador de la fracción $\\frac{a}{b}$ se les suma $1$, se obtiene la fracción $\\frac{a+1}{b+1}$.\n\n¿Cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "$\\frac{a+1}{b+1} = \\frac{a}{b}$, porque se sumó la misma cantidad al numerador y al denominador.",
+      "B": "$\\frac{a+1}{b+1} < \\frac{a}{b}$, porque al aumentar el denominador la fracción disminuye.",
+      "C": "Depende de los valores: a veces $\\frac{a+1}{b+1}$ es mayor que $\\frac{a}{b}$ y a veces es menor.",
+      "D": "$\\frac{a+1}{b+1} > \\frac{a}{b}$, porque $\\frac{a+1}{b+1} - \\frac{a}{b} = \\frac{b-a}{b\\,(b+1)}$ y esa diferencia es positiva."
+    },
+    "correct": "D",
+    "explanation": "Idea clave: para comparar dos fracciones conviene restarlas y estudiar el signo de la diferencia.\nPaso 1: $\\frac{a+1}{b+1} - \\frac{a}{b} = \\frac{b(a+1) - a(b+1)}{b(b+1)} = \\frac{ab + b - ab - a}{b(b+1)} = \\frac{b-a}{b(b+1)}$.\nPaso 2: como $a < b$, el numerador $b - a$ es positivo, y el denominador $b(b+1)$ también lo es.\nPaso 3: la diferencia es positiva, así que $\\frac{a+1}{b+1} > \\frac{a}{b}$ siempre. Por ejemplo, $\\frac{1}{3} < \\frac{2}{4}$.\nRespuesta: D.\nErrores frecuentes: La A confunde sumar con multiplicar: solo multiplicar numerador y denominador por lo mismo mantiene la fracción. La B mira solo el denominador y olvida que el numerador también aumenta. La C no considera que la condición $a < b$ fija el signo de la diferencia.",
+    "verify": "let allGreater = true, anyEqual = false; for (let b = 2; b <= 40; b++) for (let a = 1; a < b; a++) { const d = (a + 1) / (b + 1) - a / b; if (!(d > 0)) allGreater = false; if (Math.abs(d) < 1e-12) anyEqual = true; } return allGreater && !anyEqual ? 'D' : null;"
+  },
+  {
+    "key": "m1-numeros-073",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Martina colecciona láminas de un álbum. Si las agrupa de a $6$, le sobran $5$. Su primo le regala tantas láminas como las que ella tenía y, además, $3$ láminas más.\n\nSi Martina agrupa ahora todas sus láminas de a $6$, ¿cuántas le sobran?",
+    "alternatives": {
+      "A": "$1$",
+      "B": "$2$",
+      "C": "$4$",
+      "D": "$5$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: un número que deja resto $5$ al dividirlo por $6$ se escribe $6k + 5$, con $k$ entero.\nPaso 1: Martina tenía $n = 6k + 5$ láminas.\nPaso 2: después del regalo tiene $n + n + 3 = 2n + 3 = 12k + 10 + 3 = 12k + 13$.\nPaso 3: $12k + 13 = 6(2k + 2) + 1$, así que al agrupar de a $6$ sobra $1$. Por ejemplo, si tenía $11$, ahora tiene $25 = 6 \\cdot 4 + 1$.\nRespuesta: A, le sobra $1$ lámina.\nErrores frecuentes: La B suma solo el resto y las láminas extra ($5 + 3 = 8$, resto $2$), sin duplicar. La C duplica el resto ($10$, resto $4$) pero olvida las $3$ láminas extra. La D supone que el resto se mantiene igual.",
+    "verify": "const rs = [5, 11, 17, 23, 29].map((n) => (2 * n + 3) % 6); if (!rs.every((r) => r === rs[0])) return null; const alts = { A: 1, B: 2, C: 4, D: 5 }; const k = Object.keys(alts).filter((l) => alts[l] === rs[0]); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-074",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "representar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una recta numérica se ubican los puntos $P$ y $Q$, que corresponden a los números $-\\frac{2}{3}$ y $\\frac{5}{6}$, respectivamente. Los puntos $R$ y $S$ dividen el trazo $PQ$ en tres partes de igual longitud, y $R$ está más cerca de $P$ que de $Q$.\n\n¿Qué número corresponde al punto $R$?",
+    "alternatives": {
+      "A": "$-\\frac{1}{6}$",
+      "B": "$\\frac{1}{12}$",
+      "C": "$\\frac{1}{6}$",
+      "D": "$\\frac{1}{3}$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: el largo del trazo es la diferencia entre sus extremos; $R$ está a un tercio de ese largo a la derecha de $P$.\nPaso 1: largo de $PQ$: $\\frac{5}{6} - \\left(-\\frac{2}{3}\\right) = \\frac{5}{6} + \\frac{4}{6} = \\frac{3}{2}$.\nPaso 2: cada parte mide $\\frac{3}{2} : 3 = \\frac{1}{2}$.\nPaso 3: $R = -\\frac{2}{3} + \\frac{1}{2} = -\\frac{4}{6} + \\frac{3}{6} = -\\frac{1}{6}$.\nRespuesta: A, $R$ corresponde a $-\\frac{1}{6}$.\nErrores frecuentes: La B calcula el punto medio del trazo, $\\frac{1}{2}\\left(-\\frac{2}{3} + \\frac{5}{6}\\right) = \\frac{1}{12}$, que lo divide en dos partes y no en tres. La C suma las coordenadas de $P$ y $Q$. La D corresponde a $S$, el punto más cercano a $Q$.",
+    "verify": "const P = -2/3, Q = 5/6; const x = P + (Q - P) / 3; const alts = { A: -1/6, B: 1/12, C: 1/6, D: 1/3 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-075",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "¿Cuál es el valor de $\\displaystyle \\frac{0{,}1\\overline{6} \\cdot 0{,}\\overline{6}}{0{,}\\overline{2}}$?",
+    "alternatives": {
+      "A": "$\\frac{9}{20}$",
+      "B": "$\\frac{1}{2}$",
+      "C": "$\\frac{8}{15}$",
+      "D": "$\\frac{5}{9}$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: se convierte cada decimal periódico a fracción y luego se opera con fracciones.\nPaso 1: $0{,}1\\overline{6} = \\frac{16 - 1}{90} = \\frac{15}{90} = \\frac{1}{6}$; $0{,}\\overline{6} = \\frac{6}{9} = \\frac{2}{3}$; $0{,}\\overline{2} = \\frac{2}{9}$.\nPaso 2: numerador: $\\frac{1}{6} \\cdot \\frac{2}{3} = \\frac{2}{18} = \\frac{1}{9}$.\nPaso 3: $\\frac{1}{9} : \\frac{2}{9} = \\frac{1}{9} \\cdot \\frac{9}{2} = \\frac{1}{2}$.\nRespuesta: B, el valor es $\\frac{1}{2}$.\nErrores frecuentes: La A escribe $0{,}\\overline{6}$ como $\\frac{6}{10}$, como si fuera un decimal finito. La C escribe $0{,}1\\overline{6}$ como $\\frac{16}{90}$, sin restar la parte que no se repite. La D escribe $0{,}\\overline{2}$ como $\\frac{2}{10}$.",
+    "verify": "const x = ((1/6) * (2/3)) / (2/9); const alts = { A: 9/20, B: 1/2, C: 8/15, D: 5/9 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-076",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un velódromo, Valentina da una vuelta completa en $1\\frac{1}{2}$ minutos y Benjamín en $2\\frac{1}{4}$ minutos, ambos a ritmo constante. Parten juntos desde la línea de meta y avanzan en el mismo sentido.\n\n¿Cuántas vueltas habrá completado Valentina cuando ambos vuelvan a pasar juntos por la línea de meta por primera vez?",
+    "alternatives": {
+      "A": "$2$",
+      "B": "$3$",
+      "C": "$4{,}5$",
+      "D": "$6$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: vuelven a coincidir en la meta cuando ha pasado un tiempo que es múltiplo de ambos tiempos de vuelta: el mínimo común múltiplo.\nPaso 1: en segundos, Valentina tarda $90$ s y Benjamín $135$ s.\nPaso 2: $90 = 2 \\cdot 3^{2} \\cdot 5$ y $135 = 3^{3} \\cdot 5$, así que $\\text{mcm}(90, 135) = 2 \\cdot 3^{3} \\cdot 5 = 270$ s, es decir, $4{,}5$ minutos.\nPaso 3: Valentina completa $270 : 90 = 3$ vueltas (y Benjamín $2$).\nRespuesta: B, Valentina habrá completado $3$ vueltas.\nErrores frecuentes: La A corresponde a las vueltas de Benjamín. La C es el tiempo en minutos, no la cantidad de vueltas. La D usa un múltiplo común que no es el mínimo ($540$ s).",
+    "verify": "const a = 90, b = 135; const gcd = (p, q) => (q ? gcd(q, p % q) : p); const m = (a * b) / gcd(a, b); const x = m / a; const alts = { A: 2, B: 3, C: 4.5, D: 6 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-077",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Si $m$ es un número entero par y $n$ es un número entero impar, ¿cuál de las siguientes expresiones representa siempre un número impar?",
+    "alternatives": {
+      "A": "$m \\cdot n$",
+      "B": "$m^{2} + n^{2}$",
+      "C": "$m\\,(m + n)$",
+      "D": "$n^{2} + n$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: se analiza la paridad de cada parte: par por cualquier entero es par, impar por impar es impar, y par más impar es impar.\nPaso 1: $m^{2}$ es par (par por par) y $n^{2}$ es impar (impar por impar).\nPaso 2: $m^{2} + n^{2}$ es par más impar, que siempre es impar. Por ejemplo, con $m = 2$ y $n = 3$: $4 + 9 = 13$.\nPaso 3: en las demás expresiones aparece un factor par, por lo que dan siempre un número par.\nRespuesta: B.\nErrores frecuentes: La A tiene el factor par $m$, así que el producto es par. La C también tiene el factor $m$: con $m = 2$, $n = 3$ da $10$. La D parece impar porque $n^{2}$ y $n$ son impares, pero impar más impar es par: $n^{2} + n = n(n+1)$.",
+    "verify": "const exprs = { A: (m, n) => m * n, B: (m, n) => m * m + n * n, C: (m, n) => m * (m + n), D: (m, n) => n * n + n }; const odd = (v) => Math.abs(v % 2) === 1; const ok = Object.keys(exprs).filter((l) => { for (let m = -10; m <= 10; m += 2) for (let n = -9; n <= 9; n += 2) if (!odd(exprs[l](m, n))) return false; return true; }); return ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m1-numeros-078",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Andrea sube a pie por un sendero del Parque Nacional La Campana. En la primera etapa recorrió $\\frac{1}{4}$ del sendero; después de un descanso caminó $1{,}4$ km más y, en ese momento, le faltaban $\\frac{2}{5}$ del sendero para llegar a la cumbre.\n\n¿Cuál es la longitud total del sendero?",
+    "alternatives": {
+      "A": "$2{,}1$ km",
+      "B": "$3{,}5$ km",
+      "C": "$4$ km",
+      "D": "$5{,}6$ km"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: los $1{,}4$ km corresponden a la fracción del sendero que no está ni en la primera etapa ni en lo que falta.\nPaso 1: la primera etapa y lo que falta suman $\\frac{1}{4} + \\frac{2}{5} = \\frac{5}{20} + \\frac{8}{20} = \\frac{13}{20}$.\nPaso 2: el tramo de $1{,}4$ km es $1 - \\frac{13}{20} = \\frac{7}{20}$ del sendero.\nPaso 3: si $\\frac{7}{20}$ del total son $1{,}4$ km, el total es $1{,}4 : \\frac{7}{20} = 1{,}4 \\cdot \\frac{20}{7} = 4$ km.\nRespuesta: C, el sendero mide $4$ km.\nErrores frecuentes: La A suma las fracciones sumando numeradores y denominadores ($\\frac{1}{4} + \\frac{2}{5} = \\frac{3}{9}$), por lo que cree que el tramo es $\\frac{2}{3}$ del total. La B divide $1{,}4$ por $\\frac{2}{5}$, confundiendo el tramo recorrido con lo que falta. La D divide $1{,}4$ por $\\frac{1}{4}$, la fracción de la primera etapa.",
+    "verify": "const f = 1 - 1/4 - 2/5; const x = 1.4 / f; const alts = { A: 2.1, B: 3.5, C: 4, D: 5.6 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-079",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un apicultor de Chiloé tiene $3\\frac{1}{2}$ kg de miel de ulmo y $2\\frac{1}{4}$ kg de miel de tiaca. Las mezclará y envasará la mezcla en frascos de $\\frac{3}{8}$ kg, todos completamente llenos. Como no quiere que le sobre miel, comprará la menor cantidad posible de miel adicional para llenar un número entero de frascos.\n\n¿Cuántos kilogramos de miel adicional debe comprar?",
+    "alternatives": {
+      "A": "$\\frac{1}{8}$",
+      "B": "$\\frac{1}{4}$",
+      "C": "$\\frac{3}{8}$",
+      "D": "$\\frac{2}{3}$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: se calcula cuántos frascos alcanza a llenar, y la miel adicional es lo que falta para completar el frasco siguiente.\nPaso 1: total de miel: $3\\frac{1}{2} + 2\\frac{1}{4} = 5\\frac{3}{4} = \\frac{46}{8}$ kg.\nPaso 2: $\\frac{46}{8} : \\frac{3}{8} = \\frac{46}{3} = 15\\frac{1}{3}$, es decir, llena $15$ frascos y le sobra $\\frac{46}{8} - \\frac{45}{8} = \\frac{1}{8}$ kg.\nPaso 3: para $16$ frascos necesita $16 \\cdot \\frac{3}{8} = 6$ kg, así que debe comprar $6 - 5\\frac{3}{4} = \\frac{1}{4}$ kg.\nRespuesta: B, debe comprar $\\frac{1}{4}$ kg.\nErrores frecuentes: La A es la miel que sobra, no la que falta. La C compra un frasco completo, sin aprovechar el $\\frac{1}{8}$ kg sobrante. La D toma la fracción de frasco que falta ($\\frac{2}{3}$ de frasco) como si fueran kilogramos.",
+    "verify": "const total = 3.5 + 2.25, f = 3/8; const n = Math.ceil(total / f - 1e-12); const x = n * f - total; const alts = { A: 1/8, B: 1/4, C: 3/8, D: 2/3 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-080",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Antes de viajar a Estados Unidos, Fernanda cambió $470\\,000$ pesos a dólares en una casa de cambio de Santiago que vendía cada dólar a $940$ pesos. Durante el viaje gastó $\\frac{3}{5}$ de sus dólares. Al volver, cambió todos los dólares que le quedaron en la misma casa de cambio, que en ese momento compraba cada dólar a $925$ pesos.\n\n¿Cuántos pesos recibió Fernanda al cambiar los dólares que le quedaron?",
+    "alternatives": {
+      "A": "$185\\,000$",
+      "B": "$188\\,000$",
+      "C": "$277\\,500$",
+      "D": "$282\\,000$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: hay dos conversiones con valores distintos, y la fracción que queda se aplica a los dólares, no a los pesos.\nPaso 1: Fernanda compró $470\\,000 : 940 = 500$ dólares.\nPaso 2: gastó $\\frac{3}{5}$, así que le quedaron $\\frac{2}{5} \\cdot 500 = 200$ dólares.\nPaso 3: al venderlos recibió $200 \\cdot 925 = 185\\,000$ pesos.\nRespuesta: A, recibió $185\\,000$ pesos.\nErrores frecuentes: La B vende los dólares al mismo valor de compra ($940$ pesos), lo que equivale a calcular $\\frac{2}{5}$ de $470\\,000$. La C calcula el valor de los dólares gastados ($300 \\cdot 925$). La D calcula $\\frac{3}{5}$ de los pesos iniciales.",
+    "verify": "const usd = 470000 / 940; const x = usd * (1 - 3/5) * 925; const alts = { A: 185000, B: 188000, C: 277500, D: 282000 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-081",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sean $a$ y $b$ números racionales distintos de cero tales que $\\frac{a}{b} < 0$ y $a + b > 0$.\n\n¿Cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "$a \\cdot b < 0$",
+      "B": "$a > 0$",
+      "C": "$|a| > |b|$",
+      "D": "$b > a$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: un cociente negativo indica que los números tienen signos distintos; la suma positiva solo indica cuál tiene mayor valor absoluto, no cuál es cuál.\nPaso 1: si $\\frac{a}{b} < 0$, entonces $a$ y $b$ tienen signos opuestos, y por lo tanto $a \\cdot b < 0$.\nPaso 2: como $a + b > 0$, el número positivo tiene mayor valor absoluto que el negativo, pero puede ser $a$ o $b$.\nPaso 3: con $a = 3$, $b = -1$ y con $a = -1$, $b = 3$ se cumplen ambas condiciones.\nRespuesta: A.\nErrores frecuentes: La B falla con $a = -1$, $b = 3$. La C falla en ese mismo caso, porque $|-1| < |3|$. La D falla con $a = 3$, $b = -1$.",
+    "verify": "const cases = [[3, -1], [-1, 3], [5, -2], [-2, 5], [0.5, -0.25]]; const st = { A: (a, b) => a * b < 0, B: (a, b) => a > 0, C: (a, b) => Math.abs(a) > Math.abs(b), D: (a, b) => b > a }; const valid = cases.filter(([a, b]) => a / b < 0 && a + b > 0); const ok = Object.keys(st).filter((l) => valid.every(([a, b]) => st[l](a, b))); return ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m1-numeros-082",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "La biblioteca municipal de una comuna de la Región de Los Ríos tiene $2\\,400$ libros, de los cuales $360$ están prestados.\n\n¿Qué porcentaje de los libros de la biblioteca no está prestado?",
+    "alternatives": {
+      "A": "$15\\%$",
+      "B": "$36\\%$",
+      "C": "$64\\%$",
+      "D": "$85\\%$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: el porcentaje se obtiene dividiendo la parte por el total y multiplicando por $100$.\nPaso 1: libros no prestados: $2\\,400 - 360 = 2\\,040$.\nPaso 2: $\\frac{2\\,040}{2\\,400} \\cdot 100 = 85\\%$.\nRespuesta: D, el $85\\%$ de los libros no está prestado.\nErrores frecuentes: La A es el porcentaje de libros prestados ($\\frac{360}{2\\,400} = 15\\%$), no el que se pregunta. La B lee la cantidad $360$ como si fuera un porcentaje. La C resta ese valor mal interpretado a $100\\%$.",
+    "verify": "const x = (2400 - 360) / 2400 * 100; const alts = { A: 15, B: 36, C: 64, D: 85 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-083",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "representar",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "En una tienda de Rancagua, cuando un producto de precio $p$ pesos se paga en cuotas, se aplica un recargo del $6\\%$ sobre ese precio.\n\n¿Cuál de las siguientes expresiones representa el precio total, en pesos, de un producto pagado en cuotas?",
+    "alternatives": {
+      "A": "$p + 6$",
+      "B": "$0{,}06p$",
+      "C": "$1{,}6p$",
+      "D": "$1{,}06p$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: aumentar una cantidad en un $6\\%$ equivale a multiplicarla por $1 + 0{,}06$.\nPaso 1: el recargo es el $6\\%$ de $p$, es decir, $0{,}06p$.\nPaso 2: el precio total es $p + 0{,}06p = 1{,}06p$.\nRespuesta: D, $1{,}06p$.\nErrores frecuentes: La A suma $6$ pesos en lugar del $6\\%$ del precio. La B representa solo el recargo, no el precio total. La C escribe el $6\\%$ como $0{,}6$, que en realidad es un $60\\%$.",
+    "verify": "const p = 25000; const total = p * (1 + 6 / 100); const alts = { A: p + 6, B: 0.06 * p, C: 1.6 * p, D: 1.06 * p }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - total) < 1e-6); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-084",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Según un informe, la tasa de desempleo de la Región de Ñuble bajó del $8\\%$ al $6\\%$ en un año.\n\n¿En qué porcentaje disminuyó la tasa de desempleo respecto de su valor inicial?",
+    "alternatives": {
+      "A": "$2\\%$",
+      "B": "$25\\%$",
+      "C": "$33{,}\\overline{3}\\%$",
+      "D": "$75\\%$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: la variación porcentual se calcula dividiendo el cambio por el valor inicial; no es lo mismo que la diferencia en puntos porcentuales.\nPaso 1: la tasa bajó $8 - 6 = 2$ puntos porcentuales.\nPaso 2: respecto del valor inicial: $\\frac{2}{8} \\cdot 100 = 25\\%$.\nRespuesta: B, disminuyó un $25\\%$.\nErrores frecuentes: La A confunde los $2$ puntos porcentuales con una disminución del $2\\%$. La C divide por el valor final: $\\frac{2}{6}$. La D calcula $\\frac{6}{8}$, que indica qué porcentaje del valor inicial se conserva.",
+    "verify": "const x = (8 - 6) / 8 * 100; const alts = { A: 2, B: 25, C: 100/3, D: 75 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-085",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un almacén de Osorno se registró el precio de cuatro productos en marzo y en septiembre:\n\n$\\displaystyle \\begin{array}{|c|c|c|}\\hline \\text{Producto} & \\text{Marzo (pesos)} & \\text{Septiembre (pesos)} \\\\ \\hline \\text{Pan (1 kg)} & 1\\,800 & 1\\,980 \\\\ \\hline \\text{Aceite (1 L)} & 3\\,200 & 3\\,520 \\\\ \\hline \\text{Arroz (1 kg)} & 1\\,500 & 1\\,680 \\\\ \\hline \\text{Leche (1 L)} & 1\\,100 & 1\\,254 \\\\ \\hline \\end{array}$\n\n¿Cuál de los productos tuvo el mayor aumento porcentual de precio entre marzo y septiembre?",
+    "alternatives": {
+      "A": "El pan",
+      "B": "El aceite",
+      "C": "El arroz",
+      "D": "La leche"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: el aumento porcentual compara el alza con el precio inicial de cada producto, no el alza en pesos.\nPaso 1: alzas en pesos: pan $180$, aceite $320$, arroz $180$, leche $154$.\nPaso 2: aumentos porcentuales: pan $\\frac{180}{1\\,800} = 10\\%$, aceite $\\frac{320}{3\\,200} = 10\\%$, arroz $\\frac{180}{1\\,500} = 12\\%$, leche $\\frac{154}{1\\,100} = 14\\%$.\nRespuesta: D, la leche tuvo el mayor aumento porcentual.\nErrores frecuentes: La B elige el producto con el mayor aumento en pesos, aunque en porcentaje subió lo mismo que el pan. La A y la C también se fijan en el alza en pesos ($180$), sin considerar que la leche, con un precio inicial menor, subió proporcionalmente más.",
+    "verify": "const d = { A: [1800, 1980], B: [3200, 3520], C: [1500, 1680], D: [1100, 1254] }; const pct = {}; for (const l in d) pct[l] = (d[l][1] - d[l][0]) / d[l][0]; const max = Math.max(...Object.values(pct)); const k = Object.keys(pct).filter((l) => Math.abs(pct[l] - max) < 1e-12); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-086",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un ensayo PAES de $60$ preguntas, Tomás respondió correctamente $45$. Su meta para el siguiente ensayo, que también tendrá $60$ preguntas, es responder correctamente al menos el $85\\%$ de ellas.\n\n¿Cuántas respuestas correctas más que en el primer ensayo necesita, como mínimo, para cumplir su meta?",
+    "alternatives": {
+      "A": "$6$",
+      "B": "$10$",
+      "C": "$15$",
+      "D": "$51$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: primero se calcula cuántas preguntas son el $85\\%$ de $60$ y luego se compara con las $45$ que ya logró.\nPaso 1: $85\\%$ de $60$: $0{,}85 \\cdot 60 = 51$ respuestas correctas.\nPaso 2: necesita $51 - 45 = 6$ respuestas correctas más.\nRespuesta: A, necesita $6$ respuestas correctas más.\nErrores frecuentes: La B calcula que pasó de $75\\%$ a $85\\%$ y toma los $10$ puntos porcentuales como si fueran $10$ preguntas. La C cuenta las preguntas que no respondió bien en el primer ensayo ($60 - 45$). La D es el total de respuestas correctas necesarias, no cuántas más.",
+    "verify": "const x = Math.ceil(0.85 * 60 - 1e-9) - 45; const alts = { A: 6, B: 10, C: 15, D: 51 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-087",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Sean $a$, $b$ y $c$ números positivos tales que $a$ es el $40\\%$ de $b$ y $b$ es el $25\\%$ de $c$.\n\n¿Qué porcentaje de $c$ es $a$?",
+    "alternatives": {
+      "A": "$10\\%$",
+      "B": "$15\\%$",
+      "C": "$65\\%$",
+      "D": "$160\\%$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: un porcentaje de un porcentaje se obtiene multiplicando los factores decimales.\nPaso 1: $a = 0{,}4\\,b$ y $b = 0{,}25\\,c$.\nPaso 2: $a = 0{,}4 \\cdot 0{,}25\\,c = 0{,}1\\,c$.\nPaso 3: $0{,}1\\,c$ corresponde al $10\\%$ de $c$.\nRespuesta: A, $a$ es el $10\\%$ de $c$.\nErrores frecuentes: La B resta los porcentajes ($40\\% - 25\\%$). La C los suma. La D los divide ($\\frac{40}{25} = 1{,}6$), en lugar de multiplicarlos.",
+    "verify": "const c = 1000; const b = 0.25 * c; const a = 0.4 * b; const x = a / c * 100; const alts = { A: 10, B: 15, C: 65, D: 160 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-088",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una farmacia de Viña del Mar vende un protector solar a $9\\,000$ pesos la unidad y ofrece tres promociones:\nPromoción 1: lleve $3$ y pague $2$.\nPromoción 2: por cada par de unidades, la segunda va a mitad de precio.\nPromoción 3: $30\\%$ de descuento en cada unidad.\n\nClara necesita comprar exactamente $6$ protectores y solo puede usar una de las promociones. ¿Cuál de las siguientes afirmaciones es verdadera?",
+    "alternatives": {
+      "A": "La promoción 3 es la más conveniente, porque su $30\\%$ de descuento es mayor que el de las otras dos.",
+      "B": "La promoción 2 es la más conveniente, porque en ella se descuenta un $50\\%$.",
+      "C": "Las promociones 1 y 3 cuestan lo mismo, porque ambas equivalen a un $30\\%$ de descuento.",
+      "D": "La promoción 1 es la más conveniente y con ella Clara ahorra $18\\,000$ pesos respecto del precio normal."
+    },
+    "correct": "D",
+    "explanation": "Idea clave: para comparar promociones de distinto tipo se calcula el costo total de cada una para la misma cantidad de productos.\nPaso 1: precio normal de $6$ unidades: $6 \\cdot 9\\,000 = 54\\,000$ pesos.\nPaso 2: promoción 1: paga $4$ unidades, $36\\,000$ pesos. Promoción 2: $3$ pares a $9\\,000 + 4\\,500 = 13\\,500$, en total $40\\,500$ pesos. Promoción 3: $6 \\cdot 6\\,300 = 37\\,800$ pesos.\nPaso 3: la más barata es la promoción 1, con un ahorro de $54\\,000 - 36\\,000 = 18\\,000$ pesos (equivale a un $33{,}\\overline{3}\\%$ de descuento).\nRespuesta: D.\nErrores frecuentes: La A no nota que pagar $2$ de cada $3$ equivale a un descuento mayor que el $30\\%$. La B confunde el $50\\%$ de una de cada dos unidades con un $50\\%$ sobre el total; en realidad es un $25\\%$. La C supone que ambas promociones descuentan lo mismo, pero $36\\,000 \\neq 37\\,800$.",
+    "verify": "const p = 9000, n = 6; const c1 = (n - Math.floor(n / 3)) * p; const c2 = (n / 2) * (p + p / 2); const c3 = n * p * 0.7; const best = Math.min(c1, c2, c3); const sA = c3 === best; const sB = c2 === best; const sC = Math.abs(c1 - c3) < 1e-9; const sD = c1 === best && n * p - c1 === 18000; const t = { A: sA, B: sB, C: sC, D: sD }; const k = Object.keys(t).filter((l) => t[l]); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-089",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una comuna de la Región de Valparaíso vivían $40\\,000$ personas, de las cuales el $15\\%$ eran personas mayores. Diez años después, la población total de la comuna aumentó un $25\\%$ y la cantidad de personas mayores aumentó un $50\\%$.\n\n¿Qué porcentaje de la población actual de la comuna corresponde a personas mayores?",
+    "alternatives": {
+      "A": "$18\\%$",
+      "B": "$18{,}75\\%$",
+      "C": "$22{,}5\\%$",
+      "D": "$40\\%$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: cambian tanto la parte como el total, así que hay que recalcular ambas cantidades antes de dividir.\nPaso 1: personas mayores al inicio: $0{,}15 \\cdot 40\\,000 = 6\\,000$; diez años después: $6\\,000 \\cdot 1{,}5 = 9\\,000$.\nPaso 2: población total actual: $40\\,000 \\cdot 1{,}25 = 50\\,000$.\nPaso 3: $\\frac{9\\,000}{50\\,000} \\cdot 100 = 18\\%$.\nRespuesta: A, las personas mayores son el $18\\%$ de la población actual.\nErrores frecuentes: La B resta los porcentajes de aumento y calcula $15\\% \\cdot (1 + 0{,}50 - 0{,}25)$. La C aplica el aumento de las personas mayores ($15\\% \\cdot 1{,}5$) pero olvida que el total también creció. La D opera directamente con los porcentajes: $15 + 50 - 25$.",
+    "verify": "const pm = 0.15 * 40000 * 1.5; const tot = 40000 * 1.25; const x = pm / tot * 100; const alts = { A: 18, B: 18.75, C: 22.5, D: 40 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-090",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un televisor tiene un precio neto de $P$ pesos, sin IVA. Para obtener su precio final se debe aplicar un descuento del $10\\%$ y el IVA, que es del $19\\%$. El vendedor duda si conviene aplicar primero el descuento y luego el IVA, o primero el IVA y luego el descuento.\n\n¿Cuál de las siguientes afirmaciones es verdadera?",
+    "alternatives": {
+      "A": "El precio final es menor si primero se aplica el descuento, porque así el IVA se calcula sobre un monto menor.",
+      "B": "El precio final es menor si primero se aplica el IVA, porque así el descuento se calcula sobre un monto mayor.",
+      "C": "En ambos casos el precio final es $1{,}071P$, porque se calcula $P \\cdot 0{,}9 \\cdot 1{,}19$ y el orden de los factores no altera el producto.",
+      "D": "En ambos casos el precio final es $1{,}09P$, porque el precio aumenta en $19\\% - 10\\% = 9\\%$."
+    },
+    "correct": "C",
+    "explanation": "Idea clave: aplicar un porcentaje de descuento o de aumento es multiplicar por un factor, y la multiplicación es conmutativa.\nPaso 1: descuento primero: $P \\cdot 0{,}9$ y luego IVA: $P \\cdot 0{,}9 \\cdot 1{,}19$.\nPaso 2: IVA primero: $P \\cdot 1{,}19$ y luego descuento: $P \\cdot 1{,}19 \\cdot 0{,}9$, que es el mismo producto.\nPaso 3: $0{,}9 \\cdot 1{,}19 = 1{,}071$, así que en ambos casos el precio final es $1{,}071P$.\nRespuesta: C.\nErrores frecuentes: La A y la B creen que el orden cambia el resultado: aunque cada porcentaje se calcula sobre montos distintos, el producto final es el mismo. La D resta los porcentajes como si se aplicaran sobre la misma base; el aumento real es de $7{,}1\\%$, no de $9\\%$.",
+    "verify": "const P = 450000; const f1 = P * 0.9 * 1.19, f2 = P * 1.19 * 0.9; const same = Math.abs(f1 - f2) < 1e-6; const t = { A: !same && f1 < f2, B: !same && f2 < f1, C: same && Math.abs(f1 - 1.071 * P) < 1e-6, D: same && Math.abs(f1 - 1.09 * P) < 1e-6 }; const k = Object.keys(t).filter((l) => t[l]); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-091",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "El precio de un producto sube un $p\\%$ y, después, el nuevo precio baja un $p\\%$, con $0 < p < 100$.\n\n¿Cuál de las siguientes afirmaciones es verdadera respecto del precio final, comparado con el precio inicial?",
+    "alternatives": {
+      "A": "Es igual al precio inicial.",
+      "B": "Es menor en un $\\frac{p^{2}}{100}\\%$.",
+      "C": "Es menor en un $p\\%$.",
+      "D": "Es mayor en un $\\frac{p^{2}}{100}\\%$."
+    },
+    "correct": "B",
+    "explanation": "Idea clave: subir un $p\\%$ es multiplicar por $1 + \\frac{p}{100}$ y bajar un $p\\%$ es multiplicar por $1 - \\frac{p}{100}$; el producto es una suma por diferencia.\nPaso 1: si el precio inicial es $x$, el final es $x\\left(1 + \\frac{p}{100}\\right)\\left(1 - \\frac{p}{100}\\right) = x\\left(1 - \\frac{p^{2}}{10\\,000}\\right)$.\nPaso 2: el precio bajó en $\\frac{p^{2}}{10\\,000}$ del precio inicial, que en porcentaje es $\\frac{p^{2}}{10\\,000} \\cdot 100 = \\frac{p^{2}}{100}\\%$.\nPaso 3: comprobación con $p = 20$: $1{,}2 \\cdot 0{,}8 = 0{,}96$, es decir, baja un $4\\% = \\frac{400}{100}\\%$.\nRespuesta: B.\nErrores frecuentes: La A supone que el alza y la baja se anulan, pero la baja se calcula sobre un precio mayor. La C confunde la variación total con la de un solo cambio. La D acierta en la magnitud pero no en el sentido: el precio final es menor que el inicial.",
+    "verify": "const t = { A: true, B: true, C: true, D: true }; for (const p of [5, 20, 37, 80]) { const r = (1 + p / 100) * (1 - p / 100); if (Math.abs(r - 1) > 1e-12) t.A = false; if (Math.abs(r - (1 - p * p / 10000)) > 1e-12) t.B = false; if (Math.abs(r - (1 - p / 100)) > 1e-12) t.C = false; if (Math.abs(r - (1 + p * p / 10000)) > 1e-12) t.D = false; } const k = Object.keys(t).filter((l) => t[l]); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-092",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una reserva de la Región de Los Lagos, una colonia de lobos marinos tiene $2\\,000$ ejemplares y se estima que cada año aumentará un $20\\%$ respecto de la cantidad del año anterior.\n\nSi se mantiene ese ritmo, ¿después de cuántos años la colonia superará por primera vez los $4\\,000$ ejemplares?",
+    "alternatives": {
+      "A": "$3$",
+      "B": "$4$",
+      "C": "$5$",
+      "D": "$6$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: un aumento del $20\\%$ sobre la cantidad del año anterior es un crecimiento compuesto: cada año se multiplica por $1{,}2$.\nPaso 1: después de $n$ años hay $2\\,000 \\cdot 1{,}2^{n}$ ejemplares.\nPaso 2: $1{,}2^{2} = 1{,}44$; $1{,}2^{3} = 1{,}728$; $1{,}2^{4} = 2{,}0736$.\nPaso 3: a los $3$ años hay $3\\,456$ ejemplares y a los $4$ años hay $4\\,147{,}2$, que supera los $4\\,000$ por primera vez.\nRespuesta: B, después de $4$ años.\nErrores frecuentes: La A calcula $1{,}2^{3}$ como $1{,}2 \\cdot 3$. La C divide $100\\%$ por $20\\%$, como si los aumentos se sumaran. La D usa crecimiento simple, $400$ ejemplares por año, con el que a los $5$ años se llega a $4\\,000$ justos y se supera recién al sexto año.",
+    "verify": "let n = 0, v = 2000; while (v <= 4000) { v *= 1.2; n++; } const x = n; const alts = { A: 3, B: 4, C: 5, D: 6 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-093",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un comerciante de la Vega Central compra cajones de paltas a un costo de $c$ pesos cada uno y los vende con una ganancia del $25\\%$ sobre el costo.\n\n¿Qué porcentaje del precio de venta corresponde a la ganancia?",
+    "alternatives": {
+      "A": "$20\\%$",
+      "B": "$25\\%$",
+      "C": "$75\\%$",
+      "D": "$80\\%$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: un mismo monto representa porcentajes distintos según la cantidad con la que se compare.\nPaso 1: la ganancia es $0{,}25c$ y el precio de venta es $c + 0{,}25c = 1{,}25c$.\nPaso 2: $\\frac{0{,}25c}{1{,}25c} = \\frac{1}{5} = 0{,}2$.\nPaso 3: la ganancia es el $20\\%$ del precio de venta.\nRespuesta: A, $20\\%$.\nErrores frecuentes: La B repite el porcentaje calculado sobre el costo, sin cambiar la base. La C calcula $100\\% - 25\\%$. La D es el porcentaje que representa el costo dentro del precio de venta.",
+    "verify": "const c = 32000; const gan = 0.25 * c; const venta = c + gan; const x = gan / venta * 100; const alts = { A: 20, B: 25, C: 75, D: 80 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-094",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una imprenta de Talca amplía un afiche rectangular: su largo aumenta un $20\\%$ y su ancho aumenta un $10\\%$.\n\n¿En qué porcentaje aumenta el área del afiche?",
+    "alternatives": {
+      "A": "$2\\%$",
+      "B": "$30\\%$",
+      "C": "$32\\%$",
+      "D": "$132\\%$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el área es un producto, así que los factores de aumento se multiplican, no se suman.\nPaso 1: si el largo es $L$ y el ancho es $A$, las nuevas medidas son $1{,}2L$ y $1{,}1A$.\nPaso 2: la nueva área es $1{,}2L \\cdot 1{,}1A = 1{,}32\\,LA$.\nPaso 3: el área se multiplicó por $1{,}32$, es decir, aumentó un $32\\%$.\nRespuesta: C, el área aumenta un $32\\%$.\nErrores frecuentes: La A calcula solo el término cruzado $0{,}2 \\cdot 0{,}1 = 0{,}02$. La B suma los porcentajes ($20\\% + 10\\%$) y olvida ese término cruzado. La D interpreta el factor $1{,}32$ como un aumento del $132\\%$, cuando en realidad la nueva área es el $132\\%$ de la original.",
+    "verify": "const L = 50, W = 70; const x = ((1.2 * L) * (1.1 * W) / (L * W) - 1) * 100; const alts = { A: 2, B: 30, C: 32, D: 132 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-095",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Javiera quiere depositar $1\\,000\\,000$ de pesos durante $2$ años y compara dos bancos:\nBanco Austral: interés simple del $10\\%$ anual, es decir, cada año gana el $10\\%$ del monto depositado al inicio.\nBanco Pacífico: interés compuesto del $9\\%$ anual, es decir, cada año gana el $9\\%$ del monto acumulado hasta ese momento.\n\nAl cabo de los $2$ años, ¿cuántos pesos más obtiene Javiera si elige el banco más conveniente en lugar del otro?",
+    "alternatives": {
+      "A": "$1\\,900$",
+      "B": "$10\\,000$",
+      "C": "$11\\,900$",
+      "D": "$20\\,000$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: en el interés simple se gana siempre lo mismo cada año; en el compuesto, el interés del segundo año se calcula sobre el monto ya aumentado.\nPaso 1: Banco Austral: $1\\,000\\,000 + 2 \\cdot 100\\,000 = 1\\,200\\,000$ pesos.\nPaso 2: Banco Pacífico: $1\\,000\\,000 \\cdot 1{,}09^{2} = 1\\,000\\,000 \\cdot 1{,}1881 = 1\\,188\\,100$ pesos.\nPaso 3: el más conveniente es el Banco Austral, con $1\\,200\\,000 - 1\\,188\\,100 = 11\\,900$ pesos más.\nRespuesta: C, obtiene $11\\,900$ pesos más.\nErrores frecuentes: La A compara solo los intereses del segundo año ($100\\,000 - 98\\,100$). La B considera solo el primer año, en que la diferencia es de un punto porcentual. La D calcula ambos bancos con interés simple, como si la diferencia fuera de $1\\%$ cada año.",
+    "verify": "const C = 1000000; const s = C * (1 + 2 * 0.10); const c = C * 1.09 ** 2; const x = Math.abs(s - c); const alts = { A: 1900, B: 10000, C: 11900, D: 20000 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-096",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "¿Cuál es el valor de $\\sqrt{0{,}49} + \\sqrt[3]{-8}$?",
+    "alternatives": {
+      "A": "$-2{,}7$",
+      "B": "$-1{,}93$",
+      "C": "$-1{,}3$",
+      "D": "$2{,}7$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: la raíz cuadrada de un número positivo es positiva, y la raíz cúbica de un número negativo es negativa.\nPaso 1: $\\sqrt{0{,}49} = 0{,}7$, porque $0{,}7^{2} = 0{,}49$.\nPaso 2: $\\sqrt[3]{-8} = -2$, porque $(-2)^{3} = -8$.\nPaso 3: $0{,}7 + (-2) = -1{,}3$.\nRespuesta: C, el valor es $-1{,}3$.\nErrores frecuentes: La A toma la raíz cuadrada como $-0{,}7$. La B calcula $\\sqrt{0{,}49} = 0{,}07$, contando mal las cifras decimales. La D considera que $\\sqrt[3]{-8} = 2$, ignorando el signo.",
+    "verify": "const x = Math.sqrt(0.49) + Math.cbrt(-8); const alts = { A: -2.7, B: -1.93, C: -1.3, D: 2.7 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-097",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "representar",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "En Chile viven aproximadamente $19{,}5$ millones de personas, y se estima que cada una genera en promedio $1{,}2$ kg de residuos domiciliarios al día.\n\nCon esta estimación, ¿cuál de las siguientes expresiones representa la cantidad total de residuos domiciliarios, en kilogramos, que se generan en Chile en un día?",
+    "alternatives": {
+      "A": "$2{,}34 \\cdot 10^{6}$",
+      "B": "$2{,}34 \\cdot 10^{7}$",
+      "C": "$2{,}34 \\cdot 10^{8}$",
+      "D": "$2{,}34 \\cdot 10^{9}$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: se escribe la cantidad de personas en notación científica y se multiplican por separado los números y las potencias de $10$.\nPaso 1: $19{,}5$ millones $= 19\\,500\\,000 = 1{,}95 \\cdot 10^{7}$.\nPaso 2: $1{,}95 \\cdot 10^{7} \\cdot 1{,}2 = 2{,}34 \\cdot 10^{7}$ kg.\nRespuesta: B, $2{,}34 \\cdot 10^{7}$ kg.\nErrores frecuentes: La A escribe $19{,}5$ millones como $1{,}95 \\cdot 10^{6}$, olvidando que $19{,}5$ ya es mayor que $10$. La C y la D cuentan mal los ceros de un millón al pasar a notación científica.",
+    "verify": "const x = 19.5e6 * 1.2; const alts = { A: 2340000.0, B: 23400000.0, C: 234000000.0, D: 2340000000.0 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-3); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-098",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "argumentar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Para calcular el valor de $\\left(\\frac{3^{-2} \\cdot 9^{3}}{27}\\right)^{-1}$, Catalina realizó el siguiente procedimiento:\nPaso 1: escribió $9^{3} = 3^{6}$ y $27 = 3^{3}$.\nPaso 2: calculó el numerador: $3^{-2} \\cdot 3^{6} = 3^{4}$.\nPaso 3: dividió: $\\frac{3^{4}}{3^{3}} = 3$.\nPaso 4: elevó el resultado a $-1$: $3^{-1} = -3$.\n\n¿En cuál de los pasos Catalina cometió un error?",
+    "alternatives": {
+      "A": "En el Paso 1",
+      "B": "En el Paso 2",
+      "C": "En el Paso 3",
+      "D": "En el Paso 4"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: un exponente negativo indica el inverso multiplicativo de la base, no un cambio de signo.\nPaso 1: $9^{3} = (3^{2})^{3} = 3^{6}$ y $27 = 3^{3}$: correcto.\nPaso 2: $3^{-2} \\cdot 3^{6} = 3^{-2+6} = 3^{4}$: correcto.\nPaso 3: $\\frac{3^{4}}{3^{3}} = 3^{1} = 3$: correcto.\nPaso 4: $3^{-1} = \\frac{1}{3}$, no $-3$. Aquí está el error, y el valor correcto de la expresión es $\\frac{1}{3}$.\nRespuesta: D, el error está en el Paso 4.\nErrores frecuentes: La A no ve que $9^{3} = 3^{6}$ por la potencia de una potencia. La B duda de la suma de exponentes con un exponente negativo, pero $-2 + 6 = 4$ es correcto. La C desconfía de la resta de exponentes, que también está bien aplicada.",
+    "verify": "const ok1 = 9 ** 3 === 3 ** 6 && 27 === 3 ** 3; const ok2 = Math.abs(3 ** -2 * 3 ** 6 - 3 ** 4) < 1e-9; const ok3 = 3 ** 4 / 3 ** 3 === 3; const ok4 = Math.abs(3 ** -1 - (-3)) < 1e-9; const st = { A: ok1, B: ok2, C: ok3, D: ok4 }; const bad = Object.keys(st).filter((l) => !st[l]); return bad.length === 1 ? bad[0] : null;"
+  },
+  {
+    "key": "m1-numeros-099",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Don Hernán quiere cercar con malla todo el borde de un terreno cuadrado de $72\\text{ m}^{2}$ en su parcela de Pirque.\n\n¿Cuántos metros de malla necesita?",
+    "alternatives": {
+      "A": "$6\\sqrt{2}$ m",
+      "B": "$12\\sqrt{2}$ m",
+      "C": "$18$ m",
+      "D": "$24\\sqrt{2}$ m"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: el lado de un cuadrado es la raíz cuadrada de su área, y la malla corresponde al perímetro.\nPaso 1: lado $= \\sqrt{72} = \\sqrt{36 \\cdot 2} = 6\\sqrt{2}$ m.\nPaso 2: perímetro $= 4 \\cdot 6\\sqrt{2} = 24\\sqrt{2}$ m.\nRespuesta: D, necesita $24\\sqrt{2}$ m de malla.\nErrores frecuentes: La A es la medida de un solo lado. La B suma solo dos lados. La C divide el área por $4$, confundiendo área con perímetro.",
+    "verify": "const x = 4 * Math.sqrt(72); const alts = { A: 6 * Math.SQRT2, B: 12 * Math.SQRT2, C: 18, D: 24 * Math.SQRT2 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-100",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Después de que un paciente toma una dosis de $400$ mg de un medicamento, la cantidad de este en su sangre se reduce a la mitad cada $6$ horas.\n\n¿Con qué expresión se obtiene la cantidad de medicamento, en mg, que permanece en su sangre $t$ horas después de la dosis?",
+    "alternatives": {
+      "A": "$400 \\cdot \\left(\\frac{1}{2}\\right)^{6t}$",
+      "B": "$400 \\cdot \\left(\\frac{1}{2}\\right)^{\\frac{t}{6}}$",
+      "C": "$400 - 200 \\cdot \\frac{t}{6}$",
+      "D": "$400 \\cdot 2^{\\frac{t}{6}}$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: cada período de $6$ horas la cantidad se multiplica por $\\frac{1}{2}$, y en $t$ horas hay $\\frac{t}{6}$ de esos períodos.\nPaso 1: a las $6$ horas quedan $400 \\cdot \\frac{1}{2} = 200$ mg; a las $12$ horas, $400 \\cdot \\left(\\frac{1}{2}\\right)^{2} = 100$ mg.\nPaso 2: en general, el exponente es la cantidad de períodos, $\\frac{t}{6}$, así que queda $400 \\cdot \\left(\\frac{1}{2}\\right)^{\\frac{t}{6}}$.\nPaso 3: comprobación con $t = 18$: $400 \\cdot \\left(\\frac{1}{2}\\right)^{3} = 50$ mg.\nRespuesta: B.\nErrores frecuentes: La A multiplica por $6$ en lugar de dividir, como si hubiera $6$ reducciones por hora. La C modela una disminución constante de $200$ mg cada $6$ horas, que dejaría $0$ mg a las $12$ horas. La D representa un crecimiento: la cantidad se duplicaría.",
+    "verify": "const exact = (t) => { let q = 400; for (let i = 0; i < t / 6; i++) q /= 2; return q; }; const f = { A: (t) => 400 * 0.5 ** (6 * t), B: (t) => 400 * 0.5 ** (t / 6), C: (t) => 400 - 200 * (t / 6), D: (t) => 400 * 2 ** (t / 6) }; const ok = Object.keys(f).filter((l) => [6, 12, 18, 24].every((t) => Math.abs(f[l](t) - exact(t)) < 1e-9)); return ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m1-numeros-101",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Si $10^{x} = 5$, ¿cuál es el valor de $10^{2x + 1}$?",
+    "alternatives": {
+      "A": "$11$",
+      "B": "$35$",
+      "C": "$100$",
+      "D": "$250$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: se descompone la potencia con las propiedades $a^{m+n} = a^{m} \\cdot a^{n}$ y $a^{mn} = (a^{m})^{n}$ para que aparezca $10^{x}$.\nPaso 1: $10^{2x+1} = 10^{2x} \\cdot 10^{1} = \\left(10^{x}\\right)^{2} \\cdot 10$.\nPaso 2: reemplazando $10^{x} = 5$: $5^{2} \\cdot 10 = 25 \\cdot 10 = 250$.\nRespuesta: D, el valor es $250$.\nErrores frecuentes: La A reemplaza $x$ por $5$ dentro del exponente como si $2x + 1$ fuera el resultado: $2 \\cdot 5 + 1$. La B suma $10$ en vez de multiplicar: $5^{2} + 10$. La C calcula $10^{2x}$ como $2 \\cdot 10^{x}$ y obtiene $2 \\cdot 5 \\cdot 10$.",
+    "verify": "const x0 = Math.log10(5); const x = 10 ** (2 * x0 + 1); const alts = { A: 11, B: 35, C: 100, D: 250 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-6); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-102",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sean $a = 2^{30}$, $b = 3^{20}$ y $c = 5^{10}$.\n\n¿Cuál de las siguientes relaciones es verdadera?",
+    "alternatives": {
+      "A": "$a < b < c$",
+      "B": "$c < a < b$",
+      "C": "$a < c < b$",
+      "D": "$c < b < a$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: para comparar potencias con bases y exponentes distintos, se reescriben con un mismo exponente.\nPaso 1: $a = 2^{30} = (2^{3})^{10} = 8^{10}$.\nPaso 2: $b = 3^{20} = (3^{2})^{10} = 9^{10}$, y $c = 5^{10}$.\nPaso 3: con el mismo exponente positivo, es mayor la que tiene mayor base: $5^{10} < 8^{10} < 9^{10}$, es decir, $c < a < b$.\nRespuesta: B.\nErrores frecuentes: La A ordena solo por la base ($2 < 3 < 5$), sin considerar los exponentes. La D ordena solo por el exponente ($10 < 20 < 30$). La C compara bien $a$ con $b$, pero supone que $c$ es mayor que $a$ por tener una base mayor.",
+    "verify": "const a = 2n ** 30n, b = 3n ** 20n, c = 5n ** 10n; const t = { A: a < b && b < c, B: c < a && a < b, C: a < c && c < b, D: c < b && b < a }; const k = Object.keys(t).filter((l) => t[l]); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-103",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Si $x$ es un número real tal que $0 < x < 1$, ¿cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "$x^{2} > x$",
+      "B": "$\\sqrt{x} < x$",
+      "C": "$\\frac{1}{x} < x$",
+      "D": "$x^{3} < x^{2} < x$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: al multiplicar un número positivo por otro menor que $1$, el resultado es menor que el número original.\nPaso 1: como $0 < x < 1$, multiplicar por $x$ achica: $x^{2} = x \\cdot x < x$ y $x^{3} = x^{2} \\cdot x < x^{2}$.\nPaso 2: por lo tanto, $x^{3} < x^{2} < x$. Por ejemplo, con $x = 0{,}5$: $0{,}125 < 0{,}25 < 0{,}5$.\nPaso 3: además, $\\sqrt{x} > x$ (por ejemplo, $\\sqrt{0{,}25} = 0{,}5$) y $\\frac{1}{x} > 1 > x$.\nRespuesta: D.\nErrores frecuentes: La A aplica la intuición de los números mayores que $1$, donde elevar al cuadrado agranda. La B supone que sacar raíz siempre achica, pero entre $0$ y $1$ agranda. La C olvida que el inverso de un número entre $0$ y $1$ es mayor que $1$.",
+    "verify": "const xs = [0.01, 0.2, 0.5, 0.9, 0.999]; const st = { A: (x) => x * x > x, B: (x) => Math.sqrt(x) < x, C: (x) => 1 / x < x, D: (x) => x ** 3 < x ** 2 && x ** 2 < x }; const ok = Object.keys(st).filter((l) => xs.every((x) => st[l](x))); return ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m1-numeros-104",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "El grafeno es un material formado por láminas de un átomo de espesor. Supón que cada lámina tiene un espesor de $3{,}4 \\cdot 10^{-10}$ m.\n\n¿Cuántas láminas habría que apilar para formar una capa de $1{,}7$ mm de espesor?",
+    "alternatives": {
+      "A": "$5 \\cdot 10^{6}$",
+      "B": "$5 \\cdot 10^{7}$",
+      "C": "$5 \\cdot 10^{9}$",
+      "D": "$5 \\cdot 10^{12}$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: antes de dividir hay que expresar ambas medidas en la misma unidad, y luego dejar el resultado en notación científica.\nPaso 1: $1{,}7$ mm $= 1{,}7 \\cdot 10^{-3}$ m.\nPaso 2: $\\frac{1{,}7 \\cdot 10^{-3}}{3{,}4 \\cdot 10^{-10}} = \\frac{1{,}7}{3{,}4} \\cdot 10^{-3-(-10)} = 0{,}5 \\cdot 10^{7}$.\nPaso 3: $0{,}5 \\cdot 10^{7} = 5 \\cdot 10^{6}$.\nRespuesta: A, habría que apilar $5 \\cdot 10^{6}$ láminas.\nErrores frecuentes: La B cambia $0{,}5$ por $5$ sin ajustar el exponente. La C no convierte los milímetros a metros y divide $1{,}7$ por $3{,}4 \\cdot 10^{-10}$. La D convierte en el sentido contrario, como si $1{,}7$ mm fueran $1{,}7 \\cdot 10^{3}$ m.",
+    "verify": "const x = 1.7e-3 / 3.4e-10; const alts = { A: 5e6, B: 5e7, C: 5e9, D: 5e12 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) / x < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-105",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "¿Cuál es el valor de $\\left(\\sqrt{5} + \\sqrt{3}\\right)^{2} - \\left(\\sqrt{5} - \\sqrt{3}\\right)^{2}$?",
+    "alternatives": {
+      "A": "$0$",
+      "B": "$6$",
+      "C": "$2\\sqrt{15}$",
+      "D": "$4\\sqrt{15}$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: al desarrollar ambos cuadrados de binomio, los cuadrados se cancelan y quedan solo los dobles productos.\nPaso 1: $\\left(\\sqrt{5} + \\sqrt{3}\\right)^{2} = 5 + 2\\sqrt{15} + 3 = 8 + 2\\sqrt{15}$.\nPaso 2: $\\left(\\sqrt{5} - \\sqrt{3}\\right)^{2} = 5 - 2\\sqrt{15} + 3 = 8 - 2\\sqrt{15}$.\nPaso 3: la diferencia es $(8 + 2\\sqrt{15}) - (8 - 2\\sqrt{15}) = 4\\sqrt{15}$.\nRespuesta: D, el valor es $4\\sqrt{15}$.\nErrores frecuentes: La A eleva término a término ($(a+b)^{2} = a^{2} + b^{2}$), con lo que ambos cuadrados dan $8$. La B eleva término a término y además resta los cuadrados en el segundo binomio: $8 - (5 - 3)$. La C cancela mal los signos al restar y conserva solo uno de los dobles productos.",
+    "verify": "const s5 = Math.sqrt(5), s3 = Math.sqrt(3); const x = (s5 + s3) ** 2 - (s5 - s3) ** 2; const alts = { A: 0, B: 6, C: 2 * Math.sqrt(15), D: 4 * Math.sqrt(15) }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-106",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una hoja de papel tiene un espesor de $0{,}1$ mm. Cada vez que se dobla por la mitad su espesor se duplica, de modo que, después de $n$ dobleces, el espesor es $0{,}1 \\cdot 2^{n}$ mm.\n\nSi fuera posible doblarla todas las veces que se quisiera, ¿cuál es la menor cantidad de dobleces necesaria para que el espesor supere $1$ m?",
+    "alternatives": {
+      "A": "$10$",
+      "B": "$13$",
+      "C": "$14$",
+      "D": "$17$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: se iguala la unidad de medida y luego se busca la menor potencia de $2$ que supera el valor pedido.\nPaso 1: $1$ m $= 1\\,000$ mm, así que se necesita $0{,}1 \\cdot 2^{n} > 1\\,000$, es decir, $2^{n} > 10\\,000$.\nPaso 2: $2^{13} = 8\\,192$ no alcanza y $2^{14} = 16\\,384$ sí supera $10\\,000$.\nPaso 3: la menor cantidad de dobleces es $14$, con un espesor de $1\\,638{,}4$ mm.\nRespuesta: C, $14$ dobleces.\nErrores frecuentes: La A usa $1$ m $= 100$ mm y busca $2^{n} > 1\\,000$. La B elige la potencia más cercana a $10\\,000$, pero $2^{13}$ es menor que ese valor. La D usa $1$ m $= 10\\,000$ mm y busca $2^{n} > 100\\,000$.",
+    "verify": "let n = 0; while (0.1 * 2 ** n <= 1000) n++; const x = n; const alts = { A: 10, B: 13, C: 14, D: 17 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
+  },
+  {
+    "key": "m1-numeros-107",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera un número $a > 0$. ¿A qué potencia de $a$ equivale $\\sqrt{a\\sqrt{a\\sqrt{a}}}$?",
+    "alternatives": {
+      "A": "$a^{\\frac{1}{8}}$",
+      "B": "$a^{\\frac{3}{8}}$",
+      "C": "$a^{\\frac{7}{8}}$",
+      "D": "$a^{\\frac{3}{2}}$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: conviene escribir cada raíz como potencia de exponente fraccionario y trabajar desde adentro hacia afuera.\nPaso 1: $a\\sqrt{a} = a^{1} \\cdot a^{\\frac{1}{2}} = a^{\\frac{3}{2}}$, y su raíz es $\\sqrt{a^{\\frac{3}{2}}} = a^{\\frac{3}{4}}$.\nPaso 2: $a \\cdot a^{\\frac{3}{4}} = a^{\\frac{7}{4}}$, y su raíz es $\\sqrt{a^{\\frac{7}{4}}} = a^{\\frac{7}{8}}$.\nPaso 3: comprobación con $a = 256 = 2^{8}$: $\\sqrt{256\\sqrt{256 \\cdot 16}} = \\sqrt{256 \\cdot 64} = 128 = 2^{7} = 256^{\\frac{7}{8}}$.\nRespuesta: C, $a^{\\frac{7}{8}}$.\nErrores frecuentes: La A multiplica los exponentes $\\frac{1}{2} \\cdot \\frac{1}{2} \\cdot \\frac{1}{2}$ y olvida los factores $a$. La B considera que hay tres factores $a$ bajo una raíz de índice $8$. La D aplica la raíz cuadrada solo una vez a cada $a$ y suma: $\\frac{1}{2} + \\frac{1}{2} + \\frac{1}{2}$.",
+    "verify": "const a = 7.3; const v = Math.sqrt(a * Math.sqrt(a * Math.sqrt(a))); const x = Math.log(v) / Math.log(a); const alts = { A: 1/8, B: 3/8, C: 7/8, D: 3/2 }; const k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9); return k.length === 1 ? k[0] : null;"
   }
 ]

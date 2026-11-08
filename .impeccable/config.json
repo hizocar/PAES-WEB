@@ -20,6 +20,15 @@
         ],
         "createdAt": "2026-11-08T03:58:50.647Z",
         "reason": "Botón 3D presionable estilo Duolingo (border-b-4/border-b-2 en botones, no en tarjetas): patrón de la identidad existente de PAES Lab, que el dueño eligió conservar en un refinamiento, no un rebrand (2026-11-07)."
+      },
+      {
+        "rule": "border-accent-on-rounded",
+        "value": "*",
+        "files": [
+          "src/components/landing/PricingSection.tsx"
+        ],
+        "createdAt": "2026-11-08T04:15:52.877Z",
+        "reason": "Botón 3D presionable estilo Duolingo (border-b-4/border-b-2 en el botón 'Empieza gratis', no en tarjetas): patrón de la identidad existente, que el dueño eligió conservar en un refinamiento, no un rebrand (2026-11-07)."
       }
     ]
   }

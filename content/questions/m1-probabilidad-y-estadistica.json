@@ -777,5 +777,442 @@
     "correct": "A",
     "explanation": "Al incorporar el $45$, los datos ordenados son $41, 43, 44, 45, 46, 48, 50, 51, 53, 55, 58$. Con $11$ datos, la mediana es el que ocupa la posición $6$, es decir, $48$ minutos.\nB es la mediana de los $10$ datos originales, $\\frac{48 + 50}{2} = 49$, y supone que no cambia al agregar un dato.\nC toma el sexto dato de la lista original sin reordenar.\nD toma el séptimo dato de la lista original, como si la posición central se desplazara hacia arriba.",
     "verify": "const d=[41,43,44,46,48,50,51,53,55,58,45].sort((a,b)=>a-b); const med=d[(d.length-1)/2]; const orig=[41,43,44,46,48,50,51,53,55,58]; const alts={A:48,B:49,C:50,D:51}; const t=Object.keys(alts).filter(k=>alts[k]===med); return (t.length===1 && (orig[4]+orig[5])/2===alts.B)?t[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-042",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "tablas-y-graficos",
+    "habilidad": "representar",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "En una fonda de Arica, un carro de comida registró cuántas empanadas vendió de cada tipo durante la primera hora:\n$\\displaystyle \\begin{array}{|c|c|}\\hline \\text{Tipo de empanada} & \\text{Cantidad vendida} \\\\ \\hline \\text{Pino} & 18 \\\\ \\hline \\text{Queso} & 12 \\\\ \\hline \\text{Mariscos} & 6 \\\\ \\hline \\text{Vegetariana} & 4 \\\\ \\hline \\end{array}$\n¿Qué porcentaje del total de empanadas vendidas en esa hora fueron de pino o de queso?",
+    "alternatives": {
+      "A": "$30\\%$",
+      "B": "$45\\%$",
+      "C": "$50\\%$",
+      "D": "$75\\%$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: el porcentaje de una categoría es su frecuencia dividida por el total de datos, multiplicada por $100\\%$.\nPaso 1: el total de empanadas es $18 + 12 + 6 + 4 = 40$.\nPaso 2: las de pino o de queso son $18 + 12 = 30$.\nPaso 3: el porcentaje es $\\frac{30}{40} \\cdot 100\\% = 75\\%$.\nRespuesta: D, $75\\%$.\nErrores frecuentes: La A toma la cantidad $30$ como si ya fuera un porcentaje, sin dividir por el total. La B considera solo las empanadas de pino ($\\frac{18}{40} = 45\\%$). La C razona que son $2$ de los $4$ tipos, pero los tipos no se vendieron en igual cantidad.",
+    "verify": "const f={pino:18,queso:12,mar:6,veg:4}; const t=f.pino+f.queso+f.mar+f.veg; const p=(f.pino+f.queso)/t*100; const o={A:30,B:45,C:50,D:75}; const r=Object.keys(o).filter(k=>Math.abs(o[k]-p)<1e-9); return r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-043",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "tablas-y-graficos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Ignacia salió a trotar al Parque Ecuador de Concepción durante $6$ días y anotó los kilómetros que recorrió cada día:\n$2, \\ 7, \\ 4, \\ 6, \\ 9, \\ 8$\n¿Cuál es el promedio de kilómetros que recorrió por día?",
+    "alternatives": {
+      "A": "$6$ km",
+      "B": "$6{,}5$ km",
+      "C": "$7$ km",
+      "D": "$7{,}2$ km"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: el promedio es la suma de los datos dividida por la cantidad de datos.\nPaso 1: la suma es $2 + 7 + 4 + 6 + 9 + 8 = 36$ km.\nPaso 2: hay $6$ datos, así que el promedio es $\\frac{36}{6} = 6$ km.\nRespuesta: A, $6$ km.\nErrores frecuentes: La B es la mediana: al ordenar ($2, 4, 6, 7, 8, 9$) los datos centrales son $6$ y $7$. La C es el rango ($9 - 2$). La D divide la suma por $5$ en lugar de $6$.",
+    "verify": "const d=[2,7,4,6,9,8]; const m=d.reduce((a,b)=>a+b,0)/d.length; const o={A:6,B:6.5,C:7,D:7.2}; const r=Object.keys(o).filter(k=>Math.abs(o[k]-m)<1e-9); return r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-044",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "tablas-y-graficos",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un CESFAM de Los Ángeles se midió el tiempo de espera, en minutos, de $50$ pacientes antes de ser atendidos. La tabla muestra las frecuencias acumuladas de cada intervalo:\n$\\displaystyle \\begin{array}{|c|c|}\\hline \\text{Tiempo de espera (min)} & \\text{Frecuencia acumulada} \\\\ \\hline [0, 10[ & 8 \\\\ \\hline [10, 20[ & 23 \\\\ \\hline [20, 30[ & 41 \\\\ \\hline [30, 40[ & 50 \\\\ \\hline \\end{array}$\n¿Cuántos pacientes esperaron $20$ minutos o más?",
+    "alternatives": {
+      "A": "$18$",
+      "B": "$23$",
+      "C": "$27$",
+      "D": "$41$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: la frecuencia acumulada de un intervalo cuenta todos los datos desde el primer intervalo hasta ese.\nPaso 1: la frecuencia acumulada del intervalo $[10, 20[$ es $23$, es decir, $23$ pacientes esperaron menos de $20$ minutos.\nPaso 2: los que esperaron $20$ minutos o más son $50 - 23 = 27$.\nRespuesta: C, $27$ pacientes.\nErrores frecuentes: La A cuenta solo el intervalo $[20, 30[$ ($41 - 23$) y olvida a los que esperaron entre $30$ y $40$ minutos. La B corresponde a los que esperaron menos de $20$ minutos. La D lee la frecuencia acumulada de $[20, 30[$ como si fuera la cantidad pedida.",
+    "verify": "const ac=[8,23,41,50]; const n=ac[3]; const res=n-ac[1]; const o={A:18,B:23,C:27,D:41}; const r=Object.keys(o).filter(k=>o[k]===res); return r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-045",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "tablas-y-graficos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Se preguntó a los $20$ trabajadores de una oficina de Punta Arenas cuántas tazas de café toman en un día laboral. Los resultados se muestran en la tabla:\n$\\displaystyle \\begin{array}{|c|c|}\\hline \\text{Tazas de café} & \\text{Cantidad de trabajadores} \\\\ \\hline 0 & 4 \\\\ \\hline 1 & 9 \\\\ \\hline 2 & 4 \\\\ \\hline 3 & 2 \\\\ \\hline 4 & 1 \\\\ \\hline \\end{array}$\n¿Cuál es el promedio de tazas de café que toma un trabajador de esta oficina en un día laboral?",
+    "alternatives": {
+      "A": "$1$",
+      "B": "$1{,}35$",
+      "C": "$2$",
+      "D": "$5{,}4$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: en una tabla de frecuencias, cada valor se multiplica por su frecuencia antes de sumar, y se divide por el total de datos.\nPaso 1: la suma ponderada es $0 \\cdot 4 + 1 \\cdot 9 + 2 \\cdot 4 + 3 \\cdot 2 + 4 \\cdot 1 = 27$ tazas.\nPaso 2: el total de trabajadores es $20$.\nPaso 3: el promedio es $\\frac{27}{20} = 1{,}35$ tazas.\nRespuesta: B, $1{,}35$.\nErrores frecuentes: La A es la moda (el valor con más trabajadores). La C promedia los valores $0, 1, 2, 3, 4$ sin considerar sus frecuencias. La D divide las $27$ tazas por las $5$ filas de la tabla en vez de por los $20$ trabajadores.",
+    "verify": "const v=[0,1,2,3,4], f=[4,9,4,2,1]; const s=v.reduce((a,x,i)=>a+x*f[i],0); const n=f.reduce((a,b)=>a+b,0); const m=s/n; const o={A:1,B:1.35,C:2,D:5.4}; const r=Object.keys(o).filter(k=>Math.abs(o[k]-m)<1e-9); return r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-046",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "tablas-y-graficos",
+    "habilidad": "argumentar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Tres escuelas de conductores de Talcahuano registraron cuántos de sus alumnos rindieron el examen práctico de conducción el mes pasado y cuántos lo aprobaron:\n$\\displaystyle \\begin{array}{|c|c|c|}\\hline \\text{Escuela} & \\text{Rindieron} & \\text{Aprobaron} \\\\ \\hline \\text{Escuela A} & 60 & 45 \\\\ \\hline \\text{Escuela B} & 80 & 52 \\\\ \\hline \\text{Escuela C} & 45 & 36 \\\\ \\hline \\end{array}$\nSegún la tabla, ¿cuál de las siguientes afirmaciones es verdadera?",
+    "alternatives": {
+      "A": "La escuela B tiene el mayor porcentaje de aprobación.",
+      "B": "La escuela A tiene un porcentaje de aprobación mayor que el de la escuela C.",
+      "C": "Las tres escuelas tienen un porcentaje de aprobación mayor que $70\\%$.",
+      "D": "La escuela C tiene el mayor porcentaje de aprobación."
+    },
+    "correct": "D",
+    "explanation": "Idea clave: para comparar grupos de distinto tamaño se usan porcentajes, no cantidades absolutas.\nPaso 1: escuela A: $\\frac{45}{60} \\cdot 100\\% = 75\\%$.\nPaso 2: escuela B: $\\frac{52}{80} \\cdot 100\\% = 65\\%$.\nPaso 3: escuela C: $\\frac{36}{45} \\cdot 100\\% = 80\\%$, que es el mayor porcentaje.\nRespuesta: D, la escuela C tiene el mayor porcentaje de aprobación.\nErrores frecuentes: La A se elige porque B tiene más aprobados ($52$), pero también tiene más alumnos y su porcentaje es el menor. La B es falsa porque $75\\% < 80\\%$. La C es falsa porque la escuela B tiene solo $65\\%$.",
+    "verify": "const e={A:[60,45],B:[80,52],C:[45,36]}; const p={}; for(const k in e){p[k]=e[k][1]/e[k][0]*100;} const s={A:p.B>p.A&&p.B>p.C, B:p.A>p.C, C:p.A>70&&p.B>70&&p.C>70, D:p.C>p.A&&p.C>p.B}; const r=Object.keys(s).filter(k=>s[k]); return r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-047",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "tablas-y-graficos",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En una planta de embalaje de Quillota se pesó una muestra de $20$ paltas. Los datos se agruparon en la siguiente tabla:\n$\\displaystyle \\begin{array}{|c|c|}\\hline \\text{Masa (g)} & \\text{Cantidad de paltas} \\\\ \\hline [150, 170[ & 4 \\\\ \\hline [170, 190[ & 10 \\\\ \\hline [190, 210[ & 6 \\\\ \\hline \\end{array}$\nSi para estimar el promedio de datos agrupados se representa cada intervalo por su marca de clase (el punto medio del intervalo), ¿cuál es el promedio estimado de la masa de estas paltas?",
+    "alternatives": {
+      "A": "$172$ g",
+      "B": "$180$ g",
+      "C": "$182$ g",
+      "D": "$192$ g"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: en datos agrupados, cada intervalo se reemplaza por su marca de clase y se calcula un promedio ponderado por las frecuencias.\nPaso 1: las marcas de clase son $160$, $180$ y $200$ g.\nPaso 2: la suma ponderada es $160 \\cdot 4 + 180 \\cdot 10 + 200 \\cdot 6 = 640 + 1\\,800 + 1\\,200 = 3\\,640$.\nPaso 3: el promedio estimado es $\\frac{3\\,640}{20} = 182$ g.\nRespuesta: C, $182$ g.\nErrores frecuentes: La A usa el límite inferior de cada intervalo ($150$, $170$, $190$) en lugar de la marca de clase. La B promedia las tres marcas de clase sin ponderar por la cantidad de paltas. La D usa el límite superior de cada intervalo.",
+    "verify": "const lim=[[150,170],[170,190],[190,210]], f=[4,10,6]; const n=f.reduce((a,b)=>a+b,0); const m=lim.reduce((a,l,i)=>a+(l[0]+l[1])/2*f[i],0)/n; const o={A:172,B:180,C:182,D:192}; const r=Object.keys(o).filter(k=>Math.abs(o[k]-m)<1e-9); return r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-048",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "tablas-y-graficos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un preuniversitario de Talca, las $30$ mujeres de un curso obtuvieron un promedio de $640$ puntos en un ensayo y los hombres del mismo curso obtuvieron un promedio de $600$ puntos. El promedio de todo el curso fue de $625$ puntos.\n¿Cuántos hombres hay en el curso?",
+    "alternatives": {
+      "A": "$18$",
+      "B": "$25$",
+      "C": "$30$",
+      "D": "$50$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: el promedio del curso es un promedio ponderado: la suma total de puntos dividida por la cantidad total de estudiantes.\nPaso 1: si $h$ es la cantidad de hombres, la suma total de puntajes es $30 \\cdot 640 + 600h = 19\\,200 + 600h$.\nPaso 2: el promedio del curso cumple $\\frac{19\\,200 + 600h}{30 + h} = 625$, es decir, $19\\,200 + 600h = 18\\,750 + 625h$.\nPaso 3: despejando, $450 = 25h$, por lo que $h = 18$.\nPaso 4: comprobación: $\\frac{19\\,200 + 10\\,800}{48} = \\frac{30\\,000}{48} = 625$.\nRespuesta: A, $18$ hombres.\nErrores frecuentes: La B toma la diferencia $625 - 600 = 25$ como si fuera la cantidad de hombres. La C supone que hay tantos hombres como mujeres, pero en ese caso el promedio sería $620$. La D invierte la proporción: como $625$ está más cerca de $640$, hay más mujeres que hombres, no al revés.",
+    "verify": "const m=30, pm=640, ph=600, P=625; const h=m*(pm-P)/(P-ph); const ok=Math.abs((m*pm+h*ph)/(m+h)-P)<1e-9; const o={A:18,B:25,C:30,D:50}; const r=Object.keys(o).filter(k=>Math.abs(o[k]-h)<1e-9); return ok&&r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-049",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "tablas-y-graficos",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un sensor de una estación meteorológica de Calama registró $n$ temperaturas, cuyo promedio es $p$ grados Celsius. Luego se descubrió que el sensor estaba mal calibrado y que cada temperatura real se obtiene multiplicando la temperatura registrada por $1{,}1$ y sumándole $0{,}2$ al resultado.\n¿Cuál es el promedio de las $n$ temperaturas reales?",
+    "alternatives": {
+      "A": "$1{,}1p + 0{,}2$",
+      "B": "$1{,}1(p + 0{,}2)$",
+      "C": "$1{,}1p + 0{,}2n$",
+      "D": "$p + 0{,}3$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: si a todos los datos se les aplica la misma transformación $ax + b$, el promedio se transforma de la misma manera.\nPaso 1: si los datos registrados son $x_1, x_2, \\ldots, x_n$, su suma es $np$.\nPaso 2: la suma de los datos reales es $(1{,}1x_1 + 0{,}2) + \\ldots + (1{,}1x_n + 0{,}2) = 1{,}1 \\cdot np + 0{,}2n$.\nPaso 3: al dividir por $n$, el promedio real es $\\frac{1{,}1np + 0{,}2n}{n} = 1{,}1p + 0{,}2$.\nRespuesta: A, $1{,}1p + 0{,}2$.\nErrores frecuentes: La B suma $0{,}2$ antes de multiplicar, cambiando el orden de la corrección. La C olvida dividir por $n$ el término $0{,}2n$, que corresponde a la suma total y no al promedio. La D suma $0{,}1$ y $0{,}2$ como si multiplicar por $1{,}1$ fuera sumar $0{,}1$.",
+    "verify": "const d=[12,18,25,9,31]; const n=d.length; const p=d.reduce((a,b)=>a+b,0)/n; const real=d.map(x=>1.1*x+0.2).reduce((a,b)=>a+b,0)/n; const o={A:1.1*p+0.2,B:1.1*(p+0.2),C:1.1*p+0.2*n,D:p+0.3}; const r=Object.keys(o).filter(k=>Math.abs(o[k]-real)<1e-9); return r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-050",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "tablas-y-graficos",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Se encuestó a $200$ visitantes del Parque Nacional Torres del Paine sobre su nacionalidad y la actividad principal que realizaron. Los resultados se muestran en la tabla:\n$\\displaystyle \\begin{array}{|c|c|c|}\\hline & \\text{Trekking} & \\text{Navegación} \\\\ \\hline \\text{Chilena} & 48 & 32 \\\\ \\hline \\text{Extranjera} & 84 & 36 \\\\ \\hline \\end{array}$\n¿Cuál de las siguientes afirmaciones es verdadera?",
+    "alternatives": {
+      "A": "El $60\\%$ de quienes hicieron trekking son extranjeros.",
+      "B": "La mayoría de quienes hicieron navegación son chilenos.",
+      "C": "El porcentaje de extranjeros que hizo trekking es menor que el porcentaje de chilenos que hizo trekking.",
+      "D": "El $40\\%$ de los visitantes chilenos hizo navegación."
+    },
+    "correct": "D",
+    "explanation": "Idea clave: en una tabla de doble entrada, cada porcentaje se calcula sobre el grupo que indica la afirmación (una fila o una columna), no siempre sobre el total.\nPaso 1: totales: chilenos $48 + 32 = 80$; extranjeros $84 + 36 = 120$; trekking $48 + 84 = 132$; navegación $32 + 36 = 68$.\nPaso 2: entre los chilenos, la navegación representa $\\frac{32}{80} \\cdot 100\\% = 40\\%$, por lo que D es verdadera.\nPaso 3: se revisan las demás: extranjeros entre quienes hicieron trekking $\\frac{84}{132} \\approx 63{,}6\\%$; chilenos entre quienes navegaron $\\frac{32}{68} < 50\\%$; trekking entre extranjeros $\\frac{84}{120} = 70\\%$ y entre chilenos $\\frac{48}{80} = 60\\%$.\nRespuesta: D.\nErrores frecuentes: La A confunde el porcentaje de extranjeros en toda la encuesta ($\\frac{120}{200} = 60\\%$) con el porcentaje de extranjeros entre quienes hicieron trekking. La B es falsa porque en navegación hay $36$ extranjeros y solo $32$ chilenos. La C es al revés: $70\\% > 60\\%$, aunque haya más extranjeros en total.",
+    "verify": "const ct=48,cn=32,et=84,en=36; const C=ct+cn,E=et+en,T=ct+et,N=cn+en; const s={A:Math.abs(et/T-0.6)<1e-9, B:cn>en, C:et/E<ct/C, D:Math.abs(cn/C-0.4)<1e-9}; const r=Object.keys(s).filter(k=>s[k]); return r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-051",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "tablas-y-graficos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un grupo de $5$ excursionistas pesó sus mochilas antes de subir al Cajón del Maipo. El promedio de las masas de las $5$ mochilas es $12$ kg. Si no se considera la mochila más pesada, el promedio de las otras $4$ es $10$ kg. Si además no se considera la mochila más liviana, el promedio de las $3$ restantes es $11$ kg.\n¿Cuántos kilogramos de diferencia hay entre la mochila más pesada y la más liviana?",
+    "alternatives": {
+      "A": "$7$ kg",
+      "B": "$9$ kg",
+      "C": "$13$ kg",
+      "D": "$20$ kg"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: a partir de cada promedio se obtiene la suma de los datos, y al restar sumas se aísla el dato que se quitó.\nPaso 1: la suma de las $5$ mochilas es $5 \\cdot 12 = 60$ kg.\nPaso 2: sin la más pesada, la suma es $4 \\cdot 10 = 40$ kg, así que la más pesada tiene $60 - 40 = 20$ kg.\nPaso 3: sin la más liviana, las $3$ restantes suman $3 \\cdot 11 = 33$ kg, así que la más liviana tiene $40 - 33 = 7$ kg.\nPaso 4: la diferencia es $20 - 7 = 13$ kg.\nRespuesta: C, $13$ kg.\nErrores frecuentes: La A es la masa de la mochila más liviana, no la diferencia. La B resta a la más pesada el promedio $11$ en vez de la masa de la más liviana. La D es la masa de la mochila más pesada.",
+    "verify": "const s5=5*12, s4=4*10, s3=3*11; const max=s5-s4, min=s4-s3; const ok=max>=s3/3&&min<=s3/3; const dif=max-min; const o={A:7,B:9,C:13,D:20}; const r=Object.keys(o).filter(k=>o[k]===dif); return ok&&r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-052",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "tablas-y-graficos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una cadena de farmacias tiene tres sucursales en Antofagasta. La tabla muestra la cantidad de ventas de cada sucursal durante un mes y el porcentaje de esas ventas que se hizo en línea:\n$\\displaystyle \\begin{array}{|c|c|c|}\\hline \\text{Sucursal} & \\text{Cantidad de ventas} & \\text{Ventas en línea} \\\\ \\hline \\text{Norte} & 200 & 30\\% \\\\ \\hline \\text{Centro} & 300 & 20\\% \\\\ \\hline \\text{Sur} & 500 & 10\\% \\\\ \\hline \\end{array}$\nConsiderando las tres sucursales en conjunto, ¿qué porcentaje del total de ventas del mes se hizo en línea?",
+    "alternatives": {
+      "A": "$17\\%$",
+      "B": "$20\\%$",
+      "C": "$23\\%$",
+      "D": "$60\\%$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: el porcentaje global no es el promedio de los porcentajes, porque cada sucursal tiene una cantidad distinta de ventas.\nPaso 1: ventas en línea por sucursal: $30\\%$ de $200 = 60$; $20\\%$ de $300 = 60$; $10\\%$ de $500 = 50$.\nPaso 2: en total hubo $60 + 60 + 50 = 170$ ventas en línea de un total de $200 + 300 + 500 = 1\\,000$ ventas.\nPaso 3: el porcentaje es $\\frac{170}{1\\,000} \\cdot 100\\% = 17\\%$.\nRespuesta: A, $17\\%$.\nErrores frecuentes: La B promedia los tres porcentajes, $\\frac{30 + 20 + 10}{3}$, sin ponderar por la cantidad de ventas. La C cruza los datos: aplica el $30\\%$ a la sucursal de $500$ ventas y el $10\\%$ a la de $200$. La D suma los porcentajes, lo que no tiene sentido para el total.",
+    "verify": "const v=[200,300,500], p=[30,20,10]; const enl=v.reduce((a,x,i)=>a+x*p[i]/100,0); const tot=v.reduce((a,b)=>a+b,0); const g=enl/tot*100; const o={A:17,B:20,C:23,D:60}; const r=Object.keys(o).filter(k=>Math.abs(o[k]-g)<1e-9); return r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-053",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "tablas-y-graficos",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una corrida solidaria en Coyhaique participaron $m$ corredores adultos, cuyo tiempo promedio fue $x$ minutos, y $n$ corredores juveniles, cuyo tiempo promedio fue $y$ minutos. Se sabe que $m > n$ y que $x < y$.\nSi $P$ es el tiempo promedio de todos los corredores, ¿cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "$P = \\frac{x + y}{2}$",
+      "B": "$P$ está más cerca de $y$ que de $x$.",
+      "C": "$\\frac{x + y}{2} < P < y$",
+      "D": "$x < P < \\frac{x + y}{2}$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: el promedio de dos grupos juntos queda entre los dos promedios y más cerca del promedio del grupo con más personas.\nPaso 1: el promedio total es $P = \\frac{mx + ny}{m + n}$, un promedio ponderado de $x$ e $y$.\nPaso 2: como $x < y$ y ambos grupos tienen corredores, $P$ queda estrictamente entre $x$ e $y$.\nPaso 3: como $m > n$, el grupo adulto pesa más de la mitad, así que $P$ está más cerca de $x$ que de $y$. Por ejemplo, con $m = 3$, $n = 1$, $x = 40$, $y = 60$: $P = \\frac{120 + 60}{4} = 45$, que está entre $40$ y $50$.\nRespuesta: D, $x < P < \\frac{x + y}{2}$.\nErrores frecuentes: La A solo se cumpliría si $m = n$. La B y la C ubican a $P$ cerca del promedio del grupo más pequeño, lo que ocurriría si hubiera más juveniles que adultos.",
+    "verify": "const cases=[[3,1,40,60],[5,2,10,20],[101,100,7,8],[10,9,30,90]]; const ok={A:true,B:true,C:true,D:true}; for(const [m,n,x,y] of cases){ const P=(m*x+n*y)/(m+n), M=(x+y)/2; if(!(Math.abs(P-M)<1e-9)) ok.A=false; if(!(Math.abs(P-y)<Math.abs(P-x))) ok.B=false; if(!(M<P&&P<y)) ok.C=false; if(!(x<P&&P<M)) ok.D=false; } const r=Object.keys(ok).filter(k=>ok[k]); return r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-054",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "tablas-y-graficos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un liceo de Ovalle se registraron las horas de voluntariado que hicieron $20$ estudiantes durante un mes, y el promedio fue de $15$ horas. Al revisar el registro se detectaron dos problemas: a un estudiante que hizo $16$ horas se le anotaron $26$, y faltó incluir a un estudiante que hizo $25$ horas.\nDespués de corregir el dato mal anotado e incluir al estudiante que faltaba, ¿cuál es el promedio de horas de voluntariado?",
+    "alternatives": {
+      "A": "$14{,}5$ horas",
+      "B": "$15$ horas",
+      "C": "$15{,}75$ horas",
+      "D": "$16{,}25$ horas"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: para corregir un promedio conviene trabajar con la suma total de los datos y luego dividir por la nueva cantidad de datos.\nPaso 1: la suma registrada es $20 \\cdot 15 = 300$ horas.\nPaso 2: al corregir el dato mal anotado, la suma baja en $26 - 16 = 10$ horas: $300 - 10 = 290$.\nPaso 3: al incluir al estudiante que faltaba, la suma es $290 + 25 = 315$ horas y hay $21$ estudiantes.\nPaso 4: el promedio corregido es $\\frac{315}{21} = 15$ horas.\nRespuesta: B, $15$ horas.\nErrores frecuentes: La A corrige el dato mal anotado pero olvida incluir al estudiante que faltaba ($\\frac{290}{20}$). La C hace ambas correcciones en la suma, pero sigue dividiendo por $20$. La D suma las $25$ horas sin corregir el error y divide por $20$ ($\\frac{325}{20}$).",
+    "verify": "const n=20, m=15; const s=n*m-(26-16)+25; const p=s/(n+1); const o={A:14.5,B:15,C:15.75,D:16.25}; const r=Object.keys(o).filter(k=>Math.abs(o[k]-p)<1e-9); return r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-055",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "reglas-probabilidades",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "En un juego de rol, Matías usa un dado de $8$ caras con forma de octaedro, numeradas del $1$ al $8$, y todas las caras tienen la misma probabilidad de salir. Para que su personaje logre saltar un río, debe obtener un número mayor que $5$.\n¿Cuál es la probabilidad de que su personaje logre saltar el río en un lanzamiento?",
+    "alternatives": {
+      "A": "$\\frac{1}{4}$",
+      "B": "$\\frac{3}{8}$",
+      "C": "$\\frac{1}{2}$",
+      "D": "$\\frac{5}{8}$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: con resultados equiprobables, la probabilidad es casos favorables dividido por casos totales (regla de Laplace).\nPaso 1: los casos totales son $8$.\nPaso 2: los números mayores que $5$ son $6$, $7$ y $8$: hay $3$ casos favorables.\nPaso 3: la probabilidad es $\\frac{3}{8}$.\nRespuesta: B, $\\frac{3}{8}$.\nErrores frecuentes: La A cuenta solo el $7$ y el $8$, como si el $6$ no fuera mayor que $5$. La C incluye el $5$, pero mayor que $5$ no considera al $5$. La D es la probabilidad del complemento: obtener $5$ o menos.",
+    "verify": "let fav=0; for(let c=1;c<=8;c++){ if(c>5) fav++; } const p=fav/8; const o={A:1/4,B:3/8,C:1/2,D:5/8}; const r=Object.keys(o).filter(k=>Math.abs(o[k]-p)<1e-9); return r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-056",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "reglas-probabilidades",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un juego de mesa que una familia de Ancud juega en las vacaciones de invierno, se lanzan dos dados comunes de seis caras y se suman los puntos obtenidos. Si la suma es a lo más $4$, el jugador debe retroceder una casilla.\n¿Cuál es la probabilidad de que un jugador deba retroceder en un lanzamiento?",
+    "alternatives": {
+      "A": "$\\frac{1}{12}$",
+      "B": "$\\frac{1}{9}$",
+      "C": "$\\frac{1}{6}$",
+      "D": "$\\frac{3}{11}$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: al lanzar dos dados hay $6 \\cdot 6 = 36$ resultados igualmente probables, y cada par ordenado cuenta por separado.\nPaso 1: suma $2$: $(1,1)$. Suma $3$: $(1,2)$ y $(2,1)$. Suma $4$: $(1,3)$, $(3,1)$ y $(2,2)$.\nPaso 2: hay $1 + 2 + 3 = 6$ casos favorables.\nPaso 3: la probabilidad es $\\frac{6}{36} = \\frac{1}{6}$.\nRespuesta: C, $\\frac{1}{6}$.\nErrores frecuentes: La A cuenta solo las sumas menores que $4$ ($\\frac{3}{36}$), pero a lo más $4$ incluye el $4$. La B cuenta los pares sin orden ($\\{1,1\\}, \\{1,2\\}, \\{1,3\\}, \\{2,2\\}$), como si $(1,2)$ y $(2,1)$ fueran el mismo resultado. La D toma las $11$ sumas posibles como si fueran igualmente probables.",
+    "verify": "let fav=0; for(let a=1;a<=6;a++) for(let b=1;b<=6;b++) if(a+b<=4) fav++; const p=fav/36; const o={A:1/12,B:1/9,C:1/6,D:3/11}; const r=Object.keys(o).filter(k=>Math.abs(o[k]-p)<1e-9); return r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-057",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "reglas-probabilidades",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un vuelo de Santiago a Puerto Montt viajan $150$ pasajeros. La tabla muestra cuántos viajan en cada clase y si llevan o no equipaje en bodega:\n$\\displaystyle \\begin{array}{|c|c|c|}\\hline & \\text{Con equipaje en bodega} & \\text{Sin equipaje en bodega} \\\\ \\hline \\text{Clase económica} & 60 & 70 \\\\ \\hline \\text{Clase premium} & 15 & 5 \\\\ \\hline \\end{array}$\nSi se elige al azar a uno de los pasajeros que viajan en clase premium, ¿cuál es la probabilidad de que lleve equipaje en bodega?",
+    "alternatives": {
+      "A": "$\\frac{1}{10}$",
+      "B": "$\\frac{2}{15}$",
+      "C": "$\\frac{1}{5}$",
+      "D": "$\\frac{3}{4}$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: cuando la elección se hace solo entre un grupo, los casos totales son los integrantes de ese grupo y no todos los pasajeros.\nPaso 1: en clase premium viajan $15 + 5 = 20$ pasajeros: esos son los casos totales.\nPaso 2: de ellos, $15$ llevan equipaje en bodega: esos son los casos favorables.\nPaso 3: la probabilidad es $\\frac{15}{20} = \\frac{3}{4}$.\nRespuesta: D, $\\frac{3}{4}$.\nErrores frecuentes: La A divide por los $150$ pasajeros del vuelo, lo que corresponde a elegir entre todos. La B es la probabilidad de que un pasajero cualquiera viaje en premium ($\\frac{20}{150}$). La C invierte el grupo: es la probabilidad de viajar en premium entre los $75$ que llevan equipaje en bodega.",
+    "verify": "const ec=60, es=70, pc=15, ps=5; const p=pc/(pc+ps); const o={A:1/10,B:2/15,C:1/5,D:3/4}; const ok=Math.abs(o.A-pc/(ec+es+pc+ps))<1e-9&&Math.abs(o.C-pc/(ec+pc))<1e-9; const r=Object.keys(o).filter(k=>Math.abs(o[k]-p)<1e-9); return ok&&r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-058",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "reglas-probabilidades",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una caja de bombones artesanales de Puerto Varas contiene $8$ bombones de igual forma y tamaño: $3$ son de menta y $5$ son de leche. Tomás saca al azar dos bombones, uno tras otro y sin devolver el primero.\n¿Cuál es la probabilidad de que al menos uno de los dos bombones sea de menta?",
+    "alternatives": {
+      "A": "$\\frac{3}{28}$",
+      "B": "$\\frac{15}{28}$",
+      "C": "$\\frac{39}{64}$",
+      "D": "$\\frac{9}{14}$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: la probabilidad de al menos uno se calcula más fácil con el complemento: $1$ menos la probabilidad de que ninguno sea de menta.\nPaso 1: la probabilidad de que el primero sea de leche es $\\frac{5}{8}$.\nPaso 2: sin reposición quedan $7$ bombones, $4$ de leche: la probabilidad de que el segundo también sea de leche es $\\frac{4}{7}$.\nPaso 3: la probabilidad de que ninguno sea de menta es $\\frac{5}{8} \\cdot \\frac{4}{7} = \\frac{20}{56} = \\frac{5}{14}$.\nPaso 4: la probabilidad pedida es $1 - \\frac{5}{14} = \\frac{9}{14}$.\nRespuesta: D, $\\frac{9}{14}$.\nErrores frecuentes: La A es la probabilidad de que ambos sean de menta ($\\frac{3}{8} \\cdot \\frac{2}{7}$). La B es la probabilidad de que exactamente uno sea de menta, y olvida el caso de dos de menta. La C usa el complemento como si hubiera reposición: $1 - \\left(\\frac{5}{8}\\right)^2$.",
+    "verify": "const M=3, L=5, T=M+L; let fav=0, tot=0; for(let i=0;i<T;i++) for(let j=0;j<T;j++){ if(i===j) continue; tot++; if(i<M||j<M) fav++; } const p=fav/tot; const o={A:3/28,B:15/28,C:39/64,D:9/14}; const r=Object.keys(o).filter(k=>Math.abs(o[k]-p)<1e-9); return r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-059",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "reglas-probabilidades",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Para un bingo solidario en un colegio de Quellón, una bolsa tiene $n$ fichas rojas y $6$ fichas azules, todas del mismo tamaño. Si se agregan $3$ fichas rojas a la bolsa, la probabilidad de sacar al azar una ficha roja pasa a ser $\\frac{1}{2}$.\n¿Cuál era la probabilidad de sacar al azar una ficha roja antes de agregar las $3$ fichas?",
+    "alternatives": {
+      "A": "$\\frac{1}{4}$",
+      "B": "$\\frac{1}{3}$",
+      "C": "$\\frac{1}{2}$",
+      "D": "$\\frac{2}{3}$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: la condición sobre la nueva probabilidad entrega una ecuación para $n$; con $n$ se calcula la probabilidad inicial.\nPaso 1: después de agregar las fichas hay $n + 3$ rojas y $n + 9$ fichas en total, así que $\\frac{n + 3}{n + 9} = \\frac{1}{2}$.\nPaso 2: resolviendo, $2n + 6 = n + 9$, de donde $n = 3$.\nPaso 3: al inicio había $3$ rojas de $3 + 6 = 9$ fichas, y la probabilidad era $\\frac{3}{9} = \\frac{1}{3}$.\nRespuesta: B, $\\frac{1}{3}$.\nErrores frecuentes: La A divide las $3$ rojas iniciales por el total final de $12$ fichas. La C compara rojas con azules ($\\frac{3}{6}$), que es una razón y no una probabilidad. La D divide las $6$ rojas finales por el total inicial de $9$ fichas.",
+    "verify": "let n=null; for(let k=0;k<=100;k++){ if(Math.abs((k+3)/(k+9)-0.5)<1e-12){ n=k; break; } } if(n===null) return null; const p=n/(n+6); const o={A:1/4,B:1/3,C:1/2,D:2/3}; const r=Object.keys(o).filter(k=>Math.abs(o[k]-p)<1e-9); return r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-060",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "reglas-probabilidades",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un museo de Valparaíso tiene dos alarmas que funcionan de manera independiente. Ante un intento de ingreso indebido, la alarma $1$ se activa con probabilidad $0{,}9$ y la alarma $2$ se activa con probabilidad $0{,}8$.\nAnte un intento de ingreso indebido, ¿cuál es la probabilidad de que se active exactamente una de las dos alarmas?",
+    "alternatives": {
+      "A": "$0{,}02$",
+      "B": "$0{,}26$",
+      "C": "$0{,}72$",
+      "D": "$0{,}98$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: exactamente una significa una se activa y la otra no; son dos casos que no pueden ocurrir a la vez, así que sus probabilidades se suman.\nPaso 1: solo se activa la alarma $1$: $0{,}9 \\cdot (1 - 0{,}8) = 0{,}9 \\cdot 0{,}2 = 0{,}18$.\nPaso 2: solo se activa la alarma $2$: $(1 - 0{,}9) \\cdot 0{,}8 = 0{,}1 \\cdot 0{,}8 = 0{,}08$.\nPaso 3: la probabilidad pedida es $0{,}18 + 0{,}08 = 0{,}26$.\nRespuesta: B, $0{,}26$.\nErrores frecuentes: La A es la probabilidad de que no se active ninguna ($0{,}1 \\cdot 0{,}2$). La C es la probabilidad de que se activen ambas ($0{,}9 \\cdot 0{,}8$). La D es la probabilidad de que se active al menos una, que incluye el caso en que se activan las dos.",
+    "verify": "const a=0.9, b=0.8; const p=a*(1-b)+(1-a)*b; const o={A:0.02,B:0.26,C:0.72,D:0.98}; const r=Object.keys(o).filter(k=>Math.abs(o[k]-p)<1e-9); return r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-061",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-posicion",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Una lancha que une dos islas de Chiloé registró la cantidad de pasajeros en $11$ viajes:\n$14, \\ 6, \\ 20, \\ 9, \\ 3, \\ 15, \\ 11, \\ 18, \\ 5, \\ 12, \\ 8$\nSi el tercer cuartil $Q_3$ se calcula como la mediana de los datos que quedan sobre la mediana, sin incluirla, ¿cuál es el valor de $Q_3$?",
+    "alternatives": {
+      "A": "$11$",
+      "B": "$14{,}5$",
+      "C": "$15$",
+      "D": "$18$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: para obtener cuartiles primero hay que ordenar los datos y ubicar la mediana.\nPaso 1: ordenados: $3, 5, 6, 8, 9, 11, 12, 14, 15, 18, 20$.\nPaso 2: con $11$ datos la mediana es el sexto dato, $11$.\nPaso 3: los datos sobre la mediana son $12, 14, 15, 18, 20$ y su mediana es $15$. Por lo tanto, $Q_3 = 15$.\nRespuesta: C, $15$.\nErrores frecuentes: La A es la mediana, no el tercer cuartil. La B incluye la mediana en la mitad superior ($11, 12, 14, 15, 18, 20$), contra lo que indica el enunciado. La D toma el cuarto dato de la mitad superior en vez del dato central.",
+    "verify": "const d=[14,6,20,9,3,15,11,18,5,12,8].sort((a,b)=>a-b); const med=x=>{const n=x.length; return n%2?x[(n-1)/2]:(x[n/2-1]+x[n/2])/2;}; const h=Math.floor(d.length/2); const q3=med(d.slice(d.length-h)); const o={A:11,B:14.5,C:15,D:18}; const r=Object.keys(o).filter(k=>Math.abs(o[k]-q3)<1e-9); return r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-062",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-posicion",
+    "habilidad": "argumentar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Las edades de las $120$ personas que asistieron a un concierto al aire libre en Valdivia se resumieron en un diagrama de cajón, cuyos cinco números son:\n$\\displaystyle \\begin{array}{|c|c|c|c|c|}\\hline \\text{Mínimo} & Q_1 & \\text{Mediana} & Q_3 & \\text{Máximo} \\\\ \\hline 20 & 35 & 42 & 50 & 78 \\\\ \\hline \\end{array}$\n¿Cuál de las siguientes afirmaciones se puede deducir de esta información?",
+    "alternatives": {
+      "A": "Aproximadamente la mitad de los asistentes tiene entre $35$ y $50$ años.",
+      "B": "El rango intercuartil de las edades es $58$ años.",
+      "C": "Aproximadamente $30$ asistentes tienen más de $42$ años.",
+      "D": "Aproximadamente el $75\\%$ de los asistentes tiene más de $50$ años."
+    },
+    "correct": "A",
+    "explanation": "Idea clave: en un diagrama de cajón, cada uno de los cuatro tramos (mínimo a $Q_1$, $Q_1$ a mediana, mediana a $Q_3$, $Q_3$ a máximo) contiene aproximadamente el $25\\%$ de los datos.\nPaso 1: entre $Q_1 = 35$ y $Q_3 = 50$ hay dos tramos, es decir, cerca del $50\\%$ de los asistentes, unas $60$ personas. Por eso A es verdadera.\nPaso 2: el rango intercuartil es $Q_3 - Q_1 = 50 - 35 = 15$ años.\nPaso 3: sobre la mediana ($42$) está cerca del $50\\%$ de los datos, unas $60$ personas; sobre $Q_3$ ($50$) está cerca del $25\\%$.\nRespuesta: A.\nErrores frecuentes: La B calcula el rango ($78 - 20 = 58$), no el rango intercuartil. La C confunde la mediana con un cuartil y toma el $25\\%$ de $120$. La D invierte el sentido: el $75\\%$ tiene $50$ años o menos, no más.",
+    "verify": "const mn=20,q1=35,me=42,q3=50,mx=78,N=120; const fr=(a,b)=>{const pos=[mn,q1,me,q3,mx]; return (pos.indexOf(b)-pos.indexOf(a))*0.25;}; const s={A:Math.abs(fr(q1,q3)-0.5)<1e-9, B:(q3-q1)===58, C:Math.abs(N*fr(me,mx)-30)<1e-9, D:Math.abs(fr(q3,mx)-0.75)<1e-9}; const ok=(mx-mn)===58; const r=Object.keys(s).filter(k=>s[k]); return ok&&r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-063",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-posicion",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Se preguntó a un grupo de familias de Copiapó cuántas veces fueron al dentista durante el último año. Los resultados se muestran en la tabla, donde $k$ es un número entero positivo:\n$\\displaystyle \\begin{array}{|c|c|}\\hline \\text{Visitas al dentista} & \\text{Cantidad de familias} \\\\ \\hline 0 & 5 \\\\ \\hline 1 & 8 \\\\ \\hline 2 & k \\\\ \\hline 3 & 4 \\\\ \\hline \\end{array}$\nSi la mediana de la cantidad de visitas al dentista es $1$, ¿cuál es el mayor valor que puede tener $k$?",
+    "alternatives": {
+      "A": "$7$",
+      "B": "$8$",
+      "C": "$9$",
+      "D": "$13$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: la mediana es $1$ mientras el dato central (o los dos datos centrales) queden entre las posiciones de las familias con $1$ visita.\nPaso 1: al ordenar los datos, las posiciones $1$ a $5$ tienen valor $0$ y las posiciones $6$ a $13$ tienen valor $1$. El total de familias es $17 + k$.\nPaso 2: si $k = 8$, hay $25$ familias (cantidad impar) y la mediana es el dato en la posición $13$, que vale $1$.\nPaso 3: si $k = 9$, hay $26$ familias y la mediana es el promedio de los datos en las posiciones $13$ y $14$: $\\frac{1 + 2}{2} = 1{,}5$. Para $k$ mayores, la mediana sigue alejándose de $1$.\nRespuesta: B, $k = 8$.\nErrores frecuentes: La A considera solo totales pares y descarta $k = 8$, aunque con $25$ datos la mediana es exactamente $1$. La C supone que basta con que $13$ datos sean a lo más $1$ con un total de $26$, olvidando que entonces el dato $14$ ya vale $2$. La D cree que $k$ puede llegar hasta $13$, la frecuencia acumulada de $1$, sin considerar que $k$ aumenta el total de datos.",
+    "verify": "const med=(f)=>{const d=[]; f.forEach((c,v)=>{for(let i=0;i<c;i++) d.push(v);}); const n=d.length; return n%2?d[(n-1)/2]:(d[n/2-1]+d[n/2])/2;}; let best=null; for(let k=1;k<=100;k++){ if(med([5,8,k,4])===1) best=k; } const o={A:7,B:8,C:9,D:13}; const r=Object.keys(o).filter(x=>o[x]===best); return r.length===1?r[0]:null;"
+  },
+  {
+    "key": "m1-probabilidad-y-estadistica-064",
+    "subject": "m1",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-posicion",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una fundación de Rancagua entregará becas según los puntajes de un examen que rindieron $400$ postulantes. Se sabe que el puntaje $610$ corresponde al percentil $35$ y que el $20\\%$ de los postulantes obtuvo más de $700$ puntos.\nSegún esta información, ¿aproximadamente cuántos postulantes obtuvieron más de $610$ puntos y, a lo más, $700$ puntos?",
+    "alternatives": {
+      "A": "$80$",
+      "B": "$140$",
+      "C": "$180$",
+      "D": "$260$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el percentil $k$ deja aproximadamente el $k\\%$ de los datos a su izquierda; si el $20\\%$ supera un valor, ese valor es aproximadamente el percentil $80$.\nPaso 1: como el $20\\%$ obtuvo más de $700$, el $80\\%$ obtuvo $700$ o menos, así que $700$ es aproximadamente el percentil $80$.\nPaso 2: entre el percentil $35$ y el percentil $80$ está aproximadamente el $80\\% - 35\\% = 45\\%$ de los postulantes.\nPaso 3: el $45\\%$ de $400$ es $0{,}45 \\cdot 400 = 180$ postulantes.\nRespuesta: C, $180$.\nErrores frecuentes: La A cuenta a los que obtuvieron más de $700$ puntos ($20\\%$ de $400$). La B cuenta a los que obtuvieron $610$ puntos o menos ($35\\%$ de $400$). La D cuenta a todos los que superaron $610$, sin descontar a los que obtuvieron más de $700$.",
+    "verify": "const N=400, p35=0.35, sobre700=0.20; const res=Math.round(N*((1-sobre700)-p35)); const o={A:80,B:140,C:180,D:260}; const r=Object.keys(o).filter(k=>o[k]===res); return r.length===1?r[0]:null;"
   }
 ]

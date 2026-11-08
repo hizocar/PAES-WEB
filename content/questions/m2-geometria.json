@@ -742,5 +742,424 @@
     "correct": "A",
     "explanation": "Si la arista mide $a$ cm, el aumento del área total es $6(a + 1)^2 - 6a^2 = 6(2a + 1)$.\nDe $6(2a + 1) = 66$ se obtiene $2a + 1 = 11$, es decir, $a = 5$, y el volumen es $5^3 = 125\\ \\text{cm}^3$.\nB es el área total del cubo original ($6 \\cdot 25$), C es el volumen del cubo con la arista aumentada ($6^3$) y D toma $\\frac{66}{6} = 11$ como la arista, sin plantear la diferencia de áreas.",
     "verify": "let a = null; for (let x = 1; x <= 50; x++) if (6*(x+1)**2 - 6*x*x === 66) a = x; if (a === null) return null; const V = a**3; const opts = {A:125, B:150, C:216, D:1331}; for (const [l,v] of Object.entries(opts)) if (v === V) return l; return null;"
+  },
+  {
+    "key": "m2-geometria-127",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Un pintor de Valparaíso apoya una escalera de $2{,}5$ m de largo contra la fachada vertical de una casa. El pie de la escalera queda sobre el suelo horizontal, a $0{,}7$ m de la fachada.\n\n¿A qué altura del suelo queda el extremo superior de la escalera?",
+    "alternatives": {
+      "A": "$1{,}8$ m",
+      "B": "$2{,}4$ m",
+      "C": "$2{,}6$ m",
+      "D": "$3{,}2$ m"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: la escalera, la fachada y el suelo forman un triángulo rectángulo cuya hipotenusa es la escalera.\nPaso 1: Si $h$ es la altura buscada, por el teorema de Pitágoras $h^2 + 0{,}7^2 = 2{,}5^2$.\nPaso 2: $h^2 = 6{,}25 - 0{,}49 = 5{,}76$, luego $h = \\sqrt{5{,}76} = 2{,}4$ m.\nRespuesta: B, $2{,}4$ m.\nErrores frecuentes: La A resta las longitudes ($2{,}5 - 0{,}7$) sin usar Pitágoras. La C suma los cuadrados como si la escalera fuera un cateto ($\\sqrt{6{,}25+0{,}49}\\approx 2{,}6$). La D suma las longitudes.",
+    "verify": "const h = Math.sqrt(2.5**2 - 0.7**2); const o = {A:1.8,B:2.4,C:2.6,D:3.2}; for (const [l,v] of Object.entries(o)) if (Math.abs(v-h)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-geometria-128",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En una capilla de Chiloé se instalará una ventana formada por un rectángulo de $1{,}2$ m de ancho y $1{,}5$ m de alto, sobre el cual se apoya un semicírculo cuyo diámetro coincide con el lado superior del rectángulo.\n\n¿Cuál de las siguientes expresiones representa el área total de vidrio de la ventana, en $\\text{m}^2$?",
+    "alternatives": {
+      "A": "$1{,}8 + 0{,}18\\pi$",
+      "B": "$1{,}8 + 0{,}36\\pi$",
+      "C": "$1{,}8 + 0{,}72\\pi$",
+      "D": "$1{,}8 + 1{,}44\\pi$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: el área de la ventana es la suma del área del rectángulo y la del semicírculo, cuyo radio es la mitad del ancho.\nPaso 1: Área del rectángulo: $1{,}2 \\cdot 1{,}5 = 1{,}8$ $\\text{m}^2$.\nPaso 2: El radio del semicírculo es $1{,}2 : 2 = 0{,}6$ m, así que su área es $\\frac{\\pi \\cdot 0{,}6^2}{2} = \\frac{0{,}36\\pi}{2} = 0{,}18\\pi$ $\\text{m}^2$.\nPaso 3: Área total: $1{,}8 + 0{,}18\\pi$ $\\text{m}^2$.\nRespuesta: A, $1{,}8 + 0{,}18\\pi$.\nErrores frecuentes: La B usa el círculo completo de radio $0{,}6$ m en vez de la mitad. La C toma $1{,}2$ m como radio del semicírculo. La D usa un círculo completo de radio $1{,}2$ m.",
+    "verify": "const rect = 1.2*1.5; const coefPi = 0.6**2/2; const o = {A:0.18,B:0.36,C:0.72,D:1.44}; if (Math.abs(rect-1.8)>1e-9) return null; for (const [l,v] of Object.entries(o)) if (Math.abs(v-coefPi)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-geometria-129",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "argumentar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Para ampliar una huerta escolar rectangular en Ovalle, se decide aumentar su largo en un $20\\%$ y, por falta de espacio, disminuir su ancho en un $20\\%$.\n\n¿Cuál de las siguientes afirmaciones es verdadera respecto del área de la huerta, sin importar sus medidas originales?",
+    "alternatives": {
+      "A": "El área disminuye en un $4\\%$.",
+      "B": "El área no cambia.",
+      "C": "El área disminuye en un $20\\%$.",
+      "D": "El área aumenta en un $4\\%$."
+    },
+    "correct": "A",
+    "explanation": "Idea clave: un cambio porcentual en cada lado multiplica el área por el producto de los factores.\nPaso 1: Si el largo es $a$ y el ancho es $b$, el área original es $ab$.\nPaso 2: Las nuevas medidas son $1{,}2a$ y $0{,}8b$, así que la nueva área es $1{,}2 \\cdot 0{,}8 \\cdot ab = 0{,}96ab$.\nPaso 3: El área pasa a ser el $96\\%$ de la original: disminuye en un $4\\%$, cualesquiera sean $a$ y $b$.\nRespuesta: A, el área disminuye en un $4\\%$.\nErrores frecuentes: La B supone que un aumento y una disminución del mismo porcentaje se compensan. La C considera solo el cambio del ancho. La D calcula bien el $4\\%$ pero se equivoca en el sentido del cambio.",
+    "verify": "const tests = [[10,6],[7,3],[25,40]]; const ratios = tests.map(([a,b]) => (1.2*a*0.8*b)/(a*b)); if (!ratios.every(r => Math.abs(r-0.96)<1e-9)) return null; const change = ratios[0]-1; return Math.abs(change + 0.04)<1e-9 ? 'A' : null;"
+  },
+  {
+    "key": "m2-geometria-130",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una plaza de La Serena se construirá un jardín con forma de triángulo rectángulo. Para bordearlo completo se necesitan exactamente $40$ m de solera, y la superficie del jardín es de $60\\ \\text{m}^2$.\n\n¿Cuánto mide el lado más largo del jardín?",
+    "alternatives": {
+      "A": "$15$ m",
+      "B": "$17$ m",
+      "C": "$19{,}25$ m",
+      "D": "$20$ m"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: con los catetos $a$ y $b$ y la hipotenusa $c$, se combinan perímetro, área y Pitágoras usando $(a+b)^2 = a^2 + b^2 + 2ab$.\nPaso 1: Del perímetro, $a + b = 40 - c$. Del área, $\\frac{ab}{2} = 60$, luego $ab = 120$.\nPaso 2: Por Pitágoras, $a^2 + b^2 = c^2$. Entonces $(40-c)^2 = c^2 + 2 \\cdot 120$.\nPaso 3: $1\\,600 - 80c + c^2 = c^2 + 240$, de donde $80c = 1\\,360$ y $c = 17$ m. (Los catetos son $8$ m y $15$ m.)\nRespuesta: B, $17$ m.\nErrores frecuentes: La A entrega el cateto mayor, no la hipotenusa. La C usa $ab = 60$, olvidando que el área es la mitad del producto de los catetos. La D iguala $(a+b)^2$ con $a^2+b^2$, omitiendo el término $2ab$.",
+    "verify": "let c = null; for (let x = 1; x < 40; x += 0.25) { if (Math.abs((40-x)**2 - (x**2 + 240)) < 1e-9) c = x; } if (c === null) return null; const s = 40 - c, p = 120; const d = Math.sqrt(s*s - 4*p); const a = (s-d)/2, b = (s+d)/2; if (Math.abs(a*b/2-60)>1e-9 || Math.abs(a*a+b*b-c*c)>1e-9) return null; const o = {A:15,B:17,C:19.25,D:20}; for (const [l,v] of Object.entries(o)) if (Math.abs(v-c)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-geometria-131",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Se tienen dos trozos de alambre de igual longitud. Con el primero se forma un cuadrado y con el segundo, un triángulo equilátero, sin que sobre ni falte alambre.\n\n¿Cuál es la razón entre el área del cuadrado y el área del triángulo, en ese orden?",
+    "alternatives": {
+      "A": "$\\frac{9}{16}$",
+      "B": "$\\frac{3}{4}$",
+      "C": "$\\frac{4\\sqrt{3}}{9}$",
+      "D": "$\\frac{3\\sqrt{3}}{4}$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: con el mismo perímetro $P$, el lado de cada figura se expresa en función de $P$ y luego se comparan las áreas.\nPaso 1: El lado del cuadrado es $\\frac{P}{4}$ y su área es $\\frac{P^2}{16}$.\nPaso 2: El lado del triángulo es $\\frac{P}{3}$ y su área es $\\frac{\\sqrt{3}}{4}\\cdot\\frac{P^2}{9} = \\frac{\\sqrt{3}P^2}{36}$.\nPaso 3: La razón es $\\frac{P^2}{16} : \\frac{\\sqrt{3}P^2}{36} = \\frac{36}{16\\sqrt{3}} = \\frac{9}{4\\sqrt{3}} = \\frac{3\\sqrt{3}}{4}$.\nRespuesta: D, $\\frac{3\\sqrt{3}}{4}$.\nErrores frecuentes: La A eleva al cuadrado la razón entre los lados, como si ambas figuras fueran semejantes. La B compara solo los lados ($\\frac{P}{4} : \\frac{P}{3}$). La C invierte la razón pedida (triángulo respecto del cuadrado).",
+    "verify": "const P = 12; const sq = (P/4)**2; const tri = Math.sqrt(3)/4*(P/3)**2; const r = sq/tri; const o = {A:9/16,B:3/4,C:4*Math.sqrt(3)/9,D:3*Math.sqrt(3)/4}; for (const [l,v] of Object.entries(o)) if (Math.abs(v-r)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-geometria-132",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "En una búsqueda del tesoro en una playa de Pichilemu, las pistas indican desplazamientos sobre un plano cartesiano, con unidades en metros. La primera pista corresponde a $\\vec{u} = (2, -3)$ y la segunda, a $\\vec{v} = (-1, 4)$. El desplazamiento que debe hacer cada equipo es $2\\vec{u} - \\vec{v}$.\n\n¿Qué par ordenado representa ese desplazamiento?",
+    "alternatives": {
+      "A": "$(1, 1)$",
+      "B": "$(3, -2)$",
+      "C": "$(5, -10)$",
+      "D": "$(5, -7)$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: se multiplica cada coordenada por el escalar y luego se resta coordenada a coordenada.\nPaso 1: $2\\vec{u} = (4, -6)$.\nPaso 2: $2\\vec{u} - \\vec{v} = (4 - (-1), -6 - 4) = (5, -10)$.\nRespuesta: C, $(5, -10)$.\nErrores frecuentes: La A calcula $\\vec{u} + \\vec{v}$. La B suma $\\vec{v}$ en lugar de restarlo. La D multiplica por $2$ solo la primera coordenada de $\\vec{u}$.",
+    "verify": "const u=[2,-3], v=[-1,4]; const w=[2*u[0]-v[0], 2*u[1]-v[1]]; const o={A:[1,1],B:[3,-2],C:[5,-10],D:[5,-7]}; for (const [l,p] of Object.entries(o)) if (p[0]===w[0] && p[1]===w[1]) return l; return null;"
+  },
+  {
+    "key": "m2-geometria-133",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En el plano de un escenario del Teatro Municipal de Iquique, dibujado sobre un plano cartesiano con unidades en metros, una bailarina está en el punto $P(3, 1)$. Para la coreografía, primero se ubica en la posición simétrica de $P$ con respecto a la recta $x = -1$ y, desde ahí, se desplaza según el vector $(2, 4)$.\n\n¿Cuáles son las coordenadas de la posición final de la bailarina?",
+    "alternatives": {
+      "A": "$(-1, 5)$",
+      "B": "$(-2, 5)$",
+      "C": "$(5, 1)$",
+      "D": "$(-3, 5)$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: en una reflexión respecto de la recta vertical $x = c$, la coordenada $y$ se mantiene y la $x$ queda a la misma distancia de la recta, pero al otro lado: $x' = 2c - x$.\nPaso 1: $P$ está a $4$ unidades a la derecha de $x = -1$, así que su simétrico está $4$ unidades a la izquierda: $x' = 2(-1) - 3 = -5$. El punto reflejado es $(-5, 1)$.\nPaso 2: Al trasladar según $(2, 4)$: $(-5 + 2, 1 + 4) = (-3, 5)$.\nRespuesta: D, $(-3, 5)$.\nErrores frecuentes: La A refleja respecto del eje $Y$ en lugar de la recta $x = -1$. La B calcula mal la reflexión, contando la distancia solo una vez ($x' = -1 - 3 = -4$). La C refleja respecto de la recta horizontal $y = -1$.",
+    "verify": "const P=[3,1]; const R=[2*(-1)-P[0], P[1]]; const F=[R[0]+2, R[1]+4]; const o={A:[-1,5],B:[-2,5],C:[5,1],D:[-3,5]}; for (const [l,p] of Object.entries(o)) if (p[0]===F[0] && p[1]===F[1]) return l; return null;"
+  },
+  {
+    "key": "m2-geometria-134",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "argumentar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "A una figura cualquiera del plano cartesiano se le aplica una rotación de $180^\\circ$ con centro en el origen.\n\n¿Cuál de las siguientes transformaciones produce siempre la misma figura final?",
+    "alternatives": {
+      "A": "Una reflexión con respecto al eje $X$.",
+      "B": "Una reflexión con respecto a la recta $y = x$.",
+      "C": "Una reflexión con respecto al eje $X$, seguida de una reflexión con respecto al eje $Y$.",
+      "D": "Una reflexión con respecto al eje $Y$, seguida de una reflexión con respecto a la recta $y = x$."
+    },
+    "correct": "C",
+    "explanation": "Idea clave: se compara qué le hace cada transformación a un punto cualquiera $(x, y)$.\nPaso 1: La rotación de $180^\\circ$ con centro en el origen transforma $(x, y)$ en $(-x, -y)$.\nPaso 2: Reflejar respecto del eje $X$ da $(x, -y)$, y luego respecto del eje $Y$ da $(-x, -y)$: coincide con la rotación para todo punto.\nRespuesta: C, reflexión respecto del eje $X$ seguida de reflexión respecto del eje $Y$.\nErrores frecuentes: La A solo cambia el signo de $y$: da $(x, -y)$. La B intercambia las coordenadas: da $(y, x)$. La D da $(-x, y)$ y luego $(y, -x)$, que es una rotación de $90^\\circ$ en sentido horario, no de $180^\\circ$.",
+    "verify": "const pts=[[2,5],[-3,1],[4,-7]]; const rot=([x,y])=>[-x,-y]; const T={A:([x,y])=>[x,-y],B:([x,y])=>[y,x],C:([x,y])=>{const a=[x,-y]; return [-a[0],a[1]];},D:([x,y])=>{const a=[-x,y]; return [a[1],a[0]];}}; const ok=Object.keys(T).filter(l=>pts.every(p=>{const r=rot(p), t=T[l](p); return r[0]===t[0]&&r[1]===t[1];})); return ok.length===1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-geometria-135",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera un punto $P(a, b)$ del plano cartesiano. Primero se refleja $P$ con respecto a la recta $y = x$ y, luego, el punto obtenido se traslada según el vector $(2, -2)$. Se sabe que el punto final coincide con $P$.\n\n¿Cuál de las siguientes afirmaciones es verdadera?",
+    "alternatives": {
+      "A": "$P$ pertenece a la recta $y = x - 2$.",
+      "B": "$P$ pertenece a la recta $y = x + 2$.",
+      "C": "$P$ es necesariamente el punto $(1, -1)$.",
+      "D": "No existe ningún punto $P$ que cumpla esa condición."
+    },
+    "correct": "A",
+    "explanation": "Idea clave: se escribe el punto final en términos de $a$ y $b$ y se iguala con $(a, b)$.\nPaso 1: La reflexión respecto de $y = x$ intercambia las coordenadas: $(a, b) \\to (b, a)$.\nPaso 2: La traslación según $(2, -2)$ da $(b + 2, a - 2)$.\nPaso 3: Igualando con $(a, b)$: $b + 2 = a$ y $a - 2 = b$, que son la misma ecuación $b = a - 2$. Hay infinitos puntos que cumplen, todos sobre la recta $y = x - 2$.\nRespuesta: A, $P$ pertenece a la recta $y = x - 2$.\nErrores frecuentes: La B despeja con el signo cambiado ($b = a + 2$). La C toma un solo punto que cumple ($1 - (-1) = 2$) y concluye que es el único, sin ver que las dos ecuaciones son equivalentes. La D supone que una reflexión seguida de una traslación nunca deja puntos fijos.",
+    "verify": "const img=(a,b)=>[b+2, a-2]; const fixed=(a,b)=>{const q=img(a,b); return Math.abs(q[0]-a)<1e-9 && Math.abs(q[1]-b)<1e-9;}; const onA=[[0,-2],[5,3],[-1,-3],[1,-1]].every(([a,b])=>fixed(a,b)); const offB=!fixed(0,2); const many=fixed(5,3)&&fixed(1,-1); return (onA && offB && many) ? 'A' : null;"
+  },
+  {
+    "key": "m2-geometria-136",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una sala de ensayo hay dos espejos verticales y paralelos. En un plano cartesiano de la sala, los espejos están sobre las rectas $x = 1$ y $x = 4$. A cualquier punto $(x, y)$ del plano se le aplica primero la reflexión con respecto a la recta $x = 1$ y, al resultado, la reflexión con respecto a la recta $x = 4$.\n\n¿Cuál de las siguientes transformaciones produce, para todo punto, el mismo resultado que esas dos reflexiones?",
+    "alternatives": {
+      "A": "La traslación según el vector $(3, 0)$.",
+      "B": "La traslación según el vector $(-6, 0)$.",
+      "C": "La reflexión con respecto a la recta $x = 5$.",
+      "D": "La traslación según el vector $(6, 0)$."
+    },
+    "correct": "D",
+    "explanation": "Idea clave: la reflexión respecto de la recta $x = c$ transforma $(x, y)$ en $(2c - x, y)$; se componen ambas reglas en el orden dado.\nPaso 1: Respecto de $x = 1$: $(x, y) \\to (2 - x, y)$.\nPaso 2: Respecto de $x = 4$: $(2 - x, y) \\to (8 - (2 - x), y) = (x + 6, y)$.\nPaso 3: Todo punto avanza $6$ unidades a la derecha: es la traslación según $(6, 0)$, el doble de la distancia entre los espejos.\nRespuesta: D, la traslación según el vector $(6, 0)$.\nErrores frecuentes: La A usa la distancia entre los espejos sin duplicarla. La B aplica las reflexiones en el orden inverso (primero $x = 4$ y luego $x = 1$). La C supone que dos reflexiones equivalen a otra reflexión, sumando las rectas.",
+    "verify": "const ref=(c)=>([x,y])=>[2*c-x,y]; const comp=(p)=>ref(4)(ref(1)(p)); const pts=[[0,0],[3,-2],[-5,7]]; const T={A:([x,y])=>[x+3,y],B:([x,y])=>[x-6,y],C:([x,y])=>[10-x,y],D:([x,y])=>[x+6,y]}; const ok=Object.keys(T).filter(l=>pts.every(p=>{const a=comp(p), b=T[l](p); return a[0]===b[0]&&a[1]===b[1];})); return ok.length===1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-geometria-137",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "homotecia",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "A un segmento $AB$ de $10$ cm de longitud se le aplica una homotecia de centro $O$ y razón $k$, y se obtiene el segmento $A'B'$, de $4$ cm de longitud. Además, el punto $A$ y su imagen $A'$ quedan en lados opuestos con respecto a $O$.\n\n¿Cuál es el valor de $k$?",
+    "alternatives": {
+      "A": "$-\\frac{5}{2}$",
+      "B": "$-\\frac{2}{5}$",
+      "C": "$\\frac{2}{5}$",
+      "D": "$\\frac{5}{2}$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: en una homotecia de razón $k$, las longitudes se multiplican por $|k|$, y el signo de $k$ indica si la imagen queda al mismo lado del centro ($k > 0$) o al lado opuesto ($k < 0$).\nPaso 1: $|k| = \\frac{A'B'}{AB} = \\frac{4}{10} = \\frac{2}{5}$.\nPaso 2: Como $A$ y $A'$ están en lados opuestos de $O$, la razón es negativa.\nRespuesta: B, $k = -\\frac{2}{5}$.\nErrores frecuentes: La A invierte la razón (original sobre imagen) además de usar el signo correcto. La C tiene el valor absoluto correcto pero ignora que la imagen queda al otro lado del centro. La D invierte la razón y además omite el signo.",
+    "verify": "const abs = 4/10; const k = -abs; const o={A:-5/2,B:-2/5,C:2/5,D:5/2}; for (const [l,v] of Object.entries(o)) if (Math.abs(v-k)<1e-9 && Math.abs(Math.abs(v)*10-4)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-geometria-138",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "homotecia",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Para un mural de un liceo de Antofagasta, Josefa dibuja un pentágono de $12\\ \\text{cm}^2$ de área y le aplica una homotecia de razón $-\\frac{3}{2}$.\n\n¿Cuál es el área del pentágono homotético?",
+    "alternatives": {
+      "A": "$\\frac{16}{3}\\ \\text{cm}^2$",
+      "B": "$18\\ \\text{cm}^2$",
+      "C": "$27\\ \\text{cm}^2$",
+      "D": "$40{,}5\\ \\text{cm}^2$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: en una homotecia de razón $k$, el área se multiplica por $k^2$ (el signo de $k$ no influye en el área).\nPaso 1: $k^2 = \\left(-\\frac{3}{2}\\right)^2 = \\frac{9}{4}$.\nPaso 2: Área de la imagen: $12 \\cdot \\frac{9}{4} = 27$ $\\text{cm}^2$.\nRespuesta: C, $27\\ \\text{cm}^2$.\nErrores frecuentes: La A usa la razón inversa $\\frac{2}{3}$, como si la figura se redujera. La B multiplica el área por $|k|$, como si fuera una longitud. La D multiplica por $|k|^3$, el factor que corresponde a volúmenes.",
+    "verify": "const k=-3/2; const area=12*k*k; const o={A:16/3,B:18,C:27,D:40.5}; for (const [l,v] of Object.entries(o)) if (Math.abs(v-area)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-geometria-139",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "homotecia",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "A un triángulo $T$, de área $A$, se le aplica una homotecia de centro $O$ y razón $2$. Luego, al triángulo obtenido se le aplica otra homotecia, también de centro $O$, pero de razón $-\\frac{1}{3}$, y se obtiene el triángulo $T''$.\n\n¿Cuál de las siguientes afirmaciones es verdadera?",
+    "alternatives": {
+      "A": "El área de $T''$ es $\\frac{2}{3}A$.",
+      "B": "El área de $T''$ es $\\frac{4}{9}A$ y $T''$ es la imagen de $T$ por una homotecia de centro $O$ y razón $\\frac{2}{3}$.",
+      "C": "El área de $T''$ es $\\frac{4}{9}A$ y $T''$ es la imagen de $T$ por una homotecia de centro $O$ y razón $-\\frac{2}{3}$.",
+      "D": "El área de $T''$ es $\\frac{25}{9}A$."
+    },
+    "correct": "C",
+    "explanation": "Idea clave: dos homotecias con el mismo centro equivalen a una sola homotecia con ese centro y razón igual al producto de las razones.\nPaso 1: Un punto $P$ va a $O + 2(P - O)$ y luego a $O - \\frac{1}{3}\\cdot 2(P - O) = O - \\frac{2}{3}(P - O)$. La razón total es $2 \\cdot \\left(-\\frac{1}{3}\\right) = -\\frac{2}{3}$.\nPaso 2: El área se multiplica por el cuadrado de la razón: $\\left(-\\frac{2}{3}\\right)^2 = \\frac{4}{9}$, así que el área de $T''$ es $\\frac{4}{9}A$.\nRespuesta: C.\nErrores frecuentes: La A multiplica el área por $|k|$ en lugar de $k^2$. La B tiene bien el área, pero pierde el signo: con razón negativa, $T''$ queda al otro lado de $O$. La D suma las razones ($2 - \\frac{1}{3} = \\frac{5}{3}$) en vez de multiplicarlas.",
+    "verify": "const O=[1,-2], P=[4,3]; const h=(k)=>(Q)=>[O[0]+k*(Q[0]-O[0]), O[1]+k*(Q[1]-O[1])]; const P2=h(-1/3)(h(2)(P)); const P3=h(-2/3)(P); if (Math.abs(P2[0]-P3[0])>1e-9 || Math.abs(P2[1]-P3[1])>1e-9) return null; const k=-2/3; return Math.abs(k*k-4/9)<1e-9 ? 'C' : null;"
+  },
+  {
+    "key": "m2-geometria-140",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "homotecia",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "suficiencia",
+    "content": "Al punto $P(4, 6)$ se le aplica una homotecia de centro $C$ y razón $k$, con $k \\neq 0$, pero no se conocen ni $C$ ni $k$.\n\nSe pueden determinar las coordenadas de la imagen de $P$, si se sabe que:\n\n(1) La imagen del origen $(0, 0)$ es el punto $(3, 3)$.\n(2) La imagen del punto $(1, 0)$ es el punto $(1, 3)$.",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: en una homotecia de razón $k$, todo vector se multiplica por $k$; por eso, si $H(0, 0) = M$, la imagen de cualquier punto $Q$ es $H(Q) = M + kQ$.\nPaso 1: Con (1): $H(P) = (3, 3) + k(4, 6)$, que depende de $k$. Por ejemplo, con $k = -2$ (centro $(1, 1)$) se obtiene $(-5, -9)$ y con $k = -1$ (centro $(1{,}5;\\ 1{,}5)$) se obtiene $(-1, -3)$. No basta.\nPaso 2: Con (2): también hay muchas homotecias posibles. Con $k = -2$ y centro $(1, 1)$ la imagen de $P$ es $(-5, -9)$, y con $k = -1$ y centro $(1;\\ 1{,}5)$ es $(-2, -3)$. No basta.\nPaso 3: Juntas: el vector de $(0, 0)$ a $(1, 0)$, que es $(1, 0)$, se transforma en el vector de $(3, 3)$ a $(1, 3)$, que es $(-2, 0)$. Luego $k = -2$ y $H(P) = (3, 3) - 2(4, 6) = (-5, -9)$.\nRespuesta: C, ambas juntas, (1) y (2).\nErrores frecuentes: La A y la B creen que conocer un punto y su imagen basta, pero con un solo par quedan libres el centro y la razón. La D comete ese mismo error con cada afirmación. La E no advierte que dos pares de puntos con sus imágenes fijan la razón y el centro.",
+    "verify": "const H=(C,k)=>(Q)=>[C[0]+k*(Q[0]-C[0]), C[1]+k*(Q[1]-C[1])]; const eq=(a,b)=>Math.abs(a[0]-b[0])<1e-9&&Math.abs(a[1]-b[1])<1e-9; const P=[4,6]; const c1=[[[1,1],-2],[[1.5,1.5],-1]]; const ok1=c1.every(([C,k])=>eq(H(C,k)([0,0]),[3,3])) && !eq(H(...c1[0])(P),H(...c1[1])(P)); const c2=[[[1,1],-2],[[1,1.5],-1]]; const ok2=c2.every(([C,k])=>eq(H(C,k)([1,0]),[1,3])) && !eq(H(...c2[0])(P),H(...c2[1])(P)); const k=(1-3)/(1-0); const C=[3/(1-k),3/(1-k)]; const both=eq(H(C,k)([0,0]),[3,3])&&eq(H(C,k)([1,0]),[1,3]); const fin=H(C,k)(P); if (ok1&&ok2&&both&&eq(fin,[-5,-9])) return 'C'; return null;"
+  },
+  {
+    "key": "m2-geometria-141",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "semejanza",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Una tarde de sol en la Plaza de Armas de Curicó, Benjamín, que mide $1{,}6$ m, proyecta una sombra de $2$ m. En ese mismo momento, una palmera vertical proyecta una sombra de $9$ m.\n\n¿Cuál es la altura de la palmera?",
+    "alternatives": {
+      "A": "$7{,}2$ m",
+      "B": "$8{,}6$ m",
+      "C": "$10{,}6$ m",
+      "D": "$11{,}25$ m"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: en el mismo momento, los rayos del sol forman triángulos semejantes, así que la razón altura : sombra es la misma para Benjamín y para la palmera.\nPaso 1: $\\frac{h}{9} = \\frac{1{,}6}{2}$.\nPaso 2: $h = 9 \\cdot 0{,}8 = 7{,}2$ m.\nRespuesta: A, $7{,}2$ m.\nErrores frecuentes: La B supone que la diferencia entre sombra y altura es constante ($9 - 0{,}4$). La C suma la estatura de Benjamín a la sombra de la palmera. La D invierte la razón ($\\frac{9 \\cdot 2}{1{,}6}$).",
+    "verify": "const h = 9*1.6/2; const o={A:7.2,B:8.6,C:10.6,D:11.25}; for (const [l,v] of Object.entries(o)) if (Math.abs(v-h)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-geometria-142",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "semejanza",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un barrio de Rancagua, tres calles rectas y paralelas son cortadas por dos avenidas rectas. Sobre la primera avenida, la distancia entre la primera y la segunda calle es $120$ m, y entre la segunda y la tercera calle es $180$ m. Sobre la segunda avenida, la distancia entre la primera y la tercera calle es $360$ m.\n\n¿Cuál es la distancia, sobre la segunda avenida, entre la primera y la segunda calle?",
+    "alternatives": {
+      "A": "$144$ m",
+      "B": "$180$ m",
+      "C": "$216$ m",
+      "D": "$240$ m"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: por el teorema de Thales, las paralelas cortan a las transversales en segmentos proporcionales.\nPaso 1: En la primera avenida, el tramo entre la primera y la tercera calle mide $120 + 180 = 300$ m.\nPaso 2: Si $x$ es el tramo buscado, $\\frac{x}{360} = \\frac{120}{300}$, de donde $x = 144$ m.\nRespuesta: A, $144$ m.\nErrores frecuentes: La B divide los $360$ m en dos partes iguales. La C calcula el otro tramo (entre la segunda y la tercera calle). La D plantea la proporción con $180$ en lugar del total $300$: $\\frac{360 \\cdot 120}{180}$.",
+    "verify": "const x = 360*120/(120+180); const o={A:144,B:180,C:216,D:240}; for (const [l,v] of Object.entries(o)) if (Math.abs(v-x)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-geometria-143",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "semejanza",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una vidriería de Coyhaique tiene un trozo de vidrio con forma de triángulo rectángulo, cuyos catetos miden $30$ cm y $20$ cm. De él se recorta un cuadrado de modo que uno de sus vértices coincide con el vértice del ángulo recto, dos de sus lados quedan sobre los catetos y el vértice opuesto queda sobre la hipotenusa.\n\n¿Cuál es el área del vidrio que sobra después de recortar el cuadrado?",
+    "alternatives": {
+      "A": "$75\\ \\text{cm}^2$",
+      "B": "$156\\ \\text{cm}^2$",
+      "C": "$200\\ \\text{cm}^2$",
+      "D": "$456\\ \\text{cm}^2$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: el cuadrado deja sobre él un triángulo pequeño semejante al original; con esa semejanza se calcula el lado del cuadrado.\nPaso 1: Sea $s$ el lado del cuadrado. Sobre el cateto de $20$ cm queda un triángulo de catetos $s$ (horizontal) y $20 - s$ (vertical), semejante al original.\nPaso 2: $\\frac{20 - s}{s} = \\frac{20}{30}$, de donde $60 - 3s = 2s$ y $s = 12$ cm.\nPaso 3: Área del triángulo: $\\frac{30 \\cdot 20}{2} = 300$ $\\text{cm}^2$. Área del cuadrado: $144$ $\\text{cm}^2$. Sobra $300 - 144 = 156$ $\\text{cm}^2$.\nRespuesta: B, $156\\ \\text{cm}^2$.\nErrores frecuentes: La A supone que el lado del cuadrado es la mitad del cateto mayor ($15$ cm), y ese cuadrado no cabe en el triángulo. La C usa como lado la mitad del cateto menor ($10$ cm). La D calcula el área del triángulo como $30 \\cdot 20$, sin dividir por $2$.",
+    "verify": "const s = 1/(1/30+1/20); if (Math.abs((20-s)/s - 20/30) > 1e-9) return null; const rest = 30*20/2 - s*s; const o={A:75,B:156,C:200,D:456}; for (const [l,v] of Object.entries(o)) if (Math.abs(v-rest)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-geometria-144",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "cuerpos-geometricos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un embudo de cocina tiene forma de cono recto. El radio de su abertura mide $6$ cm y su generatriz, es decir, la distancia desde el borde de la abertura hasta el vértice, mide $10$ cm.\n\nSi el volumen de un cono de radio basal $r$ y altura $h$ es $\\frac{1}{3}\\pi r^2 h$, ¿cuál es la capacidad del embudo, sin considerar el tubo de salida?",
+    "alternatives": {
+      "A": "$96\\pi\\ \\text{cm}^3$",
+      "B": "$120\\pi\\ \\text{cm}^3$",
+      "C": "$288\\pi\\ \\text{cm}^3$",
+      "D": "$360\\pi\\ \\text{cm}^3$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: la altura, el radio y la generatriz de un cono recto forman un triángulo rectángulo cuya hipotenusa es la generatriz.\nPaso 1: $h = \\sqrt{10^2 - 6^2} = \\sqrt{64} = 8$ cm.\nPaso 2: $V = \\frac{1}{3}\\pi \\cdot 6^2 \\cdot 8 = \\frac{1}{3}\\pi \\cdot 288 = 96\\pi$ $\\text{cm}^3$.\nRespuesta: A, $96\\pi\\ \\text{cm}^3$.\nErrores frecuentes: La B usa la generatriz ($10$ cm) como si fuera la altura. La C olvida el factor $\\frac{1}{3}$ (calcula el volumen de un cilindro). La D comete ambos errores a la vez.",
+    "verify": "const h = Math.sqrt(10**2-6**2); const coef = 6**2*h/3; const o={A:96,B:120,C:288,D:360}; for (const [l,v] of Object.entries(o)) if (Math.abs(v-coef)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-geometria-145",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "cuerpos-geometricos",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Una empresa de Iquique fabrica tubos de hormigón para alcantarillado. Cada tubo es un cilindro hueco de $200$ cm de largo, cuyo radio exterior mide $30$ cm y cuyo radio interior mide $25$ cm.\n\n¿Cuál es el volumen de hormigón que se necesita para fabricar un tubo?",
+    "alternatives": {
+      "A": "$5\\,000\\pi\\ \\text{cm}^3$",
+      "B": "$55\\,000\\pi\\ \\text{cm}^3$",
+      "C": "$125\\,000\\pi\\ \\text{cm}^3$",
+      "D": "$220\\,000\\pi\\ \\text{cm}^3$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: el volumen del tubo es la diferencia entre el volumen del cilindro exterior y el del hueco interior.\nPaso 1: Volumen exterior: $\\pi \\cdot 30^2 \\cdot 200 = 180\\,000\\pi$ $\\text{cm}^3$.\nPaso 2: Volumen del hueco: $\\pi \\cdot 25^2 \\cdot 200 = 125\\,000\\pi$ $\\text{cm}^3$.\nPaso 3: Hormigón: $180\\,000\\pi - 125\\,000\\pi = 55\\,000\\pi$ $\\text{cm}^3$.\nRespuesta: B, $55\\,000\\pi\\ \\text{cm}^3$.\nErrores frecuentes: La A eleva al cuadrado la diferencia de radios: $\\pi(30-25)^2 \\cdot 200$. La C calcula solo el volumen del hueco. La D usa los diámetros en lugar de los radios: $\\pi(60^2 - 50^2)\\cdot 200$.",
+    "verify": "const v = (30**2 - 25**2)*200; const o={A:5000,B:55000,C:125000,D:220000}; for (const [l,x] of Object.entries(o)) if (Math.abs(x-v)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-geometria-146",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "razones-trigonometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En una plaza de juegos de Puerto Natales, la rampa recta de un tobogán mide $5$ m de largo y forma con el suelo horizontal un ángulo $\\alpha$ tal que $\\operatorname{sen}(\\alpha) = 0{,}6$.\n\n¿Cuál es la distancia horizontal entre el extremo inferior y el extremo superior de la rampa?",
+    "alternatives": {
+      "A": "$3$ m",
+      "B": "$4$ m",
+      "C": "$\\frac{25}{4}$ m",
+      "D": "$\\frac{25}{3}$ m"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: la rampa es la hipotenusa de un triángulo rectángulo; la distancia horizontal es el cateto adyacente a $\\alpha$, que se obtiene con $\\cos(\\alpha)$.\nPaso 1: Como $\\operatorname{sen}^2(\\alpha) + \\cos^2(\\alpha) = 1$ y $\\alpha$ es agudo, $\\cos(\\alpha) = \\sqrt{1 - 0{,}36} = 0{,}8$.\nPaso 2: Distancia horizontal: $5 \\cdot \\cos(\\alpha) = 5 \\cdot 0{,}8 = 4$ m.\nRespuesta: B, $4$ m.\nErrores frecuentes: La A calcula la altura ($5 \\cdot 0{,}6$), que es el cateto opuesto. La C divide $5$ por $\\cos(\\alpha)$, como si la rampa fuera un cateto. La D divide $5$ por $\\operatorname{sen}(\\alpha)$.",
+    "verify": "const s=0.6; const c=Math.sqrt(1-s*s); const d=5*c; const o={A:3,B:4,C:25/4,D:25/3}; for (const [l,v] of Object.entries(o)) if (Math.abs(v-d)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-geometria-147",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "razones-trigonometricas",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una bodega, una escalera de largo $L$ metros está apoyada contra una pared vertical, con su pie sobre el piso horizontal, formando con el piso un ángulo $\\alpha$. El pie de la escalera resbala alejándose de la pared, sin que la escalera deje de tocarla, hasta que el ángulo con el piso pasa a ser $\\beta$, con $\\beta < \\alpha$.\n\n¿Cuál de las siguientes expresiones representa cuántos metros bajó el extremo superior de la escalera?",
+    "alternatives": {
+      "A": "$L(\\cos(\\beta) - \\cos(\\alpha))$",
+      "B": "$L \\cdot \\operatorname{sen}(\\alpha - \\beta)$",
+      "C": "$L(\\tan(\\alpha) - \\tan(\\beta))$",
+      "D": "$L(\\operatorname{sen}(\\alpha) - \\operatorname{sen}(\\beta))$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: la altura del extremo superior es el cateto opuesto al ángulo con el piso, y la escalera (hipotenusa) mantiene su largo $L$.\nPaso 1: Altura inicial: $L \\cdot \\operatorname{sen}(\\alpha)$.\nPaso 2: Altura final: $L \\cdot \\operatorname{sen}(\\beta)$.\nPaso 3: Lo que bajó es la diferencia: $L\\operatorname{sen}(\\alpha) - L\\operatorname{sen}(\\beta) = L(\\operatorname{sen}(\\alpha) - \\operatorname{sen}(\\beta))$.\nRespuesta: D.\nErrores frecuentes: La A calcula cuánto se alejó el pie de la pared (cateto adyacente). La B supone que $\\operatorname{sen}(\\alpha) - \\operatorname{sen}(\\beta) = \\operatorname{sen}(\\alpha - \\beta)$, lo que es falso en general. La C usa la tangente, que relaciona los dos catetos y no la hipotenusa con la altura.",
+    "verify": "const L=5, a=70*Math.PI/180, b=40*Math.PI/180; const drop=L*Math.sin(a)-L*Math.sin(b); const o={A:L*(Math.cos(b)-Math.cos(a)),B:L*Math.sin(a-b),C:L*(Math.tan(a)-Math.tan(b)),D:L*(Math.sin(a)-Math.sin(b))}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-drop)<1e-9); return ok.length===1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-geometria-148",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "esfera",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un pescador de Caleta Tortel funde completamente una bola maciza de plomo con forma de esfera de $6$ cm de radio y, con todo ese plomo, fabrica plomadas esféricas macizas de $2$ cm de radio, sin que sobre ni falte material.\n\nSi el volumen de una esfera de radio $r$ es $\\frac{4}{3}\\pi r^3$ y el área de su superficie es $4\\pi r^2$, ¿cuál de las siguientes afirmaciones es verdadera?",
+    "alternatives": {
+      "A": "Se obtienen $9$ plomadas y el área total de sus superficies es igual a la de la bola original.",
+      "B": "Se obtienen $27$ plomadas y el área total de sus superficies es igual a la de la bola original.",
+      "C": "Se obtienen $27$ plomadas y el área total de sus superficies es $9$ veces la de la bola original.",
+      "D": "Se obtienen $27$ plomadas y el área total de sus superficies es el triple de la de la bola original."
+    },
+    "correct": "D",
+    "explanation": "Idea clave: el volumen se conserva al fundir, pero el área de la superficie no: al dividir en piezas más pequeñas, la superficie total aumenta.\nPaso 1: Número de plomadas: $\\frac{\\frac{4}{3}\\pi \\cdot 6^3}{\\frac{4}{3}\\pi \\cdot 2^3} = \\frac{216}{8} = 27$.\nPaso 2: Superficie de la bola: $4\\pi \\cdot 6^2 = 144\\pi$ $\\text{cm}^2$. Superficie de cada plomada: $4\\pi \\cdot 2^2 = 16\\pi$ $\\text{cm}^2$.\nPaso 3: Superficie total de las plomadas: $27 \\cdot 16\\pi = 432\\pi$ $\\text{cm}^2$, que es $\\frac{432\\pi}{144\\pi} = 3$ veces la original.\nRespuesta: D.\nErrores frecuentes: La A compara los radios al cuadrado ($\\frac{36}{4} = 9$) para contar las plomadas, en vez de los volúmenes. La B cuenta bien, pero supone que la superficie se conserva como el volumen. La C multiplica por $9$, que es la razón entre las superficies de una bola y una plomada, sin considerar que hay $27$ plomadas.",
+    "verify": "const n = (6**3)/(2**3); const sBig = 4*Math.PI*36, sSmall = 4*Math.PI*4; const ratio = n*sSmall/sBig; const o={A:[9,1],B:[27,1],C:[27,9],D:[27,3]}; for (const [l,[a,b]] of Object.entries(o)) if (Math.abs(a-n)<1e-9 && Math.abs(b-ratio)<1e-9) return l; return null;"
   }
 ]

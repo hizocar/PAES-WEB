@@ -777,5 +777,499 @@
     "correct": "C",
     "explanation": "Las dos bases son cuadrados de área $a^2$ cada uno, y las cuatro caras laterales son rectángulos de $a$ por $3a$, de área $3a^2$ cada uno.\nEl área total es $2a^2 + 4 \\cdot 3a^2 = 14a^2$.\nA considera solo las caras laterales. B considera una sola base, como si la caja no tuviera tapa.\nD es el volumen de la caja, $a \\cdot a \\cdot 3a$, no su área.",
     "verify": "const res=[1,2,5].map(a=>{const h=3*a; const area=2*a*a+4*a*h; const alts={A:12*a*a,B:13*a*a,C:14*a*a,D:3*a**3}; return Object.keys(alts).filter(k=>alts[k]===area);}); return res.every(r=>r.length===1&&r[0]===res[0][0])?res[0][0]:null;"
+  },
+  {
+    "key": "m1-geometria-042",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "En un juego de mesa que se juega sobre un tablero cuadriculado con ejes cartesianos, la ficha de Valentina está en el punto $(-6, 2)$. Al sacar una carta especial, debe mover su ficha a la imagen de ese punto mediante una reflexión respecto del origen $O(0, 0)$. ¿En qué punto queda la ficha?",
+    "alternatives": {
+      "A": "$(6, -2)$",
+      "B": "$(-6, -2)$",
+      "C": "$(6, 2)$",
+      "D": "$(2, -6)$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: reflejar respecto del origen cambia el signo de ambas coordenadas: $(x, y) \\to (-x, -y)$.\nPaso 1: la ficha está en $(-6, 2)$.\nPaso 2: se cambia el signo de cada coordenada: $(-(-6), -2) = (6, -2)$.\nRespuesta: A, el punto $(6, -2)$.\nErrores frecuentes: La B cambia solo el signo de la ordenada, que es reflejar respecto del eje $X$. La C cambia solo el signo de la abscisa, que es reflejar respecto del eje $Y$. La D intercambia las coordenadas y además cambia signos, mezclando una rotación con la reflexión.",
+    "verify": "const pick=(alts,p)=>{const m=Object.keys(alts).filter(k=>alts[k][0]===p[0]&&alts[k][1]===p[1]);return m.length===1?m[0]:null;};const P=[-6,2]; const Q=[-P[0],-P[1]]; return pick({A:[6,-2],B:[-6,-2],C:[6,2],D:[2,-6]},Q);"
+  },
+  {
+    "key": "m1-geometria-043",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Antonia sale en kayak desde un muelle en el lago Llanquihue. Representando el lago en un plano cartesiano con unidades en kilómetros, su desplazamiento total queda descrito por el vector $\\vec{v} = (6, -8)$, es decir, $6$ km hacia el este y $8$ km hacia el sur. ¿A qué distancia en línea recta del muelle termina Antonia?",
+    "alternatives": {
+      "A": "$2$ km",
+      "B": "$10$ km",
+      "C": "$14$ km",
+      "D": "$100$ km"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: la distancia en línea recta es el módulo del vector, que se calcula con el teorema de Pitágoras: $|\\vec{v}| = \\sqrt{a^2 + b^2}$.\nPaso 1: $6^2 + (-8)^2 = 36 + 64 = 100$.\nPaso 2: $|\\vec{v}| = \\sqrt{100} = 10$ km.\nRespuesta: B, $10$ km.\nErrores frecuentes: La A resta las componentes sin considerar que son perpendiculares. La C suma los recorridos al este y al sur, que es el camino en dos tramos y no la distancia en línea recta. La D olvida sacar la raíz cuadrada.",
+    "verify": "const pick=(alts,x)=>{const m=Object.keys(alts).filter(k=>Math.abs(alts[k]-x)<1e-9);return m.length===1?m[0]:null;};const a=6,b=-8; return pick({A:2,B:10,C:14,D:100}, Math.sqrt(a*a+b*b));"
+  },
+  {
+    "key": "m1-geometria-044",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En una aplicación de ruleta digital, la punta de la flecha está en el punto $(-2, 5)$ de un plano cartesiano cuyo origen es el centro de la ruleta. La flecha gira $90^\\circ$ en sentido horario con centro en el origen. ¿En qué punto queda la punta de la flecha?",
+    "alternatives": {
+      "A": "$(-5, -2)$",
+      "B": "$(2, -5)$",
+      "C": "$(5, -2)$",
+      "D": "$(5, 2)$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: una rotación de $90^\\circ$ en sentido horario con centro en el origen lleva $(x, y)$ a $(y, -x)$.\nPaso 1: con $x = -2$ e $y = 5$, la nueva abscisa es $y = 5$.\nPaso 2: la nueva ordenada es $-x = -(-2) = 2$.\nPaso 3: comprobación: el punto pasó del segundo cuadrante al primero, que es lo que ocurre al girar un cuarto de vuelta como los punteros del reloj.\nRespuesta: D, el punto $(5, 2)$.\nErrores frecuentes: La A aplica la regla del giro antihorario, $(x, y) \\to (-y, x)$. La B corresponde a un giro de $180^\\circ$. La C intercambia las coordenadas pero se equivoca en el signo de la segunda.",
+    "verify": "const pick=(alts,p)=>{const m=Object.keys(alts).filter(k=>alts[k][0]===p[0]&&alts[k][1]===p[1]);return m.length===1?m[0]:null;};const x=-2,y=5; return pick({A:[-5,-2],B:[2,-5],C:[5,-2],D:[5,2]},[y,-x]);"
+  },
+  {
+    "key": "m1-geometria-045",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Considera los vectores $\\vec{u} = (4, -1)$ y $\\vec{w} = (-2, 5)$ del plano cartesiano. ¿Cuál es el vector $\\vec{v}$ que cumple $\\vec{u} + 2\\vec{v} = \\vec{w}$?",
+    "alternatives": {
+      "A": "$(-6, 6)$",
+      "B": "$(-3, 3)$",
+      "C": "$(1, 2)$",
+      "D": "$(3, -3)$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: se despeja $\\vec{v}$ igual que en una ecuación, operando componente a componente.\nPaso 1: $2\\vec{v} = \\vec{w} - \\vec{u} = (-2 - 4,\\ 5 - (-1)) = (-6, 6)$.\nPaso 2: $\\vec{v} = \\frac{1}{2}(-6, 6) = (-3, 3)$.\nPaso 3: comprobación: $(4, -1) + 2(-3, 3) = (4 - 6, -1 + 6) = (-2, 5)$.\nRespuesta: B, $\\vec{v} = (-3, 3)$.\nErrores frecuentes: La A calcula $2\\vec{v}$ y olvida dividir por $2$. La C suma $\\vec{u}$ y $\\vec{w}$ en lugar de restarlos. La D resta en el orden inverso, $\\vec{u} - \\vec{w}$, y obtiene el vector opuesto.",
+    "verify": "const pick=(alts,p)=>{const m=Object.keys(alts).filter(k=>alts[k][0]===p[0]&&alts[k][1]===p[1]);return m.length===1?m[0]:null;};const u=[4,-1], w=[-2,5]; const v=[(w[0]-u[0])/2,(w[1]-u[1])/2]; return pick({A:[-6,6],B:[-3,3],C:[1,2],D:[3,-3]},v);"
+  },
+  {
+    "key": "m1-geometria-046",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un programa de diseño gráfico, Bastián toma el punto $P(3, 1)$ de un plano cartesiano. Primero lo refleja respecto del eje $X$ y, luego, gira el punto obtenido $90^\\circ$ alrededor del origen, en sentido contrario al de los punteros del reloj. ¿Cuáles son las coordenadas del punto final?",
+    "alternatives": {
+      "A": "$(-1, -3)$",
+      "B": "$(-1, 3)$",
+      "C": "$(1, -3)$",
+      "D": "$(1, 3)$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: las transformaciones se aplican en el orden indicado, una sobre el resultado de la otra.\nPaso 1: la reflexión respecto del eje $X$ cambia el signo de la ordenada: $(3, 1) \\to (3, -1)$.\nPaso 2: la rotación de $90^\\circ$ antihoraria con centro en el origen lleva $(x, y)$ a $(-y, x)$: $(3, -1) \\to (1, 3)$.\nRespuesta: D, el punto $(1, 3)$.\nErrores frecuentes: La A aplica las transformaciones en orden inverso: primero rota, $(3, 1) \\to (-1, 3)$, y luego refleja. La B solo rota el punto original y olvida la reflexión. La C rota el punto original en sentido horario, $(x, y) \\to (y, -x)$, sin reflejar.",
+    "verify": "const pick=(alts,p)=>{const m=Object.keys(alts).filter(k=>alts[k][0]===p[0]&&alts[k][1]===p[1]);return m.length===1?m[0]:null;};const P=[3,1]; const R=[P[0],-P[1]]; const F=[-R[1],R[0]]; return pick({A:[-1,-3],B:[-1,3],C:[1,-3],D:[1,3]},F);"
+  },
+  {
+    "key": "m1-geometria-047",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "A un punto $P$ de un plano cartesiano se le aplica primero una reflexión respecto de la recta vertical $x = 2$ y, luego, una traslación según el vector $(0, -3)$. Si el punto final obtenido es $(1, 4)$, ¿cuáles son las coordenadas de $P$?",
+    "alternatives": {
+      "A": "$(-1, 7)$",
+      "B": "$(1, 7)$",
+      "C": "$(3, 1)$",
+      "D": "$(3, 7)$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: se escribe la regla de la composición y se deshace, o se aplican las transformaciones inversas en orden contrario.\nPaso 1: reflejar respecto de $x = 2$ deja la ordenada igual y ubica la abscisa a la misma distancia de $2$ pero al otro lado: $(x, y) \\to (4 - x, y)$.\nPaso 2: al trasladar según $(0, -3)$ queda $(4 - x,\\ y - 3)$.\nPaso 3: se iguala con $(1, 4)$: $4 - x = 1$, así que $x = 3$; e $y - 3 = 4$, así que $y = 7$.\nPaso 4: comprobación: $(3, 7) \\to (1, 7) \\to (1, 4)$.\nRespuesta: D, $P(3, 7)$.\nErrores frecuentes: La A refleja respecto del eje $Y$, con la regla $x \\to -x$, y no respecto de $x = 2$. La B usa la regla $x \\to 2 - x$, olvidando que la distancia a la recta se duplica. La C, al deshacer la traslación, vuelve a restar $3$ en lugar de sumarlo.",
+    "verify": "const pick=(alts,p)=>{const m=Object.keys(alts).filter(k=>alts[k][0]===p[0]&&alts[k][1]===p[1]);return m.length===1?m[0]:null;};const f=(x,y)=>[4-x,y-3]; const img=[1,4]; let sol=null; for(let x=-10;x<=10;x++)for(let y=-10;y<=10;y++){const r=f(x,y); if(r[0]===img[0]&&r[1]===img[1]) sol=[x,y];} return sol?pick({A:[-1,7],B:[1,7],C:[3,1],D:[3,7]},sol):null;"
+  },
+  {
+    "key": "m1-geometria-048",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sea $P(a, b)$ un punto del plano cartesiano con $0 < a < b$. El punto $P$ se gira $90^\\circ$ alrededor del origen, en sentido contrario al de los punteros del reloj, y después, la imagen obtenida se refleja respecto del eje $Y$, obteniéndose el punto $Q$. ¿Cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "La abscisa de $Q$ es mayor que su ordenada.",
+      "B": "El punto $Q$ está en el segundo cuadrante.",
+      "C": "El punto $Q$ coincide con el punto $P$.",
+      "D": "La distancia entre $P$ y $Q$ es igual a $b - a$."
+    },
+    "correct": "A",
+    "explanation": "Idea clave: se sigue el punto genérico $(a, b)$ en cada transformación y se analiza el resultado con la condición $0 < a < b$.\nPaso 1: la rotación de $90^\\circ$ antihoraria lleva $(a, b)$ a $(-b, a)$.\nPaso 2: la reflexión respecto del eje $Y$ cambia el signo de la abscisa: $(-b, a) \\to (b, a)$. Así, $Q = (b, a)$: las coordenadas de $P$ intercambiadas.\nPaso 3: la abscisa de $Q$ es $b$ y su ordenada es $a$; como $a < b$, la abscisa es mayor. Esto vale para cualquier $a$ y $b$ que cumplan la condición.\nRespuesta: A.\nErrores frecuentes: La B se queda con el resultado de la rotación, $(-b, a)$, que sí está en el segundo cuadrante, pero olvida la reflexión; $Q = (b, a)$ tiene ambas coordenadas positivas y está en el primero. La C solo sería cierta si $a = b$, lo que la condición excluye. La D resta coordenadas en vez de usar Pitágoras: la distancia es $\\sqrt{(b - a)^2 + (a - b)^2} = \\sqrt{2}\\,(b - a)$.",
+    "verify": "const tests=[[1,2],[0.5,3],[2,7]]; const res={A:true,B:true,C:true,D:true}; for(const [a,b] of tests){const r=[-b,a]; const Q=[-r[0],r[1]]; res.A=res.A&&(Q[0]>Q[1]); res.B=res.B&&(Q[0]<0&&Q[1]>0); res.C=res.C&&(Q[0]===a&&Q[1]===b); res.D=res.D&&Math.abs(Math.hypot(Q[0]-a,Q[1]-b)-(b-a))<1e-9;} const t=Object.keys(res).filter(k=>res[k]); return t.length===1?t[0]:null;"
+  },
+  {
+    "key": "m1-geometria-049",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un dron de monitoreo forestal despega desde su base, ubicada en el origen de un plano cartesiano con unidades en kilómetros. Realiza un primer desplazamiento según el vector $\\vec{u} = (5, 2)$ y un segundo desplazamiento según el vector $\\vec{v} = (-1, k)$, con $k < 0$. Si al terminar el dron queda a exactamente $5$ km en línea recta de su base, ¿cuál es el valor de $k$?",
+    "alternatives": {
+      "A": "$-5$",
+      "B": "$-3$",
+      "C": "$1$",
+      "D": "$3$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: la posición final es la suma de los vectores, y su distancia a la base es el módulo de esa suma (Pitágoras).\nPaso 1: $\\vec{u} + \\vec{v} = (5 - 1,\\ 2 + k) = (4,\\ 2 + k)$.\nPaso 2: el módulo debe ser $5$: $4^2 + (2 + k)^2 = 25$, así que $(2 + k)^2 = 9$.\nPaso 3: entonces $2 + k = 3$ o $2 + k = -3$, es decir, $k = 1$ o $k = -5$.\nPaso 4: como $k < 0$, se descarta $k = 1$ y queda $k = -5$.\nRespuesta: A, $k = -5$.\nErrores frecuentes: La B toma el valor de $2 + k$ como si fuera $k$. La C considera solo la raíz positiva y no revisa la condición $k < 0$. La D comete los dos errores: se queda con $2 + k = 3$ y lo confunde con $k$.",
+    "verify": "const pick=(alts,x)=>{const m=Object.keys(alts).filter(k=>Math.abs(alts[k]-x)<1e-9);return m.length===1?m[0]:null;};const u=[5,2]; let sols=[]; for(let k=-20;k<=20;k++){const s=[u[0]-1,u[1]+k]; if(Math.abs(Math.hypot(s[0],s[1])-5)<1e-9 && k<0) sols.push(k);} return sols.length===1?pick({A:-5,B:-3,C:1,D:3},sols[0]):null;"
+  },
+  {
+    "key": "m1-geometria-050",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una animación, a cada punto de una figura se le aplica la siguiente secuencia: primero una traslación según el vector $\\vec{v} = (3, -2)$ y, luego, una reflexión respecto del origen $O(0, 0)$. Una vez terminada, se aplica exactamente la misma secuencia una segunda vez sobre la figura obtenida. ¿Cuál de las siguientes afirmaciones describe correctamente la figura final respecto de la original?",
+    "alternatives": {
+      "A": "Es la imagen de la original mediante una traslación según el vector $(6, -4)$.",
+      "B": "Es la imagen de la original mediante una rotación de $180^\\circ$ con centro en el origen.",
+      "C": "Es la imagen de la original mediante una traslación según el vector $(-6, 4)$.",
+      "D": "Coincide con la figura original: cada punto vuelve a su posición inicial."
+    },
+    "correct": "D",
+    "explanation": "Idea clave: se escribe la regla de la secuencia para un punto genérico $(x, y)$ y se compone consigo misma.\nPaso 1: la traslación lleva $(x, y)$ a $(x + 3,\\ y - 2)$ y la reflexión respecto del origen cambia ambos signos: $(-x - 3,\\ -y + 2)$.\nPaso 2: segunda vez, se traslada ese punto: $(-x - 3 + 3,\\ -y + 2 - 2) = (-x, -y)$.\nPaso 3: se refleja respecto del origen: $(-x, -y) \\to (x, y)$. Cada punto vuelve a su lugar.\nPaso 4: comprobación con $(1, 1)$: $(4, -1) \\to (-4, 1) \\to (-1, -1) \\to (1, 1)$.\nRespuesta: D.\nErrores frecuentes: La A supone que las dos traslaciones se acumulan, sin notar que la reflexión invierte el sentido de la segunda. La B piensa que las traslaciones se anulan pero conserva una sola reflexión respecto del origen (equivalente a rotar $180^\\circ$), cuando en realidad hay dos y también se anulan. La C acumula las traslaciones con el signo cambiado.",
+    "verify": "const step=([x,y])=>{const t=[x+3,y-2]; return [-t[0],-t[1]];}; const pts=[[1,1],[0,0],[-4,7]]; const fin=pts.map(p=>step(step(p))); const tr=(dx,dy)=>pts.every((p,i)=>fin[i][0]===p[0]+dx&&fin[i][1]===p[1]+dy); const rot=pts.every((p,i)=>fin[i][0]===-p[0]&&fin[i][1]===-p[1]); const res={A:tr(6,-4),B:rot,C:tr(-6,4),D:tr(0,0)}; const t=Object.keys(res).filter(k=>res[k]); return t.length===1?t[0]:null;"
+  },
+  {
+    "key": "m1-geometria-051",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "El punto $P(2, 1)$ se gira $90^\\circ$ alrededor del origen, en sentido contrario al de los punteros del reloj, y se obtiene $P_1$. Luego $P_1$ se rota de la misma forma y se obtiene $P_2$, y $P_2$ se rota de la misma forma y se obtiene $P_3$. ¿Cuál es el área del cuadrilátero $P P_1 P_2 P_3$, en unidades cuadradas?",
+    "alternatives": {
+      "A": "$5$",
+      "B": "$10$",
+      "C": "$16$",
+      "D": "$20$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: cuatro rotaciones sucesivas de $90^\\circ$ en torno al origen generan los vértices de un cuadrado centrado en el origen; su área es el cuadrado de su lado.\nPaso 1: con la regla $(x, y) \\to (-y, x)$: $P_1 = (-1, 2)$, $P_2 = (-2, -1)$ y $P_3 = (1, -2)$.\nPaso 2: el lado $PP_1$ va de $(2, 1)$ a $(-1, 2)$: se avanza $3$ en horizontal y $1$ en vertical, así que su medida es $\\sqrt{3^2 + 1^2} = \\sqrt{10}$.\nPaso 3: el área del cuadrado es $(\\sqrt{10})^2 = 10$.\nRespuesta: B, $10$ unidades cuadradas.\nErrores frecuentes: La A calcula $OP^2 = 2^2 + 1^2 = 5$, que es solo la mitad del cuadrado (la suma de dos de los cuatro triángulos con vértice en el origen). La C toma el área del cuadrado de $4 \\times 4$ con lados paralelos a los ejes que encierra a la figura. La D usa la diagonal $P P_2 = 2\\sqrt{5}$ como si fuera el lado.",
+    "verify": "const pick=(alts,x)=>{const m=Object.keys(alts).filter(k=>Math.abs(alts[k]-x)<1e-9);return m.length===1?m[0]:null;};const rot=([x,y])=>[-y,x]; const P=[2,1]; const V=[P]; for(let i=0;i<3;i++) V.push(rot(V[V.length-1])); let s=0; for(let i=0;i<4;i++){const a=V[i],b=V[(i+1)%4]; s+=a[0]*b[1]-a[1]*b[0];} return pick({A:5,B:10,C:16,D:20}, Math.abs(s)/2);"
+  },
+  {
+    "key": "m1-geometria-052",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Un club náutico de Algarrobo encarga la vela de un bote con forma de triángulo rectángulo, cuyos catetos miden $9$ m y $12$ m. ¿Cuántos metros cuadrados de tela tiene la vela, sin considerar costuras?",
+    "alternatives": {
+      "A": "$21$ m²",
+      "B": "$36$ m²",
+      "C": "$54$ m²",
+      "D": "$108$ m²"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: en un triángulo rectángulo, un cateto es la base y el otro es la altura.\nPaso 1: área $= \\frac{\\text{base} \\cdot \\text{altura}}{2} = \\frac{9 \\cdot 12}{2}$.\nPaso 2: $\\frac{108}{2} = 54$ m².\nRespuesta: C, $54$ m².\nErrores frecuentes: La A suma los catetos. La B corresponde al perímetro de la vela, $9 + 12 + 15 = 36$, que mide el borde y no la superficie. La D multiplica los catetos y olvida dividir por $2$.",
+    "verify": "const pick=(alts,x)=>{const m=Object.keys(alts).filter(k=>Math.abs(alts[k]-x)<1e-9);return m.length===1?m[0]:null;};const a=9,b=12; return pick({A:21,B:36,C:54,D:108}, a*b/2);"
+  },
+  {
+    "key": "m1-geometria-053",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "La rueda de la bicicleta de Rodrigo tiene un radio de $35$ cm. Si el perímetro de una circunferencia de radio $r$ es $2\\pi r$ y se considera $\\pi \\approx \\frac{22}{7}$, ¿cuántas vueltas completas da la rueda para recorrer $110$ m sin resbalar?",
+    "alternatives": {
+      "A": "$25$",
+      "B": "$50$",
+      "C": "$100$",
+      "D": "$500$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: en cada vuelta la rueda avanza una distancia igual a su perímetro; hay que trabajar en una misma unidad.\nPaso 1: perímetro de la rueda: $2 \\cdot \\frac{22}{7} \\cdot 35 = 220$ cm.\nPaso 2: $110$ m $= 11\\,000$ cm.\nPaso 3: vueltas: $\\frac{11\\,000}{220} = 50$.\nRespuesta: B, $50$ vueltas.\nErrores frecuentes: La A usa $70$ cm (el diámetro) como radio, lo que duplica el perímetro. La C olvida el factor $2$ de la fórmula y usa $\\pi r = 110$ cm. La D convierte mal las unidades, como si $1$ m fuera $1\\,000$ cm.",
+    "verify": "const pick=(alts,x)=>{const m=Object.keys(alts).filter(k=>Math.abs(alts[k]-x)<1e-9);return m.length===1?m[0]:null;};const r=35, pi=22/7; const per=2*pi*r; return pick({A:25,B:50,C:100,D:500}, 110*100/per);"
+  },
+  {
+    "key": "m1-geometria-054",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "La fachada frontal del techo de una casa en Frutillar tiene forma de triángulo isósceles: su base mide $8$ m y cada uno de los otros dos lados mide $5$ m. Se quiere revestir esa fachada triangular con tejuelas de alerce. ¿Cuál es su área?",
+    "alternatives": {
+      "A": "$12$ m²",
+      "B": "$16$ m²",
+      "C": "$20$ m²",
+      "D": "$24$ m²"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: en un triángulo isósceles la altura sobre la base cae en su punto medio y forma dos triángulos rectángulos.\nPaso 1: cada triángulo rectángulo tiene hipotenusa $5$ m y un cateto de $8 : 2 = 4$ m.\nPaso 2: altura: $h = \\sqrt{5^2 - 4^2} = \\sqrt{9} = 3$ m.\nPaso 3: área $= \\frac{8 \\cdot 3}{2} = 12$ m².\nRespuesta: A, $12$ m².\nErrores frecuentes: La B usa como altura la mitad de la base, $4$ m. La C usa como altura el lado de $5$ m, que no es perpendicular a la base. La D calcula bien la altura pero olvida dividir por $2$.",
+    "verify": "const pick=(alts,x)=>{const m=Object.keys(alts).filter(k=>Math.abs(alts[k]-x)<1e-9);return m.length===1?m[0]:null;};const b=8,l=5; const h=Math.sqrt(l*l-(b/2)**2); return pick({A:12,B:16,C:20,D:24}, b*h/2);"
+  },
+  {
+    "key": "m1-geometria-055",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Para un vitral de una iglesia de Chiloé, Ignacia necesita el área de una pieza de vidrio con forma de rombo. Cada lado del rombo mide $13$ cm y una de sus diagonales mide $24$ cm. Ella realiza el siguiente procedimiento, en el que comete un error:\nPaso 1: como las diagonales de un rombo son perpendiculares y se cortan en su punto medio, se forma un triángulo rectángulo de hipotenusa $13$ cm y un cateto de $12$ cm.\nPaso 2: el otro cateto mide $\\sqrt{13^2 - 12^2} = \\sqrt{25} = 5$ cm.\nPaso 3: por lo tanto, la otra diagonal del rombo mide $5$ cm.\nPaso 4: el área del rombo es $\\frac{24 \\cdot 5}{2} = 60$ cm².\n¿En cuál de los pasos se cometió el error?",
+    "alternatives": {
+      "A": "En el Paso 1",
+      "B": "En el Paso 2",
+      "C": "En el Paso 3",
+      "D": "En el Paso 4"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: los catetos del triángulo rectángulo son las mitades de las diagonales, no las diagonales completas.\nPaso 1: el Paso 1 es correcto: la mitad de la diagonal de $24$ cm es $12$ cm y el lado del rombo es la hipotenusa.\nPaso 2: el Paso 2 es correcto: $169 - 144 = 25$ y $\\sqrt{25} = 5$.\nPaso 3: el Paso 3 es incorrecto: $5$ cm es la mitad de la otra diagonal, que en realidad mide $10$ cm. El área correcta es $\\frac{24 \\cdot 10}{2} = 120$ cm².\nRespuesta: C, en el Paso 3.\nErrores frecuentes: La A desconfía de un paso bien planteado: las diagonales del rombo sí se cortan perpendicularmente en su punto medio. La B revisa la cuenta, pero está bien hecha. La D marca el paso donde aparece el resultado erróneo, aunque la fórmula del área está bien aplicada: el error viene arrastrado del Paso 3.",
+    "verify": "const lado=13, d1=24; const semi=Math.sqrt(lado*lado-(d1/2)**2); const d2=2*semi; const ok1=Math.abs(semi-5)<1e-9; const paso3=5; const err = Math.abs(paso3-d2)>1e-9; const area=d1*d2/2; return (ok1 && err && Math.abs(area-120)<1e-9 && Math.abs(d1*paso3/2-60)<1e-9) ? 'C' : null;"
+  },
+  {
+    "key": "m1-geometria-056",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un panel solar rectangular tiene un perímetro de $34$ dm y su diagonal mide $13$ dm. ¿Cuál es el área del panel?",
+    "alternatives": {
+      "A": "$30$ dm²",
+      "B": "$60$ dm²",
+      "C": "$120$ dm²",
+      "D": "$169$ dm²"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: si los lados son $x$ e $y$, se conocen $x + y$ y $x^2 + y^2$; el área $xy$ sale del cuadrado de un binomio, sin necesidad de encontrar cada lado.\nPaso 1: del perímetro, $2(x + y) = 34$, así que $x + y = 17$.\nPaso 2: por Pitágoras, $x^2 + y^2 = 13^2 = 169$.\nPaso 3: $(x + y)^2 = x^2 + 2xy + y^2$, es decir, $289 = 169 + 2xy$, de donde $xy = 60$.\nPaso 4: comprobación: los lados son $5$ dm y $12$ dm, que suman $17$ y cumplen $25 + 144 = 169$.\nRespuesta: B, $60$ dm².\nErrores frecuentes: La A divide por $2$ dos veces, como si el área de un rectángulo llevara un medio. La C se queda con $2xy = 120$ y olvida dividir por $2$. La D confunde el área con el cuadrado de la diagonal.",
+    "verify": "const pick=(alts,x)=>{const m=Object.keys(alts).filter(k=>Math.abs(alts[k]-x)<1e-9);return m.length===1?m[0]:null;};let area=null; for(let x=1;x<17;x++){const y=17-x; if(x*x+y*y===169) area=x*y;} return area===null?null:pick({A:30,B:60,C:120,D:169}, area);"
+  },
+  {
+    "key": "m1-geometria-057",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "representar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sobre una mesa circular de radio $r$ se pone un mantel cuadrado, de modo que sus cuatro vértices quedan justo en el borde de la mesa. ¿Qué expresión permite calcular la superficie de la mesa que queda a la vista, sin mantel encima?",
+    "alternatives": {
+      "A": "$(\\pi - 2)\\,r^2$",
+      "B": "$(\\pi - 1)\\,r^2$",
+      "C": "$(4 - \\pi)\\,r^2$",
+      "D": "$(2\\pi - 2)\\,r^2$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: un cuadrado con sus vértices sobre la circunferencia tiene como diagonal un diámetro, es decir, $2r$.\nPaso 1: si el lado del cuadrado es $\\ell$, por Pitágoras su diagonal cumple $\\ell^2 + \\ell^2 = (2r)^2$, así que $\\ell^2 = 2r^2$. Esa es el área del mantel.\nPaso 2: el área de la mesa es $\\pi r^2$.\nPaso 3: el área sin cubrir es $\\pi r^2 - 2r^2 = (\\pi - 2)\\,r^2$.\nRespuesta: A, $(\\pi - 2)\\,r^2$.\nErrores frecuentes: La B supone que el lado del mantel mide $r$. La C piensa en el caso contrario, un cuadrado de lado $2r$ que rodea a la mesa, y le resta el círculo. La D usa $2\\pi r^2$ como área del círculo, confundiéndola con la fórmula del perímetro.",
+    "verify": "const r=3; const sq=(2*r)**2/2; const ex=Math.PI*r*r-sq; const alts={A:(Math.PI-2)*r*r,B:(Math.PI-1)*r*r,C:(4-Math.PI)*r*r,D:(2*Math.PI-2)*r*r}; const m=Object.keys(alts).filter(k=>Math.abs(alts[k]-ex)<1e-9); return m.length===1?m[0]:null;"
+  },
+  {
+    "key": "m1-geometria-058",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una baldosa cuadrada mide $7$ cm de lado. Sobre cada uno de sus lados se marca un punto a $3$ cm de un vértice, recorriendo el borde siempre en el mismo sentido, de modo que cada lado queda dividido en tramos de $3$ cm y $4$ cm. Al unir los cuatro puntos marcados se forma un cuadrado inclinado que se pintará de color azul. ¿Cuál es el área de la zona azul?",
+    "alternatives": {
+      "A": "$20$ cm²",
+      "B": "$24$ cm²",
+      "C": "$25$ cm²",
+      "D": "$37$ cm²"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: alrededor del cuadrado azul quedan cuatro triángulos rectángulos congruentes de catetos $3$ cm y $4$ cm; el lado del cuadrado azul es su hipotenusa.\nPaso 1: por Pitágoras, el lado azul mide $\\sqrt{3^2 + 4^2} = \\sqrt{25} = 5$ cm.\nPaso 2: el área azul es $5^2 = 25$ cm².\nPaso 3: comprobación: $49 - 4 \\cdot \\frac{3 \\cdot 4}{2} = 49 - 24 = 25$ cm².\nRespuesta: C, $25$ cm².\nErrores frecuentes: La A calcula el perímetro del cuadrado azul, $4 \\cdot 5 = 20$, en lugar de su área. La B entrega el área de los cuatro triángulos de las esquinas, que es lo que no se pinta. La D descuenta solo dos de los cuatro triángulos: $49 - 12$.",
+    "verify": "const pick=(alts,x)=>{const m=Object.keys(alts).filter(k=>Math.abs(alts[k]-x)<1e-9);return m.length===1?m[0]:null;};const L=7,a=3,b=L-a; const s=Math.sqrt(a*a+b*b); const area=s*s; if(Math.abs(L*L-4*a*b/2-area)>1e-9) return null; return pick({A:20,B:24,C:25,D:37}, area);"
+  },
+  {
+    "key": "m1-geometria-059",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "representar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Martina diseña una ventana para su taller en Pucón. La ventana está formada por un rectángulo de ancho $2r$ y alto $h$, y sobre su lado superior se ubica un semicírculo cuyo diámetro es ese mismo lado. Si el perímetro de una circunferencia de radio $r$ es $2\\pi r$, ¿cuál de las siguientes expresiones representa la longitud del marco que rodea todo el contorno exterior de la ventana?",
+    "alternatives": {
+      "A": "$2h + \\pi r$",
+      "B": "$2h + 2r + 2\\pi r$",
+      "C": "$2h + 4r + \\pi r$",
+      "D": "$2h + 2r + \\pi r$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: el contorno exterior está formado por los dos lados verticales, el lado inferior y el arco del semicírculo; el lado superior del rectángulo queda en el interior.\nPaso 1: los dos lados verticales miden $h + h = 2h$ y el lado inferior mide $2r$.\nPaso 2: el arco es la mitad de una circunferencia de radio $r$: $\\frac{2\\pi r}{2} = \\pi r$.\nPaso 3: el marco mide $2h + 2r + \\pi r$.\nRespuesta: D, $2h + 2r + \\pi r$.\nErrores frecuentes: La A olvida el lado inferior del rectángulo. La B usa la circunferencia completa en vez de la mitad. La C suma también el lado superior del rectángulo, que no forma parte del contorno exterior porque lo cubre el semicírculo.",
+    "verify": "const r=2,h=5; const real=2*h+2*r+Math.PI*r; const alts={A:2*h+Math.PI*r,B:2*h+2*r+2*Math.PI*r,C:2*h+4*r+Math.PI*r,D:2*h+2*r+Math.PI*r}; const m=Object.keys(alts).filter(k=>Math.abs(alts[k]-real)<1e-9); return m.length===1?m[0]:null;"
+  },
+  {
+    "key": "m1-geometria-060",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "cuerpos-geometricos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "En una cafetería de Temuco sirven el chocolate caliente en vasos con forma de cilindro recto de $4$ cm de radio basal y $10$ cm de altura. Si el volumen de un cilindro es $\\pi r^2 h$ y se considera $\\pi \\approx 3$, ¿cuál es la capacidad de cada vaso?",
+    "alternatives": {
+      "A": "$120$ cm³",
+      "B": "$240$ cm³",
+      "C": "$480$ cm³",
+      "D": "$1\\,920$ cm³"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el volumen de un cilindro es el área de su base circular por su altura.\nPaso 1: área de la base: $3 \\cdot 4^2 = 3 \\cdot 16 = 48$ cm².\nPaso 2: volumen: $48 \\cdot 10 = 480$ cm³.\nRespuesta: C, $480$ cm³.\nErrores frecuentes: La A no eleva el radio al cuadrado. La B calcula el área lateral, $2\\pi r h$, que mide superficie y no capacidad. La D usa el diámetro de $8$ cm en lugar del radio.",
+    "verify": "const pick=(alts,x)=>{const m=Object.keys(alts).filter(k=>Math.abs(alts[k]-x)<1e-9);return m.length===1?m[0]:null;};const r=4,h=10,pi=3; return pick({A:120,B:240,C:480,D:1920}, pi*r*r*h);"
+  },
+  {
+    "key": "m1-geometria-061",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "cuerpos-geometricos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Una carpa de camping tiene forma de prisma recto de base triangular. Cada una de sus dos caras triangulares (la de adelante y la de atrás) tiene una base de $2$ m y una altura de $1{,}5$ m, y la carpa mide $3$ m de largo. ¿Cuál es el volumen de aire que hay dentro de la carpa?",
+    "alternatives": {
+      "A": "$1{,}5$ m³",
+      "B": "$4{,}5$ m³",
+      "C": "$6{,}5$ m³",
+      "D": "$9$ m³"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: el volumen de cualquier prisma recto es el área de su base por su altura; aquí la base es el triángulo y la altura del prisma es el largo de la carpa.\nPaso 1: área del triángulo: $\\frac{2 \\cdot 1{,}5}{2} = 1{,}5$ m².\nPaso 2: volumen: $1{,}5 \\cdot 3 = 4{,}5$ m³.\nRespuesta: B, $4{,}5$ m³.\nErrores frecuentes: La A se queda con el área del triángulo y no multiplica por el largo. La C suma las tres medidas. La D multiplica las tres medidas como si fuera un paralelepípedo y olvida que la base es un triángulo.",
+    "verify": "const pick=(alts,x)=>{const m=Object.keys(alts).filter(k=>Math.abs(alts[k]-x)<1e-9);return m.length===1?m[0]:null;};const b=2,h=1.5,L=3; return pick({A:1.5,B:4.5,C:6.5,D:9}, b*h/2*L);"
+  },
+  {
+    "key": "m1-geometria-062",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "cuerpos-geometricos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Joaquín forrará por fuera con papel decorado un tarro cilíndrico sin tapa, que usará como macetero. El tarro tiene $10$ cm de diámetro y $12$ cm de altura. Si cubrirá la superficie lateral y la base del fondo, y se considera $\\pi \\approx 3{,}14$, ¿cuántos centímetros cuadrados de papel necesita, sin considerar traslapes?",
+    "alternatives": {
+      "A": "$188{,}4$ cm²",
+      "B": "$376{,}8$ cm²",
+      "C": "$455{,}3$ cm²",
+      "D": "$533{,}8$ cm²"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el área de un cilindro sin tapa es el área lateral, $2\\pi r h$, más el área de una sola base, $\\pi r^2$.\nPaso 1: el radio es $10 : 2 = 5$ cm.\nPaso 2: área lateral: $2 \\cdot 3{,}14 \\cdot 5 \\cdot 12 = 376{,}8$ cm².\nPaso 3: base: $3{,}14 \\cdot 5^2 = 78{,}5$ cm².\nPaso 4: total: $376{,}8 + 78{,}5 = 455{,}3$ cm².\nRespuesta: C, $455{,}3$ cm².\nErrores frecuentes: La A calcula el área lateral sin el factor $2$, como $\\pi r h$. La B olvida la base del fondo. La D suma dos bases, como si el tarro tuviera tapa.",
+    "verify": "const pick=(alts,x)=>{const m=Object.keys(alts).filter(k=>Math.abs(alts[k]-x)<1e-9);return m.length===1?m[0]:null;};const r=10/2,h=12,pi=3.14; return pick({A:188.4,B:376.8,C:455.3,D:533.8}, 2*pi*r*h+pi*r*r);"
+  },
+  {
+    "key": "m1-geometria-063",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "cuerpos-geometricos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un recipiente con forma de cubo de $20$ cm de arista contiene agua hasta una altura de $15$ cm. Catalina vierte toda esa agua en un recipiente cilíndrico vacío de $10$ cm de radio basal y $30$ cm de altura, apoyado sobre una mesa horizontal. Si el volumen de un cilindro es $\\pi r^2 h$ y se considera $\\pi \\approx 3$, ¿hasta qué altura llega el agua en el cilindro?",
+    "alternatives": {
+      "A": "$5$ cm",
+      "B": "$15$ cm",
+      "C": "$20$ cm",
+      "D": "$200$ cm"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el volumen de agua no cambia al trasvasijarla; se calcula en el cubo y se iguala al volumen del cilindro con altura desconocida.\nPaso 1: volumen de agua en el cubo: $20 \\cdot 20 \\cdot 15 = 6\\,000$ cm³ (se usa la altura del agua, no la arista completa).\nPaso 2: área de la base del cilindro: $3 \\cdot 10^2 = 300$ cm².\nPaso 3: altura del agua: $300 \\cdot h = 6\\,000$, así que $h = 20$ cm, que es menor que los $30$ cm del cilindro, por lo que no se rebalsa.\nRespuesta: C, $20$ cm.\nErrores frecuentes: La A usa $20$ cm (el diámetro) como radio. La B supone que el agua alcanza la misma altura en ambos recipientes, aunque sus bases son distintas. La D no eleva el radio al cuadrado y divide por $3 \\cdot 10 = 30$; además, esa altura superaría la del recipiente.",
+    "verify": "const pick=(alts,x)=>{const m=Object.keys(alts).filter(k=>Math.abs(alts[k]-x)<1e-9);return m.length===1?m[0]:null;};const a=20,hw=15,r=10,pi=3,H=30; const V=a*a*hw; const h=V/(pi*r*r); if(h>H) return null; return pick({A:5,B:15,C:20,D:200}, h);"
+  },
+  {
+    "key": "m1-geometria-064",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "cuerpos-geometricos",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una barra de queso tiene forma de prisma recto de base cuadrada: el lado de la base mide $a$ cm y su altura mide $h$ cm. Se corta la barra en dos partes iguales con un corte recto, paralelo a una de sus caras laterales y que pasa por los puntos medios de los lados de la base. ¿En cuánto aumenta la suma de las áreas totales de las dos partes con respecto al área total de la barra original?",
+    "alternatives": {
+      "A": "En $a^2$ cm²",
+      "B": "En $ah$ cm²",
+      "C": "En $2a^2$ cm²",
+      "D": "En $2ah$ cm²"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: al cortar, toda la superficie original se reparte entre las dos partes y, además, aparecen dos caras nuevas, una en cada parte, del tamaño de la sección del corte.\nPaso 1: el corte es paralelo a una cara lateral, así que la sección es un rectángulo con un lado igual al lado de la base, $a$, y el otro igual a la altura, $h$: su área es $ah$.\nPaso 2: cada una de las dos partes recibe una cara nueva de área $ah$.\nPaso 3: el aumento total es $ah + ah = 2ah$ cm².\nRespuesta: D, en $2ah$ cm².\nErrores frecuentes: La A imagina un corte paralelo a la base y además cuenta una sola cara nueva. La B cuenta la sección solo una vez, olvidando que queda expuesta en ambas partes. La C corresponde a un corte paralelo a la base, en que las caras nuevas son cuadrados de lado $a$.",
+    "verify": "const a=4,h=10; const tot=(x,y,z)=>2*(x*y+y*z+x*z); const inc=2*tot(a/2,a,h)-tot(a,a,h); const alts={A:a*a,B:a*h,C:2*a*a,D:2*a*h}; const m=Object.keys(alts).filter(k=>Math.abs(alts[k]-inc)<1e-9); return m.length===1?m[0]:null;"
+  },
+  {
+    "key": "m1-geometria-065",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "semejanza",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un mapa turístico de la Región de Los Lagos, dibujado a escala $1 : 250\\,000$, la distancia en línea recta entre dos localidades es de $6{,}4$ cm. ¿Cuál es la distancia real en línea recta entre ellas?",
+    "alternatives": {
+      "A": "$1{,}6$ km",
+      "B": "$16$ km",
+      "C": "$160$ km",
+      "D": "$1\\,600$ km"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: una escala $1 : 250\\,000$ significa que cada centímetro del mapa representa $250\\,000$ cm de la realidad; después hay que convertir a kilómetros.\nPaso 1: distancia real: $6{,}4 \\cdot 250\\,000 = 1\\,600\\,000$ cm.\nPaso 2: como $1$ km $= 100\\,000$ cm, se tiene $1\\,600\\,000 : 100\\,000 = 16$ km.\nRespuesta: B, $16$ km.\nErrores frecuentes: La A divide por un millón, como si $1$ km tuviera $1\\,000\\,000$ cm. La C divide solo por $10\\,000$. La D convierte los centímetros a metros ($16\\,000$ m) y luego divide por $10$ en lugar de por $1\\,000$.",
+    "verify": "const pick=(alts,x)=>{const m=Object.keys(alts).filter(k=>Math.abs(alts[k]-x)<1e-9);return m.length===1?m[0]:null;};const d=6.4, e=250000; return pick({A:1.6,B:16,C:160,D:1600}, d*e/100000);"
+  },
+  {
+    "key": "m1-geometria-066",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "semejanza",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "El triángulo $ABC$ es rectángulo en $C$, con $AC = 12$ cm y $BC = 9$ cm. Sobre el cateto $AC$ se ubica el punto $P$ tal que $AP = 4$ cm, y por $P$ se traza una recta paralela a $BC$ que corta a la hipotenusa $AB$ en el punto $Q$. ¿Cuál es el perímetro del triángulo $APQ$?",
+    "alternatives": {
+      "A": "$12$ cm",
+      "B": "$18$ cm",
+      "C": "$30$ cm",
+      "D": "$36$ cm"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: como $PQ$ es paralela a $BC$, el triángulo $APQ$ es semejante al triángulo $ABC$, y la razón de sus perímetros es la misma que la de sus lados.\nPaso 1: por Pitágoras, $AB = \\sqrt{12^2 + 9^2} = \\sqrt{225} = 15$ cm, así que el perímetro de $ABC$ es $12 + 9 + 15 = 36$ cm.\nPaso 2: la razón de semejanza es $\\frac{AP}{AC} = \\frac{4}{12} = \\frac{1}{3}$.\nPaso 3: perímetro de $APQ$: $\\frac{36}{3} = 12$ cm (sus lados miden $4$, $3$ y $5$ cm).\nRespuesta: A, $12$ cm.\nErrores frecuentes: La B usa la razón $\\frac{AP}{PC} = \\frac{4}{8}$, comparando dos tramos del mismo lado en lugar de lados correspondientes. La C calcula el perímetro del trapecio $PCBQ$: $3 + 10 + 9 + 8$. La D entrega el perímetro del triángulo grande.",
+    "verify": "const pick=(alts,x)=>{const m=Object.keys(alts).filter(k=>Math.abs(alts[k]-x)<1e-9);return m.length===1?m[0]:null;};const AC=12,BC=9,AP=4; const AB=Math.hypot(AC,BC); const k=AP/AC; return pick({A:12,B:18,C:30,D:36}, k*(AC+BC+AB));"
+  },
+  {
+    "key": "m1-geometria-067",
+    "subject": "m1",
+    "eje": "geometria",
+    "topic": "semejanza",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una imprenta de Iquique, Fernanda amplía una fotografía rectangular al $150\\,\\%$ de su tamaño, es decir, multiplica cada una de sus medidas por $1{,}5$. Luego, la copia ampliada se reduce al $80\\,\\%$ de sus medidas. ¿En qué porcentaje cambió el área de la fotografía final con respecto a la original?",
+    "alternatives": {
+      "A": "Aumentó en un $20\\,\\%$",
+      "B": "Aumentó en un $30\\,\\%$",
+      "C": "Aumentó en un $44\\,\\%$",
+      "D": "Aumentó en un $80\\,\\%$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: al multiplicar todas las medidas de una figura por un factor $k$, su área queda multiplicada por $k^2$.\nPaso 1: factor de escala total de las medidas: $1{,}5 \\cdot 0{,}8 = 1{,}2$.\nPaso 2: factor del área: $1{,}2^2 = 1{,}44$.\nPaso 3: el área final es el $144\\,\\%$ de la original, es decir, aumentó en un $44\\,\\%$.\nRespuesta: C, aumentó en un $44\\,\\%$.\nErrores frecuentes: La A se queda con el factor de las medidas, $1{,}2$, y olvida que el área crece al cuadrado. La B suma y resta los porcentajes ($50 - 20 = 30$), sin componerlos. La D eleva al cuadrado solo la ampliación ($2{,}25 \\cdot 0{,}8 = 1{,}8$).",
+    "verify": "const pick=(alts,x)=>{const m=Object.keys(alts).filter(k=>Math.abs(alts[k]-x)<1e-9);return m.length===1?m[0]:null;};const k=1.5*0.8; const pct=(k*k-1)*100; return pick({A:20,B:30,C:44,D:80}, Math.round(pct*1e6)/1e6);"
   }
 ]

@@ -1005,5 +1005,727 @@
     "correct": "A",
     "explanation": "Sean $p$ el precio de una paila y $m$ el de un mote: $4p + 3m = 28\\,500$ y $3p + 5m = 31\\,000$. Multiplicando la primera por $5$ y la segunda por $3$ y restando: $20p - 9p = 142\\,500 - 93\\,000$, es decir, $11p = 49\\,500$ y $p = 4\\,500$. Luego $3m = 28\\,500 - 18\\,000$, así que $m = 3\\,500$. La diferencia es $1\\,000$ pesos.\nB resta los totales pagados por las familias, que corresponden a cantidades distintas de productos.\nC es el precio de un mote con huesillo.\nD es el precio de una paila marina.",
     "verify": "const det = 4 * 5 - 3 * 3\nconst p = (28500 * 5 - 3 * 31000) / det\nconst m = (4 * 31000 - 3 * 28500) / det\nconst ok = 4 * p + 3 * m === 28500 && 3 * p + 5 * m === 31000\nconst alts = { A: 1000, B: 2500, C: 3500, D: 4500 }\nconst k = Object.keys(alts).filter((l) => alts[l] === p - m)\nreturn ok && k.length === 1 ? k[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-054",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "representar",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "En un bus que va de Iquique a Arica viajan $p$ pasajeros adultos y $n$ niños. Cada adulto paga $6\\,500$ pesos y cada niño paga la mitad de lo que paga un adulto.\n¿Cuál de las siguientes expresiones representa el dinero total, en pesos, que se recauda en ese viaje?",
+    "alternatives": {
+      "A": "$3\\,250(p + n)$",
+      "B": "$6\\,500p + 3\\,250n$",
+      "C": "$6\\,500(p + n)$",
+      "D": "$6\\,500p + 13\\,000n$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: el total se obtiene sumando lo que paga cada grupo: cantidad de personas por el precio que paga cada una.\nPaso 1: los adultos pagan en total $6\\,500p$ pesos.\nPaso 2: cada niño paga $6\\,500 : 2 = 3\\,250$ pesos, así que los niños pagan en total $3\\,250n$ pesos.\nPaso 3: la recaudación es $6\\,500p + 3\\,250n$ pesos.\nRespuesta: B, $6\\,500p + 3\\,250n$.\nErrores frecuentes: La A cobra a los adultos como si fueran niños. La C cobra a los niños el precio completo de adulto. La D duplica el precio de los niños en vez de dividirlo por $2$.",
+    "verify": "const adulto = 6500, nino = adulto / 2\nconst target = (p, n) => adulto * p + nino * n\nconst alts = { A: (p, n) => 3250 * (p + n), B: (p, n) => 6500 * p + 3250 * n, C: (p, n) => 6500 * (p + n), D: (p, n) => 6500 * p + 13000 * n }\nconst pts = [[10, 4], [25, 7], [3, 12]]\n\nconst ok = Object.keys(alts).filter((k) => pts.every((p) => Math.abs(alts[k](...p) - target(...p)) < 1e-9))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-055",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "¿Cuál de las siguientes expresiones es una factorización de $6x^2 - x - 2$?",
+    "alternatives": {
+      "A": "$(2x - 1)(3x + 2)$",
+      "B": "$(6x + 1)(x - 2)$",
+      "C": "$(2x + 1)(3x - 2)$",
+      "D": "$(3x + 1)(2x - 2)$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: una factorización es correcta si al multiplicar los factores se recupera exactamente la expresión; el término central es el que suele delatar el error.\nPaso 1: se buscan dos números cuyo producto sea $6 \\cdot (-2) = -12$ y cuya suma sea $-1$: son $-4$ y $3$.\nPaso 2: $6x^2 - 4x + 3x - 2 = 2x(3x - 2) + 1 \\cdot (3x - 2) = (2x + 1)(3x - 2)$.\nPaso 3: comprobación: $(2x + 1)(3x - 2) = 6x^2 - 4x + 3x - 2 = 6x^2 - x - 2$.\nRespuesta: C, $(2x + 1)(3x - 2)$.\nErrores frecuentes: La A da $6x^2 + x - 2$: el término central queda con el signo cambiado. La B da $6x^2 - 11x - 2$. La D da $6x^2 - 4x - 2$. En las tres el producto de los términos extremos coincide, pero el término central no.",
+    "verify": "const target = (x) => 6 * x * x - x - 2\nconst alts = { A: (x) => (2 * x - 1) * (3 * x + 2), B: (x) => (6 * x + 1) * (x - 2), C: (x) => (2 * x + 1) * (3 * x - 2), D: (x) => (3 * x + 1) * (2 * x - 2) }\nconst pts = [[0], [1], [-2], [3.5]]\n\nconst ok = Object.keys(alts).filter((k) => pts.every((p) => Math.abs(alts[k](...p) - target(...p)) < 1e-9))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-056",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Diego escribe un número de dos cifras cuya cifra de las decenas es $a$ y cuya cifra de las unidades es $b$, con $a > b$. Luego invierte el orden de las cifras y le resta al número original el número que obtuvo al invertirlas.\n¿Cuál de las siguientes expresiones representa siempre el resultado de esa resta?",
+    "alternatives": {
+      "A": "$a - b$",
+      "B": "$11(a + b)$",
+      "C": "$10(a - b)$",
+      "D": "$9(a - b)$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: un número de dos cifras con decenas $a$ y unidades $b$ vale $10a + b$, por el valor posicional de sus cifras.\nPaso 1: el número original es $10a + b$ y el número invertido es $10b + a$.\nPaso 2: la resta es $(10a + b) - (10b + a) = 10a + b - 10b - a = 9a - 9b$.\nPaso 3: factorizando, $9a - 9b = 9(a - b)$. Por ejemplo, $72 - 27 = 45 = 9 \\cdot 5$.\nRespuesta: D, $9(a - b)$.\nErrores frecuentes: La A trata los números como si valieran solo sus cifras, sin el valor posicional. La B suma los dos números en vez de restarlos: $(10a + b) + (10b + a) = 11(a + b)$. La C olvida restar $a$ al quitar el paréntesis y queda $10a - 10b$.",
+    "verify": "const alts = { A: (a, b) => a - b, B: (a, b) => 11 * (a + b), C: (a, b) => 10 * (a - b), D: (a, b) => 9 * (a - b) }\nconst target = (a, b) => (10 * a + b) - (10 * b + a)\nconst pts = []\nfor (let a = 1; a <= 9; a++) for (let b = 0; b < a; b++) pts.push([a, b])\n\nconst ok = Object.keys(alts).filter((k) => pts.every((p) => Math.abs(alts[k](...p) - target(...p)) < 1e-9))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-057",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Valentín evalúa cuatro expresiones con distintos enteros $n$, positivos y negativos. Solo una de ellas entrega un resultado par sin importar qué entero use. ¿Cuál es esa expresión?",
+    "alternatives": {
+      "A": "$n^2 + 3n$",
+      "B": "$n^2 + 2n$",
+      "C": "$n^2 + n + 1$",
+      "D": "$2n^2 + 1$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: al factorizar se ve la paridad: un producto de enteros es par si al menos uno de sus factores es par.\nPaso 1: $n^2 + 3n = n(n + 3)$. Si $n$ es par, el producto es par; si $n$ es impar, $n + 3$ es par y el producto también es par.\nPaso 2: $n^2 + 2n = n(n + 2)$; si $n$ es impar, ambos factores son impares. Por ejemplo, con $n = 1$ vale $3$.\nPaso 3: $n^2 + n + 1 = n(n + 1) + 1$ es siempre impar, porque $n(n + 1)$ es par; y $2n^2 + 1$ también es siempre impar.\nRespuesta: A, $n^2 + 3n$.\nErrores frecuentes: La B parece par por el término $2n$, pero $n^2$ es impar cuando $n$ es impar. La C y la D son siempre impares: le suman $1$ a un número par.",
+    "verify": "const alts = { A: (n) => n * n + 3 * n, B: (n) => n * n + 2 * n, C: (n) => n * n + n + 1, D: (n) => 2 * n * n + 1 }\nconst ok = Object.keys(alts).filter((k) => { for (let n = -50; n <= 50; n++) if (((alts[k](n) % 2) + 2) % 2 !== 0) return false; return true })\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-058",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un taller de cerámica de Pomaire, Julián tiene una placa cuadrada de greda cuyo lado mide $(x + 3)$ cm. De una de sus esquinas recorta un cuadrado de lado $(x - 1)$ cm, con $x > 1$, y la parte de la placa que queda tiene un área de $56\\ \\text{cm}^2$.\n¿Cuánto mide el lado de la placa original?",
+    "alternatives": {
+      "A": "$5$ cm",
+      "B": "$6$ cm",
+      "C": "$7$ cm",
+      "D": "$9$ cm"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: el área que queda es una diferencia de dos cuadrados, que al desarrollarse se reduce a una expresión de primer grado.\nPaso 1: $(x + 3)^2 - (x - 1)^2 = (x^2 + 6x + 9) - (x^2 - 2x + 1) = 8x + 8$.\nPaso 2: $8x + 8 = 56$, entonces $8x = 48$ y $x = 6$.\nPaso 3: el lado de la placa es $x + 3 = 9$ cm. Comprobación: $9^2 - 5^2 = 81 - 25 = 56$.\nRespuesta: D, $9$ cm.\nErrores frecuentes: La A es el lado del cuadrado recortado, $x - 1$. La B es el valor de $x$, no el lado pedido. La C divide $56$ por $8$ y responde $x + 1 = 7$, sin terminar de despejar $x$.",
+    "verify": "const area = (t) => (t + 3) ** 2 - (t - 1) ** 2\nconst x = (56 - area(0)) / (area(1) - area(0))\nif (Math.abs(area(x) - 56) > 1e-9 || x <= 1) return null\nconst ans = x + 3\nconst alts = { A: 5, B: 6, C: 7, D: 9 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-059",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Si $a - b = 4$ y $a^2 - b^2 = 28$, ¿cuál es el valor de $a$?",
+    "alternatives": {
+      "A": "$\\dfrac{3}{2}$",
+      "B": "$\\dfrac{7}{2}$",
+      "C": "$4$",
+      "D": "$\\dfrac{11}{2}$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: la diferencia de cuadrados se factoriza como $(a + b)(a - b)$, y eso entrega un sistema muy simple.\nPaso 1: $a^2 - b^2 = (a + b)(a - b) = 28$; como $a - b = 4$, se tiene $4(a + b) = 28$, es decir, $a + b = 7$.\nPaso 2: sumando $a + b = 7$ y $a - b = 4$ se obtiene $2a = 11$, así que $a = \\frac{11}{2}$.\nPaso 3: entonces $b = \\frac{3}{2}$. Comprobación: $\\frac{121}{4} - \\frac{9}{4} = \\frac{112}{4} = 28$.\nRespuesta: D, $a = \\frac{11}{2}$.\nErrores frecuentes: La A es el valor de $b$, no el de $a$. La B divide $a + b = 7$ por $2$, como si $a$ y $b$ fueran iguales. La C confunde $a$ con la diferencia $a - b$.",
+    "verify": "const dif = 4, difCuad = 28\nconst suma = difCuad / dif\nconst a = (suma + dif) / 2, b = (suma - dif) / 2\nif (Math.abs(a * a - b * b - difCuad) > 1e-9) return null\nconst ans = a\nconst alts = { A: 3 / 2, B: 7 / 2, C: 4, D: 11 / 2 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-060",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una sala de cine de Puerto Natales tiene $f$ filas con $a$ asientos cada una. En una remodelación se eliminarán $2$ filas y, en cada una de las filas que queden, se agregarán $3$ asientos.\n¿Cuál de las siguientes expresiones representa la variación del total de asientos, es decir, el total nuevo menos el total original?",
+    "alternatives": {
+      "A": "$3f - 2a - 6$",
+      "B": "$3f - 2a$",
+      "C": "$3f - 2a + 6$",
+      "D": "$3a - 2f - 6$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: se escribe el total nuevo como un producto, se desarrolla y se le resta el total original, que es $fa$.\nPaso 1: quedan $(f - 2)$ filas con $(a + 3)$ asientos cada una, así que el total nuevo es $(f - 2)(a + 3)$.\nPaso 2: $(f - 2)(a + 3) = fa + 3f - 2a - 6$.\nPaso 3: la variación es $(fa + 3f - 2a - 6) - fa = 3f - 2a - 6$.\nRespuesta: A, $3f - 2a - 6$.\nErrores frecuentes: La B olvida el producto $(-2) \\cdot 3 = -6$ al desarrollar. La C le pone signo positivo a ese producto. La D intercambia los papeles de filas y asientos: correspondería a agregar $3$ filas y quitar $2$ asientos por fila.",
+    "verify": "const target = (f, a) => (f - 2) * (a + 3) - f * a\nconst alts = { A: (f, a) => 3 * f - 2 * a - 6, B: (f, a) => 3 * f - 2 * a, C: (f, a) => 3 * f - 2 * a + 6, D: (f, a) => 3 * a - 2 * f - 6 }\nconst pts = [[10, 12], [15, 20], [8, 30]]\n\nconst ok = Object.keys(alts).filter((k) => pts.every((p) => Math.abs(alts[k](...p) - target(...p)) < 1e-9))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-061",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Para preparar $12$ alfajores, una repostera de La Ligua usa $300$ g de manjar. Si la cantidad de manjar es directamente proporcional a la cantidad de alfajores, ¿cuántos gramos de manjar necesita para preparar $30$ alfajores?",
+    "alternatives": {
+      "A": "$318$ g",
+      "B": "$600$ g",
+      "C": "$750$ g",
+      "D": "$900$ g"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: en una proporcionalidad directa, el cociente entre los gramos de manjar y la cantidad de alfajores es constante.\nPaso 1: por cada alfajor se usan $300 : 12 = 25$ g de manjar.\nPaso 2: para $30$ alfajores se necesitan $30 \\cdot 25 = 750$ g.\nRespuesta: C, $750$ g.\nErrores frecuentes: La A suma a $300$ la diferencia de alfajores ($18$), como si la relación fuera aditiva. La B duplica la cantidad, pero $30$ no es el doble de $12$. La D la triplica, pero $30$ es $2{,}5$ veces $12$.",
+    "verify": "const ans = 300 / 12 * 30\nconst alts = { A: 318, B: 600, C: 750, D: 900 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-062",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En cada alternativa se muestran tres pares ordenados $(x,\\ y)$ de una relación entre dos variables positivas.\n¿En cuál de ellas las variables $x$ e $y$ pueden ser inversamente proporcionales?",
+    "alternatives": {
+      "A": "$(1,\\ 4)$, $(2,\\ 8)$ y $(3,\\ 12)$",
+      "B": "$(1,\\ 12)$, $(2,\\ 6)$ y $(3,\\ 4)$",
+      "C": "$(1,\\ 12)$, $(2,\\ 10)$ y $(3,\\ 8)$",
+      "D": "$(2,\\ 12)$, $(3,\\ 8)$ y $(4,\\ 7)$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: $x$ e $y$ son inversamente proporcionales si el producto $x \\cdot y$ es el mismo para todos los pares.\nPaso 1: en B, $1 \\cdot 12 = 2 \\cdot 6 = 3 \\cdot 4 = 12$: el producto es constante.\nPaso 2: en A los productos son $4$, $16$ y $36$; lo constante es el cociente $y : x = 4$.\nPaso 3: en C los productos son $12$, $20$ y $24$; en D son $24$, $24$ y $28$.\nRespuesta: B.\nErrores frecuentes: La A es una proporcionalidad directa: cuando $x$ se duplica, $y$ también se duplica. La C muestra que $y$ disminuye cuando $x$ aumenta, pero eso no basta: baja siempre $2$ unidades, no en forma inversa. La D cumple con los dos primeros pares, pero el tercero da $4 \\cdot 7 = 28$ y no $24$.",
+    "verify": "const alts = { A: [[1, 4], [2, 8], [3, 12]], B: [[1, 12], [2, 6], [3, 4]], C: [[1, 12], [2, 10], [3, 8]], D: [[2, 12], [3, 8], [4, 7]] }\nconst ok = Object.keys(alts).filter((k) => alts[k].every(([x, y]) => Math.abs(x * y - alts[k][0][0] * alts[k][0][1]) < 1e-9))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-063",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un curso de un liceo de Ovalle, todos los estudiantes llegan al liceo en bus o caminando. La razón entre los que llegan en bus y los que llegan caminando es $3 : 5$, y los que llegan caminando son $12$ más que los que llegan en bus.\n¿Cuántos estudiantes tiene el curso?",
+    "alternatives": {
+      "A": "$18$",
+      "B": "$30$",
+      "C": "$48$",
+      "D": "$96$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: la razón $3 : 5$ divide el curso en $3 + 5 = 8$ partes iguales, y la diferencia entre ambos grupos equivale a $5 - 3 = 2$ partes.\nPaso 1: $2$ partes corresponden a $12$ estudiantes, así que cada parte equivale a $6$ estudiantes.\nPaso 2: llegan en bus $3 \\cdot 6 = 18$ y caminando $5 \\cdot 6 = 30$ estudiantes.\nPaso 3: el curso tiene $18 + 30 = 48$ estudiantes.\nRespuesta: C, $48$.\nErrores frecuentes: La A es solo la cantidad que llega en bus. La B es solo la cantidad que llega caminando. La D supone que cada parte vale $12$, sin notar que $12$ es la diferencia, que corresponde a dos partes.",
+    "verify": "const parte = 12 / (5 - 3)\nconst ans = parte * (3 + 5)\nconst alts = { A: 18, B: 30, C: 48, D: 96 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-064",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un campo de arándanos cerca de Linares, $12$ temporeros cosechan $4$ hectáreas en $8$ días, trabajando $6$ horas diarias. Todos los temporeros trabajan al mismo ritmo.\n¿Cuántos días demorarán $9$ temporeros en cosechar $6$ hectáreas, si trabajan $8$ horas diarias?",
+    "alternatives": {
+      "A": "$8$",
+      "B": "$9$",
+      "C": "$12$",
+      "D": "$16$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: los días son directamente proporcionales a las hectáreas e inversamente proporcionales a la cantidad de temporeros y a las horas diarias; conviene medir el trabajo en horas-persona.\nPaso 1: el trabajo total fue $12 \\cdot 8 \\cdot 6 = 576$ horas-persona para $4$ hectáreas, es decir, $144$ horas-persona por hectárea.\nPaso 2: para $6$ hectáreas se necesitan $6 \\cdot 144 = 864$ horas-persona.\nPaso 3: $9$ temporeros a $8$ horas diarias aportan $72$ horas-persona por día, así que se necesitan $864 : 72 = 12$ días.\nRespuesta: C, $12$ días.\nErrores frecuentes: La A no considera que aumentan las hectáreas. La B no considera que ahora hay menos temporeros. La D no considera que ahora se trabajan más horas diarias. Cada distractor ignora una de las tres variables.",
+    "verify": "const porHa = (12 * 8 * 6) / 4\nconst ans = (6 * porHa) / (9 * 8)\nconst alts = { A: 8, B: 9, C: 12, D: 16 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-065",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Las variables positivas $x$ e $y$ son inversamente proporcionales. Si el valor de $x$ aumenta en un $25\\%$, ¿qué ocurre con el valor de $y$?",
+    "alternatives": {
+      "A": "Disminuye en un $20\\%$.",
+      "B": "Disminuye en un $25\\%$.",
+      "C": "Disminuye en un $75\\%$.",
+      "D": "Aumenta en un $25\\%$."
+    },
+    "correct": "A",
+    "explanation": "Idea clave: si $x \\cdot y = k$ es constante, al multiplicar $x$ por un factor, $y$ queda multiplicado por el factor inverso.\nPaso 1: aumentar $x$ en un $25\\%$ es multiplicarlo por $1{,}25 = \\frac{5}{4}$.\nPaso 2: para que el producto siga siendo $k$, $y$ debe multiplicarse por $\\frac{4}{5} = 0{,}8$.\nPaso 3: multiplicar por $0{,}8$ equivale a disminuir en un $20\\%$. Por ejemplo, si $x = 4$ e $y = 10$, al pasar a $x = 5$ se obtiene $y = 8$.\nRespuesta: A, disminuye en un $20\\%$.\nErrores frecuentes: La B supone que el porcentaje de disminución es igual al de aumento, pero $1{,}25 \\cdot 0{,}75 = 0{,}9375 \\neq 1$. La C confunde la disminución con lo que queda. La D describe una proporcionalidad directa.",
+    "verify": "const k = 40, x0 = 4, y0 = k / x0\nconst y1 = k / (x0 * 1.25)\nconst cambio = (y1 - y0) / y0 * 100\nconst alts = { A: -20, B: -25, C: -75, D: 25 }\nconst ok = Object.keys(alts).filter((l) => Math.abs(alts[l] - cambio) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-066",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Se sabe que la variable $a$ es directamente proporcional a la variable $b$, y que $b$ es inversamente proporcional a la variable $c$. Las tres variables toman solo valores positivos.\n¿Cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "El cociente $\\dfrac{a}{c}$ es constante.",
+      "B": "El producto $a \\cdot c$ es constante.",
+      "C": "La suma $a + c$ es constante.",
+      "D": "El producto $a \\cdot b \\cdot c$ es constante."
+    },
+    "correct": "B",
+    "explanation": "Idea clave: se escribe cada relación con su constante de proporcionalidad y luego se combinan.\nPaso 1: $a = k_1 b$ (directa) y $b = \\frac{k_2}{c}$ (inversa), con $k_1$ y $k_2$ constantes positivas.\nPaso 2: reemplazando, $a = \\frac{k_1 k_2}{c}$, es decir, $a \\cdot c = k_1 k_2$, que es constante: $a$ y $c$ son inversamente proporcionales.\nPaso 3: un ejemplo con $k_1 = 2$ y $k_2 = 6$: si $c = 1$, entonces $b = 6$ y $a = 12$; si $c = 3$, entonces $b = 2$ y $a = 4$. En ambos casos $a \\cdot c = 12$.\nRespuesta: B.\nErrores frecuentes: La A supone que $a$ y $c$ son directamente proporcionales, pero en el ejemplo $\\frac{12}{1} \\neq \\frac{4}{3}$. La C falla en el ejemplo: $13 \\neq 7$. La D también: $12 \\cdot 6 \\cdot 1 = 72$ y $4 \\cdot 2 \\cdot 3 = 24$.",
+    "verify": "const k1 = 2, k2 = 6\nconst casos = [1, 2, 3, 5].map((c) => { const b = k2 / c; const a = k1 * b; return { a, b, c } })\nconst alts = { A: (t) => t.a / t.c, B: (t) => t.a * t.c, C: (t) => t.a + t.c, D: (t) => t.a * t.b * t.c }\nconst ok = Object.keys(alts).filter((l) => casos.every((t) => Math.abs(alts[l](t) - alts[l](casos[0])) < 1e-9))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-067",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una ferretería de Rancagua se prepararon $32$ litros de pintura celeste mezclando pintura blanca y pintura azul en razón $5 : 3$, en ese orden. Un cliente pide un tono más oscuro, en el que la razón entre la pintura blanca y la azul sea $4 : 5$, sin agregar más pintura blanca.\n¿Cuántos litros de pintura azul se deben agregar a la mezcla?",
+    "alternatives": {
+      "A": "$5$",
+      "B": "$8$",
+      "C": "$13$",
+      "D": "$25$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: la cantidad de pintura blanca no cambia, así que sirve de referencia para calcular cuánta azul debe haber en la nueva mezcla.\nPaso 1: $32$ litros en razón $5 : 3$ son $8$ partes de $4$ litros: hay $20$ litros de blanca y $12$ litros de azul.\nPaso 2: en la nueva mezcla, blanca y azul están en razón $4 : 5$, así que la azul debe ser $\\frac{20 \\cdot 5}{4} = 25$ litros.\nPaso 3: se deben agregar $25 - 12 = 13$ litros de pintura azul.\nRespuesta: C, $13$ litros.\nErrores frecuentes: La A es la diferencia entre la azul final y la blanca ($25 - 20$). La B lleva la azul de $3$ a $5$ partes de $4$ litros, olvidando que la blanca debe quedar como $4$ partes y no como $5$. La D es el total de azul en la nueva mezcla, no lo que se agrega.",
+    "verify": "const parte = 32 / (5 + 3)\nconst blanca = 5 * parte, azul = 3 * parte\nconst azulFinal = blanca * 5 / 4\nconst ans = azulFinal - azul\nconst alts = { A: 5, B: 8, C: 13, D: 25 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-068",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Para sacar el agua de un subterráneo inundado en Talcahuano se usan bombas iguales, que trabajan todas al mismo ritmo. Con $3$ bombas, el subterráneo queda vacío en $10$ horas.\n¿Cuál es la menor cantidad de bombas que se necesitan para vaciarlo en $4$ horas o menos?",
+    "alternatives": {
+      "A": "$2$",
+      "B": "$7$",
+      "C": "$8$",
+      "D": "$12$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el tiempo es inversamente proporcional a la cantidad de bombas, y como las bombas se cuentan con números enteros, el resultado se redondea hacia arriba.\nPaso 1: el trabajo total equivale a $3 \\cdot 10 = 30$ horas-bomba.\nPaso 2: con $n$ bombas se demoran $\\frac{30}{n}$ horas, y se necesita $\\frac{30}{n} \\leq 4$, es decir, $n \\geq 7{,}5$.\nPaso 3: el menor entero que cumple es $n = 8$; con $8$ bombas se demoran $3{,}75$ horas.\nRespuesta: C, $8$ bombas.\nErrores frecuentes: La A trata la relación como directa: $\\frac{3 \\cdot 4}{10} = 1{,}2$, y redondea a $2$. La B redondea $7{,}5$ hacia abajo, pero con $7$ bombas se demoran unas $4{,}3$ horas, más de $4$. La D multiplica $3 \\cdot 4$ sin usar el tiempo original.",
+    "verify": "const total = 3 * 10\nlet n = 1\nwhile (total / n > 4) n++\nconst ans = n\nconst alts = { A: 2, B: 7, C: 8, D: 12 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-069",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "¿Cuál es el conjunto de todos los números reales $x$ que cumplen la inecuación $5 - 2x > 11$?",
+    "alternatives": {
+      "A": "Todos los $x$ tales que $x < -3$",
+      "B": "Todos los $x$ tales que $x > -3$",
+      "C": "Todos los $x$ tales que $x < 3$",
+      "D": "Todos los $x$ tales que $x > 3$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: al multiplicar o dividir ambos lados de una inecuación por un número negativo, el sentido de la desigualdad se invierte.\nPaso 1: restando $5$ a ambos lados: $-2x > 6$.\nPaso 2: dividiendo por $-2$ e invirtiendo el sentido: $x < -3$.\nPaso 3: comprobación con $x = -4$: $5 - 2 \\cdot (-4) = 13 > 11$.\nRespuesta: A, $x < -3$.\nErrores frecuentes: La B divide por $-2$ sin invertir el sentido. La C invierte el sentido, pero se equivoca en el signo del cociente: $6 : (-2) = -3$, no $3$. La D comete los dos errores a la vez.",
+    "verify": "const cumple = (x) => 5 - 2 * x > 11\nconst alts = { A: (x) => x < -3, B: (x) => x > -3, C: (x) => x < 3, D: (x) => x > 3 }\nconst xs = []\nfor (let x = -10; x <= 10; x += 0.25) xs.push(x)\nconst ok = Object.keys(alts).filter((k) => xs.every((x) => alts[k](x) === cumple(x)))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-070",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Javiera tiene $18\\,000$ pesos de saldo en su tarjeta bip! y Tomás tiene $9\\,600$ pesos en la suya. Ninguno de los dos recarga su tarjeta, y cada día hábil Javiera gasta $1\\,400$ pesos y Tomás gasta $700$ pesos en pasajes.\n¿Después de cuántos días hábiles ambas tarjetas tendrán el mismo saldo?",
+    "alternatives": {
+      "A": "Después de $4$ días",
+      "B": "Después de $6$ días",
+      "C": "Después de $12$ días",
+      "D": "Nunca tendrán el mismo saldo"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: se escribe el saldo de cada tarjeta en función de los días transcurridos y se igualan ambas expresiones.\nPaso 1: después de $d$ días, Javiera tiene $18\\,000 - 1\\,400d$ pesos y Tomás tiene $9\\,600 - 700d$ pesos.\nPaso 2: $18\\,000 - 1\\,400d = 9\\,600 - 700d$, entonces $8\\,400 = 700d$ y $d = 12$.\nPaso 3: comprobación: Javiera tiene $18\\,000 - 16\\,800 = 1\\,200$ pesos y Tomás $9\\,600 - 8\\,400 = 1\\,200$ pesos.\nRespuesta: C, después de $12$ días.\nErrores frecuentes: La A divide la diferencia de saldos por la suma de los gastos ($8\\,400 : 2\\,100$), como si los saldos se acercaran desde lados opuestos. La B la divide por el gasto de Javiera, sin considerar que Tomás también gasta. La D supone que Javiera siempre tendrá más porque parte con más, pero ella gasta más rápido y la diferencia se reduce $700$ pesos cada día.",
+    "verify": "let d = null\nfor (let t = 0; t <= 100; t++) if (18000 - 1400 * t === 9600 - 700 * t) { d = t; break }\nif (d !== null && 18000 - 1400 * d < 0) d = null\nconst alts = { A: 4, B: 6, C: 12, D: null }\nconst ok = Object.keys(alts).filter((k) => alts[k] === d)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-071",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "¿Cuál de las siguientes ecuaciones representa la frase «el doble de un número $x$, disminuido en $5$, es igual al triple del sucesor de ese número»?",
+    "alternatives": {
+      "A": "$2x - 5 = 3(x + 1)$",
+      "B": "$2x - 5 = 3x + 1$",
+      "C": "$2(x - 5) = 3x + 1$",
+      "D": "$2(x - 5) = 3(x + 1)$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: hay que traducir cada parte de la frase respetando a qué cantidad se aplica cada operación.\nPaso 1: «el doble de un número, disminuido en $5$» es $2x - 5$: primero se duplica el número y luego se le resta $5$.\nPaso 2: «el sucesor de ese número» es $x + 1$, y su triple es $3(x + 1)$.\nPaso 3: al igualar ambas partes: $2x - 5 = 3(x + 1)$.\nRespuesta: A.\nErrores frecuentes: La B calcula el triple del número y le suma $1$, en vez de calcular el triple del sucesor. La C y la D restan $5$ antes de duplicar, lo que correspondería a «el doble de la diferencia entre el número y $5$»; además, la C repite el error de la B.",
+    "verify": "const target = [(x) => 2 * x - 5, (x) => 3 * (x + 1)]\nconst alts = { A: [(x) => 2 * x - 5, (x) => 3 * (x + 1)], B: [(x) => 2 * x - 5, (x) => 3 * x + 1], C: [(x) => 2 * (x - 5), (x) => 3 * x + 1], D: [(x) => 2 * (x - 5), (x) => 3 * (x + 1)] }\nconst xs = [-3, 0, 2, 7]\nconst ok = Object.keys(alts).filter((k) => xs.every((x) => Math.abs(alts[k][0](x) - target[0](x)) < 1e-9 && Math.abs(alts[k][1](x) - target[1](x)) < 1e-9))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-072",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera la ecuación $kx + 3 = k - 2x$, en la que $x$ es la incógnita y $k$ es un número real.\n¿Para qué valor de $k$ la ecuación no tiene solución?",
+    "alternatives": {
+      "A": "$-2$",
+      "B": "$0$",
+      "C": "$2$",
+      "D": "$3$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: se agrupan los términos con $x$; si el coeficiente de $x$ se anula y el otro lado no es cero, se llega a una igualdad falsa.\nPaso 1: trasponiendo términos, $kx + 2x = k - 3$, es decir, $(k + 2)x = k - 3$.\nPaso 2: si $k + 2 \\neq 0$, hay una única solución: $x = \\frac{k - 3}{k + 2}$.\nPaso 3: si $k = -2$, queda $0 \\cdot x = -5$, que es falso para todo $x$: la ecuación no tiene solución.\nRespuesta: A, $k = -2$.\nErrores frecuentes: La B elimina el término $kx$, pero queda $3 = -2x$, con solución $x = -\\frac{3}{2}$. La C se equivoca en el signo al trasponer $-2x$; con $k = 2$ queda $4x = -1$, que sí tiene solución. La D anula el lado derecho, pero entonces la ecuación es $5x = 0$, con solución $x = 0$.",
+    "verify": "const sinSolucion = (k) => Math.abs(k + 2) < 1e-12 && Math.abs(k - 3) > 1e-12\nconst alts = { A: -2, B: 0, C: 2, D: 3 }\nconst ok = Object.keys(alts).filter((l) => sinSolucion(alts[l]))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-073",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Martina recorrió en bicicleta una ruta de cicloturismo de la Carretera Austral en tres días. El primer día recorrió un tercio de la ruta; el segundo día, la mitad de lo que le faltaba, y el tercer día, los $15$ km restantes.\n¿Cuál es la longitud total de la ruta?",
+    "alternatives": {
+      "A": "$25$ km",
+      "B": "$30$ km",
+      "C": "$45$ km",
+      "D": "$90$ km"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: «la mitad de lo que le faltaba» se calcula sobre lo que quedaba después del primer día, no sobre el total.\nPaso 1: si la ruta mide $L$ km, después del primer día faltan $L - \\frac{L}{3} = \\frac{2L}{3}$ km.\nPaso 2: el segundo día recorre $\\frac{1}{2} \\cdot \\frac{2L}{3} = \\frac{L}{3}$ km, y entonces faltan $\\frac{2L}{3} - \\frac{L}{3} = \\frac{L}{3}$ km.\nPaso 3: $\\frac{L}{3} = 15$, así que $L = 45$ km.\nRespuesta: C, $45$ km.\nErrores frecuentes: La A suma mal las fracciones, $\\frac{1}{3} + \\frac{1}{2} = \\frac{2}{5}$, y plantea $\\frac{3}{5}L = 15$. La B toma la mitad de lo recorrido el primer día ($\\frac{L}{6}$) en vez de la mitad de lo que faltaba. La D toma la mitad del total: $\\frac{L}{3} + \\frac{L}{2} = \\frac{5L}{6}$, y plantea $\\frac{L}{6} = 15$.",
+    "verify": "const resto = (L) => { const r1 = L - L / 3; return r1 - r1 / 2 }\nconst ans = 15 / (resto(1))\nconst alts = { A: 25, B: 30, C: 45, D: 90 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-074",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un centro de eventos de Chillán cobra $180\\,000$ pesos fijos por el arriendo del salón, más $6\\,500$ pesos por cada invitado. Un curso quiere que el costo total esté entre $400\\,000$ y $500\\,000$ pesos, ambos valores incluidos.\n¿Cuántas cantidades distintas de invitados cumplen esa condición?",
+    "alternatives": {
+      "A": "$15$",
+      "B": "$16$",
+      "C": "$17$",
+      "D": "$18$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: se plantea una inecuación doble y se cuentan los números enteros que la cumplen, cuidando cómo se redondea en cada extremo.\nPaso 1: $400\\,000 \\leq 180\\,000 + 6\\,500n \\leq 500\\,000$, es decir, $220\\,000 \\leq 6\\,500n \\leq 320\\,000$.\nPaso 2: dividiendo por $6\\,500$: $n \\geq 33{,}8$ aproximadamente y $n \\leq 49{,}2$ aproximadamente.\nPaso 3: como $n$ es entero, va desde $34$ hasta $49$: son $49 - 34 + 1 = 16$ valores.\nRespuesta: B, $16$.\nErrores frecuentes: La A calcula $49 - 34$ y deja de contar uno de los extremos. La C redondea $33{,}8$ hacia abajo e incluye $n = 33$, que cuesta $394\\,500$ pesos. La D además incluye $n = 50$, que cuesta $505\\,000$ pesos.",
+    "verify": "let ans = 0\nfor (let n = 0; n <= 200; n++) { const c = 180000 + 6500 * n; if (c >= 400000 && c <= 500000) ans++ }\nconst alts = { A: 15, B: 16, C: 17, D: 18 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-075",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Si $a$ y $b$ son números reales tales que $a < b < 0$, ¿cuál de las siguientes desigualdades es siempre verdadera?",
+    "alternatives": {
+      "A": "$a^2 < b^2$",
+      "B": "$-2a < -2b$",
+      "C": "$a + b > 0$",
+      "D": "$ab > b^2$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: al multiplicar ambos lados de una desigualdad por un número negativo, el sentido se invierte.\nPaso 1: como $a < b$ y $b$ es negativo, al multiplicar por $b$ se invierte el sentido: $ab > b \\cdot b$, es decir, $ab > b^2$.\nPaso 2: con el ejemplo $a = -3$ y $b = -1$: $ab = 3 > 1 = b^2$.\nPaso 3: el mismo ejemplo descarta las demás: $a^2 = 9 > 1 = b^2$; $-2a = 6 > 2 = -2b$; $a + b = -4 < 0$.\nRespuesta: D, $ab > b^2$.\nErrores frecuentes: La A supone que elevar al cuadrado conserva el orden, lo que solo ocurre con números positivos. La B multiplica por $-2$ sin invertir el sentido. La C olvida que la suma de dos números negativos es negativa.",
+    "verify": "const alts = { A: (a, b) => a * a < b * b, B: (a, b) => -2 * a < -2 * b, C: (a, b) => a + b > 0, D: (a, b) => a * b > b * b }\nconst pares = []\nfor (let a = -10; a < 0; a += 0.5) for (let b = a + 0.5; b < 0; b += 0.5) pares.push([a, b])\nconst ok = Object.keys(alts).filter((k) => pares.every(([a, b]) => alts[k](a, b)))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-076",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Ignacio es vendedor en una tienda de Rancagua. Recibe un sueldo base de $420\\,000$ pesos mensuales, más una comisión del $4\\%$ sobre el total de sus ventas del mes. La tienda cambiará las condiciones: el sueldo base subirá un $5\\%$ y la comisión bajará al $3\\%$.\nPara recibir un total de $600\\,000$ pesos en un mes, ¿cuánto más debe vender Ignacio con las nuevas condiciones que con las anteriores?",
+    "alternatives": {
+      "A": "$800\\,000$ pesos",
+      "B": "$1\\,500\\,000$ pesos",
+      "C": "$5\\,300\\,000$ pesos",
+      "D": "$6\\,000\\,000$ pesos"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: se plantea una ecuación para cada situación y luego se comparan las ventas que se necesitan.\nPaso 1: antes: $420\\,000 + 0{,}04V = 600\\,000$, entonces $V = \\frac{180\\,000}{0{,}04} = 4\\,500\\,000$ pesos.\nPaso 2: el nuevo sueldo base es $420\\,000 \\cdot 1{,}05 = 441\\,000$ pesos, y $441\\,000 + 0{,}03V = 600\\,000$ da $V = \\frac{159\\,000}{0{,}03} = 5\\,300\\,000$ pesos.\nPaso 3: la diferencia es $5\\,300\\,000 - 4\\,500\\,000 = 800\\,000$ pesos.\nRespuesta: A, $800\\,000$ pesos.\nErrores frecuentes: La B no considera el aumento del sueldo base: $\\frac{180\\,000}{0{,}03} - 4\\,500\\,000 = 1\\,500\\,000$. La C es el total que debe vender con las nuevas condiciones, no la diferencia. La D es lo que debería vender si solo bajara la comisión.",
+    "verify": "const antes = (600000 - 420000) / 0.04\nconst despues = (600000 - 420000 * 1.05) / 0.03\nconst ans = despues - antes\nconst alts = { A: 800000, B: 1500000, C: 5300000, D: 6000000 }\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-6)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-077",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-2x2",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Considera el siguiente sistema de ecuaciones:\n$\\displaystyle \\begin{cases} y = 3x - 1 \\\\ 2x + y = 14 \\end{cases}$\n¿Cuál es el valor de $y$?",
+    "alternatives": {
+      "A": "$3$",
+      "B": "$8$",
+      "C": "$11$",
+      "D": "$14$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: como $y$ ya está despejada en la primera ecuación, conviene sustituirla en la segunda.\nPaso 1: $2x + (3x - 1) = 14$, es decir, $5x - 1 = 14$.\nPaso 2: $5x = 15$, así que $x = 3$.\nPaso 3: $y = 3 \\cdot 3 - 1 = 8$. Comprobación: $2 \\cdot 3 + 8 = 14$.\nRespuesta: B, $y = 8$.\nErrores frecuentes: La A es el valor de $x$, no el de $y$. La C es la suma $x + y$. La D es el término libre de la segunda ecuación, no un valor de la solución.",
+    "verify": "const x = (14 + 1) / 5\nconst ans = 3 * x - 1\nif (Math.abs(2 * x + ans - 14) > 1e-9) return null\nconst alts = { A: 3, B: 8, C: 11, D: 14 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-078",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-2x2",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Una tienda de Puerto Varas vende yogures en packs de $6$ unidades y en packs de $4$ unidades. Un día vendió $25$ packs en total, con los que vendió $128$ yogures.\n¿Cuántos packs de $4$ unidades vendió ese día?",
+    "alternatives": {
+      "A": "$11$",
+      "B": "$14$",
+      "C": "$21$",
+      "D": "$32$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: se plantea un sistema con una ecuación para la cantidad de packs y otra para la cantidad de yogures.\nPaso 1: si $x$ es la cantidad de packs de $6$ e $y$ la de packs de $4$: $x + y = 25$ y $6x + 4y = 128$.\nPaso 2: multiplicando la primera ecuación por $4$: $4x + 4y = 100$; restándola de la segunda: $2x = 28$, así que $x = 14$.\nPaso 3: $y = 25 - 14 = 11$. Comprobación: $6 \\cdot 14 + 4 \\cdot 11 = 84 + 44 = 128$.\nRespuesta: A, $11$ packs.\nErrores frecuentes: La B es la cantidad de packs de $6$; también se obtiene si se intercambian los tamaños al plantear la segunda ecuación. La C divide $128$ por $6$, como si todos los packs fueran de $6$. La D divide $128$ por $4$, como si todos fueran de $4$, sin usar el total de packs.",
+    "verify": "let ans = null\nfor (let x = 0; x <= 25; x++) { const y = 25 - x; if (6 * x + 4 * y === 128) ans = y }\nconst alts = { A: 11, B: 14, C: 21, D: 32 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-079",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-2x2",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un ensayo de $30$ preguntas de un preuniversitario de Temuco, cada respuesta correcta suma $4$ puntos y cada respuesta incorrecta u omitida resta $1$ punto. Catalina obtuvo $75$ puntos en el ensayo.\n¿Cuántas respuestas correctas tuvo Catalina?",
+    "alternatives": {
+      "A": "$9$",
+      "B": "$15$",
+      "C": "$19$",
+      "D": "$21$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: cada pregunta es correcta o no lo es, así que ambas cantidades suman $30$; el puntaje entrega la segunda ecuación.\nPaso 1: si $c$ son las correctas e $i$ las incorrectas u omitidas: $c + i = 30$ y $4c - i = 75$.\nPaso 2: sumando ambas ecuaciones: $5c = 105$, así que $c = 21$.\nPaso 3: $i = 30 - 21 = 9$. Comprobación: $4 \\cdot 21 - 9 = 84 - 9 = 75$.\nRespuesta: D, $21$.\nErrores frecuentes: La A es la cantidad de respuestas incorrectas u omitidas. La B suma los puntos de las incorrectas en vez de restarlos: $4c + i = 75$ da $3c = 45$. La C divide $75$ por $4$ y redondea, sin considerar el descuento.",
+    "verify": "let ans = null\nfor (let c = 0; c <= 30; c++) if (4 * c - (30 - c) === 75) ans = c\nconst alts = { A: 9, B: 15, C: 19, D: 21 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-080",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-2x2",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "El año pasado, un liceo de Curicó tenía $800$ estudiantes. Este año, la cantidad de hombres aumentó en un $10\\%$ y la cantidad de mujeres disminuyó en un $5\\%$, por lo que ahora el liceo tiene $808$ estudiantes.\n¿Cuántos hombres estudian este año en el liceo?",
+    "alternatives": {
+      "A": "$320$",
+      "B": "$352$",
+      "C": "$456$",
+      "D": "$480$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: el sistema se plantea con las cantidades del año pasado, porque los porcentajes se aplican sobre ellas.\nPaso 1: si $h$ y $m$ son los hombres y las mujeres del año pasado: $h + m = 800$ y $1{,}1h + 0{,}95m = 808$.\nPaso 2: reemplazando $m = 800 - h$: $1{,}1h + 760 - 0{,}95h = 808$, así que $0{,}15h = 48$ y $h = 320$.\nPaso 3: este año hay $320 \\cdot 1{,}1 = 352$ hombres (y $480 \\cdot 0{,}95 = 456$ mujeres; en efecto, $352 + 456 = 808$).\nRespuesta: B, $352$.\nErrores frecuentes: La A es la cantidad de hombres del año pasado: falta aplicar el aumento del $10\\%$. La C es la cantidad de mujeres de este año. La D es la cantidad de mujeres del año pasado.",
+    "verify": "let ans = null\nfor (let h = 0; h <= 800; h++) { const m = 800 - h; if (Math.abs(1.1 * h + 0.95 * m - 808) < 1e-9) ans = 1.1 * h }\nconst alts = { A: 320, B: 352, C: 456, D: 480 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-081",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "modelar",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Un camión aljibe que abastece a una localidad de Petorca parte con $8\\,000$ litros de agua y descarga $250$ litros por minuto. La cantidad de agua, en litros, que queda en el camión después de $t$ minutos se modela con la función $V(t) = 8\\,000 - 250t$.\n¿Después de cuántos minutos quedan $3\\,000$ litros de agua en el camión?",
+    "alternatives": {
+      "A": "$12$",
+      "B": "$20$",
+      "C": "$32$",
+      "D": "$44$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: se iguala la función al valor dado y se despeja $t$.\nPaso 1: $8\\,000 - 250t = 3\\,000$.\nPaso 2: $250t = 5\\,000$, así que $t = 20$ minutos.\nRespuesta: B, $20$ minutos.\nErrores frecuentes: La A divide $3\\,000$ por $250$: ese es el tiempo que todavía falta para vaciar el camión, no el transcurrido. La C es el tiempo que tarda en vaciarse por completo ($8\\,000 : 250$). La D suma $8\\,000 + 3\\,000$ antes de dividir, por un error de signo.",
+    "verify": "const V = (t) => 8000 - 250 * t\nconst ans = (8000 - 3000) / 250\nif (Math.abs(V(ans) - 3000) > 1e-9) return null\nconst alts = { A: 12, B: 20, C: 32, D: 44 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-082",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En Antofagasta, una aplicación de transporte cobra cada viaje según una función afín de la distancia recorrida. La tabla muestra el cobro $P$, en pesos, para algunas distancias $x$, en kilómetros:\n$\\displaystyle \\begin{array}{|c|c|c|c|}\\hline x \\text{ (km)} & 2 & 5 & 9 \\\\ \\hline P \\text{ (pesos)} & 2\\,300 & 3\\,500 & 5\\,100 \\\\ \\hline \\end{array}$\n¿Cuál de las siguientes funciones modela el cobro de un viaje?",
+    "alternatives": {
+      "A": "$P(x) = 1\\,150x$",
+      "B": "$P(x) = 1\\,500x + 400$",
+      "C": "$P(x) = 400x + 2\\,300$",
+      "D": "$P(x) = 400x + 1\\,500$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: en una función afín, la pendiente es la variación del cobro dividida por la variación de la distancia, y el coeficiente de posición es el cobro cuando $x = 0$.\nPaso 1: pendiente: $\\frac{3\\,500 - 2\\,300}{5 - 2} = \\frac{1\\,200}{3} = 400$ pesos por km; también $\\frac{5\\,100 - 3\\,500}{9 - 5} = 400$.\nPaso 2: $2\\,300 = 400 \\cdot 2 + b$, así que $b = 1\\,500$.\nPaso 3: $P(x) = 400x + 1\\,500$. Comprobación: $P(9) = 3\\,600 + 1\\,500 = 5\\,100$.\nRespuesta: D, $P(x) = 400x + 1\\,500$.\nErrores frecuentes: La A supone que el cobro es proporcional a la distancia ($2\\,300 : 2$), pero falla para $x = 5$. La B intercambia la pendiente y el coeficiente de posición. La C usa como cobro fijo el valor de un viaje de $2$ km, en vez del valor para $0$ km.",
+    "verify": "const target = { 2: 2300, 5: 3500, 9: 5100 }\nconst alts = { A: (x) => 1150 * x, B: (x) => 1500 * x + 400, C: (x) => 400 * x + 2300, D: (x) => 400 * x + 1500 }\nconst ok = Object.keys(alts).filter((k) => Object.entries(target).every(([x, p]) => Math.abs(alts[k](Number(x)) - p) < 1e-9))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-083",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Patricio se mueve por Concepción en un scooter eléctrico. Al salir, la batería tiene un $100\\%$ de carga y, después de recorrer $18$ km, marca un $64\\%$. La carga disminuye de forma lineal con la distancia recorrida.\n¿Cuántos kilómetros más puede recorrer hasta que la batería se agote?",
+    "alternatives": {
+      "A": "$18$",
+      "B": "$32$",
+      "C": "$36$",
+      "D": "$50$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: como la carga disminuye de forma lineal, baja la misma cantidad por cada kilómetro recorrido.\nPaso 1: en $18$ km la carga bajó $100 - 64 = 36$ puntos porcentuales, es decir, $36 : 18 = 2$ puntos por km.\nPaso 2: le queda un $64\\%$, que alcanza para $64 : 2 = 32$ km más.\nRespuesta: B, $32$ km.\nErrores frecuentes: La A supone que puede recorrer lo mismo que ya recorrió. La C confunde la carga gastada ($36\\%$) con kilómetros. La D es la autonomía total ($100 : 2$), pero ya recorrió $18$ km de ella.",
+    "verify": "const tasa = (100 - 64) / 18\nconst ans = 64 / tasa\nconst alts = { A: 18, B: 32, C: 36, D: 50 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-084",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En Valdivia, la lavandería P cobra según la función $f(x) = 4\\,000 + 1\\,500x$, donde $x$ es la cantidad de kilogramos de ropa y $f(x)$ es el cobro, en pesos. La lavandería Q tiene un cargo fijo un $30\\%$ mayor que el de P y un precio por kilogramo un $20\\%$ menor que el de P.\n¿Cuál de las siguientes afirmaciones es verdadera?",
+    "alternatives": {
+      "A": "Por $3$ kg de ropa, Q cobra menos que P.",
+      "B": "Por $4$ kg de ropa, ambas lavanderías cobran lo mismo.",
+      "C": "Por $5$ kg de ropa, P cobra menos que Q.",
+      "D": "Para cualquier cantidad de ropa, Q cobra más que P."
+    },
+    "correct": "B",
+    "explanation": "Idea clave: primero se construye la función de Q aplicando cada porcentaje al parámetro que corresponde, y luego se comparan ambas funciones.\nPaso 1: cargo fijo de Q: $4\\,000 \\cdot 1{,}3 = 5\\,200$ pesos; precio por kg: $1\\,500 \\cdot 0{,}8 = 1\\,200$ pesos. Así, $g(x) = 5\\,200 + 1\\,200x$.\nPaso 2: igualando, $4\\,000 + 1\\,500x = 5\\,200 + 1\\,200x$, entonces $300x = 1\\,200$ y $x = 4$; ambas cobran $10\\,000$ pesos.\nPaso 3: con menos de $4$ kg cobra menos P, y con más de $4$ kg cobra menos Q: $f(3) = 8\\,500 < g(3) = 8\\,800$ y $f(5) = 11\\,500 > g(5) = 11\\,200$.\nRespuesta: B.\nErrores frecuentes: La A invierte la comparación: con $3$ kg todavía pesa más el cargo fijo mayor de Q. La C también la invierte: con $5$ kg el menor precio por kilogramo de Q ya compensa su cargo fijo. La D mira solo el cargo fijo y olvida que la pendiente de Q es menor.",
+    "verify": "const f = (x) => 4000 + 1500 * x\nconst g = (x) => 4000 * 1.3 + 1500 * 0.8 * x\nconst afirm = {\n  A: g(3) < f(3),\n  B: Math.abs(g(4) - f(4)) < 1e-9,\n  C: f(5) < g(5),\n  D: [0, 1, 2, 3, 4, 5, 6, 10, 20].every((x) => g(x) > f(x)),\n}\nconst ok = Object.keys(afirm).filter((k) => afirm[k])\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-085",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Durante una inmersión en la bahía de Quintero, un buzo registra que la presión que soporta varía en forma afín con la profundidad. A $10$ m de profundidad la presión es de $2$ atmósferas, y a $25$ m es de $3{,}5$ atmósferas.\n¿A qué profundidad la presión es de $5$ atmósferas?",
+    "alternatives": {
+      "A": "$25$ m",
+      "B": "$35$ m",
+      "C": "$40$ m",
+      "D": "$50$ m"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: con dos puntos se calcula la pendiente y luego el coeficiente de posición de la función afín $P(d) = md + n$.\nPaso 1: $m = \\frac{3{,}5 - 2}{25 - 10} = \\frac{1{,}5}{15} = 0{,}1$ atmósferas por metro.\nPaso 2: $2 = 0{,}1 \\cdot 10 + n$, así que $n = 1$ y $P(d) = 0{,}1d + 1$.\nPaso 3: $0{,}1d + 1 = 5$ da $0{,}1d = 4$, es decir, $d = 40$ m.\nRespuesta: C, $40$ m.\nErrores frecuentes: La A supone que la presión es directamente proporcional a la profundidad a partir del primer dato, pero la relación es afín y no proporcional. La B calcula la pendiente dividiendo por $10$ en vez de por $15$ ($0{,}15$) y avanza desde los $25$ m. La D olvida el coeficiente de posición y resuelve $0{,}1d = 5$.",
+    "verify": "const m = (3.5 - 2) / (25 - 10)\nconst n = 2 - m * 10\nconst ans = (5 - n) / m\nconst alts = { A: 25, B: 35, C: 40, D: 50 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-086",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sea $f$ una función afín tal que $f(3) = f(-1) + 8$ y $f(0) = -1$.\n¿Cuál es el valor de $f(5)$?",
+    "alternatives": {
+      "A": "$9$",
+      "B": "$11$",
+      "C": "$19$",
+      "D": "$39$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: en una función afín $f(x) = mx + n$, la diferencia $f(p) - f(q)$ es igual a $m(p - q)$.\nPaso 1: $f(3) - f(-1) = 8$, y también $f(3) - f(-1) = m(3 - (-1)) = 4m$; entonces $m = 2$.\nPaso 2: $f(0) = n = -1$, así que $f(x) = 2x - 1$.\nPaso 3: $f(5) = 2 \\cdot 5 - 1 = 9$.\nRespuesta: A, $9$.\nErrores frecuentes: La B usa $n = 1$ en vez de $-1$. La C calcula $3 - 1 = 2$ en lugar de $3 - (-1) = 4$, y obtiene $m = 4$. La D toma la diferencia $8$ como si fuera la pendiente.",
+    "verify": "const n = -1\nconst m = 8 / (3 - (-1))\nconst f = (x) => m * x + n\nif (Math.abs(f(3) - f(-1) - 8) > 1e-9) return null\nconst ans = f(5)\nconst alts = { A: 9, B: 11, C: 19, D: 39 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-087",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "La relación entre la temperatura medida en grados Fahrenheit, $F$, y la medida en grados Celsius, $C$, es una función afín. El agua se congela a $0$ °C, que equivalen a $32$ °F, y hierve a $100$ °C, que equivalen a $212$ °F.\n¿A qué temperatura, en grados Celsius, el valor numérico es el mismo en ambas escalas?",
+    "alternatives": {
+      "A": "$-40$",
+      "B": "$-32$",
+      "C": "$-\\dfrac{160}{9}$",
+      "D": "$40$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: primero se obtiene la función que transforma grados Celsius en Fahrenheit y luego se busca el valor en que $F = C$.\nPaso 1: pendiente: $\\frac{212 - 32}{100 - 0} = \\frac{180}{100} = 1{,}8$; como $F = 32$ cuando $C = 0$, se tiene $F = 1{,}8C + 32$.\nPaso 2: si $F = C$: $C = 1{,}8C + 32$, entonces $-0{,}8C = 32$.\nPaso 3: $C = \\frac{32}{-0{,}8} = -40$. En efecto, $1{,}8 \\cdot (-40) + 32 = -72 + 32 = -40$.\nRespuesta: A, $-40$ °C.\nErrores frecuentes: La B toma el coeficiente de posición con el signo cambiado, sin resolver la ecuación. La C es la temperatura en Celsius que corresponde a $0$ °F: resuelve $F = 0$ en vez de $F = C$. La D pierde el signo al dividir por $-0{,}8$.",
+    "verify": "const m = (212 - 32) / (100 - 0)\nconst n = 32\nconst ans = n / (1 - m)\nconst alts = { A: -40, B: -32, C: -160 / 9, D: 40 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-088",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Considera la función $f(x) = x^2 - 5x - 14$.\n¿En qué puntos la gráfica de $f$ intersecta al eje $X$?",
+    "alternatives": {
+      "A": "$(-7,\\ 0)$ y $(2,\\ 0)$",
+      "B": "$(2,\\ 0)$ y $(7,\\ 0)$",
+      "C": "$(-7,\\ 0)$ y $(-2,\\ 0)$",
+      "D": "$(-2,\\ 0)$ y $(7,\\ 0)$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: la gráfica corta al eje $X$ donde $f(x) = 0$, y para encontrar esos valores se factoriza el trinomio.\nPaso 1: se buscan dos números cuyo producto sea $-14$ y cuya suma sea $-5$: son $-7$ y $2$.\nPaso 2: $x^2 - 5x - 14 = (x - 7)(x + 2) = 0$, así que $x = 7$ o $x = -2$.\nPaso 3: comprobación: $f(7) = 49 - 35 - 14 = 0$ y $f(-2) = 4 + 10 - 14 = 0$.\nRespuesta: D, $(-2,\\ 0)$ y $(7,\\ 0)$.\nErrores frecuentes: La A toma como soluciones los números $-7$ y $2$ de la factorización, sin cambiarles el signo. La B y la C corresponden a $x^2 - 9x + 14$ y $x^2 + 9x + 14$: en ambas un número tiene el signo equivocado, y el producto da $14$ en vez de $-14$.",
+    "verify": "const f = (x) => x * x - 5 * x - 14\nconst alts = { A: [-7, 2], B: [2, 7], C: [-7, -2], D: [-2, 7] }\nconst ok = Object.keys(alts).filter((k) => alts[k].every((x) => Math.abs(f(x)) < 1e-9))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-089",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un espectáculo de luces en Valparaíso, un dron despega desde una plataforma, sube y luego baja hasta el suelo. Su altura, en metros, a los $t$ segundos de iniciada la rutina se modela con la función $h(t) = -t^2 + 8t + 20$.\n¿A los cuántos segundos de iniciada la rutina el dron llega al suelo?",
+    "alternatives": {
+      "A": "$2$",
+      "B": "$4$",
+      "C": "$8$",
+      "D": "$10$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: el dron llega al suelo cuando su altura es cero, así que hay que resolver $h(t) = 0$ y quedarse con la solución que tiene sentido.\nPaso 1: $-t^2 + 8t + 20 = 0$ equivale a $t^2 - 8t - 20 = 0$.\nPaso 2: factorizando, $(t - 10)(t + 2) = 0$, así que $t = 10$ o $t = -2$.\nPaso 3: el tiempo no puede ser negativo, por lo que el dron llega al suelo a los $10$ segundos. Comprobación: $h(10) = -100 + 80 + 20 = 0$.\nRespuesta: D, $10$ segundos.\nErrores frecuentes: La A toma la solución $t = -2$ y le quita el signo. La B es el instante en que el dron alcanza su altura máxima (vértice). La C es el instante en que vuelve a estar a $20$ m, la altura de la plataforma, no en el suelo.",
+    "verify": "const h = (t) => -t * t + 8 * t + 20\nconst disc = 8 * 8 + 4 * 20\nconst raices = [(-8 + Math.sqrt(disc)) / -2, (-8 - Math.sqrt(disc)) / -2].filter((t) => t > 0)\nif (raices.length !== 1 || Math.abs(h(raices[0])) > 1e-9) return null\nconst ans = raices[0]\nconst alts = { A: 2, B: 4, C: 8, D: 10 }\n\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-090",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "La parábola de ecuación $y = x^2 + bx + 9$, con $b > 0$, toca al eje $X$ en un único punto.\n¿Cuáles son las coordenadas del vértice de la parábola?",
+    "alternatives": {
+      "A": "$(-6,\\ 0)$",
+      "B": "$(0,\\ 9)$",
+      "C": "$(3,\\ 0)$",
+      "D": "$(-3,\\ 0)$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: si la parábola toca al eje $X$ en un solo punto, ese punto es su vértice y la expresión es un cuadrado de binomio.\nPaso 1: $x^2 + bx + 9 = (x + k)^2 = x^2 + 2kx + k^2$ exige $k^2 = 9$; como $b = 2k > 0$, se tiene $k = 3$ y $b = 6$.\nPaso 2: $y = (x + 3)^2$ vale $0$ solo cuando $x = -3$.\nPaso 3: el vértice es $(-3,\\ 0)$. Comprobación: $x_v = -\\frac{b}{2} = -3$ e $y_v = 9 - 18 + 9 = 0$.\nRespuesta: D, $(-3,\\ 0)$.\nErrores frecuentes: La A usa $-b$ como primera coordenada del vértice, sin dividir por $2$. La B es el punto de corte con el eje $Y$, no el vértice. La C se equivoca en el signo: $(x + 3)^2$ se anula en $x = -3$, no en $x = 3$.",
+    "verify": "let b = null\nfor (let t = 0.5; t <= 20; t += 0.5) if (Math.abs(t * t - 4 * 9) < 1e-9) b = t\nif (b === null) return null\nconst xv = -b / 2, yv = xv * xv + b * xv + 9\nconst alts = { A: [-6, 0], B: [0, 9], C: [3, 0], D: [-3, 0] }\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k][0] - xv) < 1e-9 && Math.abs(alts[k][1] - yv) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-091",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Desde lo alto de un acantilado en Pichilemu se lanza una piedra hacia arriba. Su altura sobre el nivel del mar, en metros, a los $t$ segundos del lanzamiento se modela con la función $h(t) = -5t^2 + 20t + 25$.\n¿Durante cuántos segundos la piedra está a más de $40$ m sobre el nivel del mar?",
+    "alternatives": {
+      "A": "$1$",
+      "B": "$2$",
+      "C": "$3$",
+      "D": "$5$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: se buscan los instantes en que la altura es exactamente $40$ m; entre ellos la piedra está más arriba, porque la parábola se abre hacia abajo.\nPaso 1: $-5t^2 + 20t + 25 = 40$ equivale a $-5t^2 + 20t - 15 = 0$, es decir, $t^2 - 4t + 3 = 0$.\nPaso 2: $(t - 1)(t - 3) = 0$, así que la piedra pasa por los $40$ m a los $1$ y a los $3$ segundos.\nPaso 3: entre esos instantes está sobre los $40$ m: durante $3 - 1 = 2$ segundos.\nRespuesta: B, $2$ segundos.\nErrores frecuentes: La A es el primer instante en que la piedra alcanza los $40$ m, no la duración. La C es el instante en que vuelve a pasar por los $40$ m. La D es el instante en que la piedra llega al mar, cuando $h(t) = 0$.",
+    "verify": "const h = (t) => -5 * t * t + 20 * t + 25\nlet dentro = 0\nconst paso = 0.0001\nfor (let t = 0; t <= 10; t += paso) if (h(t) > 40) dentro += paso\nconst ans = Math.round(dentro * 100) / 100\nconst alts = { A: 1, B: 2, C: 3, D: 5 }\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k] - ans) < 0.01)\nreturn ok.length === 1 ? ok[0] : null"
   }
 ]

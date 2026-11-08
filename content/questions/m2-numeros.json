@@ -723,5 +723,596 @@
     "correct": "C",
     "explanation": "Tras regar queda $\\dfrac{2}{3}\\cdot\\dfrac{3}{8}=\\dfrac{1}{4}$ de la capacidad $C$.\nEntonces $\\dfrac{1}{4}C+150=\\dfrac{3}{4}C$, es decir, $\\dfrac{1}{2}C=150$ y $C=300$ litros.\nD ignora el riego: $\\dfrac{3}{4}-\\dfrac{3}{8}=\\dfrac{3}{8}$ y $C=400$.\nB toma como agua restante el tercio usado ($\\dfrac{1}{8}$): $\\dfrac{3}{4}-\\dfrac{1}{8}=\\dfrac{5}{8}$ y $C=240$.\nA plantea $150=\\dfrac{3}{4}C$, como si el estanque hubiera estado vacío.",
     "verify": "const queda = (2 / 3) * (3 / 8);\nconst v = 150 / (3 / 4 - queda);\nconst alts = { A: 200, B: 240, C: 300, D: 400 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-126",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Un disco duro externo tiene una capacidad de $2^{40}$ bytes. Fernanda quiere guardar en él respaldos de su tesis, y cada respaldo ocupa $2^{32}$ bytes.\n\n¿Cuántos respaldos completos caben, como máximo, en el disco?",
+    "alternatives": {
+      "A": "$2^{\\frac{5}{4}}$",
+      "B": "$8$",
+      "C": "$256$",
+      "D": "$2^{72}$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: para saber cuántas veces cabe una potencia en otra de igual base, se dividen y se restan los exponentes.\nPaso 1: la cantidad de respaldos es $\\dfrac{2^{40}}{2^{32}}$.\nPaso 2: $\\dfrac{2^{40}}{2^{32}}=2^{40-32}=2^{8}$.\nPaso 3: $2^{8}=256$.\nRespuesta: C, caben $256$ respaldos.\nErrores frecuentes: La A divide los exponentes ($\\frac{40}{32}=\\frac{5}{4}$) en vez de restarlos. La B entrega la diferencia de exponentes, $8$, como si fuera el resultado. La D suma los exponentes, como si fuera una multiplicación.",
+    "verify": "const v = Math.pow(2, 40) / Math.pow(2, 32);\nconst alts = { A: Math.pow(2, 5/4), B: 8, C: 256, D: Math.pow(2, 72) };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-127",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Cuando Neptuno está a su distancia media de la Tierra, lo separan de ella unos $4{,}5\\cdot10^{9}$ km. La luz recorre aproximadamente $3\\cdot10^{5}$ km en cada segundo.\n\nSegún estos datos, ¿cuántos minutos tarda la luz en viajar desde Neptuno hasta la Tierra?",
+    "alternatives": {
+      "A": "$250$",
+      "B": "$15\\,000$",
+      "C": "$900\\,000$",
+      "D": "$2{,}5\\cdot10^{12}$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: tiempo = distancia ÷ rapidez, y luego se convierte de segundos a minutos.\nPaso 1: $\\dfrac{4{,}5\\cdot10^{9}}{3\\cdot10^{5}}=1{,}5\\cdot10^{9-5}=1{,}5\\cdot10^{4}$ segundos, es decir, $15\\,000$ s.\nPaso 2: como $1$ minuto tiene $60$ segundos, $\\dfrac{15\\,000}{60}=250$ minutos.\nRespuesta: A, la luz tarda $250$ minutos.\nErrores frecuentes: La B se queda en segundos y no convierte a minutos. La C multiplica por $60$ en vez de dividir. La D suma los exponentes al dividir ($10^{9+5}$) y obtiene $1{,}5\\cdot10^{14}$ s, que luego divide por $60$.",
+    "verify": "const s = 4.5e9 / 3e5;\nconst v = s / 60;\nconst alts = { A: 250, B: 15000, C: 900000, D: 2.5e12 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-128",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "¿Cuál es el valor de $\\left(\\dfrac{4}{9}\\right)^{-\\frac{3}{2}}$?",
+    "alternatives": {
+      "A": "$-\\dfrac{8}{27}$",
+      "B": "$\\dfrac{8}{27}$",
+      "C": "$\\dfrac{27}{8}$",
+      "D": "$\\dfrac{81}{16}$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el exponente negativo invierte la fracción y el exponente $\\frac{3}{2}$ significa raíz cuadrada y luego cubo.\nPaso 1: $\\left(\\dfrac{4}{9}\\right)^{-\\frac{3}{2}}=\\left(\\dfrac{9}{4}\\right)^{\\frac{3}{2}}$.\nPaso 2: $\\sqrt{\\dfrac{9}{4}}=\\dfrac{3}{2}$.\nPaso 3: $\\left(\\dfrac{3}{2}\\right)^{3}=\\dfrac{27}{8}$.\nRespuesta: C, el valor es $\\dfrac{27}{8}$.\nErrores frecuentes: La A cree que el exponente negativo vuelve negativo el resultado. La B calcula $\\left(\\frac{4}{9}\\right)^{\\frac{3}{2}}$ y olvida invertir. La D eleva $\\frac{9}{4}$ al cuadrado en vez de aplicar el exponente $\\frac{3}{2}$.",
+    "verify": "const v = Math.pow(4 / 9, -1.5);\nconst alts = { A: -8/27, B: 8/27, C: 27/8, D: 81/16 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-129",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Una empresa de Talca fabrica cajas de cartón con forma de cubo. Para un nuevo cliente, necesita una caja cúbica cuyo volumen sea el cuádruple del volumen de su caja cúbica estándar.\n\n¿Por qué factor se debe multiplicar la medida de la arista de la caja estándar para obtener la arista de la nueva caja?",
+    "alternatives": {
+      "A": "$\\dfrac{4}{3}$",
+      "B": "$\\sqrt[3]{4}$",
+      "C": "$2$",
+      "D": "$4$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: el volumen de un cubo es el cubo de su arista, así que un factor en el volumen equivale a su raíz cúbica en la arista.\nPaso 1: si la arista estándar es $a$, su volumen es $a^{3}$ y el nuevo volumen debe ser $4a^{3}$.\nPaso 2: si la nueva arista es $k\\cdot a$, su volumen es $k^{3}a^{3}$, por lo que $k^{3}=4$.\nPaso 3: $k=\\sqrt[3]{4}\\approx1{,}59$.\nRespuesta: B, el factor es $\\sqrt[3]{4}$.\nErrores frecuentes: La A divide $4$ por el exponente $3$ en vez de extraer la raíz cúbica. La C extrae raíz cuadrada, como si se tratara de un área. La D cree que la arista crece en el mismo factor que el volumen.",
+    "verify": "let k = 1; while (Math.pow(k, 3) < 4) k += 1e-6;\nconst v = Math.cbrt(4);\nif (Math.abs(k - v) > 1e-4) return null;\nconst alts = { A: 4/3, B: Math.cbrt(4), C: 2, D: 4 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-130",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera los números $p=2^{100}$, $q=3^{60}$ y $r=5^{40}$.\n\n¿Cuál de las siguientes relaciones de orden es correcta?",
+    "alternatives": {
+      "A": "$r<q<p$",
+      "B": "$p<q<r$",
+      "C": "$q<r<p$",
+      "D": "$r<p<q$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: para comparar potencias de distinta base, se reescriben con el mismo exponente y se comparan las bases.\nPaso 1: los exponentes $100$, $60$ y $40$ tienen como divisor común a $20$.\nPaso 2: $p=2^{100}=\\left(2^{5}\\right)^{20}=32^{20}$, $q=3^{60}=\\left(3^{3}\\right)^{20}=27^{20}$ y $r=5^{40}=\\left(5^{2}\\right)^{20}=25^{20}$.\nPaso 3: con el mismo exponente, manda la base: $25<27<32$, luego $r<q<p$.\nRespuesta: A, $r<q<p$.\nErrores frecuentes: La B ordena solo por las bases originales ($2<3<5$) e ignora los exponentes. La C cree que $5^{40}$ supera a $3^{60}$ por tener base mayor, sin igualar exponentes. La D reconoce que $5^{40}$ es el menor, pero cree que $3^{60}$ supera a $2^{100}$ porque $3>2$, sin considerar que el exponente de $p$ es mucho mayor.",
+    "verify": "const lp = 100 * Math.log(2), lq = 60 * Math.log(3), lr = 40 * Math.log(5);\nconst rel = { A: lr < lq && lq < lp, B: lp < lq && lq < lr, C: lq < lr && lr < lp, D: lr < lp && lp < lq };\nconst ok = Object.keys(rel).filter(k => rel[k]);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-131",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sea $k$ un número real tal que se cumple la igualdad\n\n$\\sqrt{2}\\cdot\\sqrt[3]{4}\\cdot\\sqrt[6]{2^{k}}=8$\n\n¿Cuál es el valor de $k$?",
+    "alternatives": {
+      "A": "$8$",
+      "B": "$11$",
+      "C": "$13$",
+      "D": "$14$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: se escribe cada raíz como potencia de base $2$ con exponente fraccionario y se igualan los exponentes.\nPaso 1: $\\sqrt{2}=2^{\\frac{1}{2}}$, $\\sqrt[3]{4}=\\sqrt[3]{2^{2}}=2^{\\frac{2}{3}}$ y $\\sqrt[6]{2^{k}}=2^{\\frac{k}{6}}$; además $8=2^{3}$.\nPaso 2: al multiplicar se suman los exponentes: $\\dfrac{1}{2}+\\dfrac{2}{3}+\\dfrac{k}{6}=3$, es decir, $\\dfrac{3+4+k}{6}=3$.\nPaso 3: $7+k=18$, así que $k=11$.\nRespuesta: B, $k=11$.\nErrores frecuentes: La A toma $\\sqrt{2}$ como $2^{1}$. La C escribe $\\sqrt[3]{4}$ como $2^{\\frac{1}{3}}$, olvidando que $4=2^{2}$. La D olvida el factor $\\sqrt{2}$ al sumar los exponentes.",
+    "verify": "const f = k => Math.sqrt(2) * Math.cbrt(4) * Math.pow(Math.pow(2, k), 1/6);\nconst alts = { A: 8, B: 11, C: 13, D: 14 };\nconst ok = Object.keys(alts).filter(x => Math.abs(f(alts[x]) - 8) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-132",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un chip de computador contiene $1{,}6\\cdot10^{10}$ transistores distribuidos de manera uniforme sobre una superficie de $4\\cdot10^{-4}$ m².\n\n¿Cuántos transistores hay, en promedio, en cada milímetro cuadrado del chip?",
+    "alternatives": {
+      "A": "$4\\cdot10^{7}$",
+      "B": "$4\\cdot10^{10}$",
+      "C": "$4\\cdot10^{13}$",
+      "D": "$4\\cdot10^{19}$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: antes de dividir hay que expresar el área en mm², recordando que $1$ m² $=10^{3}\\cdot10^{3}=10^{6}$ mm².\nPaso 1: $4\\cdot10^{-4}$ m² $=4\\cdot10^{-4}\\cdot10^{6}$ mm² $=4\\cdot10^{2}$ mm².\nPaso 2: transistores por mm²: $\\dfrac{1{,}6\\cdot10^{10}}{4\\cdot10^{2}}=0{,}4\\cdot10^{8}$.\nPaso 3: en notación científica, $0{,}4\\cdot10^{8}=4\\cdot10^{7}$.\nRespuesta: A, hay $4\\cdot10^{7}$ transistores por mm².\nErrores frecuentes: La B usa $1$ m² $=10^{3}$ mm², como si fuera una conversión lineal. La C no convierte y entrega transistores por m². La D convierte al revés, multiplicando por $10^{-6}$.",
+    "verify": "const area = 4e-4 * 1e6;\nconst v = 1.6e10 / area;\nconst alts = { A: 4e7, B: 4e10, C: 4e13, D: 4e19 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] / v - 1) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-133",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sea $p$ un número real positivo tal que $p^{\\frac{2}{3}}=9$.\n\n¿Cuál es el valor de $p^{-\\frac{1}{2}}$?",
+    "alternatives": {
+      "A": "$-3\\sqrt{3}$",
+      "B": "$\\dfrac{1}{9}$",
+      "C": "$\\dfrac{\\sqrt{3}}{9}$",
+      "D": "$\\dfrac{1}{3}$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: primero se despeja $p$ elevando al exponente inverso, y luego se aplica el nuevo exponente.\nPaso 1: elevando a $\\frac{3}{2}$: $p=9^{\\frac{3}{2}}=\\left(\\sqrt{9}\\right)^{3}=27$.\nPaso 2: $p^{-\\frac{1}{2}}=\\dfrac{1}{\\sqrt{27}}=\\dfrac{1}{3\\sqrt{3}}$.\nPaso 3: racionalizando, $\\dfrac{1}{3\\sqrt{3}}\\cdot\\dfrac{\\sqrt{3}}{\\sqrt{3}}=\\dfrac{\\sqrt{3}}{9}$.\nRespuesta: C, $p^{-\\frac{1}{2}}=\\dfrac{\\sqrt{3}}{9}$.\nErrores frecuentes: La A interpreta el exponente negativo como un signo negativo, $-\\sqrt{27}$. La B despeja $p=9^{2}=81$, ignorando la raíz cúbica. La D usa $p=9$, como si el exponente $\\frac{2}{3}$ no existiera.",
+    "verify": "const p = Math.pow(9, 1.5);\nif (Math.abs(Math.pow(p, 2/3) - 9) > 1e-9) return null;\nconst v = Math.pow(p, -0.5);\nconst alts = { A: -3 * Math.sqrt(3), B: 1/9, C: Math.sqrt(3) / 9, D: 1/3 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-134",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "logaritmos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "¿Cuál es el valor de $\\log_{2}32-\\log_{3}\\dfrac{1}{9}$?",
+    "alternatives": {
+      "A": "$3$",
+      "B": "$\\dfrac{9}{2}$",
+      "C": "$\\dfrac{11}{2}$",
+      "D": "$7$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: $\\log_{b}x$ es el exponente al que hay que elevar $b$ para obtener $x$.\nPaso 1: $2^{5}=32$, así que $\\log_{2}32=5$.\nPaso 2: $3^{-2}=\\dfrac{1}{9}$, así que $\\log_{3}\\dfrac{1}{9}=-2$.\nPaso 3: $5-(-2)=7$.\nRespuesta: D, el valor es $7$.\nErrores frecuentes: La A olvida el signo negativo de $\\log_{3}\\frac{1}{9}$ y calcula $5-2$. La B toma $\\log_{3}\\frac{1}{9}$ como $\\frac{1}{2}$ y resta. La C toma ese logaritmo como $-\\frac{1}{2}$, confundiendo inverso con raíz.",
+    "verify": "const v = Math.log2(32) - Math.log(1/9) / Math.log(3);\nconst alts = { A: 3, B: 4.5, C: 5.5, D: 7 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-135",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "logaritmos",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un programa usa búsqueda binaria para encontrar un dato en una lista ordenada. Si la lista tiene $N$ elementos, con $N$ una potencia de $2$, la cantidad máxima de comparaciones que realiza es $\\log_{2}N+1$.\n\nPara una lista de $N_{1}$ elementos, el programa realiza como máximo $11$ comparaciones. Si la lista crece hasta tener $8N_{1}$ elementos, ¿cuál es la cantidad máxima de comparaciones que realizará?",
+    "alternatives": {
+      "A": "$14$",
+      "B": "$19$",
+      "C": "$33$",
+      "D": "$88$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: el logaritmo de un producto es la suma de los logaritmos, así que multiplicar $N$ por $8$ suma $\\log_{2}8$ comparaciones.\nPaso 1: $\\log_{2}N_{1}+1=11$, luego $\\log_{2}N_{1}=10$.\nPaso 2: $\\log_{2}(8N_{1})=\\log_{2}8+\\log_{2}N_{1}=3+10=13$.\nPaso 3: comparaciones máximas: $13+1=14$.\nRespuesta: A, a lo más $14$ comparaciones.\nErrores frecuentes: La B suma $8$ en vez de $\\log_{2}8$. La C multiplica las $11$ comparaciones por $\\log_{2}8=3$. La D multiplica las comparaciones por $8$, como si crecieran en proporción directa a la lista.",
+    "verify": "const N1 = Math.pow(2, 10);\nif (Math.log2(N1) + 1 !== 11) return null;\nconst v = Math.log2(8 * N1) + 1;\nconst alts = { A: 14, B: 19, C: 33, D: 88 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-136",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "logaritmos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Sean $x$ e $y$ números reales positivos tales que $\\log x=2{,}5$ y $\\log y=-0{,}5$.\n\n¿Cuál es el valor de $\\log\\left(\\dfrac{x^{2}}{\\sqrt{y}}\\right)$?",
+    "alternatives": {
+      "A": "$4{,}75$",
+      "B": "$5{,}25$",
+      "C": "$5{,}5$",
+      "D": "$6{,}5$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: se usan las propiedades del logaritmo de un cociente y de una potencia.\nPaso 1: $\\log\\left(\\dfrac{x^{2}}{\\sqrt{y}}\\right)=\\log x^{2}-\\log y^{\\frac{1}{2}}=2\\log x-\\dfrac{1}{2}\\log y$.\nPaso 2: reemplazando, $2\\cdot2{,}5-\\dfrac{1}{2}\\cdot(-0{,}5)=5+0{,}25$.\nPaso 3: el resultado es $5{,}25$.\nRespuesta: B, el valor es $5{,}25$.\nErrores frecuentes: La A pierde el signo al restar $-0{,}25$ y obtiene $5-0{,}25$. La C olvida la raíz y resta $\\log y$ completo. La D calcula $(\\log x)^{2}$ en vez de $2\\log x$.",
+    "verify": "const lx = 2.5, ly = -0.5;\nconst x = Math.pow(10, lx), y = Math.pow(10, ly);\nconst v = Math.log10(x * x / Math.sqrt(y));\nconst alts = { A: 4.75, B: 5.25, C: 5.5, D: 6.5 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-137",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "logaritmos",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En astronomía, el brillo aparente de las estrellas se compara mediante la relación\n\n$m_{1}-m_{2}=2{,}5\\cdot\\log\\left(\\dfrac{F_{2}}{F_{1}}\\right)$\n\ndonde $m_{1}$ y $m_{2}$ son las magnitudes aparentes de dos estrellas, y $F_{1}$ y $F_{2}$ son los flujos de luz que llegan a la Tierra desde cada una. Desde el observatorio de Cerro Paranal se registra una estrella A de magnitud $1$ y una estrella B de magnitud $6$.\n\n¿Cuál es el valor de $\\dfrac{F_{A}}{F_{B}}$?",
+    "alternatives": {
+      "A": "$\\dfrac{1}{100}$",
+      "B": "$2$",
+      "C": "$12{,}5$",
+      "D": "$100$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: se reemplazan las magnitudes, se despeja el logaritmo y se pasa a forma exponencial, cuidando qué cociente aparece.\nPaso 1: con $m_{1}=m_{A}=1$ y $m_{2}=m_{B}=6$: $1-6=2{,}5\\cdot\\log\\left(\\dfrac{F_{B}}{F_{A}}\\right)$.\nPaso 2: $\\log\\left(\\dfrac{F_{B}}{F_{A}}\\right)=\\dfrac{-5}{2{,}5}=-2$, luego $\\dfrac{F_{B}}{F_{A}}=10^{-2}=\\dfrac{1}{100}$.\nPaso 3: el cociente pedido es el inverso: $\\dfrac{F_{A}}{F_{B}}=100$.\nRespuesta: D, el flujo de A es $100$ veces el de B.\nErrores frecuentes: La A entrega $\\frac{F_{B}}{F_{A}}$ y no invierte. La B se queda con $\\frac{5}{2{,}5}=2$, que es el logaritmo y no el cociente. La C multiplica $5\\cdot2{,}5$ en vez de dividir y no aplica la potencia de $10$.",
+    "verify": "const mA = 1, mB = 6;\nconst logFBFA = (mA - mB) / 2.5;\nconst v = 1 / Math.pow(10, logFBFA);\nconst alts = { A: 0.01, B: 2, C: 12.5, D: 100 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-6);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-138",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "logaritmos",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sean $a$ y $b$ números reales mayores que $1$.\n\n¿Cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "$\\log_{a}b=\\log_{b}a$",
+      "B": "$\\log_{a^{2}}\\left(b^{2}\\right)=\\log_{a}b$",
+      "C": "$\\log_{a}b+\\log_{b}a<2$",
+      "D": "$\\log_{a}\\left(b^{2}\\right)=\\left(\\log_{a}b\\right)^{2}$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: con el cambio de base, $\\log_{a}b=\\dfrac{\\log b}{\\log a}$, se puede revisar cada afirmación en general o buscar un contraejemplo.\nPaso 1: $\\log_{a^{2}}\\left(b^{2}\\right)=\\dfrac{\\log b^{2}}{\\log a^{2}}=\\dfrac{2\\log b}{2\\log a}=\\log_{a}b$, para todo $a,b>1$. Es siempre verdadera.\nPaso 2: con $a=2$ y $b=8$: $\\log_{2}8=3$ y $\\log_{8}2=\\frac{1}{3}$, distintos; su suma es $\\frac{10}{3}>2$; y $\\log_{2}64=6\\neq3^{2}$.\nPaso 3: el contraejemplo descarta A, C y D.\nRespuesta: B, $\\log_{a^{2}}\\left(b^{2}\\right)=\\log_{a}b$.\nErrores frecuentes: La A solo se cumple cuando $a=b$; en general $\\log_{b}a$ es el recíproco de $\\log_{a}b$. La C está al revés: como $\\log_{a}b>0$, la suma de un número positivo y su recíproco es mayor o igual que $2$. La D confunde $\\log_{a}b^{2}=2\\log_{a}b$ con el cuadrado del logaritmo.",
+    "verify": "const lg = (base, x) => Math.log(x) / Math.log(base);\nconst pares = [[2, 8], [3, 5], [10, 1.5], [7, 7], [1.2, 40]];\nconst always = f => pares.every(([a, b]) => f(a, b));\nconst rel = {\n  A: always((a, b) => Math.abs(lg(a, b) - lg(b, a)) < 1e-9),\n  B: always((a, b) => Math.abs(lg(a * a, b * b) - lg(a, b)) < 1e-9),\n  C: always((a, b) => lg(a, b) + lg(b, a) < 2),\n  D: always((a, b) => Math.abs(lg(a, b * b) - lg(a, b) ** 2) < 1e-9)\n};\nconst ok = Object.keys(rel).filter(k => rel[k]);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-139",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "logaritmos",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "La cantidad de usuarios de una aplicación de reciclaje creada en Concepción se modela mediante $N(t)=N_{0}\\cdot3^{\\frac{t}{4}}$, donde $N_{0}$ es la cantidad inicial de usuarios y $t$ es el tiempo, en semanas, desde su lanzamiento.\n\n¿Cuántas semanas transcurren entre el momento en que la aplicación tiene $2\\,000$ usuarios y el momento en que tiene $18\\,000$ usuarios?",
+    "alternatives": {
+      "A": "$2$",
+      "B": "$6$",
+      "C": "$8$",
+      "D": "$36$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: no hace falta conocer $N_{0}$; basta comparar los dos instantes, porque el cociente de usuarios solo depende del tiempo transcurrido.\nPaso 1: si en $t_{1}$ hay $2\\,000$ usuarios y en $t_{2}$ hay $18\\,000$, al dividir: $\\dfrac{N_{0}\\cdot3^{\\frac{t_{2}}{4}}}{N_{0}\\cdot3^{\\frac{t_{1}}{4}}}=\\dfrac{18\\,000}{2\\,000}=9$.\nPaso 2: $3^{\\frac{t_{2}-t_{1}}{4}}=9=3^{2}$, luego $\\dfrac{t_{2}-t_{1}}{4}=2$, es decir, $t_{2}-t_{1}=\\log_{3}9\\cdot4$.\nPaso 3: $t_{2}-t_{1}=8$ semanas.\nRespuesta: C, transcurren $8$ semanas.\nErrores frecuentes: La A se queda con $\\log_{3}9=2$ y olvida multiplicar por $4$. La B suma $4+2$ en vez de multiplicar. La D multiplica el factor $9$ por $4$, sin aplicar el logaritmo.",
+    "verify": "const N0 = 500;\nconst t = N => 4 * Math.log(N / N0) / Math.log(3);\nconst v = t(18000) - t(2000);\nconst alts = { A: 2, B: 6, C: 8, D: 36 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-140",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "logaritmos",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "suficiencia",
+    "content": "Sean $x$ e $y$ números reales positivos.\n\nSe puede determinar el valor de $\\log_{2}x$, si se sabe que:\n\n(1) $\\log_{2}\\left(x^{2}\\right)-\\log_{2}y=7$\n(2) $\\log_{4}(xy)=\\dfrac{5}{2}$",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: llamando $u=\\log_{2}x$ y $v=\\log_{2}y$, cada afirmación es una ecuación lineal en $u$ y $v$; se necesitan dos ecuaciones independientes.\nPaso 1: (1) equivale a $2u-v=7$. Tiene infinitas soluciones, por ejemplo $(u,v)=(4,1)$ y $(5,3)$. No basta.\nPaso 2: (2) equivale a $xy=4^{\\frac{5}{2}}=32$, es decir, $u+v=5$. También tiene infinitas soluciones, como $(4,1)$ y $(3,2)$. No basta.\nPaso 3: juntas, sumando $2u-v=7$ y $u+v=5$ se obtiene $3u=12$, luego $u=\\log_{2}x=4$.\nRespuesta: C, se necesitan ambas juntas.\nErrores frecuentes: La A o la B suponen que una sola ecuación con dos incógnitas basta. La D comete el mismo error con ambas. La E pasa por alto que, al cambiar la base en (2), resulta una segunda ecuación independiente.",
+    "verify": "const lg2 = z => Math.log2(z);\nconst c1 = (x, y) => Math.abs(lg2(x * x) - lg2(y) - 7) < 1e-9;\nconst c2 = (x, y) => Math.abs(Math.log(x * y) / Math.log(4) - 2.5) < 1e-9;\nconst s1 = [[16, 2], [32, 8]].every(([x, y]) => c1(x, y));\nconst s2 = [[16, 2], [8, 4]].every(([x, y]) => c2(x, y));\nif (!s1 || !s2) return null;\nconst solo1 = lg2(16) === lg2(32), solo2 = lg2(16) === lg2(8);\nconst u = (7 + 5) / 3, v = 5 - u;\nconst juntas = c1(2 ** u, 2 ** v) && c2(2 ** u, 2 ** v);\nif (!solo1 && !solo2 && juntas && u === 4) return 'C';\nreturn null;"
+  },
+  {
+    "key": "m2-numeros-141",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "En una feria de Valdivia, el kilo de cerezas costaba $4\\,000$ pesos al comienzo de la temporada. Un mes después, el mismo kilo costaba $5\\,000$ pesos.\n\n¿En qué porcentaje aumentó el precio del kilo de cerezas?",
+    "alternatives": {
+      "A": "$20\\%$",
+      "B": "$25\\%$",
+      "C": "$80\\%$",
+      "D": "$125\\%$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: la variación porcentual se calcula dividiendo el aumento por el valor inicial.\nPaso 1: el aumento es $5\\,000-4\\,000=1\\,000$ pesos.\nPaso 2: $\\dfrac{1\\,000}{4\\,000}=0{,}25$.\nPaso 3: $0{,}25\\cdot100=25\\%$.\nRespuesta: B, el precio aumentó un $25\\%$.\nErrores frecuentes: La A divide el aumento por el precio final ($\\frac{1\\,000}{5\\,000}$). La C calcula qué porcentaje del precio final es el inicial. La D calcula qué porcentaje del precio inicial es el final, sin restar el $100\\%$.",
+    "verify": "const v = (5000 - 4000) / 4000 * 100;\nconst alts = { A: 20, B: 25, C: 80, D: 125 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-142",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En una tienda de deportes de Antofagasta, Joaquín compró unas zapatillas con un $30\\%$ de descuento sobre el precio original. Como pagó con una tarjeta que cobra un recargo del $5\\%$ sobre el precio con descuento, pagó en total $29\\,400$ pesos.\n\n¿Cuál era el precio original de las zapatillas?",
+    "alternatives": {
+      "A": "$36\\,750$ pesos",
+      "B": "$39\\,200$ pesos",
+      "C": "$40\\,000$ pesos",
+      "D": "$42\\,000$ pesos"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: los porcentajes sucesivos se aplican como factores que se multiplican, y para volver al precio original se divide por el factor total.\nPaso 1: el descuento deja el precio en $0{,}7P$ y el recargo lo multiplica por $1{,}05$: se paga $0{,}7\\cdot1{,}05\\cdot P=0{,}735P$.\nPaso 2: $0{,}735P=29\\,400$.\nPaso 3: $P=\\dfrac{29\\,400}{0{,}735}=40\\,000$ pesos.\nRespuesta: C, el precio original era $40\\,000$ pesos.\nErrores frecuentes: La A le suma un $25\\%$ al monto pagado, en vez de dividir. La B junta los porcentajes como un descuento neto del $25\\%$ y divide por $0{,}75$. La D ignora el recargo y solo divide por $0{,}7$.",
+    "verify": "const v = 29400 / (0.7 * 1.05);\nconst alts = { A: 36750, B: 39200, C: 40000, D: 42000 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-6);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-143",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un taller de teatro de Coquimbo, la razón entre la cantidad de hombres y la cantidad de mujeres inscritas es $3:5$.\n\n¿En qué porcentaje supera la cantidad de mujeres a la cantidad de hombres?",
+    "alternatives": {
+      "A": "$25\\%$",
+      "B": "$40\\%$",
+      "C": "$60\\%$",
+      "D": "$66{,}\\overline{6}\\%$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: la base del porcentaje es la cantidad con la que se compara, en este caso, la de hombres.\nPaso 1: se puede suponer que hay $3k$ hombres y $5k$ mujeres, con $k$ un entero positivo.\nPaso 2: la diferencia es $5k-3k=2k$.\nPaso 3: respecto de los hombres, $\\dfrac{2k}{3k}=\\dfrac{2}{3}=66{,}\\overline{6}\\%$.\nRespuesta: D, las mujeres superan a los hombres en un $66{,}\\overline{6}\\%$.\nErrores frecuentes: La A divide la diferencia por el total del taller ($\\frac{2}{8}$). La B la divide por la cantidad de mujeres ($\\frac{2}{5}$). La C calcula qué porcentaje de las mujeres son los hombres ($\\frac{3}{5}$).",
+    "verify": "const h = 3, m = 5;\nconst v = (m - h) / h * 100;\nconst alts = { A: 25, B: 40, C: 60, D: 200 / 3 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-144",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un club de ajedrez de Puerto Montt, el $60\\%$ de los socios son mujeres. Después de que se inscriben $10$ hombres nuevos, y ninguna mujer, las mujeres pasan a ser el $50\\%$ de los socios.\n\n¿Cuántos socios tenía el club antes de las nuevas inscripciones?",
+    "alternatives": {
+      "A": "$30$",
+      "B": "$50$",
+      "C": "$60$",
+      "D": "$100$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: la cantidad de mujeres no cambia, así que se igualan las dos formas de expresarla.\nPaso 1: si al principio hay $N$ socios, las mujeres son $0{,}6N$.\nPaso 2: después hay $N+10$ socios y las mujeres son la mitad: $0{,}6N=0{,}5(N+10)$.\nPaso 3: $0{,}6N=0{,}5N+5$, luego $0{,}1N=5$ y $N=50$.\nRespuesta: B, el club tenía $50$ socios.\nErrores frecuentes: La A entrega la cantidad de mujeres ($0{,}6\\cdot50=30$), no la de socios. La C entrega el total después de las inscripciones. La D plantea $0{,}1N=10$, olvidando multiplicar el $10$ por $0{,}5$.",
+    "verify": "let N = null;\nfor (let n = 1; n <= 1000; n++) { if (Math.abs(0.6 * n - 0.5 * (n + 10)) < 1e-9) N = n; }\nconst v = N;\nconst alts = { A: 30, B: 50, C: 60, D: 100 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-145",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un supermercado de Iquique se comparan los precios de tres marcas de café: A, B y C. El precio de A es un $20\\%$ mayor que el de B, y el precio de B es un $20\\%$ menor que el de C.\n\n¿Cuál de las siguientes afirmaciones sobre los precios de A y C es verdadera?",
+    "alternatives": {
+      "A": "El precio de A es igual al de C.",
+      "B": "El precio de A es un $4\\%$ mayor que el de C.",
+      "C": "El precio de A es un $40\\%$ menor que el de C.",
+      "D": "El precio de A es un $4\\%$ menor que el de C."
+    },
+    "correct": "D",
+    "explanation": "Idea clave: los porcentajes encadenados se multiplican como factores; un $+20\\%$ y un $-20\\%$ no se compensan.\nPaso 1: $B=0{,}8C$ y $A=1{,}2B$.\nPaso 2: $A=1{,}2\\cdot0{,}8C=0{,}96C$.\nPaso 3: $0{,}96C$ es $4\\%$ menos que $C$.\nRespuesta: D, el precio de A es un $4\\%$ menor que el de C.\nErrores frecuentes: La A suma y resta los porcentajes ($20\\%-20\\%=0$). La B acierta en el $4\\%$, pero se equivoca en el sentido de la diferencia. La C suma los porcentajes y además corre la coma: el cambio es de $0{,}04$, es decir, $4\\%$, no $40\\%$.",
+    "verify": "const C = 1000;\nconst B = 0.8 * C, A = 1.2 * B;\nconst cambio = (A - C) / C * 100;\nconst rel = { A: Math.abs(cambio) < 1e-9, B: Math.abs(cambio - 4) < 1e-9, C: Math.abs(cambio + 40) < 1e-9, D: Math.abs(cambio + 4) < 1e-9 };\nconst ok = Object.keys(rel).filter(k => rel[k]);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-146",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Para preparar un queque, Antonia usa $\\dfrac{3}{4}$ de taza de azúcar. En su despensa tiene $5\\dfrac{1}{4}$ tazas de azúcar.\n\n¿Cuántos queques puede preparar, como máximo, con esa azúcar?",
+    "alternatives": {
+      "A": "$3$",
+      "B": "$5$",
+      "C": "$6$",
+      "D": "$7$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: para saber cuántas veces cabe una cantidad en otra, se divide; con fracciones, se multiplica por el inverso.\nPaso 1: $5\\dfrac{1}{4}=\\dfrac{21}{4}$.\nPaso 2: $\\dfrac{21}{4}\\div\\dfrac{3}{4}=\\dfrac{21}{4}\\cdot\\dfrac{4}{3}=7$.\nRespuesta: D, puede preparar $7$ queques.\nErrores frecuentes: La A multiplica $\\frac{21}{4}\\cdot\\frac{3}{4}=\\frac{63}{16}\\approx3{,}9$ en vez de dividir. La B supone que cada queque usa una taza completa. La C ignora el $\\frac{1}{4}$ de taza y divide solo $5\\div\\frac{3}{4}\\approx6{,}7$.",
+    "verify": "const v = Math.floor((5 + 1/4) / (3/4) + 1e-9);\nconst alts = { A: 3, B: 5, C: 6, D: 7 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-147",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "¿Cuál de los siguientes números está entre $\\dfrac{2}{7}$ y $\\dfrac{3}{8}$?",
+    "alternatives": {
+      "A": "$\\dfrac{5}{18}$",
+      "B": "$\\dfrac{7}{25}$",
+      "C": "$\\dfrac{1}{3}$",
+      "D": "$\\dfrac{19}{50}$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: para comparar fracciones conviene llevarlas a decimal o a un denominador común.\nPaso 1: $\\dfrac{2}{7}\\approx0{,}2857$ y $\\dfrac{3}{8}=0{,}375$.\nPaso 2: $\\dfrac{5}{18}\\approx0{,}2778$, $\\dfrac{7}{25}=0{,}28$, $\\dfrac{1}{3}\\approx0{,}3333$ y $\\dfrac{19}{50}=0{,}38$.\nPaso 3: solo $0{,}3333$ cumple $0{,}2857<x<0{,}375$.\nRespuesta: C, el número es $\\dfrac{1}{3}$.\nErrores frecuentes: La A y la B quedan muy cerca de $\\frac{2}{7}$, pero por debajo; aparecen al redondear $\\frac{2}{7}$ a $0{,}27$. La D supera por poco a $\\frac{3}{8}=0{,}375$, y se elige al leer $\\frac{3}{8}$ como $0{,}38$.",
+    "verify": "const lo = 2/7, hi = 3/8;\nconst alts = { A: 5/18, B: 7/25, C: 1/3, D: 19/50 };\nconst ok = Object.keys(alts).filter(k => alts[k] > lo && alts[k] < hi);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-148",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sea $n$ un número entero positivo que, al dividirlo por $7$, deja resto $3$.\n\n¿Cuál es el resto que se obtiene al dividir $n^{2}+2n$ por $7$?",
+    "alternatives": {
+      "A": "$1$",
+      "B": "$2$",
+      "C": "$4$",
+      "D": "$6$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: si $n=7k+3$, el resto de una expresión en $n$ se obtiene trabajando solo con el resto $3$.\nPaso 1: $n=7k+3$ con $k$ entero no negativo.\nPaso 2: $n^{2}+2n=(7k+3)^{2}+2(7k+3)=49k^{2}+42k+9+14k+6=7(7k^{2}+8k)+15$.\nPaso 3: $15=7\\cdot2+1$, así que $n^{2}+2n=7(7k^{2}+8k+2)+1$ y el resto es $1$.\nRespuesta: A, el resto es $1$.\nErrores frecuentes: La B considera solo el resto de $n^{2}$ ($9=7+2$). La C calcula $n^{2}+2$, olvidando multiplicar $n$ por $2$ ($9+2=11$, resto $4$). La D considera solo el resto de $2n$ ($6$).",
+    "verify": "const restos = new Set();\nfor (let k = 0; k < 50; k++) { const n = 7 * k + 3; restos.add((n * n + 2 * n) % 7); }\nif (restos.size !== 1) return null;\nconst v = [...restos][0];\nconst alts = { A: 1, B: 2, C: 4, D: 6 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-149",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sea $\\dfrac{a}{b}$ una fracción con $a$ y $b$ enteros positivos y $a<b$. A su numerador y a su denominador se les suma un mismo entero positivo $k$, y se obtiene la fracción $\\dfrac{a+k}{b+k}$.\n\n¿Cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "$\\dfrac{a+k}{b+k}=\\dfrac{a}{b}$",
+      "B": "$\\dfrac{a+k}{b+k}<\\dfrac{a}{b}$",
+      "C": "$\\dfrac{a+k}{b+k}>1$",
+      "D": "$\\dfrac{a}{b}<\\dfrac{a+k}{b+k}<1$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: para comparar dos fracciones positivas se puede estudiar el signo de su diferencia.\nPaso 1: $\\dfrac{a+k}{b+k}-\\dfrac{a}{b}=\\dfrac{b(a+k)-a(b+k)}{b(b+k)}=\\dfrac{k(b-a)}{b(b+k)}$, que es positivo porque $k>0$ y $b>a$. La fracción aumenta.\nPaso 2: como $a<b$, también $a+k<b+k$, luego $\\dfrac{a+k}{b+k}<1$.\nPaso 3: por ejemplo, $\\dfrac{1}{3}\\to\\dfrac{1+2}{3+2}=\\dfrac{3}{5}$, y $\\dfrac{1}{3}<\\dfrac{3}{5}<1$.\nRespuesta: D, la fracción aumenta, pero sigue siendo menor que $1$.\nErrores frecuentes: La A confunde sumar un número con amplificar, que sí conserva el valor. La B cree que la fracción disminuye porque el denominador crece. La C olvida que el numerador sigue siendo menor que el denominador.",
+    "verify": "const casos = [[1, 3, 2], [2, 5, 1], [7, 8, 100], [1, 100, 1], [3, 4, 9]];\nconst all = f => casos.every(([a, b, k]) => f(a / b, (a + k) / (b + k)));\nconst rel = { A: all((p, q) => Math.abs(p - q) < 1e-12), B: all((p, q) => q < p), C: all((p, q) => q > 1), D: all((p, q) => p < q && q < 1) };\nconst ok = Object.keys(rel).filter(k => rel[k]);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-150",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "suficiencia",
+    "content": "Sea $n$ un número entero tal que $50<n<70$.\n\nSe puede determinar el valor de $n$, si se sabe que:\n\n(1) Al dividir $n$ por $2$, por $3$, por $4$ y por $5$, se obtiene siempre resto $1$.\n(2) $n$ es un número primo.",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: si $n$ deja resto $1$ al dividirlo por varios números, entonces $n-1$ es múltiplo común de todos ellos.\nPaso 1: por (1), $n-1$ es múltiplo de $\\text{mcm}(2,3,4,5)=60$. Entre $50$ y $70$ solo cabe $n-1=60$, es decir, $n=61$. Es suficiente.\nPaso 2: por (2), los primos entre $50$ y $70$ son $53$, $59$, $61$ y $67$. Hay cuatro posibilidades, así que no es suficiente.\nPaso 3: (1) determina $n$ y (2) por sí sola no.\nRespuesta: A, (1) por sí sola.\nErrores frecuentes: La C supone que (1) deja varios candidatos (por ejemplo, al usar $2\\cdot3\\cdot4\\cdot5=120$ o al revisar solo algunos divisores) y que (2) ayuda a elegir. La B y la D creen que hay un único primo en el intervalo. La E no reconoce que el mínimo común múltiplo restringe $n$ a un solo valor.",
+    "verify": "const rango = []; for (let n = 51; n < 70; n++) rango.push(n);\nconst primo = n => { for (let d = 2; d * d <= n; d++) if (n % d === 0) return false; return n > 1; };\nconst c1 = rango.filter(n => [2, 3, 4, 5].every(d => n % d === 1));\nconst c2 = rango.filter(primo);\nconst ambos = c1.filter(primo);\nconst s1 = c1.length === 1, s2 = c2.length === 1, s12 = ambos.length === 1;\nif (s1 && s2) return 'D'; if (s1) return 'A'; if (s2) return 'B'; if (s12) return 'C'; return 'E';"
+  },
+  {
+    "key": "m2-numeros-151",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "numeros-reales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "¿Cuál es el valor de $\\dfrac{\\sqrt{12}+\\sqrt{27}}{\\sqrt{3}}$?",
+    "alternatives": {
+      "A": "$\\sqrt{13}$",
+      "B": "$5$",
+      "C": "$\\sqrt{39}$",
+      "D": "$5\\sqrt{3}$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: se descomponen las raíces para que aparezca $\\sqrt{3}$ como factor común.\nPaso 1: $\\sqrt{12}=\\sqrt{4\\cdot3}=2\\sqrt{3}$ y $\\sqrt{27}=\\sqrt{9\\cdot3}=3\\sqrt{3}$.\nPaso 2: el numerador es $2\\sqrt{3}+3\\sqrt{3}=5\\sqrt{3}$.\nPaso 3: $\\dfrac{5\\sqrt{3}}{\\sqrt{3}}=5$.\nRespuesta: B, el valor es $5$.\nErrores frecuentes: La A suma las cantidades subradicales ($\\sqrt{12}+\\sqrt{27}=\\sqrt{39}$) y luego divide. La C suma las cantidades subradicales y no divide por $\\sqrt{3}$. La D reduce bien el numerador, pero olvida dividir.",
+    "verify": "const v = (Math.sqrt(12) + Math.sqrt(27)) / Math.sqrt(3);\nconst alts = { A: Math.sqrt(13), B: 5, C: Math.sqrt(39), D: 5 * Math.sqrt(3) };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-152",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "numeros-reales",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sean $m$ y $n$ números enteros positivos tales que $\\sqrt{m}$ es un número irracional.\n\n¿Cuál de las siguientes afirmaciones es verdadera para cualquier par de valores de $m$ y $n$ que cumplan esa condición?",
+    "alternatives": {
+      "A": "$\\sqrt{m}\\cdot\\sqrt{n}$ es irracional.",
+      "B": "$\\sqrt{m+n}$ es irracional.",
+      "C": "$\\dfrac{\\sqrt{m}}{\\sqrt{n}}$ es irracional.",
+      "D": "$\\sqrt{4m}$ es irracional."
+    },
+    "correct": "D",
+    "explanation": "Idea clave: para descartar una afirmación basta un contraejemplo; para aceptar otra, hay que razonar en general.\nPaso 1: $\\sqrt{4m}=\\sqrt{4}\\cdot\\sqrt{m}=2\\sqrt{m}$. Si fuera racional, $\\sqrt{m}=\\dfrac{2\\sqrt{m}}{2}$ también lo sería, lo que contradice la condición. Es siempre irracional.\nPaso 2: con $m=2$ y $n=8$: $\\sqrt{2}\\cdot\\sqrt{8}=\\sqrt{16}=4$, racional.\nPaso 3: con $m=n=2$: $\\sqrt{2+2}=2$ y $\\dfrac{\\sqrt{2}}{\\sqrt{2}}=1$, ambos racionales.\nRespuesta: D, $\\sqrt{4m}$ es siempre irracional.\nErrores frecuentes: La A supone que el producto de dos raíces no exactas nunca es exacto, pero $\\sqrt{2}\\cdot\\sqrt{8}=4$. La B olvida que al sumar dentro de la raíz puede aparecer un cuadrado perfecto. La C pasa por alto el caso $m=n$, en que el cociente es $1$.",
+    "verify": "const cuadrado = x => Number.isInteger(Math.sqrt(x));\nconst ms = []; for (let m = 2; m <= 200; m++) if (!cuadrado(m)) ms.push(m);\nconst A = cuadrado(2 * 8), B = cuadrado(2 + 2), C = cuadrado(2 / 2);\nconst D = ms.every(m => !cuadrado(4 * m));\nif (A && B && C && D) return 'D';\nreturn null;"
+  },
+  {
+    "key": "m2-numeros-153",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "numeros-reales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sean $x=\\sqrt{5}+\\sqrt{3}$ e $y=\\sqrt{5}-\\sqrt{3}$.\n\n¿Cuál es el valor de $\\dfrac{x}{y}+\\dfrac{y}{x}$?",
+    "alternatives": {
+      "A": "$2$",
+      "B": "$4+\\sqrt{15}$",
+      "C": "$8$",
+      "D": "$16$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: conviene sumar las fracciones, $\\dfrac{x}{y}+\\dfrac{y}{x}=\\dfrac{x^{2}+y^{2}}{xy}$, y calcular por separado numerador y denominador.\nPaso 1: $xy=\\left(\\sqrt{5}+\\sqrt{3}\\right)\\left(\\sqrt{5}-\\sqrt{3}\\right)=5-3=2$.\nPaso 2: $x^{2}=8+2\\sqrt{15}$ e $y^{2}=8-2\\sqrt{15}$, luego $x^{2}+y^{2}=16$.\nPaso 3: $\\dfrac{16}{2}=8$.\nRespuesta: C, el valor es $8$.\nErrores frecuentes: La A entrega el producto $xy=2$. La B calcula solo $\\frac{x}{y}=\\frac{8+2\\sqrt{15}}{2}=4+\\sqrt{15}$ y olvida el segundo sumando. La D se queda con $x^{2}+y^{2}$ y no divide por $xy$.",
+    "verify": "const x = Math.sqrt(5) + Math.sqrt(3), y = Math.sqrt(5) - Math.sqrt(3);\nconst v = x / y + y / x;\nconst alts = { A: 2, B: 4 + Math.sqrt(15), C: 8, D: 16 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-154",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "numeros-reales",
+    "habilidad": "representar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sea $x$ un número real que pertenece al intervalo $]-2,3]$.\n\n¿Cuál es el conjunto de todos los valores que puede tomar la expresión $1-2x$?",
+    "alternatives": {
+      "A": "$[-5,5[$",
+      "B": "$]-5,5]$",
+      "C": "$]-3,7]$",
+      "D": "$[-6,4[$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: al multiplicar una desigualdad por un número negativo se invierte su sentido, y con él cambia qué extremo queda abierto o cerrado.\nPaso 1: $-2<x\\le3$. Multiplicando por $-2$: $4>-2x\\ge-6$, es decir, $-6\\le-2x<4$.\nPaso 2: sumando $1$: $-5\\le1-2x<5$.\nPaso 3: en notación de intervalo, $[-5,5[$.\nRespuesta: A, el conjunto es $[-5,5[$.\nErrores frecuentes: La B calcula bien los extremos, pero deja los corchetes como estaban en el intervalo de $x$. La C trabaja con $1+2x$, olvidando el signo negativo. La D olvida sumar el $1$.",
+    "verify": "const f = x => 1 - 2 * x;\nconst izq = f(3), der = f(-2);\nconst cerradoIzq = true, abiertoDer = true;\nif (!(izq === -5 && der === 5 && cerradoIzq && abiertoDer)) return null;\nconst alts = { A: [-5, 5, '[', '['], B: [-5, 5, ']', ']'], C: [-3, 7, ']', ']'], D: [-6, 4, '[', '['] };\nconst ok = Object.keys(alts).filter(k => alts[k][0] === izq && alts[k][1] === der && alts[k][2] === '[' && alts[k][3] === '[');\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-155",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "matematica-financiera",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Martina deposita $C$ pesos en un instrumento de ahorro que paga un interés compuesto del $3\\%$ semestral, y no hace retiros ni nuevos depósitos durante $4$ años.\n\n¿Cuál de las siguientes expresiones representa el monto, en pesos, que tendrá Martina al cabo de los $4$ años?",
+    "alternatives": {
+      "A": "$C\\cdot\\left(1{,}03\\right)^{4}$",
+      "B": "$C\\cdot\\left(1{,}03\\right)^{8}$",
+      "C": "$C\\cdot\\left(1+0{,}03\\cdot8\\right)$",
+      "D": "$C\\cdot\\left(1{,}3\\right)^{8}$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: en el interés compuesto, el exponente es la cantidad de períodos de capitalización, que debe coincidir con la unidad de la tasa.\nPaso 1: la tasa es semestral y en $4$ años hay $4\\cdot2=8$ semestres.\nPaso 2: cada semestre el monto se multiplica por $1+\\dfrac{3}{100}=1{,}03$.\nPaso 3: el monto final es $C\\cdot\\left(1{,}03\\right)^{8}$.\nRespuesta: B, $C\\cdot\\left(1{,}03\\right)^{8}$.\nErrores frecuentes: La A usa $4$ períodos (años), aunque la tasa es semestral. La C corresponde a interés simple. La D escribe el $3\\%$ como $0{,}3$ en vez de $0{,}03$.",
+    "verify": "const C = 1000000;\nlet m = C; for (let s = 0; s < 4 * 2; s++) m = m * (1 + 3 / 100);\nconst alts = { A: C * 1.03 ** 4, B: C * 1.03 ** 8, C: C * (1 + 0.03 * 8), D: C * 1.3 ** 8 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - m) < 1e-6);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-156",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "matematica-financiera",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Matías depositó un capital en una cuenta que paga una tasa fija de interés compuesto anual, sin hacer retiros ni nuevos depósitos. Al cabo del primer año, la cuenta había generado $40\\,000$ pesos de intereses. Al cabo del segundo año, el total de intereses generados desde el inicio era de $83\\,200$ pesos.\n\n¿Cuál fue el capital que depositó Matías?",
+    "alternatives": {
+      "A": "$500\\,000$ pesos",
+      "B": "$520\\,000$ pesos",
+      "C": "$540\\,000$ pesos",
+      "D": "$1\\,040\\,000$ pesos"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: en el interés compuesto, el interés del segundo año se calcula sobre el capital más el interés del primer año; así se puede obtener primero la tasa.\nPaso 1: intereses del segundo año: $83\\,200-40\\,000=43\\,200$ pesos.\nPaso 2: el segundo año la tasa se aplica a $C+40\\,000$, y el primero a $C$; por eso $\\dfrac{43\\,200}{40\\,000}=1{,}08$ implica una tasa $i=8\\%$ (el interés extra de $3\\,200$ es el $8\\%$ de $40\\,000$).\nPaso 3: $C\\cdot0{,}08=40\\,000$, luego $C=500\\,000$ pesos. Comprobación: $500\\,000\\cdot\\left(1{,}08^{2}-1\\right)=83\\,200$.\nRespuesta: A, depositó $500\\,000$ pesos.\nErrores frecuentes: La B supone interés simple y divide $83\\,200$ por $2\\cdot8\\%=16\\%$. La C entrega el saldo al terminar el primer año. La D divide el total de intereses de dos años por la tasa de un solo año.",
+    "verify": "const I1 = 40000, I2tot = 83200;\nconst i = (I2tot - I1) / I1 - 1;\nconst C = I1 / i;\nif (Math.abs(C * ((1 + i) ** 2 - 1) - I2tot) > 1e-6) return null;\nconst alts = { A: 500000, B: 520000, C: 540000, D: 1040000 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - C) < 1e-6);\nreturn ok.length === 1 ? ok[0] : null;"
   }
 ]

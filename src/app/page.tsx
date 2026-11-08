@@ -89,7 +89,7 @@ export default async function Home() {
                 Así se entrena en PAES Lab
               </h2>
               <p className="mt-3 max-w-2xl text-lg text-slate-600">
-                360+ preguntas originales tipo PAES de M1 y M2, ordenadas por los 16 temas del temario oficial 2027. Cada una es un ciclo corto: respondes contra el reloj, entiendes el error en el momento y sumas para tu racha.
+                590+ preguntas originales tipo PAES de M1 y M2, ordenadas por los 16 temas del temario oficial 2027. Cada una es un ciclo corto: respondes contra el reloj, entiendes el error en el momento y sumas para tu racha.
               </p>
 
               <ol className="mt-12 grid gap-10 lg:grid-cols-3 lg:gap-8">
