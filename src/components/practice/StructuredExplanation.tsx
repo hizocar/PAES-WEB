@@ -13,6 +13,9 @@ export type ParsedExplanation = {
     errors: { letter: string | null; text: string }[]
 }
 
+/** El texto venía tras una etiqueta ("Paso 1: el aumento…"); al mostrarlo solo, parte con mayúscula. */
+const cap = (t: string) => t.charAt(0).toLocaleUpperCase("es-CL") + t.slice(1)
+
 const LABEL = /^(Idea clave|Paso \d+|Respuesta|Errores frecuentes):\s*(.*)$/
 
 export function parseExplanation(text: string): ParsedExplanation | null {
@@ -29,8 +32,8 @@ export function parseExplanation(text: string): ParsedExplanation | null {
             continue
         }
         const [, label, body] = m
-        if (label === "Idea clave") { out.idea = body; last = "idea" }
-        else if (label.startsWith("Paso")) { out.steps.push(body); last = "step" }
+        if (label === "Idea clave") { out.idea = cap(body); last = "idea" }
+        else if (label.startsWith("Paso")) { out.steps.push(cap(body)); last = "step" }
         else if (label === "Respuesta") { out.answer = body; last = "answer" }
         else {
             last = "errors"
@@ -89,7 +92,7 @@ export function StructuredExplanation({ text, compact = false }: { text: string;
                                 ) : (
                                     <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-slate-300" aria-hidden />
                                 )}
-                                <span><Latex>{e.text}</Latex></span>
+                                <span><Latex>{e.letter ? cap(e.text) : e.text}</Latex></span>
                             </li>
                         ))}
                     </ul>
