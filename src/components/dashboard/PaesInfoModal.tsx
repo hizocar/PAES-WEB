@@ -43,7 +43,7 @@ export function PaesInfoModal() {
                     >
                         {/* Header Background */}
                         <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700">
-                            <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20"></div>
+                            <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-20"></div>
                             <div className="absolute top-10 right-10 text-white/10 rotate-12">
                                 <Snowflake size={120} />
                             </div>
