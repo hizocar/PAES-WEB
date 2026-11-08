@@ -6,7 +6,6 @@ import { createClient, getSessionUser } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { BarChart3, Target, ArrowRight, Flame, Heart, Zap, Trophy, AlertCircle, Star, Calculator, Tangent, Shapes, PieChart, MessageSquareQuote, Network, BoxSelect, Lightbulb, Sparkles } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
 import { Mascot } from "@/components/mascot/Mascot"
 import { useRouter } from "next/navigation"
 import { cn } from "@/lib/utils"
@@ -21,7 +20,7 @@ function buildDashboardSteps(subject: "m1" | "m2", setSubject: (s: "m1" | "m2") 
         {
             title: "¡Bienvenido a PAES Lab!",
             description: "Aquí entrenas la PAES de Matemática como un juego: respondes, sumas racha y subes en el ranking. ¿Qué prueba quieres preparar primero?",
-            icon: <Image src="/mascot/happy.webp" alt="" width={36} height={36} />,
+            icon: <Mascot mood="happy" size={40} interactive={false} message={false} />,
             position: "center",
             content: (
                 <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="Prueba a preparar">

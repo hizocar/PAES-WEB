@@ -1,8 +1,8 @@
 "use client"
 
-import Image from "next/image"
+import { CatRig } from "./CatRig"
 import { useEffect, useRef, useState } from "react"
-import { AnimatePresence, motion, useAnimationControls, useReducedMotion } from "framer-motion"
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion"
 import { cn } from "@/lib/utils"
 
 export type MascotMood = "idle" | "happy" | "celebrate" | "sad" | "thinking"
@@ -32,57 +32,51 @@ type MascotProps = {
     /** Al tocarla salta y dice una frase */
     interactive?: boolean
     className?: string
+    /** Ya no se usa (la mascota es SVG); se mantiene por compatibilidad */
     priority?: boolean
 }
 
-export function Mascot({ mood = "idle", message, size = 96, bubbleSide = "right", interactive = true, className, priority }: MascotProps) {
+export function Mascot({ mood = "idle", message, size = 96, bubbleSide = "right", interactive = true, className }: MascotProps) {
     const reduce = useReducedMotion()
-    const controls = useAnimationControls()
     const [tapLine, setTapLine] = useState<string | null>(null)
+    // Al tocarla, salta (reactiva la animación "contenta" del rig) y dice una frase
+    const [tapMood, setTapMood] = useState<MascotMood | null>(null)
+    const [bounceKey, setBounceKey] = useState(0)
     const tapTimer = useRef<number | undefined>(undefined)
-
-    // Animación al cambiar de ánimo (un gesto corto, no un bucle que distraiga)
-    useEffect(() => {
-        if (reduce) return
-        const anims: Record<MascotMood, Parameters<typeof controls.start>[0]> = {
-            idle: { y: [0, -4, 0], rotate: 0, transition: { duration: 0.6, ease: "easeOut" } },
-            happy: { y: [0, -14, 0, -5, 0], rotate: [0, -4, 4, 0], transition: { duration: 0.7, ease: "easeOut" } },
-            celebrate: { y: [0, -22, 0, -10, 0], rotate: [0, -10, 10, -6, 0], scale: [1, 1.12, 1, 1.05, 1], transition: { duration: 0.9, ease: "easeOut" } },
-            sad: { y: [0, 3, 3, 0], rotate: [0, -6, 6, -4, 0], transition: { duration: 0.6, ease: "easeInOut" } },
-            thinking: { rotate: [0, -8, -8, 0], transition: { duration: 1.2, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.6 } },
-        }
-        controls.start(anims[mood])
-    }, [mood, reduce, controls])
 
     useEffect(() => () => window.clearTimeout(tapTimer.current), [])
 
     const onTap = () => {
         if (!interactive) return
-        setTapLine(pickLine(mood === "sad" ? "sad" : mood === "thinking" ? "thinking" : "happy"))
-        if (!reduce) controls.start({ y: [0, -18, 0], rotate: [0, 8, -8, 0], transition: { duration: 0.55, ease: "easeOut" } })
+        const reaction: MascotMood = mood === "sad" ? "sad" : mood === "thinking" ? "thinking" : Math.random() < 0.3 ? "celebrate" : "happy"
+        setTapLine(pickLine(reaction === "celebrate" ? "celebrate" : reaction))
+        setTapMood(reaction === "sad" || reaction === "thinking" ? null : reaction)
+        setBounceKey((k) => k + 1)
         window.clearTimeout(tapTimer.current)
-        tapTimer.current = window.setTimeout(() => setTapLine(null), 2200)
+        tapTimer.current = window.setTimeout(() => {
+            setTapLine(null)
+            setTapMood(null)
+        }, 2200)
     }
 
     const text = tapLine ?? (message === false ? null : message ?? null)
-    const src = mood === "sad" ? "/mascot/sad.webp" : "/mascot/happy.webp"
+    const shownMood = tapMood ?? mood
 
     return (
         <div className={cn("relative inline-flex shrink-0 items-center justify-center", className)}>
             <motion.button
                 type="button"
                 onClick={onTap}
-                animate={controls}
-                whileHover={interactive && !reduce ? { scale: 1.05 } : undefined}
-                whileTap={interactive && !reduce ? { scale: 0.94 } : undefined}
+                whileHover={interactive && !reduce ? { scale: 1.04 } : undefined}
+                whileTap={interactive && !reduce ? { scale: 0.93 } : undefined}
                 tabIndex={interactive ? 0 : -1}
                 aria-label={interactive ? "Mascota de PAES Lab: tócala para que te anime" : undefined}
                 aria-hidden={interactive ? undefined : true}
                 className={cn("relative rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600", interactive ? "cursor-pointer" : "cursor-default")}
                 style={{ width: size, height: size }}
             >
-                <Image src={src} alt="" width={size} height={size} priority={priority} draggable={false} className="h-full w-full select-none" />
-                {mood === "celebrate" && !reduce && <Sparkles />}
+                <CatRig mood={shownMood} size={size} bounceKey={bounceKey} />
+                {shownMood === "celebrate" && !reduce && <Sparkles key={bounceKey} />}
             </motion.button>
 
             <AnimatePresence mode="wait">

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import Link from "next/link"
-import Image from "next/image"
+import { Mascot } from "@/components/mascot/Mascot"
 import { ArrowRight, Calculator, Crown, PieChart, RotateCcw, Shapes, Tangent } from "lucide-react"
 import { createClient, getSessionUser } from "@/lib/supabase/client"
 import { useSubject } from "@/components/providers/SubjectContext"
@@ -152,7 +152,7 @@ export default function TemasPage() {
                     href={`/app/practice?topic=${suggestion.topic_id}`}
                     className="group flex items-center gap-4 rounded-2xl border border-blue-200 bg-blue-50 p-4 transition-colors hover:bg-blue-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
                 >
-                    <Image src="/mascot/happy.webp" alt="" width={48} height={48} className="h-12 w-12 shrink-0" />
+                    <Mascot mood="idle" size={52} interactive={false} message={false} />
                     <div className="min-w-0 flex-1">
                         <p className="text-sm font-semibold text-blue-800">
                             {suggestion.answered > 0 ? "Te recomiendo reforzar" : "Te recomiendo empezar por"}

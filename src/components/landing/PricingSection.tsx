@@ -39,9 +39,6 @@ const DEFAULT_PLANS: Plan[] = [
 export function PricingSection({ plans = DEFAULT_PLANS }: { plans?: Plan[] }) {
     return (
         <section id="pricing" className="py-24 md:py-32 bg-slate-50 relative overflow-hidden">
-            {/* Background elements */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-100/30 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-100/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
             <div className="container mx-auto px-6 relative z-10">
                 <div className="text-center mb-16 md:mb-24 max-w-3xl mx-auto">

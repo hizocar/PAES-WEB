@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "next/image"
+import { Mascot } from "@/components/mascot/Mascot"
 import Link from "next/link"
 import type { ReactNode } from "react"
 import { Loader2 } from "lucide-react"
@@ -14,7 +14,7 @@ export function AuthShell({ title, subtitle, children, footer }: { title: string
             </Link>
             <main className="w-full max-w-md rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_20px_50px_-20px_rgba(15,23,42,0.18)] sm:p-8">
                 <div className="mb-6 flex flex-col items-center text-center">
-                    <Image src="/mascot/happy.webp" alt="" width={72} height={72} priority className="mb-3 h-[4.5rem] w-[4.5rem]" />
+                    <Mascot mood="idle" size={84} message={false} className="mb-2" />
                     <h1 className="text-2xl font-black tracking-tight text-slate-900">{title}</h1>
                     {subtitle && <p className="mt-1 text-sm text-slate-600">{subtitle}</p>}
                 </div>

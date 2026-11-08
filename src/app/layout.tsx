@@ -11,10 +11,10 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   metadataBase: new URL('https://paeslab.cl'),
   title: {
-    default: "PAES Lab | Prepara tu PAES M2 con Inteligencia Artificial",
+    default: "PAES Lab | Entrena la PAES M1 y M2 jugando",
     template: "%s | PAES Lab"
   },
-  description: "La plataforma definitiva para puntajes nacionales. Práctica adaptativa, seguimiento en tiempo real y explicaciones detalladas para la PAES M2 y M1.",
+  description: "Preguntas originales tipo PAES de M1 y M2, explicación paso a paso, práctica por tema y ensayos con puntaje en escala PAES. Gratis para empezar.",
   keywords: ["PAES", "Matemáticas", "M2", "M1", "Preuniversitario", "Chile", "Ensayo PAES", "Inteligencia Artificial", "Educación"],
   authors: [{ name: "PAES Lab Team" }],
   creator: "PAES Lab",
@@ -23,8 +23,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_CL",
     url: "https://paeslab.cl",
-    title: "PAES Lab | Domina la PAES con IA",
-    description: "Entrenador inteligente para la PAES Matemáticas. Detecta tus vacíos y maximiza tu puntaje con práctica personalizada.",
+    title: "PAES Lab | Entrena la PAES jugando",
+    description: "Preguntas originales tipo PAES de M1 y M2, explicación paso a paso y ensayos con puntaje PAES.",
     siteName: "PAES Lab",
     images: [
       {
@@ -37,8 +37,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "PAES Lab | Prepara tu PAES M2",
-    description: "Entrenador inteligente para la PAES Matemáticas. Maximiza tu puntaje.",
+    title: "PAES Lab | Entrena la PAES M1 y M2",
+    description: "Preguntas originales tipo PAES, explicación paso a paso y ensayos con puntaje PAES.",
     images: ["/og-image.png"],
   },
   robots: {
