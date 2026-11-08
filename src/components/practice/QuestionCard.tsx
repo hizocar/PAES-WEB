@@ -34,11 +34,13 @@ type QuestionCardProps = {
     onNext: () => void
     onWrongAnswer?: () => void
     mode?: 'practice' | 'review'
+    /** Pausa el temporizador (por ejemplo, mientras se muestra el tutorial) */
+    paused?: boolean
 }
 
 import { useSubject } from "@/components/providers/SubjectContext"
 
-export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice' }: QuestionCardProps) {
+export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice', paused = false }: QuestionCardProps) {
     const { subject } = useSubject()
     const [selected, setSelected] = useState<string | null>(null)
     const [submitted, setSubmitted] = useState(false)
@@ -175,7 +177,7 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
                     <QuestionTimer
                         key={question.id} // Reset timer when question changes
                         duration={150} // 2:30 minutes
-                        isActive={!submitted}
+                        isActive={!submitted && !paused}
                         onTimeout={handleTimeout}
                     />
                 </div>
@@ -357,7 +359,6 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
             )}
 
             {/* Stable anchor for onboarding tour */}
-            <div id="tour-explanation" className="absolute bottom-0 h-px w-px opacity-0 pointer-events-none" />
         </div>
     )
 }

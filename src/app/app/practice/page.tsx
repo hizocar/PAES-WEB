@@ -15,38 +15,28 @@ import { Clock, Heart, Lightbulb, Star } from "lucide-react"
 
 const PRACTICE_STEPS: OnboardingStep[] = [
     {
-        title: "¡Bienvenido a tu entrenamiento!",
-        description: "Aquí es donde ocurre la magia. Vamos a ver cómo funcionan las herramientas de práctica.",
-        icon: <Star className="text-blue-500 fill-blue-500" />,
-        position: 'center'
-    },
-    {
         targetId: "tour-timer",
-        title: "El tiempo corre",
-        description: "Tienes un tiempo límite por pregunta basado en el promedio real de la PAES. ¡Entrena tu velocidad!",
-        icon: <Clock className="text-orange-500" />,
-        position: 'bottom'
+        title: "Tienes 2:30 por pregunta",
+        description: "Es el ritmo real de la PAES. Si se acaba el tiempo, cuenta como error, así que no te quedes pegado: si no sabes, marca \"No sé\" y aprende de la explicación.",
+        icon: <Clock className="text-orange-500" size={22} />,
+        position: "bottom",
     },
     {
         targetId: "tour-lives-practice",
-        title: "Tus Vidas",
-        description: "Si te equivocas o se acaba el tiempo, perderás una de estas vidas. ¡Cuídalas!",
-        icon: <Heart className="text-red-500 fill-red-500" />,
-        position: 'bottom'
+        title: "Cada error gasta una vida",
+        description: "Tienes 10 vidas por materia y se recargan solas con el tiempo. Después de responder verás la explicación paso a paso. ¡A jugar!",
+        icon: <Heart className="text-red-500 fill-red-500" size={22} />,
+        position: "bottom",
+        primaryLabel: "¡A jugar!",
     },
-    {
-        targetId: "tour-explanation",
-        title: "Aprende de cada paso",
-        description: "Una vez que respondas, la explicación detallada aparecerá aquí abajo. ¡Es la mejor forma de mejorar!",
-        icon: <Lightbulb className="text-yellow-500 fill-yellow-500" />,
-        position: 'top'
-    }
 ]
 
 function PracticeContent() {
     const { subject } = useSubject()
     const searchParams = useSearchParams()
     const modeParam = searchParams.get('mode')
+    const topicId = searchParams.get('topic')
+    const [topicName, setTopicName] = useState<string | null>(null)
 
     // Onboarding State
     const [showOnboarding, setShowOnboarding] = useState(false)
@@ -128,12 +118,13 @@ function PracticeContent() {
             const { data: { user } } = await supabase.auth.getUser()
 
             if (!user) {
-                setDebugMsg("Usuario no autenticado")
+                setDebugMsg("error")
                 return
             }
 
-            const { data, error } = await supabase
-                .rpc('get_smart_question', {
+            const { data, error } = topicId
+                ? await supabase.rpc('get_topic_question', { p_user_id: user.id, p_topic_id: topicId })
+                : await supabase.rpc('get_smart_question', {
                     p_user_id: user.id,
                     p_retry_mode: retryMode,
                     p_subject: subject
@@ -143,7 +134,8 @@ function PracticeContent() {
             if (currentReqId !== reqIdRef.current) return
 
             if (error) {
-                setDebugMsg(`Error al obtener pregunta: ${error.message}`)
+                console.error("get_smart_question:", error.message)
+                setDebugMsg("error")
             } else if (!data || data.length === 0) {
                 setQuestion(null)
                 setCompleted(true)
@@ -154,6 +146,7 @@ function PracticeContent() {
                     topic: qRaw.topic_name || 'General',
                     eje: qRaw.eje_name || 'General'
                 }
+                if (topicId) setTopicName(qRaw.topic_name ?? null)
 
                 // Tracking Meta Pixel: First Practice
                 if (!trackedFirstPractice.current && (window as any).fbq) {
@@ -165,7 +158,8 @@ function PracticeContent() {
                 setCompleted(false)
             }
         } catch (e: any) {
-            setDebugMsg(`Excepción: ${e.message}`)
+            console.error("fetchQuestion:", e)
+            setDebugMsg("error")
         } finally {
             if (currentReqId === reqIdRef.current) {
                 setLoading(false)
@@ -177,7 +171,7 @@ function PracticeContent() {
     useEffect(() => {
         setQuestion(null)
         setCompleted(false)
-    }, [retryMode, subject])
+    }, [retryMode, subject, topicId])
 
     // Fetch Question if missing (and we have lives or are premium)
     useEffect(() => {
@@ -286,17 +280,16 @@ function PracticeContent() {
                     </>
                 ) : (
                     <>
-                        <h2 className="text-2xl font-bold text-slate-800">¡Repaso Completado!</h2>
+                        <h2 className="text-2xl font-bold text-slate-800">No tienes errores por repasar</h2>
                         <p className="text-slate-500">
-                            Ya no tienes errores pendientes por corregir.
-                            ¡Tu historial está impecable!
+                            Cuando falles una pregunta, quedará guardada aquí para que la vuelvas a intentar hasta dominarla.
                         </p>
                         <div className="pt-4">
                             <Button
                                 onClick={() => setRetryMode(false)}
                                 variant="outline"
                             >
-                                Volver al modo normal
+                                Ir a practicar
                             </Button>
                         </div>
                     </>
@@ -318,9 +311,15 @@ function PracticeContent() {
             {/* Header: Progress & Lives */}
             <div className="max-w-3xl mx-auto mb-8 flex items-center justify-between">
                 <div className="flex items-center gap-2 text-sm text-slate-500 font-medium font-mono">
-                    <span className={retryMode ? "text-orange-600 font-bold" : ""}>
-                        {retryMode ? "MODO REPASO" : "MODO PRÁCTICA"}
-                    </span>
+                    {topicId ? (
+                        <Link href="/app/temas" className="font-sans font-bold text-blue-700 hover:text-blue-800">
+                            Tema: {topicName ?? "…"} <span className="font-semibold text-slate-500">· cambiar</span>
+                        </Link>
+                    ) : (
+                        <span className={retryMode ? "text-orange-600 font-bold" : ""}>
+                            {retryMode ? "MODO REPASO" : "MODO PRÁCTICA"}
+                        </span>
+                    )}
                     {retryMode && <AlertCircle size={14} className="text-orange-500" />}
                 </div>
 
@@ -330,8 +329,13 @@ function PracticeContent() {
             </div>
 
             {debugMsg && (
-                <div className="max-w-3xl mx-auto mb-4 p-4 bg-yellow-50 text-yellow-800 text-xs font-mono whitespace-pre-wrap border border-yellow-200">
-                    {debugMsg}
+                <div role="alert" className="max-w-3xl mx-auto mb-4 flex flex-col items-start gap-3 rounded-2xl border border-red-100 bg-red-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+                    <p className="text-sm font-medium text-red-800">
+                        No pudimos cargar la pregunta. Revisa tu conexión e inténtalo de nuevo.
+                    </p>
+                    <Button size="sm" variant="outline" onClick={() => fetchQuestion()} className="shrink-0 border-red-200 bg-white text-red-700 hover:bg-red-100">
+                        <RotateCcw className="mr-1.5" size={14} /> Reintentar
+                    </Button>
                 </div>
             )}
 
@@ -341,6 +345,7 @@ function PracticeContent() {
                     onNext={fetchQuestion}
                     onWrongAnswer={handleWrongAnswer}
                     mode={retryMode ? 'review' : 'practice'}
+                    paused={showOnboarding}
                 />
             )}
 
