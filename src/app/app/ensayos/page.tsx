@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { createClient } from "@/lib/supabase/client"
+import { createClient, getSessionUser } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 import { Loader2, Play, LayoutGrid, Clock, Trophy, History, Construction, AlertCircle } from "lucide-react"
@@ -20,7 +20,7 @@ export default function EnsayosDashboard() {
 
     useEffect(() => {
         const fetchEnsayos = async () => {
-            const { data: { user } } = await supabase.auth.getUser()
+            const user = await getSessionUser(supabase)
             if (!user) return
 
             const { data } = await supabase
@@ -40,7 +40,7 @@ export default function EnsayosDashboard() {
         setCreating(true)
         setError(null)
         try {
-            const { data: { user } } = await supabase.auth.getUser()
+            const user = await getSessionUser(supabase)
             if (!user) {
                 setError("Debes iniciar sesión para comenzar.")
                 setCreating(false)
@@ -48,7 +48,7 @@ export default function EnsayosDashboard() {
             }
 
             // Call RPC to create ensayo and get ID
-            const { data, error } = await supabase.rpc('create_ensayo_m1', { p_user_id: user.id })
+            const { data, error } = await supabase.rpc(subject === 'm2' ? 'create_ensayo_m2' : 'create_ensayo_m1', { p_user_id: user.id })
 
             if (error) {
                 console.error("RPC Error:", error)
@@ -69,37 +69,18 @@ export default function EnsayosDashboard() {
         }
     }
 
-    if (subject === 'm2') {
-        return (
-            <div className="max-w-5xl mx-auto p-6 space-y-8 flex flex-col items-center justify-center min-h-[60vh] text-center">
-                <div className="bg-blue-50 p-6 rounded-full inline-flex mb-4">
-                    <Construction size={48} className="text-blue-600" />
-                </div>
-                <h1 className="text-3xl font-black text-slate-900">Ensayos M2: Próximamente</h1>
-                <p className="text-slate-500 text-lg max-w-md">
-                    Estamos calibrando los instrumentos para la prueba de Matemática M2.
-                    Muy pronto podrás acceder a ensayos completos para esta competencia.
-                </p>
-                <Link href="/app/practice">
-                    <Button variant="outline" className="mt-4">
-                        Seguir practicando ejercicios sueltos
-                    </Button>
-                </Link>
-            </div>
-        )
-    }
-
     if (loading) {
         return <div className="flex h-96 items-center justify-center"><Loader2 className="animate-spin text-blue-600" /></div>
     }
 
     const history = ensayos.slice(0) // All essays
+    const nQuestions = subject === 'm2' ? 55 : 60
 
     return (
         <div className="max-w-5xl mx-auto p-6 space-y-8">
             <header className="mb-8">
-                <h1 className="text-3xl font-black text-slate-900">Ensayos M1</h1>
-                <p className="text-slate-500 text-lg">Simula la experiencia real de la PAES. 60 preguntas, 2 horas 20 minutos.</p>
+                <h1 className="text-3xl font-black text-slate-900">Ensayos {subject.toUpperCase()}</h1>
+                <p className="text-slate-500 text-lg">Simula la experiencia real de la PAES. {nQuestions} preguntas, 2 horas 20 minutos.</p>
             </header>
 
 
@@ -116,10 +97,10 @@ export default function EnsayosDashboard() {
                         </div>
                         <h2 className="text-3xl font-bold">Nuevo Ensayo Completo</h2>
                         <p className="text-blue-100 text-lg leading-relaxed">
-                            Ponte a prueba con 60 preguntas seleccionadas aleatoriamente, con la misma proporción de ejes de la prueba oficial, y obtén tu puntaje en escala PAES (100-1000).
+                            Ponte a prueba con {nQuestions} preguntas seleccionadas al azar, con la misma proporción de ejes de la prueba oficial{subject === "m2" ? ", incluidas preguntas de suficiencia de datos al final" : ""}, y obtén tu puntaje estimado en escala PAES (100–1000).
                         </p>
                         <div className="flex items-center gap-6 pt-2 text-sm font-medium text-blue-200">
-                            <span className="flex items-center gap-2"><LayoutGrid size={16} /> 60 Preguntas</span>
+                            <span className="flex items-center gap-2"><LayoutGrid size={16} /> {nQuestions} Preguntas</span>
                             <span className="flex items-center gap-2"><Trophy size={16} /> Escala Real</span>
                         </div>
                     </div>

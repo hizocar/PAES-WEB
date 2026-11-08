@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState, useRef } from "react"
-import { createClient } from "@/lib/supabase/client"
+import { createClient, getSessionUser } from "@/lib/supabase/client"
 import { useParams, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
@@ -35,7 +35,7 @@ export default function EnsayoRunnerPage() {
     // Fetch Ensayo Data
     useEffect(() => {
         const fetchEnsayo = async () => {
-            const { data: { user } } = await supabase.auth.getUser()
+            const user = await getSessionUser(supabase)
             if (!user) return
 
             const { data, error } = await supabase
@@ -253,7 +253,7 @@ export default function EnsayoRunnerPage() {
 
                         {/* Alternatives */}
                         <div className="grid gap-3">
-                            {currentQuestion.alternatives.filter((alt: any) => alt.id !== 'E').map((alt: any) => {
+                            {currentQuestion.alternatives.filter((alt: any) => alt.content !== 'No sé responder esta pregunta').map((alt: any) => {
                                 const isSelected = answers[currentQuestion.question_id] === alt.id
                                 return (
                                     <div
