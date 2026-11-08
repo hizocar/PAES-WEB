@@ -206,7 +206,7 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
             <h3 className="text-lg font-bold text-slate-900 mb-2">¿Quieres ver la explicación?</h3>
             <p className="text-slate-500 mb-6 max-w-sm mx-auto text-sm">
                 {tier !== 'free' ? (
-                    "Tienes acceso ilimitado a todas las explicaciones por ser Premium."
+                    "Tienes acceso ilimitado a todas las explicaciones por ser Pro."
                 ) : (
                     <>Te quedan <span className="font-bold text-blue-600">{credits} explicaciones</span> gratuitas hoy.</>
                 )}

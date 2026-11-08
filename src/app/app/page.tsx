@@ -394,7 +394,7 @@ export default function DashboardPage() {
                         </div>
                         <div>
                             <p className="mb-2 text-xs font-semibold text-slate-500 tabular-nums">
-                                {stats.tier !== "free" ? "Ilimitadas con Premium" : stats.lives !== null && stats.lives < 10 && timeLeft ? `+1 vida en ${timeLeft}` : "Vidas completas"}
+                                {stats.tier !== "free" ? "Ilimitadas con Pro" : stats.lives !== null && stats.lives < 10 && timeLeft ? `+1 vida en ${timeLeft}` : "Vidas completas"}
                             </p>
                             <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
                                 <div className={cn("h-full rounded-full transition-[width] duration-700",

@@ -19,6 +19,6 @@ STORY: El visitante ve cuántos días le quedan para su prueba (elige M1 o M2) y
 
 FIRST VIEWPORT: A la izquierda, las fichas de días (enormes, alrededor del 40% del alto), el selector M1/M2 y el gancho de una línea con "Empieza gratis". A la derecha, la tarjeta de pregunta jugable con el gato sobre su esquina. En celular se apila: días, acción y pregunta.
 
-FORM: Cuenta regresiva y plan; posición 3 de 7 en mi lista (dealt lead). Firma: odómetro de días, pregunta jugable con reacción del gato y línea del plan que se dibuja con el scroll. Raise (de signals-instruments-nixie-laboratory-counter): los dígitos son objetos con profundidad y cada cambio es un evento físico, no texto plano. seed: b7d12ab6618bb778
+FORM: Cuenta regresiva y plan; posición 3 de 7 en mi lista (dealt lead). Firma: odómetro de días, pregunta jugable con reacción del gato y línea del plan que se dibuja con el scroll. Raise (de signals-instruments-nixie-laboratory-counter): los dígitos son objetos con profundidad y cada cambio es un evento físico, no texto plano. seed: none (unavailable)
 
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance

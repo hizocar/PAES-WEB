@@ -24,7 +24,7 @@ export function SubscriptionBadge({ tier = 'free', className = '' }: Subscriptio
         return (
             <div className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-gradient-to-r from-amber-200 to-yellow-400 text-yellow-900 border border-yellow-400/50 shadow-sm ${className}`}>
                 <Crown size={10} className="fill-yellow-600 text-yellow-800" />
-                <span>PREMIUM</span>
+                <span>PRO</span>
             </div>
         )
     }

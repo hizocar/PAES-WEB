@@ -67,7 +67,7 @@ export function RewardedAdModal({ isOpen, onClose, onRewardClaimed, rewardType }
                             <div>
                                 <h2 className="text-2xl font-bold text-slate-900">¿Necesitas una ayuda?</h2>
                                 <p className="text-slate-500 mt-2 text-lg">
-                                    Mira este video sobre <span className="font-bold text-blue-600">PAES Lab Premium</span> y obtén <span className="font-bold text-slate-900">1 {rewardType === 'life' ? 'vida' : 'explicación'} extra</span>.
+                                    Mira este video sobre <span className="font-bold text-blue-600">PAES Lab Pro</span> y obtén <span className="font-bold text-slate-900">1 {rewardType === 'life' ? 'vida' : 'explicación'} extra</span>.
                                 </p>
                             </div>
                             <Button

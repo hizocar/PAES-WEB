@@ -32,7 +32,7 @@ export function PlanButton({ planId, tier, currentTier, isSignature }: PlanButto
                 if (result.error) {
                     alert("Error: " + result.error)
                 } else {
-                    alert("Suscripción cancelada correctamente. Seguirás teniendo acceso Premium hasta que termine tu periodo actual. ¡Aprovecha estos días!")
+                    alert("Suscripción cancelada correctamente. Seguirás teniendo acceso Pro hasta que termine tu periodo actual. ¡Aprovecha estos días!")
                     window.location.reload()
                 }
             } catch (e) {

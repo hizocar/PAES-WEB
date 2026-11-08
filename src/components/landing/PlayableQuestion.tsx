@@ -43,7 +43,7 @@ export function PlayableQuestion({ q }: { q: DemoQuestion }) {
 
             <div className="rounded-[1.75rem] border-2 border-slate-200 bg-white p-5 shadow-[0_24px_48px_-24px_rgba(15,23,42,0.28)] sm:p-7">
                 <div className="mb-4 flex items-center gap-2 text-xs font-bold">
-                    <span className="rounded-full bg-blue-50 px-2.5 py-1 text-blue-700">Pregunta real · M1</span>
+                    <span className="rounded-full bg-blue-50 px-2.5 py-1 text-blue-700">Pregunta tipo PAES · M1</span>
                     <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-600">{q.topic}</span>
                 </div>
 
@@ -101,7 +101,7 @@ export function PlayableQuestion({ q }: { q: DemoQuestion }) {
                             </p>
                             {!right && picked && why.length > 0 && (
                                 <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                                    <Latex>{why.find((l) => l.startsWith(picked)) ?? why[0]}</Latex>
+                                    <Latex>{(why.find((l) => l.startsWith(picked)) ?? why[0]).replace(/^([A-D]) /, "La alternativa $1 ")}</Latex>
                                 </p>
                             )}
                             <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">

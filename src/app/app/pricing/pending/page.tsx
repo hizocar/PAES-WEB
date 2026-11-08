@@ -23,7 +23,7 @@ export default function PendingPage() {
                 <div>
                     <h3 className="font-bold text-blue-900 mb-1">¿Cuándo se activará mi plan?</h3>
                     <p className="text-sm text-blue-800">
-                        Tan pronto como recibamos la confirmación del pago, tu cuenta se actualizará automáticamente a Premium. Te enviaremos un correo cuando esto suceda.
+                        Tan pronto como recibamos la confirmación del pago, tu cuenta se actualizará automáticamente a Pro. Te enviaremos un correo cuando esto suceda.
                     </p>
                 </div>
             </div>

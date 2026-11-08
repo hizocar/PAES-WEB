@@ -86,16 +86,19 @@ export function SubjectToggle() {
 const EASE_OUT = "cubic-bezier(0.23, 1, 0.32, 1)"
 
 /** Una ficha con un dígito que rueda hasta su valor (columna 0–9 desplazada con transform). */
-function DigitTile({ digit, index, ready }: { digit: number; index: number; ready: boolean }) {
+function DigitTile({ digit, index, ready, inverse = false }: { digit: number; index: number; ready: boolean; inverse?: boolean }) {
     const reduce = useReducedMotion()
     const shown = ready ? digit : 0
     return (
         <span
-            className="relative inline-flex h-[1.15em] w-[0.78em] items-start justify-center overflow-hidden rounded-[0.16em] bg-blue-600 text-white shadow-[inset_0_-0.06em_0_rgba(0,0,0,0.22),inset_0_0.05em_0_rgba(255,255,255,0.28),0_0.08em_0.2em_-0.04em_rgba(30,64,175,0.5)]"
+            className={cn(
+                "relative inline-flex h-[1.15em] w-[0.78em] items-start justify-center overflow-hidden rounded-[0.16em]",
+                inverse
+                    ? "bg-white text-blue-700 shadow-[inset_0_-0.06em_0_rgba(30,64,175,0.25),0_0.08em_0.2em_-0.04em_rgba(15,23,42,0.35)]"
+                    : "bg-blue-600 text-white shadow-[inset_0_-0.06em_0_rgba(0,0,0,0.22),inset_0_0.05em_0_rgba(255,255,255,0.28),0_0.08em_0.2em_-0.04em_rgba(30,64,175,0.5)]"
+            )}
             aria-hidden
         >
-            {/* Línea media: ficha de marcador */}
-            <span className="absolute inset-x-0 top-1/2 z-10 h-px bg-blue-900/30" />
             <span
                 className="flex flex-col items-center leading-[1.15em]"
                 style={{
@@ -113,7 +116,7 @@ function DigitTile({ digit, index, ready }: { digit: number; index: number; read
     )
 }
 
-export function DayCounter() {
+export function DayCounter({ inverse = false, compact = false }: { inverse?: boolean; compact?: boolean }) {
     const { subject, now } = useCountdown()
     const [ready, setReady] = useState(false)
 
@@ -140,22 +143,24 @@ export function DayCounter() {
             <p className="sr-only" aria-live="polite">
                 {examPassed ? `${days} días para: ${target.title}` : `Faltan ${days} días para tu PAES ${label}`}
             </p>
-            <div className="flex items-end gap-4 sm:gap-6">
-                <div className="flex gap-[0.08em] text-[clamp(5.5rem,17vw,11rem)] font-black leading-none tracking-tight">
-                    {digits.map((d, i) => (
-                        <DigitTile key={`${subject}-${i}-${digits.length}`} digit={d} index={i} ready={ready} />
-                    ))}
-                </div>
-                <div className="pb-[0.6em] text-[clamp(1rem,2.2vw,1.35rem)] font-black leading-tight text-slate-900">
-                    {days === 1 ? "día" : "días"}
-                    <span className="block font-bold text-slate-500">
-                        {examPassed ? "para resultados" : <>para tu PAES {label}</>}
-                    </span>
-                </div>
+            <div
+                className={cn(
+                    "flex gap-[0.08em] font-black leading-none tracking-tight",
+                    compact ? "text-[clamp(4rem,12vw,6.5rem)]" : "text-[clamp(8rem,34vw,18.5rem)]"
+                )}
+            >
+                {digits.map((d, i) => (
+                    <DigitTile key={`${subject}-${i}-${digits.length}`} digit={d} index={i} ready={ready} inverse={inverse} />
+                ))}
             </div>
-            <p className="mt-3 text-sm font-semibold text-slate-600 first-letter:uppercase">
-                {formatDay(target.at)} · {formatTime(target.at)} hrs
-            </p>
+            {!compact && (
+                <p className="mt-4 text-lg font-black leading-snug text-slate-900 sm:text-xl">
+                    {days === 1 ? "día" : "días"} {examPassed ? "para los resultados" : <>para tu PAES {label}</>}
+                    <span className="block text-base font-semibold text-slate-600 first-letter:uppercase">
+                        {formatDay(target.at)} · {formatTime(target.at)} hrs
+                    </span>
+                </p>
+            )}
         </div>
     )
 }
@@ -257,13 +262,13 @@ function PlanTimeline({ plan, examAt }: { plan: Week[]; examAt: string }) {
                     >
                         {w.final ? <Flag size={16} strokeWidth={3} aria-label="Día de la PAES" /> : i + 1}
                     </span>
-                    <p className="text-xs font-bold uppercase tracking-wide text-slate-500 tabular-nums">
+                    <h3 className="text-lg font-black leading-snug text-slate-900">{w.focus}</h3>
+                    <p className="mt-0.5 text-sm font-semibold text-slate-500 tabular-nums">
                         {i === 0 ? "Desde hoy" : formatShortDay(w.start.toISOString())}
                         {" → "}
-                        {w.final ? `${formatShortDay(examAt)} (PAES)` : formatShortDay(w.end.toISOString())}
+                        {w.final ? `${formatShortDay(examAt)}, día de la PAES` : formatShortDay(w.end.toISOString())}
                     </p>
-                    <h3 className="mt-1 text-lg font-black leading-snug text-slate-900">{w.focus}</h3>
-                    <p className="mt-1 text-sm text-slate-600">{w.detail}</p>
+                    <p className="mt-2 text-sm text-slate-600">{w.detail}</p>
                 </li>
             ))}
         </ol>

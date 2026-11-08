@@ -41,21 +41,21 @@ export default async function PricingPage() {
             name: 'Free',
             tier: 'free',
             price_clp: 0,
-            features: ['Acceso a M1 y M2', '10 Vidas diarias', '5 Explicaciones diarias', 'Ranking nacional'],
+            features: ['M1 y M2 completas', '10 vidas por materia', '5 explicaciones al día'],
         },
         {
             id: 'mock-premium',
-            name: 'Premium',
+            name: 'Pro',
             tier: 'premium',
-            price_clp: 1990,
-            features: ['Acceso a M1 y M2', 'Vidas ilimitadas (∞)', 'Explicaciones ilimitadas (∞)', 'IA: Modo Repaso Inteligente', 'Sin publicidad'],
+            price_clp: 990,
+            features: ['Vidas ilimitadas', 'Explicaciones ilimitadas', 'Sin anuncios para recargar vidas'],
         },
         {
             id: 'mock-signature',
             name: 'Signature',
             tier: 'signature',
             price_clp: 29990,
-            features: ['Acceso a M1 y M2', 'Todo lo de Premium', 'Clases personalizadas', 'Ensayos semanales', 'Plan de estudio a medida'],
+            features: ['Todo lo de Pro', 'Clases sincrónicas en vivo', 'Clases asincrónicas en video', 'Próximamente'],
         }
     ]
 
@@ -101,24 +101,9 @@ export default async function PricingPage() {
                                     <h3 className={`text-xl font-bold ${isSignature ? 'text-white' : 'text-slate-900'}`}>
                                         {plan.name}
                                     </h3>
-                                    {isPremium && (
-                                        <span className="bg-blue-100 text-blue-600 text-[10px] font-black px-2 py-0.5 rounded-full border border-blue-200">
-                                            -75% OFF
-                                        </span>
-                                    )}
                                 </div>
 
                                 <div className="flex flex-col gap-1 mb-6">
-                                    {isPremium && (
-                                        <div className="flex items-center gap-2 -mb-1">
-                                            <span className="text-sm font-medium text-slate-400 line-through">
-                                                $7.990
-                                            </span>
-                                            <span className="text-[10px] font-bold text-yellow-600 bg-yellow-50 px-1.5 rounded">
-                                                OFERTA
-                                            </span>
-                                        </div>
-                                    )}
                                     <div className="flex items-baseline gap-1">
                                         <span className={`text-4xl font-extrabold ${isSignature ? 'text-white' : 'text-slate-900'}`}>
                                             ${plan.price_clp.toLocaleString('es-CL')}
