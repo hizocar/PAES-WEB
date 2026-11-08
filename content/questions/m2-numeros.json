@@ -15,7 +15,7 @@
       "D": "$\\sqrt{3}+\\sqrt{27}$"
     },
     "correct": "D",
-    "explanation": "A: $0{,}\\overline{4}=\\frac{4}{9}$, luego $\\sqrt{\\frac{4}{9}}=\\frac{2}{3}$, que es racional.\nB: $\\sqrt{2}\\cdot\\sqrt{18}=\\sqrt{36}=6$, racional. C: $\\frac{\\sqrt{75}}{\\sqrt{3}}=\\sqrt{25}=5$, racional.\nD: $\\sqrt{3}+\\sqrt{27}=\\sqrt{3}+3\\sqrt{3}=4\\sqrt{3}$, que es irracional porque $\\sqrt{3}$ lo es.\nEl error típico es pensar que toda raíz es irracional o que un decimal periódico bajo raíz no puede dar un racional.",
+    "explanation": "Idea clave: un número es irracional si, después de simplificarlo, no puede escribirse como fracción; no toda raíz es irracional.\nPaso 1: A: $0{,}\\overline{4}=\\frac{4}{9}$, luego $\\sqrt{\\frac{4}{9}}=\\frac{2}{3}$, que es racional.\nPaso 2: B: $\\sqrt{2}\\cdot\\sqrt{18}=\\sqrt{36}=6$ y C: $\\frac{\\sqrt{75}}{\\sqrt{3}}=\\sqrt{25}=5$; ambos son racionales.\nPaso 3: D: $\\sqrt{27}=3\\sqrt{3}$, así que $\\sqrt{3}+\\sqrt{27}=4\\sqrt{3}$, que es irracional porque $\\sqrt{3}$ lo es.\nRespuesta: D, $\\sqrt{3}+\\sqrt{27}=4\\sqrt{3}$ es irracional.\nErrores frecuentes: La A parece irracional por tener un decimal periódico bajo la raíz, pero $\\sqrt{\\frac{4}{9}}=\\frac{2}{3}$. La B parece irracional por tener raíces, pero su producto es $\\sqrt{36}=6$. La C también tiene raíces, pero su cociente es $\\sqrt{25}=5$.",
     "verify": "const isRat = v => { for (let d = 1; d <= 2000; d++) { if (Math.abs(v*d - Math.round(v*d)) < 1e-9) return true; } return false; };\nconst vals = { A: Math.sqrt(4/9), B: Math.sqrt(2)*Math.sqrt(18), C: Math.sqrt(75)/Math.sqrt(3), D: Math.sqrt(3)+Math.sqrt(27) };\nconst irr = Object.keys(vals).filter(k => !isRat(vals[k]));\nreturn irr.length === 1 ? irr[0] : null;"
   },
   {
@@ -34,7 +34,7 @@
       "D": "En el Paso 4"
     },
     "correct": "B",
-    "explanation": "El Paso 1 es correcto: se amplifica por el conjugado del denominador.\nEn el Paso 2 el denominador debe ser $(\\sqrt{3}-1)(\\sqrt{3}+1)=(\\sqrt{3})^2-1^2=3-1=2$, no $3+1$. Ahí está el error.\nEl resultado correcto es $\\frac{6(\\sqrt{3}+1)}{2}=3\\sqrt{3}+3$.\nLos pasos 3 y 4 son consecuencias algebraicamente correctas del Paso 2 (factorizar y simplificar por 2), por lo que no contienen el primer error.",
+    "explanation": "Idea clave: al racionalizar con el conjugado, el denominador es una suma por su diferencia: $(\\sqrt{3}-1)(\\sqrt{3}+1)=(\\sqrt{3})^2-1^2$.\nPaso 1: el Paso 1 es correcto, porque se amplifica por el conjugado del denominador.\nPaso 2: en el Paso 2 el denominador debe ser $3-1=2$, no $3+1$. Ahí está el primer error.\nPaso 3: el resultado correcto es $\\frac{6(\\sqrt{3}+1)}{2}=3\\sqrt{3}+3$.\nRespuesta: B, el primer error está en el Paso 2.\nErrores frecuentes: La A marca el Paso 1, pero amplificar por el conjugado es justamente lo correcto. La C y la D marcan los Pasos 3 y 4, que factorizan y simplifican por $2$ de forma correcta a partir del Paso 2; arrastran el error, pero no lo cometen.",
     "verify": "const s = Math.sqrt(3); const real = 6/(s-1);\nconst steps = [6/(s-1)*((s+1)/(s+1)), (6*s+6)/(3+1), 6*(s+1)/4, 3*(s+1)/2];\nconst i = steps.findIndex(v => Math.abs(v - real) > 1e-9);\nconst ok34 = Math.abs(steps[2]-steps[1]) < 1e-9 && Math.abs(steps[3]-steps[2]) < 1e-9;\nreturn (i >= 0 && ok34) ? 'ABCD'[i] : null;"
   },
   {
@@ -54,7 +54,7 @@
       "E": "Se requiere información adicional"
     },
     "correct": "D",
-    "explanation": "Con (1): como $x>0$, $x=\\sqrt{3+2\\sqrt{2}}$. Además $(1+\\sqrt{2})^2=1+2\\sqrt{2}+2=3+2\\sqrt{2}$, así que $x=1+\\sqrt{2}$. Es suficiente.\nCon (2): multiplicando por $x$ se obtiene $x^2-2x-1=0$, cuyas soluciones son $1+\\sqrt{2}$ y $1-\\sqrt{2}$. Como $1-\\sqrt{2}<0$, se descarta y queda $x=1+\\sqrt{2}$. También es suficiente.\nPor lo tanto, cada una por sí sola determina $x$. El error frecuente es creer que (2), al ser una ecuación cuadrática, entrega dos valores, olvidando que $x$ es positivo.",
+    "explanation": "Idea clave: en suficiencia se revisa cada afirmación por separado; si una ecuación entrega dos valores, la condición $x>0$ puede descartar uno.\nPaso 1: con (1) por sí sola: como $x>0$, $x=\\sqrt{3+2\\sqrt{2}}$. Además $(1+\\sqrt{2})^2=1+2\\sqrt{2}+2=3+2\\sqrt{2}$, así que $x=1+\\sqrt{2}$. Es suficiente.\nPaso 2: con (2) por sí sola: multiplicando por $x$ queda $x^2-2x-1=0$, con soluciones $1+\\sqrt{2}$ y $1-\\sqrt{2}$. Como $1-\\sqrt{2}<0$, se descarta y queda $x=1+\\sqrt{2}$. También es suficiente.\nPaso 3: como cada una por sí sola determina $x$, no hace falta juntarlas.\nRespuesta: D, cada una por sí sola, (1) ó (2).\nErrores frecuentes: La A descarta (2) creyendo que la ecuación cuadrática entrega dos valores, olvidando que $x$ es positivo. La B descarta (1) por pensar que $\\sqrt{3+2\\sqrt{2}}$ no se puede calcular, aunque igual determina un único valor. La C supone que se necesitan ambas, pero cada una basta sola. La E es incorrecta porque la información alcanza de sobra.",
     "verify": "const pos = arr => arr.filter(v => v > 0);\nconst r1 = pos([Math.sqrt(3+2*Math.SQRT2), -Math.sqrt(3+2*Math.SQRT2)]);\nconst d = Math.sqrt(4+4); const r2 = pos([(2+d)/2, (2-d)/2]);\nconst ok1 = r1.length === 1, ok2 = r2.length === 1 && Math.abs(r2[0]-(1+Math.SQRT2)) < 1e-9 && Math.abs(r1[0]-r2[0]) < 1e-9;\nif (ok1 && ok2) return 'D'; return null;"
   },
   {
@@ -73,7 +73,7 @@
       "D": "Entre $5$ y $6$"
     },
     "correct": "C",
-    "explanation": "Se simplifica cada raíz: $\\sqrt{45}=3\\sqrt{5}$ y $\\sqrt{20}=2\\sqrt{5}$. Entonces $p=3\\sqrt{5}-2\\sqrt{5}+\\sqrt{5}=2\\sqrt{5}=\\sqrt{20}$.\nComo $16<20<25$, se tiene $4<\\sqrt{20}<5$.\nD resulta de operar los radicandos como si $\\sqrt{a}-\\sqrt{b}+\\sqrt{c}=\\sqrt{a-b+c}=\\sqrt{30}$. A corresponde a quedarse solo con $\\sqrt{5}$, y B a calcular $\\sqrt{5}+\\sqrt{5}$ con signo erróneo o a aproximar mal $2\\sqrt{5}$.",
+    "explanation": "Idea clave: se simplifican las raíces a una misma raíz base, $\\sqrt{5}$, y luego se acota el resultado entre cuadrados perfectos.\nPaso 1: $\\sqrt{45}=3\\sqrt{5}$ y $\\sqrt{20}=2\\sqrt{5}$.\nPaso 2: $p=3\\sqrt{5}-2\\sqrt{5}+\\sqrt{5}=2\\sqrt{5}=\\sqrt{20}$.\nPaso 3: como $16<20<25$, se tiene $4<\\sqrt{20}<5$.\nRespuesta: C, $p$ está entre $4$ y $5$.\nErrores frecuentes: La A se queda solo con $\\sqrt{5}\\approx2{,}2$. La B aproxima mal $\\sqrt{5}$ (por ejemplo, como $1{,}7$) y obtiene $2\\sqrt{5}\\approx3{,}4$. La D opera los radicandos como si $\\sqrt{45}-\\sqrt{20}+\\sqrt{5}=\\sqrt{45-20+5}=\\sqrt{30}\\approx5{,}5$.",
     "verify": "const p = Math.sqrt(45) - Math.sqrt(20) + Math.sqrt(5);\nconst n = Math.floor(p); const map = {2:'A',3:'B',4:'C',5:'D'};\nreturn map[n] ?? null;"
   },
   {
@@ -92,7 +92,7 @@
       "D": "$540\\,800$ pesos"
     },
     "correct": "C",
-    "explanation": "$C(2)=500\\,000\\cdot(1{,}02)^2=500\\,000\\cdot1{,}0404=520\\,200$ pesos.\nA es el monto al cabo de un solo mes. B corresponde a interés simple ($2\\%$ de $500\\,000$ dos veces, sin interés sobre el interés).\nD resulta de usar una tasa del $4\\%$ en cada uno de los dos meses: $500\\,000\\cdot(1{,}04)^2$.",
+    "explanation": "Idea clave: con interés compuesto se reemplaza $n$ en el modelo; el interés de cada mes se calcula sobre el monto ya acumulado.\nPaso 1: $C(2)=500\\,000\\cdot(1{,}02)^2$.\nPaso 2: $(1{,}02)^2=1{,}0404$, así que $C(2)=500\\,000\\cdot1{,}0404=520\\,200$ pesos.\nRespuesta: C, $520\\,200$ pesos.\nErrores frecuentes: La A es el monto al cabo de un solo mes. La B usa interés simple: suma dos veces el $2\\%$ de $500\\,000$, sin interés sobre el interés. La D usa una tasa del $4\\%$ en cada mes: $500\\,000\\cdot(1{,}04)^2$.",
     "verify": "let c = 500000; for (let m = 0; m < 2; m++) c = c * 1.02;\nconst alts = {A:510000,B:520000,C:520200,D:540800};\nconst k = Object.keys(alts).find(l => Math.abs(alts[l]-c) < 1e-6); return k ?? null;"
   },
   {
@@ -111,7 +111,7 @@
       "D": "$2\\,420\\,000$ pesos"
     },
     "correct": "B",
-    "explanation": "La deuda al cabo de $2$ años es $2\\,000\\,000\\cdot(1{,}1)^2=2\\,000\\,000\\cdot1{,}21=2\\,420\\,000$ pesos.\nLos intereses son la diferencia con el capital pedido: $2\\,420\\,000-2\\,000\\,000=420\\,000$ pesos.\nA corresponde a interés simple ($10\\%$ de $2\\,000\\,000$ por $2$ años). D es el monto total de la cuota, no los intereses, y C es el total calculado con interés simple.",
+    "explanation": "Idea clave: los intereses son la diferencia entre lo que se paga al final y el capital pedido.\nPaso 1: con interés compuesto, la deuda a los $2$ años es $2\\,000\\,000\\cdot(1{,}1)^2=2\\,000\\,000\\cdot1{,}21=2\\,420\\,000$ pesos.\nPaso 2: los intereses son $2\\,420\\,000-2\\,000\\,000=420\\,000$ pesos.\nRespuesta: B, $420\\,000$ pesos.\nErrores frecuentes: La A usa interés simple ($10\\%$ de $2\\,000\\,000$ por $2$ años). La C es el total a pagar calculado con interés simple. La D es el monto total de la cuota, no solo los intereses.",
     "verify": "const total = 2000000 * Math.pow(1.1, 2); const interes = total - 2000000;\nconst alts = {A:400000,B:420000,C:2400000,D:2420000};\nreturn Object.keys(alts).find(l => Math.abs(alts[l]-interes) < 1e-6) ?? null;"
   },
   {
@@ -130,7 +130,7 @@
       "D": "$8\\,000\\,000\\cdot(1{,}4)^t$"
     },
     "correct": "A",
-    "explanation": "Cada año el saldo se multiplica por $1+\\frac{4}{100}=1{,}04$, de modo que tras $t$ años queda $8\\,000\\,000\\cdot(1{,}04)^t$.\nB modela un interés simple: la ganancia no se suma al saldo para el año siguiente.\nC multiplica solo por la tasa, lo que haría disminuir el saldo. D confunde $4\\%$ con $0{,}4$, es decir, usa un $40\\%$ anual.",
+    "explanation": "Idea clave: si cada año la rentabilidad se capitaliza, el saldo se multiplica año a año por el mismo factor $1+\\frac{4}{100}$.\nPaso 1: un aumento del $4\\%$ equivale a multiplicar por $1{,}04$.\nPaso 2: tras $t$ años el saldo se multiplicó $t$ veces por $1{,}04$: $8\\,000\\,000\\cdot(1{,}04)^t$.\nRespuesta: A, $8\\,000\\,000\\cdot(1{,}04)^t$.\nErrores frecuentes: La B modela un interés simple, donde la ganancia no se suma al saldo para el año siguiente. La C multiplica solo por la tasa, lo que haría que el saldo disminuyera. La D confunde $4\\%$ con $0{,}4$, es decir, usa un $40\\%$ anual.",
     "verify": "const t = 3; let s = 8000000; for (let i = 0; i < t; i++) s += s * 0.04;\nconst f = { A: x => 8000000*Math.pow(1.04,x), B: x => 8000000*(1+0.04*x), C: x => 8000000*Math.pow(0.04,x), D: x => 8000000*Math.pow(1.4,x) };\nconst ok = Object.keys(f).filter(k => Math.abs(f[k](t)-s) < 1e-6);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -150,7 +150,7 @@
       "E": "Se requiere información adicional"
     },
     "correct": "C",
-    "explanation": "Si $C$ es el capital inicial e $i$ la tasa, el monto al cabo de $n$ años es $C(1+i)^n$.\nCon (1) solo se sabe que $C(1+i)=1\\,050\\,000$; por ejemplo, $C=1\\,000\\,000$ con $i=5\\%$ o $C\\approx954\\,545$ con $i=10\\%$ dan montos distintos a los $3$ años. No basta.\nCon (2) ocurre lo mismo: hay infinitos pares $(C,i)$ con $C(1+i)^2=1\\,102\\,500$.\nJuntas: $1+i=\\frac{1\\,102\\,500}{1\\,050\\,000}=1{,}05$ y el monto a los $3$ años es $1\\,102\\,500\\cdot1{,}05=1\\,157\\,625$ pesos. Se requieren ambas.",
+    "explanation": "Idea clave: el monto a los $n$ años es $C(1+i)^n$, con dos incógnitas ($C$ e $i$); se necesitan dos datos independientes.\nPaso 1: con (1) por sí sola solo se sabe que $C(1+i)=1\\,050\\,000$. Por ejemplo, $C=1\\,000\\,000$ con $i=5\\%$ o $C\\approx954\\,545$ con $i=10\\%$ cumplen la condición y dan montos distintos a los $3$ años. No basta.\nPaso 2: con (2) por sí sola ocurre lo mismo: hay infinitos pares $(C,i)$ con $C(1+i)^2=1\\,102\\,500$. No basta.\nPaso 3: juntas: $1+i=\\frac{1\\,102\\,500}{1\\,050\\,000}=1{,}05$, y el monto a los $3$ años es $1\\,102\\,500\\cdot1{,}05=1\\,157\\,625$ pesos.\nRespuesta: C, ambas juntas, (1) y (2).\nErrores frecuentes: La A y la B suponen que un solo monto basta, pero sin la tasa no se puede proyectar al tercer año. La D es incorrecta porque ninguna sirve por sí sola. La E es incorrecta porque juntas sí determinan la tasa y, con ella, el monto.",
     "verify": "const m3 = (C,i) => C*Math.pow(1+i,3);\nconst a1 = m3(1050000/1.05, 0.05), b1 = m3(1050000/1.10, 0.10);\nconst a2 = m3(1102500/Math.pow(1.05,2), 0.05), b2 = m3(1102500/Math.pow(1.10,2), 0.10);\nconst only1 = Math.abs(a1-b1) < 1e-6, only2 = Math.abs(a2-b2) < 1e-6;\nconst f = 1102500/1050000; const both = 1102500*f;\nif (!only1 && !only2 && Math.abs(both-1157625) < 1e-6) return 'C'; return null;"
   },
   {
@@ -169,7 +169,7 @@
       "D": "Diego se equivoca: la deuda llegará a aproximadamente $1\\,012\\,680$ pesos, porque la tasa anual equivalente es $1{,}268\\%$."
     },
     "correct": "A",
-    "explanation": "Con interés compuesto, la deuda tras $12$ meses es $1\\,000\\,000\\cdot(1{,}01)^{12}\\approx1\\,000\\,000\\cdot1{,}1268=1\\,126\\,800$ pesos.\nLa tasa anual equivalente es cercana a $12{,}68\\%$, mayor que $12\\%$, porque cada mes el $1\\%$ se aplica sobre un saldo que ya incluye intereses.\nB es el error de sumar tasas compuestas, que solo sería válido con interés simple. C invierte el efecto de la capitalización: la tasa equivalente es mayor, no menor.\nD lee mal el factor $1{,}1268$ como si fuera un porcentaje.",
+    "explanation": "Idea clave: con interés compuesto las tasas no se suman; se multiplican los factores, y cada mes se cobra interés sobre los intereses anteriores.\nPaso 1: la deuda tras $12$ meses es $1\\,000\\,000\\cdot(1{,}01)^{12}\\approx1\\,000\\,000\\cdot1{,}1268=1\\,126\\,800$ pesos.\nPaso 2: la tasa anual equivalente es cercana a $12{,}68\\%$, mayor que $12\\%$, porque cada mes el $1\\%$ se aplica sobre un saldo que ya incluye intereses.\nRespuesta: A, Diego se equivoca: la deuda llegará a aproximadamente $1\\,126\\,800$ pesos.\nErrores frecuentes: La B suma las tasas, lo que solo sería válido con interés simple. La C invierte el efecto de la capitalización: la tasa equivalente es mayor que $12\\%$, no menor. La D lee mal el factor $1{,}1268$, como si fuera un porcentaje de $1{,}268\\%$.",
     "verify": "let d = 1000000; for (let m = 0; m < 12; m++) d *= 1.01;\nconst approx = 1000000*1.1268;\nconst ok = Math.abs(d - approx) < 100 && d > 1120000;\nreturn ok ? 'A' : null;"
   },
   {
@@ -188,7 +188,7 @@
       "D": "$6{,}9$"
     },
     "correct": "D",
-    "explanation": "Si $A_2=500A_1$, entonces $M_2=\\log\\left(\\frac{500A_1}{A_0}\\right)=\\log 500+M_1$.\nComo $\\log 500=\\log 5+\\log 100\\approx0{,}7+2=2{,}7$, se obtiene $M_2\\approx4{,}2+2{,}7=6{,}9$.\nA suma solo $\\log 5$, olvidando el factor $100$. B calcula $\\log 500$ como $2\\log 5$. C suma $2$, es decir, usa $\\log 100$ en lugar de $\\log 500$.",
+    "explanation": "Idea clave: multiplicar la amplitud por $k$ suma $\\log k$ a la magnitud, porque el logaritmo de un producto es la suma de los logaritmos.\nPaso 1: si $A_2=500A_1$, entonces $M_2=\\log\\left(\\frac{500A_1}{A_0}\\right)=\\log 500+M_1$.\nPaso 2: $\\log 500=\\log 5+\\log 100\\approx0{,}7+2=2{,}7$.\nPaso 3: $M_2\\approx4{,}2+2{,}7=6{,}9$.\nRespuesta: D, la magnitud es aproximadamente $6{,}9$.\nErrores frecuentes: La A suma solo $\\log 5$, olvidando el factor $100$. La B calcula $\\log 500$ como $2\\log 5=1{,}4$. La C suma solo $2$, es decir, usa $\\log 100$ en vez de $\\log 500$.",
     "verify": "const log5 = 0.7; const m2 = 4.2 + log5 + 2;\nconst exact = 4.2 + Math.log10(500);\nconst alts = {A:4.9,B:5.6,C:6.2,D:6.9};\nif (Math.abs(exact - m2) > 0.05) return null;\nreturn Object.keys(alts).find(k => Math.abs(alts[k]-m2) < 1e-9) ?? null;"
   },
   {
@@ -207,7 +207,7 @@
       "D": "$8{,}4$"
     },
     "correct": "B",
-    "explanation": "Si $\\left[\\text{H}^+\\right]_Q=\\frac{1}{5}\\left[\\text{H}^+\\right]_P$, entonces $\\text{pH}_Q=-\\log\\left[\\text{H}^+\\right]_P+\\log 5=3{,}4+\\log 5$.\nComo $\\log 5=\\log\\frac{10}{2}=1-\\log 2\\approx0{,}70$, se obtiene $\\text{pH}_Q\\approx4{,}1$.\nA resta $\\log 5$ (error de signo: una menor concentración implica un pH mayor). C suma $1$, como si la concentración fuera diez veces menor. D suma directamente $5$.",
+    "explanation": "Idea clave: dividir la concentración por $5$ suma $\\log 5$ al pH, porque $-\\log\\frac{x}{5}=-\\log x+\\log 5$; menos concentración implica un pH mayor.\nPaso 1: si $\\left[\\text{H}^+\\right]_Q=\\frac{1}{5}\\left[\\text{H}^+\\right]_P$, entonces $\\text{pH}_Q=-\\log\\left[\\text{H}^+\\right]_P+\\log 5=3{,}4+\\log 5$.\nPaso 2: $\\log 5=\\log\\frac{10}{2}=1-\\log 2\\approx0{,}70$.\nPaso 3: $\\text{pH}_Q\\approx3{,}4+0{,}7=4{,}1$.\nRespuesta: B, el pH de Q es aproximadamente $4{,}1$.\nErrores frecuentes: La A resta $\\log 5$ (error de signo). La C suma $1$, como si la concentración fuera diez veces menor. La D suma directamente $5$ en vez de $\\log 5$.",
     "verify": "const log5 = 1 - 0.30; const phQ = 3.4 + log5;\nconst exact = -Math.log10(Math.pow(10,-3.4)/5);\nif (Math.abs(exact - phQ) > 0.02) return null;\nconst alts = {A:2.7,B:4.1,C:4.4,D:8.4};\nreturn Object.keys(alts).find(k => Math.abs(alts[k]-phQ) < 1e-9) ?? null;"
   },
   {
@@ -227,7 +227,7 @@
       "E": "Se requiere información adicional"
     },
     "correct": "A",
-    "explanation": "Con (1): por cambio de base, $\\log_a b=\\frac{1}{\\log_b a}=2$. Es suficiente (por ejemplo, $a=2$, $b=4$).\nCon (2): hay varios pares posibles. Si $a=2$ y $b=4$, $\\log_a b=2$; si $a=4$ y $b=2$, $\\log_a b=\\frac{1}{2}$. No basta.\nPor lo tanto, (1) por sí sola es suficiente y (2) por sí sola no lo es.",
+    "explanation": "Idea clave: por cambio de base, $\\log_a b=\\dfrac{1}{\\log_b a}$; conocer uno de ellos determina el otro.\nPaso 1: con (1) por sí sola: $\\log_a b=\\frac{1}{\\frac{1}{2}}=2$. Es suficiente (por ejemplo, $a=2$, $b=4$).\nPaso 2: con (2) por sí sola hay varios pares posibles: si $a=2$ y $b=4$, $\\log_a b=2$; si $a=4$ y $b=2$, $\\log_a b=\\frac{1}{2}$. No basta.\nPaso 3: como (1) sola ya basta, no hace falta juntarlas.\nRespuesta: A, (1) por sí sola.\nErrores frecuentes: La B y la D suponen que el producto $a\\cdot b=8$ determina el logaritmo, pero distintos pares dan valores distintos. La C pide ambas, aunque (1) basta sola. La E es incorrecta porque (1) ya entrega el valor.",
     "verify": "const lg = (base, x) => Math.log(x)/Math.log(base);\nconst c1 = [[2,4],[9,81],[5,25]].map(([a,b]) => lg(a,b));\nconst ok1 = c1.every(v => Math.abs(v - 1/0.5) < 1e-9) && [[2,4],[9,81],[5,25]].every(([a,b]) => Math.abs(lg(b,a)-0.5) < 1e-9);\nconst c2 = [[2,4],[4,2]].map(([a,b]) => lg(a,b));\nconst ok2 = Math.abs(c2[0]-c2[1]) < 1e-9;\nif (ok1 && !ok2) return 'A'; return null;"
   },
   {
@@ -246,7 +246,7 @@
       "D": "$\\log 0{,}3=-q$"
     },
     "correct": "A",
-    "explanation": "A: $\\log 1{,}2=\\log\\frac{12}{10}=\\log(2^2\\cdot3)-\\log 10=2p+q-1$. Es verdadera.\nB: $\\log 6=\\log 2+\\log 3=p+q$, no $p\\cdot q$ (confunde el logaritmo del producto con el producto de logaritmos).\nC: $\\log 1{,}5=\\log\\frac{3}{2}=q-p$, no $\\frac{q}{p}$.\nD: $\\log 0{,}3=\\log\\frac{3}{10}=q-1$, no $-q$.",
+    "explanation": "Idea clave: se descompone cada número en factores $2$, $3$ y $10$, y se usan $\\log(xy)=\\log x+\\log y$ y $\\log\\frac{x}{y}=\\log x-\\log y$.\nPaso 1: A: $\\log 1{,}2=\\log\\frac{12}{10}=\\log(2^2\\cdot3)-\\log 10=2p+q-1$. Es verdadera.\nPaso 2: B: $\\log 6=\\log 2+\\log 3=p+q$. C: $\\log 1{,}5=\\log\\frac{3}{2}=q-p$. D: $\\log 0{,}3=\\log\\frac{3}{10}=q-1$.\nRespuesta: A, $\\log 1{,}2=2p+q-1$.\nErrores frecuentes: La B confunde el logaritmo de un producto con el producto de los logaritmos ($p+q$, no $p\\cdot q$). La C confunde el logaritmo de un cociente con el cociente de los logaritmos ($q-p$, no $\\frac{q}{p}$). La D olvida el $\\log 10$: $\\log 0{,}3=q-1$, no $-q$.",
     "verify": "const p = Math.log10(2), q = Math.log10(3);\nconst t = { A: Math.abs(Math.log10(1.2)-(2*p+q-1)) < 1e-9, B: Math.abs(Math.log10(6)-p*q) < 1e-9, C: Math.abs(Math.log10(1.5)-q/p) < 1e-9, D: Math.abs(Math.log10(0.3)+q) < 1e-9 };\nconst ok = Object.keys(t).filter(k => t[k]);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -265,7 +265,7 @@
       "D": "$10a$"
     },
     "correct": "C",
-    "explanation": "Por propiedades de potencias de igual base: $2^{x+3}=2^{x}\\cdot2^{3}=8a$ y $2^{x-1}=2^{x}\\cdot2^{-1}=\\dfrac{a}{2}$.\nLuego $2^{x+3}+2^{x-1}=8a+\\dfrac{a}{2}=\\dfrac{17a}{2}$.\n$10a$ resulta de tomar $2^{-1}$ como $2$; $6a$ de tomar $2^{-1}$ como $-2$.\n$\\dfrac{13a}{2}$ aparece al confundir $2^{3}$ con $2\\cdot3=6$.",
+    "explanation": "Idea clave: se separa cada potencia como producto de igual base, $2^{x+k}=2^{x}\\cdot2^{k}$, para escribir todo en función de $a$.\nPaso 1: $2^{x+3}=2^{x}\\cdot2^{3}=8a$.\nPaso 2: $2^{x-1}=2^{x}\\cdot2^{-1}=\\dfrac{a}{2}$.\nPaso 3: $8a+\\dfrac{a}{2}=\\dfrac{17a}{2}$.\nRespuesta: C, $\\dfrac{17a}{2}$.\nErrores frecuentes: La A toma $2^{-1}$ como $-2$: $8a-2a=6a$. La B confunde $2^{3}$ con $2\\cdot3=6$: $6a+\\frac{a}{2}=\\frac{13a}{2}$. La D toma $2^{-1}$ como $2$: $8a+2a=10a$.",
     "verify": "const x = 1.7, a = 2 ** x;\nconst val = 2 ** (x + 3) + 2 ** (x - 1);\nconst alts = { A: 6 * a, B: 13 * a / 2, C: 17 * a / 2, D: 10 * a };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - val) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -284,7 +284,7 @@
       "D": "$2{,}56\\cdot10^{18}$"
     },
     "correct": "B",
-    "explanation": "El archivo tiene $100\\cdot10^{9}=10^{11}$ bytes, es decir, $8\\cdot10^{11}$ bits.\nEl tiempo es $\\dfrac{8\\cdot10^{11}}{3{,}2\\cdot10^{6}}=2{,}5\\cdot10^{5}$ segundos.\n$3{,}125\\cdot10^{4}$ se obtiene al olvidar convertir bytes a bits.\n$2{,}5\\cdot10^{6}$ proviene de un error al restar los exponentes, y $2{,}56\\cdot10^{18}$ de multiplicar en lugar de dividir.",
+    "explanation": "Idea clave: tiempo = tamaño del archivo ÷ tasa de transmisión, con ambos en la misma unidad (bits).\nPaso 1: el archivo tiene $100\\cdot10^{9}=10^{11}$ bytes, es decir, $8\\cdot10^{11}$ bits.\nPaso 2: $\\dfrac{8\\cdot10^{11}}{3{,}2\\cdot10^{6}}=2{,}5\\cdot10^{11-6}=2{,}5\\cdot10^{5}$ segundos.\nRespuesta: B, $2{,}5\\cdot10^{5}$ segundos.\nErrores frecuentes: La A olvida convertir bytes a bits: $\\frac{10^{11}}{3{,}2\\cdot10^{6}}=3{,}125\\cdot10^{4}$. La C se equivoca en un orden de magnitud al restar los exponentes. La D multiplica en vez de dividir: $8\\cdot10^{11}\\cdot3{,}2\\cdot10^{6}=2{,}56\\cdot10^{18}$.",
     "verify": "const bits = 100 * 1e9 * 8;\nconst t = bits / 3.2e6;\nconst alts = { A: 3.125e4, B: 2.5e5, C: 2.5e6, D: 2.56e18 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - t) / t < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -303,7 +303,7 @@
       "D": "$\\sqrt{4^{n}+4^{n}}=2^{n+1}$"
     },
     "correct": "A",
-    "explanation": "A: $3^{n+2}-3^{n}=3^{n}(9-1)=8\\cdot3^{n}$, por lo que el cociente es $3^{n}$ para todo $n$.\nB: $\\left(2^{n}\\right)^{2}=2^{2n}$, que coincide con $2^{n^{2}}$ solo si $n=2$ (con $n=3$: $64\\neq512$).\nC: $5^{n}+5^{n}=2\\cdot5^{n}$, que no es $10^{n}$ salvo $n=1$.\nD: $\\sqrt{2\\cdot4^{n}}=2^{n}\\sqrt{2}$, no $2^{n+1}$: se sumaron mal los términos bajo la raíz.",
+    "explanation": "Idea clave: para que una igualdad valga para todo $n$, hay que demostrarla con propiedades; basta un contraejemplo para descartarla.\nPaso 1: A: $3^{n+2}-3^{n}=3^{n}(9-1)=8\\cdot3^{n}$, así que el cociente es $3^{n}$ para todo $n$.\nPaso 2: B: $\\left(2^{n}\\right)^{2}=2^{2n}$; con $n=3$ se obtiene $2^{6}=64$, mientras que $2^{9}=512$.\nPaso 3: C: $5^{n}+5^{n}=2\\cdot5^{n}$, que no es $10^{n}$ salvo con $n=1$. D: $\\sqrt{4^{n}+4^{n}}=\\sqrt{2\\cdot4^{n}}=2^{n}\\sqrt{2}$, no $2^{n+1}$.\nRespuesta: A, $\\dfrac{3^{n+2}-3^{n}}{8}=3^{n}$.\nErrores frecuentes: La B confunde potencia de potencia ($2^{2n}$) con elevar el exponente al cuadrado ($2^{n^{2}}$). La C suma las bases, cuando sumar dos términos iguales solo duplica: $2\\cdot5^{n}$. La D suma mal los términos bajo la raíz, como si $4^{n}+4^{n}=4^{n+1}$.",
     "verify": "const st = {\n  A: n => Math.abs((3 ** (n + 2) - 3 ** n) / 8 - 3 ** n) < 1e-9,\n  B: n => (2 ** n) ** 2 === 2 ** (n * n),\n  C: n => 5 ** n + 5 ** n === 10 ** n,\n  D: n => Math.abs(Math.sqrt(4 ** n + 4 ** n) - 2 ** (n + 1)) < 1e-9,\n};\nconst ok = Object.keys(st).filter(k => [1, 2, 3, 4, 5, 6].every(n => st[k](n)));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -322,7 +322,7 @@
       "D": "En un $120\\%$"
     },
     "correct": "A",
-    "explanation": "Si la nueva longitud de onda es $1{,}44\\lambda$, la nueva rapidez es $\\sqrt{\\dfrac{g\\cdot1{,}44\\lambda}{2\\pi}}=\\sqrt{1{,}44}\\cdot v=1{,}2v$.\nEs decir, la rapidez aumenta en un $20\\%$.\n$22\\%$ resulta de dividir el porcentaje por $2$ en vez de aplicar la raíz al factor; $44\\%$ supone proporcionalidad directa.\n$120\\%$ confunde el factor $1{,}2$ con el porcentaje de aumento.",
+    "explanation": "Idea clave: si la rapidez depende de la raíz de $\\lambda$, el factor de cambio de $\\lambda$ también queda bajo la raíz.\nPaso 1: aumentar $\\lambda$ en un $44\\%$ es multiplicarla por $1{,}44$.\nPaso 2: la nueva rapidez es $\\sqrt{\\dfrac{g\\cdot1{,}44\\lambda}{2\\pi}}=\\sqrt{1{,}44}\\cdot v=1{,}2v$.\nPaso 3: multiplicar por $1{,}2$ es aumentar en un $20\\%$.\nRespuesta: A, la rapidez aumenta en un $20\\%$.\nErrores frecuentes: La B divide el porcentaje por $2$ en vez de aplicar la raíz al factor. La C supone que la rapidez es directamente proporcional a $\\lambda$. La D confunde el factor $1{,}2$ con el porcentaje de aumento.",
     "verify": "const g = 9.8, lam = 50;\nconst v = l => Math.sqrt(g * l / (2 * Math.PI));\nconst pct = (v(1.44 * lam) / v(lam) - 1) * 100;\nconst alts = { A: 20, B: 22, C: 44, D: 120 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - pct) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -341,7 +341,7 @@
       "D": "$a^{3}$"
     },
     "correct": "C",
-    "explanation": "Escribiendo cada raíz como potencia: $a^{\\frac{4}{3}}\\cdot a^{\\frac{3}{2}}\\cdot a^{-\\frac{1}{6}}=a^{\\frac{8}{6}+\\frac{9}{6}-\\frac{1}{6}}=a^{\\frac{16}{6}}=a^{\\frac{8}{3}}$.\nComo $\\frac{8}{3}=2+\\frac{2}{3}$, se tiene $a^{\\frac{8}{3}}=a^{2}\\sqrt[3]{a^{2}}$.\n$a\\sqrt[3]{a}=a^{\\frac{4}{3}}$ considera solo el primer factor; $a^{2}\\sqrt[3]{a}=a^{\\frac{7}{3}}$ surge de un error al sumar fracciones.\n$a^{3}$ resulta de sumar el exponente $\\frac{1}{6}$ en lugar de restarlo.",
+    "explanation": "Idea clave: se escriben las raíces como potencias de exponente fraccionario y se operan los exponentes.\nPaso 1: $\\sqrt[3]{a^{4}}=a^{\\frac{4}{3}}$, $\\sqrt{a^{3}}=a^{\\frac{3}{2}}$ y $\\dfrac{1}{\\sqrt[6]{a}}=a^{-\\frac{1}{6}}$.\nPaso 2: $a^{\\frac{8}{6}+\\frac{9}{6}-\\frac{1}{6}}=a^{\\frac{16}{6}}=a^{\\frac{8}{3}}$.\nPaso 3: como $\\frac{8}{3}=2+\\frac{2}{3}$, se tiene $a^{\\frac{8}{3}}=a^{2}\\sqrt[3]{a^{2}}$.\nRespuesta: C, $a^{2}\\sqrt[3]{a^{2}}$.\nErrores frecuentes: La A equivale a $a^{\\frac{4}{3}}$ y considera solo el primer factor. La B equivale a $a^{\\frac{7}{3}}$ y surge de un error al sumar las fracciones. La D suma el exponente $\\frac{1}{6}$ en vez de restarlo: $\\frac{8+9+1}{6}=3$.",
     "verify": "const a = 2.3;\nconst val = Math.cbrt(a ** 4) * Math.sqrt(a ** 3) / a ** (1 / 6);\nconst alts = { A: a * Math.cbrt(a), B: a * a * Math.cbrt(a), C: a * a * Math.cbrt(a * a), D: a ** 3 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - val) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -360,7 +360,7 @@
       "D": "$m^{\\frac{5}{4}}$"
     },
     "correct": "B",
-    "explanation": "El cubo de la raíz cuarta de $m$ es $\\left(\\sqrt[4]{m}\\right)^{3}=m^{\\frac{3}{4}}$ y la raíz cuadrada es $m^{\\frac{1}{2}}$.\nEl cociente es $m^{\\frac{3}{4}-\\frac{1}{2}}=m^{\\frac{1}{4}}$.\n$m^{-\\frac{1}{4}}$ invierte el orden de la resta; $m^{\\frac{5}{4}}$ suma los exponentes como si fuera un producto.\n$m^{\\frac{3}{8}}$ multiplica los exponentes, confundiendo división con potencia de potencia.",
+    "explanation": "Idea clave: se traduce cada parte a potencia de exponente fraccionario y, al dividir potencias de igual base, se restan los exponentes.\nPaso 1: el cubo de la raíz cuarta es $\\left(\\sqrt[4]{m}\\right)^{3}=m^{\\frac{3}{4}}$ y la raíz cuadrada es $m^{\\frac{1}{2}}$.\nPaso 2: $m^{\\frac{3}{4}-\\frac{1}{2}}=m^{\\frac{1}{4}}$.\nRespuesta: B, $m^{\\frac{1}{4}}$.\nErrores frecuentes: La A invierte el orden de la resta: $\\frac{1}{2}-\\frac{3}{4}=-\\frac{1}{4}$. La C multiplica los exponentes, confundiendo la división con potencia de potencia. La D suma los exponentes, como si fuera un producto.",
     "verify": "const m = 7.5;\nconst val = Math.pow(Math.pow(m, 1 / 4), 3) / Math.sqrt(m);\nconst alts = { A: m ** (-1 / 4), B: m ** (1 / 4), C: m ** (3 / 8), D: m ** (5 / 4) };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - val) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -379,7 +379,7 @@
       "D": "$65\\%$"
     },
     "correct": "A",
-    "explanation": "Si hay $N$ estudiantes, participan $0{,}25\\cdot0{,}6N+0{,}4\\cdot0{,}4N=0{,}15N+0{,}16N=0{,}31N$, es decir, el $31\\%$.\n$32{,}5\\%$ es el promedio simple de $25\\%$ y $40\\%$, sin ponderar por la cantidad de mujeres y hombres.\n$34\\%$ resulta de intercambiar los porcentajes de mujeres y hombres.\n$65\\%$ suma directamente $25\\%$ y $40\\%$.",
+    "explanation": "Idea clave: el porcentaje total es un promedio ponderado: cada porcentaje pesa según la proporción de mujeres y hombres.\nPaso 1: si hay $N$ estudiantes, hay $0{,}6N$ mujeres y $0{,}4N$ hombres.\nPaso 2: participan $0{,}25\\cdot0{,}6N+0{,}4\\cdot0{,}4N=0{,}15N+0{,}16N=0{,}31N$.\nRespuesta: A, el $31\\%$.\nErrores frecuentes: La B es el promedio simple de $25\\%$ y $40\\%$, sin ponderar. La C intercambia los porcentajes de mujeres y hombres: $0{,}4\\cdot0{,}6+0{,}25\\cdot0{,}4=0{,}34$. La D suma directamente $25\\%$ y $40\\%$.",
     "verify": "const N = 1000;\nconst p = (0.25 * 0.6 * N + 0.4 * 0.4 * N) / N * 100;\nconst alts = { A: 31, B: 32.5, C: 34, D: 65 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - p) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -398,7 +398,7 @@
       "D": "$a-b-\\dfrac{ab}{100}$"
     },
     "correct": "D",
-    "explanation": "Si el precio original es $P$, el precio final es $P\\left(1+\\dfrac{a}{100}\\right)\\left(1-\\dfrac{b}{100}\\right)=P\\left(1+\\dfrac{a-b}{100}-\\dfrac{ab}{10\\,000}\\right)$.\nLa variación porcentual es $100\\cdot\\left(\\dfrac{a-b}{100}-\\dfrac{ab}{10\\,000}\\right)=a-b-\\dfrac{ab}{100}$.\n$a-b$ supone que los porcentajes se restan directamente; $a-b+\\dfrac{ab}{100}$ tiene un error de signo al desarrollar el producto.\n$\\dfrac{(100+a)(100-b)}{100}$ es el precio final como porcentaje del original, no la variación.",
+    "explanation": "Idea clave: aumentos y descuentos sucesivos se aplican multiplicando factores, no sumando ni restando porcentajes.\nPaso 1: si el precio original es $P$, el final es $P\\left(1+\\dfrac{a}{100}\\right)\\left(1-\\dfrac{b}{100}\\right)=P\\left(1+\\dfrac{a-b}{100}-\\dfrac{ab}{10\\,000}\\right)$.\nPaso 2: la variación porcentual es $100\\cdot\\left(\\dfrac{a-b}{100}-\\dfrac{ab}{10\\,000}\\right)=a-b-\\dfrac{ab}{100}$.\nRespuesta: D, $a-b-\\dfrac{ab}{100}$.\nErrores frecuentes: La A resta los porcentajes directamente, ignorando que el descuento se aplica sobre el precio ya aumentado. La B comete un error de signo al desarrollar el producto. La C es el precio final como porcentaje del original, no la variación.",
     "verify": "const tests = [[30, 10], [20, 25], [15, 40]];\nconst alts = { A: (a, b) => a - b, B: (a, b) => a - b + a * b / 100, C: (a, b) => (100 + a) * (100 - b) / 100, D: (a, b) => a - b - a * b / 100 };\nconst ok = Object.keys(alts).filter(k => tests.every(([a, b]) => { const P = 1000; const fin = P * (1 + a / 100) * (1 - b / 100); return Math.abs((fin - P) / P * 100 - alts[k](a, b)) < 1e-9; }));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -417,7 +417,7 @@
       "D": "$q=\\dfrac{100p}{100+p}$"
     },
     "correct": "D",
-    "explanation": "Si la cantidad inicial es $S$, tras el aumento es $S\\left(1+\\frac{p}{100}\\right)$. Se requiere $S\\left(1+\\frac{p}{100}\\right)\\left(1-\\frac{q}{100}\\right)=S$.\nDespejando: $1-\\dfrac{q}{100}=\\dfrac{100}{100+p}$, luego $q=\\dfrac{100p}{100+p}$.\nComo $100+p>100$, se cumple $q<p$, por lo que A y B son falsas (por ejemplo, con $p=25$ se obtiene $q=20$).\nC usa $100-p$ en el denominador, que corresponde al caso inverso: una disminución seguida de un aumento.",
+    "explanation": "Idea clave: el porcentaje de disminución se calcula sobre la cantidad aumentada, que es mayor, por eso $q$ resulta menor que $p$.\nPaso 1: si la cantidad inicial es $S$, se requiere $S\\left(1+\\frac{p}{100}\\right)\\left(1-\\frac{q}{100}\\right)=S$.\nPaso 2: $1-\\dfrac{q}{100}=\\dfrac{100}{100+p}$, luego $q=\\dfrac{100p}{100+p}$.\nPaso 3: como $100+p>100$, se cumple $q<p$ (por ejemplo, con $p=25$ se obtiene $q=20$).\nRespuesta: D, $q=\\dfrac{100p}{100+p}$.\nErrores frecuentes: La A supone que se baja el mismo porcentaje que se subió, pero la base cambió. La B invierte la relación: en realidad $q<p$. La C usa $100-p$ en el denominador, que corresponde al caso inverso: una disminución seguida de un aumento.",
     "verify": "const st = {\n  A: (p, q) => Math.abs(q - p) < 1e-9,\n  B: (p, q) => q > p,\n  C: (p, q) => Math.abs(q - 100 * p / (100 - p)) < 1e-9,\n  D: (p, q) => Math.abs(q - 100 * p / (100 + p)) < 1e-9,\n};\nconst ps = [5, 25, 50, 80];\nconst qOf = p => (1 - 1 / (1 + p / 100)) * 100;\nconst ok = Object.keys(st).filter(k => ps.every(p => st[k](p, qOf(p))));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -436,7 +436,7 @@
       "D": "$256$"
     },
     "correct": "A",
-    "explanation": "El total de habilitados es $\\dfrac{480}{0{,}75}=640$, por lo que no votaron $640-480=160$.\nDe ellos, el $60\\%$ no tenía licencia: $0{,}6\\cdot160=96$.\n$120$ resulta de calcular el $25\\%$ de $480$ en lugar del $25\\%$ del total.\n$160$ es el total que no votó, sin descontar a quienes tenían licencia, y $256$ es el $40\\%$ de $640$.",
+    "explanation": "Idea clave: primero se recupera el total desde la parte conocida y luego se aplican los porcentajes sobre el grupo correcto.\nPaso 1: el total de habilitados es $\\dfrac{480}{0{,}75}=640$.\nPaso 2: no votaron $640-480=160$ estudiantes.\nPaso 3: de ellos, el $60\\%$ no tenía licencia: $0{,}6\\cdot160=96$.\nRespuesta: A, $96$ estudiantes.\nErrores frecuentes: La B calcula el $25\\%$ de $480$ en vez del $25\\%$ del total. La C es el total que no votó, sin descontar a quienes tenían licencia. La D es el $40\\%$ de $640$, aplicado al total en lugar de a quienes no votaron.",
     "verify": "const total = 480 / 0.75;\nconst noVot = total - 480;\nconst res = noVot * 0.6;\nconst alts = { A: 96, B: 120, C: 160, D: 256 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - res) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -455,7 +455,7 @@
       "D": "$15$"
     },
     "correct": "C",
-    "explanation": "Los buses coinciden cada $\\text{mcm}(12,18)=36$ minutos.\nEntre las 6:00 y las 9:00 hay $180$ minutos, y $180=5\\cdot36$, por lo que coinciden en los minutos $0, 36, 72, 108, 144$ y $180$: son $6$ veces.\n$5$ olvida contar la salida de las 6:00; $4$ usa además un intervalo abierto.\n$15$ corresponde a la cantidad de salidas del recorrido 1 sin contar la inicial ($180:12$).",
+    "explanation": "Idea clave: dos eventos periódicos que parten juntos vuelven a coincidir cada mínimo común múltiplo de sus períodos.\nPaso 1: $\\text{mcm}(12,18)=36$ minutos.\nPaso 2: entre las 6:00 y las 9:00 hay $180$ minutos, y $180=5\\cdot36$.\nPaso 3: coinciden en los minutos $0$, $36$, $72$, $108$, $144$ y $180$, ambos extremos incluidos: son $6$ veces.\nRespuesta: C, $6$ veces.\nErrores frecuentes: La A no cuenta ninguno de los extremos (6:00 ni 9:00). La B olvida contar la salida de las 6:00. La D cuenta las salidas del recorrido 1 sin la inicial ($180:12=15$), no las coincidencias.",
     "verify": "let c = 0;\nfor (let t = 0; t <= 180; t++) if (t % 12 === 0 && t % 18 === 0) c++;\nconst alts = { A: 4, B: 5, C: 6, D: 15 };\nconst ok = Object.keys(alts).filter(k => alts[k] === c);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -474,7 +474,7 @@
       "D": "$a^{2}<ab$"
     },
     "correct": "D",
-    "explanation": "D: como $a>0$, multiplicar $a<b$ por $a$ conserva la desigualdad: $a^{2}<ab$. Es siempre verdadera.\nA: como $0<b<1$, dividir por $b$ agranda: $\\frac{a}{b}>a$. Es falsa.\nB: para positivos, el mayor tiene el menor recíproco: $\\frac{1}{a}>\\frac{1}{b}$. Es falsa.\nC: $b^{2}-a^{2}=(b-a)(b+a)$, que es mayor que $b-a$ solo si $b+a>1$; con $a=\\frac{1}{4}$ y $b=\\frac{1}{2}$ falla.",
+    "explanation": "Idea clave: al multiplicar o dividir una desigualdad por un positivo se conserva el sentido; multiplicar por un número entre $0$ y $1$ achica y dividir por él agranda.\nPaso 1: D: como $a>0$, multiplicar $a<b$ por $a$ conserva la desigualdad: $a^{2}<ab$. Es siempre verdadera.\nPaso 2: A: como $0<b<1$, dividir por $b$ agranda, así que $\\frac{a}{b}>a$. B: entre positivos, el mayor tiene el menor recíproco, así que $\\frac{1}{a}>\\frac{1}{b}$.\nPaso 3: C: $b^{2}-a^{2}=(b-a)(b+a)$, que supera a $b-a$ solo si $b+a>1$; con $a=\\frac{1}{4}$ y $b=\\frac{1}{2}$ falla.\nRespuesta: D, $a^{2}<ab$.\nErrores frecuentes: La A supone que dividir siempre achica, lo que es falso al dividir por un número entre $0$ y $1$. La B invierte la relación entre los recíprocos. La C solo se cumple a veces (cuando $a+b>1$), no siempre.",
     "verify": "const st = { A: (a, b) => a / b < a, B: (a, b) => 1 / a < 1 / b, C: (a, b) => b - a < b * b - a * a, D: (a, b) => a * a < a * b };\nconst pairs = [];\nfor (let i = 1; i < 20; i++) for (let j = i + 1; j < 20; j++) pairs.push([i / 20, j / 20]);\nconst ok = Object.keys(st).filter(k => pairs.every(([a, b]) => st[k](a, b)));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -493,7 +493,7 @@
       "D": "$\\dfrac{5}{2}$"
     },
     "correct": "B",
-    "explanation": "$p=1{,}\\overline{6}=\\dfrac{16-1}{9}=\\dfrac{5}{3}$ y $q=0{,}8\\overline{3}=\\dfrac{83-8}{90}=\\dfrac{75}{90}=\\dfrac{5}{6}$.\nEntonces $\\dfrac{p}{q}=\\dfrac{5}{3}\\cdot\\dfrac{6}{5}=2$ y $\\dfrac{q}{p}=\\dfrac{1}{2}$, por lo que la diferencia es $2-\\dfrac{1}{2}=\\dfrac{3}{2}$.\n$2$ y $\\dfrac{1}{2}$ corresponden a cada cociente por separado.\n$\\dfrac{5}{2}$ resulta de sumar los cocientes en vez de restarlos.",
+    "explanation": "Idea clave: se convierten los decimales periódicos a fracción y luego se opera con fracciones.\nPaso 1: $p=1{,}\\overline{6}=\\dfrac{16-1}{9}=\\dfrac{5}{3}$ y $q=0{,}8\\overline{3}=\\dfrac{83-8}{90}=\\dfrac{75}{90}=\\dfrac{5}{6}$.\nPaso 2: $\\dfrac{p}{q}=\\dfrac{5}{3}\\cdot\\dfrac{6}{5}=2$ y $\\dfrac{q}{p}=\\dfrac{1}{2}$.\nPaso 3: $2-\\dfrac{1}{2}=\\dfrac{3}{2}$.\nRespuesta: B, $\\dfrac{3}{2}$.\nErrores frecuentes: La A es solo el valor de $\\frac{q}{p}$. La C es solo el valor de $\\frac{p}{q}$. La D suma los cocientes en vez de restarlos.",
     "verify": "const p = 5 / 3, qq = 5 / 6;\nif (Math.abs(p - (1 + 6 / 9)) > 1e-12 || Math.abs(qq - (0.8 + 3 / 90)) > 1e-12) return null;\nconst v = p / qq - qq / p;\nconst alts = { A: 1 / 2, B: 3 / 2, C: 2, D: 5 / 2 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -512,7 +512,7 @@
       "D": "$n^{2}-n$"
     },
     "correct": "D",
-    "explanation": "Si $n<0$, entonces $n^{2}>0$ y $-n>0$, por lo que $n^{2}-n$ es suma de dos positivos: siempre es positivo.\nA: el cubo de un negativo es negativo.\nB: $-n^{2}$ es el opuesto de un positivo, luego es negativo (no es lo mismo que $(-n)^{2}$).\nC: $n-n^{2}$ es la suma de dos negativos, $n$ y $-n^{2}$.",
+    "explanation": "Idea clave: con $n<0$, se analiza el signo de cada término: $n^{2}>0$ y $-n>0$.\nPaso 1: D: $n^{2}-n=n^{2}+(-n)$ es la suma de dos positivos, así que siempre es positivo.\nPaso 2: A: el cubo de un negativo es negativo. B: $-n^{2}$ es el opuesto de un positivo, luego es negativo. C: $n-n^{2}$ es la suma de dos negativos, $n$ y $-n^{2}$.\nRespuesta: D, $n^{2}-n$.\nErrores frecuentes: La A olvida que un exponente impar conserva el signo negativo. La B confunde $-n^{2}$ con $(-n)^{2}$: el signo menos no queda elevado al cuadrado. La C resta un positivo a un negativo, lo que da un resultado aún más negativo.",
     "verify": "const st = { A: n => n ** 3 > 0, B: n => -(n ** 2) > 0, C: n => n - n ** 2 > 0, D: n => n ** 2 - n > 0 };\nconst ns = [-1, -2, -3, -7, -20];\nconst ok = Object.keys(st).filter(k => ns.every(n => st[k](n)));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -531,7 +531,7 @@
       "D": "$9\\sqrt{3}$"
     },
     "correct": "C",
-    "explanation": "Como $a^{2}=3$, se tiene $a^{3}=a^{2}\\cdot a=3\\sqrt{3}$ y $a^{5}=a^{2}\\cdot a^{2}\\cdot a=9\\sqrt{3}$.\nLuego, $a^{5}-a^{3}=9\\sqrt{3}-3\\sqrt{3}=6\\sqrt{3}$.\nA resulta de restar los exponentes, como si $a^{5}-a^{3}$ fuera igual a $a^{2}$.\nB corresponde solo al valor de $a^{3}$ y D, solo al valor de $a^{5}$.",
+    "explanation": "Idea clave: como $a^{2}=3$, las potencias de $a=\\sqrt{3}$ se reducen agrupando pares de factores.\nPaso 1: $a^{3}=a^{2}\\cdot a=3\\sqrt{3}$.\nPaso 2: $a^{5}=a^{2}\\cdot a^{2}\\cdot a=9\\sqrt{3}$.\nPaso 3: $a^{5}-a^{3}=9\\sqrt{3}-3\\sqrt{3}=6\\sqrt{3}$.\nRespuesta: C, $6\\sqrt{3}$.\nErrores frecuentes: La A resta los exponentes, como si $a^{5}-a^{3}=a^{2}$. La B es solo el valor de $a^{3}$. La D es solo el valor de $a^{5}$.",
     "verify": "const a = Math.sqrt(3);\nconst v = a ** 5 - a ** 3;\nconst alts = { A: 3, B: 3 * Math.sqrt(3), C: 6 * Math.sqrt(3), D: 9 * Math.sqrt(3) };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -550,7 +550,7 @@
       "D": "$4\\cdot10^{5}$"
     },
     "correct": "B",
-    "explanation": "Se expresa la longitud en metros: $3$ cm $=3\\cdot10^{-2}$ m.\nLa cantidad de glóbulos es $\\dfrac{3\\cdot10^{-2}}{7{,}5\\cdot10^{-6}}=0{,}4\\cdot10^{4}=4\\cdot10^{3}$.\nD se obtiene al no convertir los centímetros a metros ($\\dfrac{3}{7{,}5\\cdot10^{-6}}$).\nA se obtiene al escribir $3$ cm como $3\\cdot10^{-3}$ m.\nC resulta de dividir mal las partes decimales, tomando $\\dfrac{3}{7{,}5}=4$ en lugar de $0{,}4$.",
+    "explanation": "Idea clave: cantidad = largo total ÷ largo de cada glóbulo, con ambas medidas en la misma unidad.\nPaso 1: $3$ cm $=3\\cdot10^{-2}$ m.\nPaso 2: $\\dfrac{3\\cdot10^{-2}}{7{,}5\\cdot10^{-6}}=0{,}4\\cdot10^{4}=4\\cdot10^{3}$.\nRespuesta: B, $4\\cdot10^{3}$ glóbulos rojos.\nErrores frecuentes: La A escribe $3$ cm como $3\\cdot10^{-3}$ m. La C divide mal las partes decimales, tomando $\\frac{3}{7{,}5}=4$ en vez de $0{,}4$. La D no convierte los centímetros a metros: $\\frac{3}{7{,}5\\cdot10^{-6}}=4\\cdot10^{5}$.",
     "verify": "const v = 0.03 / 7.5e-6;\nconst alts = { A: 4e2, B: 4e3, C: 4e4, D: 4e5 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-6);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -569,7 +569,7 @@
       "D": "En el Paso 4"
     },
     "correct": "C",
-    "explanation": "El Paso 1 es correcto: el doble producto es $2\\cdot\\sqrt{5}\\cdot\\sqrt{3}=2\\sqrt{15}$.\nEl Paso 2 también es correcto: es una suma por su diferencia.\nEn el Paso 3 está el error: $\\left(2\\sqrt{15}\\right)^{2}=2^{2}\\cdot\\left(\\sqrt{15}\\right)^{2}=4\\cdot15=60$; Gabriel no elevó al cuadrado el coeficiente $2$.\nEl valor correcto es $64-60=4$. El Paso 4 solo arrastra el valor erróneo, pero la resta en sí está bien hecha.",
+    "explanation": "Idea clave: al elevar al cuadrado un producto, se eleva cada factor: $(2\\sqrt{15})^{2}=2^{2}\\cdot(\\sqrt{15})^{2}$.\nPaso 1: el Paso 1 es correcto: el doble producto es $2\\cdot\\sqrt{5}\\cdot\\sqrt{3}=2\\sqrt{15}$.\nPaso 2: el Paso 2 también es correcto: es una suma por su diferencia.\nPaso 3: en el Paso 3 está el error: $\\left(2\\sqrt{15}\\right)^{2}=4\\cdot15=60$, no $30$. El valor correcto es $64-60=4$.\nRespuesta: C, el primer error está en el Paso 3.\nErrores frecuentes: La A marca el Paso 1, pero el cuadrado de binomio está bien desarrollado. La B marca el Paso 2, que aplica correctamente la suma por su diferencia. La D marca el Paso 4, que solo arrastra el valor erróneo; la resta en sí está bien hecha.",
     "verify": "const r15 = Math.sqrt(15);\nconst p1 = Math.abs((Math.sqrt(5) - Math.sqrt(3)) ** 2 - (8 - 2 * r15)) < 1e-9;\nconst p2 = Math.abs((8 - 2 * r15) * (8 + 2 * r15) - (64 - (2 * r15) ** 2)) < 1e-9;\nconst p3 = Math.abs((2 * r15) ** 2 - 30) < 1e-9;\nconst p4 = 64 - 30 === 34;\nconst i = [p1, p2, p3, p4].indexOf(false);\nreturn i < 0 ? null : 'ABCD'[i];"
   },
   {
@@ -588,7 +588,7 @@
       "D": "$\\dfrac{7}{2}$"
     },
     "correct": "B",
-    "explanation": "Se escribe todo en base $2$: $4^{n+1}=2^{2n+2}$.\nEl numerador es $2^{2n+2}-2^{2n-1}=2^{2n-1}\\left(2^{3}-1\\right)=7\\cdot2^{2n-1}$.\nAl dividir: $\\dfrac{7\\cdot2^{2n-1}}{2^{2n+1}}=7\\cdot2^{-2}=\\dfrac{7}{4}$, que no depende de $n$.\nD se obtiene al dividir por $2^{2n}$ en lugar de $2^{2n+1}$.\nA resulta de tomar $2^{2n-1}$ como si fuera $4^{n}$, y C, de tomarlo como $2^{2n-2}$.",
+    "explanation": "Idea clave: se escribe todo en base $2$ y se factoriza la potencia menor del numerador.\nPaso 1: $4^{n+1}=2^{2n+2}$.\nPaso 2: el numerador es $2^{2n+2}-2^{2n-1}=2^{2n-1}\\left(2^{3}-1\\right)=7\\cdot2^{2n-1}$.\nPaso 3: $\\dfrac{7\\cdot2^{2n-1}}{2^{2n+1}}=7\\cdot2^{-2}=\\dfrac{7}{4}$, que no depende de $n$.\nRespuesta: B, $\\dfrac{7}{4}$.\nErrores frecuentes: La A toma $2^{2n-1}$ como si fuera $4^{n}$. La C lo toma como $2^{2n-2}$. La D divide por $2^{2n}$ en lugar de $2^{2n+1}$.",
     "verify": "const f = n => (4 ** (n + 1) - 2 ** (2 * n - 1)) / 2 ** (2 * n + 1);\nconst vals = [-1, 0, 1, 2, 5].map(f);\nif (!vals.every(x => Math.abs(x - vals[0]) < 1e-9)) return null;\nconst v = vals[0];\nconst alts = { A: 3 / 2, B: 7 / 4, C: 15 / 8, D: 7 / 2 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -607,7 +607,7 @@
       "D": "$729$"
     },
     "correct": "B",
-    "explanation": "Si el radio de P es $r$, el de Q es $9r$.\n$\\dfrac{T_Q}{T_P}=\\dfrac{k\\sqrt{(9r)^{3}}}{k\\sqrt{r^{3}}}=\\sqrt{9^{3}}=\\left(\\sqrt{9}\\right)^{3}=27$.\nA supone que el período es directamente proporcional al radio.\nC eleva $9$ al cuadrado y D olvida extraer la raíz cuadrada de $9^{3}$.",
+    "explanation": "Idea clave: al comparar períodos con un cociente, la constante $k$ se cancela y solo importa cómo cambia $\\sqrt{r^{3}}$.\nPaso 1: si el radio de P es $r$, el de Q es $9r$.\nPaso 2: $\\dfrac{T_Q}{T_P}=\\dfrac{k\\sqrt{(9r)^{3}}}{k\\sqrt{r^{3}}}=\\sqrt{9^{3}}=\\left(\\sqrt{9}\\right)^{3}=27$.\nRespuesta: B, $27$ veces.\nErrores frecuentes: La A supone que el período es directamente proporcional al radio. La C eleva $9$ al cuadrado en vez de a $\\frac{3}{2}$. La D calcula $9^{3}$ y olvida extraer la raíz cuadrada.",
     "verify": "const k = 2.3, r = 4;\nconst T = x => k * Math.sqrt(x ** 3);\nconst v = T(9 * r) / T(r);\nconst alts = { A: 9, B: 27, C: 81, D: 729 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -626,7 +626,7 @@
       "D": "$50\\,000$ pesos"
     },
     "correct": "A",
-    "explanation": "El total equivale al $119\\%$ del valor neto: $1{,}19\\cdot N=59\\,500$, de donde $N=50\\,000$ pesos.\nEl IVA es $59\\,500-50\\,000=9\\,500$ pesos (o bien $0{,}19\\cdot50\\,000$).\nB calcula el $19\\%$ del total, que ya incluye el impuesto.\nC resta ese valor erróneo al total, y D es el valor neto, no el IVA.",
+    "explanation": "Idea clave: el total con IVA es el $119\\%$ del valor neto, así que el IVA no es el $19\\%$ del total.\nPaso 1: $1{,}19\\cdot N=59\\,500$, de donde $N=50\\,000$ pesos.\nPaso 2: el IVA es $59\\,500-50\\,000=9\\,500$ pesos (o bien $0{,}19\\cdot50\\,000$).\nRespuesta: A, $9\\,500$ pesos.\nErrores frecuentes: La B calcula el $19\\%$ del total, que ya incluye el impuesto. La C resta ese valor erróneo al total. La D es el valor neto, no el IVA.",
     "verify": "const total = 59500;\nconst neto = total / 1.19;\nconst v = total - neto;\nconst alts = { A: 9500, B: 11305, C: 48195, D: 50000 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-6);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -645,7 +645,7 @@
       "D": "$\\dfrac{30x+50y}{x+y}\\%$"
     },
     "correct": "D",
-    "explanation": "La mezcla tiene $0{,}3x+0{,}5y$ litros de pulpa en un total de $x+y$ litros.\nEl porcentaje es $\\dfrac{0{,}3x+0{,}5y}{x+y}\\cdot100=\\dfrac{30x+50y}{x+y}\\%$.\nA es el promedio simple de los porcentajes, válido solo si $x=y$.\nB suma los porcentajes y los divide por el volumen total.\nC entrega la fracción de pulpa, pero sin multiplicar por $100$, por lo que no es un porcentaje.",
+    "explanation": "Idea clave: el porcentaje de la mezcla es la pulpa total dividida por el volumen total, multiplicado por $100$.\nPaso 1: la mezcla tiene $0{,}3x+0{,}5y$ litros de pulpa en $x+y$ litros.\nPaso 2: el porcentaje es $\\dfrac{0{,}3x+0{,}5y}{x+y}\\cdot100=\\dfrac{30x+50y}{x+y}\\%$.\nRespuesta: D, $\\dfrac{30x+50y}{x+y}\\%$.\nErrores frecuentes: La A es el promedio simple de los porcentajes, válido solo si $x=y$. La B suma los porcentajes y los divide por el volumen total, sin ponderar por $x$ e $y$. La C es la fracción de pulpa sin multiplicar por $100$, por lo que no es un porcentaje.",
     "verify": "const pairs = [[2, 6], [5, 1], [3, 3], [1.5, 4]];\nconst real = (x, y) => (0.3 * x + 0.5 * y) / (x + y) * 100;\nconst alts = { A: (x, y) => 40, B: (x, y) => 80 / (x + y), C: (x, y) => (30 * x + 50 * y) / (100 * (x + y)), D: (x, y) => (30 * x + 50 * y) / (x + y) };\nconst ok = Object.keys(alts).filter(k => pairs.every(([x, y]) => Math.abs(alts[k](x, y) - real(x, y)) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -664,7 +664,7 @@
       "D": "La cantidad de estudiantes que aprobó aumentó en un $25\\%$."
     },
     "correct": "B",
-    "explanation": "El porcentaje de aprobación subió $10$ puntos porcentuales, lo que en términos relativos es $\\dfrac{50-40}{40}=0{,}25$, es decir, un aumento del $25\\%$.\nA confunde los puntos porcentuales con la variación porcentual.\nC es falsa: la reprobación pasó de $60\\%$ a $50\\%$, una disminución de $\\dfrac{10}{60}\\approx16{,}7\\%$.\nD no se puede concluir, porque la cantidad de inscritos cambió: con $100$ y $60$ inscritos, los aprobados pasan de $40$ a $30$.",
+    "explanation": "Idea clave: no es lo mismo una diferencia en puntos porcentuales que una variación porcentual relativa.\nPaso 1: la aprobación subió de $40\\%$ a $50\\%$: son $10$ puntos porcentuales.\nPaso 2: en términos relativos, $\\dfrac{50-40}{40}=0{,}25$, es decir, un aumento del $25\\%$.\nRespuesta: B, el porcentaje de aprobación aumentó en un $25\\%$ respecto del primer semestre.\nErrores frecuentes: La A confunde los $10$ puntos porcentuales con la variación porcentual. La C es falsa: la reprobación pasó de $60\\%$ a $50\\%$, una disminución de $\\dfrac{10}{60}\\approx16{,}7\\%$. La D no se puede concluir porque la cantidad de inscritos cambió: con $100$ y $60$ inscritos, los aprobados pasan de $40$ a $30$.",
     "verify": "const rel = (50 - 40) / 40 * 100;\nconst rep = (50 - 60) / 60 * 100;\nconst casos = [[100, 100], [100, 60], [80, 120]];\nconst facts = {\n  A: Math.abs(rel - 10) < 1e-9,\n  B: Math.abs(rel - 25) < 1e-9,\n  C: Math.abs(rep + 10) < 1e-9,\n  D: casos.every(([n1, n2]) => Math.abs((0.5 * n2) / (0.4 * n1) - 1.25) < 1e-9),\n};\nconst ok = Object.keys(facts).filter(k => facts[k]);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -683,7 +683,7 @@
       "D": "$\\dfrac{2}{5}$"
     },
     "correct": "D",
-    "explanation": "Después del arriendo le queda $1-\\dfrac{2}{5}=\\dfrac{3}{5}$ del sueldo.\nEn alimentación gasta $\\dfrac{1}{3}\\cdot\\dfrac{3}{5}=\\dfrac{1}{5}$ del sueldo, así que le queda $\\dfrac{3}{5}-\\dfrac{1}{5}=\\dfrac{2}{5}$.\nC calcula $1-\\dfrac{2}{5}-\\dfrac{1}{3}$, tomando el tercio sobre el sueldo completo.\nB es lo que gasta en alimentación, y A calcula el tercio sobre lo gastado en arriendo.",
+    "explanation": "Idea clave: \"de lo que le queda\" significa que la segunda fracción se aplica sobre el resto, no sobre el sueldo completo.\nPaso 1: después del arriendo le queda $1-\\dfrac{2}{5}=\\dfrac{3}{5}$ del sueldo.\nPaso 2: en alimentación gasta $\\dfrac{1}{3}\\cdot\\dfrac{3}{5}=\\dfrac{1}{5}$ del sueldo.\nPaso 3: le queda $\\dfrac{3}{5}-\\dfrac{1}{5}=\\dfrac{2}{5}$.\nRespuesta: D, le queda $\\dfrac{2}{5}$ del sueldo.\nErrores frecuentes: La A calcula el tercio sobre lo gastado en arriendo: $\\frac{1}{3}\\cdot\\frac{2}{5}=\\frac{2}{15}$. La B es lo que gasta en alimentación, no lo que le queda. La C toma el tercio sobre el sueldo completo: $1-\\frac{2}{5}-\\frac{1}{3}=\\frac{4}{15}$.",
     "verify": "const resto = 1 - 2 / 5;\nconst v = resto - resto / 3;\nconst alts = { A: 2 / 15, B: 1 / 5, C: 4 / 15, D: 2 / 5 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -702,7 +702,7 @@
       "D": "$p^{2}+pq+p$"
     },
     "correct": "A",
-    "explanation": "El cuadrado de un impar es impar y el de un par es par; así, $p^{2}+q^{2}$ es impar más par, que es impar.\nEn B, $pq$ es par (tiene el factor $q$) y $q$ es par, así que la suma es par.\nEn C, $p+q$ es impar, su cuadrado es impar y al restarle $1$ queda un par.\nEn D, $p^{2}$ es impar, $pq$ es par y $p$ es impar: impar más par más impar es par.",
+    "explanation": "Idea clave: se usan las reglas de paridad: par más impar es impar, impar más impar es par, y todo producto con un factor par es par.\nPaso 1: A: $p^{2}$ es impar y $q^{2}$ es par, así que $p^{2}+q^{2}$ es impar.\nPaso 2: B: $pq$ es par y $q$ es par, así que la suma es par. C: $p+q$ es impar, su cuadrado es impar y al restarle $1$ queda par.\nPaso 3: D: $p^{2}$ es impar, $pq$ es par y $p$ es impar: impar más par más impar da par.\nRespuesta: A, $p^{2}+q^{2}$.\nErrores frecuentes: La B olvida que ambos términos tienen el factor par $q$. La C no considera que restar $1$ a un impar da un par. La D pasa por alto que la suma de dos impares ($p^{2}$ y $p$) es par.",
     "verify": "const ps = [-7, -3, -1, 1, 3, 5, 9], qs = [-6, -2, 0, 2, 4, 8];\nconst odd = n => Math.abs(n % 2) === 1;\nconst alts = { A: (p, q) => p * p + q * q, B: (p, q) => p * q + q, C: (p, q) => (p + q) ** 2 - 1, D: (p, q) => p * p + p * q + p };\nconst ok = Object.keys(alts).filter(k => ps.every(p => qs.every(q => odd(alts[k](p, q)))));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -721,7 +721,7 @@
       "D": "$400$ litros"
     },
     "correct": "C",
-    "explanation": "Tras regar queda $\\dfrac{2}{3}\\cdot\\dfrac{3}{8}=\\dfrac{1}{4}$ de la capacidad $C$.\nEntonces $\\dfrac{1}{4}C+150=\\dfrac{3}{4}C$, es decir, $\\dfrac{1}{2}C=150$ y $C=300$ litros.\nD ignora el riego: $\\dfrac{3}{4}-\\dfrac{3}{8}=\\dfrac{3}{8}$ y $C=400$.\nB toma como agua restante el tercio usado ($\\dfrac{1}{8}$): $\\dfrac{3}{4}-\\dfrac{1}{8}=\\dfrac{5}{8}$ y $C=240$.\nA plantea $150=\\dfrac{3}{4}C$, como si el estanque hubiera estado vacío.",
+    "explanation": "Idea clave: se expresa todo como fracción de la capacidad $C$ y se plantea una ecuación con los $150$ litros agregados.\nPaso 1: al usar $\\frac{1}{3}$ del agua quedan $\\dfrac{2}{3}$ de ella: $\\dfrac{2}{3}\\cdot\\dfrac{3}{8}=\\dfrac{1}{4}$ de la capacidad.\nPaso 2: $\\dfrac{1}{4}C+150=\\dfrac{3}{4}C$, es decir, $\\dfrac{1}{2}C=150$.\nPaso 3: $C=300$ litros.\nRespuesta: C, $300$ litros.\nErrores frecuentes: La A plantea $150=\\frac{3}{4}C$, como si el estanque hubiera estado vacío. La B toma como agua restante el tercio usado ($\\frac{1}{8}$): $\\frac{3}{4}-\\frac{1}{8}=\\frac{5}{8}$ y $C=240$. La D ignora el riego: $\\frac{3}{4}-\\frac{3}{8}=\\frac{3}{8}$ y $C=400$.",
     "verify": "const queda = (2 / 3) * (3 / 8);\nconst v = 150 / (3 / 4 - queda);\nconst alts = { A: 200, B: 240, C: 300, D: 400 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {

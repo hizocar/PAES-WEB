@@ -7,6 +7,7 @@ import { Check, X } from "lucide-react"
 import Latex from "@/components/ui/latex-renderer"
 import { Mascot, pickLine, type MascotMood } from "@/components/mascot/Mascot"
 import { cn } from "@/lib/utils"
+import { parseExplanation } from "@/components/practice/StructuredExplanation"
 
 export type DemoQuestion = {
     content: string
@@ -31,8 +32,11 @@ export function PlayableQuestion({ q }: { q: DemoQuestion }) {
         setLine(k === q.correct ? pickLine("celebrate") : "¡Casi! Mira por qué 👇")
     }
 
-    // La explicación completa es larga para una portada: mostramos la resolución (1ª línea)
-    const [solution, ...why] = q.explanation.split("\n")
+    // La explicación completa es larga para una portada: mostramos la idea clave, los pasos
+    // y, si se equivocó, el error frecuente de la alternativa que eligió.
+    const parsed = parseExplanation(q.explanation)
+    const [legacySolution, ...legacyWhy] = q.explanation.split("\n")
+    const pickedError = parsed?.errors.find((e) => e.letter === picked)
 
     return (
         <div className="relative">
@@ -96,13 +100,37 @@ export function PlayableQuestion({ q }: { q: DemoQuestion }) {
                             <p className={cn("font-black", right ? "text-emerald-700" : "text-red-700")}>
                                 {right ? "¡Correcto! Así se resuelve:" : `La correcta es la ${q.correct}. Así se resuelve:`}
                             </p>
-                            <p className="mt-1 text-sm leading-relaxed text-slate-700">
-                                <Latex>{solution}</Latex>
-                            </p>
-                            {!right && picked && why.length > 0 && (
-                                <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                                    <Latex>{(why.find((l) => l.startsWith(picked)) ?? why[0]).replace(/^([A-D]) /, "La alternativa $1 ")}</Latex>
-                                </p>
+                            {parsed ? (
+                                <>
+                                    {parsed.idea && (
+                                        <p className="mt-1 text-sm font-semibold leading-relaxed text-slate-800"><Latex>{parsed.idea}</Latex></p>
+                                    )}
+                                    <ol className="mt-2 space-y-1.5 text-sm leading-relaxed text-slate-700">
+                                        {parsed.steps.map((s, i) => (
+                                            <li key={i} className="flex gap-2">
+                                                <span className="font-black text-slate-500 tabular-nums">{i + 1}.</span>
+                                                <span><Latex>{s}</Latex></span>
+                                            </li>
+                                        ))}
+                                    </ol>
+                                    {!right && pickedError && (
+                                        <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                                            <span className="font-bold text-red-700">Tu alternativa ({picked}): </span>
+                                            <Latex>{pickedError.text}</Latex>
+                                        </p>
+                                    )}
+                                </>
+                            ) : (
+                                <>
+                                    <p className="mt-1 text-sm leading-relaxed text-slate-700">
+                                        <Latex>{legacySolution}</Latex>
+                                    </p>
+                                    {!right && picked && legacyWhy.length > 0 && (
+                                        <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                                            <Latex>{(legacyWhy.find((l) => l.startsWith(picked)) ?? legacyWhy[0]).replace(/^([A-D]) /, "La alternativa $1 ")}</Latex>
+                                        </p>
+                                    )}
+                                </>
                             )}
                             <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
                                 <Link

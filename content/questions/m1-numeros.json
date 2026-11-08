@@ -15,7 +15,7 @@
       "D": "$12\\,^{\\circ}\\text{C}$"
     },
     "correct": "C",
-    "explanation": "La temperatura de la noche se obtiene con $-4 + 9 - 7 = 5 - 7 = -2$, es decir, $-2\\,^{\\circ}\\text{C}$.\nA resulta de restar todas las variaciones: $-4 - 9 - 7 = -20$.\nB invierte las variaciones (baja $9$ y sube $7$): $-4 - 9 + 7 = -6$.\nD suma la bajada como si fuera subida: $-4 + 9 + 7 = 12$.",
+    "explanation": "Idea clave: las subidas de temperatura se suman y las bajadas se restan, partiendo desde la temperatura inicial.\nPaso 1: hasta el mediodía la temperatura sube $9$ grados: $-4 + 9 = 5$.\nPaso 2: en la noche baja $7$ grados: $5 - 7 = -2$.\nRespuesta: C, en la noche la temperatura era de $-2\\,^{\\circ}\\text{C}$.\nErrores frecuentes: La A resta todas las variaciones: $-4 - 9 - 7 = -20$. La B invierte las variaciones, como si bajara $9$ y subiera $7$: $-4 - 9 + 7 = -6$. La D trata la bajada como subida: $-4 + 9 + 7 = 12$.",
     "verify": "const t = -4 + 9 - 7; const alts = {A:-20,B:-6,C:-2,D:12}; for (const k in alts) if (alts[k] === t) return k; return null;"
   },
   {
@@ -34,7 +34,7 @@
       "D": "$\\dfrac{22}{9}$"
     },
     "correct": "C",
-    "explanation": "Primero se resuelve la multiplicación: $\\frac{1}{4}\\cdot\\frac{8}{3} = \\frac{8}{12} = \\frac{2}{3}$. Luego $\\frac{2}{3} + \\frac{2}{3} = \\frac{4}{3}$.\nD resulta de sumar antes de multiplicar: $\\left(\\frac{2}{3}+\\frac{1}{4}\\right)\\cdot\\frac{8}{3} = \\frac{11}{12}\\cdot\\frac{8}{3} = \\frac{22}{9}$.\nB suma numeradores y denominadores ($\\frac{3}{7}$) y luego multiplica por $\\frac{8}{3}$.\nA suma numeradores y denominadores en $\\frac{2}{3}+\\frac{8}{12} = \\frac{10}{15} = \\frac{2}{3}$.",
+    "explanation": "Idea clave: la multiplicación se resuelve antes que la suma.\nPaso 1: $\\frac{1}{4} \\cdot \\frac{8}{3} = \\frac{8}{12} = \\frac{2}{3}$.\nPaso 2: $\\frac{2}{3} + \\frac{2}{3} = \\frac{4}{3}$.\nRespuesta: C, el valor es $\\frac{4}{3}$.\nErrores frecuentes: La A suma numeradores y denominadores entre sí: $\\frac{2}{3} + \\frac{8}{12} = \\frac{10}{15} = \\frac{2}{3}$. La B también suma numeradores y denominadores, $\\frac{2}{3} + \\frac{1}{4} = \\frac{3}{7}$, y luego multiplica por $\\frac{8}{3}$, obteniendo $\\frac{8}{7}$. La D suma antes de multiplicar: $\\left(\\frac{2}{3} + \\frac{1}{4}\\right) \\cdot \\frac{8}{3} = \\frac{11}{12} \\cdot \\frac{8}{3} = \\frac{22}{9}$.",
     "verify": "const v = 2/3 + (1/4)*(8/3); const alts = {A:2/3,B:8/7,C:4/3,D:22/9}; for (const k in alts) if (Math.abs(alts[k]-v) < 1e-9) return k; return null;"
   },
   {
@@ -53,7 +53,7 @@
       "D": "$6$ litros"
     },
     "correct": "D",
-    "explanation": "Para regar usa $\\frac{3}{5}\\cdot 20 = 12$ litros, por lo que quedan $8$ litros. Para la bicicleta usa $\\frac{1}{4}\\cdot 8 = 2$ litros, así que quedan $8 - 2 = 6$ litros.\nA corresponde a los litros usados en la bicicleta, no a los que quedan.\nC calcula $\\frac{1}{4}$ del total ($5$ litros) en vez de $\\frac{1}{4}$ de lo que queda.\nB usa ese mismo error y resta: $20 - 12 - 5 = 3$.",
+    "explanation": "Idea clave: la segunda fracción se calcula sobre lo que queda, no sobre el total.\nPaso 1: para regar usa $\\frac{3}{5} \\cdot 20 = 12$ litros, así que quedan $20 - 12 = 8$ litros.\nPaso 2: para la bicicleta usa $\\frac{1}{4} \\cdot 8 = 2$ litros.\nPaso 3: quedan $8 - 2 = 6$ litros.\nRespuesta: D, quedan $6$ litros en el bidón.\nErrores frecuentes: La A corresponde a los litros usados en la bicicleta, no a los que quedan. La B calcula $\\frac{1}{4}$ del total ($5$ litros) y resta: $20 - 12 - 5 = 3$. La C es $\\frac{1}{4}$ del total ($5$ litros), en vez de $\\frac{1}{4}$ de lo que quedaba.",
     "verify": "const riego = 20*3/5; const resto = 20 - riego; const bici = resto/4; const queda = resto - bici; const alts = {A:2,B:3,C:5,D:6}; for (const k in alts) if (alts[k] === queda) return k; return null;"
   },
   {
@@ -72,7 +72,7 @@
       "D": "En el paso 4"
     },
     "correct": "D",
-    "explanation": "Los pasos 1, 2 y 3 son correctos: dividir por $\\frac{4}{9}$ equivale a multiplicar por $\\frac{9}{4}$, el producto es $\\frac{18}{12}$ y al simplificar por $6$ se obtiene $\\frac{3}{2}$.\nEn el paso 4 Javiera restó numeradores y denominadores entre sí, lo que no es válido. Lo correcto es igualar denominadores: $\\frac{3}{4} - \\frac{6}{4} = -\\frac{3}{4}$.\nQuien marca A confunde la división de fracciones con multiplicar directamente; B y C dudan de un producto y una simplificación que sí son correctos.",
+    "explanation": "Idea clave: para restar fracciones hay que igualar denominadores; no se restan numeradores y denominadores por separado.\nPaso 1: los pasos 1 a 3 son correctos: dividir por $\\frac{4}{9}$ es multiplicar por $\\frac{9}{4}$, el producto es $\\frac{18}{12}$ y al simplificar por $6$ queda $\\frac{3}{2}$.\nPaso 2: en el paso 4 Javiera calculó $\\frac{3-3}{4-2}$, lo que no es válido. Lo correcto es $\\frac{3}{4} - \\frac{6}{4} = -\\frac{3}{4}$.\nRespuesta: D, el error está en el paso 4.\nErrores frecuentes: La A duda del paso 1, pero dividir por una fracción sí equivale a multiplicar por su inverso. La B duda del producto $\\frac{2}{3} \\cdot \\frac{9}{4} = \\frac{18}{12}$, que es correcto. La C duda de la simplificación $\\frac{18}{12} = \\frac{3}{2}$, que también es correcta.",
     "verify": "const ok = (a,b) => Math.abs(a-b) < 1e-9; const real = 3/4 - (2/3)/(4/9); const s1 = ok((2/3)*(9/4), (2/3)/(4/9)); const s2 = ok((2/3)*(9/4), 18/12); const s3 = ok(18/12, 3/2); const s4 = ok(0, real); const pasos = [s1,s2,s3,s4]; const i = pasos.indexOf(false); return i === -1 ? null : 'ABCD'[i];"
   },
   {
@@ -91,7 +91,7 @@
       "D": "Diego, Catalina, Benjamín, Antonia"
     },
     "correct": "A",
-    "explanation": "Al escribir todo en decimales: $\\frac{5}{8} = 0{,}625$, $0{,}65$, $\\frac{2}{3} \\approx 0{,}667$ y $0{,}7$. El orden es Catalina, Diego, Benjamín, Antonia.\nB supone que $\\frac{2}{3}$ es menor que $\\frac{5}{8}$ porque tiene menor denominador.\nC cree que $0{,}65 > 0{,}7$ porque $65 > 7$.\nD supone que $0{,}65$ es menor que $\\frac{5}{8}$ sin convertir la fracción a decimal.",
+    "explanation": "Idea clave: para ordenar fracciones y decimales conviene escribirlos todos como decimales.\nPaso 1: $\\frac{5}{8} = 0{,}625$ y $\\frac{2}{3} \\approx 0{,}667$.\nPaso 2: de menor a mayor: $0{,}625 < 0{,}65 < 0{,}667 < 0{,}7$.\nRespuesta: A, el orden es Catalina, Diego, Benjamín, Antonia.\nErrores frecuentes: La B supone que $\\frac{2}{3}$ es menor que $\\frac{5}{8}$ porque tiene menor denominador. La C cree que $0{,}65 > 0{,}7$ porque $65 > 7$. La D supone que $0{,}65$ es menor que $\\frac{5}{8}$ sin convertir la fracción a decimal.",
     "verify": "const d = {Antonia:0.7, 'Benjamín':2/3, Catalina:5/8, Diego:0.65}; const orden = Object.keys(d).sort((x,y)=>d[x]-d[y]).join(', '); const alts = {A:'Catalina, Diego, Benjamín, Antonia',B:'Benjamín, Catalina, Diego, Antonia',C:'Catalina, Benjamín, Antonia, Diego',D:'Diego, Catalina, Benjamín, Antonia'}; for (const k in alts) if (alts[k] === orden) return k; return null;"
   },
   {
@@ -110,7 +110,7 @@
       "D": "$\\dfrac{1}{\\frac{1}{12}} - \\dfrac{1}{\\frac{3}{8}}$"
     },
     "correct": "A",
-    "explanation": "En cada hora el estanque gana, en neto, $\\frac{3}{8} - \\frac{1}{12} = \\frac{9}{24} - \\frac{2}{24} = \\frac{7}{24}$ de su capacidad. Para completar $1$ estanque se necesitan $\\frac{1}{\\frac{3}{8}-\\frac{1}{12}} = \\frac{24}{7}$ horas.\nB suma la filtración en lugar de restarla.\nC es la fracción que se llena en una hora, no el tiempo total.\nD calcula por separado el tiempo de vaciado ($12$ horas) y el de llenado ($\\frac{8}{3}$ horas) y los resta; los tiempos no se restan, se combinan las rapideces.",
+    "explanation": "Idea clave: cuando la llave y la filtración actúan juntas se restan las rapideces, y el tiempo es el total dividido por la rapidez neta.\nPaso 1: en cada hora el estanque gana, en neto, $\\frac{3}{8} - \\frac{1}{12} = \\frac{9}{24} - \\frac{2}{24} = \\frac{7}{24}$ de su capacidad.\nPaso 2: para llenar $1$ estanque se necesitan $\\frac{1}{\\frac{3}{8} - \\frac{1}{12}} = \\frac{24}{7}$ horas.\nRespuesta: A, la expresión es $\\frac{1}{\\frac{3}{8} - \\frac{1}{12}}$.\nErrores frecuentes: La B suma la filtración en lugar de restarla. La C es la fracción que se llena en una hora, no el tiempo total. La D resta el tiempo de vaciado ($12$ horas) y el de llenado ($\\frac{8}{3}$ horas); los tiempos no se restan, se combinan las rapideces.",
     "verify": "const neto = 3/8 - 1/12; const t = 1/neto; const alts = {A:1/(3/8-1/12), B:1/(3/8+1/12), C:3/8-1/12, D:1/(1/12) - 1/(3/8)}; if (Math.abs(t*neto - 1) > 1e-9) return null; const ks = Object.keys(alts).filter(k => Math.abs(alts[k]-t) < 1e-9); return ks.length === 1 ? ks[0] : null;"
   },
   {
@@ -129,7 +129,7 @@
       "D": "$\\dfrac{1}{a} - \\dfrac{1}{b} < 0$"
     },
     "correct": "D",
-    "explanation": "Como $a < 0$, se tiene $\\frac{1}{a} < 0$; como $b > 0$, se tiene $\\frac{1}{b} > 0$ y entonces $-\\frac{1}{b} < 0$. La suma de dos números negativos es negativa, por lo que D siempre se cumple.\nA falla con $a = -1$, $b = 2$, pues $a + b = 1$.\nB falla con $a = -5$, $b = 1$, pues $-a = 5 > 1$.\nC falla con esos mismos valores, pues $25 > 1$. Estas tres solo se cumplen para algunos valores, error típico al generalizar desde un solo ejemplo.",
+    "explanation": "Idea clave: una afirmación es siempre verdadera si se justifica con las propiedades de los signos; basta un contraejemplo para descartar las demás.\nPaso 1: como $a < 0$, se tiene $\\frac{1}{a} < 0$; como $b > 0$, se tiene $\\frac{1}{b} > 0$ y entonces $-\\frac{1}{b} < 0$.\nPaso 2: $\\frac{1}{a} - \\frac{1}{b}$ es la suma de dos números negativos, por lo que siempre es negativa.\nRespuesta: D, siempre se cumple $\\frac{1}{a} - \\frac{1}{b} < 0$.\nErrores frecuentes: La A falla con $a = -1$ y $b = 2$, pues $a + b = 1$. La B falla con $a = -5$ y $b = 1$, pues $-a = 5 > 1$. La C falla con esos mismos valores, pues $25 > 1$. Estas tres se cumplen solo para algunos valores; elegirlas es generalizar desde un ejemplo.",
     "verify": "const as = [-7,-5,-2,-1,-0.5,-0.1]; const bs = [0.1,0.5,1,2,5,7]; const props = {A:(a,b)=>a+b<0, B:(a,b)=>-a<b, C:(a,b)=>a*a<b*b, D:(a,b)=>1/a-1/b<0}; const siempre = Object.keys(props).filter(k => as.every(a => bs.every(b => props[k](a,b)))); return siempre.length === 1 ? siempre[0] : null;"
   },
   {
@@ -148,7 +148,7 @@
       "D": "$450$"
     },
     "correct": "B",
-    "explanation": "Si la novela tiene $T$ páginas, tras el lunes quedan $\\frac{2}{3}T$. El martes lee $\\frac{1}{4}\\cdot\\frac{2}{3}T = \\frac{1}{6}T$ y quedan $\\frac{2}{3}T - \\frac{1}{6}T = \\frac{1}{2}T$.\nEsa mitad corresponde a $60 + 90 = 150$ páginas, por lo que $T = 300$.\nC calcula $\\frac{1}{4}$ del total en vez de lo que quedaba: $1 - \\frac{1}{3} - \\frac{1}{4} = \\frac{5}{12}$ y $\\frac{5}{12}T = 150$.\nA ignora lo leído el martes ($\\frac{2}{3}T = 150$) y D supone que $150$ es $\\frac{1}{3}$ del libro.",
+    "explanation": "Idea clave: se expresa lo que queda después de cada día como fracción del total y se iguala con las páginas conocidas.\nPaso 1: si la novela tiene $T$ páginas, tras el lunes quedan $\\frac{2}{3}T$.\nPaso 2: el martes lee $\\frac{1}{4} \\cdot \\frac{2}{3}T = \\frac{1}{6}T$, así que quedan $\\frac{2}{3}T - \\frac{1}{6}T = \\frac{1}{2}T$.\nPaso 3: esa mitad corresponde a $60 + 90 = 150$ páginas, por lo que $T = 300$.\nRespuesta: B, la novela tiene $300$ páginas.\nErrores frecuentes: La A ignora lo leído el martes y plantea $\\frac{2}{3}T = 150$. La C calcula $\\frac{1}{4}$ del total en vez de lo que quedaba: $1 - \\frac{1}{3} - \\frac{1}{4} = \\frac{5}{12}$ y $\\frac{5}{12}T = 150$. La D supone que las $150$ páginas son $\\frac{1}{3}$ del libro.",
     "verify": "for (let T = 1; T <= 2000; T++) { const lunes = T/3; const martes = (T - lunes)/4; const resta = T - lunes - martes - 60; if (Math.abs(resta - 90) < 1e-9) { const alts = {A:225,B:300,C:360,D:450}; for (const k in alts) if (alts[k] === T) return k; } } return null;"
   },
   {
@@ -167,7 +167,7 @@
       "D": "$42$"
     },
     "correct": "C",
-    "explanation": "El puntaje final es $3 + 15 - 8 - 12 + 4 = 2$ puntos.\nA considera la ronda 4 como pérdida: $3 + 15 - 8 - 12 - 4 = -6$.\nB olvida el puntaje inicial: $15 - 8 - 12 + 4 = -1$.\nD suma todos los valores sin considerar los signos: $3 + 15 + 8 + 12 + 4 = 42$.",
+    "explanation": "Idea clave: se parte del puntaje inicial y se suman las variaciones respetando sus signos.\nPaso 1: $3 + 15 - 8 = 10$.\nPaso 2: $10 - 12 + 4 = 2$.\nRespuesta: C, Renata terminó con $2$ puntos.\nErrores frecuentes: La A considera la ronda 4 como pérdida: $3 + 15 - 8 - 12 - 4 = -6$. La B olvida el puntaje inicial: $15 - 8 - 12 + 4 = -1$. La D suma todos los valores sin considerar los signos: $3 + 15 + 8 + 12 + 4 = 42$.",
     "verify": "const ini = 3; const v = [15,-8,-12,4]; const fin = v.reduce((s,x)=>s+x, ini); const alts = {A:-6,B:-1,C:2,D:42}; for (const k in alts) if (alts[k] === fin) return k; return null;"
   },
   {
@@ -186,7 +186,7 @@
       "D": "$22\\,500$ pesos"
     },
     "correct": "B",
-    "explanation": "El descuento es $0{,}25 \\cdot 18\\,000 = 4\\,500$ pesos, por lo que se paga $18\\,000 - 4\\,500 = 13\\,500$ pesos (equivale a $0{,}75 \\cdot 18\\,000$).\nA es el monto del descuento, no el precio final.\nC calcula un $2{,}5\\%$ en vez de un $25\\%$: $18\\,000 - 450$.\nD suma el $25\\%$ en lugar de restarlo.",
+    "explanation": "Idea clave: con un descuento del $25\\%$ se paga el $75\\%$ del precio.\nPaso 1: el descuento es $0{,}25 \\cdot 18\\,000 = 4\\,500$ pesos.\nPaso 2: se paga $18\\,000 - 4\\,500 = 13\\,500$ pesos, que es lo mismo que $0{,}75 \\cdot 18\\,000$.\nRespuesta: B, se pagan $13\\,500$ pesos.\nErrores frecuentes: La A es el monto del descuento, no el precio final. La C descuenta un $2{,}5\\%$ en vez de un $25\\%$: $18\\,000 - 450 = 17\\,550$. La D suma el $25\\%$ en lugar de restarlo.",
     "verify": "const final = 18000 * (1 - 0.25); const alts = {A:4500,B:13500,C:17550,D:22500}; for (const k in alts) if (Math.abs(alts[k]-final) < 1e-6) return k; return null;"
   },
   {
@@ -205,7 +205,7 @@
       "D": "$\\dfrac{250}{0{,}4}$"
     },
     "correct": "A",
-    "explanation": "El $0{,}4\\%$ equivale a $\\frac{0{,}4}{100} = 0{,}004$. Por lo tanto, hay $0{,}004 \\cdot 250 = 1$ mL de principio activo.\nB corre la coma solo un lugar ($4\\%$ en vez de $0{,}4\\%$).\nC usa $0{,}4$, que corresponde al $40\\%$.\nD divide por el porcentaje en lugar de multiplicar.",
+    "explanation": "Idea clave: un porcentaje se transforma en decimal dividiéndolo por $100$.\nPaso 1: $0{,}4\\% = \\frac{0{,}4}{100} = 0{,}004$.\nPaso 2: el principio activo es $0{,}004 \\cdot 250 = 1$ mL.\nRespuesta: A, la expresión es $0{,}004 \\cdot 250$.\nErrores frecuentes: La B corre la coma un solo lugar, lo que corresponde al $4\\%$. La C usa $0{,}4$, que corresponde al $40\\%$. La D divide por el porcentaje en lugar de multiplicar.",
     "verify": "const real = 0.4/100 * 250; const alts = {A:0.004*250, B:0.04*250, C:0.4*250, D:250/0.4}; const ks = Object.keys(alts).filter(k => Math.abs(alts[k]-real) < 1e-9); return ks.length === 1 ? ks[0] : null;"
   },
   {
@@ -224,7 +224,7 @@
       "D": "$P = \\dfrac{59\\,500}{0{,}19}$"
     },
     "correct": "B",
-    "explanation": "El precio con IVA es $P + 0{,}19P = 1{,}19P$. Entonces $1{,}19P = 59\\,500$ y $P = \\frac{59\\,500}{1{,}19} = 50\\,000$ pesos.\nA es el error típico de descontar el $19\\%$ al precio final; daría $48\\,195$ pesos, pero el IVA se calcula sobre el precio sin impuesto.\nC vuelve a agregar el IVA.\nD calcula el valor cuyo $19\\%$ es $59\\,500$, confundiendo el impuesto con el precio total.",
+    "explanation": "Idea clave: el IVA se calcula sobre el precio sin impuesto, así que el precio final es $1{,}19$ veces $P$.\nPaso 1: el precio con IVA es $P + 0{,}19P = 1{,}19P$.\nPaso 2: $1{,}19P = 59\\,500$, de donde $P = \\frac{59\\,500}{1{,}19} = 50\\,000$ pesos.\nRespuesta: B, $P = \\frac{59\\,500}{1{,}19}$.\nErrores frecuentes: La A descuenta el $19\\%$ al precio final y daría $48\\,195$ pesos, pero el IVA se calculó sobre el precio sin impuesto, no sobre el final. La C vuelve a agregar el IVA. La D calcula el número cuyo $19\\%$ es $59\\,500$, confundiendo el impuesto con el precio total.",
     "verify": "const P = 59500/1.19; if (Math.abs(P*1.19 - 59500) > 1e-6) return null; const alts = {A:59500*0.81, B:59500/1.19, C:59500*1.19, D:59500/0.19}; for (const k in alts) if (Math.abs(alts[k]-P) < 1e-6) return k; return null;"
   },
   {
@@ -243,7 +243,7 @@
       "D": "Sofía se equivoca: el porcentaje es $31\\%$."
     },
     "correct": "A",
-    "explanation": "Practican deporte $0{,}40 \\cdot 300 = 120$ estudiantes de tercero y $0{,}25 \\cdot 200 = 50$ de cuarto: $170$ de $500$, es decir, $\\frac{170}{500} = 34\\%$.\nB promedia los porcentajes sin considerar que los niveles tienen distinta cantidad de estudiantes.\nC suma los porcentajes.\nD intercambia los tamaños de los niveles: $\\frac{0{,}40\\cdot 200 + 0{,}25\\cdot 300}{500} = 31\\%$.",
+    "explanation": "Idea clave: para combinar dos grupos de distinto tamaño se suman las cantidades, no se promedian los porcentajes.\nPaso 1: en tercero practican deporte $0{,}40 \\cdot 300 = 120$ estudiantes y en cuarto, $0{,}25 \\cdot 200 = 50$.\nPaso 2: en total son $170$ de $500$ estudiantes: $\\frac{170}{500} = 34\\%$.\nRespuesta: A, Sofía se equivoca: el porcentaje es $34\\%$.\nErrores frecuentes: La B promedia los porcentajes sin considerar que los niveles tienen distinta cantidad de estudiantes. La C suma los porcentajes. La D intercambia los tamaños de los niveles: $\\frac{0{,}40 \\cdot 200 + 0{,}25 \\cdot 300}{500} = 31\\%$.",
     "verify": "const dep = 0.40*300 + 0.25*200; const pct = dep/500*100; if (Math.abs(pct - 32.5) < 1e-9) return 'B'; const alts = {A:34, C:65, D:31}; for (const k in alts) if (Math.abs(alts[k]-pct) < 1e-9) return k; return null;"
   },
   {
@@ -262,7 +262,7 @@
       "D": "$22\\,000$ pesos"
     },
     "correct": "C",
-    "explanation": "Si el precio inicial es $x$, después de las alzas es $x \\cdot 1{,}10 \\cdot 1{,}20 = 1{,}32x$. Entonces $1{,}32x = 26\\,400$ y $x = 20\\,000$ pesos.\nA resta un $30\\%$ al precio final ($26\\,400 \\cdot 0{,}7$), sumando los porcentajes y aplicándolos sobre la base equivocada.\nB descuenta un $20\\%$ y luego un $10\\%$ al precio final ($26\\,400 \\cdot 0{,}8 \\cdot 0{,}9$), pero las alzas se calcularon sobre precios menores.\nD revierte solo el alza de marzo ($26\\,400 \\div 1{,}2$).",
+    "explanation": "Idea clave: alzas sucesivas se aplican multiplicando factores, y para volver al precio inicial se divide por ellos.\nPaso 1: si el precio inicial es $x$, tras ambas alzas queda $x \\cdot 1{,}10 \\cdot 1{,}20 = 1{,}32x$.\nPaso 2: $1{,}32x = 26\\,400$, de donde $x = 20\\,000$ pesos.\nRespuesta: C, el pasaje costaba $20\\,000$ pesos.\nErrores frecuentes: La A suma los porcentajes y le resta un $30\\%$ al precio final: $26\\,400 \\cdot 0{,}7 = 18\\,480$. La B descuenta un $20\\%$ y luego un $10\\%$ al precio final ($26\\,400 \\cdot 0{,}8 \\cdot 0{,}9$), pero las alzas se calcularon sobre precios menores. La D revierte solo el alza de marzo: $26\\,400 : 1{,}2 = 22\\,000$.",
     "verify": "const x = 26400/(1.10*1.20); const alts = {A:18480,B:19008,C:20000,D:22000}; for (const k in alts) if (Math.abs(alts[k]-x) < 1e-6) return k; return null;"
   },
   {
@@ -281,7 +281,7 @@
       "D": "$V \\cdot 0{,}88 \\cdot 3$"
     },
     "correct": "C",
-    "explanation": "Cada año el auto conserva el $100\\% - 12\\% = 88\\%$ del valor del año anterior, es decir, su valor se multiplica por $0{,}88$. Tras $3$ años: $V \\cdot 0{,}88 \\cdot 0{,}88 \\cdot 0{,}88 = V \\cdot 0{,}88^3$.\nA supone que la disminución es siempre $12\\%$ del valor inicial y resta $3 \\cdot 12\\% = 36\\%$.\nB usa el porcentaje que se pierde ($0{,}12$) en vez del que se conserva.\nD multiplica por $3$ en lugar de elevar a $3$.",
+    "explanation": "Idea clave: perder un $12\\%$ cada año sobre el valor anterior equivale a multiplicar por $0{,}88$ cada año.\nPaso 1: cada año el auto conserva el $100\\% - 12\\% = 88\\%$ de su valor anterior.\nPaso 2: tras $3$ años: $V \\cdot 0{,}88 \\cdot 0{,}88 \\cdot 0{,}88 = V \\cdot 0{,}88^{3}$.\nRespuesta: C, el valor es $V \\cdot 0{,}88^{3}$.\nErrores frecuentes: La A supone que cada año se pierde el $12\\%$ del valor inicial y resta $3 \\cdot 12\\% = 36\\%$. La B usa el porcentaje que se pierde ($0{,}12$) en vez del que se conserva. La D multiplica por $3$ en lugar de elevar a $3$.",
     "verify": "const V = 1000000; let v = V; for (let i = 0; i < 3; i++) v = v - 0.12*v; const alts = {A:V*(1-0.36), B:V*Math.pow(0.12,3), C:V*Math.pow(0.88,3), D:V*0.88*3}; const ks = Object.keys(alts).filter(k => Math.abs(alts[k]-v) < 1e-6); return ks.length === 1 ? ks[0] : null;"
   },
   {
@@ -300,7 +300,7 @@
       "D": "$657\\,000$ pesos"
     },
     "correct": "B",
-    "explanation": "Arriendo: $0{,}35 \\cdot 900\\,000 = 315\\,000$ pesos, por lo que quedan $585\\,000$ pesos. Alimentación: $0{,}40 \\cdot 585\\,000 = 234\\,000$ pesos. Transporte: $0{,}12 \\cdot 900\\,000 = 108\\,000$ pesos.\nOtros gastos: $900\\,000 - 315\\,000 - 234\\,000 - 108\\,000 = 243\\,000$ pesos.\nA calcula la alimentación como $40\\%$ del ingreso total y obtiene $100\\% - 87\\% = 13\\%$ del ingreso.\nC olvida descontar el transporte.\nD es la suma de los tres gastos de la tabla, no lo que queda para otros gastos.",
+    "explanation": "Idea clave: la alimentación se calcula sobre lo que queda tras el arriendo, mientras que el arriendo y el transporte se calculan sobre el ingreso total.\nPaso 1: arriendo: $0{,}35 \\cdot 900\\,000 = 315\\,000$ pesos; quedan $585\\,000$ pesos.\nPaso 2: alimentación: $0{,}40 \\cdot 585\\,000 = 234\\,000$ pesos. Transporte: $0{,}12 \\cdot 900\\,000 = 108\\,000$ pesos.\nPaso 3: otros gastos: $900\\,000 - 315\\,000 - 234\\,000 - 108\\,000 = 243\\,000$ pesos.\nRespuesta: B, se destinan $243\\,000$ pesos a otros gastos.\nErrores frecuentes: La A calcula la alimentación como $40\\%$ del ingreso total y obtiene el $100\\% - 87\\% = 13\\%$ del ingreso. La C olvida descontar el transporte. La D es la suma de los tres gastos de la tabla, no lo que queda para otros gastos.",
     "verify": "const I = 900000; const arr = 0.35*I; const ali = 0.40*(I - arr); const tra = 0.12*I; const otros = I - arr - ali - tra; const alts = {A:117000,B:243000,C:351000,D:657000}; const ks = Object.keys(alts).filter(k => Math.abs(alts[k]-otros) < 1e-6); return ks.length === 1 ? ks[0] : null;"
   },
   {
@@ -319,7 +319,7 @@
       "D": "$q$ es un $80\\%$ menor que $p$."
     },
     "correct": "A",
-    "explanation": "Como $p = 1{,}25q$, se tiene $q = \\frac{p}{1{,}25} = 0{,}8p$. Es decir, $q$ es el $80\\%$ de $p$, o sea, un $20\\%$ menor que $p$.\nB y C suponen que el porcentaje es simétrico: que si $p$ supera a $q$ en un $25\\%$, entonces $q$ es un $25\\%$ menor que $p$. Pero el $25\\%$ se calcula sobre $q$, no sobre $p$.\nD confunde «ser el $80\\%$ de $p$» con «ser un $80\\%$ menor que $p$».",
+    "explanation": "Idea clave: un porcentaje se calcula sobre una base; si la base cambia, el porcentaje también cambia.\nPaso 1: $p$ es un $25\\%$ mayor que $q$, así que $p = 1{,}25q$.\nPaso 2: $q = \\frac{p}{1{,}25} = 0{,}8p$, es decir, $q$ es el $80\\%$ de $p$, o sea, un $20\\%$ menor que $p$.\nRespuesta: A, $q$ es un $20\\%$ menor que $p$.\nErrores frecuentes: La B supone que el porcentaje es simétrico, pero el $25\\%$ se calcula sobre $q$, no sobre $p$. La C comete el mismo error: $q$ es el $80\\%$ de $p$, no el $75\\%$. La D confunde «ser el $80\\%$ de $p$» con «ser un $80\\%$ menor que $p$».",
     "verify": "const q = 100; const p = q*1.25; const menor = (p - q)/p*100; const fraccion = q/p*100; const props = {A: Math.abs(menor-20)<1e-9, B: Math.abs(menor-25)<1e-9, C: Math.abs(fraccion-75)<1e-9, D: Math.abs(menor-80)<1e-9}; const ks = Object.keys(props).filter(k => props[k]); return ks.length === 1 ? ks[0] : null;"
   },
   {
@@ -338,7 +338,7 @@
       "D": "$16$"
     },
     "correct": "C",
-    "explanation": "Como $4^2 = (2^2)^2 = 2^4$, se tiene $2^{3}\\cdot 2^{-5}\\cdot 2^{4} = 2^{3-5+4} = 2^{2} = 4$.\nA omite el factor $4^2$: $2^{3}\\cdot 2^{-5} = 2^{-2} = \\frac{1}{4}$.\nB escribe $4^2$ como $2^2$ en vez de $2^4$, y obtiene $2^0 = 1$.\nD considera solo $4^2 = 16$, suponiendo que $2^3 \\cdot 2^{-5}$ vale $1$.",
+    "explanation": "Idea clave: se escriben todas las potencias con la misma base y se suman los exponentes.\nPaso 1: $4^{2} = (2^{2})^{2} = 2^{4}$.\nPaso 2: $2^{3} \\cdot 2^{-5} \\cdot 2^{4} = 2^{3 - 5 + 4} = 2^{2} = 4$.\nRespuesta: C, el valor es $4$.\nErrores frecuentes: La A omite el factor $4^{2}$: $2^{3} \\cdot 2^{-5} = 2^{-2} = \\frac{1}{4}$. La B escribe $4^{2}$ como $2^{2}$ en vez de $2^{4}$ y obtiene $2^{0} = 1$. La D considera solo $4^{2} = 16$, como si $2^{3} \\cdot 2^{-5}$ valiera $1$.",
     "verify": "const v = Math.pow(2,3)*Math.pow(2,-5)*Math.pow(4,2); const alts = {A:1/4,B:1,C:4,D:16}; for (const k in alts) if (Math.abs(alts[k]-v) < 1e-9) return k; return null;"
   },
   {
@@ -357,7 +357,7 @@
       "D": "$1{,}5 \\cdot 10^{24}$ m"
     },
     "correct": "C",
-    "explanation": "En notación científica, $150\\,000\\,000 = 1{,}5 \\cdot 10^{8}$ km, ya que la coma se desplaza $8$ lugares. Al pasar a metros: $1{,}5 \\cdot 10^{8} \\cdot 10^{3} = 1{,}5 \\cdot 10^{8+3} = 1{,}5 \\cdot 10^{11}$ m.\nA escribe bien la distancia en km, pero no la convierte a metros.\nB cuenta las $9$ cifras del número como exponente y tampoco convierte.\nD multiplica los exponentes ($8 \\cdot 3$) en vez de sumarlos.",
+    "explanation": "Idea clave: primero se escribe la distancia en notación científica y luego, al convertir a metros, se suman los exponentes.\nPaso 1: $150\\,000\\,000 = 1{,}5 \\cdot 10^{8}$ km, porque la coma se desplaza $8$ lugares.\nPaso 2: en metros: $1{,}5 \\cdot 10^{8} \\cdot 10^{3} = 1{,}5 \\cdot 10^{8+3} = 1{,}5 \\cdot 10^{11}$ m.\nRespuesta: C, la distancia es $1{,}5 \\cdot 10^{11}$ m.\nErrores frecuentes: La A escribe bien la distancia en km, pero no la convierte a metros. La B usa como exponente las $9$ cifras del número y tampoco convierte. La D multiplica los exponentes ($8 \\cdot 3 = 24$) en vez de sumarlos.",
     "verify": "const km = 150000000; const m = km * 1000; const n = Math.floor(Math.log10(m) + 1e-12); const mant = m/Math.pow(10,n); if (Math.abs(mant-1.5) > 1e-9) return null; const alts = {A:8,B:9,C:11,D:24}; for (const k in alts) if (alts[k] === n) return k; return null;"
   },
   {
@@ -376,7 +376,7 @@
       "D": "$40\\,500$"
     },
     "correct": "D",
-    "explanation": "Se reemplaza $t = 8$: $N(8) = 500 \\cdot 3^{\\frac{8}{2}} = 500 \\cdot 3^{4} = 500 \\cdot 81 = 40\\,500$ seguidores.\nA usa $3^{2}$ en lugar de $3^{4}$ (divide $8$ por $4$).\nB multiplica la base por el exponente: $500 \\cdot 3 \\cdot 4 = 6\\,000$.\nC usa $3^{3}$, contando un periodo de $2$ meses menos.",
+    "explanation": "Idea clave: se reemplaza $t = 8$ en el modelo y se respeta que el exponente es $\\frac{t}{2}$.\nPaso 1: $N(8) = 500 \\cdot 3^{\\frac{8}{2}} = 500 \\cdot 3^{4}$.\nPaso 2: $3^{4} = 81$, así que $N(8) = 500 \\cdot 81 = 40\\,500$.\nRespuesta: D, tendrá $40\\,500$ seguidores.\nErrores frecuentes: La A usa $3^{2}$ en lugar de $3^{4}$, como si dividiera $8$ por $4$. La B multiplica la base por el exponente: $500 \\cdot 3 \\cdot 4 = 6\\,000$. La C usa $3^{3}$, contando un periodo de $2$ meses menos.",
     "verify": "const N = t => 500*Math.pow(3, t/2); const v = N(8); const alts = {A:4500,B:6000,C:13500,D:40500}; for (const k in alts) if (Math.abs(alts[k]-v) < 1e-6) return k; return null;"
   },
   {
@@ -395,7 +395,7 @@
       "D": "En el paso 4"
     },
     "correct": "B",
-    "explanation": "En el paso 2, Tomás extrajo el $9$ de la raíz sin calcular su raíz cuadrada: lo correcto es $\\sqrt{9 \\cdot 2} = 3\\sqrt{2}$.\nLos pasos 1 y 3 están bien, y el paso 4 suma correctamente los valores que obtuvo, por lo que no es allí donde se originó el error.\nEl resultado correcto es $5\\sqrt{2} + 3\\sqrt{2} - 2\\sqrt{2} = 6\\sqrt{2}$.",
+    "explanation": "Idea clave: al sacar un factor de una raíz cuadrada, sale su raíz, no el factor completo.\nPaso 1: los pasos 1 y 3 están bien: $\\sqrt{25 \\cdot 2} = 5\\sqrt{2}$ y $\\sqrt{4 \\cdot 2} = 2\\sqrt{2}$.\nPaso 2: en el paso 2 Tomás sacó el $9$ sin calcular su raíz; lo correcto es $\\sqrt{9 \\cdot 2} = 3\\sqrt{2}$.\nPaso 3: el resultado correcto es $5\\sqrt{2} + 3\\sqrt{2} - 2\\sqrt{2} = 6\\sqrt{2}$.\nRespuesta: B, el error está en el paso 2.\nErrores frecuentes: La A duda de $\\sqrt{50} = 5\\sqrt{2}$, que es correcto. La C duda de $\\sqrt{8} = 2\\sqrt{2}$, que también es correcto. La D apunta al paso 4, pero ahí la suma de los valores que obtuvo está bien hecha; el error viene de antes.",
     "verify": "const r2 = Math.sqrt(2); const ok = (a,b) => Math.abs(a-b) < 1e-9; const pasos = [ok(Math.sqrt(50), 5*r2), ok(Math.sqrt(18), 9*r2), ok(Math.sqrt(8), 2*r2), ok(5*r2 + 9*r2 - 2*r2, 12*r2)]; const i = pasos.indexOf(false); return i === -1 ? null : 'ABCD'[i];"
   },
   {
@@ -414,7 +414,7 @@
       "D": "$3\\,000$"
     },
     "correct": "B",
-    "explanation": "Faltan $6{,}4 \\cdot 10^{6} - 1{,}6 \\cdot 10^{6} = 4{,}8 \\cdot 10^{6}$ litros. Luego $\\frac{4{,}8 \\cdot 10^{6}}{1{,}6 \\cdot 10^{4}} = 3 \\cdot 10^{6-4} = 3 \\cdot 10^{2} = 300$ camiones.\nC ignora el agua que ya hay en el estanque y divide la capacidad total.\nA divide el agua que ya está en el estanque en lugar de la que falta.\nD calcula bien $\\frac{4{,}8}{1{,}6} = 3$, pero se equivoca al restar los exponentes y escribe $3 \\cdot 10^{3}$.",
+    "explanation": "Idea clave: se calcula el agua que falta y se divide por la capacidad de un camión, restando exponentes.\nPaso 1: faltan $6{,}4 \\cdot 10^{6} - 1{,}6 \\cdot 10^{6} = 4{,}8 \\cdot 10^{6}$ litros.\nPaso 2: $\\frac{4{,}8 \\cdot 10^{6}}{1{,}6 \\cdot 10^{4}} = 3 \\cdot 10^{6-4} = 3 \\cdot 10^{2} = 300$ camiones.\nRespuesta: B, se necesitan $300$ camiones.\nErrores frecuentes: La A divide el agua que ya está en el estanque en lugar de la que falta. La C ignora el agua que ya hay y divide la capacidad total. La D calcula bien $\\frac{4{,}8}{1{,}6} = 3$, pero se equivoca al restar los exponentes y escribe $3 \\cdot 10^{3}$.",
     "verify": "const falta = 6.4e6 - 1.6e6; const n = falta/1.6e4; if (Math.abs(n - Math.round(n)) > 1e-9) return null; const alts = {A:100,B:300,C:400,D:3000}; for (const k in alts) if (alts[k] === Math.round(n)) return k; return null;"
   },
   {
@@ -433,7 +433,7 @@
       "D": "$x^{\\frac{7}{6}}$"
     },
     "correct": "D",
-    "explanation": "Se escriben las raíces como potencias de exponente fraccionario: $\\sqrt[3]{x^2} = x^{\\frac{2}{3}}$ y $\\sqrt{x} = x^{\\frac{1}{2}}$. Al multiplicar potencias de igual base se suman los exponentes: $\\frac{2}{3} + \\frac{1}{2} = \\frac{7}{6}$.\nA resta los exponentes en vez de sumarlos.\nB multiplica los exponentes: $\\frac{2}{3}\\cdot\\frac{1}{2} = \\frac{1}{3}$.\nC suma numeradores y denominadores: $\\frac{2+1}{3+2}$.",
+    "explanation": "Idea clave: las raíces se escriben como potencias de exponente fraccionario y, al multiplicar potencias de igual base, se suman los exponentes.\nPaso 1: $\\sqrt[3]{x^{2}} = x^{\\frac{2}{3}}$ y $\\sqrt{x} = x^{\\frac{1}{2}}$.\nPaso 2: $\\frac{2}{3} + \\frac{1}{2} = \\frac{4}{6} + \\frac{3}{6} = \\frac{7}{6}$.\nRespuesta: D, la expresión equivale a $x^{\\frac{7}{6}}$.\nErrores frecuentes: La A resta los exponentes en vez de sumarlos. La B multiplica los exponentes: $\\frac{2}{3} \\cdot \\frac{1}{2} = \\frac{1}{3}$. La C suma numeradores y denominadores: $\\frac{2+1}{3+2} = \\frac{3}{5}$.",
     "verify": "const x = 5; const v = Math.cbrt(x*x) * Math.sqrt(x); const alts = {A:1/6, B:1/3, C:3/5, D:7/6}; const ks = Object.keys(alts).filter(k => Math.abs(Math.pow(x, alts[k]) - v) < 1e-9); return ks.length === 1 ? ks[0] : null;"
   },
   {
@@ -452,7 +452,7 @@
       "D": "Solo Isidora"
     },
     "correct": "D",
-    "explanation": "El total es $3^{15} + 3^{15} + 3^{15} = 3 \\cdot 3^{15} = 3^{1+15} = 3^{16}$, que es lo que escribió Isidora.\nBenjamín sumó los exponentes como si se tratara de una multiplicación: $3^{15}\\cdot 3^{15}\\cdot 3^{15} = 3^{45}$.\nMatías escribió $27^{15} = (3^3)^{15} = 3^{45}$, el mismo valor incorrecto de Benjamín. Por eso C (ambos) también es incorrecta: que dos expresiones sean iguales entre sí no implica que sean correctas.",
+    "explanation": "Idea clave: sumar tres veces la misma potencia es multiplicarla por $3$, no sumar exponentes.\nPaso 1: el total es $3^{15} + 3^{15} + 3^{15} = 3 \\cdot 3^{15}$.\nPaso 2: $3 \\cdot 3^{15} = 3^{1+15} = 3^{16}$, que es lo que escribió Isidora.\nRespuesta: D, solo Isidora escribió correctamente el total.\nErrores frecuentes: La A acepta lo de Benjamín, que sumó los exponentes como si fuera una multiplicación: $3^{15} \\cdot 3^{15} \\cdot 3^{15} = 3^{45}$. La B acepta lo de Matías, pero $27^{15} = (3^{3})^{15} = 3^{45}$, el mismo valor incorrecto. La C acepta a ambos porque sus expresiones son iguales entre sí, pero eso no las hace correctas.",
     "verify": "const total = 3 * Math.pow(3,15); const ok = v => Math.abs(v/total - 1) < 1e-9; const b = ok(Math.pow(3,45)), i = ok(Math.pow(3,16)), m = ok(Math.pow(27,15)); if (i && !b && !m) return 'D'; if (b && m && !i) return 'C'; if (b && !m && !i) return 'A'; if (m && !b && !i) return 'B'; return null;"
   },
   {
@@ -471,7 +471,7 @@
       "D": "$8a$"
     },
     "correct": "A",
-    "explanation": "El volumen actual es $a^3$ y el nuevo debe ser $2a^3$. Si la nueva arista es $b$, entonces $b^3 = 2a^3$, de donde $b = \\sqrt[3]{2a^3} = a\\sqrt[3]{2}$.\nB usa raíz cuadrada, lo que correspondería a duplicar el área de una cara, no el volumen.\nC supone que duplicar la arista duplica el volumen, pero en realidad lo multiplica por $8$.\nD eleva el $2$ al cubo en lugar de extraer su raíz cúbica.",
+    "explanation": "Idea clave: el volumen de un cubo depende del cubo de la arista, así que para duplicar el volumen la arista se multiplica por $\\sqrt[3]{2}$.\nPaso 1: el volumen actual es $a^{3}$ y el nuevo debe ser $2a^{3}$.\nPaso 2: si la nueva arista es $b$, entonces $b^{3} = 2a^{3}$, de donde $b = \\sqrt[3]{2a^{3}} = a\\sqrt[3]{2}$.\nRespuesta: A, la nueva arista mide $a\\sqrt[3]{2}$ cm.\nErrores frecuentes: La B usa raíz cuadrada, lo que correspondería a duplicar el área de una cara, no el volumen. La C supone que duplicar la arista duplica el volumen, pero en realidad lo multiplica por $8$. La D eleva el $2$ al cubo en lugar de extraer su raíz cúbica.",
     "verify": "const a = 7; const V = 2*Math.pow(a,3); const alts = {A:a*Math.cbrt(2), B:a*Math.sqrt(2), C:2*a, D:8*a}; const ks = Object.keys(alts).filter(k => Math.abs(Math.pow(alts[k],3) - V) < 1e-9); return ks.length === 1 ? ks[0] : null;"
   },
   {
@@ -490,7 +490,7 @@
       "D": "$345$ m"
     },
     "correct": "A",
-    "explanation": "La posición final es $-120 - 85 + 140 = -205 + 140 = -65$, es decir, $65$ m bajo la superficie.\nB entrega el valor correcto pero con el signo cambiado, como si quedara sobre la superficie.\nC trata el descenso como un ascenso: $-120 + 85 + 140 = 105$.\nD suma todas las cantidades sin considerar los signos: $120 + 85 + 140 = 345$.",
+    "explanation": "Idea clave: los descensos se restan y los ascensos se suman, partiendo desde la posición negativa inicial.\nPaso 1: tras descender: $-120 - 85 = -205$.\nPaso 2: tras ascender: $-205 + 140 = -65$.\nRespuesta: A, el ascensor queda en $-65$ m, es decir, $65$ m bajo la superficie.\nErrores frecuentes: La B tiene el valor correcto con el signo cambiado, como si quedara sobre la superficie. La C trata el descenso como ascenso: $-120 + 85 + 140 = 105$. La D suma todas las cantidades sin considerar los signos: $120 + 85 + 140 = 345$.",
     "verify": "const p = -120 - 85 + 140; const alts = {A:-65,B:65,C:105,D:345}; for (const k in alts) if (alts[k] === p) return k; return null;"
   },
   {
@@ -509,7 +509,7 @@
       "D": "$5\\frac{3}{4}$"
     },
     "correct": "A",
-    "explanation": "Las tres tandas usan $3 \\cdot 2\\frac{1}{2} = 3 \\cdot \\frac{5}{2} = \\frac{15}{2} = 7\\frac{1}{2}$ tazas.\nSobran $8\\frac{1}{4} - 7\\frac{1}{2} = \\frac{33}{4} - \\frac{30}{4} = \\frac{3}{4}$ de taza.\nB resta por separado enteros y fracciones invirtiendo el orden de las fracciones: $(8-7) + (\\frac{1}{2} - \\frac{1}{4}) = 1\\frac{1}{4}$.\nC multiplica solo la parte entera: $3 \\cdot 2 + \\frac{1}{2} = 6\\frac{1}{2}$, y $8\\frac{1}{4} - 6\\frac{1}{2} = 1\\frac{3}{4}$.\nD descuenta una sola tanda: $8\\frac{1}{4} - 2\\frac{1}{2} = 5\\frac{3}{4}$.",
+    "explanation": "Idea clave: conviene pasar los números mixtos a fracciones impropias antes de operar.\nPaso 1: las tres tandas usan $3 \\cdot 2\\frac{1}{2} = 3 \\cdot \\frac{5}{2} = \\frac{15}{2} = 7\\frac{1}{2}$ tazas.\nPaso 2: sobran $8\\frac{1}{4} - 7\\frac{1}{2} = \\frac{33}{4} - \\frac{30}{4} = \\frac{3}{4}$ de taza.\nRespuesta: A, le sobran $\\frac{3}{4}$ de taza.\nErrores frecuentes: La B resta por separado enteros y fracciones, invirtiendo el orden de las fracciones: $(8 - 7) + \\left(\\frac{1}{2} - \\frac{1}{4}\\right) = 1\\frac{1}{4}$. La C multiplica solo la parte entera: $3 \\cdot 2 + \\frac{1}{2} = 6\\frac{1}{2}$, y $8\\frac{1}{4} - 6\\frac{1}{2} = 1\\frac{3}{4}$. La D descuenta una sola tanda: $8\\frac{1}{4} - 2\\frac{1}{2} = 5\\frac{3}{4}$.",
     "verify": "const s = 33/4 - 3*(5/2); const alts = {A:3/4,B:5/4,C:7/4,D:23/4}; for (const k in alts) if (Math.abs(alts[k]-s) < 1e-9) return k; return null;"
   },
   {
@@ -528,7 +528,7 @@
       "D": "$-18 + \\frac{1}{3} \\cdot 18 - 4$"
     },
     "correct": "D",
-    "explanation": "El buzo parte en $-18$; subir $\\frac{1}{3}$ de $18$ m es sumar $\\frac{1}{3}\\cdot 18 = 6$, y descender $4$ m es restar $4$: $-18 + \\frac{1}{3}\\cdot 18 - 4 = -16$.\nA invierte el sentido de ambos movimientos (resta la subida y suma el descenso).\nB toma un tercio de $-18$, lo que equivale a bajar $6$ m en lugar de subirlos.\nC usa $18$ positivo como punto de partida, como si el buzo estuviera sobre el nivel del mar.",
+    "explanation": "Idea clave: la posición inicial es negativa, subir es sumar y descender es restar.\nPaso 1: el buzo parte en $-18$ y sube $\\frac{1}{3} \\cdot 18 = 6$ m, es decir, se suma $\\frac{1}{3} \\cdot 18$.\nPaso 2: luego desciende $4$ m, así que se resta $4$: $-18 + \\frac{1}{3} \\cdot 18 - 4 = -16$.\nRespuesta: D, la expresión es $-18 + \\frac{1}{3} \\cdot 18 - 4$.\nErrores frecuentes: La A invierte el sentido de ambos movimientos: resta la subida y suma el descenso. La B toma un tercio de $-18$, lo que equivale a bajar $6$ m en lugar de subirlos. La C parte de $18$ positivo, como si el buzo estuviera sobre el nivel del mar.",
     "verify": "const v = {A:-18-18/3+4, B:-18+(-18)/3-4, C:18-18/3-4, D:-18+18/3-4}; const target = -18 + 6 - 4; const ok = Object.keys(v).filter(k => Math.abs(v[k]-target) < 1e-9); return ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -547,7 +547,7 @@
       "D": "$\\frac{136}{990}$"
     },
     "correct": "C",
-    "explanation": "Para un decimal semiperiódico: $0{,}1\\overline{36} = \\frac{136 - 1}{990} = \\frac{135}{990} = \\frac{3}{22}$. Comprobación: $3 : 22 = 0{,}13636\\ldots$\nA usa el denominador $999$, propio de un periodo de tres cifras sin anteperiodo.\nB considera solo el decimal finito $0{,}136$ y descarta el periodo.\nD no resta el anteperiodo en el numerador ($136$ en lugar de $135$).",
+    "explanation": "Idea clave: en un decimal semiperiódico, el numerador es el número completo menos el anteperiodo, y el denominador lleva un $9$ por cada cifra del periodo y un $0$ por cada cifra del anteperiodo.\nPaso 1: $0{,}1\\overline{36} = \\frac{136 - 1}{990} = \\frac{135}{990}$.\nPaso 2: al simplificar por $45$: $\\frac{135}{990} = \\frac{3}{22}$. Comprobación: $3 : 22 = 0{,}13636\\ldots$\nRespuesta: C, el número es igual a $\\frac{3}{22}$.\nErrores frecuentes: La A usa el denominador $999$, propio de un periodo de tres cifras sin anteperiodo. La B considera solo el decimal finito $0{,}136$ y descarta el periodo. La D no resta el anteperiodo en el numerador ($136$ en lugar de $135$).",
     "verify": "const x = 0.13636363636363636; const alts = {A:135/999,B:136/1000,C:3/22,D:136/990}; const ok = Object.keys(alts).filter(k => Math.abs(alts[k]-x) < 1e-12); return ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -566,7 +566,7 @@
       "D": "A las $10{:}06$ horas"
     },
     "correct": "C",
-    "explanation": "Los buses coinciden cada $\\text{mcm}(12, 18) = 36$ minutos.\nLa tercera coincidencia ocurre $3 \\cdot 36 = 108$ minutos después, es decir, $1$ hora y $48$ minutos tras las $6{:}30$: a las $8{:}18$ horas.\nA corresponde a la primera coincidencia ($6{:}30 + 36$ min) y B a la segunda ($6{:}30 + 72$ min).\nD usa el producto $12 \\cdot 18 = 216$ minutos como si fuera el tiempo entre coincidencias.",
+    "explanation": "Idea clave: los buses coinciden cada mínimo común múltiplo de sus frecuencias.\nPaso 1: $\\text{mcm}(12, 18) = 36$, así que coinciden cada $36$ minutos.\nPaso 2: la tercera coincidencia ocurre $3 \\cdot 36 = 108$ minutos después, es decir, $1$ hora y $48$ minutos tras las $6{:}30$.\nRespuesta: C, vuelven a salir juntos por tercera vez a las $8{:}18$ horas.\nErrores frecuentes: La A es la primera coincidencia ($6{:}30$ más $36$ minutos). La B es la segunda coincidencia ($6{:}30$ más $72$ minutos). La D usa el producto $12 \\cdot 18 = 216$ minutos como si fuera el tiempo entre coincidencias.",
     "verify": "const g=(a,b)=>b?g(b,a%b):a; const m = 12*18/g(12,18); const t = 6*60+30 + 3*m; const alts = {A:7*60+6,B:7*60+42,C:8*60+18,D:10*60+6}; for (const k in alts) if (alts[k]===t) return k; return null;"
   },
   {
@@ -585,7 +585,7 @@
       "D": "$-1\\,^{\\circ}\\text{C}$"
     },
     "correct": "D",
-    "explanation": "La suma es $-3 - 1 + 2 - 4 + 1 = -5$ y el promedio es $\\frac{-5}{5} = -1$, es decir, $-1\\,^{\\circ}\\text{C}$.\nA considera todas las temperaturas como negativas: $\\frac{-11}{5} = -2{,}2$.\nB suma solo las temperaturas negativas: $\\frac{-8}{5} = -1{,}6$.\nC divide la suma correcta por $4$ en lugar de $5$: $\\frac{-5}{4} = -1{,}25$.",
+    "explanation": "Idea clave: el promedio es la suma de los datos, con sus signos, dividida por la cantidad de datos.\nPaso 1: la suma es $-3 - 1 + 2 - 4 + 1 = -5$.\nPaso 2: el promedio es $\\frac{-5}{5} = -1$.\nRespuesta: D, el promedio es $-1\\,^{\\circ}\\text{C}$.\nErrores frecuentes: La A considera todas las temperaturas como negativas: $\\frac{-11}{5} = -2{,}2$. La B suma solo las temperaturas negativas: $\\frac{-8}{5} = -1{,}6$. La C divide la suma correcta por $4$ en lugar de $5$: $\\frac{-5}{4} = -1{,}25$.",
     "verify": "const t=[-3,-1,2,-4,1]; const p = t.reduce((a,b)=>a+b,0)/t.length; const alts = {A:-2.2,B:-1.6,C:-1.25,D:-1}; for (const k in alts) if (Math.abs(alts[k]-p) < 1e-9) return k; return null;"
   },
   {
@@ -604,7 +604,7 @@
       "D": "$9\\,600$ litros"
     },
     "correct": "C",
-    "explanation": "Lo entregado corresponde a $\\frac{3}{4} - \\frac{7}{20} = \\frac{15}{20} - \\frac{7}{20} = \\frac{8}{20} = \\frac{2}{5}$ de la capacidad.\nSi $\\frac{2}{5}$ de la capacidad son $2\\,400$ litros, la capacidad es $2\\,400 \\cdot \\frac{5}{2} = 6\\,000$ litros.\nA multiplica $2\\,400$ por $\\frac{3}{4}$ en lugar de plantear la diferencia de fracciones.\nB divide $2\\,400$ por $\\frac{3}{4}$, como si se hubiera entregado toda el agua inicial.\nD resta numeradores y denominadores por separado: $\\frac{7-3}{20-4} = \\frac{1}{4}$, y obtiene $2\\,400 \\cdot 4 = 9\\,600$.",
+    "explanation": "Idea clave: la diferencia entre las dos fracciones de capacidad corresponde a los litros entregados.\nPaso 1: lo entregado es $\\frac{3}{4} - \\frac{7}{20} = \\frac{15}{20} - \\frac{7}{20} = \\frac{8}{20} = \\frac{2}{5}$ de la capacidad.\nPaso 2: si $\\frac{2}{5}$ de la capacidad son $2\\,400$ litros, la capacidad es $2\\,400 \\cdot \\frac{5}{2} = 6\\,000$ litros.\nRespuesta: C, la capacidad es de $6\\,000$ litros.\nErrores frecuentes: La A multiplica $2\\,400$ por $\\frac{3}{4}$ en lugar de plantear la diferencia de fracciones. La B divide $2\\,400$ por $\\frac{3}{4}$, como si se hubiera entregado toda el agua inicial. La D resta numeradores y denominadores por separado, $\\frac{7-3}{20-4} = \\frac{1}{4}$, y obtiene $2\\,400 \\cdot 4 = 9\\,600$.",
     "verify": "const f = 3/4 - 7/20; const c = 2400 / f; const alts = {A:1800,B:3200,C:6000,D:9600}; for (const k in alts) if (Math.abs(alts[k]-c) < 1e-6) return k; return null;"
   },
   {
@@ -623,7 +623,7 @@
       "D": "$5{,}8$"
     },
     "correct": "D",
-    "explanation": "Reemplazando $p = 42$: $N = 4 + \\frac{3 \\cdot 12}{20} = 4 + \\frac{36}{20} = 4 + 1{,}8 = 5{,}8$.\nA suma primero $4 + 3$ y multiplica por $\\frac{12}{20}$: $7 \\cdot 0{,}6 = 4{,}2$, sin respetar la prioridad de las operaciones.\nB omite el factor $3$: $4 + \\frac{12}{20} = 4{,}6$.\nC divide por $30$ en lugar de $20$: $4 + \\frac{36}{30} = 5{,}2$.",
+    "explanation": "Idea clave: se reemplaza $p$ en el modelo y se respeta la prioridad de las operaciones.\nPaso 1: $p - 30 = 42 - 30 = 12$, así que $\\frac{3 \\cdot 12}{20} = \\frac{36}{20} = 1{,}8$.\nPaso 2: $N = 4 + 1{,}8 = 5{,}8$.\nRespuesta: D, Sofía obtuvo nota $5{,}8$.\nErrores frecuentes: La A suma primero $4 + 3$ y multiplica por $\\frac{12}{20}$: $7 \\cdot 0{,}6 = 4{,}2$, sin respetar la prioridad de las operaciones. La B omite el factor $3$: $4 + \\frac{12}{20} = 4{,}6$. La C divide por $30$ en lugar de $20$: $4 + \\frac{36}{30} = 5{,}2$.",
     "verify": "const p = 42; const N = 4 + 3*(p-30)/20; const alts = {A:4.2,B:4.6,C:5.2,D:5.8}; for (const k in alts) if (Math.abs(alts[k]-N) < 1e-9) return k; return null;"
   },
   {
@@ -642,7 +642,7 @@
       "D": "En el Paso 4"
     },
     "correct": "A",
-    "explanation": "La división y la multiplicación tienen la misma prioridad y se resuelven de izquierda a derecha: $-18 : (-3) \\cdot 2 = 6 \\cdot 2 = 12$. En el Paso 1, Matías multiplicó primero $(-3) \\cdot 2$, lo que es incorrecto.\nEl valor correcto de la expresión es $12 - 20 = -8$.\nLos Pasos 2, 3 y 4 son cálculos correctos a partir de lo obtenido antes: $-18 : (-6) = 3$, $(-4)\\cdot(-5) = 20$ y $3 - 20 = -17$.",
+    "explanation": "Idea clave: la división y la multiplicación tienen la misma prioridad y se resuelven de izquierda a derecha.\nPaso 1: lo correcto es $-18 : (-3) \\cdot 2 = 6 \\cdot 2 = 12$. En el paso 1, Matías multiplicó primero $(-3) \\cdot 2$, y ahí está el error.\nPaso 2: el valor correcto de la expresión es $12 - 20 = -8$.\nRespuesta: A, el error está en el paso 1.\nErrores frecuentes: La B duda de $-18 : (-6) = 3$, que es un cálculo correcto a partir del paso anterior. La C duda de $(-4) \\cdot (-5) = 20$, que también es correcto. La D duda de $3 - 20 = -17$, una resta bien hecha; el error viene del paso 1.",
     "verify": "const correcto = (-18/(-3))*2; const paso1 = -18/((-3)*2); const p2 = (-18/(-6)) === 3; const p3 = (-4)*(-5) === 20; const p4 = 3-20 === -17; if (correcto !== paso1 && p2 && p3 && p4 && correcto - 20 === -8) return 'A'; return null;"
   },
   {
@@ -661,7 +661,7 @@
       "D": "Porque $6 \\cdot 9 = 54$ es mayor que $50$."
     },
     "correct": "B",
-    "explanation": "Con $a$ bandejas de $6$ y $b$ de $9$ el total es $6a + 9b = 3(2a + 3b)$, siempre múltiplo de $3$. Como $50$ no es múltiplo de $3$, no se puede.\nA no es un argumento válido: $15$ tampoco es múltiplo de $6$ ni de $9$, pero sí se forma con una bandeja de cada tipo.\nC no es válido: con dos bandejas de $9$ y una de $6$ se obtienen $24$ huevos, un número par.\nD no es válido: el producto $6 \\cdot 9$ no tiene relación con las combinaciones posibles (por ejemplo, $6 + 9 = 15 < 54$ sí se puede formar).",
+    "explanation": "Idea clave: cualquier combinación de bandejas de $6$ y de $9$ da un múltiplo de $3$.\nPaso 1: con $a$ bandejas de $6$ y $b$ de $9$, el total es $6a + 9b = 3(2a + 3b)$, siempre múltiplo de $3$.\nPaso 2: como $50$ no es múltiplo de $3$, no se puede formar.\nRespuesta: B, el argumento correcto es que todo total posible es múltiplo de $3$ y $50$ no lo es.\nErrores frecuentes: La A no es válida: $15$ tampoco es múltiplo de $6$ ni de $9$, pero se forma con una bandeja de cada tipo. La C no es válida: con dos bandejas de $9$ y una de $6$ se obtienen $24$ huevos, un número par. La D no es válida: el producto $6 \\cdot 9$ no tiene relación con las combinaciones posibles; por ejemplo, $15 < 54$ sí se puede formar.",
     "verify": "let posible = false; for (let a=0;a<=9;a++) for (let b=0;b<=6;b++) if (6*a+9*b===50) posible = true; const quince = 15%6!==0 && 15%9!==0 && 6+9===15; const par = 6*1+9*2===24; if (!posible && 50%3!==0 && quince && par) return 'B'; return null;"
   },
   {
@@ -680,7 +680,7 @@
       "D": "$36$ litros"
     },
     "correct": "A",
-    "explanation": "El auto P rinde $52{,}5 : 3{,}5 = 15$ km por litro y el auto Q, $63 : 4{,}5 = 14$ km por litro.\nEn $504$ km, P usa $504 : 15 = 33{,}6$ litros y Q usa $504 : 14 = 36$ litros. La diferencia es $36 - 33{,}6 = 2{,}4$ litros.\nB ubica mal la coma decimal en la diferencia.\nC es el consumo total del auto P y D, el consumo total del auto Q; ninguno responde la diferencia pedida.",
+    "explanation": "Idea clave: se calcula el rendimiento en km por litro de cada auto y luego cuántos litros usa cada uno en el trayecto.\nPaso 1: el auto P rinde $52{,}5 : 3{,}5 = 15$ km por litro y el auto Q, $63 : 4{,}5 = 14$ km por litro.\nPaso 2: en $504$ km, P usa $504 : 15 = 33{,}6$ litros y Q usa $504 : 14 = 36$ litros.\nPaso 3: la diferencia es $36 - 33{,}6 = 2{,}4$ litros.\nRespuesta: A, el auto Q usaría $2{,}4$ litros más.\nErrores frecuentes: La B ubica mal la coma decimal en la diferencia. La C es el consumo total del auto P, no la diferencia. La D es el consumo total del auto Q, tampoco la diferencia.",
     "verify": "const p = 504/(52.5/3.5), qq = 504/(63/4.5); const d = qq - p; const alts = {A:2.4,B:24,C:33.6,D:36}; for (const k in alts) if (Math.abs(alts[k]-d) < 1e-9) return k; return null;"
   },
   {
@@ -699,7 +699,7 @@
       "D": "$242$"
     },
     "correct": "C",
-    "explanation": "Llegó en buen estado el $100\\% - 8\\% = 92\\%$ de las sandías: $0{,}92 \\cdot 250 = 230$.\nA corresponde a las sandías en mal estado: $0{,}08 \\cdot 250 = 20$.\nB confunde el porcentaje $92\\%$ con la cantidad de sandías.\nD resta $8$ unidades en lugar del $8\\%$: $250 - 8 = 242$.",
+    "explanation": "Idea clave: si el $8\\%$ llegó en mal estado, el $92\\%$ llegó en buen estado.\nPaso 1: $100\\% - 8\\% = 92\\%$.\nPaso 2: $0{,}92 \\cdot 250 = 230$ sandías.\nRespuesta: C, llegaron $230$ sandías en buen estado.\nErrores frecuentes: La A corresponde a las sandías en mal estado: $0{,}08 \\cdot 250 = 20$. La B confunde el porcentaje $92\\%$ con la cantidad de sandías. La D resta $8$ unidades en lugar del $8\\%$: $250 - 8 = 242$.",
     "verify": "const b = 250 - 250*8/100; const alts = {A:20,B:92,C:230,D:242}; for (const k in alts) if (Math.abs(alts[k]-b) < 1e-9) return k; return null;"
   },
   {
@@ -718,7 +718,7 @@
       "D": "$62{,}5\\%$"
     },
     "correct": "D",
-    "explanation": "No usan anteojos $32 - 12 = 20$ estudiantes, y $\\frac{20}{32} = 0{,}625$, es decir, el $62{,}5\\%$.\nA y B confunden la cantidad de estudiantes con el porcentaje.\nC es el porcentaje de estudiantes que sí usa anteojos: $\\frac{12}{32} = 0{,}375$.",
+    "explanation": "Idea clave: el porcentaje es la parte dividida por el total, multiplicada por $100$.\nPaso 1: no usan anteojos $32 - 12 = 20$ estudiantes.\nPaso 2: $\\frac{20}{32} = 0{,}625$, es decir, el $62{,}5\\%$.\nRespuesta: D, el $62{,}5\\%$ no usa anteojos.\nErrores frecuentes: La A confunde los $12$ estudiantes que usan anteojos con un porcentaje. La B confunde los $20$ estudiantes que no usan anteojos con un porcentaje. La C es el porcentaje que sí usa anteojos: $\\frac{12}{32} = 37{,}5\\%$.",
     "verify": "const p = (32-12)/32*100; const alts = {A:12,B:20,C:37.5,D:62.5}; for (const k in alts) if (Math.abs(alts[k]-p) < 1e-9) return k; return null;"
   },
   {
@@ -737,7 +737,7 @@
       "D": "En un $104\\%$"
     },
     "correct": "B",
-    "explanation": "El aumento fue de $1\\,300 - 1\\,250 = 50$ pesos, y respecto del precio inicial: $\\frac{50}{1\\,250} = 0{,}04$, es decir, un $4\\%$.\nA calcula el aumento respecto del precio final: $\\frac{50}{1\\,300} \\approx 0{,}038$.\nC confunde el aumento en pesos con el porcentaje.\nD interpreta $\\frac{1\\,300}{1\\,250} = 1{,}04$ como un aumento del $104\\%$, cuando ese cociente indica que el precio nuevo es el $104\\%$ del anterior.",
+    "explanation": "Idea clave: el aumento porcentual se calcula respecto del precio inicial.\nPaso 1: el aumento fue de $1\\,300 - 1\\,250 = 50$ pesos.\nPaso 2: $\\frac{50}{1\\,250} = 0{,}04$, es decir, un $4\\%$.\nRespuesta: B, el precio aumentó en un $4\\%$.\nErrores frecuentes: La A calcula el aumento respecto del precio final: $\\frac{50}{1\\,300} \\approx 3{,}8\\%$. La C confunde los $50$ pesos de aumento con el porcentaje. La D interpreta $\\frac{1\\,300}{1\\,250} = 1{,}04$ como un aumento del $104\\%$, cuando ese cociente indica que el precio nuevo es el $104\\%$ del anterior.",
     "verify": "const p = (1300-1250)/1250*100; const alts = {A:3.8,B:4,C:50,D:104}; const ok = Object.keys(alts).filter(k => Math.abs(alts[k]-p) < 1e-9); return ok.length===1 && Math.abs(50/1300*100-3.8)<0.05 ? ok[0] : null;"
   },
   {
@@ -756,7 +756,7 @@
       "D": "$46\\,200$ pesos"
     },
     "correct": "B",
-    "explanation": "Con el primer descuento el precio queda en $0{,}7 \\cdot 60\\,000 = 42\\,000$ pesos, y con el segundo, en $0{,}9 \\cdot 42\\,000 = 37\\,800$ pesos.\nA suma los descuentos como si fuera uno solo del $40\\%$: $0{,}6 \\cdot 60\\,000 = 36\\,000$, pero el $10\\%$ se aplica sobre el precio rebajado.\nC aplica solo el primer descuento.\nD suma el $10\\%$ en lugar de descontarlo: $42\\,000 + 4\\,200 = 46\\,200$.",
+    "explanation": "Idea clave: descuentos sucesivos se aplican uno tras otro; el segundo se calcula sobre el precio ya rebajado.\nPaso 1: con el $30\\%$ de descuento: $0{,}7 \\cdot 60\\,000 = 42\\,000$ pesos.\nPaso 2: con el $10\\%$ adicional: $0{,}9 \\cdot 42\\,000 = 37\\,800$ pesos.\nRespuesta: B, Valentina paga $37\\,800$ pesos.\nErrores frecuentes: La A suma los descuentos como si fuera uno solo del $40\\%$: $0{,}6 \\cdot 60\\,000 = 36\\,000$. La C aplica solo el primer descuento. La D suma el $10\\%$ en lugar de descontarlo: $42\\,000 + 4\\,200 = 46\\,200$.",
     "verify": "const p = 60000*0.7*0.9; const alts = {A:36000,B:37800,C:42000,D:46200}; for (const k in alts) if (Math.abs(alts[k]-p) < 1e-6) return k; return null;"
   },
   {
@@ -775,7 +775,7 @@
       "D": "$50$ litros"
     },
     "correct": "C",
-    "explanation": "La cantidad de pulpa no cambia: $0{,}15 \\cdot 40 = 6$ litros.\nSi esos $6$ litros deben ser el $12\\%$ del total, el total es $6 : 0{,}12 = 50$ litros, por lo que hay que agregar $50 - 40 = 10$ litros de agua.\nA calcula la diferencia de porcentajes sobre la mezcla inicial: $3\\%$ de $40$ es $1{,}2$.\nB calcula el $12\\%$ de $40$ litros.\nD es la cantidad total de la nueva mezcla, no el agua que se agrega.",
+    "explanation": "Idea clave: al agregar agua la cantidad de pulpa no cambia; solo cambia el total.\nPaso 1: la pulpa es $0{,}15 \\cdot 40 = 6$ litros.\nPaso 2: si $6$ litros deben ser el $12\\%$ del total, el total es $6 : 0{,}12 = 50$ litros.\nPaso 3: hay que agregar $50 - 40 = 10$ litros de agua.\nRespuesta: C, debe agregar $10$ litros de agua.\nErrores frecuentes: La A calcula la diferencia de porcentajes sobre la mezcla inicial: el $3\\%$ de $40$ es $1{,}2$. La B calcula el $12\\%$ de $40$ litros. La D es el total de la nueva mezcla, no el agua que se agrega.",
     "verify": "const pulpa = 0.15*40; const x = pulpa/0.12 - 40; const alts = {A:1.2,B:4.8,C:10,D:50}; for (const k in alts) if (Math.abs(alts[k]-x) < 1e-9) return k; return null;"
   },
   {
@@ -794,7 +794,7 @@
       "D": "$S - 17$"
     },
     "correct": "A",
-    "explanation": "Los descuentos suman $10\\% + 7\\% = 17\\%$ del sueldo bruto, por lo que el trabajador recibe el $83\\%$: $S - 0{,}17\\,S = 0{,}83\\,S$.\nB aplica el $7\\%$ sobre el sueldo ya descontado, lo que no corresponde porque ambos se calculan sobre $S$.\nC resta $0{,}17$ pesos en lugar del $17\\%$ de $S$.\nD resta $17$ pesos, confundiendo el porcentaje con una cantidad fija.",
+    "explanation": "Idea clave: si ambos descuentos se calculan sobre el sueldo bruto, los porcentajes se suman.\nPaso 1: los descuentos suman $10\\% + 7\\% = 17\\%$ de $S$.\nPaso 2: el trabajador recibe $S - 0{,}17\\,S = 0{,}83\\,S$.\nRespuesta: A, la expresión es $0{,}83\\,S$.\nErrores frecuentes: La B aplica el $7\\%$ sobre el sueldo ya descontado, lo que no corresponde porque ambos se calculan sobre $S$. La C resta $0{,}17$ pesos en lugar del $17\\%$ de $S$. La D resta $17$ pesos, confundiendo el porcentaje con una cantidad fija.",
     "verify": "const S = 850000; const real = S - 0.10*S - 0.07*S; const v = {A:0.83*S, B:0.9*0.93*S, C:S-0.17, D:S-17}; const ok = Object.keys(v).filter(k => Math.abs(v[k]-real) < 1e-6); return ok.length===1 ? ok[0] : null;"
   },
   {
@@ -813,7 +813,7 @@
       "D": "$80\\%$"
     },
     "correct": "C",
-    "explanation": "Se despeja: $50\\,000 \\cdot \\left(1 - \\frac{d}{100}\\right) = \\frac{47\\,600}{1{,}19} = 40\\,000$, entonces $1 - \\frac{d}{100} = 0{,}8$ y $d = 20$.\nA compara directamente $47\\,600$ con $50\\,000$ sin quitar el IVA: $\\frac{2\\,400}{50\\,000} = 4{,}8\\%$.\nB confunde el descuento con el porcentaje del IVA.\nD iguala $\\frac{d}{100}$ a $0{,}8$, cuando $0{,}8$ es la fracción del precio que se paga.",
+    "explanation": "Idea clave: se reemplazan los datos en la fórmula y se despeja $d$, quitando primero el IVA.\nPaso 1: $50\\,000 \\cdot \\left(1 - \\frac{d}{100}\\right) \\cdot 1{,}19 = 47\\,600$, así que $50\\,000 \\cdot \\left(1 - \\frac{d}{100}\\right) = \\frac{47\\,600}{1{,}19} = 40\\,000$.\nPaso 2: $1 - \\frac{d}{100} = \\frac{40\\,000}{50\\,000} = 0{,}8$, de donde $\\frac{d}{100} = 0{,}2$ y $d = 20$.\nRespuesta: C, el descuento aplicado es del $20\\%$.\nErrores frecuentes: La A compara $47\\,600$ con $50\\,000$ sin quitar el IVA: $\\frac{2\\,400}{50\\,000} = 4{,}8\\%$. La B confunde el descuento con el porcentaje del IVA. La D iguala $\\frac{d}{100}$ a $0{,}8$, cuando $0{,}8$ es la fracción del precio que se paga.",
     "verify": "const P = 50000, Pf = 47600; const d = (1 - Pf/1.19/P)*100; const alts = {A:4.8,B:19,C:20,D:80}; for (const k in alts) if (Math.abs(alts[k]-d) < 1e-9) return k; return null;"
   },
   {
@@ -832,7 +832,7 @@
       "D": "Aumentó en un $50\\%$ respecto de la participación de 2024."
     },
     "correct": "A",
-    "explanation": "La diferencia entre $50\\%$ y $40\\%$ es de $10$ puntos porcentuales. En términos relativos, el aumento es $\\frac{50 - 40}{40} = 0{,}25$, es decir, un $25\\%$ respecto de 2024. Por ejemplo, con $1\\,000$ estudiantes votaron $400$ y luego $500$: $100$ más, que es el $25\\%$ de $400$.\nB confunde los puntos porcentuales con el aumento porcentual.\nC confunde el aumento relativo ($25\\%$) con la diferencia en puntos porcentuales.\nD toma el porcentaje de 2025 como si fuera el aumento.",
+    "explanation": "Idea clave: la diferencia entre dos porcentajes se mide en puntos porcentuales; el aumento relativo se calcula respecto del valor inicial.\nPaso 1: de $40\\%$ a $50\\%$ hay $10$ puntos porcentuales.\nPaso 2: el aumento relativo es $\\frac{50 - 40}{40} = 0{,}25$, es decir, un $25\\%$. Por ejemplo, con $1\\,000$ estudiantes votaron $400$ y luego $500$: $100$ más, que es el $25\\%$ de $400$.\nRespuesta: A, aumentó en $10$ puntos porcentuales, lo que equivale a un aumento del $25\\%$.\nErrores frecuentes: La B confunde los puntos porcentuales con el aumento porcentual. La C confunde el aumento relativo ($25\\%$) con la diferencia en puntos porcentuales. La D toma el porcentaje de 2025 como si fuera el aumento.",
     "verify": "const pp = 50-40; const rel = (50-40)/40*100; const n = 1000; const ok = pp===10 && Math.abs(rel-25)<1e-9 && (0.5*n-0.4*n)/(0.4*n)===0.25; return ok ? 'A' : null;"
   },
   {
@@ -851,7 +851,7 @@
       "D": "$20$"
     },
     "correct": "C",
-    "explanation": "Se tiene $(-3)^{2} = 9$, $3^{2} = 9$ y $2^{-1} \\cdot 4 = \\frac{1}{2} \\cdot 4 = 2$. Entonces $9 - 9 + 2 = 2$.\nA calcula $(-3)^{2}$ como $-9$: $-9 - 9 + 2 = -16$.\nB interpreta el exponente negativo como un signo: $2^{-1} = -2$, y obtiene $9 - 9 - 8 = -8$.\nD resta $-9$ en lugar de $9$: $9 + 9 + 2 = 20$.",
+    "explanation": "Idea clave: el paréntesis indica si el signo está elevado, y un exponente negativo invierte la base, no cambia el signo.\nPaso 1: $(-3)^{2} = 9$ y $3^{2} = 9$.\nPaso 2: $2^{-1} \\cdot 4 = \\frac{1}{2} \\cdot 4 = 2$.\nPaso 3: $9 - 9 + 2 = 2$.\nRespuesta: C, el valor es $2$.\nErrores frecuentes: La A calcula $(-3)^{2}$ como $-9$: $-9 - 9 + 2 = -16$. La B interpreta el exponente negativo como un signo, $2^{-1} = -2$, y obtiene $9 - 9 - 8 = -8$. La D resta $-9$ en lugar de $9$: $9 + 9 + 2 = 20$.",
     "verify": "const v = (-3)**2 - 3**2 + 2**-1*4; const alts = {A:-16,B:-8,C:2,D:20}; for (const k in alts) if (Math.abs(alts[k]-v) < 1e-9) return k; return null;"
   },
   {
@@ -870,7 +870,7 @@
       "D": "$7{,}5 \\cdot 10^{6}$ m"
     },
     "correct": "B",
-    "explanation": "Para pasar de $0{,}0000075$ a $7{,}5$ la coma se desplaza $6$ lugares a la derecha, por lo que $0{,}0000075 = 7{,}5 \\cdot 10^{-6}$.\nA desplaza la coma un lugar de más ( en vez de 20 20 12 61 79 80 81 98 701 33 100 204 250 395 398 399 400.\nC cuenta solo los ceros después de la coma ($5$).\nD usa exponente positivo, que corresponde a un número muy grande.",
+    "explanation": "Idea clave: en un número menor que $1$, el exponente es negativo e igual a la cantidad de lugares que se mueve la coma hacia la derecha hasta dejar una cifra entera.\nPaso 1: para pasar de $0{,}0000075$ a $7{,}5$ la coma se desplaza $6$ lugares a la derecha.\nPaso 2: por lo tanto, $0{,}0000075 = 7{,}5 \\cdot 10^{-6}$.\nRespuesta: B, la medida es $7{,}5 \\cdot 10^{-6}$ m.\nErrores frecuentes: La A desplaza la coma un lugar de más y usa $10^{-7}$. La C cuenta solo los $5$ ceros que hay después de la coma. La D usa un exponente positivo, que corresponde a un número muy grande.",
     "verify": "const x = 0.0000075; const alts = {A:7.5e-7,B:7.5e-6,C:7.5e-5,D:7.5e6}; for (const k in alts) if (Math.abs(alts[k]-x) < 1e-15) return k; return null;"
   },
   {
@@ -889,7 +889,7 @@
       "D": "$1{,}375 \\cdot 10^{9}$"
     },
     "correct": "B",
-    "explanation": "Se divide: $\\frac{5{,}5 \\cdot 10^{6}}{2{,}5 \\cdot 10^{2}} = \\frac{5{,}5}{2{,}5} \\cdot 10^{6-2} = 2{,}2 \\cdot 10^{4}$ viajes.\nA se equivoca en un orden de magnitud al restar los exponentes y obtiene ^{3} lugar de ^{4}170\nC resta las partes decimales ($5{,}5 - 2{,}5 = 3$) en lugar de dividirlas.\nD multiplica las cantidades: $5{,}5 \\cdot 2{,}5 \\cdot 10^{6+2} = 13{,}75 \\cdot 10^{8}$.",
+    "explanation": "Idea clave: al dividir en notación científica se dividen los coeficientes y se restan los exponentes.\nPaso 1: $\\frac{5{,}5}{2{,}5} = 2{,}2$.\nPaso 2: $\\frac{10^{6}}{10^{2}} = 10^{6-2} = 10^{4}$, así que se necesitan $2{,}2 \\cdot 10^{4}$ viajes.\nRespuesta: B, se necesitan $2{,}2 \\cdot 10^{4}$ viajes.\nErrores frecuentes: La A se equivoca al restar los exponentes y obtiene $10^{3}$ en lugar de $10^{4}$. La C resta los coeficientes ($5{,}5 - 2{,}5 = 3$) en lugar de dividirlos. La D multiplica las cantidades: $5{,}5 \\cdot 2{,}5 \\cdot 10^{6+2} = 13{,}75 \\cdot 10^{8} = 1{,}375 \\cdot 10^{9}$.",
     "verify": "const v = 5.5e6/2.5e2; const alts = {A:2.2e3,B:2.2e4,C:3e4,D:1.375e9}; for (const k in alts) if (Math.abs(alts[k]-v) < 1e-6) return k; return null;"
   },
   {
@@ -908,7 +908,7 @@
       "D": "$2^{78}$"
     },
     "correct": "B",
-    "explanation": "La capacidad en MB es $2^{8} \\cdot 2^{10} = 2^{18}$ MB. La cantidad de fotografías es $\\frac{2^{18}}{2^{2}} = 2^{16}$.\nA no convierte los GB a MB: $\\frac{2^{8}}{2^{2}} = 2^{6}$.\nC multiplica por $2^{2}$ en lugar de dividir: $2^{18} \\cdot 2^{2} = 2^{20}$.\nD multiplica los exponentes al convertir ($2^{8 \\cdot 10} = 2^{80}$) y luego divide por $2^{2}$.",
+    "explanation": "Idea clave: hay que expresar la capacidad y el tamaño de cada foto en la misma unidad antes de dividir.\nPaso 1: la capacidad en MB es $2^{8} \\cdot 2^{10} = 2^{18}$ MB.\nPaso 2: caben $\\frac{2^{18}}{2^{2}} = 2^{16}$ fotografías.\nRespuesta: B, caben como máximo $2^{16}$ fotografías.\nErrores frecuentes: La A no convierte los GB a MB: $\\frac{2^{8}}{2^{2}} = 2^{6}$. La C multiplica por $2^{2}$ en lugar de dividir: $2^{18} \\cdot 2^{2} = 2^{20}$. La D multiplica los exponentes al convertir, $2^{8 \\cdot 10} = 2^{80}$, y luego divide por $2^{2}$.",
     "verify": "const fotos = (2**8 * 2**10) / 2**2; const alts = {A:2**6,B:2**16,C:2**20,D:2**78}; for (const k in alts) if (alts[k]===fotos) return k; return null;"
   },
   {
@@ -927,7 +927,7 @@
       "D": "Que $5^{20} - 5^{19} = 5^{19} \\cdot (5 - 1) = 4 \\cdot 5^{19}$."
     },
     "correct": "D",
-    "explanation": "Factorizando por $5^{19}$: $5^{20} - 5^{19} = 5^{19} \\cdot 5 - 5^{19} \\cdot 1 = 5^{19}(5 - 1) = 4 \\cdot 5^{19}$, que es múltiplo de $4$.\nA solo asegura que el número es par, no que sea múltiplo de $4$ (por ejemplo, $9 - 3 = 6$ no es múltiplo de $4$).\nB aplica una propiedad falsa: la resta de potencias de igual base no equivale a restar los exponentes.\nC es falsa: las potencias de $5$ son impares, por lo que no son múltiplos de $4$.",
+    "explanation": "Idea clave: para mostrar que un número es múltiplo de $4$ hay que escribirlo como $4$ por un entero, y aquí eso se logra factorizando.\nPaso 1: $5^{20} - 5^{19} = 5^{19} \\cdot 5 - 5^{19} \\cdot 1 = 5^{19}(5 - 1)$.\nPaso 2: $5^{19}(5 - 1) = 4 \\cdot 5^{19}$, que es múltiplo de $4$.\nRespuesta: D, el argumento correcto es $5^{20} - 5^{19} = 5^{19} \\cdot (5 - 1) = 4 \\cdot 5^{19}$.\nErrores frecuentes: La A solo asegura que el número es par, no que sea múltiplo de $4$; por ejemplo, $9 - 3 = 6$ no es múltiplo de $4$. La B usa una propiedad falsa: restar potencias de igual base no equivale a restar los exponentes. La C es falsa: las potencias de $5$ son impares, así que no son múltiplos de $4$.",
     "verify": "const a = 5n**20n, b = 5n**19n; const d = a - b; const okD = d === 4n*b; const okA = (9-3)%4 !== 0; const okB = d !== 5n; const okC = a%4n !== 0n && b%4n !== 0n; return okD && okA && okB && okC ? 'D' : null;"
   },
   {
@@ -946,7 +946,7 @@
       "D": "Por $9$"
     },
     "correct": "D",
-    "explanation": "Si la profundidad se multiplica por $k$: $\\sqrt{10\\,k\\,h} = \\sqrt{k}\\cdot\\sqrt{10\\,h}$. Para que la rapidez se triplique se necesita $\\sqrt{k} = 3$, es decir, $k = 9$. Por ejemplo, con $h = 2{,}5$ m la rapidez es $5$ m/s, y con $h = 22{,}5$ m es $\\sqrt{225} = 15$ m/s.\nA invierte la relación: multiplicar por $\\sqrt{3}$ solo multiplica la rapidez por $\\sqrt[4]{3}$.\nB supone que la rapidez es proporcional a la profundidad; con $k = 3$ la rapidez se multiplica por $\\sqrt{3}$.\nC duplica el factor $3$ en lugar de elevarlo al cuadrado.",
+    "explanation": "Idea clave: la rapidez depende de la raíz de la profundidad, así que para triplicar la rapidez la profundidad debe multiplicarse por $3^{2}$.\nPaso 1: si la profundidad se multiplica por $k$: $\\sqrt{10\\,k\\,h} = \\sqrt{k} \\cdot \\sqrt{10\\,h}$.\nPaso 2: para triplicar la rapidez se necesita $\\sqrt{k} = 3$, es decir, $k = 9$. Por ejemplo, con $h = 2{,}5$ m la rapidez es $5$ m/s, y con $h = 22{,}5$ m es $\\sqrt{225} = 15$ m/s.\nRespuesta: D, la profundidad se debe multiplicar por $9$.\nErrores frecuentes: La A extrae una raíz en vez de elevar al cuadrado; multiplicar $h$ por $\\sqrt{3}$ solo multiplica la rapidez por $\\sqrt[4]{3}$. La B supone que la rapidez es proporcional a la profundidad; con $k = 3$ la rapidez se multiplica solo por $\\sqrt{3}$. La C duplica el factor $3$ en lugar de elevarlo al cuadrado.",
     "verify": "const v = h => Math.sqrt(10*h); const h = 2.5; const alts = {A:Math.sqrt(3),B:3,C:6,D:9}; const ok = Object.keys(alts).filter(k => Math.abs(v(h*alts[k]) - 3*v(h)) < 1e-9); return ok.length===1 ? ok[0] : null;"
   },
   {
@@ -965,7 +965,7 @@
       "D": "$15$"
     },
     "correct": "B",
-    "explanation": "El nivel final es $-3 + 8 - 2 + 6 = 9$.\nA omite el último movimiento: $-3 + 8 - 2 = 3$.\nC suma los $2$ niveles que bajó: $-3 + 8 + 2 + 6 = 13$.\nD toma el nivel inicial como $3$ en lugar de $-3$: $3 + 8 - 2 + 6 = 15$.",
+    "explanation": "Idea clave: subir es sumar y bajar es restar, partiendo desde el nivel negativo inicial.\nPaso 1: $-3 + 8 = 5$.\nPaso 2: $5 - 2 + 6 = 9$.\nRespuesta: B, el camillero termina en el nivel $9$.\nErrores frecuentes: La A omite el último movimiento: $-3 + 8 - 2 = 3$. La C suma los $2$ niveles que bajó: $-3 + 8 + 2 + 6 = 13$. La D toma el nivel inicial como $3$ en lugar de $-3$: $3 + 8 - 2 + 6 = 15$.",
     "verify": "const r = -3 + 8 - 2 + 6\nconst alts = { A: 3, B: 9, C: 13, D: 15 }\nconst k = Object.keys(alts).filter((l) => alts[l] === r)\nreturn k.length === 1 ? k[0] : null"
   },
   {
@@ -984,7 +984,7 @@
       "D": "$0{,}72$ m"
     },
     "correct": "C",
-    "explanation": "Como $\\frac{5}{8} = 0{,}625$, se busca una longitud entre $0{,}625$ m y $0{,}7$ m. Además, $\\frac{2}{3} = 0{,}666\\ldots$, que cumple $0{,}625 < 0{,}666\\ldots < 0{,}7$.\nA es menor que $\\frac{5}{8}$.\nB parece cumplir si se aproxima $\\frac{5}{8}$ a $0{,}6$, pero $0{,}62 < 0{,}625$.\nD es mayor que $0{,}7$; se elige al comparar mal $0{,}72$ con $0{,}7$ por la cantidad de cifras.",
+    "explanation": "Idea clave: para comparar se escriben todas las longitudes como decimales.\nPaso 1: $\\frac{5}{8} = 0{,}625$, así que se busca una longitud entre $0{,}625$ m y $0{,}7$ m.\nPaso 2: $\\frac{2}{3} = 0{,}666\\ldots$, y se cumple $0{,}625 < 0{,}666\\ldots < 0{,}7$.\nRespuesta: C, el trozo de $\\frac{2}{3}$ m cumple la condición.\nErrores frecuentes: La A es menor que $\\frac{5}{8}$. La B parece cumplir si se aproxima $\\frac{5}{8}$ a $0{,}6$, pero $0{,}62 < 0{,}625$. La D es mayor que $0{,}7$; se elige al comparar mal $0{,}72$ con $0{,}7$ por la cantidad de cifras.",
     "verify": "const v = { A: 0.6, B: 0.62, C: 2 / 3, D: 0.72 }\nconst k = Object.keys(v).filter((l) => v[l] > 5 / 8 && v[l] < 0.7)\nreturn k.length === 1 ? k[0] : null"
   },
   {
@@ -1003,7 +1003,7 @@
       "D": "$17$"
     },
     "correct": "D",
-    "explanation": "La mayor cantidad de cajas es el máximo común divisor de $84$ y $120$: $84 = 2^{2} \\cdot 3 \\cdot 7$ y $120 = 2^{3} \\cdot 3 \\cdot 5$, así que $\\text{MCD} = 12$ cajas.\nCada caja lleva $84 : 12 = 7$ tazas y $120 : 12 = 10$ platos, es decir, $17$ piezas.\nA y B consideran solo las tazas o solo los platos de cada caja.\nC es la cantidad de cajas, no la cantidad de piezas por caja.",
+    "explanation": "Idea clave: la mayor cantidad de cajas iguales sin que sobren piezas es el máximo común divisor de las cantidades.\nPaso 1: $84 = 2^{2} \\cdot 3 \\cdot 7$ y $120 = 2^{3} \\cdot 3 \\cdot 5$, así que $\\text{MCD}(84, 120) = 2^{2} \\cdot 3 = 12$ cajas.\nPaso 2: cada caja lleva $84 : 12 = 7$ tazas y $120 : 12 = 10$ platos.\nPaso 3: en total, $7 + 10 = 17$ piezas por caja.\nRespuesta: D, cada caja tendrá $17$ piezas.\nErrores frecuentes: La A considera solo las tazas de cada caja. La B considera solo los platos de cada caja. La C es la cantidad de cajas, no la cantidad de piezas por caja.",
     "verify": "const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b))\nconst g = gcd(84, 120)\nconst piezas = 84 / g + 120 / g\nconst alts = { A: 7, B: 10, C: 12, D: 17 }\nconst k = Object.keys(alts).filter((l) => alts[l] === piezas)\nreturn g === 12 && k.length === 1 ? k[0] : null"
   },
   {
@@ -1022,7 +1022,7 @@
       "D": "$300$"
     },
     "correct": "C",
-    "explanation": "En una hora, Lucía pinta $\\frac{1}{4}$ del mural y Diego $\\frac{1}{6}$; juntos pintan $\\frac{1}{4} + \\frac{1}{6} = \\frac{5}{12}$. Falta $\\frac{7}{12}$ del mural.\nDiego pinta $\\frac{1}{6}$ por hora, así que necesita $\\frac{7}{12} : \\frac{1}{6} = \\frac{7}{2}$ horas, es decir, $210$ minutos.\nA interpreta la fracción que falta, $\\frac{7}{12}$, como horas: $\\frac{7}{12} \\cdot 60 = 35$ minutos.\nB es el tiempo que tardarían los dos juntos en pintar todo el mural: $\\frac{12}{5}$ h $= 144$ minutos.\nD descuenta solo lo que pintó Diego en la primera hora: le faltaría $\\frac{5}{6}$, que pinta en $5$ h $= 300$ minutos.",
+    "explanation": "Idea clave: se trabaja con la fracción del mural que pinta cada persona por hora.\nPaso 1: en una hora Lucía pinta $\\frac{1}{4}$ y Diego $\\frac{1}{6}$; juntos pintan $\\frac{1}{4} + \\frac{1}{6} = \\frac{5}{12}$.\nPaso 2: falta $1 - \\frac{5}{12} = \\frac{7}{12}$ del mural.\nPaso 3: Diego necesita $\\frac{7}{12} : \\frac{1}{6} = \\frac{7}{2}$ horas, es decir, $210$ minutos.\nRespuesta: C, Diego trabaja solo $210$ minutos.\nErrores frecuentes: La A interpreta la fracción que falta, $\\frac{7}{12}$, como horas: $\\frac{7}{12} \\cdot 60 = 35$ minutos. La B es el tiempo que tardarían los dos juntos en pintar todo el mural: $\\frac{12}{5}$ h $= 144$ minutos. La D descuenta solo lo que pintó Diego en la primera hora: le faltaría $\\frac{5}{6}$, que pinta en $5$ h $= 300$ minutos.",
     "verify": "const juntos = 1 / 4 + 1 / 6\nconst falta = 1 - juntos\nconst min = (falta / (1 / 6)) * 60\nconst alts = { A: 35, B: 144, C: 210, D: 300 }\nconst k = Object.keys(alts).filter((l) => Math.abs(alts[l] - min) < 1e-9)\nreturn k.length === 1 ? k[0] : null"
   },
   {
@@ -1041,7 +1041,7 @@
       "D": "$\\frac{3}{4}d$"
     },
     "correct": "A",
-    "explanation": "Un día tiene $24$ horas, así que en un día el reloj se atrasa $24 \\cdot \\frac{3}{4} = 18$ minutos. En $d$ días se atrasa $18d$ minutos.\nB suma el atraso por hora en lugar de multiplicarlo por las horas.\nC divide $24$ por $\\frac{3}{4}$ en lugar de multiplicar.\nD usa el atraso por hora como si fuera el atraso por día.",
+    "explanation": "Idea clave: el atraso por hora se multiplica por la cantidad de horas, y un día tiene $24$ horas.\nPaso 1: en un día el reloj se atrasa $24 \\cdot \\frac{3}{4} = 18$ minutos.\nPaso 2: en $d$ días se atrasa $18d$ minutos.\nRespuesta: A, la expresión es $18d$.\nErrores frecuentes: La B suma el atraso por hora en lugar de multiplicarlo por las horas. La C divide $24$ por $\\frac{3}{4}$ en lugar de multiplicar. La D usa el atraso por hora como si fuera el atraso por día.",
     "verify": "const real = (d) => d * 24 * (3 / 4)\nconst alts = { A: (d) => 18 * d, B: (d) => 24 * d + 3 / 4, C: (d) => 32 * d, D: (d) => (3 / 4) * d }\nconst k = Object.keys(alts).filter((l) => [1, 2, 5, 10].every((d) => Math.abs(alts[l](d) - real(d)) < 1e-9))\nreturn k.length === 1 ? k[0] : null"
   },
   {
@@ -1060,7 +1060,7 @@
       "D": "$1\\,835$"
     },
     "correct": "A",
-    "explanation": "El $35\\%$ de $1\\,800$ es $0{,}35 \\cdot 1\\,800 = 630$ kg.\nB corresponde al $65\\%$ restante, es decir, a la uva que no se destinó a pisco.\nC resta $35$ kg al total, como si el porcentaje fuera una cantidad de kilogramos.\nD suma $35$ kg al total con el mismo error.",
+    "explanation": "Idea clave: el $35\\%$ de una cantidad se obtiene multiplicándola por $0{,}35$.\nPaso 1: $0{,}35 \\cdot 1\\,800 = 630$.\nRespuesta: A, se destinaron $630$ kg de uva al pisco.\nErrores frecuentes: La B corresponde al $65\\%$ restante, es decir, a la uva que no se destinó a pisco. La C resta $35$ kg al total, como si el porcentaje fuera una cantidad de kilogramos. La D suma $35$ kg al total, con el mismo error.",
     "verify": "const x = (35 / 100) * 1800\nconst alts = { A: 630, B: 1170, C: 1765, D: 1835 }\nconst k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9)\nreturn k.length === 1 ? k[0] : null"
   },
   {
@@ -1079,7 +1079,7 @@
       "D": "$360$"
     },
     "correct": "B",
-    "explanation": "Si $x$ es la cantidad del año anterior, entonces $1{,}2x = 300$, de donde $x = 300 : 1{,}2 = 250$. Comprobación: el $20\\%$ de $250$ es $50$ y $250 + 50 = 300$.\nA calcula el $20\\%$ de descuento sobre $300$; pero el $20\\%$ se aplica sobre la cantidad del año anterior, no sobre $300$.\nC resta $20$ flamencos, confundiendo el porcentaje con una cantidad.\nD aumenta $300$ en un $20\\%$ en lugar de retroceder.",
+    "explanation": "Idea clave: el $20\\%$ se calcula sobre la cantidad del año anterior, así que este año hay $1{,}2$ veces esa cantidad.\nPaso 1: si $x$ es la cantidad del año anterior, $1{,}2x = 300$.\nPaso 2: $x = 300 : 1{,}2 = 250$. Comprobación: el $20\\%$ de $250$ es $50$ y $250 + 50 = 300$.\nRespuesta: B, el año anterior se registraron $250$ flamencos.\nErrores frecuentes: La A le resta a $300$ su $20\\%$, pero el $20\\%$ se aplica sobre la cantidad del año anterior, no sobre $300$. La C resta $20$ flamencos, confundiendo el porcentaje con una cantidad. La D aumenta $300$ en un $20\\%$ en lugar de retroceder.",
     "verify": "const x = 300 / 1.2\nconst ok = Math.abs(x * 1.2 - 300) < 1e-9\nconst alts = { A: 240, B: 250, C: 280, D: 360 }\nconst k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9)\nreturn ok && k.length === 1 ? k[0] : null"
   },
   {
@@ -1098,7 +1098,7 @@
       "D": "Considerando ambas villas juntas, recicla el $37{,}5\\%$ de los hogares."
     },
     "correct": "C",
-    "explanation": "En Los Aromos reciclan $0{,}30 \\cdot 2\\,000 = 600$ hogares y en El Sauce, $0{,}45 \\cdot 1\\,200 = 540$. La diferencia es $600 - 540 = 60$ hogares, así que C es verdadera.\nA compara solo los porcentajes, sin considerar que las villas tienen distinta cantidad de hogares.\nB suma los porcentajes, que se refieren a totales distintos.\nD promedia los porcentajes sin ponderar; el porcentaje real es $\\frac{1\\,140}{3\\,200} = 35{,}625\\%$.",
+    "explanation": "Idea clave: para comparar grupos de distinto tamaño hay que calcular las cantidades, no solo mirar los porcentajes.\nPaso 1: en Los Aromos reciclan $0{,}30 \\cdot 2\\,000 = 600$ hogares y en El Sauce, $0{,}45 \\cdot 1\\,200 = 540$.\nPaso 2: la diferencia es $600 - 540 = 60$ hogares a favor de Los Aromos.\nRespuesta: C, en Los Aromos reciclan $60$ hogares más que en El Sauce.\nErrores frecuentes: La A compara solo los porcentajes, sin considerar que las villas tienen distinta cantidad de hogares. La B suma porcentajes que se refieren a totales distintos. La D promedia los porcentajes sin ponderar; el porcentaje real es $\\frac{1\\,140}{3\\,200} = 35{,}625\\%$.",
     "verify": "const a = 0.3 * 2000, b = 0.45 * 1200\nconst tot = (a + b) / 3200 * 100\nconst t = { A: b > a, B: Math.abs(tot - 75) < 1e-9, C: Math.abs(a - b - 60) < 1e-9, D: Math.abs(tot - 37.5) < 1e-9 }\nconst k = Object.keys(t).filter((l) => t[l])\nreturn k.length === 1 ? k[0] : null"
   },
   {
@@ -1117,7 +1117,7 @@
       "D": "$S = 450\\,000 + 0{,}03(v - 2\\,000\\,000)$"
     },
     "correct": "D",
-    "explanation": "La comisión se calcula solo sobre el excedente, que es $v - 2\\,000\\,000$, y el $3\\%$ equivale a multiplicar por $0{,}03$. Por lo tanto, $S = 450\\,000 + 0{,}03(v - 2\\,000\\,000)$. Por ejemplo, si vende $3\\,000\\,000$ de pesos, gana $450\\,000 + 30\\,000 = 480\\,000$ pesos.\nA aplica la comisión sobre el total vendido y no solo sobre el excedente.\nB multiplica por $3$ en lugar de $0{,}03$.\nC aplica el $3\\%$ también al sueldo base.",
+    "explanation": "Idea clave: la comisión se calcula solo sobre lo que excede los $2\\,000\\,000$ de pesos y se suma al sueldo base.\nPaso 1: el excedente es $v - 2\\,000\\,000$ y el $3\\%$ de él es $0{,}03(v - 2\\,000\\,000)$.\nPaso 2: $S = 450\\,000 + 0{,}03(v - 2\\,000\\,000)$. Por ejemplo, si vende $3\\,000\\,000$ de pesos, gana $450\\,000 + 30\\,000 = 480\\,000$ pesos.\nRespuesta: D, $S = 450\\,000 + 0{,}03(v - 2\\,000\\,000)$.\nErrores frecuentes: La A aplica la comisión sobre el total vendido y no solo sobre el excedente. La B multiplica por $3$ en lugar de $0{,}03$. La C aplica el $3\\%$ también al sueldo base.",
     "verify": "const real = (v) => 450000 + (3 / 100) * Math.max(0, v - 2000000)\nconst alts = {\n  A: (v) => 450000 + 0.03 * v,\n  B: (v) => 450000 + 3 * (v - 2000000),\n  C: (v) => 0.03 * (450000 + v - 2000000),\n  D: (v) => 450000 + 0.03 * (v - 2000000),\n}\nconst k = Object.keys(alts).filter((l) => [2500000, 3000000, 4200000].every((v) => Math.abs(alts[l](v) - real(v)) < 1e-6))\nreturn k.length === 1 ? k[0] : null"
   },
   {
@@ -1136,7 +1136,7 @@
       "D": "$73\\%$"
     },
     "correct": "A",
-    "explanation": "$\\frac{2}{5} = 40\\%$ y $0{,}25 = 25\\%$. Entre ambas partidas suman $65\\%$, así que el resto es $100\\% - 65\\% = 35\\%$.\nB interpreta $0{,}25$ como $2{,}5\\%$: $100 - 40 - 2{,}5 = 57{,}5$.\nC descuenta solo las áreas verdes.\nD interpreta $\\frac{2}{5}$ como $2\\%$: $100 - 2 - 25 = 73$.",
+    "explanation": "Idea clave: se pasan la fracción y el decimal a porcentaje y se resta del $100\\%$.\nPaso 1: $\\frac{2}{5} = 40\\%$ y $0{,}25 = 25\\%$; juntas suman $65\\%$.\nPaso 2: el resto es $100\\% - 65\\% = 35\\%$.\nRespuesta: A, se destinó el $35\\%$ a actividades culturales.\nErrores frecuentes: La B interpreta $0{,}25$ como $2{,}5\\%$: $100 - 40 - 2{,}5 = 57{,}5$. La C descuenta solo las áreas verdes. La D interpreta $\\frac{2}{5}$ como $2\\%$: $100 - 2 - 25 = 73$.",
     "verify": "const resto = (1 - 2 / 5 - 0.25) * 100\nconst alts = { A: 35, B: 57.5, C: 60, D: 73 }\nconst k = Object.keys(alts).filter((l) => Math.abs(alts[l] - resto) < 1e-9)\nreturn k.length === 1 ? k[0] : null"
   },
   {
@@ -1155,7 +1155,7 @@
       "D": "$\\frac{27}{4}$"
     },
     "correct": "C",
-    "explanation": "Un exponente negativo invierte la base: $\\left(\\frac{2}{3}\\right)^{-2} = \\left(\\frac{3}{2}\\right)^{2} = \\frac{9}{4}$ y $3^{-1} = \\frac{1}{3}$. Luego, $\\frac{9}{4} \\cdot \\frac{1}{3} = \\frac{3}{4}$.\nA cree que el exponente negativo cambia el signo del resultado.\nB no invierte la primera base: $\\frac{4}{9} \\cdot \\frac{1}{3} = \\frac{4}{27}$.\nD toma $3^{-1}$ como $3$: $\\frac{9}{4} \\cdot 3 = \\frac{27}{4}$.",
+    "explanation": "Idea clave: un exponente negativo invierte la base; no cambia el signo del resultado.\nPaso 1: $\\left(\\frac{2}{3}\\right)^{-2} = \\left(\\frac{3}{2}\\right)^{2} = \\frac{9}{4}$ y $3^{-1} = \\frac{1}{3}$.\nPaso 2: $\\frac{9}{4} \\cdot \\frac{1}{3} = \\frac{9}{12} = \\frac{3}{4}$.\nRespuesta: C, el valor es $\\frac{3}{4}$.\nErrores frecuentes: La A cree que el exponente negativo cambia el signo del resultado. La B no invierte la primera base: $\\frac{4}{9} \\cdot \\frac{1}{3} = \\frac{4}{27}$. La D toma $3^{-1}$ como $3$: $\\frac{9}{4} \\cdot 3 = \\frac{27}{4}$.",
     "verify": "const x = Math.pow(2 / 3, -2) * Math.pow(3, -1)\nconst alts = { A: -3 / 4, B: 4 / 27, C: 3 / 4, D: 27 / 4 }\nconst k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9)\nreturn k.length === 1 ? k[0] : null"
   },
   {
@@ -1174,7 +1174,7 @@
       "D": "$3{,}7 \\cdot 10^{7}$"
     },
     "correct": "D",
-    "explanation": "En un año hay $60 \\cdot 24 \\cdot 365 = 525\\,600$ minutos, así que el corazón late $70 \\cdot 525\\,600 = 36\\,792\\,000$ veces. Este número tiene $8$ cifras enteras, por lo que en notación científica es aproximadamente $3{,}7 \\cdot 10^{7}$.\nC resulta de olvidar el factor $10$ al escribir $70 = 7 \\cdot 10$: $7 \\cdot 525\\,600 = 3\\,679\\,200 \\approx 3{,}7 \\cdot 10^{6}$.\nA y B cuentan mal las cifras del resultado y usan un exponente aún menor.",
+    "explanation": "Idea clave: se calcula la cantidad de minutos de un año, se multiplica por los latidos por minuto y se cuenta la cantidad de cifras.\nPaso 1: un año tiene $60 \\cdot 24 \\cdot 365 = 525\\,600$ minutos.\nPaso 2: el corazón late $70 \\cdot 525\\,600 = 36\\,792\\,000$ veces.\nPaso 3: ese número tiene $8$ cifras enteras, así que es aproximadamente $3{,}7 \\cdot 10^{7}$.\nRespuesta: D, son aproximadamente $3{,}7 \\cdot 10^{7}$ latidos.\nErrores frecuentes: La A equivale a unos $37\\,000$ latidos, lo que late el corazón en menos de un día (unas $9$ horas). La B equivale a unos $370\\,000$ latidos, lo que late en unos $4$ días; ambas cuentan mal las cifras. La C olvida el factor $10$ de $70 = 7 \\cdot 10$: $7 \\cdot 525\\,600 = 3\\,679\\,200 \\approx 3{,}7 \\cdot 10^{6}$.",
     "verify": "const n = 70 * 60 * 24 * 365\nconst e = Math.floor(Math.log10(n))\nconst m = n / Math.pow(10, e)\nconst alts = { A: 4, B: 5, C: 6, D: 7 }\nconst k = Object.keys(alts).filter((l) => alts[l] === e)\nreturn Math.abs(m - 3.7) < 0.05 && k.length === 1 ? k[0] : null"
   },
   {
@@ -1193,7 +1193,7 @@
       "D": "$32$"
     },
     "correct": "B",
-    "explanation": "Se factoriza la menor potencia en cada parte: $2^{10} + 2^{9} = 2^{9}(2 + 1) = 3 \\cdot 2^{9}$ y $2^{8} - 2^{6} = 2^{6}(4 - 1) = 3 \\cdot 2^{6}$. Entonces el cociente es $\\frac{3 \\cdot 2^{9}}{3 \\cdot 2^{6}} = 2^{3} = 8$.\nA considera solo los primeros términos: $2^{10} : 2^{8} = 4$.\nC divide término a término, lo que no es válido en una suma: $\\frac{2^{10}}{2^{8}} + \\frac{2^{9}}{2^{6}} = 4 + 8$.\nD suma exponentes en el numerador y en el denominador como si fueran productos: $\\frac{2^{19}}{2^{14}} = 2^{5}$.",
+    "explanation": "Idea clave: en sumas y restas de potencias se factoriza la menor potencia; no se puede simplificar término a término.\nPaso 1: $2^{10} + 2^{9} = 2^{9}(2 + 1) = 3 \\cdot 2^{9}$.\nPaso 2: $2^{8} - 2^{6} = 2^{6}(4 - 1) = 3 \\cdot 2^{6}$.\nPaso 3: $\\frac{3 \\cdot 2^{9}}{3 \\cdot 2^{6}} = 2^{3} = 8$.\nRespuesta: B, el valor es $8$.\nErrores frecuentes: La A considera solo los primeros términos: $2^{10} : 2^{8} = 4$. La C divide término a término, lo que no es válido en una suma: $\\frac{2^{10}}{2^{8}} + \\frac{2^{9}}{2^{6}} = 4 + 8 = 12$. La D suma exponentes en el numerador y en el denominador como si fueran productos: $\\frac{2^{19}}{2^{14}} = 2^{5}$.",
     "verify": "const x = (2 ** 10 + 2 ** 9) / (2 ** 8 - 2 ** 6)\nconst alts = { A: 4, B: 8, C: 12, D: 32 }\nconst k = Object.keys(alts).filter((l) => Math.abs(alts[l] - x) < 1e-9)\nreturn k.length === 1 ? k[0] : null"
   },
   {

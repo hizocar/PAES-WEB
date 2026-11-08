@@ -15,7 +15,7 @@
       "D": "$48$ páginas"
     },
     "correct": "C",
-    "explanation": "La desviación estándar de la primera semana es $\\sqrt{16} = 4$ páginas.\nAl multiplicar cada dato por $3$, la desviación estándar también se multiplica por $3$: $3 \\cdot 4 = 12$ páginas (la varianza se multiplica por $9$).\nA supone que la dispersión no cambia, B suma $3$ en vez de multiplicar y D multiplica la varianza por $3$ y la entrega como desviación estándar.",
+    "explanation": "Idea clave: si todos los datos se multiplican por $k$, la desviación estándar se multiplica por $|k|$ y la varianza por $k^2$.\nPaso 1: la desviación estándar de la primera semana es $\\sqrt{16} = 4$ páginas.\nPaso 2: al triplicar cada dato, la desviación estándar se triplica: $3 \\cdot 4 = 12$ páginas (la varianza pasa a $9 \\cdot 16 = 144$).\nRespuesta: C, $12$ páginas.\nErrores frecuentes: La A supone que la dispersión no cambia al triplicar los datos. La B suma $3$ a la desviación estándar en vez de multiplicarla. La D multiplica la varianza por $3$ ($48$) y la entrega como si fuera la desviación estándar.",
     "verify": "const datos = [10, 18]; const sd = (a) => { const m = a.reduce((s,x)=>s+x,0)/a.length; return Math.sqrt(a.reduce((s,x)=>s+(x-m)**2,0)/a.length); }; const base = sd(datos); if (Math.abs(base*base-16)>1e-9) return null; const nuevo = sd(datos.map(x=>3*x)); const opts={A:4,B:7,C:12,D:48}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v-nuevo)<1e-9) return l; return null;"
   },
   {
@@ -34,7 +34,7 @@
       "D": "La media disminuye a $10{,}8$ y la varianza disminuye a $18$."
     },
     "correct": "A",
-    "explanation": "La suma de los $9$ datos es $9 \\cdot 12 = 108$; con el nuevo dato es $120$ y la media sigue siendo $\\frac{120}{10} = 12$.\nLa suma de los cuadrados de las desviaciones era $9 \\cdot 20 = 180$, y el nuevo dato aporta $(12 - 12)^2 = 0$. La nueva varianza es $\\frac{180}{10} = 18$.\nB olvida que se divide por más datos, C supone que más datos implican más dispersión y D calcula la media sin sumar el nuevo dato ($\\frac{108}{10}$).",
+    "explanation": "Idea clave: un dato igual a la media no cambia la media ni la suma de los cuadrados de las desviaciones, pero sí aumenta la cantidad de datos por la que se divide.\nPaso 1: la suma de los $9$ datos es $9 \\cdot 12 = 108$; con el nuevo dato queda $120$ y la media es $\\frac{120}{10} = 12$.\nPaso 2: la suma de los cuadrados de las desviaciones era $9 \\cdot 20 = 180$ y el nuevo dato aporta $(12 - 12)^2 = 0$.\nPaso 3: la nueva varianza es $\\frac{180}{10} = 18$.\nRespuesta: A, la media se mantiene en $12$ y la varianza disminuye a $18$.\nErrores frecuentes: La B olvida que ahora se divide por $10$ datos y no por $9$. La C supone que más datos implican más dispersión, cuando el dato agregado está justo en la media. La D calcula la media sin sumar el nuevo dato ($\\frac{108}{10} = 10{,}8$).",
     "verify": "const n=9, media=12, varz=20; const suma=n*media+12; const nm=suma/(n+1); const ssd=n*varz+(12-nm)**2; const nv=ssd/(n+1); const opts={A:[12,18],B:[12,20],C:[12,null],D:[10.8,18]}; const ok=[]; for (const [l,[m,v]] of Object.entries(opts)) { if (Math.abs(m-nm)>1e-9) continue; if (v===null ? nv>varz : Math.abs(v-nv)<1e-9) ok.push(l); } return ok.length===1?ok[0]:null;"
   },
   {
@@ -54,7 +54,7 @@
       "E": "Se requiere información adicional"
     },
     "correct": "D",
-    "explanation": "Con (1): $2 + 5 + 8 + x = 20$, así que $x = 5$ y el conjunto queda determinado; su desviación estándar se puede calcular. Basta.\nCon (2): si $x \\leq 2$ la mediana es $3{,}5$; si $x \\geq 8$ es $6{,}5$; en ninguno de esos casos coincide con $x$. Si $2 \\leq x \\leq 8$, la mediana es $\\frac{x + 5}{2}$, e igualarla a $x$ da $x = 5$. Así, $x = 5$ y también basta.\nCada afirmación por sí sola es suficiente (ambas llevan al conjunto $2, 5, 5, 8$).",
+    "explanation": "Idea clave: la desviación estándar queda determinada si se puede despejar el valor de $x$, porque así se conoce el conjunto completo.\nPaso 1: con (1), $2 + 5 + 8 + x = 4 \\cdot 5 = 20$, así que $x = 5$ y el conjunto queda determinado. (1) por sí sola basta.\nPaso 2: con (2), si $x \\leq 2$ la mediana es $\\frac{2 + 5}{2} = 3{,}5$ y si $x \\geq 8$ es $\\frac{5 + 8}{2} = 6{,}5$; en ninguno de esos casos coincide con $x$. Si $2 \\leq x \\leq 8$, la mediana es $\\frac{x + 5}{2}$, e igualarla a $x$ da $x = 5$. (2) por sí sola también basta.\nPaso 3: ambas afirmaciones, cada una por separado, llevan al conjunto $2, 5, 5, 8$, cuya desviación estándar se puede calcular.\nRespuesta: D, cada una por sí sola, (1) ó (2).\nErrores frecuentes: La A y la B consideran suficiente solo una de las afirmaciones, sin notar que la otra también fija $x = 5$. La C pide ambas juntas, cuando cada una basta por separado. La E supone que la condición sobre la mediana no permite despejar $x$, pero sí lo hace.",
     "verify": "const sd = (a) => { const m=a.reduce((s,v)=>s+v,0)/a.length; return Math.sqrt(a.reduce((s,v)=>s+(v-m)**2,0)/a.length); }; const med = (a) => { const b=[...a].sort((u,v)=>u-v); return (b[1]+b[2])/2; }; const x1 = 4*5-(2+5+8); const s1 = sd([2,5,8,x1]); const sols=[]; for (let x=-20; x<=30; x+=0.25) if (Math.abs(med([2,5,8,x])-x)<1e-9) sols.push(x); const ok2 = sols.length===1 && Math.abs(sd([2,5,8,sols[0]])-s1)<1e-9; if (Number.isFinite(s1) && ok2) return 'D'; return null;"
   },
   {
@@ -73,7 +73,7 @@
       "D": "$\\frac{33}{70}$"
     },
     "correct": "B",
-    "explanation": "La condición restringe el espacio a los $80$ estudiantes de cuarto medio, de los cuales $30$ llegan en bus: $P = \\frac{30}{80} = \\frac{3}{8}$.\nA es $\\frac{30}{140}$, la probabilidad de ser de cuarto y llegar en bus (intersección). C es $\\frac{30}{66}$, la condicional invertida (ser de cuarto dado que llega en bus). D es $\\frac{66}{140}$, la probabilidad de llegar en bus sin condición.",
+    "explanation": "Idea clave: en una probabilidad condicional, la condición reduce el espacio muestral a los casos que la cumplen.\nPaso 1: saber que el estudiante es de cuarto medio restringe el espacio a esos $80$ estudiantes.\nPaso 2: de ellos, $30$ llegan en bus, así que $P = \\frac{30}{80} = \\frac{3}{8}$.\nRespuesta: B, $\\frac{3}{8}$.\nErrores frecuentes: La A es $\\frac{30}{140}$, la probabilidad de ser de cuarto medio y llegar en bus (la intersección). La C es $\\frac{30}{66}$, la condicional invertida (ser de cuarto medio dado que llega en bus). La D es $\\frac{66}{140}$, la probabilidad de llegar en bus sin considerar la condición.",
     "verify": "const t=[[36,24],[30,50]]; const cuarto=t[1][0]+t[1][1]; const p=t[1][0]/cuarto; const opts={A:3/14,B:3/8,C:5/11,D:33/70}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v-p)<1e-9) return l; return null;"
   },
   {
@@ -92,7 +92,7 @@
       "D": "$18\\%$"
     },
     "correct": "B",
-    "explanation": "Por probabilidad total: $P(D) = 0{,}5 \\cdot 0{,}04 + 0{,}3 \\cdot 0{,}05 + 0{,}2 \\cdot 0{,}09 = 0{,}02 + 0{,}015 + 0{,}018 = 0{,}053$, es decir, $5{,}3\\%$.\nA multiplica los tres porcentajes de defectos, C es su promedio simple (no pondera por la producción de cada máquina) y D es su suma.",
+    "explanation": "Idea clave: por probabilidad total, cada tasa de defectos se pondera por la fracción de la producción que aporta cada máquina.\nPaso 1: los aportes son $0{,}5 \\cdot 0{,}04 = 0{,}02$; $0{,}3 \\cdot 0{,}05 = 0{,}015$ y $0{,}2 \\cdot 0{,}09 = 0{,}018$.\nPaso 2: la suma es $P(D) = 0{,}02 + 0{,}015 + 0{,}018 = 0{,}053$, es decir, $5{,}3\\%$.\nRespuesta: B, $5{,}3\\%$.\nErrores frecuentes: La A multiplica entre sí los tres porcentajes de defectos. La C es el promedio simple de $4\\%$, $5\\%$ y $9\\%$, sin ponderar por la producción de cada máquina. La D suma los tres porcentajes de defectos.",
     "verify": "const prod=[0.5,0.3,0.2], def=[0.04,0.05,0.09]; const pd = prod.reduce((s,x,i)=>s+x*def[i],0)*100; const opts={A:0.018,B:5.3,C:6,D:18}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v-pd)<1e-9) return l; return null;"
   },
   {
@@ -111,7 +111,7 @@
       "D": "$\\frac{9}{10}$"
     },
     "correct": "C",
-    "explanation": "$P(\\text{plaga} \\cap +) = 0{,}1 \\cdot 0{,}9 = 0{,}09$ y $P(\\text{sana} \\cap +) = 0{,}9 \\cdot 0{,}05 = 0{,}045$, así que $P(+) = 0{,}135$.\nEntonces $P(\\text{plaga} \\mid +) = \\frac{0{,}09}{0{,}135} = \\frac{2}{3}$.\nA es la intersección (no divide por $P(+)$), B es $P(+)$ y D es $P(+ \\mid \\text{plaga})$, la condicional en el sentido inverso.",
+    "explanation": "Idea clave: para $P(\\text{plaga} \\mid +)$ se divide la probabilidad de tener plaga y dar positivo por la probabilidad total de dar positivo (teorema de Bayes).\nPaso 1: $P(\\text{plaga} \\cap +) = 0{,}1 \\cdot 0{,}9 = 0{,}09$ y $P(\\text{sana} \\cap +) = 0{,}9 \\cdot 0{,}05 = 0{,}045$.\nPaso 2: la probabilidad total de positivo es $P(+) = 0{,}09 + 0{,}045 = 0{,}135$.\nPaso 3: $P(\\text{plaga} \\mid +) = \\frac{0{,}09}{0{,}135} = \\frac{2}{3}$.\nRespuesta: C, $\\frac{2}{3}$.\nErrores frecuentes: La A es la intersección $0{,}09$, sin dividir por $P(+)$. La B es $P(+) = \\frac{27}{200}$, la probabilidad de dar positivo. La D es $P(+ \\mid \\text{plaga}) = 0{,}9$, la condicional en el sentido inverso.",
     "verify": "const pp=0.1, sens=0.9, fp=0.05; const inter=pp*sens; const pos=inter+(1-pp)*fp; const r=inter/pos; const opts={A:9/100,B:27/200,C:2/3,D:9/10}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v-r)<1e-9) return l; return null;"
   },
   {
@@ -131,7 +131,7 @@
       "E": "Se requiere información adicional"
     },
     "correct": "E",
-    "explanation": "$P(B \\mid A) = \\frac{P(A \\cap B)}{P(A)}$, así que se necesita $P(A \\cap B)$.\nCon (1) solo se conoce el denominador, y (2) no informa sobre la intersección.\nJuntas tampoco basta: si $P(A \\cap B) = 0{,}1$, entonces $P(B \\mid A) = 0{,}2$; si $P(A \\cap B) = 0{,}2$, entonces $P(B \\mid A) = 0{,}4$, y ambos casos son compatibles con $P(A) = 0{,}5$ y $P(B) = 0{,}3$.\nNo se sabe si los sucesos son independientes, así que se requiere información adicional.",
+    "explanation": "Idea clave: $P(B \\mid A) = \\frac{P(A \\cap B)}{P(A)}$, así que se necesita conocer la intersección, y ninguna afirmación la entrega.\nPaso 1: con (1) solo se conoce el denominador $P(A)$; falta $P(A \\cap B)$. No basta.\nPaso 2: con (2) se conoce $P(B)$, que no informa sobre la intersección. No basta.\nPaso 3: juntas tampoco basta: si $P(A \\cap B) = 0{,}1$, entonces $P(B \\mid A) = 0{,}2$; si $P(A \\cap B) = 0{,}2$, entonces $P(B \\mid A) = 0{,}4$, y ambos casos son compatibles con $P(A) = 0{,}5$ y $P(B) = 0{,}3$.\nRespuesta: E, se requiere información adicional.\nErrores frecuentes: La A cree que basta el denominador, pero falta la intersección. La B confunde $P(B)$ con $P(B \\mid A)$, lo que solo vale si los sucesos son independientes. La C supone independencia y calcula $P(A \\cap B) = 0{,}5 \\cdot 0{,}3$, algo que el enunciado no garantiza. La D falla por lo mismo que la A y la B.",
     "verify": "const pA=0.5, pB=0.3; const inters=[0.1,0.2].filter(i => i<=Math.min(pA,pB) && pA+pB-i<=1); const vals=new Set(inters.map(i=>Math.round(i/pA*1e9))); if (inters.length===2 && vals.size>1) return 'E'; return null;"
   },
   {
@@ -150,7 +150,7 @@
       "D": "$512$"
     },
     "correct": "C",
-    "explanation": "Los cargos son distintos, así que importa el orden: hay $8$ opciones para presidente, $7$ para secretario y $6$ para tesorero, es decir, $8 \\cdot 7 \\cdot 6 = 336$.\nA es $3!$ (solo ordena los cargos), B es $\\binom{8}{3}$ (ignora que los cargos son distintos) y D es $8^3$ (permite que una persona ocupe varios cargos).",
+    "explanation": "Idea clave: como los cargos son distintos, importa el orden de elección y no se repiten personas (variación sin repetición).\nPaso 1: hay $8$ opciones para presidente, luego $7$ para secretario y $6$ para tesorero.\nPaso 2: por el principio multiplicativo, $8 \\cdot 7 \\cdot 6 = 336$.\nRespuesta: C, $336$.\nErrores frecuentes: La A es $8 \\cdot 3 = 24$, que multiplica la cantidad de personas por la de cargos en vez de aplicar el principio multiplicativo. La B es $\\binom{8}{3} = 56$, que ignora que los cargos son distintos. La D es $8^3 = 512$, que permite que una misma persona ocupe varios cargos.",
     "verify": "let c=0; for (let a=0;a<8;a++) for (let b=0;b<8;b++) for (let t=0;t<8;t++) if (a!==b&&b!==t&&a!==t) c++; const opts={A:24,B:56,C:336,D:512}; for (const [l,v] of Object.entries(opts)) if (v===c) return l; return null;"
   },
   {
@@ -169,7 +169,7 @@
       "D": "$\\binom{11}{2} \\cdot \\binom{9}{2}$"
     },
     "correct": "B",
-    "explanation": "Se eligen $2$ de las $6$ mujeres, $\\binom{6}{2} = 15$ formas, y $2$ de los $5$ hombres, $\\binom{5}{2} = 10$ formas. Por el principio multiplicativo hay $15 \\cdot 10 = 150$ delegaciones.\nA suma en vez de multiplicar ($25$), C cuenta todas las delegaciones de $4$ sin la condición ($330$) y D elige dos parejas cualesquiera del grupo y además cuenta cada delegación varias veces.",
+    "explanation": "Idea clave: se eligen por separado las mujeres y los hombres, y las elecciones se combinan con el principio multiplicativo.\nPaso 1: se eligen $2$ de las $6$ mujeres de $\\binom{6}{2} = 15$ formas, y $2$ de los $5$ hombres de $\\binom{5}{2} = 10$ formas.\nPaso 2: cada par de mujeres se combina con cada par de hombres: $\\binom{6}{2} \\cdot \\binom{5}{2} = 150$ delegaciones.\nRespuesta: B, $\\binom{6}{2} \\cdot \\binom{5}{2}$.\nErrores frecuentes: La A suma en vez de multiplicar ($25$). La C cuenta todas las delegaciones de $4$ sin exigir exactamente $2$ mujeres ($330$). La D elige dos parejas cualesquiera del grupo completo, sin separar por género, y además cuenta cada delegación varias veces.",
     "verify": "const C=(n,k)=>{let r=1; for(let i=0;i<k;i++) r=r*(n-i)/(i+1); return Math.round(r);}; let cnt=0; for (let m=0;m<(1<<11);m++){ let bits=0, muj=0; for(let i=0;i<11;i++) if(m>>i&1){bits++; if(i<6) muj++;} if(bits===4&&muj===2) cnt++; } const opts={A:C(6,2)+C(5,2),B:C(6,2)*C(5,2),C:C(11,4),D:C(11,2)*C(9,2)}; const ok=Object.keys(opts).filter(l=>opts[l]===cnt); return ok.length===1?ok[0]:null;"
   },
   {
@@ -188,7 +188,7 @@
       "D": "$480$"
     },
     "correct": "D",
-    "explanation": "Sin restricciones hay $6! = 720$ ordenamientos.\nPara contar los casos en que quedan juntos, se los trata como un bloque: $5!$ ordenamientos del bloque con los otros cuatro, por $2$ órdenes dentro del bloque, es decir, $2 \\cdot 120 = 240$.\nLos casos pedidos son $720 - 240 = 480$.\nA es $5!$ (bloque sin considerar su orden interno), B son los casos en que sí quedan juntos y C supone que exactamente la mitad de los casos cumple la condición.",
+    "explanation": "Idea clave: conviene contar por complemento: total de ordenamientos menos aquellos en que Antonia y Benjamín quedan juntos.\nPaso 1: sin restricciones hay $6! = 720$ ordenamientos.\nPaso 2: para los casos en que quedan juntos, se los trata como un bloque: $5! = 120$ ordenamientos del bloque con los otros cuatro, por $2$ órdenes dentro del bloque, es decir, $240$.\nPaso 3: los casos pedidos son $720 - 240 = 480$.\nRespuesta: D, $480$.\nErrores frecuentes: La A es $5!$, los casos juntos sin considerar el orden interno del bloque. La B son los casos en que sí quedan juntos, sin restarlos del total. La C supone que exactamente la mitad de los ordenamientos cumple la condición.",
     "verify": "const perms=(a)=>a.length<=1?[a]:a.flatMap((x,i)=>perms([...a.slice(0,i),...a.slice(i+1)]).map(p=>[x,...p])); const all=perms([0,1,2,3,4,5]); const c=all.filter(p=>Math.abs(p.indexOf(0)-p.indexOf(1))!==1).length; const opts={A:120,B:240,C:360,D:480}; for (const [l,v] of Object.entries(opts)) if (v===c) return l; return null;"
   },
   {
@@ -207,7 +207,7 @@
       "D": "$0{,}896$"
     },
     "correct": "D",
-    "explanation": "Al menos $2$ significa exactamente $2$ o exactamente $3$.\n$P(X = 2) = \\binom{3}{2} \\cdot 0{,}8^2 \\cdot 0{,}2 = 3 \\cdot 0{,}64 \\cdot 0{,}2 = 0{,}384$ y $P(X = 3) = 0{,}8^3 = 0{,}512$.\nLa suma es $0{,}384 + 0{,}512 = 0{,}896$.\nA considera solo exactamente $2$, B solo exactamente $3$ y C es $0{,}8^2$, la probabilidad de convertir dos lanzamientos determinados.",
+    "explanation": "Idea clave: «al menos $2$ de $3$» significa exactamente $2$ o exactamente $3$, y se suman ambas probabilidades binomiales.\nPaso 1: $P(X = 2) = \\binom{3}{2} \\cdot 0{,}8^2 \\cdot 0{,}2 = 3 \\cdot 0{,}64 \\cdot 0{,}2 = 0{,}384$.\nPaso 2: $P(X = 3) = 0{,}8^3 = 0{,}512$.\nPaso 3: la suma es $0{,}384 + 0{,}512 = 0{,}896$.\nRespuesta: D, $0{,}896$.\nErrores frecuentes: La A considera solo el caso de exactamente $2$. La B considera solo el caso de exactamente $3$. La C es $0{,}8^2$, la probabilidad de convertir dos lanzamientos determinados, sin contar las combinaciones ni el tercer lanzamiento.",
     "verify": "const C=(n,k)=>{let r=1; for(let i=0;i<k;i++) r=r*(n-i)/(i+1); return r;}; const b=(k)=>C(3,k)*0.8**k*0.2**(3-k); const pr=b(2)+b(3); const opts={A:0.384,B:0.512,C:0.64,D:0.896}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v-pr)<1e-9) return l; return null;"
   },
   {
@@ -226,7 +226,7 @@
       "D": "$0{,}908$"
     },
     "correct": "A",
-    "explanation": "Al estandarizar: $157$ cm corresponde a $z = \\frac{157 - 165}{8} = -1$ y $177$ cm a $z = \\frac{177 - 165}{8} = 1{,}5$.\n$P(Z < -1) = 1 - 0{,}841 = 0{,}159$ (por simetría) y $P(Z > 1{,}5) = 1 - 0{,}933 = 0{,}067$.\nLa probabilidad pedida es $0{,}159 + 0{,}067 = 0{,}226$.\nB es $0{,}841 - 0{,}5$, C es la probabilidad de estar entre ambas estaturas (el complemento) y D es $1 - (0{,}933 - 0{,}841)$, que resta mal las áreas.",
+    "explanation": "Idea clave: se estandarizan ambos límites y se suman las dos colas, usando la simetría de la normal para la cola izquierda.\nPaso 1: $157$ cm corresponde a $z = \\frac{157 - 165}{8} = -1$ y $177$ cm a $z = \\frac{177 - 165}{8} = 1{,}5$.\nPaso 2: por simetría, $P(Z < -1) = 1 - 0{,}841 = 0{,}159$; además, $P(Z > 1{,}5) = 1 - 0{,}933 = 0{,}067$.\nPaso 3: la probabilidad pedida es $0{,}159 + 0{,}067 = 0{,}226$.\nRespuesta: A, $0{,}226$.\nErrores frecuentes: La B es $0{,}841 - 0{,}5$, el área entre $z = 0$ y $z = 1$, que no corresponde a lo pedido. La C es la probabilidad de medir entre ambas estaturas, el complemento de lo pedido. La D es $1 - (0{,}933 - 0{,}841)$, que resta mal las áreas.",
     "verify": "const mu=165, s=8; const z1=(157-mu)/s, z2=(177-mu)/s; if (z1!==-1||z2!==1.5) return null; const Phi={'1':0.841,'1.5':0.933}; const pr=(1-Phi['1'])+(1-Phi['1.5']); const opts={A:0.226,B:0.341,C:0.774,D:0.908}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v-pr)<1e-9) return l; return null;"
   },
   {
@@ -246,7 +246,7 @@
       "E": "Se requiere información adicional"
     },
     "correct": "B",
-    "explanation": "Con (1): conocer $n$ no dice nada sobre $p$; por ejemplo, $p = 0{,}3$ y $p = 0{,}5$ son posibles con $n = 10$. No basta.\nCon (2): dividiendo la varianza por la esperanza, $1 - p = \\frac{2{,}1}{3} = 0{,}7$, así que $p = 0{,}3$ (y $n = 10$). Basta.\nPor lo tanto, (2) por sí sola es suficiente.",
+    "explanation": "Idea clave: con la esperanza $np$ y la varianza $np(1 - p)$, su cociente entrega directamente $1 - p$.\nPaso 1: con (1), conocer $n$ no dice nada sobre $p$; por ejemplo, $p = 0{,}3$ y $p = 0{,}5$ son posibles con $n = 10$. No basta.\nPaso 2: con (2), dividiendo la varianza por la esperanza, $1 - p = \\frac{2{,}1}{3} = 0{,}7$, así que $p = 0{,}3$ (y además $n = 10$). Basta.\nPaso 3: como (2) sola es suficiente y (1) sola no, no se necesitan ambas juntas.\nRespuesta: B, (2) por sí sola.\nErrores frecuentes: La A cree que $n$ basta, pero $p$ puede tomar cualquier valor con $n = 10$. La C pide ambas, sin notar que (2) ya determina $p$. La D supone que (1) sola también alcanza. La E ignora que el cociente entre varianza y esperanza permite despejar $p$.",
     "verify": "const ok1 = new Set([0.3,0.5].map(p=>p)).size === 1; const E=3, V=2.1; const p2 = 1 - V/E; const n2 = E/p2; const ok2 = p2>0 && p2<1 && Math.abs(n2-Math.round(n2))<1e-9; if (!ok1 && ok2) return 'B'; return null;"
   },
   {
@@ -265,7 +265,7 @@
       "D": "$1$"
     },
     "correct": "C",
-    "explanation": "El producto es impar solo si ambos dados muestran un número impar, lo que ocurre con probabilidad $\\frac{1}{2} \\cdot \\frac{1}{2} = \\frac{1}{4}$.\nPor complemento, la probabilidad de que el producto sea par es $1 - \\frac{1}{4} = \\frac{3}{4}$ (son $27$ de los $36$ resultados).\nA es la probabilidad del complemento, B supone que basta mirar un solo dado y D suma las probabilidades de que cada dado sea par sin restar el caso en que ambos lo son.",
+    "explanation": "Idea clave: conviene usar el complemento: el producto es impar solo si ambos dados son impares.\nPaso 1: la probabilidad de que ambos dados sean impares es $\\frac{1}{2} \\cdot \\frac{1}{2} = \\frac{1}{4}$.\nPaso 2: la probabilidad de que el producto sea par es $1 - \\frac{1}{4} = \\frac{3}{4}$ (son $27$ de los $36$ resultados).\nRespuesta: C, $\\frac{3}{4}$.\nErrores frecuentes: La A es la probabilidad del complemento (producto impar). La B supone que basta mirar un solo dado. La D suma las probabilidades de que cada dado sea par sin restar el caso en que ambos lo son.",
     "verify": "let fav = 0, tot = 0; for (let a = 1; a <= 6; a++) for (let b = 1; b <= 6; b++) { tot++; if ((a*b) % 2 === 0) fav++; } const p = fav/tot; const opts = {A:1/4, B:1/2, C:3/4, D:1}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v - p) < 1e-9) return l; return null;"
   },
   {
@@ -284,7 +284,7 @@
       "D": "$0{,}82$"
     },
     "correct": "C",
-    "explanation": "Hay dos casos disjuntos: solo Martina lo resuelve, con probabilidad $0{,}7 \\cdot 0{,}6 = 0{,}42$, o solo Joaquín, con probabilidad $0{,}3 \\cdot 0{,}4 = 0{,}12$.\nLa probabilidad pedida es $0{,}42 + 0{,}12 = 0{,}54$.\nA es la probabilidad de que ninguno lo resuelva, B la de que ambos lo resuelvan y D la de que al menos uno lo resuelva, que incluye el caso en que lo resuelven los dos.",
+    "explanation": "Idea clave: «exactamente uno» se separa en dos casos disjuntos (solo Martina o solo Joaquín), y en cada uno se usa la independencia.\nPaso 1: solo Martina lo resuelve con probabilidad $0{,}7 \\cdot 0{,}6 = 0{,}42$.\nPaso 2: solo Joaquín lo resuelve con probabilidad $0{,}3 \\cdot 0{,}4 = 0{,}12$.\nPaso 3: la probabilidad pedida es $0{,}42 + 0{,}12 = 0{,}54$.\nRespuesta: C, $0{,}54$.\nErrores frecuentes: La A es la probabilidad de que ninguno lo resuelva ($0{,}3 \\cdot 0{,}6$). La B es la probabilidad de que ambos lo resuelvan ($0{,}7 \\cdot 0{,}4$). La D es la probabilidad de que al menos uno lo resuelva, que incluye el caso en que lo resuelven los dos.",
     "verify": "const m = 0.7, j = 0.4; const p = m*(1-j) + (1-m)*j; const opts = {A:0.18, B:0.28, C:0.54, D:0.82}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v - p) < 1e-9) return l; return null;"
   },
   {
@@ -303,7 +303,7 @@
       "D": "Aumenta, si inicialmente había más fichas rojas que azules."
     },
     "correct": "B",
-    "explanation": "Si hay $r$ rojas y $a$ azules, la probabilidad pasa de $\\frac{r}{r + a}$ a $\\frac{r + 1}{r + a + 2}$.\nLa diferencia es $\\frac{r + 1}{r + a + 2} - \\frac{r}{r + a} = \\frac{a - r}{(r + a)(r + a + 2)}$, que es positiva exactamente cuando $a > r$; por eso B es verdadera.\nA solo vale si $r = a$; C falla, por ejemplo, con $3$ rojas y $1$ azul ($\\frac{3}{4}$ baja a $\\frac{4}{6}$); D es lo contrario de lo que ocurre, pues con más rojas la probabilidad disminuye.",
+    "explanation": "Idea clave: se comparan algebraicamente las probabilidades antes y después de agregar las fichas.\nPaso 1: con $r$ rojas y $a$ azules, la probabilidad de roja pasa de $\\frac{r}{r + a}$ a $\\frac{r + 1}{r + a + 2}$.\nPaso 2: la diferencia es $\\frac{r + 1}{r + a + 2} - \\frac{r}{r + a} = \\frac{a - r}{(r + a)(r + a + 2)}$, que es positiva exactamente cuando $a > r$.\nRespuesta: B, aumenta si inicialmente había más fichas azules que rojas.\nErrores frecuentes: La A solo vale si $r = a$. La C falla, por ejemplo, con $3$ rojas y $1$ azul: la probabilidad baja de $\\frac{3}{4}$ a $\\frac{4}{6}$. La D es lo contrario de lo que ocurre, pues con más rojas que azules la probabilidad disminuye.",
     "verify": "const ok = {A:true,B:true,C:true,D:true}; for (let r = 1; r <= 25; r++) for (let a = 1; a <= 25; a++) { const antes = r/(r+a), despues = (r+1)/(r+a+2); if (Math.abs(antes - despues) > 1e-12) ok.A = false; if (a > r && !(despues > antes)) ok.B = false; if (!(despues > antes)) ok.C = false; if (r > a && !(despues > antes)) ok.D = false; } const t = Object.keys(ok).filter(l => ok[l]); return t.length === 1 ? t[0] : null;"
   },
   {
@@ -322,7 +322,7 @@
       "D": "$150$"
     },
     "correct": "D",
-    "explanation": "Entre el primer cuartil ($35$) y el máximo ($95$) se encuentra aproximadamente el $75\\%$ de los datos: un $25\\%$ entre $Q_1$ y la mediana, otro entre la mediana y $Q_3$, y otro entre $Q_3$ y el máximo.\nEl $75\\%$ de $200$ es $150$ estudiantes.\nA considera solo un cuarto de los datos, B confunde el porcentaje con la cantidad de estudiantes y C considera solo la mitad central (entre $Q_1$ y $Q_3$).",
+    "explanation": "Idea clave: los cuartiles dividen los datos en cuatro partes con aproximadamente el $25\\%$ de los datos cada una.\nPaso 1: entre $Q_1 = 35$ y el máximo $95$ hay tres de esas cuatro partes: de $Q_1$ a la mediana, de la mediana a $Q_3$ y de $Q_3$ al máximo, es decir, cerca del $75\\%$ de los datos.\nPaso 2: el $75\\%$ de $200$ es $150$ estudiantes.\nRespuesta: D, $150$.\nErrores frecuentes: La A considera solo un cuarto de los datos. La B confunde el porcentaje ($75\\%$) con la cantidad de estudiantes. La C considera solo la mitad central, entre $Q_1$ y $Q_3$.",
     "verify": "const n = 200; const tramos = [['min',20],['Q1',35],['Q2',48],['Q3',60],['max',95]]; const i = tramos.findIndex(t => t[1] === 35), k = tramos.findIndex(t => t[1] === 95); const cant = n*(k - i)/4; const opts = {A:50, B:75, C:100, D:150}; for (const [l,v] of Object.entries(opts)) if (v === cant) return l; return null;"
   },
   {
@@ -341,7 +341,7 @@
       "D": "$30$"
     },
     "correct": "A",
-    "explanation": "Como el modelo es creciente, los cuartiles de las notas son las imágenes de los cuartiles de los puntajes: $N(40) = 3$ y $N(70) = 4{,}5$.\nEl rango intercuartílico es $4{,}5 - 3 = 1{,}5$; equivale a $0{,}05 \\cdot (70 - 40)$, porque sumar $1$ no cambia las distancias entre datos.\nB suma también el $1$ al rango, C entrega solo el tercer cuartil de las notas y D es el rango intercuartílico de los puntajes, sin transformar.",
+    "explanation": "Idea clave: con un modelo lineal creciente $N = aP + b$, el rango intercuartílico se multiplica por $a$ y la constante $b$ no lo afecta.\nPaso 1: los cuartiles de las notas son las imágenes de los cuartiles de los puntajes: $N(40) = 0{,}05 \\cdot 40 + 1 = 3$ y $N(70) = 0{,}05 \\cdot 70 + 1 = 4{,}5$.\nPaso 2: el rango intercuartílico es $4{,}5 - 3 = 1{,}5$, lo mismo que $0{,}05 \\cdot (70 - 40)$.\nRespuesta: A, $1{,}5$.\nErrores frecuentes: La B le suma también el $1$ al rango intercuartílico. La C entrega solo el tercer cuartil de las notas. La D es el rango intercuartílico de los puntajes, sin transformarlo a notas.",
     "verify": "const N = (p) => 0.05*p + 1; const ri = N(70) - N(40); const opts = {A:1.5, B:2.5, C:4.5, D:30}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v - ri) < 1e-9) return l; return null;"
   },
   {
@@ -360,7 +360,7 @@
       "D": "$84\\%$"
     },
     "correct": "B",
-    "explanation": "La frecuencia acumulada en $1$ indica que $30$ hogares tienen a lo más $1$ mascota, así que $50 - 30 = 20$ hogares tienen al menos $2$.\nEl porcentaje es $\\frac{20}{50} \\cdot 100 = 40\\%$.\nA corresponde a los hogares con exactamente $2$ mascotas ($42 - 30 = 12$), C a los que tienen a lo más $1$ y D lee directamente la frecuencia acumulada de $2$ ($42$ de $50$), es decir, los hogares con a lo más $2$ mascotas.",
+    "explanation": "Idea clave: la frecuencia acumulada en un valor cuenta los datos menores o iguales a él; «al menos $2$» es el complemento de «a lo más $1$».\nPaso 1: la frecuencia acumulada en $1$ indica que $30$ hogares tienen a lo más $1$ mascota.\nPaso 2: entonces $50 - 30 = 20$ hogares tienen al menos $2$, y $\\frac{20}{50} \\cdot 100 = 40\\%$.\nRespuesta: B, $40\\%$.\nErrores frecuentes: La A corresponde a los hogares con exactamente $2$ mascotas ($42 - 30 = 12$, es decir, $24\\%$). La C corresponde a los hogares con a lo más $1$ mascota. La D lee directamente la frecuencia acumulada de $2$ ($42$ de $50$), que son los hogares con a lo más $2$ mascotas.",
     "verify": "const acum = [12,30,42,48,50]; const total = acum[acum.length-1]; const alMenos2 = total - acum[1]; const pct = 100*alMenos2/total; const opts = {A:24, B:40, C:60, D:84}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v - pct) < 1e-9) return l; return null;"
   },
   {
@@ -379,7 +379,7 @@
       "D": "$3$"
     },
     "correct": "A",
-    "explanation": "La suma de libros es $0 \\cdot 2 + 1 \\cdot 4 + 2k + 3 \\cdot 8 + 4 \\cdot 6 = 52 + 2k$ y hay $20 + k$ estudiantes. De $\\frac{52 + 2k}{20 + k} = 2{,}4$ se obtiene $52 + 2k = 48 + 2{,}4k$, es decir, $k = 10$.\nCon $30$ estudiantes, la mediana es el promedio de los datos en las posiciones $15$ y $16$. Las frecuencias acumuladas son $2$, $6$, $16$, $24$ y $30$, así que ambos datos valen $2$ y la mediana es $2$.\nB confunde la mediana con el promedio, C promedia $2$ y $3$, como si los datos centrales quedaran en filas distintas y D calcula la mediana de los $20$ estudiantes sin considerar a los $k$ que leyeron $2$ libros.",
+    "explanation": "Idea clave: primero se usa el promedio para despejar $k$, y luego se ubica la mediana con las frecuencias acumuladas.\nPaso 1: la suma de libros es $0 \\cdot 2 + 1 \\cdot 4 + 2k + 3 \\cdot 8 + 4 \\cdot 6 = 52 + 2k$ y hay $20 + k$ estudiantes.\nPaso 2: de $\\frac{52 + 2k}{20 + k} = 2{,}4$ se obtiene $52 + 2k = 48 + 2{,}4k$, es decir, $k = 10$.\nPaso 3: con $30$ estudiantes, la mediana es el promedio de los datos en las posiciones $15$ y $16$. Las frecuencias acumuladas son $2$, $6$, $16$, $24$ y $30$, así que ambos datos valen $2$.\nRespuesta: A, $2$.\nErrores frecuentes: La B confunde la mediana con el promedio. La C promedia $2$ y $3$, como si los datos centrales quedaran en filas distintas. La D calcula la mediana de los $20$ estudiantes sin considerar a los $k$ que leyeron $2$ libros.",
     "verify": "const vals = [0,1,2,3,4], f = [2,4,null,8,6]; let k = null; for (let t = 0; t <= 100; t++) { const ff = f.map(x => x === null ? t : x); const n = ff.reduce((s,x)=>s+x,0); const sum = ff.reduce((s,x,i)=>s+x*vals[i],0); if (Math.abs(sum/n - 2.4) < 1e-9) { k = t; break; } } if (k === null) return null; const datos = []; [2,4,k,8,6].forEach((x,i) => { for (let j = 0; j < x; j++) datos.push(vals[i]); }); const n = datos.length; const med = n % 2 ? datos[(n-1)/2] : (datos[n/2-1] + datos[n/2])/2; const opts = {A:2, B:2.4, C:2.5, D:3}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v - med) < 1e-9) return l; return null;"
   },
   {
@@ -398,7 +398,7 @@
       "D": "$0{,}55$"
     },
     "correct": "B",
-    "explanation": "La probabilidad de realizar al menos una actividad es $1 - 0{,}2 = 0{,}8$. Por la regla de la unión, $0{,}8 = 0{,}6 + 0{,}45 - P(D \\cap M)$, de donde $P(D \\cap M) = 0{,}25$.\nEntonces la probabilidad de practicar deporte sin tocar un instrumento es $0{,}6 - 0{,}25 = 0{,}35$.\nA es la probabilidad de realizar ambas actividades, C resta a $0{,}6$ el $20\\%$ que no realiza ninguna y D es la probabilidad de realizar exactamente una de las dos actividades.",
+    "explanation": "Idea clave: con la regla de la unión se obtiene la intersección, y «deporte pero no instrumento» es $P(D) - P(D \\cap M)$.\nPaso 1: la probabilidad de realizar al menos una actividad es $1 - 0{,}2 = 0{,}8$.\nPaso 2: por la regla de la unión, $0{,}8 = 0{,}6 + 0{,}45 - P(D \\cap M)$, de donde $P(D \\cap M) = 0{,}25$.\nPaso 3: la probabilidad de practicar deporte sin tocar un instrumento es $0{,}6 - 0{,}25 = 0{,}35$.\nRespuesta: B, $0{,}35$.\nErrores frecuentes: La A es la probabilidad de realizar ambas actividades. La C resta a $0{,}6$ el $20\\%$ que no realiza ninguna actividad. La D es la probabilidad de realizar exactamente una de las dos actividades ($0{,}35 + 0{,}2$).",
     "verify": "const D = 0.6, M = 0.45, N = 0.2; const both = D + M - (1 - N); const soloD = D - both; if (soloD < 0 || M - both < 0) return null; const opts = {A:0.25, B:0.35, C:0.40, D:0.55}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v - soloD) < 1e-9) return l; return null;"
   },
   {
@@ -417,7 +417,7 @@
       "D": "La suma $p + q$ puede ser mayor que $1$."
     },
     "correct": "C",
-    "explanation": "Como nadie vive en dos ciudades, $A$ y $B$ son mutuamente excluyentes: $P(A \\cap B) = 0$ y $P(A \\cup B) = p + q$.\nLuego, la probabilidad de no vivir en ninguna de las dos es $1 - P(A \\cup B) = 1 - p - q$, así que C es verdadera.\nA usa la fórmula de la unión para sucesos independientes, B es falsa porque $P(A \\cap B) = 0 \\neq pq$ cuando $p, q > 0$ y D es falsa porque $p + q = P(A \\cup B) \\leq 1$.",
+    "explanation": "Idea clave: si nadie vive en dos ciudades, $A$ y $B$ son mutuamente excluyentes: $P(A \\cap B) = 0$ y $P(A \\cup B) = p + q$.\nPaso 1: como los sucesos no pueden ocurrir a la vez, $P(A \\cup B) = p + q$.\nPaso 2: la probabilidad de no vivir en ninguna de las dos ciudades es $1 - P(A \\cup B) = 1 - p - q$.\nRespuesta: C, la probabilidad de no vivir en Concepción ni en Talca es $1 - p - q$.\nErrores frecuentes: La A usa la fórmula de la unión para sucesos independientes. La B es falsa porque $P(A \\cap B) = 0$, que es distinto de $pq$ cuando $p, q > 0$. La D es falsa porque $p + q = P(A \\cup B) \\leq 1$.",
     "verify": "const casos = [[0.2,0.3],[0.5,0.5],[0.1,0.6]]; const ok = {A:true, B:true, C:true, D:false}; for (const [p,q] of casos) { const pAB = 0; const union = p + q - pAB; const ninguno = 1 - union; if (Math.abs(union - (p + q - p*q)) < 1e-9 === false) ok.A = false; if (Math.abs(pAB - p*q) > 1e-9) ok.B = false; if (Math.abs(ninguno - (1 - p - q)) > 1e-9) ok.C = false; if (union > 1 + 1e-9) return null; } const t = Object.keys(ok).filter(l => ok[l]); return t.length === 1 ? t[0] : null;"
   },
   {
@@ -436,7 +436,7 @@
       "D": "$11$ minutos"
     },
     "correct": "D",
-    "explanation": "Con $8$ datos, la mediana es el promedio del cuarto y el quinto dato: $\\frac{x + 15}{2} = 13$, de donde $x = 11$.\nEl primer cuartil es $\\frac{7 + 9}{2} = 8$ y el tercer cuartil es $\\frac{18 + 20}{2} = 19$, así que el rango intercuartílico es $19 - 8 = 11$ minutos.\nA calcula la diferencia entre la mediana y el primer cuartil, B usa el tercer y el sexto dato ($9$ y $18$) como cuartiles y C toma $18$ como tercer cuartil sin promediar.",
+    "explanation": "Idea clave: la mediana permite despejar $x$, y luego los cuartiles se calculan como medianas de cada mitad.\nPaso 1: con $8$ datos, la mediana es el promedio del cuarto y el quinto dato: $\\frac{x + 15}{2} = 13$, de donde $x = 11$.\nPaso 2: el primer cuartil es la mediana de $4, 7, 9, 11$: $\\frac{7 + 9}{2} = 8$. El tercer cuartil es la mediana de $15, 18, 20, 25$: $\\frac{18 + 20}{2} = 19$.\nPaso 3: el rango intercuartílico es $19 - 8 = 11$ minutos.\nRespuesta: D, $11$ minutos.\nErrores frecuentes: La A calcula la diferencia entre la mediana y el primer cuartil ($13 - 8$). La B usa el tercer y el sexto dato ($9$ y $18$) como cuartiles. La C toma $18$ como tercer cuartil sin promediar con $20$.",
     "verify": "const datos = (x) => [4,7,9,x,15,18,20,25]; const med = (a) => { const n = a.length; return n % 2 ? a[(n-1)/2] : (a[n/2-1] + a[n/2])/2; }; const x = 2*13 - 15; const d = datos(x); if (!(d[2] <= x && x <= d[4]) || med(d) !== 13) return null; const ric = med(d.slice(4)) - med(d.slice(0,4)); const opts = {A:5, B:9, C:10, D:11}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v - ric) < 1e-9) return l; return null;"
   },
   {
@@ -455,7 +455,7 @@
       "D": "En el curso A, al menos la cuarta parte de los puntajes es mayor que $12$."
     },
     "correct": "C",
-    "explanation": "El rango intercuartílico del curso A es $10 - 5 = 5$ y el del curso B es $12 - 6 = 6$, así que C se deduce.\nA es falsa porque la mediana de B ($7$) es menor que la de A ($8$). B es falsa porque ambos rangos valen $14 - 2 = 13 - 1 = 12$.\nD no se puede deducir: el tercer cuartil de A es $10$, por lo que solo se sabe que al menos la cuarta parte de los puntajes es mayor o igual que $10$; puede haber un solo puntaje sobre $12$.",
+    "explanation": "Idea clave: del resumen de cinco números se calculan directamente rangos y rangos intercuartílicos; lo que no se puede asegurar es cómo se reparten los datos dentro de cada tramo.\nPaso 1: el rango intercuartílico del curso A es $10 - 5 = 5$ y el del curso B es $12 - 6 = 6$, así que el de B es mayor.\nPaso 2: se revisan las demás: las medianas son $8$ (A) y $7$ (B); los rangos son $14 - 2 = 12$ y $13 - 1 = 12$.\nRespuesta: C, el rango intercuartílico del curso B es mayor que el del curso A.\nErrores frecuentes: La A es falsa porque la mediana de B ($7$) es menor que la de A ($8$). La B es falsa porque ambos rangos valen $12$. La D no se puede deducir: el tercer cuartil de A es $10$, así que solo se sabe que al menos la cuarta parte de los puntajes es mayor o igual que $10$; puede haber un solo puntaje sobre $12$.",
     "verify": "const A = {min:2, q1:5, me:8, q3:10, max:14}, B = {min:1, q1:6, me:7, q3:12, max:13}; const ver = {A: B.me > A.me, B: (A.max-A.min) > (B.max-B.min), C: (B.q3-B.q1) > (A.q3-A.q1), D: A.q3 > 12}; const t = Object.keys(ver).filter(l => ver[l]); return t.length === 1 ? t[0] : null;"
   },
   {
@@ -474,7 +474,7 @@
       "D": "$28$"
     },
     "correct": "A",
-    "explanation": "Las frecuencias relativas suman $1$: $0{,}1 + a + 0{,}3 + 2a = 1$, de donde $3a = 0{,}6$ y $a = 0{,}2$.\nDurmieron menos de $7$ horas quienes durmieron $5$ o $6$ horas: $0{,}1 + 0{,}2 = 0{,}3$, es decir, $0{,}3 \\cdot 40 = 12$ estudiantes.\nB resuelve $0{,}4 + 2a = 1$ tratando $a + 2a$ como $2a$ (obtiene $a = 0{,}3$), C suma las categorías de $6$ y $7$ horas y D cuenta a quienes durmieron $7$ horas o más.",
+    "explanation": "Idea clave: las frecuencias relativas suman $1$; con eso se despeja $a$ y se multiplica por el total de estudiantes.\nPaso 1: $0{,}1 + a + 0{,}3 + 2a = 1$, de donde $3a = 0{,}6$ y $a = 0{,}2$.\nPaso 2: menos de $7$ horas son las categorías de $5$ y $6$ horas: $0{,}1 + 0{,}2 = 0{,}3$.\nPaso 3: $0{,}3 \\cdot 40 = 12$ estudiantes.\nRespuesta: A, $12$.\nErrores frecuentes: La B trata $a + 2a$ como $2a$ (resuelve $0{,}4 + 2a = 1$ y obtiene $a = 0{,}3$), lo que da $0{,}4 \\cdot 40 = 16$. La C suma las categorías de $6$ y $7$ horas. La D cuenta a quienes durmieron $7$ horas o más.",
     "verify": "const n = 40; const a = (1 - 0.1 - 0.3)/3; const fr = {5:0.1, 6:a, 7:0.3, 8:2*a}; if (Math.abs(Object.values(fr).reduce((s,v)=>s+v,0) - 1) > 1e-9) return null; const menos7 = Math.round((fr[5] + fr[6])*n); const opts = {A:12, B:16, C:20, D:28}; for (const [l,v] of Object.entries(opts)) if (v === menos7) return l; return null;"
   },
   {

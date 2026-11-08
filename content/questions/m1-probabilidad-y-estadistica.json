@@ -15,7 +15,7 @@
       "D": "$80\\%$"
     },
     "correct": "C",
-    "explanation": "\"Al menos $2$\" significa $2$, $3$ o $4$ hermanos: $12 + 6 + 2 = 20$ estudiantes. Entonces $\\frac{20}{40} = 0{,}5 = 50\\%$.\nA cuenta solo a los que tienen más de $2$ hermanos ($8$ estudiantes). B cuenta solo a los que tienen exactamente $2$. D corresponde a \"a lo más $2$\" ($6 + 14 + 12 = 32$ estudiantes), es decir, interpreta la condición al revés.",
+    "explanation": "Idea clave: \"al menos $2$\" significa $2$ o más, así que se suman las frecuencias de $2$, $3$ y $4$ hermanos.\nPaso 1: los estudiantes con al menos $2$ hermanos son $12 + 6 + 2 = 20$.\nPaso 2: el porcentaje es $\\frac{20}{40} = 0{,}5 = 50\\%$.\nRespuesta: C, $50\\%$.\nErrores frecuentes: La A cuenta solo a los que tienen más de $2$ hermanos ($6 + 2 = 8$, es decir, $\\frac{8}{40} = 20\\%$). La B cuenta solo a los que tienen exactamente $2$ ($\\frac{12}{40} = 30\\%$). La D interpreta la condición al revés, como \"a lo más $2$\" ($6 + 14 + 12 = 32$, es decir, $80\\%$).",
     "verify": "const v = [0,1,2,3,4], f = [6,14,12,6,2]; const n = f.reduce((a,b)=>a+b,0); const k = v.reduce((s,x,i)=> s + (x >= 2 ? f[i] : 0), 0); const p = 100*k/n; const alts = {A:20,B:30,C:50,D:80}; if (n !== 40) return null; for (const L in alts) if (Math.abs(alts[L]-p) < 1e-9) return L; return null;"
   },
   {
@@ -34,7 +34,7 @@
       "D": "$6{,}2$"
     },
     "correct": "D",
-    "explanation": "Para tener promedio $5{,}4$ con cinco notas, la suma debe ser $5 \\cdot 5{,}4 = 27$. La suma actual es $5{,}0 + 5{,}6 + 4{,}8 + 5{,}4 = 20{,}8$, así que la nota que falta es $27 - 20{,}8 = 6{,}2$.\nA supone que basta con obtener el promedio deseado. B promedia el promedio actual ($5{,}2$) con la nota nueva, como si ambos pesaran lo mismo: $\\frac{5{,}2 + x}{2} = 5{,}4$. C suma el déficit acumulado $4 \\cdot 0{,}2 = 0{,}8$ al promedio actual $5{,}2$ en vez de sumarlo al promedio deseado $5{,}4$.",
+    "explanation": "Idea clave: si se conoce el promedio deseado, se conoce la suma total que deben tener las notas.\nPaso 1: para un promedio de $5{,}4$ con cinco notas, la suma debe ser $5 \\cdot 5{,}4 = 27$.\nPaso 2: la suma actual es $5{,}0 + 5{,}6 + 4{,}8 + 5{,}4 = 20{,}8$.\nPaso 3: la nota que falta es $27 - 20{,}8 = 6{,}2$.\nRespuesta: D, $6{,}2$.\nErrores frecuentes: La A supone que basta con sacar el promedio deseado, pero el promedio actual ($5{,}2$) está bajo $5{,}4$. La B promedia el promedio actual con la nota nueva como si pesaran lo mismo: $\\frac{5{,}2 + x}{2} = 5{,}4$. La C suma el déficit acumulado $4 \\cdot 0{,}2 = 0{,}8$ al promedio actual $5{,}2$, en vez de sumarlo al promedio deseado $5{,}4$.",
     "verify": "const notas = [5.0,5.6,4.8,5.4]; const s = notas.reduce((a,b)=>a+b,0); const x = 5*5.4 - s; const alts = {A:5.4,B:5.6,C:6.0,D:6.2}; for (const L in alts) if (Math.abs(alts[L]-x) < 1e-9) return L; return null;"
   },
   {
@@ -53,7 +53,7 @@
       "D": "$96^\\circ$"
     },
     "correct": "D",
-    "explanation": "El ángulo es proporcional a la frecuencia: $\\frac{16}{60} \\cdot 360^\\circ = 96^\\circ$.\nA usa directamente la frecuencia como si fuera el ángulo. B interpreta $16$ como porcentaje y calcula el $16\\%$ de $360^\\circ$. C reparte los $360^\\circ$ en partes iguales entre las $5$ categorías, sin considerar las frecuencias.",
+    "explanation": "Idea clave: en un gráfico circular, el ángulo de cada sector es proporcional a su frecuencia sobre el total de $360^\\circ$.\nPaso 1: la fracción de personas que usa automóvil es $\\frac{16}{60}$.\nPaso 2: el ángulo es $\\frac{16}{60} \\cdot 360^\\circ = 96^\\circ$.\nRespuesta: D, $96^\\circ$.\nErrores frecuentes: La A usa directamente la frecuencia $16$ como si fuera el ángulo. La B interpreta $16$ como porcentaje y calcula el $16\\%$ de $360^\\circ$. La C reparte los $360^\\circ$ en partes iguales entre las $5$ categorías, sin considerar las frecuencias.",
     "verify": "const f = {Micro:24,Biotren:10,Auto:16,Bici:6,Pie:4}; const n = Object.values(f).reduce((a,b)=>a+b,0); const ang = f.Auto/n*360; const alts = {A:16,B:57.6,C:72,D:96}; for (const L in alts) if (Math.abs(alts[L]-ang) < 1e-9) return L; return null;"
   },
   {
@@ -72,7 +72,7 @@
       "D": "La mediana de los goles por partido es mayor que la media."
     },
     "correct": "B",
-    "explanation": "En a lo más $1$ gol hay $4 + 7 = 11$ partidos, y $\\frac{11}{20} = 55\\%$, por lo que B es verdadera.\nA es falsa: la media es $\\frac{0 \\cdot 4 + 1 \\cdot 7 + 2 \\cdot 5 + 3 \\cdot 3 + 4 \\cdot 1}{20} = \\frac{30}{20} = 1{,}5$; el valor $2$ sale de promediar los valores $0, 1, 2, 3, 4$ sin considerar las frecuencias.\nC es falsa: la moda es $1$ gol; $7$ es su frecuencia. D es falsa: los datos de las posiciones $10$ y $11$ valen $1$, así que la mediana es $1$, menor que $1{,}5$.",
+    "explanation": "Idea clave: hay que calcular cada medida considerando las frecuencias, no solo los valores de la variable.\nPaso 1: a lo más $1$ gol significa $0$ o $1$ gol: $4 + 7 = 11$ partidos, y $\\frac{11}{20} = 55\\%$. La B es verdadera.\nPaso 2: la media es $\\frac{0 \\cdot 4 + 1 \\cdot 7 + 2 \\cdot 5 + 3 \\cdot 3 + 4 \\cdot 1}{20} = \\frac{30}{20} = 1{,}5$.\nPaso 3: las frecuencias acumuladas son $4, 11, \\ldots$, así que los datos de las posiciones $10$ y $11$ valen $1$ y la mediana es $1$.\nRespuesta: B, en el $55\\%$ de los partidos marcó a lo más $1$ gol.\nErrores frecuentes: La A es falsa: la media es $1{,}5$; el $2$ sale de promediar $0, 1, 2, 3, 4$ sin considerar las frecuencias. La C es falsa: la moda es $1$ gol; $7$ es su frecuencia. La D es falsa: la mediana ($1$) es menor que la media ($1{,}5$).",
     "verify": "const v=[0,1,2,3,4], f=[4,7,5,3,1]; const d=[]; v.forEach((x,i)=>{for(let k=0;k<f[i];k++)d.push(x)}); const n=d.length; const mean=d.reduce((a,b)=>a+b,0)/n; const med=(d[n/2-1]+d[n/2])/2; const mode=v[f.indexOf(Math.max(...f))]; const pct=100*d.filter(x=>x<=1).length/n; const ok={A:Math.abs(mean-2)<1e-9, B:Math.abs(pct-55)<1e-9, C:mode===7, D:med>mean}; const t=Object.keys(ok).filter(k=>ok[k]); return t.length===1?t[0]:null;"
   },
   {
@@ -91,7 +91,7 @@
       "D": "$\\displaystyle \\frac{30 \\cdot 5{,}6 + 20 \\cdot 6{,}1}{2}$"
     },
     "correct": "B",
-    "explanation": "La suma de las notas del 3.° A es $30 \\cdot 5{,}6$ y la del 3.° B es $20 \\cdot 6{,}1$. El promedio conjunto es la suma total dividida por los $50$ estudiantes, lo que da $\\frac{168 + 122}{50} = 5{,}8$.\nA promedia los dos promedios como si ambos cursos tuvieran la misma cantidad de estudiantes. C cruza los tamaños con los promedios. D suma bien las notas, pero divide por la cantidad de cursos en lugar de la cantidad de estudiantes.",
+    "explanation": "Idea clave: el promedio conjunto es la suma total de notas dividida por la cantidad total de estudiantes.\nPaso 1: la suma de notas del 3.° A es $30 \\cdot 5{,}6$ y la del 3.° B es $20 \\cdot 6{,}1$.\nPaso 2: el promedio conjunto es $\\frac{30 \\cdot 5{,}6 + 20 \\cdot 6{,}1}{50} = \\frac{168 + 122}{50} = 5{,}8$.\nRespuesta: B, $\\frac{30 \\cdot 5{,}6 + 20 \\cdot 6{,}1}{50}$.\nErrores frecuentes: La A promedia los dos promedios como si ambos cursos tuvieran la misma cantidad de estudiantes. La C cruza los tamaños de los cursos con los promedios. La D suma bien las notas, pero divide por la cantidad de cursos ($2$) en lugar de la cantidad de estudiantes ($50$).",
     "verify": "const d=[...Array(30).fill(5.6),...Array(20).fill(6.1)]; const real=d.reduce((a,b)=>a+b,0)/d.length; const alts={A:(5.6+6.1)/2,B:(30*5.6+20*6.1)/50,C:(30*6.1+20*5.6)/50,D:(30*5.6+20*6.1)/2}; const t=Object.keys(alts).filter(k=>Math.abs(alts[k]-real)<1e-9); return t.length===1?t[0]:null;"
   },
   {
@@ -110,7 +110,7 @@
       "D": "$80\\%$"
     },
     "correct": "A",
-    "explanation": "Como el total es $200$, se tiene $x = 200 - (70 + 30 + 40 + 20) = 40$ personas, y $\\frac{40}{200} = 20\\%$.\nB divide $40$ por $160$, que es la suma de las otras categorías y no el total. C confunde la cantidad de personas ($40$) con el porcentaje. D es el porcentaje de quienes no prefieren el básquetbol.",
+    "explanation": "Idea clave: el dato faltante se obtiene restando las demás frecuencias al total, y el porcentaje se calcula sobre el total de encuestados.\nPaso 1: $x = 200 - (70 + 30 + 40 + 20) = 200 - 160 = 40$ personas.\nPaso 2: el porcentaje es $\\frac{40}{200} = 0{,}2 = 20\\%$.\nRespuesta: A, $20\\%$.\nErrores frecuentes: La B divide $40$ por $160$, que es la suma de las otras categorías y no el total. La C confunde la cantidad de personas ($40$) con el porcentaje. La D es el porcentaje de quienes no prefieren el básquetbol ($\\frac{160}{200}$).",
     "verify": "const otros=[70,30,40,20]; const x=200-otros.reduce((a,b)=>a+b,0); const p=100*x/200; const alts={A:20,B:25,C:40,D:80}; for (const L in alts) if (Math.abs(alts[L]-p)<1e-9) return L; return null;"
   },
   {
@@ -129,7 +129,7 @@
       "D": "En el paso 4"
     },
     "correct": "C",
-    "explanation": "Los pasos 1 y 2 son correctos. En el paso 3 la suma de los productos ($53$) debe dividirse por el total de datos, es decir, por los $20$ socios, y no por la suma de los valores de la variable. La media correcta es $\\frac{53}{20} = 2{,}65$ libros.\nEl paso 4 también es incorrecto, pero solo arrastra el error del paso 3; además, una media de $5{,}3$ es imposible porque ningún socio leyó más de $4$ libros.",
+    "explanation": "Idea clave: en una tabla de frecuencias, la media es la suma de los productos valor por frecuencia dividida por el total de datos.\nPaso 1: el paso 1 es correcto: hay $3 + 5 + 8 + 4 = 20$ socios.\nPaso 2: el paso 2 también es correcto: los productos son $3$, $10$, $24$ y $16$, que suman $53$.\nPaso 3: en el paso 3 está el error: $53$ debe dividirse por los $20$ socios, no por la suma de los valores $1 + 2 + 3 + 4 = 10$. La media correcta es $\\frac{53}{20} = 2{,}65$ libros.\nRespuesta: C, en el paso 3.\nErrores frecuentes: La A y la B señalan pasos que están bien hechos: el total de socios y los productos son correctos. La D señala un paso incorrecto, pero que solo arrastra el error del paso 3; además, una media de $5{,}3$ es imposible porque ningún socio leyó más de $4$ libros.",
     "verify": "const v=[1,2,3,4], f=[3,5,8,4]; const n=f.reduce((a,b)=>a+b,0); const prods=v.map((x,i)=>x*f[i]); const s=prods.reduce((a,b)=>a+b,0); const p1=n===20; const p2=JSON.stringify(prods)===JSON.stringify([3,10,24,16]); const p3=Math.abs(53/10 - s/n)<1e-9 && s===53; const p4=Math.abs(5.3 - s/n)<1e-9; const ok=[p1,p2,p3,p4]; const i=ok.indexOf(false); return i<0?null:'ABCD'[i];"
   },
   {
@@ -148,7 +148,7 @@
       "D": "$16$"
     },
     "correct": "B",
-    "explanation": "El total de datos es $12 + a$, por lo que $\\frac{a}{12 + a} = 0{,}25$. Entonces $a = 3 + 0{,}25a$, es decir, $0{,}75a = 3$ y $a = 4$. Se comprueba: $\\frac{4}{16} = 0{,}25$.\nA calcula el $25\\%$ de $12$, olvidando que $a$ también forma parte del total. C es la suma de las otras frecuencias. D es el total de datos, no la frecuencia del valor $4$.",
+    "explanation": "Idea clave: la frecuencia relativa es la frecuencia absoluta dividida por el total de datos, y ese total también incluye a $a$.\nPaso 1: el total de datos es $4 + a + 5 + 3 = 12 + a$, así que $\\frac{a}{12 + a} = 0{,}25$.\nPaso 2: $a = 0{,}25(12 + a) = 3 + 0{,}25a$, es decir, $0{,}75a = 3$ y $a = 4$.\nPaso 3: se comprueba: $\\frac{4}{16} = 0{,}25$.\nRespuesta: B, $a = 4$.\nErrores frecuentes: La A calcula el $25\\%$ de $12$, olvidando que $a$ también forma parte del total. La C es la suma de las otras frecuencias. La D es el total de datos ($16$), no la frecuencia del valor $4$.",
     "verify": "const sols=[]; for (let a=1;a<=1000;a++) if (Math.abs(a/(12+a)-0.25)<1e-12) sols.push(a); if (sols.length!==1) return null; const alts={A:3,B:4,C:12,D:16}; for (const L in alts) if (alts[L]===sols[0]) return L; return null;"
   },
   {
@@ -167,7 +167,7 @@
       "D": "$1{,}94$ m"
     },
     "correct": "C",
-    "explanation": "La suma de las estaturas de las $12$ jugadoras es $12 \\cdot 1{,}80 = 21{,}60$ m, y la de las $13$ es $13 \\cdot 1{,}81 = 23{,}53$ m. La nueva mide $23{,}53 - 21{,}60 = 1{,}93$ m.\nOtra forma de verlo: la nueva jugadora mide $1{,}81$ m más los $0{,}01$ m que \"aporta\" a cada una de las otras $12$, es decir, $1{,}81 + 0{,}12 = 1{,}93$ m.\nA solo suma $0{,}01$ al nuevo promedio. B suma $0{,}12$ al promedio antiguo y no al nuevo. D suma $13 \\cdot 0{,}01$, contando también a la nueva jugadora.",
+    "explanation": "Idea clave: a partir de cada promedio se obtiene la suma total de estaturas; la diferencia entre ambas sumas es la estatura de la nueva jugadora.\nPaso 1: la suma de las $12$ estaturas es $12 \\cdot 1{,}80 = 21{,}60$ m.\nPaso 2: la suma de las $13$ estaturas es $13 \\cdot 1{,}81 = 23{,}53$ m.\nPaso 3: la nueva jugadora mide $23{,}53 - 21{,}60 = 1{,}93$ m. Otra forma: mide el nuevo promedio más $0{,}01$ m por cada una de las otras $12$, es decir, $1{,}81 + 0{,}12 = 1{,}93$ m.\nRespuesta: C, $1{,}93$ m.\nErrores frecuentes: La A solo suma $0{,}01$ al nuevo promedio. La B suma $0{,}12$ al promedio antiguo y no al nuevo. La D suma $13 \\cdot 0{,}01$, contando también a la nueva jugadora.",
     "verify": "const x = 13*1.81 - 12*1.80; const alts={A:1.82,B:1.92,C:1.93,D:1.94}; for (const L in alts) if (Math.abs(alts[L]-x)<1e-9) return L; return null;"
   },
   {
@@ -186,7 +186,7 @@
       "D": "$18$ minutos"
     },
     "correct": "B",
-    "explanation": "Ordenados de menor a mayor: $9, 11, 12, 13, 14, 15, 16, 18, 20$. Como son $9$ datos, la mediana es el dato de la posición $5$, es decir, $14$ minutos.\nA es el rango ($20 - 9$). C es el promedio entre el mínimo y el máximo. D es el dato central de la lista sin ordenar.",
+    "explanation": "Idea clave: la mediana es el dato central después de ordenar los datos de menor a mayor.\nPaso 1: ordenados: $9, 11, 12, 13, 14, 15, 16, 18, 20$.\nPaso 2: con $9$ datos, la mediana es el dato de la posición $5$, es decir, $14$ minutos.\nRespuesta: B, $14$ minutos.\nErrores frecuentes: La A es el rango ($20 - 9 = 11$). La C es el promedio entre el mínimo y el máximo ($\\frac{9 + 20}{2}$). La D es el dato central de la lista sin ordenar.",
     "verify": "const d=[12,20,9,15,18,11,14,16,13]; const s=[...d].sort((a,b)=>a-b); const med=s[(s.length-1)/2]; const alts={A:11,B:14,C:14.5,D:18}; for (const L in alts) if (Math.abs(alts[L]-med)<1e-9) return L; return null;"
   },
   {
@@ -205,7 +205,7 @@
       "D": "Aproximadamente la mitad de los estudiantes obtuvo menos de $560$ puntos."
     },
     "correct": "B",
-    "explanation": "Entre $Q_1 = 560$ y $Q_3 = 720$ se encuentra aproximadamente el $50\\%$ central de los datos, por lo que B es correcta.\nA es falsa: sobre $Q_3$ queda cerca del $25\\%$, no del $75\\%$. C es falsa: $470 = 890 - 420$ es el rango; el rango intercuartil es $720 - 560 = 160$. D es falsa: bajo $Q_1$ queda cerca del $25\\%$; la mitad queda bajo la mediana, $640$.",
+    "explanation": "Idea clave: los cuartiles dividen los datos en cuatro partes con aproximadamente el $25\\%$ de los datos cada una.\nPaso 1: entre $Q_1 = 560$ y $Q_3 = 720$ está aproximadamente el $50\\%$ central de los datos, así que la B es correcta.\nPaso 2: el rango intercuartil es $Q_3 - Q_1 = 720 - 560 = 160$ puntos.\nRespuesta: B, aproximadamente el $50\\%$ obtuvo entre $560$ y $720$ puntos.\nErrores frecuentes: La A es falsa: sobre $Q_3$ queda cerca del $25\\%$, no del $75\\%$. La C es falsa: $470 = 890 - 420$ es el rango, no el rango intercuartil. La D es falsa: bajo $Q_1$ queda cerca del $25\\%$; la mitad queda bajo la mediana, $640$.",
     "verify": "const [mn,q1,me,q3,mx]=[420,560,640,720,890]; const sobreQ3=0.25, entre=0.75-0.25, bajoQ1=0.25; const ok={A:Math.abs(sobreQ3-0.75)<1e-9, B:Math.abs(entre-0.5)<1e-9 && q1<q3, C:(q3-q1)===470, D:Math.abs(bajoQ1-0.5)<1e-9}; const t=Object.keys(ok).filter(k=>ok[k]); return t.length===1 && (mx-mn)===470 ? t[0] : null;"
   },
   {
@@ -224,7 +224,7 @@
       "D": "$40$ minutos"
     },
     "correct": "D",
-    "explanation": "La posición es $0{,}8 \\cdot 40 = 32$. Las frecuencias acumuladas son $6, 16, 28, 36, 40$: los datos de las posiciones $29$ a $36$ valen $40$, así que $P_{80} = 40$ minutos.\nA corresponde al percentil $20$ (contar el $80\\%$ desde los valores mayores). B se detiene en la frecuencia acumulada $28$, que aún no alcanza la posición $32$. C confunde la posición del dato con su valor.",
+    "explanation": "Idea clave: para ubicar un dato en una tabla de frecuencias se usan las frecuencias acumuladas.\nPaso 1: la posición del percentil $80$ es $0{,}8 \\cdot 40 = 32$.\nPaso 2: las frecuencias acumuladas son $6, 16, 28, 36, 40$: los datos de las posiciones $29$ a $36$ valen $40$.\nPaso 3: por lo tanto, $P_{80} = 40$ minutos.\nRespuesta: D, $40$ minutos.\nErrores frecuentes: La A corresponde al percentil $20$, como si se contara el $80\\%$ desde los valores mayores. La B se detiene en la frecuencia acumulada $28$, que aún no alcanza la posición $32$. La C confunde la posición del dato ($32$) con su valor.",
     "verify": "const v=[10,20,30,40,50], f=[6,10,12,8,4]; const d=[]; v.forEach((x,i)=>{for(let k=0;k<f[i];k++)d.push(x)}); const n=d.length; const p=d[0.8*n-1]; const lin=(()=>{const h=(n-1)*0.8; const lo=Math.floor(h); return d[lo]+(h-lo)*(d[lo+1]-d[lo]);})(); if (p!==lin || d[0.8*n]!==p) return null; const alts={A:20,B:30,C:32,D:40}; for (const L in alts) if (alts[L]===p) return L; return null;"
   },
   {
@@ -243,7 +243,7 @@
       "D": "El rango de las notas del curso B es mayor que el del curso A."
     },
     "correct": "A",
-    "explanation": "El rango intercuartil del curso A es $6{,}1 - 4{,}5 = 1{,}6$ y el del B es $5{,}8 - 4{,}9 = 0{,}9$, por lo que A se puede concluir.\nB no se puede concluir: el diagrama de cajón no entrega la media, y una mediana mayor no garantiza un promedio mayor. C no se puede concluir porque no se conoce la cantidad de estudiantes de cada curso. D es falsa: el rango de A es $6{,}9 - 2{,}8 = 4{,}1$ y el de B es $7{,}0 - 3{,}5 = 3{,}5$.",
+    "explanation": "Idea clave: un diagrama de cajón permite comparar rangos y rangos intercuartiles, pero no entrega la media ni la cantidad de datos.\nPaso 1: el rango intercuartil del curso A es $6{,}1 - 4{,}5 = 1{,}6$ y el del curso B es $5{,}8 - 4{,}9 = 0{,}9$, así que la A se puede concluir.\nPaso 2: los rangos son $6{,}9 - 2{,}8 = 4{,}1$ en A y $7{,}0 - 3{,}5 = 3{,}5$ en B.\nRespuesta: A, el rango intercuartil del curso A es mayor que el del curso B.\nErrores frecuentes: La B no se puede concluir: el diagrama no entrega la media, y una mediana mayor no garantiza un promedio mayor. La C no se puede concluir porque no se conoce la cantidad de estudiantes de cada curso. La D es falsa: el rango de A ($4{,}1$) es mayor que el de B ($3{,}5$).",
     "verify": "const A=[2.8,4.5,5.4,6.1,6.9], B=[3.5,4.9,5.2,5.8,7.0]; const ricA=A[3]-A[1], ricB=B[3]-B[1]; const rA=A[4]-A[0], rB=B[4]-B[0]; const deducible={A: ricA>ricB, B:false, C:false, D: rB>rA}; const t=Object.keys(deducible).filter(k=>deducible[k]); return t.length===1?t[0]:null;"
   },
   {
@@ -262,7 +262,7 @@
       "D": "$12$"
     },
     "correct": "A",
-    "explanation": "Ordenados: $3, 5, 5, 7, 9, 12, 12, 15$. La mitad inferior es $3, 5, 5, 7$, cuya mediana es $Q_1 = 5$; la superior es $9, 12, 12, 15$, con $Q_3 = 12$. El rango intercuartil es $12 - 5 = 7$.\nB es la mediana del conjunto, $\\frac{7 + 9}{2} = 8$. C resta $Q_1$ al máximo ($15 - 5$), confundiendo $Q_3$ con el máximo. D es el rango, $15 - 3$.",
+    "explanation": "Idea clave: se ordenan los datos, se separan en mitad inferior y superior, y el rango intercuartil es $Q_3 - Q_1$.\nPaso 1: ordenados: $3, 5, 5, 7, 9, 12, 12, 15$.\nPaso 2: la mitad inferior es $3, 5, 5, 7$, con mediana $Q_1 = 5$; la superior es $9, 12, 12, 15$, con mediana $Q_3 = 12$.\nPaso 3: el rango intercuartil es $12 - 5 = 7$.\nRespuesta: A, $7$.\nErrores frecuentes: La B es la mediana del conjunto, $\\frac{7 + 9}{2} = 8$. La C resta $Q_1$ al máximo ($15 - 5$), confundiendo $Q_3$ con el máximo. La D es el rango, $15 - 3$.",
     "verify": "const d=[12,5,15,7,3,12,9,5].sort((a,b)=>a-b); const med=a=>{const n=a.length; return n%2?a[(n-1)/2]:(a[n/2-1]+a[n/2])/2;}; const q1=med(d.slice(0,4)), q3=med(d.slice(4)); const ric=q3-q1; const alts={A:7,B:8,C:10,D:12}; for (const L in alts) if (Math.abs(alts[L]-ric)<1e-9) return L; return null;"
   },
   {
@@ -281,7 +281,7 @@
       "D": "$160$"
     },
     "correct": "D",
-    "explanation": "El percentil $64$ es el valor bajo el cual (o hasta el cual) se encuentra aproximadamente el $64\\%$ de los datos. Entonces, la cantidad de datos menores o iguales que $37$ es aproximadamente $0{,}64 \\cdot 250 = 160$.\nA confunde el valor del percentil con una cantidad de datos. B confunde el $64\\%$ con $64$ datos. C es la cantidad aproximada de datos mayores que $37$, es decir, $250 - 160$.",
+    "explanation": "Idea clave: el percentil $64$ es el valor hasta el cual se encuentra aproximadamente el $64\\%$ de los datos.\nPaso 1: los datos menores o iguales que $37$ son aproximadamente el $64\\%$ del total.\nPaso 2: $0{,}64 \\cdot 250 = 160$ datos.\nRespuesta: D, $160$.\nErrores frecuentes: La A confunde el valor del percentil ($37$) con una cantidad de datos. La B confunde el $64\\%$ con $64$ datos. La C es la cantidad aproximada de datos mayores que $37$, es decir, $250 - 160 = 90$.",
     "verify": "const n=250, k=64; const c=k*n/100; const alts={A:37,B:64,C:90,D:160}; for (const L in alts) if (Math.abs(alts[L]-c)<1e-9) return L; return null;"
   },
   {
@@ -300,7 +300,7 @@
       "D": "La media aumenta en $35$ minutos y la mediana no cambia."
     },
     "correct": "A",
-    "explanation": "La suma de los datos aumenta en $50 - 15 = 35$ minutos, así que la media aumenta en $\\frac{35}{7} = 5$ minutos (de $9$ a $14$). La mediana es el dato central, $9$, y no cambia, porque el dato corregido sigue siendo el mayor.\nB supone que la mediana se comporta como la media. C invierte el efecto: la mediana es resistente a valores extremos, pero la media no. D olvida dividir el aumento de la suma por la cantidad de datos.",
+    "explanation": "Idea clave: la media depende de todos los datos, mientras que la mediana solo depende del dato central y no cambia si se modifica un extremo.\nPaso 1: la suma aumenta en $50 - 15 = 35$ minutos, así que la media aumenta en $\\frac{35}{7} = 5$ minutos (de $9$ a $14$).\nPaso 2: la mediana es el cuarto dato, $9$, y no cambia, porque el dato corregido sigue siendo el mayor.\nRespuesta: A, la media aumenta en $5$ minutos y la mediana no cambia.\nErrores frecuentes: La B supone que la mediana se comporta como la media. La C invierte el efecto: la mediana es resistente a valores extremos, pero la media no. La D olvida dividir el aumento de la suma por la cantidad de datos.",
     "verify": "const a=[4,6,7,9,10,12,15], b=[4,6,7,9,10,12,50]; const mean=x=>x.reduce((s,y)=>s+y,0)/x.length; const med=x=>[...x].sort((p,q)=>p-q)[(x.length-1)/2]; const dm=mean(b)-mean(a), dmed=med(b)-med(a); const ok={A:Math.abs(dm-5)<1e-9&&dmed===0, B:Math.abs(dm-5)<1e-9&&Math.abs(dmed-5)<1e-9, C:Math.abs(dm)<1e-9&&dmed>0, D:Math.abs(dm-35)<1e-9&&dmed===0}; const t=Object.keys(ok).filter(k=>ok[k]); return t.length===1?t[0]:null;"
   },
   {
@@ -319,7 +319,7 @@
       "D": "$20$ años"
     },
     "correct": "C",
-    "explanation": "Las frecuencias acumuladas son $3, 8, 14, 19, 22, 24$. Para $Q_1$ se miran las posiciones $6$ y $7$, que valen $18$; para $Q_3$, las posiciones $18$ y $19$, que valen $25$. Así, $Q_1 = 18$, $Q_3 = 25$ y el rango intercuartil es $25 - 18 = 7$ años.\nA resta $Q_1$ a la mediana ($21 - 18$) y B resta la mediana a $Q_3$ ($25 - 21$): cada una mide solo la mitad de la caja. D es el rango, $35 - 15$.",
+    "explanation": "Idea clave: con las frecuencias acumuladas se ubican las posiciones de $Q_1$ y $Q_3$, y el rango intercuartil es $Q_3 - Q_1$.\nPaso 1: las frecuencias acumuladas son $3, 8, 14, 19, 22, 24$.\nPaso 2: para $Q_1$ se miran las posiciones $6$ y $7$, que valen $18$; para $Q_3$, las posiciones $18$ y $19$, que valen $25$.\nPaso 3: el rango intercuartil es $25 - 18 = 7$ años.\nRespuesta: C, $7$ años.\nErrores frecuentes: La A resta $Q_1$ a la mediana ($21 - 18$) y la B resta la mediana a $Q_3$ ($25 - 21$): cada una mide solo una parte de la caja. La D es el rango, $35 - 15 = 20$.",
     "verify": "const v=[15,18,21,25,30,35], f=[3,5,6,5,3,2]; const d=[]; v.forEach((x,i)=>{for(let k=0;k<f[i];k++)d.push(x)}); const n=d.length; const lin=p=>{const h=(n-1)*p; const lo=Math.floor(h); return d[lo]+(h-lo)*((d[lo+1]??d[lo])-d[lo]);}; const half=p=>{const a=p<0.5?d.slice(0,n/2):d.slice(n/2); const m=a.length; return m%2?a[(m-1)/2]:(a[m/2-1]+a[m/2])/2;}; const q1=half(0.25), q3=half(0.75); if (Math.abs(lin(0.25)-q1)>1e-9 || Math.abs(lin(0.75)-q3)>1e-9) return null; const ric=q3-q1; const alts={A:3,B:4,C:7,D:20}; for (const L in alts) if (Math.abs(alts[L]-ric)<1e-9) return L; return null;"
   },
   {
@@ -338,7 +338,7 @@
       "D": "$\\dfrac{3}{4}$"
     },
     "correct": "D",
-    "explanation": "Hay $5 + 3 + 4 = 12$ bolitas, de las cuales $9$ no son azules. La probabilidad es $\\frac{9}{12} = \\frac{3}{4}$. También se obtiene como $1 - \\frac{3}{12}$.\nA es la probabilidad de que sea azul (no se aplicó el complemento). B es la probabilidad de que sea verde y C la de que sea roja: cada una considera solo uno de los colores que no son azules.",
+    "explanation": "Idea clave: la probabilidad de que no ocurra un evento es $1$ menos la probabilidad de que ocurra.\nPaso 1: hay $5 + 3 + 4 = 12$ bolitas, de las cuales $3$ son azules.\nPaso 2: $P(\\text{no azul}) = 1 - \\frac{3}{12} = \\frac{9}{12} = \\frac{3}{4}$.\nRespuesta: D, $\\frac{3}{4}$.\nErrores frecuentes: La A es la probabilidad de que sea azul: no se aplicó el complemento. La B es la probabilidad de que sea verde ($\\frac{4}{12}$) y la C la de que sea roja ($\\frac{5}{12}$): cada una considera solo uno de los colores que no son azules.",
     "verify": "const r=5,a=3,v=4, n=r+a+v; const num=n-a, den=n; const alts={A:[1,4],B:[1,3],C:[5,12],D:[3,4]}; for (const L in alts) if (alts[L][0]*den===num*alts[L][1]) return L; return null;"
   },
   {
@@ -357,7 +357,7 @@
       "D": "$\\dfrac{29}{40}$"
     },
     "correct": "D",
-    "explanation": "Por la regla de la adición, $P(F \\cup B) = P(F) + P(B) - P(F \\cap B) = \\frac{22}{40} + \\frac{15}{40} - \\frac{8}{40} = \\frac{29}{40}$.\nA es la probabilidad de practicar ambos deportes. B es la probabilidad de no practicar ninguno ($40 - 29 = 11$ estudiantes). C resta dos veces la intersección ($22 + 15 - 16$). Si no se restara la intersección se obtendría $\\frac{37}{40}$, contando dos veces a quienes practican ambos.",
+    "explanation": "Idea clave: por la regla de la adición, $P(F \\cup B) = P(F) + P(B) - P(F \\cap B)$, para no contar dos veces a quienes practican ambos.\nPaso 1: los que practican al menos uno son $22 + 15 - 8 = 29$ estudiantes.\nPaso 2: la probabilidad es $\\frac{29}{40}$.\nRespuesta: D, $\\frac{29}{40}$.\nErrores frecuentes: La A es la probabilidad de practicar ambos deportes. La B es la probabilidad de no practicar ninguno ($40 - 29 = 11$ estudiantes). La C resta dos veces la intersección ($22 + 15 - 16 = 21$).",
     "verify": "const est=[]; for(let i=0;i<40;i++) est.push({f:i<22, b:(i>=14&&i<29)}); const nf=est.filter(e=>e.f).length, nb=est.filter(e=>e.b).length, nboth=est.filter(e=>e.f&&e.b).length; if (nf!==22||nb!==15||nboth!==8) return null; const num=est.filter(e=>e.f||e.b).length; const alts={A:8,B:11,C:21,D:29}; for (const L in alts) if (alts[L]===num) return L; return null;"
   },
   {
@@ -376,7 +376,7 @@
       "D": "$\\dfrac{3}{5}$"
     },
     "correct": "A",
-    "explanation": "Se busca la intersección: hay $18$ estudiantes de 4.° medio que usan bicicleta entre los $80$ consultados, por lo que la probabilidad es $\\frac{18}{80} = \\frac{9}{40}$.\nB es la probabilidad de usar bicicleta ($\\frac{30}{80}$), sin considerar el curso. C divide por los $40$ estudiantes de 4.° medio, como si ya se supiera que el elegido es de ese curso. D divide por los $30$ que usan bicicleta, como si ya se supiera que la usa.",
+    "explanation": "Idea clave: \"de 4.° medio y use bicicleta\" es una intersección: se busca la celda que cumple ambas condiciones y se divide por el total.\nPaso 1: hay $18$ estudiantes de 4.° medio que usan bicicleta.\nPaso 2: la probabilidad es $\\frac{18}{80} = \\frac{9}{40}$.\nRespuesta: A, $\\frac{9}{40}$.\nErrores frecuentes: La B es la probabilidad de usar bicicleta ($\\frac{30}{80}$), sin considerar el curso. La C divide por los $40$ estudiantes de 4.° medio, como si ya se supiera que el elegido es de ese curso. La D divide por los $30$ que usan bicicleta, como si ya se supiera que la usa.",
     "verify": "const t={t3:{si:12,no:28}, t4:{si:18,no:22}}; const n=t.t3.si+t.t3.no+t.t4.si+t.t4.no; const num=t.t4.si; const alts={A:[9,40],B:[3,8],C:[9,20],D:[3,5]}; for (const L in alts) if (alts[L][0]*n===num*alts[L][1]) return L; return null;"
   },
   {
@@ -395,7 +395,7 @@
       "D": "$P(A \\cup B) = P(A) + P(B)$"
     },
     "correct": "B",
-    "explanation": "$A = \\{2, 3, 5\\}$ y $B = \\{2, 4, 6\\}$. Entonces $A \\cup B = \\{2, 3, 4, 5, 6\\}$ y $P(A \\cup B) = \\frac{5}{6}$, por lo que B es verdadera.\nA es falsa: ambos eventos comparten el $2$. C es falsa: $A \\cap B = \\{2\\}$, así que $P(A \\cap B) = \\frac{1}{6}$. D es falsa: $P(A) + P(B) = 1$, porque al sumar se cuenta dos veces el $2$; la suma directa solo vale para eventos mutuamente excluyentes.",
+    "explanation": "Idea clave: se escriben los eventos como conjuntos y se revisa si comparten elementos.\nPaso 1: $A = \\{2, 3, 5\\}$ y $B = \\{2, 4, 6\\}$, que comparten el $2$.\nPaso 2: $A \\cup B = \\{2, 3, 4, 5, 6\\}$, así que $P(A \\cup B) = \\frac{5}{6}$.\nRespuesta: B, $P(A \\cup B) = \\frac{5}{6}$.\nErrores frecuentes: La A es falsa: ambos eventos comparten el $2$, así que no son mutuamente excluyentes. La C es falsa: $A \\cap B = \\{2\\}$, por lo que $P(A \\cap B) = \\frac{1}{6}$. La D es falsa: $P(A) + P(B) = 1$ cuenta dos veces el $2$; la suma directa solo vale para eventos mutuamente excluyentes.",
     "verify": "const S=[1,2,3,4,5,6]; const primo=x=>[2,3,5].includes(x); const A=S.filter(primo), B=S.filter(x=>x%2===0); const U=S.filter(x=>primo(x)||x%2===0), I=S.filter(x=>primo(x)&&x%2===0); const ok={A:I.length===0, B:U.length*6===5*S.length, C:I.length*2===S.length, D:U.length===A.length+B.length}; const t=Object.keys(ok).filter(k=>ok[k]); return t.length===1?t[0]:null;"
   },
   {
@@ -414,7 +414,7 @@
       "D": "$\\dfrac{2}{3}$"
     },
     "correct": "A",
-    "explanation": "La probabilidad de que la primera funcione es $\\frac{4}{6}$. Sin reposición quedan $5$ pilas, de las cuales $3$ funcionan, así que la probabilidad de que la segunda también funcione es $\\frac{3}{5}$. Por la regla del producto: $\\frac{4}{6} \\cdot \\frac{3}{5} = \\frac{12}{30} = \\frac{2}{5}$.\nB supone que hay reposición: $\\left(\\frac{4}{6}\\right)^2 = \\frac{4}{9}$. C es la probabilidad de que exactamente una funcione. D considera solo la primera extracción.",
+    "explanation": "Idea clave: sin reposición, la segunda extracción cambia porque queda una pila menos; se multiplican las probabilidades sucesivas.\nPaso 1: la probabilidad de que la primera funcione es $\\frac{4}{6}$.\nPaso 2: quedan $5$ pilas, de las cuales $3$ funcionan, así que la segunda funciona con probabilidad $\\frac{3}{5}$.\nPaso 3: $\\frac{4}{6} \\cdot \\frac{3}{5} = \\frac{12}{30} = \\frac{2}{5}$.\nRespuesta: A, $\\frac{2}{5}$.\nErrores frecuentes: La B supone que hay reposición: $\\left(\\frac{4}{6}\\right)^2 = \\frac{4}{9}$. La C es la probabilidad de que funcione exactamente una ($2 \\cdot \\frac{4}{6} \\cdot \\frac{2}{5}$). La D considera solo la primera extracción.",
     "verify": "const p=[1,1,1,1,0,0]; let fav=0, tot=0; for (let i=0;i<6;i++) for (let j=0;j<6;j++) if (i!==j) { tot++; if (p[i]&&p[j]) fav++; } const alts={A:[2,5],B:[4,9],C:[8,15],D:[2,3]}; for (const L in alts) if (alts[L][0]*tot===fav*alts[L][1]) return L; return null;"
   },
   {
@@ -433,7 +433,7 @@
       "D": "$0{,}84$"
     },
     "correct": "C",
-    "explanation": "Hay dos casos excluyentes: llueve el primer día y no el segundo ($0{,}6 \\cdot 0{,}4 = 0{,}24$), o no llueve el primero y sí el segundo ($0{,}4 \\cdot 0{,}6 = 0{,}24$). La suma es $0{,}48$.\nA considera solo uno de los dos órdenes. B es la probabilidad de que llueva ambos días ($0{,}6^2$). D es la probabilidad de que llueva al menos un día ($1 - 0{,}4^2$), que incluye el caso en que llueve los dos días.",
+    "explanation": "Idea clave: \"exactamente uno\" reúne dos casos excluyentes según el orden, y cada caso se calcula multiplicando por independencia.\nPaso 1: llueve el primer día y no el segundo: $0{,}6 \\cdot 0{,}4 = 0{,}24$.\nPaso 2: no llueve el primero y sí el segundo: $0{,}4 \\cdot 0{,}6 = 0{,}24$.\nPaso 3: la suma es $0{,}24 + 0{,}24 = 0{,}48$.\nRespuesta: C, $0{,}48$.\nErrores frecuentes: La A considera solo uno de los dos órdenes. La B es la probabilidad de que llueva ambos días ($0{,}6^2$). La D es la probabilidad de que llueva al menos un día ($1 - 0{,}4^2$), que incluye el caso en que llueve los dos días.",
     "verify": "const p=0.6; let prob=0; for (const a of [0,1]) for (const b of [0,1]) if (a+b===1) prob += (a?p:1-p)*(b?p:1-p); const alts={A:0.24,B:0.36,C:0.48,D:0.84}; for (const L in alts) if (Math.abs(alts[L]-prob)<1e-9) return L; return null;"
   },
   {
@@ -452,7 +452,7 @@
       "D": "En el paso 4"
     },
     "correct": "D",
-    "explanation": "Los pasos 1, 2 y 3 son correctos: $\\frac{11}{36}$ es la probabilidad de obtener al menos un $6$. El error está en el paso 4, porque \"al menos un $6$\" incluye el resultado en que ambos dados muestran $6$. La probabilidad de exactamente un $6$ es $\\frac{11}{36} - \\frac{1}{36} = \\frac{10}{36} = \\frac{5}{18}$.\nElegir el paso 2 sería pensar que no se puede multiplicar, pero los dados son independientes. Elegir el paso 3 sería desconfiar del complemento, que está bien aplicado.",
+    "explanation": "Idea clave: \"al menos un $6$\" no es lo mismo que \"exactamente un $6$\", porque incluye el caso de dos seis.\nPaso 1: los pasos 1, 2 y 3 son correctos: los dados son independientes y $1 - \\frac{25}{36} = \\frac{11}{36}$ es la probabilidad de al menos un $6$.\nPaso 2: el error está en el paso 4: falta descontar el resultado en que ambos dados muestran $6$. Exactamente un $6$ tiene probabilidad $\\frac{11}{36} - \\frac{1}{36} = \\frac{10}{36} = \\frac{5}{18}$.\nRespuesta: D, en el paso 4.\nErrores frecuentes: La A señala un paso correcto: de los $6$ resultados de un dado, $5$ no son $6$. La B sería pensar que no se puede multiplicar, pero los dados son independientes. La C sería desconfiar del complemento, que está bien aplicado.",
     "verify": "let ninguno=0, alMenos=0, exacto=0; for (let a=1;a<=6;a++) for (let b=1;b<=6;b++) { const k=(a===6)+(b===6); if(k===0) ninguno++; if(k>=1) alMenos++; if(k===1) exacto++; } const ok=[true, ninguno===25, alMenos===11, exacto===11]; const i=ok.indexOf(false); return i<0?null:'ABCD'[i];"
   },
   {
@@ -471,7 +471,7 @@
       "D": "$\\{\\text{CC}, \\text{CS}, \\text{SC}, \\text{SS}\\}$"
     },
     "correct": "C",
-    "explanation": "El espacio muestral es $\\{\\text{CC}, \\text{CS}, \\text{SC}, \\text{SS}\\}$. \"Al menos una cara\" significa una o dos caras, por lo que el evento es $\\{\\text{CC}, \\text{CS}, \\text{SC}\\}$.\nA corresponde a \"obtener dos caras\". B corresponde a \"obtener exactamente una cara\". D es el espacio muestral completo, que incluye SS, donde no hay ninguna cara.",
+    "explanation": "Idea clave: \"al menos una cara\" significa una o dos caras.\nPaso 1: el espacio muestral es $\\{\\text{CC}, \\text{CS}, \\text{SC}, \\text{SS}\\}$.\nPaso 2: los resultados con una o dos caras son CC, CS y SC.\nRespuesta: C, $\\{\\text{CC}, \\text{CS}, \\text{SC}\\}$.\nErrores frecuentes: La A corresponde a \"obtener dos caras\". La B corresponde a \"obtener exactamente una cara\". La D es el espacio muestral completo, que incluye SS, donde no hay ninguna cara.",
     "verify": "const S=[]; for (const a of 'CS') for (const b of 'CS') S.push(a+b); const ev=S.filter(x=>x.includes('C')).sort().join(','); const alts={A:['CC'],B:['CS','SC'],C:['CC','CS','SC'],D:['CC','CS','SC','SS']}; for (const L in alts) if ([...alts[L]].sort().join(',')===ev) return L; return null;"
   },
   {
@@ -490,7 +490,7 @@
       "D": "$60\\%$"
     },
     "correct": "A",
-    "explanation": "Más de $2$ mascotas significa $3$ o $4$: son $6 + 3 = 9$ familias, y $\\frac{9}{50} = 0{,}18 = 18\\%$.\n$22\\%$ corresponde solo a las familias con exactamente $2$ mascotas ($\\frac{11}{50}$).\n$40\\%$ incluye por error a las familias con $2$ mascotas ($\\frac{20}{50}$), y $60\\%$ es el porcentaje de familias con a lo más $1$ mascota.",
+    "explanation": "Idea clave: \"más de $2$\" excluye el $2$, así que solo se cuentan las familias con $3$ o $4$ mascotas.\nPaso 1: las familias con más de $2$ mascotas son $6 + 3 = 9$.\nPaso 2: el porcentaje es $\\frac{9}{50} = 0{,}18 = 18\\%$.\nRespuesta: A, $18\\%$.\nErrores frecuentes: La B corresponde solo a las familias con exactamente $2$ mascotas ($\\frac{11}{50}$). La C incluye por error a las familias con $2$ mascotas ($\\frac{20}{50}$). La D es el porcentaje de familias con a lo más $1$ mascota ($\\frac{30}{50}$).",
     "verify": "const v=[0,1,2,3,4], f=[12,18,11,6,3]; const n=f.reduce((a,b)=>a+b,0); const k=f.filter((x,i)=>v[i]>2).reduce((a,b)=>a+b,0); const p=100*k/n; const o={A:18,B:22,C:40,D:60}; const t=Object.keys(o).filter(l=>Math.abs(o[l]-p)<1e-9); return n===50&&t.length===1?t[0]:null;"
   },
   {
@@ -509,7 +509,7 @@
       "D": "$42$ horas"
     },
     "correct": "B",
-    "explanation": "El promedio considera las frecuencias: $\\frac{5 \\cdot 3 + 6 \\cdot 7 + 7 \\cdot 9 + 8 \\cdot 6}{25} = \\frac{168}{25} = 6{,}72$ horas.\n$6{,}5$ horas es el promedio de los valores $5, 6, 7$ y $8$ sin ponderar por la cantidad de estudiantes.\n$7$ horas es la moda, y $42$ horas resulta de dividir la suma total $168$ por la cantidad de filas de la tabla ($4$) en lugar de por $25$.",
+    "explanation": "Idea clave: en una tabla de frecuencias, el promedio se calcula ponderando cada valor por su frecuencia y dividiendo por el total de datos.\nPaso 1: la suma ponderada es $5 \\cdot 3 + 6 \\cdot 7 + 7 \\cdot 9 + 8 \\cdot 6 = 15 + 42 + 63 + 48 = 168$.\nPaso 2: el promedio es $\\frac{168}{25} = 6{,}72$ horas.\nRespuesta: B, $6{,}72$ horas.\nErrores frecuentes: La A es el promedio de los valores $5, 6, 7$ y $8$ sin ponderar por la cantidad de estudiantes. La C es la moda. La D divide la suma $168$ por la cantidad de filas de la tabla ($4$) en lugar de por $25$.",
     "verify": "const v=[5,6,7,8], f=[3,7,9,6]; const n=f.reduce((a,b)=>a+b,0); const m=v.reduce((s,x,i)=>s+x*f[i],0)/n; const o={A:6.5,B:6.72,C:7,D:42}; const t=Object.keys(o).filter(l=>Math.abs(o[l]-m)<1e-9); return t.length===1?t[0]:null;"
   },
   {
@@ -528,7 +528,7 @@
       "D": "$10$"
     },
     "correct": "C",
-    "explanation": "La suma de libros es $1 \\cdot 6 + 2x + 3 \\cdot 8 + 4 \\cdot 6 = 54 + 2x$, y la cantidad de días es $20 + x$.\nDe $\\frac{54 + 2x}{20 + x} = 2{,}5$ se obtiene $54 + 2x = 50 + 2{,}5x$, es decir, $0{,}5x = 4$ y $x = 8$.\nCon $x = 4$, $x = 6$ o $x = 10$ los promedios serían $\\frac{62}{24}$, $\\frac{66}{26}$ y $\\frac{74}{30}$, todos distintos de $2{,}5$; estos valores aparecen al despejar mal o al olvidar sumar $x$ a la cantidad de días.",
+    "explanation": "Idea clave: el promedio es la suma total de libros dividida por la cantidad total de días, y $x$ aparece en ambas.\nPaso 1: la suma de libros es $1 \\cdot 6 + 2x + 3 \\cdot 8 + 4 \\cdot 6 = 54 + 2x$, y la cantidad de días es $20 + x$.\nPaso 2: de $\\frac{54 + 2x}{20 + x} = 2{,}5$ se obtiene $54 + 2x = 50 + 2{,}5x$, es decir, $0{,}5x = 4$.\nPaso 3: $x = 8$. Se comprueba: $\\frac{70}{28} = 2{,}5$.\nRespuesta: C, $x = 8$.\nErrores frecuentes: La A se queda en $0{,}5x = 4$ y toma $x = 4$ sin despejar; con ese valor el promedio sería $\\frac{62}{24}$, distinto de $2{,}5$. La B y la D surgen de despejar mal o de olvidar sumar $x$ a la cantidad de días; con ellas el promedio sería $\\frac{66}{26}$ y $\\frac{74}{30}$, distintos de $2{,}5$.",
     "verify": "const m=x=>(1*6+2*x+3*8+4*6)/(6+x+8+6); const o={A:4,B:6,C:8,D:10}; const t=Object.keys(o).filter(l=>Math.abs(m(o[l])-2.5)<1e-9); return t.length===1?t[0]:null;"
   },
   {
@@ -547,7 +547,7 @@
       "D": "$56$"
     },
     "correct": "D",
-    "explanation": "Como los porcentajes suman $100\\%$, $p = 100 - 35 - 25 - 15 - 10 = 15$.\nEl $15\\%$ del total corresponde a $42$ trabajadores, así que el total es $\\frac{42}{0{,}15} = 280$.\nEn bus llegan $0{,}35 \\cdot 280 = 98$ y en auto $0{,}15 \\cdot 280 = 42$; la diferencia es $56$.\n$20$ es la diferencia en puntos porcentuales, no en personas; $28$ compara bus con metro ($10\\%$ de $280$); $42$ es la cantidad que llega en auto, no la diferencia.",
+    "explanation": "Idea clave: con el porcentaje y la cantidad de una categoría se obtiene el total, y con el total se calcula cualquier otra categoría.\nPaso 1: como los porcentajes suman $100\\%$, $p = 100 - 35 - 25 - 15 - 10 = 15$.\nPaso 2: el $15\\%$ del total son $42$ trabajadores, así que el total es $\\frac{42}{0{,}15} = 280$.\nPaso 3: en bus llegan $0{,}35 \\cdot 280 = 98$ y en auto $0{,}15 \\cdot 280 = 42$; la diferencia es $98 - 42 = 56$.\nRespuesta: D, $56$.\nErrores frecuentes: La A es la diferencia en puntos porcentuales ($35 - 15 = 20$), no en personas. La B compara bus con metro ($10\\%$ de $280$). La C es la cantidad que llega en auto, no la diferencia.",
     "verify": "const p=100-35-25-15-10; const N=42/0.15; const d=0.35*N-(p/100)*N; const o={A:20,B:28,C:42,D:56}; const t=Object.keys(o).filter(l=>Math.abs(o[l]-d)<1e-9); return t.length===1?t[0]:null;"
   },
   {
@@ -566,7 +566,7 @@
       "D": "$\\begin{array}{|c|c|c|c|c|c|}\\hline \\text{Veces} & 0 & 1 & 2 & 3 & 4 \\\\ \\hline \\text{Frecuencia} & 1 & 6 & 4 & 2 & 2 \\\\ \\hline \\end{array}$"
     },
     "correct": "B",
-    "explanation": "Al contar cada valor: el $0$ aparece $2$ veces, el $1$ aparece $6$ veces, el $2$ aparece $4$ veces, el $3$ aparece $2$ veces y el $4$ aparece $1$ vez; el total es $15$.\nLa primera tabla suma $15$, pero asigna mal las frecuencias de $1$ y de $3$.\nLa tercera suma $16$ y la cuarta asigna mal las frecuencias de $0$ y de $4$, por lo que ninguna coincide con los datos.",
+    "explanation": "Idea clave: la frecuencia absoluta de cada valor es la cantidad de veces que aparece, y las frecuencias deben sumar el total de datos.\nPaso 1: al contar, el $0$ aparece $2$ veces, el $1$ aparece $6$ veces, el $2$ aparece $4$ veces, el $3$ aparece $2$ veces y el $4$ aparece $1$ vez.\nPaso 2: el total es $2 + 6 + 4 + 2 + 1 = 15$, que coincide con los $15$ socios.\nRespuesta: B, la tabla con frecuencias $2, 6, 4, 2, 1$.\nErrores frecuentes: La A suma $15$, pero asigna mal las frecuencias de $1$ y de $3$. La C suma $16$, más datos de los que hay. La D suma $15$, pero asigna mal las frecuencias de $0$ y de $4$.",
     "verify": "const d=[2,0,1,3,1,2,1,0,4,1,2,1,3,1,2]; const f=[0,1,2,3,4].map(v=>d.filter(x=>x===v).length); const o={A:[2,5,4,3,1],B:[2,6,4,2,1],C:[2,6,4,2,2],D:[1,6,4,2,2]}; const t=Object.keys(o).filter(l=>o[l].every((x,i)=>x===f[i])); return t.length===1?t[0]:null;"
   },
   {
@@ -585,7 +585,7 @@
       "D": "$144^\\circ$"
     },
     "correct": "C",
-    "explanation": "Cada sector es proporcional a su frecuencia: $\\frac{24}{72} \\cdot 360^\\circ = \\frac{1}{3} \\cdot 360^\\circ = 120^\\circ$.\n$24^\\circ$ confunde la frecuencia absoluta con la medida del ángulo.\n$90^\\circ$ supone que las cuatro frutas tienen sectores iguales, y $144^\\circ$ resulta de usar un total de $60$ personas, omitiendo a quienes prefieren durazno.",
+    "explanation": "Idea clave: en un gráfico circular, el ángulo de cada sector es proporcional a su frecuencia sobre el total de $360^\\circ$.\nPaso 1: la fracción de personas que prefiere cereza es $\\frac{24}{72} = \\frac{1}{3}$.\nPaso 2: el ángulo es $\\frac{1}{3} \\cdot 360^\\circ = 120^\\circ$.\nRespuesta: C, $120^\\circ$.\nErrores frecuentes: La A confunde la frecuencia absoluta con la medida del ángulo. La B supone que las cuatro frutas tienen sectores iguales. La D usa un total de $60$ personas, omitiendo a quienes prefieren durazno ($\\frac{24}{60} \\cdot 360^\\circ = 144^\\circ$).",
     "verify": "const f=[18,24,12,18]; const n=f.reduce((a,b)=>a+b,0); const ang=f[1]/n*360; const o={A:24,B:90,C:120,D:144}; const t=Object.keys(o).filter(l=>Math.abs(o[l]-ang)<1e-9); return n===72&&t.length===1?t[0]:null;"
   },
   {
@@ -604,7 +604,7 @@
       "D": "$0{,}5$"
     },
     "correct": "A",
-    "explanation": "Las frecuencias relativas suman $1$: $0{,}1 + p + 0{,}4 + q = 1$, es decir, $p + q = 0{,}5$.\nDel promedio: $1 \\cdot 0{,}1 + 2p + 3 \\cdot 0{,}4 + 4q = 2{,}9$, es decir, $2p + 4q = 1{,}6$.\nRestando el doble de la primera ecuación: $2q = 0{,}6$, así que $q = 0{,}3$ y $p = 0{,}2$.\n$0{,}3$ es el valor de $q$; $0{,}4$ es el valor que se obtiene para $q$ si se ignora $p$ en la ecuación del promedio; $0{,}5$ resulta de olvidar $q$ en la suma de frecuencias.",
+    "explanation": "Idea clave: hay dos incógnitas, así que se plantean dos ecuaciones: las frecuencias relativas suman $1$ y el promedio vale $2{,}9$.\nPaso 1: $0{,}1 + p + 0{,}4 + q = 1$, es decir, $p + q = 0{,}5$.\nPaso 2: $1 \\cdot 0{,}1 + 2p + 3 \\cdot 0{,}4 + 4q = 2{,}9$, es decir, $2p + 4q = 1{,}6$.\nPaso 3: restando el doble de la primera ecuación: $2q = 0{,}6$, así que $q = 0{,}3$ y $p = 0{,}2$.\nRespuesta: A, $p = 0{,}2$.\nErrores frecuentes: La B es el valor de $q$, no el de $p$. La C es el valor que se obtiene para $q$ si se ignora $p$ en la ecuación del promedio. La D resulta de olvidar $q$ en la suma de frecuencias.",
     "verify": "const o={A:0.2,B:0.3,C:0.4,D:0.5}; const t=Object.keys(o).filter(l=>{const p=o[l], q=1-0.1-0.4-p; return q>=0&&Math.abs(1*0.1+2*p+3*0.4+4*q-2.9)<1e-9;}); return t.length===1?t[0]:null;"
   },
   {
@@ -623,7 +623,7 @@
       "D": "Ambos cursos tienen la misma mediana de horas de estudio."
     },
     "correct": "D",
-    "explanation": "En ambos cursos, los datos ordenados en las posiciones $10$ y $11$ valen $3$: en A las frecuencias acumuladas son $2, 7, 15$ y en B son $6, 9, 11$. Por eso, ambas medianas son $3$ horas.\nEl promedio de A es $\\frac{58}{20} = 2{,}9$ y el de B es $\\frac{59}{20} = 2{,}95$, así que A no supera a B.\nLa moda de A es $3$ horas y la de B es $1$ hora. Ambos rangos valen $5 - 1 = 4$, por lo que no son distintos.",
+    "explanation": "Idea clave: se calcula cada medida para ambos cursos usando las frecuencias, y se comparan.\nPaso 1: mediana: las frecuencias acumuladas son $2, 7, 15$ en A y $6, 9, 11$ en B, así que en ambos cursos los datos de las posiciones $10$ y $11$ valen $3$. Ambas medianas son $3$ horas.\nPaso 2: promedios: en A es $\\frac{58}{20} = 2{,}9$ y en B es $\\frac{59}{20} = 2{,}95$.\nPaso 3: la moda de A es $3$ horas y la de B es $1$ hora; ambos rangos valen $5 - 1 = 4$.\nRespuesta: D, ambos cursos tienen la misma mediana.\nErrores frecuentes: La A es falsa: el promedio de A ($2{,}9$) es menor que el de B ($2{,}95$). La B es falsa: las modas son $3$ y $1$. La C es falsa: ambos rangos son iguales a $4$.",
     "verify": "const v=[1,2,3,4,5], fa=[2,5,8,3,2], fb=[6,3,2,4,5]; const ex=f=>{const d=[]; v.forEach((x,i)=>{for(let k=0;k<f[i];k++)d.push(x)}); return d;}; const st=f=>{const d=ex(f), n=d.length; return {mean:d.reduce((a,b)=>a+b,0)/n, med:(d[n/2-1]+d[n/2])/2, mode:v[f.indexOf(Math.max(...f))], range:d[n-1]-d[0]};}; const a=st(fa), b=st(fb); const ok={A:a.mean>b.mean, B:a.mode===b.mode, C:b.range>a.range, D:a.med===b.med}; const t=Object.keys(ok).filter(k=>ok[k]); return t.length===1?t[0]:null;"
   },
   {
@@ -642,7 +642,7 @@
       "D": "$5{,}1$"
     },
     "correct": "B",
-    "explanation": "La nota final es $0{,}3 \\cdot 5{,}0 + 0{,}3 \\cdot 6{,}0 + 0{,}4 \\cdot 4{,}0 = 1{,}5 + 1{,}8 + 1{,}6 = 4{,}9$.\nA suma solo los aportes de las dos pruebas y olvida el del examen.\nC es el promedio simple de las tres notas, sin considerar las ponderaciones.\nD asigna el $40\\%$ a la nota $6{,}0$ en vez de al examen.",
+    "explanation": "Idea clave: en un promedio ponderado, cada nota se multiplica por su ponderación y luego se suman los aportes.\nPaso 1: los aportes son $0{,}3 \\cdot 5{,}0 = 1{,}5$, $0{,}3 \\cdot 6{,}0 = 1{,}8$ y $0{,}4 \\cdot 4{,}0 = 1{,}6$.\nPaso 2: la nota final es $1{,}5 + 1{,}8 + 1{,}6 = 4{,}9$.\nRespuesta: B, $4{,}9$.\nErrores frecuentes: La A suma solo los aportes de las dos pruebas y olvida el del examen. La C es el promedio simple de las tres notas, sin considerar las ponderaciones. La D asigna el $40\\%$ a la nota $6{,}0$ en vez de al examen.",
     "verify": "const n=[5,6,4], w=[0.3,0.3,0.4]; const f=n.reduce((s,x,i)=>s+x*w[i],0); const alts={A:3.3,B:4.9,C:5.0,D:5.1}; const t=Object.keys(alts).filter(k=>Math.abs(alts[k]-f)<1e-9); const simple=(5+6+4)/3; return (t.length===1 && Math.abs(simple-alts.C)<1e-9 && Math.abs(0.3*5+0.4*6+0.3*4-alts.D)<1e-9)?t[0]:null;"
   },
   {
@@ -661,7 +661,7 @@
       "D": "$4$"
     },
     "correct": "C",
-    "explanation": "El total es $48 + 62 + 35 + 70 + 54 + 46 + 63 = 378$, por lo que el promedio diario es $\\frac{378}{7} = 54$ bicicletas.\nSuperan ese valor el martes ($62$), el jueves ($70$) y el domingo ($63$): son $3$ días.\nD cuenta también el viernes, pero $54$ es igual al promedio y no mayor.\nA y B resultan de comparar con un promedio mal calculado o de omitir días al revisar la tabla.",
+    "explanation": "Idea clave: primero se calcula el promedio diario y luego se cuentan los días estrictamente mayores que él.\nPaso 1: el total es $48 + 62 + 35 + 70 + 54 + 46 + 63 = 378$, así que el promedio es $\\frac{378}{7} = 54$ bicicletas.\nPaso 2: superan ese valor el martes ($62$), el jueves ($70$) y el domingo ($63$): son $3$ días.\nRespuesta: C, $3$ días.\nErrores frecuentes: La D cuenta también el viernes, pero $54$ es igual al promedio y no mayor. La A y la B resultan de comparar con un promedio mal calculado o de omitir días al revisar la tabla.",
     "verify": "const d=[48,62,35,70,54,46,63]; const m=d.reduce((a,b)=>a+b,0)/d.length; const c=d.filter(x=>x>m).length; const alts={A:1,B:2,C:3,D:4}; const t=Object.keys(alts).filter(k=>alts[k]===c); return (t.length===1 && d.filter(x=>x>=m).length===alts.D)?t[0]:null;"
   },
   {
@@ -680,7 +680,7 @@
       "D": "$[10, 20)$: $6$; $[20, 30)$: $7$; $[30, 40)$: $3$"
     },
     "correct": "D",
-    "explanation": "En $[10, 20)$ están $12, 18, 15, 19, 11$ y $16$: son $6$ datos. En $[20, 30)$ están $25, 22, 28, 24, 27, 20$ y $29$: son $7$. En $[30, 40)$ están $30, 35$ y $33$: son $3$. El total es $16$.\nA ubica el dato $20$ en el primer intervalo, aunque $20$ no pertenece a $[10, 20)$.\nB ubica el dato $30$ en el segundo intervalo.\nC comete ambos errores, como si los intervalos incluyeran el extremo derecho y no el izquierdo.",
+    "explanation": "Idea clave: en $[a, b)$ el extremo izquierdo pertenece al intervalo y el derecho no, así que $20$ va en $[20, 30)$ y $30$ va en $[30, 40)$.\nPaso 1: en $[10, 20)$ están $12, 18, 15, 19, 11$ y $16$: son $6$ datos.\nPaso 2: en $[20, 30)$ están $25, 22, 28, 24, 27, 20$ y $29$: son $7$.\nPaso 3: en $[30, 40)$ están $30, 35$ y $33$: son $3$. El total es $6 + 7 + 3 = 16$.\nRespuesta: D, $6$; $7$; $3$.\nErrores frecuentes: La A ubica el dato $20$ en el primer intervalo, aunque $20$ no pertenece a $[10, 20)$. La B ubica el dato $30$ en el segundo intervalo. La C comete ambos errores, como si los intervalos incluyeran el extremo derecho y no el izquierdo.",
     "verify": "const d=[12,25,18,30,22,15,28,35,19,24,11,27,33,20,16,29]; const f=[[10,20],[20,30],[30,40]].map(([a,b])=>d.filter(x=>x>=a&&x<b).length); const g=[[10,20],[20,30],[30,40]].map(([a,b])=>d.filter(x=>x>a&&x<=b).length); const alts={A:[7,6,3],B:[6,8,2],C:[7,7,2],D:[6,7,3]}; const t=Object.keys(alts).filter(k=>alts[k].every((v,i)=>v===f[i])); return (t.length===1 && alts.C.every((v,i)=>v===g[i]))?t[0]:null;"
   },
   {
@@ -699,7 +699,7 @@
       "D": "Julio"
     },
     "correct": "A",
-    "explanation": "Las variaciones son: abril $\\frac{50}{200} \\cdot 100\\% = 25\\%$; mayo $\\frac{50}{250} \\cdot 100\\% = 20\\%$; junio $\\frac{45}{300} \\cdot 100\\% = 15\\%$; julio $\\frac{75}{345} \\cdot 100\\% \\approx 21{,}7\\%$. La mayor es la de abril.\nD corresponde al mes con el mayor aumento absoluto ($75$ kuchenes), pero ese aumento se compara con una base más grande.\nB y C se obtienen al dividir por el valor del mes actual o al comparar solo las diferencias, sin dividir.",
+    "explanation": "Idea clave: la variación porcentual compara el aumento con el valor del mes anterior, así que un aumento grande sobre una base grande puede ser un porcentaje pequeño.\nPaso 1: abril: $\\frac{50}{200} \\cdot 100\\% = 25\\%$; mayo: $\\frac{50}{250} \\cdot 100\\% = 20\\%$.\nPaso 2: junio: $\\frac{45}{300} \\cdot 100\\% = 15\\%$; julio: $\\frac{75}{345} \\cdot 100\\% \\approx 21{,}7\\%$.\nPaso 3: la mayor variación es la de abril.\nRespuesta: A, abril.\nErrores frecuentes: La B tiene el mismo aumento absoluto que abril ($50$), pero sobre una base mayor, por lo que su variación es menor ($20\\%$). La C tiene la menor variación de todas ($15\\%$). La D corresponde al mes con el mayor aumento absoluto ($75$ kuchenes), pero ese aumento se compara con una base más grande y da solo cerca de $21{,}7\\%$.",
     "verify": "const v=[200,250,300,345,420]; const m=['A','B','C','D']; const pct=m.map((_,i)=>(v[i+1]-v[i])/v[i]*100); const abs=m.map((_,i)=>v[i+1]-v[i]); const iMax=pct.indexOf(Math.max(...pct)); const iAbs=abs.indexOf(Math.max(...abs)); return (pct.filter(p=>p===pct[iMax]).length===1 && m[iAbs]==='D') ? m[iMax] : null;"
   },
   {
@@ -718,7 +718,7 @@
       "D": "$\\frac{11}{20}$"
     },
     "correct": "C",
-    "explanation": "Los múltiplos de $3$ son $3, 6, 9, 12, 15, 18$ (seis números) y los múltiplos de $4$ son $4, 8, 12, 16, 20$ (cinco números). El $12$ está en ambos grupos, así que los casos favorables son $6 + 5 - 1 = 10$.\nLa probabilidad es $\\frac{10}{20} = \\frac{1}{2}$.\nA considera solo los múltiplos de $4$ y B solo los múltiplos de $3$.\nD suma $6 + 5 = 11$ y cuenta dos veces el $12$.",
+    "explanation": "Idea clave: en un \"o\" se suman los casos de cada grupo y se resta lo que está en ambos, para no contarlo dos veces.\nPaso 1: los múltiplos de $3$ son $3, 6, 9, 12, 15, 18$ (seis) y los de $4$ son $4, 8, 12, 16, 20$ (cinco).\nPaso 2: el $12$ está en ambos grupos, así que los casos favorables son $6 + 5 - 1 = 10$.\nPaso 3: la probabilidad es $\\frac{10}{20} = \\frac{1}{2}$.\nRespuesta: C, $\\frac{1}{2}$.\nErrores frecuentes: La A considera solo los múltiplos de $4$ ($\\frac{5}{20}$). La B considera solo los múltiplos de $3$ ($\\frac{6}{20}$). La D suma $6 + 5 = 11$ y cuenta dos veces el $12$.",
     "verify": "let fav=0; for(let n=1;n<=20;n++) if(n%3===0||n%4===0) fav++; const p=fav/20; const alts={A:1/4,B:3/10,C:1/2,D:11/20}; const t=Object.keys(alts).filter(k=>Math.abs(alts[k]-p)<1e-9); return t.length===1?t[0]:null;"
   },
   {
@@ -737,7 +737,7 @@
       "D": "$\\frac{13}{25}$"
     },
     "correct": "B",
-    "explanation": "La suma es par si ambas tarjetas son impares o ambas son pares. Hay $3$ impares y $2$ pares.\n$P(\\text{ambas impares}) = \\frac{3}{5} \\cdot \\frac{2}{4} = \\frac{6}{20}$ y $P(\\text{ambas pares}) = \\frac{2}{5} \\cdot \\frac{1}{4} = \\frac{2}{20}$.\nComo son casos excluyentes, la probabilidad es $\\frac{6}{20} + \\frac{2}{20} = \\frac{8}{20} = \\frac{2}{5}$.\nA considera solo el caso de dos impares. C supone que par e impar son igualmente probables.\nD calcula como si la primera tarjeta se devolviera: $\\frac{9}{25} + \\frac{4}{25}$.",
+    "explanation": "Idea clave: la suma es par si ambas tarjetas son impares o ambas son pares; son casos excluyentes y, sin reposición, cambia el total en la segunda extracción.\nPaso 1: hay $3$ impares y $2$ pares. $P(\\text{ambas impares}) = \\frac{3}{5} \\cdot \\frac{2}{4} = \\frac{6}{20}$.\nPaso 2: $P(\\text{ambas pares}) = \\frac{2}{5} \\cdot \\frac{1}{4} = \\frac{2}{20}$.\nPaso 3: la probabilidad es $\\frac{6}{20} + \\frac{2}{20} = \\frac{8}{20} = \\frac{2}{5}$.\nRespuesta: B, $\\frac{2}{5}$.\nErrores frecuentes: La A considera solo el caso de dos impares. La C supone que suma par y suma impar son igualmente probables. La D calcula como si la primera tarjeta se devolviera: $\\frac{9}{25} + \\frac{4}{25}$.",
     "verify": "let fav=0, tot=0; for(let a=1;a<=5;a++) for(let b=1;b<=5;b++){ if(a===b) continue; tot++; if((a+b)%2===0) fav++; } const p=fav/tot; const alts={A:3/10,B:2/5,C:1/2,D:13/25}; const t=Object.keys(alts).filter(k=>Math.abs(alts[k]-p)<1e-9); const conRep=(9+4)/25; return (t.length===1 && Math.abs(conRep-alts.D)<1e-9)?t[0]:null;"
   },
   {
@@ -756,7 +756,7 @@
       "D": "La probabilidad de sacar una ficha roja o con número par es $\\frac{4}{5}$."
     },
     "correct": "D",
-    "explanation": "Las fichas rojas son $6$ y las azules con número par son $2$ (el $2$ y el $4$), así que hay $6 + 2 = 8$ fichas rojas o con número par: la probabilidad es $\\frac{8}{10} = \\frac{4}{5}$, y D es verdadera.\nA es falsa: las fichas rojas $2$, $4$ y $6$ cumplen ambos eventos.\nB es falsa: las fichas azules $2$ y $4$ se contarían dos veces; la probabilidad real es $\\frac{7}{10}$ y la suma da $\\frac{4}{10} + \\frac{5}{10} = \\frac{9}{10}$.\nC es falsa: hay dos fichas con el número $1$ (una roja y una azul), así que la probabilidad es $\\frac{2}{10}$.",
+    "explanation": "Idea clave: hay que revisar qué fichas cumplen cada evento y cuáles cumplen ambos, para no contarlas dos veces.\nPaso 1: las fichas rojas son $6$ y las azules con número par son $2$ (el $2$ y el $4$), así que hay $6 + 2 = 8$ fichas rojas o con número par.\nPaso 2: la probabilidad es $\\frac{8}{10} = \\frac{4}{5}$, por lo que la D es verdadera.\nRespuesta: D, la probabilidad de sacar una ficha roja o con número par es $\\frac{4}{5}$.\nErrores frecuentes: La A es falsa: las fichas rojas $2$, $4$ y $6$ cumplen ambos eventos. La B es falsa: las fichas azules $2$ y $4$ se contarían dos veces; la probabilidad real es $\\frac{7}{10}$ y la suma da $\\frac{4}{10} + \\frac{5}{10} = \\frac{9}{10}$. La C es falsa: hay dos fichas con el número $1$ (una roja y una azul), así que la probabilidad es $\\frac{2}{10}$.",
     "verify": "const F=[]; for(let n=1;n<=6;n++) F.push({c:'r',n}); for(let n=1;n<=4;n++) F.push({c:'a',n}); const P=(f)=>F.filter(f).length/F.length; const roja=x=>x.c==='r', azul=x=>x.c==='a', par=x=>x.n%2===0; const ok={A:F.filter(x=>roja(x)&&par(x)).length===0, B:Math.abs(P(x=>azul(x)||par(x))-(P(azul)+P(par)))<1e-9, C:Math.abs(P(x=>x.n===1)-0.1)<1e-9, D:Math.abs(P(x=>roja(x)||par(x))-0.8)<1e-9}; const t=Object.keys(ok).filter(k=>ok[k]); return t.length===1?t[0]:null;"
   },
   {
@@ -775,7 +775,7 @@
       "D": "$51$ minutos"
     },
     "correct": "A",
-    "explanation": "Al incorporar el $45$, los datos ordenados son $41, 43, 44, 45, 46, 48, 50, 51, 53, 55, 58$. Con $11$ datos, la mediana es el que ocupa la posición $6$, es decir, $48$ minutos.\nB es la mediana de los $10$ datos originales, $\\frac{48 + 50}{2} = 49$, y supone que no cambia al agregar un dato.\nC toma el sexto dato de la lista original sin reordenar.\nD toma el séptimo dato de la lista original, como si la posición central se desplazara hacia arriba.",
+    "explanation": "Idea clave: al agregar un dato hay que reordenar la lista y volver a buscar la posición central.\nPaso 1: con el $45$, los datos ordenados son $41, 43, 44, 45, 46, 48, 50, 51, 53, 55, 58$.\nPaso 2: con $11$ datos, la mediana es el dato de la posición $6$, es decir, $48$ minutos.\nRespuesta: A, $48$ minutos.\nErrores frecuentes: La B es la mediana de los $10$ datos originales, $\\frac{48 + 50}{2} = 49$, y supone que no cambia al agregar un dato. La C toma el sexto dato de la lista original sin reordenar. La D toma el séptimo dato de la lista original, como si la posición central se desplazara hacia arriba.",
     "verify": "const d=[41,43,44,46,48,50,51,53,55,58,45].sort((a,b)=>a-b); const med=d[(d.length-1)/2]; const orig=[41,43,44,46,48,50,51,53,55,58]; const alts={A:48,B:49,C:50,D:51}; const t=Object.keys(alts).filter(k=>alts[k]===med); return (t.length===1 && (orig[4]+orig[5])/2===alts.B)?t[0]:null;"
   },
   {

@@ -15,7 +15,7 @@
       "D": "$12$"
     },
     "correct": "C",
-    "explanation": "El sistema no tiene solución cuando los coeficientes de $x$ e $y$ son proporcionales pero los términos libres no lo son: $\\frac{2}{4}=\\frac{k}{6}\\neq\\frac{5}{7}$.\nDe $\\frac{2}{4}=\\frac{k}{6}$ se obtiene $k=3$, y $\\frac{1}{2}\\neq\\frac{5}{7}$, así que con $k=3$ las rectas son paralelas y distintas.\nA es un error de signo. D resulta de plantear mal la proporción ($2\\cdot6=k$, o $\\frac{4}{2}\\cdot6$). Con $k=2$ el sistema tiene solución única.",
+    "explanation": "Idea clave: un sistema lineal no tiene solución cuando los coeficientes de $x$ e $y$ son proporcionales, pero los términos libres no lo son.\nPaso 1: Se plantea la condición $\\frac{2}{4}=\\frac{k}{6}≠\\frac{5}{7}$.\nPaso 2: De $\\frac{2}{4}=\\frac{k}{6}$ se obtiene $k=3$.\nPaso 3: Se revisa el término libre: $\\frac{1}{2}≠\\frac{5}{7}$, así que con $k=3$ las rectas son paralelas y distintas.\nRespuesta: C, el sistema no tiene solución para $k=3$.\nErrores frecuentes: La A comete un error de signo al despejar $k$. La B no anula la proporcionalidad: con $k=2$ el sistema tiene solución única. La D plantea mal la proporción, por ejemplo $k=2\\cdot6=12$.",
     "verify": "const cls = k => { const det = 2*6 - k*4; if (Math.abs(det) > 1e-12) return 'unica'; return Math.abs(2*7 - 5*4) < 1e-12 ? 'infinitas' : 'ninguna'; };\nconst alts = {A:-3,B:2,C:3,D:12};\nconst ok = Object.keys(alts).filter(l => cls(alts[l]) === 'ninguna');\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -34,7 +34,7 @@
       "D": "Tiene infinitas soluciones y una de ellas es $(0,2)$."
     },
     "correct": "C",
-    "explanation": "La segunda ecuación es la primera multiplicada por $-3$: $-3(x-2y)=-3\\cdot4$. Ambas representan la misma recta, por lo que el sistema tiene infinitas soluciones.\nEl par $(2,-1)$ cumple $2-2(-1)=4$, así que es una de ellas.\nA es incorrecta: $(4,0)$ es solución, pero no la única. B confunde rectas coincidentes con paralelas. D falla porque $0-2\\cdot2=-4\\neq4$.",
+    "explanation": "Idea clave: si una ecuación es múltiplo de la otra, ambas representan la misma recta y el sistema tiene infinitas soluciones.\nPaso 1: La segunda ecuación es la primera multiplicada por $-3$: $-3(x-2y)=-3\\cdot4$, es decir, $-3x+6y=-12$.\nPaso 2: Las dos ecuaciones describen la misma recta, así que hay infinitas soluciones.\nPaso 3: Se prueba $(2,-1)$: $2-2(-1)=4$, por lo que es una de ellas.\nRespuesta: C, tiene infinitas soluciones y $(2,-1)$ es una de ellas.\nErrores frecuentes: La A acierta en que $(4,0)$ es solución, pero no es la única. La B confunde rectas coincidentes con rectas paralelas y distintas. La D propone un punto que no cumple la ecuación: $0-2\\cdot2=-4≠4$.",
     "verify": "const det = 1*6 - (-2)*(-3); const prop = Math.abs(1*(-12) - 4*(-3)) < 1e-12;\nconst inf = Math.abs(det) < 1e-12 && prop;\nconst sat = (x,y) => Math.abs(x-2*y-4) < 1e-12 && Math.abs(-3*x+6*y+12) < 1e-12;\nif (inf && sat(2,-1) && !sat(0,2) && sat(4,0)) return 'C'; return null;"
   },
   {
@@ -54,7 +54,7 @@
       "E": "Se requiere información adicional"
     },
     "correct": "C",
-    "explanation": "Con (1): el sistema queda $2x+3y=6$ y $2x+3y=c$. Si $c=6$ tiene infinitas soluciones, y si $c\\neq6$ no tiene solución. No basta.\nCon (2): si $a=2$ y $b=3$ hay infinitas soluciones, pero si, por ejemplo, $a=1$ y $b=0$ hay solución única. No basta.\nJuntas: las dos ecuaciones son idénticas, $2x+3y=6$, y el sistema tiene infinitas soluciones. Se requieren ambas.",
+    "explanation": "Idea clave: para saber cuántas soluciones tiene un sistema lineal hay que conocer los coeficientes y, cuando las rectas son paralelas, también los términos libres.\nPaso 1: Con (1) por sí sola, el sistema es $2x+3y=6$ y $2x+3y=c$. Si $c=6$ hay infinitas soluciones y si $c≠6$ no hay solución. No basta.\nPaso 2: Con (2) por sí sola, si $a=2$ y $b=3$ hay infinitas soluciones, pero si, por ejemplo, $a=1$ y $b=0$ hay solución única. No basta.\nPaso 3: Juntas, ambas ecuaciones son $2x+3y=6$: el sistema tiene infinitas soluciones y la cantidad queda determinada.\nRespuesta: C, se necesitan ambas juntas, (1) y (2).\nErrores frecuentes: La A olvida que, con rectas paralelas, el valor de $c$ decide entre ninguna e infinitas soluciones. La B ignora que $a$ y $b$ siguen libres. La D supone que alguna basta sola, y ya se vio que ninguna lo hace. La E no corresponde, porque juntas determinan la cantidad de soluciones.",
     "verify": "const cls = (a,b,c) => { const det = a*b - 3*2; if (Math.abs(det) > 1e-12) return 'unica'; return Math.abs(a*c - 6*2) < 1e-12 && Math.abs(3*c - 6*b) < 1e-12 ? 'infinitas' : 'ninguna'; };\nconst s1 = new Set([cls(2,3,6), cls(2,3,1)]).size === 1;\nconst s2 = new Set([cls(2,3,6), cls(1,0,6)]).size === 1;\nconst both = cls(2,3,6) === 'infinitas';\nif (!s1 && !s2 && both) return 'C'; return null;"
   },
   {
@@ -73,7 +73,7 @@
       "D": "Para ningún valor de $m$"
     },
     "correct": "A",
-    "explanation": "El sistema no tiene solución única cuando $(m-1)\\cdot m-2\\cdot3=0$, es decir, $m^2-m-6=(m-3)(m+2)=0$, de donde $m=3$ o $m=-2$.\nCon $m=3$: $2x+2y=4$ y $3x+3y=6$; ambas equivalen a $x+y=2$, así que hay infinitas soluciones.\nCon $m=-2$: $-3x+2y=4$ y $3x-2y=6$, es decir, $-3x+2y=-6$; los coeficientes son proporcionales y los términos libres no, así que no hay solución.\nC es el error de no revisar los términos libres. B confunde el caso de infinitas soluciones con el de ninguna.",
+    "explanation": "Idea clave: primero se buscan los valores que anulan el determinante (no hay solución única) y luego se revisa en cada caso si las rectas son paralelas o coincidentes.\nPaso 1: No hay solución única cuando $(m-1)\\cdot m-2\\cdot3=0$, es decir, $m^{2}-m-6=(m-3)(m+2)=0$, de donde $m=3$ o $m=-2$.\nPaso 2: Con $m=3$: $2x+2y=4$ y $3x+3y=6$; ambas equivalen a $x+y=2$, así que hay infinitas soluciones.\nPaso 3: Con $m=-2$: $-3x+2y=4$ y $3x-2y=6$, que equivale a $-3x+2y=-6$. Los coeficientes son proporcionales y los términos libres no, así que no hay solución.\nRespuesta: A, el sistema no tiene solución solo para $m=-2$.\nErrores frecuentes: La B confunde el caso de infinitas soluciones con el de ninguna. La C no revisa los términos libres y acepta ambos valores. La D pasa por alto que con $m=-2$ las rectas son paralelas y distintas.",
     "verify": "const cls = m => { const a1 = m-1, b1 = 2, c1 = 4, a2 = 3, b2 = m, c2 = 6; const det = a1*b2 - b1*a2; if (Math.abs(det) > 1e-12) return 'unica'; return (Math.abs(a1*c2 - c1*a2) < 1e-12 && Math.abs(b1*c2 - c1*b2) < 1e-12) ? 'infinitas' : 'ninguna'; };\nconst none = []; for (let m = -10; m <= 10; m += 0.5) if (cls(m) === 'ninguna') none.push(m);\nif (none.length === 1 && none[0] === -2 && cls(3) === 'infinitas') return 'A'; return null;"
   },
   {
@@ -92,7 +92,7 @@
       "D": "$256\\,000$"
     },
     "correct": "C",
-    "explanation": "$N(9)=500\\cdot2^{\\frac{9}{3}}=500\\cdot2^3=500\\cdot8=4\\,000$ bacterias. La población se duplica cada $3$ horas.\nA resulta de calcular $500\\cdot3$, ignorando la base $2$. B multiplica $500\\cdot2\\cdot3$ en vez de calcular la potencia.\nD usa el exponente $9$ en lugar de $\\frac{9}{3}$: $500\\cdot2^9$.",
+    "explanation": "Idea clave: en un modelo exponencial se reemplaza el tiempo en el exponente y se calcula la potencia antes de multiplicar.\nPaso 1: $N(9)=500\\cdot2^{\\frac{9}{3}}=500\\cdot2^{3}$.\nPaso 2: $500\\cdot8=4\\,000$. La población se duplica cada $3$ horas.\nRespuesta: C, habrá $4\\,000$ bacterias.\nErrores frecuentes: La A calcula $500\\cdot3$, ignorando la base $2$. La B multiplica $500\\cdot2\\cdot3$ en vez de calcular la potencia. La D usa el exponente $9$ en lugar de $\\frac{9}{3}$: $500\\cdot2^{9}$.",
     "verify": "const N = t => 500*Math.pow(2, t/3);\nconst alts = {A:1500,B:3000,C:4000,D:256000};\nreturn Object.keys(alts).find(k => Math.abs(alts[k]-N(9)) < 1e-6) ?? null;"
   },
   {
@@ -111,7 +111,7 @@
       "D": "$m(t)=80\\cdot\\left(\\dfrac{1}{2}\\right)^{t}$"
     },
     "correct": "B",
-    "explanation": "Cada $8$ días la masa se multiplica por $\\frac{1}{2}$, así que en $t$ días ocurren $\\frac{t}{8}$ reducciones a la mitad: $m(t)=80\\cdot\\left(\\frac{1}{2}\\right)^{\\frac{t}{8}}$. Se verifica que $m(8)=40$ y $m(16)=20$.\nA reduce a la mitad $8$ veces por día. D lo hace una vez por día, ignorando la vida media.\nC es un modelo lineal: coincide en $m(8)=40$, pero da $m(16)=0$ en vez de $20$.",
+    "explanation": "Idea clave: si la masa se reduce a la mitad cada $8$ días, en $t$ días ocurren $\\frac{t}{8}$ reducciones.\nPaso 1: Cada $8$ días la masa se multiplica por $\\frac{1}{2}$, así que $m(t)=80\\cdot\\left(\\frac{1}{2}\\right)^{\\frac{t}{8}}$.\nPaso 2: Se comprueba: $m(8)=40$ y $m(16)=20$.\nRespuesta: B, $m(t)=80\\cdot\\left(\\frac{1}{2}\\right)^{\\frac{t}{8}}$.\nErrores frecuentes: La A reduce la masa a la mitad $8$ veces por día. La C es un modelo lineal: coincide en $m(8)=40$, pero da $m(16)=0$ en vez de $20$. La D la reduce a la mitad una vez por día, ignorando la vida media.",
     "verify": "const f = { A: t => 80*Math.pow(0.5, 8*t), B: t => 80*Math.pow(0.5, t/8), C: t => 80-5*t, D: t => 80*Math.pow(0.5, t) };\nlet real = 80; const obs = {0:80}; for (let d = 1; d <= 24; d++) { real *= Math.pow(0.5, 1/8); obs[d] = real; }\nconst ok = Object.keys(f).filter(k => [0,8,16,24].every(t => Math.abs(f[k](t)-obs[t]) < 1e-6));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -130,7 +130,7 @@
       "D": "$40$"
     },
     "correct": "B",
-    "explanation": "Se busca $t$ tal que $120\\,000\\cdot(1{,}05)^t>240\\,000$, es decir, $(1{,}05)^t>2$.\nAplicando logaritmo: $t\\cdot\\log 1{,}05>\\log 2$, luego $t>\\frac{0{,}301}{0{,}021}\\approx14{,}3$. El menor número entero de años es $15$.\nA trunca $14{,}3$ hacia abajo, pero a los $14$ años la población aún no se duplica. C supone un crecimiento lineal de $5\\%$ del valor inicial por año ($\\frac{100\\%}{5\\%}=20$). D divide $2$ entre $0{,}05$.",
+    "explanation": "Idea clave: para despejar un exponente se aplica logaritmo y, como se piden años completos, se redondea hacia arriba.\nPaso 1: Se busca $t$ tal que $120\\,000\\cdot(1{,}05)^{t}>240\\,000$, es decir, $(1{,}05)^{t}>2$.\nPaso 2: Aplicando logaritmo: $t\\cdot\\log 1{,}05>\\log 2$, luego $t>\\frac{0{,}301}{0{,}021}\\approx14{,}3$.\nPaso 3: El menor número entero de años que cumple es $15$.\nRespuesta: B, deben transcurrir $15$ años.\nErrores frecuentes: La A trunca $14{,}3$ hacia abajo, pero a los $14$ años la población aún no se duplica. La C supone un crecimiento lineal de $5\\%$ del valor inicial por año ($\\frac{100\\%}{5\\%}=20$). La D divide $2$ entre $0{,}05$.",
     "verify": "const tmin = 0.301/0.021; const n = Math.ceil(tmin);\nconst P = t => 120000*Math.pow(1.05, t);\nconst ok = P(n) > 240000 && P(n-1) <= 240000;\nconst alts = {A:14,B:15,C:20,D:40};\nreturn ok ? (Object.keys(alts).find(k => alts[k] === n) ?? null) : null;"
   },
   {
@@ -150,7 +150,7 @@
       "E": "Se requiere información adicional"
     },
     "correct": "B",
-    "explanation": "Con (1): $f(0)=a\\cdot b^0=a=2$, pero $b$ queda libre; por ejemplo, $f(3)=2\\cdot2^3=16$ o $f(3)=2\\cdot3^3=54$. No basta.\nCon (2): $\\frac{f(2)}{f(1)}=b=\\frac{18}{6}=3$ y $a=\\frac{6}{3}=2$, luego $f(3)=2\\cdot3^3=54$. Es suficiente.\nPor lo tanto, (2) por sí sola es suficiente y (1) por sí sola no lo es.",
+    "explanation": "Idea clave: para conocer $f(3)$ hay que determinar los dos parámetros $a$ y $b$ de la función exponencial.\nPaso 1: Con (1) por sí sola: $f(0)=a\\cdot b^{0}=a=2$, pero $b$ queda libre; por ejemplo, $f(3)=2\\cdot2^{3}=16$ o $f(3)=2\\cdot3^{3}=54$. No basta.\nPaso 2: Con (2) por sí sola: $\\frac{f(2)}{f(1)}=b=\\frac{18}{6}=3$ y $a=\\frac{6}{3}=2$, luego $f(3)=2\\cdot3^{3}=54$. Es suficiente.\nRespuesta: B, (2) por sí sola es suficiente.\nErrores frecuentes: La A no sirve, porque (1) solo entrega $a$. La C pide ambas, pero (2) ya basta sola. La D supone que (1) también basta sola, y no es así. La E no corresponde, porque (2) determina $f(3)$.",
     "verify": "const f = (a,b,x) => a*Math.pow(b,x);\nconst ok1 = Math.abs(f(2,2,3) - f(2,3,3)) < 1e-9;\nconst b = 18/6, a = 6/b; const ok2 = Math.abs(f(a,b,1)-6) < 1e-9 && Math.abs(f(a,b,2)-18) < 1e-9;\nif (!ok1 && ok2 && Math.abs(f(a,b,3)-54) < 1e-9) return 'B'; return null;"
   },
   {
@@ -169,7 +169,7 @@
       "D": "$f(x)=\\log_2 x$"
     },
     "correct": "D",
-    "explanation": "$\\log_2 1=0$, $\\log_2 2=1$, $\\log_2 4=2$ y $\\log_2 8=3$: coincide con todos los valores.\nA cumple los dos primeros puntos, pero $f(4)=3\\neq2$. B da $f(1)=\\frac{1}{2}\\neq0$.\nC es la función inversa de la correcta: intercambia los papeles de $x$ y $f(x)$, y da $f(1)=1\\neq0$.",
+    "explanation": "Idea clave: una función es consistente con la tabla solo si cumple todos los pares, no solo algunos.\nPaso 1: Se prueba $\\log_2 x$: $\\log_2 1=0$, $\\log_2 2=1$, $\\log_2 4=2$ y $\\log_2 8=3$.\nPaso 2: Coincide con los cuatro valores de la tabla.\nRespuesta: D, $f(x)=\\log_2 x$.\nErrores frecuentes: La A cumple los dos primeros puntos, pero da $f(4)=3≠2$. La B da $f(1)=\\frac{1}{2}≠0$. La C es la función inversa de la correcta: intercambia los papeles de $x$ y $f(x)$, y da $f(1)=1≠0$.",
     "verify": "const tbl = [[1,0],[2,1],[4,2],[8,3]];\nconst f = { A: x => x-1, B: x => x/2, C: x => Math.pow(2,x-1), D: x => Math.log2(x) };\nconst ok = Object.keys(f).filter(k => tbl.every(([x,y]) => Math.abs(f[k](x)-y) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -188,7 +188,7 @@
       "D": "Entre las $1{:}00$ y las $5{:}00$ horas"
     },
     "correct": "D",
-    "explanation": "Se requiere $3+2\\operatorname{sen}\\left(\\frac{\\pi t}{6}\\right)>4$, es decir, $\\operatorname{sen}\\left(\\frac{\\pi t}{6}\\right)>\\frac{1}{2}$.\nEn $[0,2\\pi]$ esto ocurre para $\\frac{\\pi}{6}<\\frac{\\pi t}{6}<\\frac{5\\pi}{6}$, o sea, $1<t<5$: entre la $1{:}00$ y las $5{:}00$.\nA es el intervalo en que la marea está sobre $3$ m (seno positivo). B considera solo el tramo hasta el máximo, que ocurre a las $3{:}00$. C toma un intervalo simétrico en torno al máximo sin resolver la inecuación.",
+    "explanation": "Idea clave: se plantea la inecuación $h(t)>4$ y se resuelve para el seno dentro del intervalo de tiempo dado.\nPaso 1: $3+2\\operatorname{sen}\\left(\\frac{\\pi t}{6}\\right)>4$ equivale a $\\operatorname{sen}\\left(\\frac{\\pi t}{6}\\right)>\\frac{1}{2}$.\nPaso 2: En $[0,2\\pi]$ esto ocurre para $\\frac{\\pi}{6}<\\frac{\\pi t}{6}<\\frac{5\\pi}{6}$.\nPaso 3: Multiplicando por $\\frac{6}{\\pi}$: $1<t<5$.\nRespuesta: D, entre la $1{:}00$ y las $5{:}00$ horas.\nErrores frecuentes: La A es el intervalo en que la marea está sobre $3$ m (seno positivo). La B considera solo el tramo hasta el máximo, que ocurre a las $3{:}00$. La C toma un intervalo simétrico en torno al máximo sin resolver la inecuación.",
     "verify": "const h = t => 3 + 2*Math.sin(Math.PI*t/6);\nconst alts = {A:[0,6],B:[1,3],C:[2,4],D:[1,5]};\nconst inside = []; for (let t = 0; t <= 12; t += 0.01) if (h(t) > 4 + 1e-9) inside.push(t);\nconst lo = inside[0], hi = inside[inside.length-1];\nreturn Object.keys(alts).find(k => Math.abs(alts[k][0]-lo) < 0.02 && Math.abs(alts[k][1]-hi) < 0.02) ?? null;"
   },
   {
@@ -207,7 +207,7 @@
       "D": "$6\\operatorname{sen}\\left(\\dfrac{x}{2}\\right)+1$"
     },
     "correct": "A",
-    "explanation": "La amplitud es $a=\\frac{7-1}{2}=3$ y el desplazamiento vertical es $c=\\frac{7+1}{2}=4$.\nEl período de $\\operatorname{sen}(bx)$ es $\\frac{2\\pi}{b}=4\\pi$, de donde $b=\\frac{1}{2}$. Así, $f(x)=3\\operatorname{sen}\\left(\\frac{x}{2}\\right)+4$.\nB usa $b=2$, que da período $\\pi$. C intercambia amplitud y desplazamiento (máximo $7$ pero mínimo $-1$).\nD toma como amplitud la diferencia entre máximo y mínimo y como desplazamiento el mínimo, lo que da máximo $7$ y mínimo $-5$.",
+    "explanation": "Idea clave: la amplitud es la mitad de la distancia entre máximo y mínimo, el desplazamiento vertical es su promedio y $b$ sale del período $\\frac{2\\pi}{b}$.\nPaso 1: Amplitud: $a=\\frac{7-1}{2}=3$. Desplazamiento vertical: $c=\\frac{7+1}{2}=4$.\nPaso 2: Período: $\\frac{2\\pi}{b}=4\\pi$, de donde $b=\\frac{1}{2}$.\nRespuesta: A, $f(x)=3\\operatorname{sen}\\left(\\frac{x}{2}\\right)+4$.\nErrores frecuentes: La B usa $b=2$, que da período $\\pi$. La C intercambia amplitud y desplazamiento: su máximo es $7$, pero su mínimo es $-1$. La D toma como amplitud la diferencia entre máximo y mínimo y como desplazamiento el mínimo, lo que da máximo $7$ y mínimo $-5$.",
     "verify": "const c = { A:[3,0.5,4], B:[3,2,4], C:[4,0.5,3], D:[6,0.5,1] };\nconst ok = Object.keys(c).filter(k => { const [a,b,cc] = c[k]; return Math.abs(cc+a-7) < 1e-9 && Math.abs(cc-a-1) < 1e-9 && Math.abs(2*Math.PI/b - 4*Math.PI) < 1e-9; });\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -227,7 +227,7 @@
       "E": "Se requiere información adicional"
     },
     "correct": "E",
-    "explanation": "Con (1): el máximo de $f$ es $a$, así que $a=3$, pero $b$ puede ser cualquier número positivo. No basta.\nCon (2): $a\\operatorname{sen}(b\\pi)=0$ y, como $a>0$, $\\operatorname{sen}(b\\pi)=0$, lo que se cumple para $b=1,2,3,\\ldots$ No basta.\nJuntas: $f(x)=3\\operatorname{sen}(x)$ y $f(x)=3\\operatorname{sen}(2x)$ cumplen ambas condiciones, así que $b$ sigue sin determinarse.\nSe requiere información adicional, por ejemplo, el período de $f$.",
+    "explanation": "Idea clave: $b$ controla el período de $f$; un dato que no fije el período no basta para determinarlo.\nPaso 1: Con (1) por sí sola: el máximo de $f$ es $a$, así que $a=3$, pero $b$ puede ser cualquier número positivo. No basta.\nPaso 2: Con (2) por sí sola: $a\\operatorname{sen}(b\\pi)=0$ y, como $a>0$, $\\operatorname{sen}(b\\pi)=0$, lo que se cumple para $b=1,2,3,\\ldots$ No basta.\nPaso 3: Juntas: $f(x)=3\\operatorname{sen}(x)$ y $f(x)=3\\operatorname{sen}(2x)$ cumplen ambas condiciones, así que $b$ sigue sin determinarse.\nRespuesta: E, se requiere información adicional, por ejemplo, el período de $f$.\nErrores frecuentes: La A no sirve, porque (1) solo fija $a$. La B no sirve, porque (2) admite infinitos valores de $b$. La C falla porque, aun juntas, $b=1$ y $b=2$ cumplen todo. La D supone que alguna basta sola, y ninguna lo hace.",
     "verify": "const f = (a,b,x) => a*Math.sin(b*x);\nconst max = (a,b) => { let m = -Infinity; for (let x = 0; x <= 2*Math.PI/b; x += 0.0005) m = Math.max(m, f(a,b,x)); return m; };\nconst cand = [1,2,3];\nconst both = cand.filter(b => Math.abs(max(3,b)-3) < 1e-4 && Math.abs(f(3,b,Math.PI)) < 1e-9);\nconst only1 = [0.5,1].every(b => Math.abs(max(3,b)-3) < 1e-4);\nconst only2 = [1,2].every(b => Math.abs(f(5,b,Math.PI)) < 1e-9);\nif (both.length > 1 && only1 && only2) return 'E'; return null;"
   },
   {
@@ -246,7 +246,7 @@
       "D": "$\\left(\\dfrac{3\\pi}{2},-3\\right)$"
     },
     "correct": "D",
-    "explanation": "$g\\left(\\frac{3\\pi}{2}\\right)=2\\cdot(-1)-1=-3$, así que el punto de D pertenece a la gráfica.\nA: $g(0)=2\\cdot0-1=-1\\neq1$. B: $g\\left(\\frac{\\pi}{2}\\right)=2\\cdot1-1=1\\neq2$; el valor $2$ resulta de olvidar el $-1$.\nC: $g(\\pi)=2\\cdot0-1=-1\\neq1$; el error es un signo del término independiente.",
+    "explanation": "Idea clave: un punto pertenece a la gráfica si, al evaluar la función en su abscisa, se obtiene su ordenada.\nPaso 1: Se evalúa en cada abscisa usando $\\operatorname{sen}(0)=0$, $\\operatorname{sen}\\left(\\frac{\\pi}{2}\\right)=1$, $\\operatorname{sen}(\\pi)=0$ y $\\operatorname{sen}\\left(\\frac{3\\pi}{2}\\right)=-1$.\nPaso 2: $g\\left(\\frac{3\\pi}{2}\\right)=2\\cdot(-1)-1=-3$, que coincide con la ordenada del punto.\nRespuesta: D, el punto $\\left(\\frac{3\\pi}{2},-3\\right)$ pertenece a la gráfica.\nErrores frecuentes: La A no cumple: $g(0)=2\\cdot0-1=-1≠1$. La B no cumple: $g\\left(\\frac{\\pi}{2}\\right)=2\\cdot1-1=1≠2$; el $2$ sale de olvidar el $-1$. La C no cumple: $g(\\pi)=2\\cdot0-1=-1≠1$; es un error de signo en el término independiente.",
     "verify": "const g = x => 2*Math.sin(x) - 1;\nconst pts = { A:[0,1], B:[Math.PI/2,2], C:[Math.PI,1], D:[3*Math.PI/2,-3] };\nconst ok = Object.keys(pts).filter(k => Math.abs(g(pts[k][0]) - pts[k][1]) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -265,7 +265,7 @@
       "D": "$x=3-\\sqrt{13}$ y $x=3+\\sqrt{13}$"
     },
     "correct": "B",
-    "explanation": "El mínimo se alcanza en el vértice, $x=-\\dfrac{-6}{2}=3$, y vale $f(3)=9-18+k=k-9$.\nDe $k-9=-4$ se obtiene $k=5$, luego $f(x)=x^{2}-6x+5=(x-1)(x-5)$, con ceros $x=1$ y $x=5$.\nA tiene los signos cambiados al factorizar; C entrega las coordenadas del vértice, no los ceros.\nD supone que $k=-4$, confundiendo el valor mínimo con el término libre.",
+    "explanation": "Idea clave: el valor mínimo de una parábola que abre hacia arriba está en el vértice; con él se encuentra $k$ y luego se factoriza.\nPaso 1: El vértice está en $x=-\\frac{-6}{2}=3$ y vale $f(3)=9-18+k=k-9$.\nPaso 2: De $k-9=-4$ se obtiene $k=5$.\nPaso 3: $f(x)=x^{2}-6x+5=(x-1)(x-5)$, con ceros $x=1$ y $x=5$.\nRespuesta: B, los ceros son $x=1$ y $x=5$.\nErrores frecuentes: La A cambia los signos al factorizar. La C entrega las coordenadas del vértice, no los ceros. La D supone que $k=-4$, confundiendo el valor mínimo con el término libre.",
     "verify": "const fmin = k => { const xv = 3; return xv * xv - 6 * xv + k; };\nlet k = null; for (let t = -50; t <= 50; t++) if (fmin(t) === -4) k = t;\nif (k === null) return null;\nconst f = x => x * x - 6 * x + k;\nconst s = Math.sqrt(13);\nconst alts = { A: [-5, -1], B: [1, 5], C: [3, -4], D: [3 - s, 3 + s] };\nconst ok = Object.keys(alts).filter(L => alts[L].every(x => Math.abs(f(x)) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -284,7 +284,7 @@
       "D": "$11{,}25$ s"
     },
     "correct": "B",
-    "explanation": "Llega al agua cuando $h(t)=0$: $-5t^{2}+5t+10=0$, es decir, $t^{2}-t-2=0$, o sea $(t-2)(t+1)=0$.\nComo $t\\geq0$, se descarta $t=-1$ y se obtiene $t=2$ s.\n$0{,}5$ s es el instante en que alcanza la altura máxima (abscisa del vértice) y $11{,}25$ es esa altura máxima, en metros.\n$10$ es la altura inicial de la plataforma, no un tiempo.",
+    "explanation": "Idea clave: la clavadista llega al agua cuando su altura es cero, y solo sirven los tiempos no negativos.\nPaso 1: $-5t^{2}+5t+10=0$; dividiendo por $-5$: $t^{2}-t-2=0$.\nPaso 2: Factorizando, $(t-2)(t+1)=0$. Como $t\\geq0$, se descarta $t=-1$.\nRespuesta: B, llega al agua a los $2$ s.\nErrores frecuentes: La A es el instante de la altura máxima (abscisa del vértice). La C es la altura inicial de la plataforma, no un tiempo. La D es la altura máxima, en metros, no un tiempo.",
     "verify": "const h = t => -5 * t * t + 5 * t + 10;\nlet v = null; for (let t = 0.001; t < 20; t += 0.001) if (h(t) <= 0) { v = Math.round(t * 100) / 100; break; }\nconst alts = { A: 0.5, B: 2, C: 10, D: 11.25 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -303,7 +303,7 @@
       "D": "$f$ tiene dos ceros reales, uno positivo y otro negativo."
     },
     "correct": "D",
-    "explanation": "El discriminante es $b^{2}-4ac$; como $ac<0$, se tiene $-4ac>0$ y el discriminante es positivo: hay dos ceros reales distintos.\nAdemás, el producto de los ceros es $\\dfrac{c}{a}<0$, por lo que tienen distinto signo. Así, D es siempre verdadera y A es falsa.\nB depende de $b$: si $b>0$, la abscisa del vértice $-\\frac{b}{2a}$ es positiva y el vértice queda en el primer cuadrante.\nC es falsa: con $a<0$ la parábola abre hacia abajo y no tiene mínimo; $c$ es solo el valor $f(0)$.",
+    "explanation": "Idea clave: el signo de $ac$ determina el signo del discriminante y del producto de los ceros.\nPaso 1: Como $a<0$ y $c>0$, $ac<0$, así que $-4ac>0$ y el discriminante $b^{2}-4ac$ es positivo: hay dos ceros reales distintos.\nPaso 2: El producto de los ceros es $\\frac{c}{a}<0$, por lo que tienen distinto signo.\nRespuesta: D, $f$ tiene dos ceros reales, uno positivo y otro negativo.\nErrores frecuentes: La A es falsa, porque el discriminante es positivo y la gráfica corta al eje X. La B depende de $b$: si $b>0$, la abscisa del vértice $-\\frac{b}{2a}$ es positiva y el vértice queda en el primer cuadrante. La C es falsa: con $a<0$ la parábola abre hacia abajo y no tiene mínimo; $c$ es solo el valor $f(0)$.",
     "verify": "const cases = [];\nfor (const a of [-3, -1, -0.5]) for (const b of [-4, 0, 2, 5]) for (const c of [0.5, 2, 7]) cases.push([a, b, c]);\nconst st = {\n  A: (a, b, c) => b * b - 4 * a * c < 0,\n  B: (a, b, c) => { const xv = -b / (2 * a); const yv = c - b * b / (4 * a); return xv < 0 && yv > 0; },\n  C: (a, b, c) => false,\n  D: (a, b, c) => { const d = b * b - 4 * a * c; if (d <= 0) return false; const r1 = (-b + Math.sqrt(d)) / (2 * a), r2 = (-b - Math.sqrt(d)) / (2 * a); return r1 * r2 < 0; },\n};\nconst ok = Object.keys(st).filter(k => cases.every(([a, b, c]) => st[k](a, b, c)));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -322,7 +322,7 @@
       "D": "$1\\,024$"
     },
     "correct": "C",
-    "explanation": "Sea $x$ la medida de cada lado perpendicular al muro e $y$ la del lado opuesto al muro. La malla cumple $2x+(y-4)=60$, luego $y=64-2x$.\nEl área es $A(x)=x(64-2x)=-2x^{2}+64x$, cuyo vértice está en $x=\\dfrac{64}{4}=16$, con $A(16)=16\\cdot32=512$.\n$450$ se obtiene al ignorar el portón ($y=60-2x$); $256$ supone que el terreno debe ser cuadrado de lado $16$.\n$1\\,024$ eleva al cuadrado el lado de $32$ m, sin usar la función área.",
+    "explanation": "Idea clave: se expresa el área en función de un solo lado y se maximiza con el vértice de la parábola.\nPaso 1: Sea $x$ cada lado perpendicular al muro e $y$ el lado opuesto. La malla cumple $2x+(y-4)=60$, luego $y=64-2x$.\nPaso 2: El área es $A(x)=x(64-2x)=-2x^{2}+64x$, con vértice en $x=\\frac{64}{4}=16$.\nPaso 3: $A(16)=16\\cdot32=512$.\nRespuesta: C, el área máxima es $512\\ \\text{m}^{2}$.\nErrores frecuentes: La A supone que el terreno debe ser un cuadrado de lado $16$. La B ignora el portón y usa $y=60-2x$. La D eleva al cuadrado el lado de $32$ m, sin usar la función área.",
     "verify": "let v = -Infinity;\nfor (let x = 0; x <= 32; x += 0.01) { const y = 64 - 2 * x; if (2 * x + (y - 4) - 60 > 1e-9) return null; v = Math.max(v, x * y); }\nv = Math.round(v);\nconst alts = { A: 256, B: 450, C: 512, D: 1024 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -341,7 +341,7 @@
       "D": "$(x-3)^{2}-4$"
     },
     "correct": "D",
-    "explanation": "La tabla es simétrica respecto de $x=3$ ($f(2)=f(4)=-3$), por lo que el vértice es $(3,-4)$ y $f(x)=a(x-3)^{2}-4$.\nCon $f(0)=5$: $9a-4=5$, luego $a=1$ y $f(x)=(x-3)^{2}-4$. Se comprueba: $f(1)=4-4=0$.\nA ubica el vértice en $x=-3$ (error de signo en la traslación) y C cambia el signo de la ordenada del vértice.\nB corresponde a una parábola que abre hacia abajo, pero los valores de la tabla crecen a ambos lados de $x=3$.",
+    "explanation": "Idea clave: la simetría de la tabla revela el vértice; con otro punto se calcula el coeficiente $a$.\nPaso 1: $f(2)=f(4)=-3$, así que el eje de simetría es $x=3$ y el vértice es $(3,-4)$: $f(x)=a(x-3)^{2}-4$.\nPaso 2: Con $f(0)=5$: $9a-4=5$, luego $a=1$.\nPaso 3: Se comprueba: $f(1)=4-4=0$.\nRespuesta: D, $f(x)=(x-3)^{2}-4$.\nErrores frecuentes: La A ubica el vértice en $x=-3$ por un error de signo en la traslación. La B abre hacia abajo, pero los valores de la tabla crecen a ambos lados de $x=3$. La C cambia el signo de la ordenada del vértice.",
     "verify": "const tab = [[0, 5], [1, 0], [2, -3], [3, -4], [4, -3]];\nconst alts = { A: x => (x + 3) ** 2 - 4, B: x => -((x - 3) ** 2) - 4, C: x => (x - 3) ** 2 + 4, D: x => (x - 3) ** 2 - 4 };\nconst ok = Object.keys(alts).filter(k => tab.every(([x, y]) => alts[k](x) === y));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -360,7 +360,7 @@
       "D": "$17\\,000$ pesos"
     },
     "correct": "B",
-    "explanation": "Con $n$ aumentos de $500$ pesos, el ingreso es $I(n)=(8\\,000+500n)(400-20n)$.\nSus ceros son $n=-16$ y $n=20$, así que el vértice está en $n=\\dfrac{-16+20}{2}=2$, con un precio de $8\\,000+2\\cdot500=9\\,000$ pesos.\n$13\\,000$ pesos usa $n=10$, la mitad de $20$, olvidando el otro cero; $17\\,000$ pesos usa $n=18$, al sumar mal los ceros por un error de signo.\n$8\\,000$ pesos supone, sin verificarlo, que no conviene subir el precio.",
+    "explanation": "Idea clave: el ingreso es una función cuadrática del número de aumentos; su máximo está en el punto medio de sus ceros.\nPaso 1: Con $n$ aumentos de $500$ pesos, $I(n)=(8\\,000+500n)(400-20n)$.\nPaso 2: Los ceros son $n=-16$ y $n=20$, así que el vértice está en $n=\\frac{-16+20}{2}=2$.\nPaso 3: El precio es $8\\,000+2\\cdot500=9\\,000$ pesos.\nRespuesta: B, el ingreso se maximiza con $9\\,000$ pesos por entrada.\nErrores frecuentes: La A supone, sin verificarlo, que no conviene subir el precio. La C usa $n=10$, la mitad de $20$, olvidando el otro cero. La D usa $n=18$, al promediar mal los ceros por un error de signo.",
     "verify": "const I = n => (8000 + 500 * n) * (400 - 20 * n);\nlet best = 0; for (let n = 0; n <= 20; n++) if (I(n) > I(best)) best = n;\nconst v = 8000 + 500 * best;\nconst alts = { A: 8000, B: 9000, C: 13000, D: 17000 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -379,7 +379,7 @@
       "D": "$4$"
     },
     "correct": "B",
-    "explanation": "Igualando: $x^{2}+4x+3=2x+m$, es decir, $x^{2}+2x+(3-m)=0$.\nHay un único punto de intersección si el discriminante es cero: $4-4(3-m)=0$, luego $m=2$ (el punto es $(-1,0)$).\n$4$ aparece al trasponer mal el término y usar $m-3$ como término libre; $-2$ es un error de signo al despejar.\n$3$ es el punto de corte de la parábola con el eje Y, que no tiene relación con la condición pedida.",
+    "explanation": "Idea clave: una recta y una parábola se cortan en un único punto cuando la ecuación cuadrática que resulta de igualarlas tiene discriminante cero.\nPaso 1: $x^{2}+4x+3=2x+m$, es decir, $x^{2}+2x+(3-m)=0$.\nPaso 2: Discriminante cero: $4-4(3-m)=0$, luego $m=2$. El punto común es $(-1,0)$.\nRespuesta: B, $m=2$.\nErrores frecuentes: La A es un error de signo al despejar $m$. La C es el corte de la parábola con el eje Y, que no tiene relación con la condición. La D traspone mal el término y usa $m-3$ como término libre.",
     "verify": "const count = m => { const d = 4 - 4 * (3 - m); return Math.abs(d) < 1e-12 ? 1 : d > 0 ? 2 : 0; };\nconst alts = { A: -2, B: 2, C: 3, D: 4 };\nconst ok = Object.keys(alts).filter(k => count(alts[k]) === 1);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -398,7 +398,7 @@
       "D": "En el paso 4"
     },
     "correct": "A",
-    "explanation": "Al dividir por $2$ la ecuación original se obtiene $x^{2}-4x=5$: Benjamín dividió solo el lado izquierdo, por lo que el error está en el paso 1.\nLas soluciones correctas son $x=5$ y $x=-1$, pues $x^{2}-4x+4=9$ y $(x-2)^{2}=9$.\nLos pasos 2, 3 y 4 son correctos a partir de la ecuación que escribió en el paso 1: sumó $4$ a ambos lados, factorizó el trinomio y extrajo raíz con ambos signos.",
+    "explanation": "Idea clave: al dividir una ecuación por un número, hay que dividir ambos lados.\nPaso 1: Dividiendo por $2$ la ecuación original se obtiene $x^{2}-4x=5$; Benjamín dividió solo el lado izquierdo y escribió $10$.\nPaso 2: Lo correcto sigue así: $x^{2}-4x+4=9$, $(x-2)^{2}=9$, y las soluciones son $x=5$ y $x=-1$.\nRespuesta: A, el primer error está en el paso 1.\nErrores frecuentes: La B no corresponde: en el paso 2 sumó $4$ a ambos lados, lo que es correcto. La C no corresponde: el paso 3 factoriza bien el trinomio. La D no corresponde: el paso 4 extrae la raíz con ambos signos correctamente, a partir de lo que tenía.",
     "verify": "const orig = x => 2 * x * x - 8 * x === 10;\nconst sols = [5, -1].filter(orig);\nif (sols.length !== 2) return null;\nconst steps = [x => x * x - 4 * x === 10, x => x * x - 4 * x + 4 === 14, x => (x - 2) ** 2 === 14, x => x === 2 + Math.sqrt(14) || x === 2 - Math.sqrt(14)];\nconst i = steps.findIndex(s => !sols.every(s));\nreturn i >= 0 ? 'ABCD'[i] : null;"
   },
   {
@@ -417,7 +417,7 @@
       "D": "$16$"
     },
     "correct": "A",
-    "explanation": "Los ceros de $f$ son $x=2$ y $x=-6$, y el eje de simetría pasa por su punto medio: $x=\\dfrac{2+(-6)}{2}=-2$.\nEl valor mínimo es $f(-2)=(-4)\\cdot4=-16$.\n$-12$ es $f(0)$, el corte con el eje Y; $-2$ es la abscisa del vértice, no el valor de la función.\n$16$ resulta de un error de signo al multiplicar $(-4)\\cdot4$.",
+    "explanation": "Idea clave: en la forma factorizada, el eje de simetría pasa por el punto medio de los ceros, y ahí está el mínimo.\nPaso 1: Los ceros son $x=2$ y $x=-6$, así que el eje de simetría es $x=\\frac{2+(-6)}{2}=-2$.\nPaso 2: El valor mínimo es $f(-2)=(-4)\\cdot4=-16$.\nRespuesta: A, el valor mínimo de $f$ es $-16$.\nErrores frecuentes: La B es $f(0)$, el corte con el eje Y. La C es la abscisa del vértice, no el valor de la función. La D comete un error de signo al multiplicar $(-4)\\cdot4$.",
     "verify": "const f = x => (x - 2) * (x + 6);\nlet v = Infinity; for (let x = -20; x <= 20; x += 0.5) v = Math.min(v, f(x));\nconst alts = { A: -16, B: -12, C: -2, D: 16 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -436,7 +436,7 @@
       "D": "$C(x)=800x+1\\,500$"
     },
     "correct": "D",
-    "explanation": "El costo por kilómetro es la pendiente: $\\dfrac{9\\,500-4\\,700}{10-4}=800$ pesos.\nEl cargo fijo es $4\\,700-800\\cdot4=1\\,500$ pesos, luego $C(x)=800x+1\\,500$. Se comprueba: $C(10)=9\\,500$.\nA y B suponen proporcionalidad directa ($9\\,500:10$ y $4\\,700:4$), ignorando el cargo fijo, y no satisfacen ambos datos.\nC usa como cargo fijo el costo del viaje de $4$ km.",
+    "explanation": "Idea clave: el costo por kilómetro es la pendiente entre los dos datos, y el cargo fijo es el coeficiente de posición.\nPaso 1: Pendiente: $\\frac{9\\,500-4\\,700}{10-4}=800$ pesos por kilómetro.\nPaso 2: Cargo fijo: $4\\,700-800\\cdot4=1\\,500$ pesos, luego $C(x)=800x+1\\,500$.\nPaso 3: Se comprueba: $C(10)=8\\,000+1\\,500=9\\,500$.\nRespuesta: D, $C(x)=800x+1\\,500$.\nErrores frecuentes: La A supone proporcionalidad directa con el viaje de $10$ km ($9\\,500:10$) e ignora el cargo fijo. La B hace lo mismo con el viaje de $4$ km ($4\\,700:4$); ninguna cumple ambos datos. La C usa como cargo fijo el costo del viaje de $4$ km.",
     "verify": "const data = [[4, 4700], [10, 9500]];\nconst alts = { A: x => 950 * x, B: x => 1175 * x, C: x => 800 * x + 4700, D: x => 800 * x + 1500 };\nconst ok = Object.keys(alts).filter(k => data.every(([x, y]) => alts[k](x) === y));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -455,7 +455,7 @@
       "D": "$19$"
     },
     "correct": "B",
-    "explanation": "La pendiente es $\\dfrac{7-1}{2-(-1)}=2$, y $f(x)=2x+n$ con $f(2)=4+n=7$, luego $n=3$.\nEntonces $f(5)=2\\cdot5+3=13$.\n$10$ olvida el coeficiente de posición; $16$ usa pendiente $3$ (dividir $6$ por $2$ en vez de por $3$) a partir de $f(2)$.\n$19$ usa esa misma pendiente errada a partir de $f(-1)$: $1+3\\cdot6$.",
+    "explanation": "Idea clave: con dos puntos de una función afín se calcula la pendiente y luego el coeficiente de posición.\nPaso 1: Pendiente: $\\frac{7-1}{2-(-1)}=\\frac{6}{3}=2$.\nPaso 2: $f(x)=2x+n$ con $f(2)=4+n=7$, luego $n=3$.\nPaso 3: $f(5)=2\\cdot5+3=13$.\nRespuesta: B, $f(5)=13$.\nErrores frecuentes: La A olvida el coeficiente de posición: $2\\cdot5=10$. La C usa pendiente $3$ (divide $6$ por $2$ en vez de por $3$) a partir de $f(2)$: $7+3\\cdot3$. La D usa esa misma pendiente errada a partir de $f(-1)$: $1+3\\cdot6$.",
     "verify": "const m = (7 - 1) / (2 - (-1)), n = 7 - m * 2;\nif (Math.abs(m * -1 + n - 1) > 1e-9) return null;\nconst v = m * 5 + n;\nconst alts = { A: 10, B: 13, C: 16, D: 19 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -474,7 +474,7 @@
       "D": "$f(1)>0$"
     },
     "correct": "A",
-    "explanation": "A: si $x>0$ y $m<0$, entonces $mx<0$, luego $f(x)=mx+n<n$. Es siempre verdadera.\nB: el cero de $f$ es $x=-\\dfrac{n}{m}$, que es positivo porque $n>0$ y $m<0$. Es falsa.\nC: con pendiente negativa la función es decreciente, así que $a<b$ implica $f(a)>f(b)$.\nD: depende de los valores; por ejemplo, con $m=-5$ y $n=1$ se tiene $f(1)=-4<0$.",
+    "explanation": "Idea clave: con pendiente negativa y coeficiente de posición positivo, cada afirmación se analiza con signos o con un contraejemplo.\nPaso 1: Si $x>0$ y $m<0$, entonces $mx<0$, luego $f(x)=mx+n<n$. La A es siempre verdadera.\nPaso 2: El cero de $f$ es $x=-\\frac{n}{m}$, que es positivo porque $n>0$ y $m<0$.\nRespuesta: A, para todo $x>0$ se cumple que $f(x)<n$.\nErrores frecuentes: La B es falsa, porque el cero tiene abscisa positiva. La C es falsa: con pendiente negativa la función es decreciente, así que $a<b$ implica $f(a)>f(b)$. La D depende de los valores: con $m=-5$ y $n=1$ se tiene $f(1)=-4<0$.",
     "verify": "const cases = [];\nfor (const m of [-5, -2, -0.5]) for (const n of [0.5, 1, 4]) cases.push([m, n]);\nconst st = {\n  A: (m, n) => [0.1, 1, 3, 10].every(x => m * x + n < n),\n  B: (m, n) => -n / m < 0,\n  C: (m, n) => (m * 1 + n) < (m * 2 + n),\n  D: (m, n) => m + n > 0,\n};\nconst ok = Object.keys(st).filter(k => cases.every(([m, n]) => st[k](m, n)));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -493,7 +493,7 @@
       "D": "Más de $533$ minutos"
     },
     "correct": "A",
-    "explanation": "Con $x$ minutos, el plan 2 es más barato si $15\\,990+20x<9\\,990+50x$, es decir, $6\\,000<30x$, o sea $x>200$.\nLas rectas que representan ambos planes se cortan en $x=200$, donde ambos cuestan $19\\,990$ pesos.\n$300$ divide la diferencia de cargos fijos por $20$ en lugar de por la diferencia de tarifas, $30$.\n$320$ y $533$ provienen de dividir el cargo fijo del plan 2 por $50$ y por $30$, respectivamente.",
+    "explanation": "Idea clave: se plantea la inecuación costo del plan 2 menor que costo del plan 1 y se despeja los minutos.\nPaso 1: Con $x$ minutos: $15\\,990+20x<9\\,990+50x$.\nPaso 2: $6\\,000<30x$, o sea $x>200$. En $x=200$ ambos planes cuestan $19\\,990$ pesos.\nRespuesta: A, para más de $200$ minutos.\nErrores frecuentes: La B divide la diferencia de cargos fijos por $20$ en lugar de por la diferencia de tarifas, $30$. La C divide el cargo fijo del plan 2 por $50$. La D divide el cargo fijo del plan 2 por $30$.",
     "verify": "let v = null;\nfor (let x = 0; x <= 2000; x++) { const p1 = 9990 + 50 * x, p2 = 15990 + 20 * x; if (p2 < p1) { v = x - 1; break; } }\nconst alts = { A: 200, B: 300, C: 320, D: 533 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -512,7 +512,7 @@
       "D": "$V(t)=1\\,200-\\dfrac{t}{50}$"
     },
     "correct": "B",
-    "explanation": "En $5$ minutos el volumen baja $250$ L, es decir, $50$ L por minuto; entre $t=5$ y $t=12$ baja $350$ L en $7$ minutos, confirmando la tasa constante.\nEl volumen inicial es $1\\,200$ L, luego $V(t)=1\\,200-50t$.\nA usa como tasa por minuto la disminución de los primeros $5$ minutos.\nC toma como volumen inicial el de $t=5$, y D invierte la tasa ($\\frac{1}{50}$ L por minuto).",
+    "explanation": "Idea clave: en un vaciado a tasa constante, la pendiente es lo que baja el volumen por minuto y el valor inicial es el volumen en $t=0$.\nPaso 1: En $5$ minutos el volumen baja $250$ L, es decir, $50$ L por minuto. Entre $t=5$ y $t=12$ baja $350$ L en $7$ minutos, lo que confirma la tasa.\nPaso 2: El volumen inicial es $1\\,200$ L, luego $V(t)=1\\,200-50t$.\nRespuesta: B, $V(t)=1\\,200-50t$.\nErrores frecuentes: La A usa como tasa por minuto la disminución de los primeros $5$ minutos. La C toma como volumen inicial el de $t=5$. La D invierte la tasa, como si fuera $\\frac{1}{50}$ L por minuto.",
     "verify": "const tab = [[0, 1200], [5, 950], [12, 600]];\nconst alts = { A: t => 1200 - 250 * t, B: t => 1200 - 50 * t, C: t => 950 - 50 * t, D: t => 1200 - t / 50 };\nconst ok = Object.keys(alts).filter(k => tab.every(([t, y]) => Math.abs(alts[k](t) - y) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -531,7 +531,7 @@
       "D": "$92$"
     },
     "correct": "B",
-    "explanation": "Con $x$ invitados se requiere $180\\,000+6\\,500x\\leq600\\,000$, es decir, $x\\leq\\dfrac{420\\,000}{6\\,500}\\approx64{,}6$.\nComo $x$ es entero, la mayor cantidad es $64$ invitados.\n$65$ redondea $64{,}6$ hacia arriba, lo que excede el presupuesto ($180\\,000+6\\,500\\cdot65=602\\,500$ pesos).\n$92$ ignora el cargo fijo y $27$ es la parte entera de $180\\,000:6\\,500$.",
+    "explanation": "Idea clave: se plantea costo total menor o igual que el presupuesto y, como los invitados son enteros, se redondea hacia abajo.\nPaso 1: $180\\,000+6\\,500x\\leq600\\,000$, es decir, $x\\leq\\frac{420\\,000}{6\\,500}\\approx64{,}6$.\nPaso 2: La mayor cantidad entera que cumple es $64$.\nRespuesta: B, puede tener $64$ invitados.\nErrores frecuentes: La A es la parte entera de $180\\,000:6\\,500$. La C redondea $64{,}6$ hacia arriba y excede el presupuesto: $180\\,000+6\\,500\\cdot65=602\\,500$ pesos. La D ignora el cargo fijo.",
     "verify": "let v = 0; while (180000 + 6500 * (v + 1) <= 600000) v++;\nconst alts = { A: 27, B: 64, C: 65, D: 92 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -550,7 +550,7 @@
       "D": "$\\dfrac{aq+bp}{p+q}$"
     },
     "correct": "D",
-    "explanation": "A los $t$ minutos, A tiene $a-pt$ litros y B tiene $b+qt$. Igualando: $a-pt=b+qt$, luego $t=\\dfrac{a-b}{p+q}$.\nLa cantidad común es $b+q\\cdot\\dfrac{a-b}{p+q}=\\dfrac{bp+bq+aq-bq}{p+q}=\\dfrac{aq+bp}{p+q}$.\nB intercambia los caudales al ponderar; C tiene un error de signo al reducir términos.\nA, el promedio de $a$ y $b$, solo es correcto cuando $p=q$.",
+    "explanation": "Idea clave: se escribe la cantidad de agua de cada estanque en función del tiempo, se igualan y se reemplaza el tiempo obtenido.\nPaso 1: A los $t$ minutos, A tiene $a-pt$ litros y B tiene $b+qt$. Igualando: $a-pt=b+qt$, luego $t=\\frac{a-b}{p+q}$.\nPaso 2: La cantidad común es $b+q\\cdot\\frac{a-b}{p+q}=\\frac{bp+bq+aq-bq}{p+q}=\\frac{aq+bp}{p+q}$.\nRespuesta: D, habrá $\\frac{aq+bp}{p+q}$ litros en cada uno.\nErrores frecuentes: La A, el promedio de $a$ y $b$, solo es correcta cuando $p=q$. La B intercambia los caudales al ponderar. La C comete un error de signo al reducir términos.",
     "verify": "const tests = [[500, 200, 7, 3], [900, 100, 2, 6], [300, 120, 4, 4.5]];\nconst alts = { A: (a, b, p, q) => (a + b) / 2, B: (a, b, p, q) => (a * p + b * q) / (p + q), C: (a, b, p, q) => (a * q - b * p) / (p + q), D: (a, b, p, q) => (a * q + b * p) / (p + q) };\nconst real = (a, b, p, q) => { const t = (a - b) / (p + q); if (Math.abs((a - p * t) - (b + q * t)) > 1e-9) return NaN; return a - p * t; };\nconst ok = Object.keys(alts).filter(k => tests.every(T => Math.abs(alts[k](...T) - real(...T)) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -569,7 +569,7 @@
       "D": "En el paso 4"
     },
     "correct": "C",
-    "explanation": "Paso 1: multiplicar ambos lados por $5$ es correcto. Paso 2: restar $15$ a ambos lados también lo es.\nEn el paso 3 dividió por $-2$ sin invertir el sentido de la desigualdad: lo correcto es $x\\leq-10$.\nPor ejemplo, $x=0$ cumple $x\\geq-10$, pero $3-0=3$ no es mayor o igual que $7$.\nEl paso 4 es coherente con el paso 3, pero hereda su error; la solución correcta es $]-\\infty,-10]$.",
+    "explanation": "Idea clave: al multiplicar o dividir una desigualdad por un número negativo, su sentido se invierte.\nPaso 1: El paso 1 es correcto: multiplicó ambos lados por $5$. El paso 2 también: restó $15$ a ambos lados.\nPaso 2: En el paso 3 dividió por $-2$ sin invertir la desigualdad; lo correcto es $x\\leq-10$. Por ejemplo, $x=0$ cumple $x\\geq-10$, pero $3-0=3$ no es mayor o igual que $7$.\nRespuesta: C, el primer error está en el paso 3.\nErrores frecuentes: La A no corresponde, porque multiplicar por $5$ es válido. La B no corresponde, porque restar $15$ es válido. La D no es el primer error: el paso 4 es coherente con el 3, solo hereda su error; la solución correcta es $]-\\infty,-10]$.",
     "verify": "const orig = x => 3 - 2 * x / 5 >= 7 - 1e-12;\nconst steps = [x => 15 - 2 * x >= 35, x => -2 * x >= 20, x => x >= -10];\nconst xs = []; for (let x = -40; x <= 40; x += 0.5) xs.push(x);\nconst i = steps.findIndex(s => !xs.every(x => s(x) === orig(x)));\nreturn i >= 0 ? 'ABCD'[i] : null;"
   },
   {
@@ -588,7 +588,7 @@
       "D": "$6$"
     },
     "correct": "C",
-    "explanation": "Multiplicando por $6$: $2(x+2)-3(x-1)=6$, es decir, $2x+4-3x+3=6$, luego $-x+7=6$ y $x=1$.\n$-5$ aparece al no distribuir el signo menos: $2x+4-3x-3=6$.\n$-1$ resulta de un error de signo al despejar al final ($-x=-1$ como $x=-1$).\n$6$ se obtiene al olvidar multiplicar por $6$ el lado derecho.",
+    "explanation": "Idea clave: se multiplica toda la ecuación por el mínimo común múltiplo de los denominadores, cuidando el signo menos delante de la fracción.\nPaso 1: Multiplicando por $6$: $2(x+2)-3(x-1)=6$.\nPaso 2: $2x+4-3x+3=6$, luego $-x+7=6$ y $x=1$.\nRespuesta: C, $x=1$.\nErrores frecuentes: La A no distribuye el signo menos: $2x+4-3x-3=6$. La B comete un error de signo al despejar al final, pasando de $-x=-1$ a $x=-1$. La D olvida multiplicar por $6$ el lado derecho.",
     "verify": "const f = x => (x + 2) / 3 - (x - 1) / 2;\nconst alts = { A: -5, B: -1, C: 1, D: 6 };\nconst ok = Object.keys(alts).filter(k => Math.abs(f(alts[k]) - 1) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -607,7 +607,7 @@
       "D": "$553$"
     },
     "correct": "A",
-    "explanation": "Se usa $(a+b)^{3}=a^{3}+b^{3}+3ab(a+b)$, de donde $a^{3}+b^{3}=(a+b)^{3}-3ab(a+b)$.\nReemplazando: $a^{3}+b^{3}=343-3\\cdot10\\cdot7=343-210=133$ (se comprueba con $a=5$ y $b=2$: $125+8=133$).\n$203$ usa $2ab(a+b)$ en lugar de $3ab(a+b)$; $553$ suma el término en vez de restarlo.\n$343$ supone que $(a+b)^{3}=a^{3}+b^{3}$.",
+    "explanation": "Idea clave: el cubo de un binomio permite expresar $a^{3}+b^{3}$ usando solo $a+b$ y $ab$.\nPaso 1: $(a+b)^{3}=a^{3}+b^{3}+3ab(a+b)$, de donde $a^{3}+b^{3}=(a+b)^{3}-3ab(a+b)$.\nPaso 2: $a^{3}+b^{3}=343-3\\cdot10\\cdot7=343-210=133$. Se comprueba con $a=5$ y $b=2$: $125+8=133$.\nRespuesta: A, $a^{3}+b^{3}=133$.\nErrores frecuentes: La B usa $2ab(a+b)$ en lugar de $3ab(a+b)$. La C supone que $(a+b)^{3}=a^{3}+b^{3}$. La D suma el término $3ab(a+b)$ en vez de restarlo.",
     "verify": "const s = 7, p = 10;\nconst d = Math.sqrt(s * s - 4 * p);\nconst a = (s + d) / 2, b = (s - d) / 2;\nconst v = a ** 3 + b ** 3;\nconst alts = { A: 133, B: 203, C: 343, D: 553 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -626,7 +626,7 @@
       "D": "$N$ es impar cuando $n$ es par."
     },
     "correct": "A",
-    "explanation": "Por diferencia de cuadrados: $N=\\big((n+3)-(n-1)\\big)\\big((n+3)+(n-1)\\big)=4(2n+2)=8(n+1)$, que es múltiplo de $8$ para todo entero $n$.\nC es falsa: con $n=0$ se obtiene $N=8$, que no es múltiplo de $16$; además, con $n=0$, D también falla, pues $8$ es par.\nB es falsa: con $n=1$ se obtiene $N=16$, pero con $n=2$ se obtiene $N=24$, que no es cuadrado perfecto.",
+    "explanation": "Idea clave: la diferencia de cuadrados simplifica $N$ y muestra qué factor tiene siempre.\nPaso 1: $N=\\big((n+3)-(n-1)\\big)\\big((n+3)+(n-1)\\big)=4(2n+2)$.\nPaso 2: $N=8(n+1)$, que es múltiplo de $8$ para todo entero $n$.\nRespuesta: A, $N$ es múltiplo de $8$.\nErrores frecuentes: La B es falsa: con $n=1$ se obtiene $N=16$, pero con $n=2$ se obtiene $N=24$, que no es cuadrado perfecto. La C es falsa: con $n=0$, $N=8$ no es múltiplo de $16$. La D es falsa: con $n=0$, $N=8$ es par.",
     "verify": "const N = n => (n + 3) ** 2 - (n - 1) ** 2;\nconst ns = []; for (let n = -10; n <= 10; n++) ns.push(n);\nconst st = {\n  A: n => N(n) % 8 === 0,\n  B: n => N(n) >= 0 && Number.isInteger(Math.sqrt(N(n))),\n  C: n => N(n) % 16 === 0,\n  D: n => n % 2 !== 0 || Math.abs(N(n) % 2) === 1,\n};\nconst ok = Object.keys(st).filter(k => ns.every(st[k]));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -645,7 +645,7 @@
       "D": "$x^{2}+x-3$"
     },
     "correct": "D",
-    "explanation": "El área del rectángulo es $(2x+3)(x-1)=2x^{2}-2x+3x-3=2x^{2}+x-3$.\nRestando el área del cuadrado: $2x^{2}+x-3-x^{2}=x^{2}+x-3$.\nA tiene un error de signo en el término lineal ($-3x+2x$); B suma $2x$ y $3x$ sin considerar el signo de $-1$.\nC suma el área del cuadrado en lugar de restarla.",
+    "explanation": "Idea clave: se multiplica el binomio con cuidado de los signos y luego se resta el área del cuadrado.\nPaso 1: Área del rectángulo: $(2x+3)(x-1)=2x^{2}-2x+3x-3=2x^{2}+x-3$.\nPaso 2: Restando el cuadrado: $2x^{2}+x-3-x^{2}=x^{2}+x-3$.\nRespuesta: D, $x^{2}+x-3$.\nErrores frecuentes: La A tiene un error de signo en el término lineal. La B suma $2x$ y $3x$ sin considerar el signo de $-1$. La C suma el área del cuadrado en lugar de restarla.",
     "verify": "const xs = [2, 3.5, 7];\nconst real = x => (2 * x + 3) * (x - 1) - x * x;\nconst alts = { A: x => x * x - x - 3, B: x => x * x + 5 * x - 3, C: x => 3 * x * x + x - 3, D: x => x * x + x - 3 };\nconst ok = Object.keys(alts).filter(k => xs.every(x => Math.abs(alts[k](x) - real(x)) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -664,7 +664,7 @@
       "D": "$\\begin{cases} x+y=1\\,300 \\\\ 20\\,000y=3\\cdot15\\,000x \\end{cases}$"
     },
     "correct": "D",
-    "explanation": "La cantidad total de entradas da $x+y=1\\,300$. Lo recaudado en cancha es $20\\,000y$ y en galería $15\\,000x$; la condición es $20\\,000y=3\\cdot15\\,000x$.\nSu solución es $x=400$ e $y=900$: en cancha se recaudan $18\\,000\\,000$ pesos y en galería $6\\,000\\,000$ pesos.\nA pone el factor $3$ en el lado equivocado; B compara cantidades de entradas en vez de dinero recaudado.\nC iguala el dinero total a la cantidad de entradas.",
+    "explanation": "Idea clave: una ecuación cuenta entradas y la otra compara dinero recaudado; el factor $3$ multiplica lo de galería, que es lo menor.\nPaso 1: Total de entradas: $x+y=1\\,300$.\nPaso 2: En cancha se recauda $20\\,000y$ y en galería $15\\,000x$; la condición es $20\\,000y=3\\cdot15\\,000x$.\nPaso 3: Se comprueba con la solución $x=400$ e $y=900$: en cancha se recaudan $18\\,000\\,000$ pesos y en galería $6\\,000\\,000$ pesos.\nRespuesta: D, el sistema $x+y=1\\,300$ y $20\\,000y=3\\cdot15\\,000x$.\nErrores frecuentes: La A pone el factor $3$ en el lado equivocado. La B compara cantidades de entradas en vez de dinero recaudado. La C iguala el dinero total a la cantidad de entradas.",
     "verify": "const solve = (a1, b1, c1, a2, b2, c2) => { const d = a1 * b2 - a2 * b1; if (Math.abs(d) < 1e-12) return null; return [(c1 * b2 - c2 * b1) / d, (a1 * c2 - a2 * c1) / d]; };\nconst sys = { A: [1, 1, 1300, -15000, 60000, 0], B: [1, 1, 1300, -3, 1, 0], C: [15000, 20000, 1300, -45000, 20000, 0], D: [1, 1, 1300, -45000, 20000, 0] };\nconst good = ([x, y]) => Math.abs(x + y - 1300) < 1e-6 && Math.abs(20000 * y - 3 * 15000 * x) < 1e-6 && x > 0 && y > 0;\nconst ok = Object.keys(sys).filter(k => { const s = solve(...sys[k]); return s && good(s); });\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -683,7 +683,7 @@
       "D": "$30$"
     },
     "correct": "C",
-    "explanation": "Sea $10d+u$ el número, con $d$ la cifra de las decenas y $u$ la de las unidades. Se plantea el sistema $d+u=11$ y $10u+d=10d+u+27$.\nLa segunda ecuación se reduce a $9u-9d=27$, es decir, $u-d=3$. Resolviendo: $u=7$ y $d=4$; el número es $47$ y $74-47=27$.\nEl producto de las cifras es $4\\cdot7=28$.\nLos distractores corresponden a otros pares de cifras que suman $11$: $2$ y $9$ (producto $18$), $3$ y $8$ ($24$), $5$ y $6$ ($30$), que no cumplen la segunda condición.",
+    "explanation": "Idea clave: un número de dos cifras se escribe como $10d+u$, y cada condición del enunciado da una ecuación.\nPaso 1: Se plantea $d+u=11$ y $10u+d=10d+u+27$.\nPaso 2: La segunda se reduce a $9u-9d=27$, es decir, $u-d=3$. Resolviendo: $u=7$ y $d=4$; el número es $47$ y $74-47=27$.\nPaso 3: El producto de las cifras es $4\\cdot7=28$.\nRespuesta: C, el producto es $28$.\nErrores frecuentes: La A corresponde a las cifras $2$ y $9$, la B a $3$ y $8$, y la D a $5$ y $6$: todas suman $11$, pero no cumplen la condición del intercambio.",
     "verify": "let v = null;\nfor (let d = 1; d <= 9; d++) for (let u = 0; u <= 9; u++) if (d + u === 11 && 10 * u + d === 10 * d + u + 27) v = d * u;\nconst alts = { A: 18, B: 24, C: 28, D: 30 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -702,7 +702,7 @@
       "D": "$18{,}75$"
     },
     "correct": "C",
-    "explanation": "El trabajo total es $6\\cdot8\\cdot10=480$ horas-máquina. Con $4$ máquinas a $10$ horas diarias se completan $40$ horas-máquina por día.\nSe requieren $\\dfrac{480}{40}=12$ días. Ambas magnitudes son inversamente proporcionales a la cantidad de días.\n$18{,}75$ trata las horas diarias como directamente proporcionales a los días; $5{,}\\overline{3}$ trata así a las máquinas.\n$8{,}\\overline{3}$ considera ambas magnitudes como directamente proporcionales.",
+    "explanation": "Idea clave: el trabajo total, medido en horas-máquina, es constante; máquinas y horas diarias son inversamente proporcionales a los días.\nPaso 1: Trabajo total: $6\\cdot8\\cdot10=480$ horas-máquina.\nPaso 2: Con $4$ máquinas a $10$ horas diarias se completan $40$ horas-máquina por día.\nPaso 3: Se requieren $\\frac{480}{40}=12$ días.\nRespuesta: C, tardarían $12$ días.\nErrores frecuentes: La A trata las máquinas como directamente proporcionales a los días. La B trata ambas magnitudes como directamente proporcionales. La D trata las horas diarias como directamente proporcionales a los días.",
     "verify": "const total = 6 * 8 * 10;\nconst v = total / (4 * 10);\nconst alts = { A: 16 / 3, B: 25 / 3, C: 12, D: 18.75 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -721,7 +721,7 @@
       "D": "$225$"
     },
     "correct": "C",
-    "explanation": "Se tiene $d=k\\cdot v^{2}$. Al duplicar la rapidez, la distancia se multiplica por $2^{2}=4$: $d=4\\cdot15=60$ m.\nTambién: $k=\\dfrac{15}{2\\,500}$, luego $d=\\dfrac{15}{2\\,500}\\cdot10\\,000=60$.\n$30$ supone proporcionalidad directa con la rapidez (no con su cuadrado) y $45$ multiplica por $3$ sin justificación.\n$225$ eleva al cuadrado la distancia en lugar de la razón entre las rapideces.",
+    "explanation": "Idea clave: si $d=k\\cdot v^{2}$, al multiplicar la rapidez por un factor, la distancia se multiplica por ese factor al cuadrado.\nPaso 1: La rapidez se duplica, así que la distancia se multiplica por $2^{2}=4$.\nPaso 2: $d=4\\cdot15=60$ m. También: $k=\\frac{15}{2\\,500}$, luego $d=\\frac{15}{2\\,500}\\cdot10\\,000=60$.\nRespuesta: C, necesita $60$ m.\nErrores frecuentes: La A supone proporcionalidad directa con la rapidez, no con su cuadrado. La B multiplica por $3$ sin justificación. La D eleva al cuadrado la distancia en lugar de la razón entre las rapideces.",
     "verify": "const k = 15 / (50 ** 2);\nconst v = k * 100 ** 2;\nconst alts = { A: 30, B: 45, C: 60, D: 225 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -740,7 +740,7 @@
       "D": "$14$"
     },
     "correct": "A",
-    "explanation": "Los ceros de $f$ son $1$ y $7$, así que el eje de simetría es $x=\\dfrac{1+7}{2}=4$.\nEl máximo es $f(4)=a\\cdot3\\cdot(-3)=-9a=18$, de donde $a=-2$ (negativo, como corresponde a un máximo).\nLuego, $f(0)=-2\\cdot(-1)\\cdot(-7)=-14$.\nD usa $a=2$, que daría un mínimo y no un máximo.\nB y C ignoran el cálculo de $a$ y usan $a=-1$ o $a=1$.",
+    "explanation": "Idea clave: el máximo está en el punto medio de los ceros; con su valor se despeja $a$.\nPaso 1: Los ceros son $1$ y $7$, así que el eje de simetría es $x=\\frac{1+7}{2}=4$.\nPaso 2: $f(4)=a\\cdot3\\cdot(-3)=-9a=18$, de donde $a=-2$, negativo como corresponde a un máximo.\nPaso 3: $f(0)=-2\\cdot(-1)\\cdot(-7)=-14$.\nRespuesta: A, $f(0)=-14$.\nErrores frecuentes: La B no calcula $a$ y usa $a=-1$. La C no calcula $a$ y usa $a=1$. La D usa $a=2$, que daría un mínimo y no un máximo.",
     "verify": "const a = 18 / ((4 - 1) * (4 - 7));\nconst v = a * (0 - 1) * (0 - 7);\nconst alts = { A: -14, B: -7, C: 7, D: 14 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -759,7 +759,7 @@
       "D": "$1{,}6$ s"
     },
     "correct": "A",
-    "explanation": "Se resuelve $-5t^{2}+8t+1{,}8>4{,}8$, es decir, $5t^{2}-8t+3<0$.\nComo $5t^{2}-8t+3=(5t-3)(t-1)$, la inecuación se cumple para $0{,}6<t<1$.\nEl balón está sobre $4{,}8$ m durante $1-0{,}6=0{,}4$ s.\nB es el instante en que alcanza esa altura al subir y C, el instante en que vuelve a ella al bajar.\nD es la suma de ambos instantes, no su diferencia.",
+    "explanation": "Idea clave: se resuelve la inecuación cuadrática y el tiempo pedido es la longitud del intervalo solución.\nPaso 1: $-5t^{2}+8t+1{,}8>4{,}8$ equivale a $5t^{2}-8t+3<0$.\nPaso 2: $5t^{2}-8t+3=(5t-3)(t-1)$, así que la inecuación se cumple para $0{,}6<t<1$.\nPaso 3: El balón está sobre $4{,}8$ m durante $1-0{,}6=0{,}4$ s.\nRespuesta: A, durante $0{,}4$ s.\nErrores frecuentes: La B es el instante en que alcanza esa altura al subir. La C es el instante en que vuelve a ella al bajar. La D suma ambos instantes en vez de restarlos.",
     "verify": "const a = 5, b = -8, c = 1.8 - 4.8 + 6;\nconst disc = b * b - 4 * a * 3;\nconst t1 = (-b - Math.sqrt(disc)) / (2 * a), t2 = (-b + Math.sqrt(disc)) / (2 * a);\nconst h = t => -5 * t * t + 8 * t + 1.8;\nif (!(h((t1 + t2) / 2) > 4.8) || Math.abs(h(t1) - 4.8) > 1e-9) return null;\nconst v = t2 - t1;\nconst alts = { A: 0.4, B: 0.6, C: 1, D: 1.6 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -778,7 +778,7 @@
       "D": "Solo para $k=-2$"
     },
     "correct": "C",
-    "explanation": "El vértice está sobre el eje X cuando la parábola toca ese eje en un solo punto, es decir, cuando el discriminante es cero.\n$(-2k)^{2}-4(k+6)=0\\Rightarrow4k^{2}-4k-24=0\\Rightarrow k^{2}-k-6=0\\Rightarrow(k-3)(k+2)=0$.\nPor lo tanto, $k=3$ o $k=-2$. (También: el vértice es $(k,\\,-k^{2}+k+6)$ y su ordenada debe ser $0$).\nB tiene un error de signo al factorizar, y A y D consideran solo una de las dos soluciones.",
+    "explanation": "Idea clave: el vértice está sobre el eje X cuando la parábola toca el eje en un solo punto, es decir, cuando el discriminante es cero.\nPaso 1: $(-2k)^{2}-4(k+6)=0$, es decir, $4k^{2}-4k-24=0$, o sea $k^{2}-k-6=0$.\nPaso 2: $(k-3)(k+2)=0$, así que $k=3$ o $k=-2$. También se obtiene igualando a $0$ la ordenada del vértice $(k,\\,-k^{2}+k+6)$.\nRespuesta: C, para $k=-2$ o para $k=3$.\nErrores frecuentes: La A considera solo la solución $k=3$. La B comete un error de signo al factorizar. La D considera solo la solución $k=-2$.",
     "verify": "const vy = k => { const f = x => x * x - 2 * k * x + k + 6; return f(k); };\nconst roots = [(1 - 5) / 2, (1 + 5) / 2].filter(k => Math.abs(vy(k)) < 1e-9).sort((x, y) => x - y);\nconst alts = { A: [3], B: [-3, 2], C: [-2, 3], D: [-2] };\nconst ok = Object.keys(alts).filter(k => alts[k].length === roots.length && alts[k].every((x, i) => Math.abs(x - roots[i]) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -797,7 +797,7 @@
       "D": "La gráfica de $f$ intersecta al eje X en dos puntos distintos."
     },
     "correct": "D",
-    "explanation": "Como $a>0$, la parábola se abre hacia arriba y su vértice $(h,\\,k)$ es un mínimo; como $k<0$, ese mínimo está bajo el eje X, así que la gráfica corta al eje X en dos puntos.\nA no siempre se cumple: $f(0)=ah^{2}+k$ puede ser positivo; por ejemplo, con $a=1$, $h=3$ y $k=-1$, $f(0)=8$.\nB es falsa: el eje de simetría es $x=h$.\nC es falsa: con $a>0$, $k$ es el valor mínimo y la función no tiene máximo.",
+    "explanation": "Idea clave: en la forma canónica, $a$ indica hacia dónde abre la parábola y $(h,k)$ es su vértice.\nPaso 1: Como $a>0$, la parábola abre hacia arriba y el vértice $(h,k)$ es un mínimo.\nPaso 2: Como $k<0$, ese mínimo está bajo el eje X, así que la gráfica corta al eje X en dos puntos distintos.\nRespuesta: D, la gráfica intersecta al eje X en dos puntos distintos.\nErrores frecuentes: La A no siempre se cumple: $f(0)=ah^{2}+k$ puede ser positivo, por ejemplo con $a=1$, $h=3$ y $k=-1$ se tiene $f(0)=8$. La B es falsa: el eje de simetría es $x=h$. La C es falsa: con $a>0$, $k$ es el valor mínimo y la función no tiene máximo.",
     "verify": "const cases = [[1, 3, -1], [2, -1, -5], [0.5, 4, -0.2], [3, 0.5, -2]];\nconst always = {\n  A: cases.every(([a, h, k]) => a * h * h + k < 0),\n  B: cases.every(([a, h, k]) => Math.abs(h - (-h)) < 1e-9),\n  C: false,\n  D: cases.every(([a, h, k]) => { const B2 = -2 * a * h, C2 = a * h * h + k; return B2 * B2 - 4 * a * C2 > 0; }),\n};\nconst ok = Object.keys(always).filter(x => always[x]);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -816,7 +816,7 @@
       "D": "$f(x)=(x-4)^{2}-5$"
     },
     "correct": "D",
-    "explanation": "Se completa el cuadrado con la mitad del coeficiente de $x$: $x^{2}-8x+11=x^{2}-8x+16-16+11=(x-4)^{2}-5$.\nEl vértice es $(4,\\,-5)$.\nA tiene un error de signo dentro del paréntesis.\nB agrega $16$ para formar el cuadrado, pero no lo resta.\nC usa el coeficiente completo $8$ en lugar de su mitad.",
+    "explanation": "Idea clave: para completar el cuadrado se suma y resta el cuadrado de la mitad del coeficiente de $x$.\nPaso 1: La mitad de $-8$ es $-4$ y su cuadrado es $16$: $x^{2}-8x+11=x^{2}-8x+16-16+11$.\nPaso 2: $(x-4)^{2}-5$, con vértice $(4,-5)$.\nRespuesta: D, $f(x)=(x-4)^{2}-5$.\nErrores frecuentes: La A tiene un error de signo dentro del paréntesis. La B suma $16$ para formar el cuadrado, pero no lo resta. La C usa el coeficiente completo $8$ en lugar de su mitad.",
     "verify": "const xs = [-2, 0, 1, 3.5, 7];\nconst f = x => x * x - 8 * x + 11;\nconst alts = { A: x => (x + 4) ** 2 - 5, B: x => (x - 4) ** 2 + 11, C: x => (x - 8) ** 2 - 53, D: x => (x - 4) ** 2 - 5 };\nconst ok = Object.keys(alts).filter(k => xs.every(x => Math.abs(alts[k](x) - f(x)) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -835,7 +835,7 @@
       "D": "$48$"
     },
     "correct": "B",
-    "explanation": "Sea $x$ la medida del lado paralelo a la división (aparece $3$ veces) e $y$ la del otro lado (aparece $2$ veces): $3x+2y=24$, de donde $y=12-1{,}5x$.\nEl área es $A(x)=x(12-1{,}5x)=-1{,}5x^{2}+12x$, cuyo máximo está en $x=\\dfrac{-12}{2\\cdot(-1{,}5)}=4$.\nEntonces $y=6$ y el área máxima es $4\\cdot6=24\\ \\text{m}^{2}$.\nC corresponde a un cuadrado de $6$ m de lado, sin descontar la división.\nA cuenta la división dos veces ($4x+2y=24$) y D duplica el resultado correcto.",
+    "explanation": "Idea clave: la división interior es un tramo más de malla paralelo a un lado; con eso se escribe el área en función de un lado y se maximiza.\nPaso 1: Sea $x$ el lado paralelo a la división (aparece $3$ veces) e $y$ el otro (aparece $2$ veces): $3x+2y=24$, de donde $y=12-1{,}5x$.\nPaso 2: $A(x)=x(12-1{,}5x)=-1{,}5x^{2}+12x$, con máximo en $x=\\frac{-12}{2\\cdot(-1{,}5)}=4$.\nPaso 3: Entonces $y=6$ y el área máxima es $4\\cdot6=24$.\nRespuesta: B, el área máxima es $24\\ \\text{m}^{2}$.\nErrores frecuentes: La A cuenta la división dos veces ($4x+2y=24$). La C corresponde a un cuadrado de $6$ m de lado, sin descontar la división. La D duplica el resultado correcto.",
     "verify": "let best = 0;\nfor (let i = 1; i < 8000; i++) { const x = i / 1000; const y = (24 - 3 * x) / 2; if (y > 0) best = Math.max(best, x * y); }\nconst v = Math.round(best * 1000) / 1000;\nconst alts = { A: 18, B: 24, C: 36, D: 48 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-6);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -854,7 +854,7 @@
       "D": "$\\left\\{-1,\\,4\\right\\}$"
     },
     "correct": "B",
-    "explanation": "Se iguala a cero: $2x^{2}-3x-2=0$, que se factoriza como $(2x+1)(x-2)=0$.\nLas soluciones son $x=-\\dfrac{1}{2}$ y $x=2$.\nA intercambia los signos de las soluciones.\nC tiene un error de signo en una de ellas.\nD aplica la fórmula general dividiendo por $2$ en lugar de $2a=4$: $\\dfrac{3\\pm5}{2}$.",
+    "explanation": "Idea clave: se iguala a cero la ecuación cuadrática y se factoriza.\nPaso 1: $2x^{2}-3x-2=0$.\nPaso 2: $(2x+1)(x-2)=0$, así que $x=-\\frac{1}{2}$ o $x=2$.\nRespuesta: B, $\\left\\{-\\frac{1}{2},\\,2\\right\\}$.\nErrores frecuentes: La A intercambia los signos de las soluciones. La C tiene un error de signo en una de ellas. La D aplica la fórmula general dividiendo por $2$ en lugar de $2a=4$: $\\frac{3\\pm5}{2}$.",
     "verify": "const g = x => 2 * x * x - 3 * x - 2;\nconst alts = { A: [-2, 0.5], B: [-0.5, 2], C: [0.5, 2], D: [-1, 4] };\nconst ok = Object.keys(alts).filter(k => alts[k].every(x => Math.abs(g(x)) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -873,7 +873,7 @@
       "D": "$8$"
     },
     "correct": "A",
-    "explanation": "Se resuelve $-40(t-5)^{2}+1\\,000=640$: $(t-5)^{2}=\\dfrac{360}{40}=9$.\nEntonces $t-5=3$ o $t-5=-3$, es decir, $t=8$ o $t=2$. El primero es $t=2$.\nD es la segunda vez que se registran $640$ visitantes.\nC es el día de mayor afluencia (vértice), y B toma la raíz $3$ como si fuera el valor de $t$.",
+    "explanation": "Idea clave: se iguala el modelo a $640$, se despeja el cuadrado y se elige la menor de las dos soluciones.\nPaso 1: $-40(t-5)^{2}+1\\,000=640$, luego $(t-5)^{2}=\\frac{360}{40}=9$.\nPaso 2: $t-5=3$ o $t-5=-3$, es decir, $t=8$ o $t=2$. El primero es $t=2$.\nRespuesta: A, $t=2$.\nErrores frecuentes: La B toma la raíz $3$ como si fuera el valor de $t$. La C es el día de mayor afluencia (vértice). La D es la segunda vez que se registran $640$ visitantes.",
     "verify": "const V = t => -40 * (t - 5) ** 2 + 1000;\nlet v = null;\nfor (let i = 0; i <= 1000; i++) { const t = i / 100; if (Math.abs(V(t) - 640) < 1e-9) { v = t; break; } }\nif (v === null) return null;\nconst alts = { A: 2, B: 3, C: 5, D: 8 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -892,7 +892,7 @@
       "D": "$T(h)=24-0{,}006h$"
     },
     "correct": "D",
-    "explanation": "La temperatura baja $6\\,^{\\circ}\\text{C}$ cada $1\\,000$ m, es decir, $\\dfrac{6}{1\\,000}=0{,}006\\,^{\\circ}\\text{C}$ por metro.\nPor lo tanto, $T(h)=24-0{,}006h$; por ejemplo, a $1\\,000$ m se tiene $T=18\\,^{\\circ}\\text{C}$.\nA usa la tasa por kilómetro, aunque $h$ está en metros.\nB y C convierten mal la unidad, como si $1$ km fuera $10$ m o $100$ m.",
+    "explanation": "Idea clave: la tasa debe estar en la misma unidad que la variable; si $h$ está en metros, se necesita la disminución por metro.\nPaso 1: Baja $6\\,^{\\circ}\\text{C}$ cada $1\\,000$ m, es decir, $\\frac{6}{1\\,000}=0{,}006\\,^{\\circ}\\text{C}$ por metro.\nPaso 2: $T(h)=24-0{,}006h$; por ejemplo, a $1\\,000$ m se tiene $T=18\\,^{\\circ}\\text{C}$.\nRespuesta: D, $T(h)=24-0{,}006h$.\nErrores frecuentes: La A usa la tasa por kilómetro, aunque $h$ está en metros. La B convierte mal la unidad, como si $1$ km fuera $10$ m. La C la convierte como si $1$ km fuera $100$ m.",
     "verify": "const real = h => 24 - 6 * (h / 1000);\nconst alts = { A: h => 24 - 6 * h, B: h => 24 - 0.6 * h, C: h => 24 - 0.06 * h, D: h => 24 - 0.006 * h };\nconst hs = [0, 500, 1000, 2500];\nconst ok = Object.keys(alts).filter(k => hs.every(h => Math.abs(alts[k](h) - real(h)) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -911,7 +911,7 @@
       "D": "$24$"
     },
     "correct": "C",
-    "explanation": "En $x=2$, $L_1$ da $y=4$; entonces $4=2m+2$ y $m=1$, por lo que $L_2$ es $y=x+2$.\n$L_1$ corta al eje X en $x=4$ y $L_2$, en $x=-2$: la base del triángulo mide $6$ y su altura es $4$.\nEl área es $\\dfrac{6\\cdot4}{2}=12$.\nD no divide por $2$. B usa como base solo el tramo de $0$ a $4$.\nA usa como altura la ordenada $2$ del intercepto de $L_2$ con el eje Y.",
+    "explanation": "Idea clave: con el punto de intersección se obtiene $m$, y los cortes con el eje X dan la base del triángulo.\nPaso 1: En $x=2$, $L_1$ da $y=4$; entonces $4=2m+2$ y $m=1$, así que $L_2$ es $y=x+2$.\nPaso 2: $L_1$ corta al eje X en $x=4$ y $L_2$ en $x=-2$: la base mide $6$ y la altura es $4$.\nPaso 3: Área: $\\frac{6\\cdot4}{2}=12$.\nRespuesta: C, el área es $12$ unidades cuadradas.\nErrores frecuentes: La A usa como altura la ordenada $2$ del corte de $L_2$ con el eje Y. La B usa como base solo el tramo de $0$ a $4$. La D no divide por $2$.",
     "verify": "const y0 = -2 * 2 + 8;\nconst m = (y0 - 2) / 2;\nif (!(m > 0)) return null;\nconst x1 = 8 / 2, x2 = -2 / m;\nconst v = Math.abs(x1 - x2) * y0 / 2;\nconst alts = { A: 6, B: 8, C: 12, D: 24 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -930,7 +930,7 @@
       "D": "Las gráficas de $f$ y $g$ se intersectan en el punto $(1,\\,a+b)$."
     },
     "correct": "D",
-    "explanation": "Al igualar: $ax+b=bx+a\\Rightarrow(a-b)x=a-b$. Como $a\\neq b$, se obtiene $x=1$, y entonces $y=a+b$.\nAsí, las gráficas siempre se cortan en $(1,\\,a+b)$.\nA es falsa: las pendientes $a$ y $b$ son distintas, así que las rectas no son paralelas.\nB es falsa: los coeficientes de posición $b$ y $a$ son distintos.\nC intercambia las coordenadas del punto de intersección.",
+    "explanation": "Idea clave: se igualan las dos funciones y se despeja $x$, usando que $a≠ b$.\nPaso 1: $ax+b=bx+a$, luego $(a-b)x=a-b$. Como $a≠ b$, $x=1$.\nPaso 2: Reemplazando, $y=a+b$. Las gráficas siempre se cortan en $(1,\\,a+b)$.\nRespuesta: D, se intersectan en el punto $(1,\\,a+b)$.\nErrores frecuentes: La A es falsa: las pendientes $a$ y $b$ son distintas, así que no son paralelas. La B es falsa: los coeficientes de posición $b$ y $a$ son distintos. La C intercambia las coordenadas del punto de intersección.",
     "verify": "const pares = [[2, 5], [-3, 1], [0.5, -4], [7, 0]];\nconst inter = (a, b) => { const x = (a - b) / (a - b); return [x, a * x + b]; };\nconst always = {\n  A: pares.every(([a, b]) => a === b),\n  B: pares.every(([a, b]) => Math.abs(inter(a, b)[0]) < 1e-9),\n  C: pares.every(([a, b]) => { const [x, y] = inter(a, b); return Math.abs(x - (a + b)) < 1e-9 && Math.abs(y - 1) < 1e-9; }),\n  D: pares.every(([a, b]) => { const [x, y] = inter(a, b); return Math.abs(x - 1) < 1e-9 && Math.abs(y - (a + b)) < 1e-9 && Math.abs(b * x + a - y) < 1e-9; }),\n};\nconst ok = Object.keys(always).filter(k => always[k]);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -949,7 +949,7 @@
       "D": "$28$"
     },
     "correct": "B",
-    "explanation": "Si $f(x)=mx+n$, entonces $f(x+2)-f(x)=2m=6$, así que la pendiente es $m=3$.\nLuego, $f(5)=f(1)+3\\cdot(5-1)=4+12=16$. (También: $f(3)=4+6=10$ y $f(5)=10+6=16$).\nA aplica el aumento de $6$ una sola vez.\nD toma $6$ como pendiente: $4+6\\cdot4=28$.\nC suma tres veces el aumento de $6$.",
+    "explanation": "Idea clave: en una función afín, avanzar $2$ en $x$ aumenta $f$ en $2m$; de ahí sale la pendiente.\nPaso 1: Si $f(x)=mx+n$, entonces $f(x+2)-f(x)=2m=6$, así que $m=3$.\nPaso 2: $f(5)=f(1)+3\\cdot(5-1)=4+12=16$. También: $f(3)=4+6=10$ y $f(5)=10+6=16$.\nRespuesta: B, $f(5)=16$.\nErrores frecuentes: La A aplica el aumento de $6$ una sola vez. La C suma tres veces el aumento de $6$. La D toma $6$ como pendiente: $4+6\\cdot4=28$.",
     "verify": "const m = 6 / 2;\nconst f = x => 4 + m * (x - 1);\nif (Math.abs(f(7) - f(5) - 6) > 1e-9) return null;\nconst v = f(5);\nconst alts = { A: 10, B: 16, C: 22, D: 28 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -968,7 +968,7 @@
       "D": "$f(x)=\\dfrac{1}{2}x$"
     },
     "correct": "A",
-    "explanation": "La pendiente es $\\dfrac{7-1}{5-2}=\\dfrac{6}{3}=2$ (y también $\\dfrac{15-7}{9-5}=2$).\nCon el punto $(2,\\,1)$: $1=2\\cdot2+n$, de donde $n=-3$. Así, $f(x)=2x-3$.\nB tiene la pendiente correcta, pero un error de signo en el coeficiente de posición.\nC y D cumplen solo con el primer par de la tabla: por ejemplo, $3\\cdot5-5=10\\neq7$ y $\\dfrac{1}{2}\\cdot5\\neq7$.",
+    "explanation": "Idea clave: la pendiente se calcula con dos pares y la expresión correcta debe cumplir todos los pares de la tabla.\nPaso 1: Pendiente: $\\frac{7-1}{5-2}=2$, y también $\\frac{15-7}{9-5}=2$.\nPaso 2: Con $(2,1)$: $1=2\\cdot2+n$, de donde $n=-3$.\nRespuesta: A, $f(x)=2x-3$.\nErrores frecuentes: La B tiene la pendiente correcta, pero un error de signo en el coeficiente de posición. La C cumple solo el primer par: $3\\cdot5-5=10≠7$. La D también cumple solo el primer par: $\\frac{1}{2}\\cdot5≠7$.",
     "verify": "const tabla = [[2, 1], [5, 7], [9, 15]];\nconst alts = { A: x => 2 * x - 3, B: x => 2 * x + 3, C: x => 3 * x - 5, D: x => x / 2 };\nconst ok = Object.keys(alts).filter(k => tabla.every(([x, y]) => Math.abs(alts[k](x) - y) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -987,7 +987,7 @@
       "D": "$x+2$"
     },
     "correct": "D",
-    "explanation": "Con $u=x^{2}$, la expresión es $u^{2}-13u+36=(u-4)(u-9)$.\nEntonces $x^{4}-13x^{2}+36=\\left(x^{2}-4\\right)\\left(x^{2}-9\\right)=(x-2)(x+2)(x-3)(x+3)$, y $x+2$ es un factor.\nB y A confunden los factores $x^{2}-4$ o la constante $36$ con factores lineales $x-4$ o $x-6$.\nC tiene un error de signo: $x^{2}+4$ no divide a la expresión.",
+    "explanation": "Idea clave: la expresión es cuadrática en $x^{2}$; con el cambio $u=x^{2}$ se factoriza y luego se aplica diferencia de cuadrados.\nPaso 1: $u^{2}-13u+36=(u-4)(u-9)$.\nPaso 2: $x^{4}-13x^{2}+36=(x^{2}-4)(x^{2}-9)=(x-2)(x+2)(x-3)(x+3)$, así que $x+2$ es un factor.\nRespuesta: D, $x+2$.\nErrores frecuentes: La A confunde la constante $36$ con un factor lineal $x-6$. La B confunde el factor $x^{2}-4$ con $x-4$. La C tiene un error de signo: $x^{2}+4$ no divide a la expresión.",
     "verify": "const P = x => x ** 4 - 13 * x ** 2 + 36;\nconst Pu = u => u * u - 13 * u + 36;\nconst isFactor = { A: P(6) === 0, B: P(4) === 0, C: Pu(-4) === 0, D: P(-2) === 0 };\nconst ok = Object.keys(isFactor).filter(k => isFactor[k]);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -1006,7 +1006,7 @@
       "D": "En el Paso 4"
     },
     "correct": "C",
-    "explanation": "Los Pasos 1 y 2 son correctos: se factoriza por $2$ y luego se aplica la diferencia de cuadrados.\nEn el Paso 3 está el error: $x^{2}-4x+4$ es un cuadrado de binomio, $(x-2)^{2}$, no una suma por diferencia.\nCon la factorización correcta, la expresión se simplifica a $\\dfrac{2(x+2)}{x-2}$.\nEl Paso 4, a partir de lo que escribió en el Paso 3, está bien realizado.",
+    "explanation": "Idea clave: $x^{2}-4x+4$ es un cuadrado de binomio, no una suma por diferencia.\nPaso 1: Los pasos 1 y 2 son correctos: se factoriza por $2$ y luego se aplica diferencia de cuadrados.\nPaso 2: En el paso 3, lo correcto es $x^{2}-4x+4=(x-2)^{2}$. Con eso la expresión se simplifica a $\\frac{2(x+2)}{x-2}$.\nRespuesta: C, el primer error está en el paso 3.\nErrores frecuentes: La A no corresponde: factorizar por $2$ es correcto. La B no corresponde: $x^{2}-4=(x-2)(x+2)$ es correcto. La D no es el primer error: el paso 4 está bien hecho a partir de lo que escribió en el paso 3.",
     "verify": "const xs = [-5, 0, 1, 3, 7.5];\nconst eq = (f, g) => xs.every(x => Math.abs(f(x) - g(x)) < 1e-9);\nconst p1 = eq(x => 2 * x * x - 8, x => 2 * (x * x - 4));\nconst p2 = eq(x => 2 * (x * x - 4), x => 2 * (x - 2) * (x + 2));\nconst p3 = eq(x => x * x - 4 * x + 4, x => (x - 2) * (x + 2));\nconst p4 = eq(x => 2 * (x - 2) * (x + 2) / ((x - 2) * (x + 2)), x => 2);\nconst i = [p1, p2, p3, p4].indexOf(false);\nreturn i < 0 ? null : 'ABCD'[i];"
   },
   {
@@ -1025,7 +1025,7 @@
       "D": "$120\\ \\text{cm}^{2}$"
     },
     "correct": "B",
-    "explanation": "Si los lados miden $a$ y $b$: $a+b=17$ y, por Pitágoras, $a^{2}+b^{2}=169$.\nComo $(a+b)^{2}=a^{2}+2ab+b^{2}$, se tiene $289=169+2ab$, de donde $2ab=120$ y $ab=60$ (los lados miden $5$ cm y $12$ cm).\nD olvida dividir $2ab$ por $2$, y A divide por $4$.\nC supone que el rectángulo es un cuadrado de lado $8{,}5$ cm, lo que no es compatible con la diagonal dada.",
+    "explanation": "Idea clave: el área es $ab$, y se obtiene de $(a+b)^{2}=a^{2}+2ab+b^{2}$ sin necesidad de hallar cada lado.\nPaso 1: Si los lados miden $a$ y $b$: $a+b=17$ y, por Pitágoras, $a^{2}+b^{2}=169$.\nPaso 2: $289=169+2ab$, de donde $2ab=120$ y $ab=60$. Los lados miden $5$ cm y $12$ cm.\nRespuesta: B, el área es $60\\ \\text{cm}^{2}$.\nErrores frecuentes: La A divide $120$ por $4$. La C supone que el rectángulo es un cuadrado de lado $8{,}5$ cm, lo que no es compatible con la diagonal. La D olvida dividir $2ab$ por $2$.",
     "verify": "const s = 34 / 2, d2 = 13 * 13;\nconst v = (s * s - d2) / 2;\nconst disc = s * s - 4 * v;\nconst a = (s + Math.sqrt(disc)) / 2, b = s - a;\nif (Math.abs(a * a + b * b - d2) > 1e-9) return null;\nconst alts = { A: 30, B: 60, C: 72.25, D: 120 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -1044,7 +1044,7 @@
       "D": "$5{,}0$"
     },
     "correct": "C",
-    "explanation": "Se plantea $\\dfrac{3{,}5+4{,}2+3{,}8+x}{4}\\geq4{,}0$, es decir, $11{,}5+x\\geq16$, de donde $x\\geq4{,}5$.\nLa nota mínima es $4{,}5$.\nA supone que basta con obtener la nota que se quiere de promedio.\nB suma a $4{,}0$ lo que le falta al promedio actual ($\\approx3{,}83$) para llegar a $4{,}0$.\nD comete un error al sumar las tres notas (obtiene $11$ en lugar de $11{,}5$).",
+    "explanation": "Idea clave: se plantea que el promedio de las cuatro notas sea al menos $4{,}0$ y se despeja la nota que falta.\nPaso 1: $\\frac{3{,}5+4{,}2+3{,}8+x}{4}\\geq4{,}0$, es decir, $11{,}5+x\\geq16$.\nPaso 2: $x\\geq4{,}5$.\nRespuesta: C, la nota mínima es $4{,}5$.\nErrores frecuentes: La A supone que basta con sacar la nota que se quiere de promedio. La B suma a $4{,}0$ lo que le falta al promedio actual ($\\approx3{,}83$) para llegar a $4{,}0$. La D suma mal las tres notas y obtiene $11$ en lugar de $11{,}5$.",
     "verify": "const v = 4 * 4.0 - (3.5 + 4.2 + 3.8);\nconst alts = { A: 4.0, B: 4.2, C: 4.5, D: 5.0 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -1063,7 +1063,7 @@
       "D": "$\\left]-\\infty,\\,3\\right[$"
     },
     "correct": "A",
-    "explanation": "Se despeja: $kx-2k=3x+4\\Rightarrow(k-3)x=2k+4\\Rightarrow x=\\dfrac{2k+4}{k-3}$.\nEste cociente es negativo cuando el numerador y el denominador tienen signos opuestos, lo que ocurre si $-2<k<3$ (si $k=-2$, la solución es $0$, que no es negativa).\nB es el conjunto de valores para los que la solución es positiva.\nD solo considera el signo del denominador y C invierte esa condición.",
+    "explanation": "Idea clave: se despeja $x$ en función de $k$ y se analiza el signo del cociente.\nPaso 1: $kx-2k=3x+4$, luego $(k-3)x=2k+4$ y $x=\\frac{2k+4}{k-3}$.\nPaso 2: El cociente es negativo cuando numerador y denominador tienen signos opuestos, lo que ocurre si $-2<k<3$. Con $k=-2$ la solución es $0$, que no es negativa.\nRespuesta: A, $k\\in\\left]-2,\\,3\\right[$.\nErrores frecuentes: La B es el conjunto de valores para los que la solución es positiva. La C invierte la condición sobre el denominador. La D solo considera el signo del denominador.",
     "verify": "const neg = k => (2 * k + 4) / (k - 3) < 0;\nconst alts = { A: k => k > -2 && k < 3, B: k => k < -2 || k > 3, C: k => k > 3, D: k => k < 3 };\nconst ks = [];\nfor (let i = -400; i <= 400; i++) { const k = i / 20; if (k !== 3) ks.push(k); }\nconst ok = Object.keys(alts).filter(x => ks.every(k => alts[x](k) === neg(k)));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -1082,7 +1082,7 @@
       "D": "$900+15(t-60)\\leq4\\,500$"
     },
     "correct": "D",
-    "explanation": "Los minutos adicionales son $t-60$, así que el cobro es $900+15(t-60)$ pesos, y no debe superar los $4\\,500$ pesos.\nPor lo tanto, $900+15(t-60)\\leq4\\,500$, que da $t\\leq300$ minutos.\nA cobra los $15$ pesos también por los primeros $60$ minutos.\nB olvida el cobro de la primera hora.\nC invierte el sentido de la desigualdad.",
+    "explanation": "Idea clave: el cobro por minuto se aplica solo a los minutos que exceden la primera hora, y el total no debe superar el presupuesto.\nPaso 1: Los minutos adicionales son $t-60$, así que el cobro es $900+15(t-60)$ pesos.\nPaso 2: No debe superar $4\\,500$ pesos: $900+15(t-60)\\leq4\\,500$, que da $t\\leq300$ minutos.\nRespuesta: D, $900+15(t-60)\\leq4\\,500$.\nErrores frecuentes: La A cobra los $15$ pesos también por los primeros $60$ minutos. La B olvida el cobro de la primera hora. La C invierte el sentido de la desigualdad.",
     "verify": "const cost = t => 900 + 15 * (t - 60);\nconst alts = { A: t => 900 + 15 * t <= 4500, B: t => 15 * (t - 60) <= 4500, C: t => 900 + 15 * (t - 60) >= 4500, D: t => 900 + 15 * (t - 60) <= 4500 };\nconst ts = [];\nfor (let t = 61; t <= 400; t++) ts.push(t);\nconst ok = Object.keys(alts).filter(k => ts.every(t => alts[k](t) === (cost(t) <= 4500)));\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -1101,7 +1101,7 @@
       "D": "$5\\,680$ pesos"
     },
     "correct": "C",
-    "explanation": "Si $p$ y $t$ son los precios por kilogramo: $3p+2t=14\\,400$ y $2p+5t=14\\,000$.\nMultiplicando la primera por $2$ y la segunda por $3$ y restando: $11t=13\\,200$, así que $t=1\\,200$ y $p=4\\,000$.\nEl costo pedido es $p+t=5\\,200$ pesos.\nB es solo el precio de las paltas y A es la diferencia $p-t$.\nD suma las dos ecuaciones y divide por $5$, sin considerar que se obtiene $5p+7t$.",
+    "explanation": "Idea clave: se plantea un sistema con los precios por kilogramo y se resuelve por reducción.\nPaso 1: Si $p$ y $t$ son los precios por kilogramo: $3p+2t=14\\,400$ y $2p+5t=14\\,000$.\nPaso 2: Multiplicando la primera por $2$, la segunda por $3$ y restando: $11t=13\\,200$, así que $t=1\\,200$ y $p=4\\,000$.\nPaso 3: $p+t=5\\,200$ pesos.\nRespuesta: C, cuesta $5\\,200$ pesos.\nErrores frecuentes: La A es la diferencia $p-t$. La B es solo el precio de las paltas. La D suma las dos ecuaciones y divide por $5$, sin considerar que se obtiene $5p+7t$.",
     "verify": "const det = 3 * 5 - 2 * 2;\nconst p = (14400 * 5 - 2 * 14000) / det;\nconst t = (3 * 14000 - 2 * 14400) / det;\nconst v = p + t;\nconst alts = { A: 2800, B: 4000, C: 5200, D: 5680 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -1120,7 +1120,7 @@
       "D": "$65$"
     },
     "correct": "C",
-    "explanation": "Sean $g$ la cantidad de grupos de $4$ y $h$ la de grupos de $5$. Si $N$ es la cantidad de estudiantes: $N=4g+3$, $N=5h-2$ y $g=h+2$.\nReemplazando: $4(h+2)+3=5h-2$, de donde $h=13$ y $N=63$. (Verificación: $63=4\\cdot15+3$ y $63=5\\cdot13-2$).\nA cumple las dos primeras condiciones, pero con solo $1$ grupo de diferencia.\nB interpreta que en los grupos de $5$ sobran $2$ estudiantes, y D no descuenta los $2$ integrantes que faltan.",
+    "explanation": "Idea clave: cada forma de agrupar entrega una expresión para la cantidad de estudiantes, y la relación entre los grupos permite igualarlas.\nPaso 1: Si $g$ es la cantidad de grupos de $4$, $h$ la de grupos de $5$ y $N$ la de estudiantes: $N=4g+3$, $N=5h-2$ y $g=h+2$.\nPaso 2: $4(h+2)+3=5h-2$, de donde $h=13$ y $N=63$.\nPaso 3: Verificación: $63=4\\cdot15+3$ y $63=5\\cdot13-2$.\nRespuesta: C, el curso tiene $63$ estudiantes.\nErrores frecuentes: La A cumple las dos primeras condiciones, pero con solo $1$ grupo de diferencia. La B interpreta que en los grupos de $5$ sobran $2$ estudiantes. La D no descuenta los $2$ integrantes que faltan: $5\\cdot13=65$.",
     "verify": "const sols = [];\nfor (let N = 1; N <= 300; N++) {\n  if (N % 4 !== 3 || (N + 2) % 5 !== 0) continue;\n  if (Math.floor(N / 4) === (N + 2) / 5 + 2) sols.push(N);\n}\nif (sols.length !== 1) return null;\nconst v = sols[0];\nconst alts = { A: 43, B: 47, C: 63, D: 65 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -1139,7 +1139,7 @@
       "D": "Disminuye en un $20\\%$."
     },
     "correct": "D",
-    "explanation": "Como $x\\cdot y=k$ constante, si $x$ pasa a $1{,}25x$, entonces $y$ pasa a $\\dfrac{k}{1{,}25x}=\\dfrac{y}{1{,}25}=0{,}8y$.\nEs decir, $y$ disminuye en un $20\\%$.\nB supone que $y$ baja en el mismo porcentaje en que sube $x$, lo que no mantiene constante el producto: $1{,}25\\cdot0{,}75\\neq1$.\nA describe una proporcionalidad directa, y C confunde el $75\\%$ restante con la disminución.",
+    "explanation": "Idea clave: en la proporcionalidad inversa el producto $x\\cdot y$ es constante, así que $y$ se divide por el mismo factor que multiplica a $x$.\nPaso 1: Si $x$ pasa a $1{,}25x$, entonces $y$ pasa a $\\frac{y}{1{,}25}=0{,}8y$.\nPaso 2: $0{,}8y$ significa que $y$ disminuye en un $20\\%$.\nRespuesta: D, disminuye en un $20\\%$.\nErrores frecuentes: La A describe una proporcionalidad directa. La B supone que $y$ baja en el mismo porcentaje en que sube $x$, pero $1{,}25\\cdot0{,}75≠1$. La C confunde el $75\\%$ restante con la disminución.",
     "verify": "const x = 8, y = 5, k = x * y;\nconst y2 = k / (1.25 * x);\nconst cambio = (y2 - y) / y * 100;\nconst alts = { A: 25, B: -25, C: -75, D: -20 };\nconst ok = Object.keys(alts).filter(c => Math.abs(alts[c] - cambio) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
   },
   {

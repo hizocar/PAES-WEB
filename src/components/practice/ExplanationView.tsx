@@ -3,8 +3,7 @@
 import { useState, useEffect } from "react"
 import { createClient, getSessionUser } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
-// @ts-ignore
-import Latex from '@/components/ui/latex-renderer'
+import { StructuredExplanation } from "@/components/practice/StructuredExplanation"
 import { Lock, PlayCircle, Crown, Lightbulb, Clock } from "lucide-react"
 import Link from "next/link"
 
@@ -155,8 +154,8 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
                 )}
 
                 {explanationText && (
-                    <div className="prose prose-slate max-w-none text-slate-700 bg-white p-4 rounded-xl border border-blue-100 shadow-sm">
-                        <Latex>{explanationText}</Latex>
+                    <div className="max-w-none text-slate-700 bg-white p-4 rounded-xl border border-blue-100 shadow-sm">
+                        <StructuredExplanation text={explanationText} />
                     </div>
                 )}
             </div>

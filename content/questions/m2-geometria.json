@@ -15,7 +15,7 @@
       "D": "$(18, 36)$"
     },
     "correct": "B",
-    "explanation": "El triángulo $ABC$ es rectángulo en $A$, con catetos $AB = 4$ y $AC = 3$, así que su área es $\\frac{4 \\cdot 3}{2} = 6$.\nEn una homotecia de razón $k$ las áreas se multiplican por $k^2$: $6k^2 = 54$, de donde $k^2 = 9$ y, como la razón es negativa, $k = -3$.\nCon centro en el origen, $C' = -3 \\cdot (2, 4) = (-6, -12)$.\nA usa $k = -9$ (confunde la razón de áreas con la razón de homotecia), C usa $k = 3$ ignorando el signo y D combina ambos errores.",
+    "explanation": "Idea clave: en una homotecia de razón $k$ las áreas se multiplican por $k^2$, y con centro en el origen cada punto se multiplica por $k$.\nPaso 1: El triángulo $ABC$ es rectángulo en $A$, con catetos $AB = 4$ y $AC = 3$, así que su área es $\\frac{4 \\cdot 3}{2} = 6$.\nPaso 2: $6k^2 = 54$, luego $k^2 = 9$ y, como la razón es negativa, $k = -3$.\nPaso 3: $C' = -3 \\cdot (2, 4) = (-6, -12)$.\nRespuesta: B, $C'(-6, -12)$.\nErrores frecuentes: La A usa $k = -9$, confundiendo la razón de áreas con la razón de homotecia. La C usa $k = 3$ e ignora que la razón es negativa. La D combina ambos errores ($k = 9$).",
     "verify": "const P = [[2,1],[6,1],[2,4]]; const area = Math.abs((P[1][0]-P[0][0])*(P[2][1]-P[0][1]) - (P[2][0]-P[0][0])*(P[1][1]-P[0][1]))/2; const k = -Math.sqrt(54/area); const c = [k*2, k*4]; const opts = { A: [-18,-36], B: [-6,-12], C: [6,12], D: [18,36] }; for (const [l,v] of Object.entries(opts)) if (Math.abs(v[0]-c[0])<1e-9 && Math.abs(v[1]-c[1])<1e-9) return l; return null;"
   },
   {
@@ -34,7 +34,7 @@
       "D": "$(5, -2)$"
     },
     "correct": "A",
-    "explanation": "Como $\\overrightarrow{PA'} = k \\cdot \\overrightarrow{PA}$, se tiene $(6, 6) = k \\cdot (2, 2)$, luego $k = 3$.\nEntonces $B' = P + 3 \\cdot \\overrightarrow{PB} = (2, 1) + 3 \\cdot (-1, 1) = (-1, 4)$.\nB usa $k = 2$ (la distancia que se agrega en lugar de la razón), C multiplica las coordenadas de $B$ por $3$ como si el centro fuera el origen y D resta el vector $3 \\cdot \\overrightarrow{PB}$ en lugar de sumarlo.",
+    "explanation": "Idea clave: en una homotecia de centro $P$ y razón $k$ se cumple $\\overrightarrow{PA'} = k \\cdot \\overrightarrow{PA}$; el vector se mide desde el centro, no desde el origen.\nPaso 1: $\\overrightarrow{PA} = (2, 2)$ y $\\overrightarrow{PA'} = (6, 6)$, así que $(6, 6) = k \\cdot (2, 2)$ y $k = 3$.\nPaso 2: $\\overrightarrow{PB} = (1 - 2,\\ 2 - 1) = (-1, 1)$.\nPaso 3: $B' = P + 3 \\cdot \\overrightarrow{PB} = (2, 1) + (-3, 3) = (-1, 4)$.\nRespuesta: A, $B'(-1, 4)$.\nErrores frecuentes: La B usa $k = 2$, tomando la distancia que se agrega en lugar de la razón. La C multiplica las coordenadas de $B$ por $3$, como si el centro fuera el origen. La D resta el vector $3 \\cdot \\overrightarrow{PB}$ en lugar de sumarlo.",
     "verify": "const P=[2,1], A=[4,3], A2=[8,7], B=[1,2]; const k=(A2[0]-P[0])/(A[0]-P[0]); if (Math.abs((A2[1]-P[1])-k*(A[1]-P[1]))>1e-9) return null; const b=[P[0]+k*(B[0]-P[0]), P[1]+k*(B[1]-P[1])]; const opts={A:[-1,4],B:[0,3],C:[3,6],D:[5,-2]}; for (const [l,v] of Object.entries(opts)) if (v[0]===b[0]&&v[1]===b[1]) return l; return null;"
   },
   {
@@ -53,7 +53,7 @@
       "D": "$\\frac{12}{5}$"
     },
     "correct": "C",
-    "explanation": "El hilo es la hipotenusa ($13$ m) de un triángulo rectángulo cuyo cateto opuesto a $\\alpha$ es la altura ($12$ m) y cuyo cateto adyacente es la distancia horizontal ($5$ m).\nPor lo tanto, $\\operatorname{sen}(\\alpha) = \\frac{12}{13}$.\nA corresponde a $\\cos(\\alpha)$, B a $\\tan$ del otro ángulo agudo y D a $\\tan(\\alpha)$.",
+    "explanation": "Idea clave: el seno de un ángulo agudo es cateto opuesto dividido por hipotenusa.\nPaso 1: El hilo es la hipotenusa ($13$ m); el cateto opuesto a $\\alpha$ es la altura ($12$ m) y el adyacente es la distancia horizontal ($5$ m).\nPaso 2: $\\operatorname{sen}(\\alpha) = \\frac{12}{13}$.\nRespuesta: C, $\\frac{12}{13}$.\nErrores frecuentes: La A es $\\cos(\\alpha)$ (adyacente sobre hipotenusa). La B es la tangente del otro ángulo agudo. La D es $\\tan(\\alpha)$ (opuesto sobre adyacente).",
     "verify": "const op=12, ad=5, hip=13; if (op*op+ad*ad!==hip*hip) return null; const s=Math.sin(Math.atan2(op,ad)); const opts={A:5/13,B:5/12,C:12/13,D:12/5}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v-s)<1e-9) return l; return null;"
   },
   {
@@ -72,7 +72,7 @@
       "D": "$10(\\sqrt{3}+1)$ m"
     },
     "correct": "D",
-    "explanation": "Sea $h$ la altura. Desde $Q$, $\\tan(45^\\circ) = 1$, así que la distancia de $Q$ a la base es $h$; desde $P$ esa distancia es $h + 20$.\nEntonces $\\frac{\\sqrt{3}}{3} = \\frac{h}{h + 20}$, es decir, $\\sqrt{3}\\,h = h + 20$, de donde $h = \\frac{20}{\\sqrt{3} - 1} = 10(\\sqrt{3} + 1) \\approx 27{,}3$ m.\nA aparece al racionalizar con el signo equivocado, B multiplica los $20$ m por $\\tan(30^\\circ)$, como si esa fuera la distancia de $P$ a la base, y C supone que la altura es igual a lo caminado.",
+    "explanation": "Idea clave: se plantea la tangente desde cada punto de observación y se expresan ambas distancias horizontales en función de la altura $h$.\nPaso 1: Desde $Q$, $\\tan(45^\\circ) = 1$, así que la distancia de $Q$ a la base es $h$; desde $P$ esa distancia es $h + 20$.\nPaso 2: $\\frac{\\sqrt{3}}{3} = \\frac{h}{h + 20}$, es decir, $\\sqrt{3}\\,h = h + 20$.\nPaso 3: $h = \\frac{20}{\\sqrt{3} - 1} = \\frac{20(\\sqrt{3} + 1)}{2} = 10(\\sqrt{3} + 1) \\approx 27{,}3$ m.\nRespuesta: D, $10(\\sqrt{3}+1)$ m.\nErrores frecuentes: La A aparece al racionalizar con el signo equivocado. La B multiplica los $20$ m por $\\tan(30^\\circ)$, como si esa fuera la distancia de $P$ a la base. La C supone que la altura es igual a lo caminado.",
     "verify": "const t30=Math.tan(Math.PI/6), t45=Math.tan(Math.PI/4); const h = 20/(1/t30 - 1/t45); const s=Math.sqrt(3); const opts={A:10*(s-1),B:20*s/3,C:20,D:10*(s+1)}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v-h)<1e-9) return l; return null;"
   },
   {
@@ -92,7 +92,7 @@
       "E": "Se requiere información adicional"
     },
     "correct": "C",
-    "explanation": "Con (1): los catetos están en razón $BC : AC = 3 : 4$, así que los lados son $3k$, $4k$ y $5k$ para algún $k > 0$; $AB = 5k$ no queda determinado.\nCon (2): hay infinitos triángulos rectángulos de perímetro $24$ cm (por ejemplo, de lados $6$, $8$, $10$ o uno isósceles), con hipotenusas distintas.\nJuntas: $3k + 4k + 5k = 24$, luego $k = 2$ y $AB = 10$ cm.\nPor lo tanto, se necesitan ambas afirmaciones.",
+    "explanation": "Idea clave: la tangente solo fija la forma del triángulo (sus proporciones); hace falta un dato de tamaño para obtener una medida.\nPaso 1: (1) por sí sola: los catetos están en razón $BC : AC = 3 : 4$, así que los lados son $3k$, $4k$ y $5k$ con $k > 0$; $AB = 5k$ no queda determinado. No basta.\nPaso 2: (2) por sí sola: hay infinitos triángulos rectángulos de perímetro $24$ cm (por ejemplo, de lados $6$, $8$, $10$, o uno isósceles) con hipotenusas distintas. No basta.\nPaso 3: Juntas: $3k + 4k + 5k = 24$, luego $k = 2$ y $AB = 10$ cm.\nRespuesta: C, se necesitan ambas afirmaciones juntas.\nErrores frecuentes: La A olvida que (1) da la forma pero no el tamaño. La B no considera que muchos triángulos rectángulos distintos tienen perímetro $24$ cm. La D falla porque ninguna basta por separado. La E se descarta porque juntas sí determinan $AB = 10$ cm.",
     "verify": "const hyp1 = [1,2].map(k => 5*k); const ok1 = new Set(hyp1).size === 1; const a = 24/(2+Math.SQRT2); const hyp2 = [10, a*Math.SQRT2]; const ok2 = Math.abs(hyp2[0]-hyp2[1]) < 1e-9; const k = 24/12; const both = 5*k; const okBoth = Math.abs(3*k+4*k+5*k-24)<1e-9 && both===10; if (!ok1 && !ok2 && okBoth) return 'C'; return null;"
   },
   {
@@ -111,7 +111,7 @@
       "D": "$24$ cm"
     },
     "correct": "B",
-    "explanation": "Sea $CP = x$; entonces $PD = 4x$ y $x \\cdot 4x = 4 \\cdot 9 = 36$, de donde $x^2 = 9$ y $x = 3$.\nLuego $PD = 4 \\cdot 3 = 12$ cm.\nA supone que $P$ es punto medio de $CD$ ($CP = PD = 6$), C entrega la cuerda completa $CD = 15$ cm y D resuelve $x^2 = 36$ olvidando dividir por $4$.",
+    "explanation": "Idea clave: se usa la relación entre cuerdas que se cortan, $AP \\cdot PB = CP \\cdot PD$, con una sola incógnita.\nPaso 1: Sea $CP = x$; entonces $PD = 4x$ y $x \\cdot 4x = 4 \\cdot 9 = 36$.\nPaso 2: $4x^2 = 36$, de donde $x^2 = 9$ y $x = 3$.\nPaso 3: $PD = 4 \\cdot 3 = 12$ cm.\nRespuesta: B, $12$ cm.\nErrores frecuentes: La A supone que $P$ es punto medio de $CD$ ($CP = PD = 6$). La C entrega la cuerda completa $CD = 3 + 12 = 15$ cm. La D resuelve $x^2 = 36$ olvidando dividir por $4$.",
     "verify": "const x = Math.sqrt(4*9/4); const pd = 4*x; const opts={A:6,B:12,C:15,D:24}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v-pd)<1e-9) return l; return null;"
   },
   {
@@ -130,7 +130,7 @@
       "D": "$13$ cm"
     },
     "correct": "A",
-    "explanation": "Por la relación entre tangente y secante, $PT^2 = PA \\cdot PB$, es decir, $144 = 8 \\cdot PB$ y $PB = 18$ cm.\nComo la secante pasa por el centro, $AB = PB - PA = 10$ cm es un diámetro, y el radio mide $5$ cm.\n(También: el triángulo $PTO$ es rectángulo en $T$, así que $(8 + r)^2 = 12^2 + r^2$, de donde $r = 5$.)\nB es la mitad de $PB$, C es el diámetro y D es la distancia $PO$.",
+    "explanation": "Idea clave: relación tangente-secante, $PT^2 = PA \\cdot PB$; como la secante pasa por el centro, $AB$ es un diámetro.\nPaso 1: $144 = 8 \\cdot PB$, así que $PB = 18$ cm.\nPaso 2: $AB = PB - PA = 18 - 8 = 10$ cm es el diámetro, y el radio mide $5$ cm.\nPaso 3: Comprobación: el triángulo $PTO$ es rectángulo en $T$, así que $(8 + r)^2 = 12^2 + r^2$, de donde $r = 5$.\nRespuesta: A, $5$ cm.\nErrores frecuentes: La B es la mitad de $PB$. La C es el diámetro, no el radio. La D es la distancia $PO = 8 + 5 = 13$ cm.",
     "verify": "const PT=12, PA=8; const PB=PT*PT/PA; const r=(PB-PA)/2; if (Math.abs((PA+r)**2 - (PT*PT + r*r))>1e-9) return null; const opts={A:5,B:9,C:10,D:13}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v-r)<1e-9) return l; return null;"
   },
   {
@@ -150,7 +150,7 @@
       "E": "Se requiere información adicional"
     },
     "correct": "D",
-    "explanation": "El ángulo inscrito $\\angle ACB$ subtiende el arco menor $AB$, así que mide la mitad del ángulo del centro $\\angle AOB$.\nCon (1): $\\angle ACB = \\frac{100^\\circ}{2} = 50^\\circ$. Basta.\nCon (2): el triángulo $AOB$ es isósceles ($OA = OB$ son radios), así que $\\angle OBA = 40^\\circ$ y $\\angle AOB = 180^\\circ - 80^\\circ = 100^\\circ$; de nuevo $\\angle ACB = 50^\\circ$. Basta.\nCada afirmación por sí sola es suficiente.",
+    "explanation": "Idea clave: el ángulo inscrito $\\angle ACB$ subtiende el arco menor $AB$, así que mide la mitad del ángulo del centro $\\angle AOB$.\nPaso 1: (1) por sí sola: $\\angle ACB = \\frac{100^\\circ}{2} = 50^\\circ$. Basta.\nPaso 2: (2) por sí sola: el triángulo $AOB$ es isósceles ($OA = OB$ son radios), así que $\\angle OBA = 40^\\circ$ y $\\angle AOB = 180^\\circ - 80^\\circ = 100^\\circ$; de nuevo $\\angle ACB = 50^\\circ$. Basta.\nRespuesta: D, cada una por sí sola es suficiente.\nErrores frecuentes: La A y la B reconocen solo una de las afirmaciones como suficiente; la B olvida que en (1) el ángulo del centro da directamente el inscrito, y la A no ve que el triángulo isósceles $AOB$ permite obtener $\\angle AOB$ desde (2). La C pide ambas cuando cada una basta sola. La E se descarta porque el ángulo sí se puede determinar.",
     "verify": "const from1 = 100/2; const aob = 180 - 2*40; const from2 = aob/2; if (from1 > 0 && from2 > 0 && aob < 180) return 'D'; return null;"
   },
   {
@@ -169,7 +169,7 @@
       "D": "$2016\\pi$ $\\text{cm}^2$"
     },
     "correct": "B",
-    "explanation": "Superficie inicial: $4\\pi \\cdot 6^2 = 144\\pi$ cm²; superficie final: $4\\pi \\cdot 12^2 = 576\\pi$ cm².\nEl aumento es $576\\pi - 144\\pi = 432\\pi$ cm².\nA supone que al duplicar el radio la superficie se duplica, C es la superficie final (no el aumento) y D es la diferencia de volúmenes, $\\frac{4}{3}\\pi(12^3 - 6^3)$.",
+    "explanation": "Idea clave: se calcula la superficie en cada momento y se restan; la superficie no crece en la misma proporción que el radio.\nPaso 1: Superficie inicial: $4\\pi \\cdot 6^2 = 144\\pi$ $\\text{cm}^2$.\nPaso 2: Superficie final: $4\\pi \\cdot 12^2 = 576\\pi$ $\\text{cm}^2$.\nPaso 3: Aumento: $576\\pi - 144\\pi = 432\\pi$ $\\text{cm}^2$.\nRespuesta: B, $432\\pi$ $\\text{cm}^2$.\nErrores frecuentes: La A supone que al duplicar el radio la superficie solo se duplica (aumento igual a la inicial). La C es la superficie final, no el aumento. La D es la diferencia de volúmenes, $\\frac{4}{3}\\pi(12^3 - 6^3)$.",
     "verify": "const S = (r) => 4*r*r; const inc = S(12)-S(6); const opts={A:144,B:432,C:576,D:2016}; for (const [l,v] of Object.entries(opts)) if (v===inc) return l; return null;"
   },
   {
@@ -188,7 +188,7 @@
       "D": "$20\\pi r^3$"
     },
     "correct": "A",
-    "explanation": "El tubo tiene radio basal $r$ y altura $6r$ (tres diámetros), así que su volumen es $\\pi r^2 \\cdot 6r = 6\\pi r^3$.\nLas tres pelotas ocupan $3 \\cdot \\frac{4}{3}\\pi r^3 = 4\\pi r^3$.\nEl espacio libre es $6\\pi r^3 - 4\\pi r^3 = 2\\pi r^3$.\nB es el volumen de las pelotas, C el del tubo completo y D resulta de usar el diámetro $2r$ como radio del tubo: $\\pi(2r)^2 \\cdot 6r - 4\\pi r^3 = 20\\pi r^3$.",
+    "explanation": "Idea clave: el espacio libre es el volumen del cilindro menos el de las tres esferas; el tubo tiene radio $r$ y altura de tres diámetros.\nPaso 1: El tubo tiene radio basal $r$ y altura $6r$, así que su volumen es $\\pi r^2 \\cdot 6r = 6\\pi r^3$.\nPaso 2: Las tres pelotas ocupan $3 \\cdot \\frac{4}{3}\\pi r^3 = 4\\pi r^3$.\nPaso 3: Espacio libre: $6\\pi r^3 - 4\\pi r^3 = 2\\pi r^3$.\nRespuesta: A, $2\\pi r^3$.\nErrores frecuentes: La B es el volumen de las pelotas. La C es el volumen del tubo completo. La D usa el diámetro $2r$ como radio del tubo: $\\pi(2r)^2 \\cdot 6r - 4\\pi r^3 = 20\\pi r^3$.",
     "verify": "const r = 1.7; const cil = Math.PI*r*r*(6*r); const esf = 3*(4/3)*Math.PI*r**3; const libre = (cil-esf)/(Math.PI*r**3); const opts={A:2,B:4,C:6,D:20}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v-libre)<1e-9) return l; return null;"
   },
   {
@@ -207,7 +207,7 @@
       "D": "$y = \\frac{1}{2}x + 2$"
     },
     "correct": "D",
-    "explanation": "La pendiente es $m = \\frac{4 - 1}{4 - (-2)} = \\frac{3}{6} = \\frac{1}{2}$.\nReemplazando $(4, 4)$: $4 = \\frac{1}{2} \\cdot 4 + n$, así que $n = 2$ y la recta es $y = \\frac{1}{2}x + 2$ (también pasa por $(-2, 1)$).\nA invierte el cociente de la pendiente ($\\frac{\\Delta x}{\\Delta y}$), B cambia el signo de la pendiente (solo pasa por $(-2, 1)$) y C tiene el coeficiente de posición con el signo equivocado.",
+    "explanation": "Idea clave: con dos puntos se calcula la pendiente y luego el coeficiente de posición reemplazando uno de ellos.\nPaso 1: $m = \\frac{4 - 1}{4 - (-2)} = \\frac{3}{6} = \\frac{1}{2}$.\nPaso 2: Reemplazando $(4, 4)$: $4 = \\frac{1}{2} \\cdot 4 + n$, así que $n = 2$.\nPaso 3: La recta es $y = \\frac{1}{2}x + 2$; también pasa por $(-2, 1)$, lo que confirma el resultado.\nRespuesta: D, $y = \\frac{1}{2}x + 2$.\nErrores frecuentes: La A invierte el cociente de la pendiente ($\\frac{\\Delta x}{\\Delta y} = 2$). La B cambia el signo de la pendiente y solo pasa por $(-2, 1)$. La C tiene el coeficiente de posición con el signo equivocado.",
     "verify": "const pts=[[-2,1],[4,4]]; const opts={A:[2,5],B:[-0.5,0],C:[0.5,-2],D:[0.5,2]}; const ok=[]; for (const [l,[m,n]] of Object.entries(opts)) if (pts.every(([x,y])=>Math.abs(m*x+n-y)<1e-9)) ok.push(l); return ok.length===1 ? ok[0] : null;"
   },
   {
@@ -226,7 +226,7 @@
       "D": "Si $k = -9$, entonces $L_1$ y $L_2$ se intersecan en un único punto."
     },
     "correct": "C",
-    "explanation": "La pendiente de $L_1$ es $\\frac{3}{2}$ y la de $L_2$ es $-\\frac{k}{6}$.\nCon $k = 4$: $\\frac{3}{2} \\cdot \\left(-\\frac{4}{6}\\right) = -1$, así que son perpendiculares. C es verdadera.\nA es falsa: con $k = 9$ la pendiente de $L_2$ es $-\\frac{3}{2}$ (signo opuesto, no paralelas). B es falsa: con $k = -4$ el producto de pendientes es $\\frac{3}{2} \\cdot \\frac{2}{3} = 1$.\nD es falsa: con $k = -9$ ambas pendientes son $\\frac{3}{2}$ y $L_2$ equivale a $3x - 2y + \\frac{1}{3} = 0$, paralela y distinta de $L_1$, por lo que no se intersecan.",
+    "explanation": "Idea clave: se comparan pendientes; rectas paralelas tienen igual pendiente y rectas perpendiculares tienen pendientes cuyo producto es $-1$.\nPaso 1: La pendiente de $L_1$ es $\\frac{3}{2}$ y la de $L_2$ es $-\\frac{k}{6}$.\nPaso 2: Con $k = 4$: $\\frac{3}{2} \\cdot \\left(-\\frac{4}{6}\\right) = -1$, así que son perpendiculares.\nRespuesta: C, con $k = 4$ las rectas son perpendiculares.\nErrores frecuentes: La A es falsa: con $k = 9$ la pendiente de $L_2$ es $-\\frac{3}{2}$, de signo opuesto, así que no son paralelas. La B es falsa: con $k = -4$ el producto de pendientes es $\\frac{3}{2} \\cdot \\frac{2}{3} = 1$, no $-1$. La D es falsa: con $k = -9$ ambas pendientes son $\\frac{3}{2}$ y $L_2$ equivale a $3x - 2y + \\frac{1}{3} = 0$, paralela y distinta de $L_1$, por lo que no se intersecan.",
     "verify": "const m1 = 3/2; const m2 = (k) => -k/6; const n1 = 3; const n2 = 1/6; const claims = { A: Math.abs(m2(9)-m1)<1e-9, B: Math.abs(m1*m2(-4)+1)<1e-9, C: Math.abs(m1*m2(4)+1)<1e-9, D: Math.abs(m2(-9)-m1)>1e-9 || Math.abs(n1-n2)<1e-9 }; const t = Object.keys(claims).filter(l => claims[l]); return t.length===1 ? t[0] : null;"
   },
   {
@@ -246,7 +246,7 @@
       "E": "Se requiere información adicional"
     },
     "correct": "A",
-    "explanation": "Con (1): la recta $2x + 6y = 5$ tiene pendiente $-\\frac{2}{6} = -\\frac{1}{3}$; una perpendicular cumple $m \\cdot \\left(-\\frac{1}{3}\\right) = -1$, así que $m = 3$. Basta.\nCon (2): solo se sabe que $n = -1$; las rectas $y = x - 1$ e $y = 5x - 1$, por ejemplo, cumplen la condición con pendientes distintas. No basta.\nPor lo tanto, (1) por sí sola es suficiente.",
+    "explanation": "Idea clave: la pendiente de una recta queda fijada por su relación con otra recta, no por un punto aislado.\nPaso 1: (1) por sí sola: la recta $2x + 6y = 5$ tiene pendiente $-\\frac{2}{6} = -\\frac{1}{3}$; una perpendicular cumple $m \\cdot \\left(-\\frac{1}{3}\\right) = -1$, así que $m = 3$. Basta.\nPaso 2: (2) por sí sola: solo se sabe que $n = -1$; por ejemplo, $y = x - 1$ e $y = 5x - 1$ cumplen la condición con pendientes distintas. No basta.\nRespuesta: A, (1) por sí sola.\nErrores frecuentes: La B es incorrecta porque (2) solo da el coeficiente de posición. La C pide ambas cuando (1) ya basta. La D falla porque (2) sola no determina $m$. La E se descarta porque (1) sí determina $m = 3$.",
     "verify": "const mRef = -2/6; const m1 = -1/mRef; const ok1 = Number.isFinite(m1) && Math.abs(m1-3)<1e-9; const cands = [1,5].map(m => ({m, n: -1})).filter(l => l.m*0 + l.n === -1); const ok2 = new Set(cands.map(l=>l.m)).size === 1; if (ok1 && !ok2) return 'A'; return null;"
   },
   {
@@ -265,7 +265,7 @@
       "D": "$289\\ \\text{m}^2$"
     },
     "correct": "B",
-    "explanation": "Si los lados miden $a$ y $b$, entonces $a + b = 17$ y, por Pitágoras, $a^2 + b^2 = 169$.\nComo $(a + b)^2 = a^2 + 2ab + b^2$, se tiene $289 = 169 + 2ab$, de donde $2ab = 120$ y el área es $ab = 60\\ \\text{m}^2$ (los lados son $5$ m y $12$ m).\nA divide dos veces por $2$, C entrega $2ab$ sin despejar el área y D calcula $(a + b)^2$ como si fuera el área.",
+    "explanation": "Idea clave: no hace falta hallar cada lado; basta usar $(a + b)^2 = a^2 + 2ab + b^2$ para obtener el producto $ab$.\nPaso 1: Si los lados miden $a$ y $b$: $2(a + b) = 34$, así que $a + b = 17$, y por Pitágoras $a^2 + b^2 = 169$.\nPaso 2: $289 = 169 + 2ab$, de donde $2ab = 120$.\nPaso 3: El área es $ab = 60\\ \\text{m}^2$ (los lados son $5$ m y $12$ m).\nRespuesta: B, $60\\ \\text{m}^2$.\nErrores frecuentes: La A divide dos veces por $2$. La C entrega $2ab$ sin despejar el área. La D toma $(a + b)^2 = 289$ como si fuera el área.",
     "verify": "const s = 34/2, d = 13; const ab = (s*s - d*d)/2; const disc = s*s - 4*ab; const a = (s + Math.sqrt(disc))/2, b = s - a; if (Math.abs(a*a + b*b - d*d) > 1e-9) return null; const opts = {A:30, B:60, C:120, D:289}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v - a*b) < 1e-9) return l; return null;"
   },
   {
@@ -284,7 +284,7 @@
       "D": "En el Paso 4"
     },
     "correct": "C",
-    "explanation": "Los Pasos 1 y 2 son correctos: $5k + 5k + 8k = 18k = 36$ da $k = 2$, y en un triángulo isósceles la altura hacia la base la divide en mitades de $8$ cm.\nEn el Paso 3 el lado de $10$ cm es la hipotenusa del triángulo rectángulo, así que $h^2 = 10^2 - 8^2 = 36$ y $h = 6$ cm; Benjamín sumó los cuadrados en vez de restarlos.\nEl Paso 4 usa bien la fórmula del área, pero arrastra el valor erróneo: el área correcta es $\\frac{16 \\cdot 6}{2} = 48\\ \\text{cm}^2$.",
+    "explanation": "Idea clave: en el triángulo rectángulo que forma la altura, el lado igual de $10$ cm es la hipotenusa, así que el cateto se obtiene restando cuadrados.\nPaso 1: El Paso 1 es correcto: $5k + 5k + 8k = 18k = 36$ da $k = 2$ y lados de $10$, $10$ y $16$ cm.\nPaso 2: El Paso 2 es correcto: en un triángulo isósceles la altura hacia la base la divide en mitades de $8$ cm.\nPaso 3: En el Paso 3 está el error: debe ser $h^2 = 10^2 - 8^2 = 36$, es decir, $h = 6$ cm; Benjamín sumó los cuadrados en vez de restarlos.\nPaso 4: El Paso 4 usa bien la fórmula, pero arrastra el valor erróneo; el área correcta es $\\frac{16 \\cdot 6}{2} = 48\\ \\text{cm}^2$.\nRespuesta: C, el error está en el Paso 3.\nErrores frecuentes: La A es incorrecta porque la razón $5 : 8$ y el perímetro dan bien $k = 2$. La B es incorrecta porque la altura de un isósceles sí divide la base en dos partes iguales. La D es incorrecta porque la fórmula del área está bien aplicada; el valor malo viene del Paso 3.",
     "verify": "const k = 36/18; const lado = 5*k, base = 8*k; const paso1 = (lado === 10 && base === 16); const mitad = base/2; const paso2 = (mitad === 8); const hCorrecta = Math.sqrt(lado*lado - mitad*mitad); const hBenja = Math.sqrt(10*10 + 8*8); const paso3 = Math.abs(hBenja - hCorrecta) < 1e-9; const paso4 = Math.abs(16*hBenja/2 - 8*Math.sqrt(164)) < 1e-9; if (!paso1) return 'A'; if (!paso2) return 'B'; if (!paso3) return 'C'; if (!paso4) return 'D'; return null;"
   },
   {
@@ -303,7 +303,7 @@
       "D": "$210\\ \\text{m}^2$"
     },
     "correct": "B",
-    "explanation": "La altura $h$ divide el lado de $14$ m en segmentos $x$ y $14 - x$. Por Pitágoras en ambos triángulos: $13^2 - x^2 = h^2 = 15^2 - (14 - x)^2$.\nDesarrollando, $169 - x^2 = 29 + 28x - x^2$, así que $x = 5$ y $h = \\sqrt{169 - 25} = 12$ m.\nEl área es $\\frac{14 \\cdot 12}{2} = 84\\ \\text{m}^2$.\nA divide dos veces por $2$, C olvida dividir por $2$ y D multiplica dos lados ($14 \\cdot 15$) como si formaran un ángulo recto.",
+    "explanation": "Idea clave: la altura divide el triángulo en dos triángulos rectángulos que comparten $h$; se igualan las dos expresiones de $h^2$.\nPaso 1: La altura divide el lado de $14$ m en segmentos $x$ y $14 - x$, y por Pitágoras $13^2 - x^2 = h^2 = 15^2 - (14 - x)^2$.\nPaso 2: $169 - x^2 = 29 + 28x - x^2$, así que $x = 5$ y $h = \\sqrt{169 - 25} = 12$ m.\nPaso 3: El área es $\\frac{14 \\cdot 12}{2} = 84\\ \\text{m}^2$.\nRespuesta: B, $84\\ \\text{m}^2$.\nErrores frecuentes: La A divide dos veces por $2$. La C olvida dividir por $2$ ($14 \\cdot 12$). La D multiplica dos lados ($14 \\cdot 15$) como si formaran un ángulo recto.",
     "verify": "const a = 13, b = 14, c = 15; const x = (a*a - c*c + b*b)/(2*b); const h = Math.sqrt(a*a - x*x); if (Math.abs((b-x)**2 + h*h - c*c) > 1e-9) return null; const area = b*h/2; const opts = {A:42, B:84, C:168, D:210}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v - area) < 1e-9) return l; return null;"
   },
   {
@@ -322,7 +322,7 @@
       "D": "$x(a + b) + x^2$"
     },
     "correct": "A",
-    "explanation": "El rectángulo completo mide $(a + 2x)$ por $(b + 2x)$, porque el paspartú se agrega a ambos lados de cada dimensión.\nEl área del paspartú es $(a + 2x)(b + 2x) - ab = 2ax + 2bx + 4x^2 = 2x(a + b) + 4x^2$.\nB es el área total, sin restar la lámina; C considera solo las cuatro franjas laterales y olvida los cuatro cuadrados de las esquinas; D agrega el ancho $x$ una sola vez en cada dimensión.",
+    "explanation": "Idea clave: el área del paspartú es el área del rectángulo completo menos el área de la lámina.\nPaso 1: El rectángulo completo mide $(a + 2x)$ por $(b + 2x)$, porque el paspartú se agrega a ambos lados de cada dimensión.\nPaso 2: $(a + 2x)(b + 2x) - ab = 2ax + 2bx + 4x^2 = 2x(a + b) + 4x^2$.\nRespuesta: A, $2x(a + b) + 4x^2$.\nErrores frecuentes: La B es el área total, sin restar la lámina. La C considera solo las cuatro franjas laterales y olvida los cuatro cuadrados de las esquinas. La D agrega el ancho $x$ una sola vez en cada dimensión.",
     "verify": "const fs = { A: (a,b,x)=>2*x*(a+b)+4*x*x, B: (a,b,x)=>(a+2*x)*(b+2*x), C: (a,b,x)=>2*x*(a+b), D: (a,b,x)=>x*(a+b)+x*x }; const casos = [[30,20,4],[45,32,5],[18,12,3]]; const ok = Object.keys(fs).filter(l => casos.every(([a,b,x]) => Math.abs(fs[l](a,b,x) - ((a+2*x)*(b+2*x) - a*b)) < 1e-9)); return ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -341,7 +341,7 @@
       "D": "$96$ cm"
     },
     "correct": "C",
-    "explanation": "Las diagonales de un rombo se cortan perpendicularmente en sus puntos medios, así que cada lado es la hipotenusa de un triángulo rectángulo de catetos $6$ cm y $8$ cm.\nEl lado mide $\\sqrt{36 + 64} = 10$ cm y el perímetro es $4 \\cdot 10 = 40$ cm.\nA suma las semidiagonales como si fueran el lado, B suma las diagonales y D calcula el área del rombo ($\\frac{12 \\cdot 16}{2}$) en lugar del perímetro.",
+    "explanation": "Idea clave: las diagonales de un rombo se cortan perpendicularmente en sus puntos medios, así que cada lado es la hipotenusa de un triángulo rectángulo con las semidiagonales como catetos.\nPaso 1: Las semidiagonales miden $6$ cm y $8$ cm.\nPaso 2: El lado mide $\\sqrt{36 + 64} = 10$ cm.\nPaso 3: El perímetro es $4 \\cdot 10 = 40$ cm.\nRespuesta: C, $40$ cm.\nErrores frecuentes: La A suma las semidiagonales como si fueran el lado. La B suma las diagonales. La D calcula el área del rombo ($\\frac{12 \\cdot 16}{2} = 96$) en lugar del perímetro.",
     "verify": "const d1 = 12, d2 = 16; const lado = Math.hypot(d1/2, d2/2); const p = 4*lado; const opts = {A:14, B:28, C:40, D:96}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v - p) < 1e-9) return l; return null;"
   },
   {
@@ -360,7 +360,7 @@
       "D": "$(1, -3)$"
     },
     "correct": "A",
-    "explanation": "La reflexión respecto de $y = x$ intercambia las coordenadas: $(3, -2) \\to (-2, 3)$.\nLa traslación da $(-2 - 4,\\ 3 + 1) = (-6, 4)$, y la rotación de $180^\\circ$ con centro en el origen cambia ambos signos: $(6, -4)$.\nB omite la rotación, C aplica una rotación de $90^\\circ$ antihoraria en lugar de $180^\\circ$ y D refleja respecto del eje $X$ en vez de la recta $y = x$.",
+    "explanation": "Idea clave: las transformaciones se aplican una tras otra, en el orden dado, cada una sobre el resultado anterior.\nPaso 1: La reflexión respecto de $y = x$ intercambia las coordenadas: $(3, -2) \\to (-2, 3)$.\nPaso 2: La traslación da $(-2 - 4,\\ 3 + 1) = (-6, 4)$.\nPaso 3: La rotación de $180^\\circ$ con centro en el origen cambia ambos signos: $(6, -4)$.\nRespuesta: A, $(6, -4)$.\nErrores frecuentes: La B omite la rotación final. La C aplica una rotación de $90^\\circ$ antihoraria en lugar de $180^\\circ$. La D refleja respecto del eje $X$ en vez de la recta $y = x$.",
     "verify": "let p = [3,-2]; p = [p[1], p[0]]; p = [p[0]-4, p[1]+1]; p = [-p[0], -p[1]]; const opts = {A:[6,-4], B:[-6,4], C:[-4,-6], D:[1,-3]}; for (const [l,v] of Object.entries(opts)) if (v[0]===p[0] && v[1]===p[1]) return l; return null;"
   },
   {
@@ -379,7 +379,7 @@
       "D": "$P'$ es la imagen de $P$ mediante una reflexión respecto del eje $X$."
     },
     "correct": "D",
-    "explanation": "La reflexión respecto del eje $Y$ lleva $(a, b)$ a $(-a, b)$, y la traslación da $P' = (-a + 2a,\\ b - 2b) = (a, -b)$.\nEl punto $(a, -b)$ es justamente la reflexión de $(a, b)$ respecto del eje $X$, por lo que D es verdadera.\nA es falsa: como $a < 0$ y $-b < 0$, $P'$ está en el tercer cuadrante. B es falsa: la distancia es $2b$, y $2a$ es negativo. C es falsa: la rotación de $180^\\circ$ daría $(-a, -b)$, distinto de $P'$ porque $a \\neq 0$.",
+    "explanation": "Idea clave: se calcula $P'$ en función de $a$ y $b$ y luego se revisa cada afirmación con los signos $a < 0 < b$.\nPaso 1: La reflexión respecto del eje $Y$ lleva $(a, b)$ a $(-a, b)$.\nPaso 2: La traslación da $P' = (-a + 2a,\\ b - 2b) = (a, -b)$.\nPaso 3: El punto $(a, -b)$ es justamente la reflexión de $(a, b)$ respecto del eje $X$.\nRespuesta: D, $P'$ es la reflexión de $P$ respecto del eje $X$.\nErrores frecuentes: La A es falsa: como $a < 0$ y $-b < 0$, $P'$ está en el tercer cuadrante. La B es falsa: la distancia es $2b$, y $2a$ es negativo. La C es falsa: la rotación de $180^\\circ$ daría $(-a, -b)$, distinto de $P'$ porque $a$ no es $0$.",
     "verify": "const casos = [[-1,2],[-3,5],[-0.5,0.25],[-7,1]]; const ok = {A:true,B:true,C:true,D:true}; for (const [a,b] of casos) { let p = [-a, b]; p = [p[0]+2*a, p[1]-2*b]; if (!(p[0] < 0 && p[1] > 0)) ok.A = false; if (Math.abs(Math.hypot(p[0]-a, p[1]-b) - 2*a) > 1e-9) ok.B = false; if (!(p[0] === -a && p[1] === -b)) ok.C = false; if (!(p[0] === a && p[1] === -b)) ok.D = false; } const t = Object.keys(ok).filter(l => ok[l]); return t.length === 1 ? t[0] : null;"
   },
   {
@@ -398,7 +398,7 @@
       "D": "$(-2, 3)$"
     },
     "correct": "D",
-    "explanation": "Dos traslaciones sucesivas equivalen a una sola traslación según la suma de los vectores: $\\vec{u} + \\vec{v} = (3 - 5,\\ -1 + 4) = (-2, 3)$.\nEn efecto, el dron llega a $(1, 2) + (-2, 3) = (-1, 5)$.\nA es el punto de llegada, no el vector de traslación; B es el vector opuesto, que va de la llegada al despegue; C corresponde a $\\vec{u} - \\vec{v}$.",
+    "explanation": "Idea clave: dos traslaciones sucesivas equivalen a una sola traslación según la suma de los vectores.\nPaso 1: $\\vec{u} + \\vec{v} = (3 - 5,\\ -1 + 4) = (-2, 3)$.\nPaso 2: Comprobación: el dron llega a $(1, 2) + (-2, 3) = (-1, 5)$.\nRespuesta: D, $(-2, 3)$.\nErrores frecuentes: La A es el punto de llegada, no el vector de traslación. La B es el vector opuesto, que va de la llegada al despegue. La C corresponde a $\\vec{u} - \\vec{v}$.",
     "verify": "const ini = [1,2], u = [3,-1], v = [-5,4]; const fin = [ini[0]+u[0]+v[0], ini[1]+u[1]+v[1]]; const t = [fin[0]-ini[0], fin[1]-ini[1]]; const opts = {A:[-1,5], B:[2,-3], C:[8,-5], D:[-2,3]}; for (const [l,w] of Object.entries(opts)) if (w[0]===t[0] && w[1]===t[1]) return l; return null;"
   },
   {
@@ -417,7 +417,7 @@
       "D": "$(2, 5)$"
     },
     "correct": "D",
-    "explanation": "Se trabaja con el vector $\\overrightarrow{CA} = (4 - 1,\\ 1 - 2) = (3, -1)$. Una rotación de $90^\\circ$ antihoraria transforma $(x, y)$ en $(-y, x)$, así que $(3, -1) \\to (1, 3)$.\nLa nueva posición es $C + (1, 3) = (2, 5)$.\nA rota $A$ en torno al origen, B gira en sentido horario y C rota $A$ en torno al origen y luego suma las coordenadas de $C$.",
+    "explanation": "Idea clave: para rotar en torno a un punto distinto del origen se rota el vector que va del centro al punto y luego se le suma el centro.\nPaso 1: $\\overrightarrow{CA} = (4 - 1,\\ 1 - 2) = (3, -1)$.\nPaso 2: Una rotación de $90^\\circ$ antihoraria transforma $(x, y)$ en $(-y, x)$, así que $(3, -1) \\to (1, 3)$.\nPaso 3: La nueva posición es $C + (1, 3) = (2, 5)$.\nRespuesta: D, $(2, 5)$.\nErrores frecuentes: La A rota $A$ en torno al origen. La B gira en sentido horario. La C rota $A$ en torno al origen y luego suma las coordenadas de $C$.",
     "verify": "const C = [1,2], A = [4,1]; const v = [A[0]-C[0], A[1]-C[1]]; const r = [-v[1], v[0]]; const p = [C[0]+r[0], C[1]+r[1]]; if (Math.hypot(p[0]-C[0], p[1]-C[1]) !== Math.hypot(v[0], v[1])) return null; const opts = {A:[-1,4], B:[0,-1], C:[0,6], D:[2,5]}; for (const [l,w] of Object.entries(opts)) if (w[0]===p[0] && w[1]===p[1]) return l; return null;"
   },
   {
@@ -436,7 +436,7 @@
       "D": "$10$ cm"
     },
     "correct": "D",
-    "explanation": "Como $DE \\parallel BC$, por el teorema de Thales $\\frac{AD}{DB} = \\frac{AE}{EC}$, es decir, $\\frac{x}{x + 2} = \\frac{6}{9}$.\nEntonces $9x = 6x + 12$, de donde $x = 4$, y $AB = x + (x + 2) = 10$ cm.\nA entrega solo $AD$, C entrega solo $DB$ y B plantea $\\frac{AD}{DB} = \\frac{AE}{AC}$, mezclando un segmento parcial con el lado completo.",
+    "explanation": "Idea clave: por el teorema de Thales, como $DE \\parallel BC$, los segmentos que se forman en los lados son proporcionales: $\\frac{AD}{DB} = \\frac{AE}{EC}$.\nPaso 1: $\\frac{x}{x + 2} = \\frac{6}{9}$.\nPaso 2: $9x = 6x + 12$, de donde $x = 4$.\nPaso 3: $AB = x + (x + 2) = 4 + 6 = 10$ cm.\nRespuesta: D, $10$ cm.\nErrores frecuentes: La A entrega solo $AD$. La C entrega solo $DB$. La B plantea $\\frac{AD}{DB} = \\frac{AE}{AC}$, mezclando un segmento parcial con el lado completo.",
     "verify": "const AE = 6, EC = 9; const x = 2*AE/(EC - AE); if (Math.abs(x/(x+2) - AE/EC) > 1e-9) return null; const AB = 2*x + 2; const opts = {A:4, B:14/3, C:6, D:10}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v - AB) < 1e-9) return l; return null;"
   },
   {
@@ -455,7 +455,7 @@
       "D": "$qn^3$ y $wn^3$"
     },
     "correct": "C",
-    "explanation": "Si la razón de semejanza entre longitudes es $n$, las áreas se multiplican por $n^2$ y los volúmenes por $n^3$.\nLa pintura depende del área a cubrir, así que se necesitan $qn^2$ mL; la capacidad del estanque es un volumen, así que es $wn^3$ mL.\nA usa la razón lineal para el área y la cuadrática para el volumen, B trata la capacidad como un área y D trata la superficie pintada como un volumen.",
+    "explanation": "Idea clave: si las longitudes se multiplican por $n$, las áreas se multiplican por $n^2$ y los volúmenes por $n^3$.\nPaso 1: La pintura depende del área a cubrir, así que se necesitan $qn^2$ mL.\nPaso 2: La capacidad del estanque es un volumen, así que es $wn^3$ mL.\nRespuesta: C, $qn^2$ y $wn^3$.\nErrores frecuentes: La A usa la razón lineal para el área y la cuadrática para el volumen. La B trata la capacidad como si fuera un área. La D trata la superficie pintada como si fuera un volumen.",
     "verify": "const n = 50, q = 120, w = 30; const modP = (m) => q*m*m, modW = (m) => w*m*m*m; const opts = {A:[(m)=>q*m,(m)=>w*m*m], B:[(m)=>q*m*m,(m)=>w*m*m], C:[(m)=>q*m*m,(m)=>w*m**3], D:[(m)=>q*m**3,(m)=>w*m**3]}; const ok = Object.keys(opts).filter(l => [n, 20, 7].every(m => Math.abs(opts[l][0](m)-modP(m)) < 1e-6 && Math.abs(opts[l][1](m)-modW(m)) < 1e-6)); return ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -474,7 +474,7 @@
       "D": "$14{,}4\\ \\text{m}^2$"
     },
     "correct": "A",
-    "explanation": "La hipotenusa mide $\\sqrt{36 + 64} = 10$ m y el área total es $\\frac{6 \\cdot 8}{2} = 24\\ \\text{m}^2$.\nEl sendero (la altura hacia la hipotenusa) forma dos triángulos semejantes al original; el menor tiene como hipotenusa el cateto de $6$ m, así que la razón de semejanza es $\\frac{6}{10} = 0{,}6$.\nSu área es $0{,}6^2 \\cdot 24 = 8{,}64\\ \\text{m}^2$ (con proyección $3{,}6$ m y altura $4{,}8$ m: $\\frac{3{,}6 \\cdot 4{,}8}{2} = 8{,}64$).\nD multiplica el área por la razón lineal $0{,}6$ sin elevarla al cuadrado, C supone que el sendero divide el terreno en mitades y B usa el cateto de $6$ m como altura del triángulo menor.",
+    "explanation": "Idea clave: la altura hacia la hipotenusa forma dos triángulos semejantes al original, y las áreas se multiplican por el cuadrado de la razón de semejanza.\nPaso 1: La hipotenusa mide $\\sqrt{36 + 64} = 10$ m y el área total es $\\frac{6 \\cdot 8}{2} = 24\\ \\text{m}^2$.\nPaso 2: El triángulo menor tiene como hipotenusa el cateto de $6$ m, así que la razón de semejanza es $\\frac{6}{10} = 0{,}6$.\nPaso 3: Su área es $0{,}6^2 \\cdot 24 = 8{,}64\\ \\text{m}^2$ (con proyección $3{,}6$ m y altura $4{,}8$ m: $\\frac{3{,}6 \\cdot 4{,}8}{2} = 8{,}64$).\nRespuesta: A, $8{,}64\\ \\text{m}^2$.\nErrores frecuentes: La B usa el cateto de $6$ m como altura del triángulo menor ($\\frac{6 \\cdot 3{,}6}{2}$). La C supone que el sendero divide el terreno en mitades. La D multiplica el área por la razón lineal $0{,}6$ sin elevarla al cuadrado.",
     "verify": "const a = 6, b = 8; const c = Math.hypot(a, b); const h = a*b/c; const proy = a*a/c; const areaMenor = proy*h/2; if (Math.abs(areaMenor - (a/c)**2 * a*b/2) > 1e-9) return null; const opts = {A:8.64, B:10.8, C:12, D:14.4}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v - areaMenor) < 1e-9) return l; return null;"
   },
   {
@@ -493,7 +493,7 @@
       "D": "$21$"
     },
     "correct": "B",
-    "explanation": "El volumen del prisma es $8 \\cdot 8 \\cdot 10 = 640\\ \\text{cm}^3$ y el de cada vela es $\\pi r^2 h \\approx 3 \\cdot 2^2 \\cdot 5 = 60\\ \\text{cm}^3$.\nComo $\\frac{640}{60} \\approx 10{,}7$, alcanzan para $10$ velas completas.\nA usa el diámetro como radio, C redondea hacia arriba aunque la undécima vela quedaría incompleta y D usa $\\pi r h$ en lugar de $\\pi r^2 h$.",
+    "explanation": "Idea clave: el volumen de cera se conserva; se divide el volumen del prisma por el de una vela y se toma la parte entera.\nPaso 1: Volumen del prisma: $8 \\cdot 8 \\cdot 10 = 640\\ \\text{cm}^3$.\nPaso 2: Volumen de cada vela: $\\pi r^2 h \\approx 3 \\cdot 2^2 \\cdot 5 = 60\\ \\text{cm}^3$.\nPaso 3: $\\frac{640}{60} \\approx 10{,}7$, así que alcanza para $10$ velas completas.\nRespuesta: B, $10$ velas.\nErrores frecuentes: La A usa el diámetro como radio ($3 \\cdot 4^2 \\cdot 5 = 240$, y $\\frac{640}{240} \\approx 2{,}7$). La C redondea hacia arriba, aunque la undécima vela quedaría incompleta. La D usa $\\pi r h$ en lugar de $\\pi r^2 h$ ($\\frac{640}{30} \\approx 21{,}3$).",
     "verify": "const vPrisma = 8*8*10; const vVela = 3*2*2*5; const n = Math.floor(vPrisma/vVela); const opts = {A:2, B:10, C:11, D:21}; for (const [l,v] of Object.entries(opts)) if (v === n) return l; return null;"
   },
   {
@@ -512,7 +512,7 @@
       "D": "El volumen se cuadruplica y el área lateral se mantiene."
     },
     "correct": "C",
-    "explanation": "El nuevo volumen es $\\pi (2r)^2 \\cdot \\frac{h}{2} = 2\\pi r^2 h$, el doble del original.\nLa nueva área lateral es $2\\pi (2r) \\cdot \\frac{h}{2} = 2\\pi r h$, igual a la original.\nEl área total pasa de $2\\pi rh + 2\\pi r^2$ a $2\\pi rh + 8\\pi r^2$, que en general no es el doble, por lo que B es falsa.\nA se equivoca en ambas magnitudes y D eleva al cuadrado el factor del radio sin considerar que la altura se reduce a la mitad.",
+    "explanation": "Idea clave: se reemplazan $2r$ y $\\frac{h}{2}$ en cada fórmula y se compara con la original.\nPaso 1: Nuevo volumen: $\\pi (2r)^2 \\cdot \\frac{h}{2} = 2\\pi r^2 h$, el doble del original.\nPaso 2: Nueva área lateral: $2\\pi (2r) \\cdot \\frac{h}{2} = 2\\pi r h$, igual a la original.\nPaso 3: El área total pasa de $2\\pi rh + 2\\pi r^2$ a $2\\pi rh + 8\\pi r^2$, que en general no es el doble.\nRespuesta: C, el volumen se duplica y el área lateral se mantiene.\nErrores frecuentes: La A se equivoca en ambas magnitudes. La B es falsa porque el área total no se duplica en general. La D eleva al cuadrado el factor del radio sin considerar que la altura se reduce a la mitad.",
     "verify": "const casos = [[3,10],[5,4],[2,9]]; const ok = {A:true,B:true,C:true,D:true}; for (const [r,h] of casos) { const V = Math.PI*r*r*h, L = 2*Math.PI*r*h, T = L + 2*Math.PI*r*r; const r2 = 2*r, h2 = h/2; const V2 = Math.PI*r2*r2*h2, L2 = 2*Math.PI*r2*h2, T2 = L2 + 2*Math.PI*r2*r2; const eq = (x,y) => Math.abs(x-y) < 1e-9; if (!(eq(V2,V) && eq(L2,2*L))) ok.A = false; if (!(eq(V2,2*V) && eq(T2,2*T))) ok.B = false; if (!(eq(V2,2*V) && eq(L2,L))) ok.C = false; if (!(eq(V2,4*V) && eq(L2,L))) ok.D = false; } const t = Object.keys(ok).filter(l => ok[l]); return t.length === 1 ? t[0] : null;"
   },
   {
@@ -531,7 +531,7 @@
       "D": "$(5, 4)$"
     },
     "correct": "C",
-    "explanation": "La recta $y = -1$ es horizontal: la reflexión mantiene la abscisa y la ordenada cambia a $2 \\cdot (-1) - 3 = -5$, así que se obtiene $(4, -5)$.\nLa rotación de $180^\\circ$ con centro en el origen cambia el signo de ambas coordenadas: $(4, -5) \\to (-4, 5)$.\nA solo cambia el signo de la abscisa en la rotación, B refleja con respecto al eje $X$ en lugar de la recta $y = -1$ y D aplica una rotación de $90^\\circ$ antihoraria en lugar de $180^\\circ$.",
+    "explanation": "Idea clave: al reflejar respecto de una recta horizontal $y = c$, la abscisa se mantiene y la ordenada pasa a ser $2c - y$.\nPaso 1: Con $y = -1$: la ordenada cambia a $2 \\cdot (-1) - 3 = -5$, así que se obtiene $(4, -5)$.\nPaso 2: La rotación de $180^\\circ$ con centro en el origen cambia el signo de ambas coordenadas: $(4, -5) \\to (-4, 5)$.\nRespuesta: C, $(-4, 5)$.\nErrores frecuentes: La A solo cambia el signo de la abscisa en la rotación. La B refleja respecto del eje $X$ en lugar de la recta $y = -1$. La D aplica una rotación de $90^\\circ$ antihoraria en lugar de $180^\\circ$.",
     "verify": "const P = [4,3], k = -1; const R = [P[0], 2*k - P[1]]; const F = [-R[0], -R[1]]; const opts = {A:[-4,-5], B:[-4,3], C:[-4,5], D:[5,4]}; for (const [l,w] of Object.entries(opts)) if (w[0]===F[0] && w[1]===F[1]) return l; return null;"
   },
   {
@@ -550,7 +550,7 @@
       "D": "Una reflexión con respecto a la recta $y = -x$."
     },
     "correct": "D",
-    "explanation": "El giro de $90^\\circ$ antihorario en torno al origen transforma $(a, b)$ en $(-b, a)$, y la reflexión con respecto al eje $X$ transforma $(-b, a)$ en $(-b, -a)$.\nLa regla $(a, b) \\to (-b, -a)$ es la reflexión con respecto a la recta $y = -x$.\nA da $(b, -a)$, B da $(-a, -b)$ y C da $(b, a)$; cada una coincide con la composición solo para algunos puntos particulares, no para todos.",
+    "explanation": "Idea clave: se sigue la regla de cada transformación sobre un punto genérico $(a, b)$ y se identifica la regla final.\nPaso 1: El giro de $90^\\circ$ antihorario en torno al origen transforma $(a, b)$ en $(-b, a)$.\nPaso 2: La reflexión respecto del eje $X$ transforma $(-b, a)$ en $(-b, -a)$.\nPaso 3: La regla $(a, b) \\to (-b, -a)$ es la reflexión respecto de la recta $y = -x$.\nRespuesta: D, reflexión respecto de $y = -x$.\nErrores frecuentes: La A da $(b, -a)$, la B da $(-a, -b)$ y la C da $(b, a)$; cada una coincide con la composición solo para algunos puntos particulares, no para todos.",
     "verify": "const pts = [[3,1],[-2,5],[4,-7],[0,6]]; const comp = ([a,b]) => { const r = [-b, a]; return [r[0], -r[1]]; }; const T = {A:([a,b])=>[b,-a], B:([a,b])=>[-a,-b], C:([a,b])=>[b,a], D:([a,b])=>[-b,-a]}; const ok = Object.keys(T).filter(l => pts.every(p => { const x = comp(p), y = T[l](p); return x[0]===y[0] && x[1]===y[1]; })); return ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -569,7 +569,7 @@
       "D": "$(6, 4)$"
     },
     "correct": "B",
-    "explanation": "Sea $C(h, k)$. El vector $\\overrightarrow{CA} = (5 - h,\\ 1 - k)$ rotado en $90^\\circ$ antihorario es $(k - 1,\\ 5 - h)$, y debe cumplirse $A' = C + (k - 1,\\ 5 - h)$.\nAsí, $h + k - 1 = 3$ y $k + 5 - h = 5$, de donde $h = k = 2$: el centro es $C(2, 2)$.\nComprobación: $\\overrightarrow{CA} = (3, -1)$ rota a $(1, 3)$ y $C + (1, 3) = (3, 5)$.\nLas cuatro alternativas están a igual distancia de $A$ y de $A'$, pero solo $(2, 2)$ forma un ángulo recto antihorario: C es el punto medio de $AA'$ (centro de una rotación de $180^\\circ$), D corresponde a una rotación horaria y A da un ángulo distinto de $90^\\circ$.",
+    "explanation": "Idea clave: el vector $\\overrightarrow{CA}$ rotado en $90^\\circ$ antihorario debe ser igual a $\\overrightarrow{CA'}$; se plantea con $C(h, k)$ y se resuelve.\nPaso 1: $\\overrightarrow{CA} = (5 - h,\\ 1 - k)$ rotado en $90^\\circ$ antihorario es $(k - 1,\\ 5 - h)$, y debe cumplirse $A' = C + (k - 1,\\ 5 - h)$.\nPaso 2: $h + k - 1 = 3$ y $k + 5 - h = 5$, de donde $h = k = 2$.\nPaso 3: Comprobación: $\\overrightarrow{CA} = (3, -1)$ rota a $(1, 3)$ y $C + (1, 3) = (3, 5)$.\nRespuesta: B, $C(2, 2)$.\nErrores frecuentes: Las cuatro alternativas están a igual distancia de $A$ y de $A'$, pero solo $(2, 2)$ forma un ángulo recto antihorario. La A da un ángulo distinto de $90^\\circ$. La C es el punto medio de $AA'$, centro de una rotación de $180^\\circ$. La D corresponde a una rotación de $90^\\circ$ en sentido horario.",
     "verify": "const A = [5,1], Ap = [3,5]; const rot = ([x,y]) => [-y, x]; const opts = {A:[0,1], B:[2,2], C:[4,3], D:[6,4]}; const ok = Object.keys(opts).filter(l => { const c = opts[l]; const r = rot([A[0]-c[0], A[1]-c[1]]); return c[0]+r[0]===Ap[0] && c[1]+r[1]===Ap[1]; }); return ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -588,7 +588,7 @@
       "D": "$(-t,\\ t)$"
     },
     "correct": "A",
-    "explanation": "Después de $t$ horas, el punto inicial se traslada según $t \\cdot \\vec{v} = (3t, -t)$, así que la posición es $(-4 + 3t,\\ 2 - t) = (3t - 4,\\ 2 - t)$.\nPor ejemplo, con $t = 1$ se obtiene $(-1, 1)$, que es $(-4, 2) + (3, -1)$.\nB resta el punto inicial en lugar de sumarlo, C intercambia los papeles del punto inicial y del vector, y D suma el punto inicial con el vector y multiplica el resultado por $t$.",
+    "explanation": "Idea clave: después de $t$ horas el punto inicial se traslada según $t \\cdot \\vec{v}$.\nPaso 1: $t \\cdot \\vec{v} = (3t, -t)$.\nPaso 2: La posición es $(-4 + 3t,\\ 2 - t) = (3t - 4,\\ 2 - t)$.\nPaso 3: Comprobación: con $t = 1$ se obtiene $(-1, 1)$, que es $(-4, 2) + (3, -1)$.\nRespuesta: A, $(3t - 4,\\ 2 - t)$.\nErrores frecuentes: La B resta el punto inicial en lugar de sumarlo. La C intercambia los papeles del punto inicial y del vector. La D suma el punto inicial con el vector y multiplica el resultado por $t$.",
     "verify": "const P0 = [-4,2], v = [3,-1]; const pos = (t) => { let p = [...P0]; for (let i = 0; i < t; i++) p = [p[0]+v[0], p[1]+v[1]]; return p; }; const opts = {A:(t)=>[3*t-4, 2-t], B:(t)=>[3*t+4, -t-2], C:(t)=>[3-4*t, 2*t-1], D:(t)=>[-t, t]}; const ok = Object.keys(opts).filter(l => [0,1,2,5].every(t => { const a = pos(t), b = opts[l](t); return a[0]===b[0] && a[1]===b[1]; })); return ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -607,7 +607,7 @@
       "D": "$160\\ \\text{m}^2$"
     },
     "correct": "C",
-    "explanation": "Los lados no paralelos suman $52 - 22 - 10 = 20$ m, así que cada uno mide $10$ m.\nAl trazar las alturas desde los extremos de la base menor, a cada lado queda un segmento de $\\frac{22 - 10}{2} = 6$ m, y por Pitágoras la altura es $\\sqrt{10^2 - 6^2} = 8$ m.\nEl área es $\\frac{(22 + 10) \\cdot 8}{2} = 128\\ \\text{m}^2$.\nA calcula solo el rectángulo central $10 \\cdot 8$, B usa $6$ m como altura y D usa el lado no paralelo de $10$ m como altura.",
+    "explanation": "Idea clave: con el perímetro se obtienen los lados no paralelos, y las alturas desde la base menor forman triángulos rectángulos que dan la altura del trapecio.\nPaso 1: Los lados no paralelos suman $52 - 22 - 10 = 20$ m, así que cada uno mide $10$ m.\nPaso 2: A cada lado queda un segmento de $\\frac{22 - 10}{2} = 6$ m, y por Pitágoras la altura es $\\sqrt{10^2 - 6^2} = 8$ m.\nPaso 3: El área es $\\frac{(22 + 10) \\cdot 8}{2} = 128\\ \\text{m}^2$.\nRespuesta: C, $128\\ \\text{m}^2$.\nErrores frecuentes: La A calcula solo el rectángulo central, $10 \\cdot 8$. La B usa $6$ m como altura. La D usa el lado no paralelo de $10$ m como altura.",
     "verify": "const B = 22, b = 10, P = 52; const lado = (P - B - b)/2; const h = Math.sqrt(lado**2 - ((B-b)/2)**2); const area = (B + b)*h/2; const opts = {A:80, B:96, C:128, D:160}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v - area) < 1e-9) return l; return null;"
   },
   {
@@ -626,7 +626,7 @@
       "D": "En el Paso 4"
     },
     "correct": "C",
-    "explanation": "Los pasos 1 y 2 son correctos: $(a + b)^2 = a^2 + 2ab + b^2 = 17^2 = 289$.\nEn el Paso 3, de $169 + 2ab = 289$ se obtiene $2ab = 120$, es decir, $ab = 60$, no $120$: ahí está el error.\nCon el valor correcto, el área es $\\frac{60}{2} = 30\\ \\text{cm}^2$ (los catetos miden $5$ cm y $12$ cm). El Paso 4 usa bien la fórmula, pero arrastra el valor erróneo del paso anterior.",
+    "explanation": "Idea clave: se revisa cada paso; el error está donde se despeja $ab$ de $2ab = 120$.\nPaso 1: Los Pasos 1 y 2 son correctos: $a + b = 17$, $a^2 + b^2 = 169$ y $(a + b)^2 = a^2 + 2ab + b^2 = 289$.\nPaso 2: En el Paso 3, de $169 + 2ab = 289$ se obtiene $2ab = 120$, es decir, $ab = 60$, no $120$: ahí está el error.\nPaso 3: Con el valor correcto, el área es $\\frac{60}{2} = 30\\ \\text{cm}^2$ (los catetos miden $5$ cm y $12$ cm).\nRespuesta: C, el error está en el Paso 3.\nErrores frecuentes: La A es incorrecta porque las dos ecuaciones están bien planteadas. La B es incorrecta porque el cuadrado del binomio está bien desarrollado. La D es incorrecta porque $\\frac{ab}{2}$ es la fórmula correcta; el Paso 4 solo arrastra el valor erróneo del Paso 3.",
     "verify": "const s = 17, c = 13; const ab = (s*s - c*c)/2; const paso3 = 120, paso4 = paso3/2; const errores = []; if (s*s !== 289) errores.push('B'); if (Math.abs(ab - paso3) > 1e-9) errores.push('C'); else if (Math.abs(paso4 - ab/2) > 1e-9) errores.push('D'); const a = (s - Math.sqrt(2*c*c - s*s))/2, b = s - a; if (Math.abs(a*a + b*b - c*c) > 1e-9 || Math.abs(a*b/2 - 30) > 1e-9) return null; return errores.length === 1 ? errores[0] : null;"
   },
   {
@@ -645,7 +645,7 @@
       "D": "$\\frac{4}{3}h^2$"
     },
     "correct": "B",
-    "explanation": "Si el lado mide $\\ell$, la altura de un triángulo equilátero es $h = \\frac{\\sqrt{3}}{2}\\ell$, de donde $\\ell = \\frac{2h}{\\sqrt{3}} = \\frac{2\\sqrt{3}}{3}h$.\nEl área es $\\frac{\\ell \\cdot h}{2} = \\frac{1}{2} \\cdot \\frac{2\\sqrt{3}}{3}h \\cdot h = \\frac{\\sqrt{3}}{3}h^2$.\nA aplica la fórmula $\\frac{\\sqrt{3}}{4}\\ell^2$ usando la altura como si fuera el lado, C multiplica lado por altura sin dividir por $2$ y D calcula $\\ell^2$, el área de un cuadrado de lado $\\ell$.",
+    "explanation": "Idea clave: se despeja el lado en función de la altura y se usa área $= \\frac{\\text{base} \\cdot \\text{altura}}{2}$.\nPaso 1: La altura de un triángulo equilátero de lado $\\ell$ es $h = \\frac{\\sqrt{3}}{2}\\ell$, de donde $\\ell = \\frac{2h}{\\sqrt{3}} = \\frac{2\\sqrt{3}}{3}h$.\nPaso 2: El área es $\\frac{\\ell \\cdot h}{2} = \\frac{1}{2} \\cdot \\frac{2\\sqrt{3}}{3}h \\cdot h = \\frac{\\sqrt{3}}{3}h^2$.\nRespuesta: B, $\\frac{\\sqrt{3}}{3}h^2$.\nErrores frecuentes: La A aplica la fórmula $\\frac{\\sqrt{3}}{4}\\ell^2$ usando la altura como si fuera el lado. La C multiplica lado por altura sin dividir por $2$. La D calcula $\\ell^2$, el área de un cuadrado de lado $\\ell$.",
     "verify": "const area = (h) => { const l = 2*h/Math.sqrt(3); return Math.sqrt(3)/4*l*l; }; const opts = {A:(h)=>Math.sqrt(3)/4*h*h, B:(h)=>Math.sqrt(3)/3*h*h, C:(h)=>2*Math.sqrt(3)/3*h*h, D:(h)=>4/3*h*h}; const ok = Object.keys(opts).filter(l => [3, 10, 25.5].every(h => Math.abs(opts[l](h) - area(h)) < 1e-9)); return ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -664,7 +664,7 @@
       "D": "$48$ m"
     },
     "correct": "A",
-    "explanation": "El área del terreno menor es $12 \\cdot 8 = 96\\ \\text{m}^2$, y la razón entre las áreas es $\\frac{384}{96} = 4$.\nComo la razón de las áreas es el cuadrado de la razón de semejanza, esta es $\\sqrt{4} = 2$, y el largo mayor mide $2 \\cdot 12 = 24$ m (con ancho $16$ m: $24 \\cdot 16 = 384$).\nD multiplica el largo por la razón de áreas, C multiplica por $3$ al tomar el aumento $\\frac{384 - 96}{96}$ como razón y B divide $384$ por $12$, suponiendo que el ancho del terreno mayor sigue midiendo $12$ m.",
+    "explanation": "Idea clave: la razón entre las áreas de figuras semejantes es el cuadrado de la razón de semejanza.\nPaso 1: El área del terreno menor es $12 \\cdot 8 = 96\\ \\text{m}^2$, y la razón de áreas es $\\frac{384}{96} = 4$.\nPaso 2: La razón de semejanza es $\\sqrt{4} = 2$.\nPaso 3: El largo mayor mide $2 \\cdot 12 = 24$ m (con ancho $16$ m: $24 \\cdot 16 = 384$).\nRespuesta: A, $24$ m.\nErrores frecuentes: La B divide $384$ por $12$, suponiendo que el ancho del terreno mayor sigue midiendo $12$ m. La C multiplica por $3$, al tomar el aumento $\\frac{384 - 96}{96}$ como razón. La D multiplica el largo por la razón de áreas en vez de por su raíz.",
     "verify": "const L = 12, W = 8, Amay = 384; const k = Math.sqrt(Amay/(L*W)); const Lmay = k*L; if (Math.abs(Lmay*k*W - Amay) > 1e-9) return null; const opts = {A:24, B:32, C:36, D:48}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v - Lmay) < 1e-9) return l; return null;"
   },
   {
@@ -683,7 +683,7 @@
       "D": "$S(1 - k^2)$"
     },
     "correct": "D",
-    "explanation": "Como $DE \\parallel BC$, el triángulo $ADE$ es semejante al triángulo $ABC$ con razón de semejanza $\\frac{AD}{AB} = k$.\nLas áreas están en razón $k^2$, así que el área de $ADE$ es $Sk^2$ y la del trapecio es $S - Sk^2 = S(1 - k^2)$.\nA usa la razón lineal $k$ en lugar de $k^2$, B calcula el área de un triángulo de razón $1 - k$ (que no es la figura pedida) y C es el área del triángulo $ADE$, no la del trapecio.",
+    "explanation": "Idea clave: como $DE \\parallel BC$, el triángulo $ADE$ es semejante al $ABC$ con razón $k$, y su área es $k^2$ veces la del original.\nPaso 1: La razón de semejanza es $\\frac{AD}{AB} = k$, así que el área de $ADE$ es $Sk^2$.\nPaso 2: El área del trapecio es $S - Sk^2 = S(1 - k^2)$.\nRespuesta: D, $S(1 - k^2)$.\nErrores frecuentes: La A usa la razón lineal $k$ en lugar de $k^2$. La B calcula el área de un triángulo de razón $1 - k$, que no es la figura pedida. La C es el área del triángulo $ADE$, no la del trapecio.",
     "verify": "const area = (P,Q,R) => Math.abs((Q[0]-P[0])*(R[1]-P[1]) - (R[0]-P[0])*(Q[1]-P[1]))/2; const A = [0,0], B = [10,0], C = [3,7]; const S = area(A,B,C); const opts = {A:(k)=>S*(1-k), B:(k)=>S*(1-k)**2, C:(k)=>S*k*k, D:(k)=>S*(1-k*k)}; const ok = Object.keys(opts).filter(l => [0.2, 0.5, 0.75].every(k => { const D = [k*B[0], k*B[1]], E = [k*C[0], k*C[1]]; const trap = S - area(A,D,E); return Math.abs(opts[l](k) - trap) < 1e-9; })); return ok.length === 1 ? ok[0] : null;"
   },
   {
@@ -702,7 +702,7 @@
       "D": "$360$ km"
     },
     "correct": "B",
-    "explanation": "La escala indica que $1$ cm del mapa representa $50\\,000$ cm reales.\nEntonces el tramo mide $7{,}2 \\cdot 50\\,000 = 360\\,000$ cm $= 3\\,600$ m $= 3{,}6$ km.\nA divide por $100\\,000$ en lugar de convertir bien de centímetros a kilómetros; C y D se equivocan en la conversión al tratar los $360\\,000$ cm como $36\\,000$ m o como $360\\,000$ m.",
+    "explanation": "Idea clave: en escala $1 : 50\\,000$, cada centímetro del mapa representa $50\\,000$ cm reales; luego se convierte a kilómetros ($1$ km $= 100\\,000$ cm).\nPaso 1: $7{,}2 \\cdot 50\\,000 = 360\\,000$ cm.\nPaso 2: $360\\,000$ cm $= 3\\,600$ m $= 3{,}6$ km.\nRespuesta: B, $3{,}6$ km.\nErrores frecuentes: La A agrega un cero de más en la conversión (divide por $1\\,000\\,000$). La C trata los $360\\,000$ cm como $36\\,000$ m. La D trata los $360\\,000$ cm como $360\\,000$ m.",
     "verify": "const cm = 7.2 * 50000; const km = cm / 100000; const opts = {A:0.36, B:3.6, C:36, D:360}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v - km) < 1e-9) return l; return null;"
   },
   {
@@ -721,7 +721,7 @@
       "D": "$972\\ \\text{cm}^3$"
     },
     "correct": "D",
-    "explanation": "Sean $2a$, $3a$ y $6a$ las aristas. La diagonal del paralelepípedo mide $\\sqrt{(2a)^2 + (3a)^2 + (6a)^2} = \\sqrt{49a^2} = 7a$.\nDe $7a = 21$ se obtiene $a = 3$, así que las aristas miden $6$, $9$ y $18$ cm, y el volumen es $6 \\cdot 9 \\cdot 18 = 972\\ \\text{cm}^3$.\nC es el área total $2(54 + 108 + 162) = 648\\ \\text{cm}^2$, B calcula $36a^2$ en lugar de $36a^3$ y A es el volumen de un cubo de arista $6$ cm, la menor de las aristas.",
+    "explanation": "Idea clave: la diagonal de un paralelepípedo de aristas $x$, $y$, $z$ mide $\\sqrt{x^2 + y^2 + z^2}$; con la razón se plantea una sola incógnita.\nPaso 1: Sean $2a$, $3a$ y $6a$ las aristas. La diagonal mide $\\sqrt{4a^2 + 9a^2 + 36a^2} = \\sqrt{49a^2} = 7a$.\nPaso 2: De $7a = 21$ se obtiene $a = 3$, así que las aristas miden $6$, $9$ y $18$ cm.\nPaso 3: El volumen es $6 \\cdot 9 \\cdot 18 = 972\\ \\text{cm}^3$.\nRespuesta: D, $972\\ \\text{cm}^3$.\nErrores frecuentes: La A es el volumen de un cubo de arista $6$ cm, la menor de las aristas. La B calcula $36a^2$ en lugar de $36a^3$. La C es el área total, $2(54 + 108 + 162) = 648$, no el volumen.",
     "verify": "const r = [2,3,6], d = 21; const a = d / Math.hypot(...r); const [x,y,z] = r.map(t => t*a); const V = x*y*z; if (Math.abs(Math.hypot(x,y,z) - d) > 1e-9) return null; const opts = {A:216, B:324, C:648, D:972}; for (const [l,v] of Object.entries(opts)) if (Math.abs(v - V) < 1e-9) return l; return null;"
   },
   {
@@ -740,7 +740,7 @@
       "D": "$1\\,331\\ \\text{cm}^3$"
     },
     "correct": "A",
-    "explanation": "Si la arista mide $a$ cm, el aumento del área total es $6(a + 1)^2 - 6a^2 = 6(2a + 1)$.\nDe $6(2a + 1) = 66$ se obtiene $2a + 1 = 11$, es decir, $a = 5$, y el volumen es $5^3 = 125\\ \\text{cm}^3$.\nB es el área total del cubo original ($6 \\cdot 25$), C es el volumen del cubo con la arista aumentada ($6^3$) y D toma $\\frac{66}{6} = 11$ como la arista, sin plantear la diferencia de áreas.",
+    "explanation": "Idea clave: se plantea la diferencia entre el área total del cubo agrandado y la del original, en función de la arista $a$.\nPaso 1: El aumento es $6(a + 1)^2 - 6a^2 = 6(2a + 1)$.\nPaso 2: De $6(2a + 1) = 66$ se obtiene $2a + 1 = 11$, es decir, $a = 5$.\nPaso 3: El volumen es $5^3 = 125\\ \\text{cm}^3$.\nRespuesta: A, $125\\ \\text{cm}^3$.\nErrores frecuentes: La B es el área total del cubo original ($6 \\cdot 25$). La C es el volumen del cubo con la arista aumentada ($6^3$). La D toma $\\frac{66}{6} = 11$ como la arista, sin plantear la diferencia de áreas.",
     "verify": "let a = null; for (let x = 1; x <= 50; x++) if (6*(x+1)**2 - 6*x*x === 66) a = x; if (a === null) return null; const V = a**3; const opts = {A:125, B:150, C:216, D:1331}; for (const [l,v] of Object.entries(opts)) if (v === V) return l; return null;"
   },
   {
