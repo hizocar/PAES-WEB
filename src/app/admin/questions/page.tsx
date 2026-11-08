@@ -4,10 +4,38 @@ import { useState, useEffect } from "react"
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { Plus, Trash, Edit, ThumbsUp, ThumbsDown } from "lucide-react"
+import { Plus, Trash, Edit, ThumbsUp, ThumbsDown, AlertTriangle, Clock } from "lucide-react"
 // @ts-ignore
 import Latex from '@/components/ui/latex-renderer'
 import 'katex/dist/katex.min.css'
+
+type QStats = {
+    question_id: string
+    responses: number
+    first_attempts: number
+    pct_correct: number | null
+    pct_correct_first: number | null
+    median_time_ms: number | null
+    answer_counts: Record<string, number> | null
+    top_wrong: string | null
+    top_wrong_share: number | null
+    empirical_difficulty: string
+    flag: string | null
+}
+
+const FLAG_LABEL: Record<string, string> = {
+    revisar_clave: "Revisar clave: una alternativa incorrecta atrae más respuestas que la correcta",
+    demasiado_dificil: "Menos del 15% acierta: revisar enunciado o clave",
+    mas_facil_que_asignada: "Más fácil de lo asignado (Avanzado)",
+    mas_dificil_que_asignada: "Más difícil de lo asignado (Principiante)",
+}
+
+const DIFF_LABEL: Record<string, string> = { easy: "Principiante", medium: "Intermedio", hard: "Avanzado", insuficiente: "Faltan datos" }
+
+function pctColor(p: number | null | undefined) {
+    if (p === null || p === undefined) return "text-slate-500"
+    return p >= 70 ? "text-emerald-700" : p >= 40 ? "text-amber-700" : "text-red-700"
+}
 
 export default function AdminQuestionsPage() {
     const [questions, setQuestions] = useState<any[]>([])
@@ -21,12 +49,25 @@ export default function AdminQuestionsPage() {
     const [filterTopic, setFilterTopic] = useState("all")
     const [filterDifficulty, setFilterDifficulty] = useState("all")
     const [filterHabilidad, setFilterHabilidad] = useState("all")
+    // Estadísticas reales por pregunta (práctica + ensayos)
+    const [stats, setStats] = useState<Record<string, QStats>>({})
+    const [sortBy, setSortBy] = useState<"recent" | "pct_asc" | "pct_desc" | "responses" | "flags">("recent")
+    const [onlyFlagged, setOnlyFlagged] = useState(false)
 
     const supabase = createClient()
 
     useEffect(() => {
         fetchData()
     }, [])
+
+    useEffect(() => {
+        supabase.rpc('get_admin_question_stats', { p_subject: subject }).then(({ data, error }) => {
+            if (error) { console.error('get_admin_question_stats:', error.message); return }
+            const map: Record<string, QStats> = {}
+            for (const r of (data as QStats[]) ?? []) map[r.question_id] = r
+            setStats(map)
+        })
+    }, [subject])
 
     useEffect(() => {
         let res = questions
@@ -55,8 +96,19 @@ export default function AdminQuestionsPage() {
             res = res.filter(q => q.habilidad === filterHabilidad)
         }
 
-        setFilteredQuestions(res)
-    }, [questions, filterEje, filterTopic, filterDifficulty, filterHabilidad, topics, subject])
+        if (onlyFlagged) {
+            res = res.filter(q => stats[q.id]?.flag)
+        }
+
+        const pct = (q: any) => stats[q.id]?.pct_correct_first ?? stats[q.id]?.pct_correct
+        const sorted = [...res]
+        if (sortBy === "pct_asc") sorted.sort((a, b) => (pct(a) ?? 999) - (pct(b) ?? 999))
+        if (sortBy === "pct_desc") sorted.sort((a, b) => (pct(b) ?? -1) - (pct(a) ?? -1))
+        if (sortBy === "responses") sorted.sort((a, b) => (stats[b.id]?.responses ?? 0) - (stats[a.id]?.responses ?? 0))
+        if (sortBy === "flags") sorted.sort((a, b) => Number(!!stats[b.id]?.flag) - Number(!!stats[a.id]?.flag))
+
+        setFilteredQuestions(sorted)
+    }, [questions, filterEje, filterTopic, filterDifficulty, filterHabilidad, topics, subject, stats, sortBy, onlyFlagged])
 
     const fetchData = async () => {
         // 1. Fetch Ejes and Topics
@@ -251,6 +303,34 @@ export default function AdminQuestionsPage() {
                 </div>
             </div>
 
+            {(() => {
+                const subjQ = questions.filter(q => q.subject === subject)
+                const withData = subjQ.filter(q => stats[q.id]?.responses)
+                const flagged = subjQ.filter(q => stats[q.id]?.flag)
+                return (
+                    <div className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm md:flex-row md:items-center md:justify-between">
+                        <p className="text-sm text-slate-600">
+                            <strong className="text-slate-900">{subjQ.length}</strong> preguntas · <strong className="text-slate-900">{withData.length}</strong> con respuestas ·{" "}
+                            <strong className={flagged.length ? "text-red-700" : "text-slate-900"}>{flagged.length}</strong> con alerta
+                            <span className="block text-xs text-slate-500">% de acierto en el primer intento de cada alumno, sumando práctica y ensayos. Dificultad real desde 20 respuestas.</span>
+                        </p>
+                        <div className="flex flex-wrap items-center gap-3">
+                            <label className="flex items-center gap-2 text-sm font-semibold text-slate-700">
+                                <input type="checkbox" checked={onlyFlagged} onChange={e => setOnlyFlagged(e.target.checked)} className="h-4 w-4 accent-red-600" />
+                                Solo con alerta
+                            </label>
+                            <select className="rounded-md border p-2 text-sm" value={sortBy} onChange={e => setSortBy(e.target.value as any)} aria-label="Ordenar">
+                                <option value="recent">Más recientes</option>
+                                <option value="pct_asc">Menor % de acierto</option>
+                                <option value="pct_desc">Mayor % de acierto</option>
+                                <option value="responses">Más respondidas</option>
+                                <option value="flags">Con alerta primero</option>
+                            </select>
+                        </div>
+                    </div>
+                )
+            })()}
+
             <div className="grid gap-4">
                 {filteredQuestions.map((q) => (
                     <div key={q.id} className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm hover:border-blue-300 transition-colors">
@@ -275,19 +355,17 @@ export default function AdminQuestionsPage() {
                             </div>
 
                             <div className="flex items-center gap-4">
-                                {/* Success Ratio */}
+                                {/* % de acierto real */}
                                 <div className="flex flex-col items-end">
-                                    <span className="text-[10px] uppercase font-bold text-slate-400">Tasa de Éxito</span>
-                                    <span className={`text-xs font-bold ${!q.total_attempts ? 'text-slate-400' :
-                                        (q.correct_attempts / q.total_attempts) >= 0.7 ? 'text-green-600' :
-                                            (q.correct_attempts / q.total_attempts) >= 0.4 ? 'text-yellow-600' :
-                                                'text-red-600'
-                                        }`}>
-                                        {q.total_attempts
-                                            ? `${Math.round((q.correct_attempts / q.total_attempts) * 100)}% (${q.correct_attempts}/${q.total_attempts})`
-                                            : 'Sin datos'
-                                        }
-                                    </span>
+                                    <span className="text-[11px] font-bold text-slate-500">% acierto (1er intento)</span>
+                                    {stats[q.id]?.responses ? (
+                                        <span className={`text-lg font-black tabular-nums ${pctColor(stats[q.id].pct_correct_first ?? stats[q.id].pct_correct)}`}>
+                                            {Math.round((stats[q.id].pct_correct_first ?? stats[q.id].pct_correct) ?? 0)}%
+                                            <span className="ml-1 text-xs font-semibold text-slate-500">de {stats[q.id].responses}</span>
+                                        </span>
+                                    ) : (
+                                        <span className="text-xs font-bold text-slate-500">Sin respuestas</span>
+                                    )}
                                 </div>
 
                                 {/* Feedback Stats */}
@@ -337,9 +415,36 @@ export default function AdminQuestionsPage() {
                             </span>
                             <span className="w-1 h-1 rounded-full bg-slate-300"></span>
                             <span className="flex items-center gap-1.5">
-                                {q.difficulty === 'easy' ? '🟢' : q.difficulty === 'medium' ? '🟡' : '🔴'} {getDifficultyLabel(q.difficulty)}
+                                Asignada: <span className="font-bold text-slate-900">{getDifficultyLabel(q.difficulty)}</span>
+                                {stats[q.id] && stats[q.id].empirical_difficulty !== 'insuficiente' && (
+                                    <> · Real: <span className="font-bold text-slate-900">{DIFF_LABEL[stats[q.id].empirical_difficulty]}</span></>
+                                )}
                             </span>
+                            {stats[q.id]?.median_time_ms && (
+                                <span className="flex items-center gap-1 tabular-nums"><Clock size={14} aria-hidden /> {Math.round(stats[q.id].median_time_ms! / 1000)} s mediana</span>
+                            )}
+                            {q.external_key && <span className="font-mono text-xs text-slate-500">{q.external_key}</span>}
                         </div>
+
+                        {stats[q.id]?.answer_counts && (
+                            <div className="mt-3 flex flex-wrap items-center gap-1.5" aria-label="Respuestas por alternativa">
+                                {Object.entries(stats[q.id].answer_counts!).sort(([a], [b]) => a.localeCompare(b)).map(([alt, n]) => (
+                                    <span
+                                        key={alt}
+                                        className={`rounded-md px-2 py-0.5 text-xs font-bold tabular-nums ${alt === q.correct_answer ? 'bg-emerald-100 text-emerald-800' : alt === stats[q.id].top_wrong ? 'bg-red-100 text-red-800' : 'bg-slate-100 text-slate-600'}`}
+                                    >
+                                        {alt === 'TIMEOUT' ? 'Sin tiempo' : alt}: {n}
+                                    </span>
+                                ))}
+                            </div>
+                        )}
+
+                        {stats[q.id]?.flag && (
+                            <p role="status" className="mt-3 flex items-start gap-2 rounded-lg bg-red-50 px-3 py-2 text-sm font-semibold text-red-800">
+                                <AlertTriangle size={16} className="mt-0.5 shrink-0" aria-hidden />
+                                {FLAG_LABEL[stats[q.id].flag!] ?? stats[q.id].flag}
+                            </p>
+                        )}
                     </div>
                 ))
                 }

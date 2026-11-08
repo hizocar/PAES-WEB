@@ -4,15 +4,31 @@ import { useEffect, useState } from "react"
 import { createClient, getSessionUser } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
-import { Loader2, Play, LayoutGrid, Clock, Trophy, History, Construction, AlertCircle } from "lucide-react"
+import { Loader2, Play, LayoutGrid, Clock, Trophy, History, AlertCircle, Flame } from "lucide-react"
 import Link from "next/link"
 import { useSubject } from "@/components/providers/SubjectContext"
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+
+const LEVELS = [
+    { n: 1, name: "Calentando", min: 0 },
+    { n: 2, name: "En ruta", min: 450 },
+    { n: 3, name: "Competitivo", min: 600 },
+    { n: 4, name: "Élite", min: 750 },
+    { n: 5, name: "Puntaje nacional", min: 900 },
+]
+
+function levelFor(best: number) {
+    let cur = LEVELS[0]
+    for (const l of LEVELS) if (best >= l.min) cur = l
+    const next = LEVELS.find((l) => l.min > best) ?? null
+    return { cur, next }
+}
 
 export default function EnsayosDashboard() {
     const { subject } = useSubject()
     const [loading, setLoading] = useState(true)
     const [creating, setCreating] = useState(false)
+    const [creatingLevel, setCreatingLevel] = useState<"normal" | "desafio">("normal")
     const [error, setError] = useState<string | null>(null)
     const [ensayos, setEnsayos] = useState<any[]>([])
     const supabase = createClient()
@@ -36,8 +52,9 @@ export default function EnsayosDashboard() {
         fetchEnsayos()
     }, [subject]) // Refetch when subject changes
 
-    const handleStartEnsayo = async () => {
+    const handleStartEnsayo = async (level: "normal" | "desafio" = "normal") => {
         setCreating(true)
+        setCreatingLevel(level)
         setError(null)
         try {
             const user = await getSessionUser(supabase)
@@ -48,7 +65,9 @@ export default function EnsayosDashboard() {
             }
 
             // Call RPC to create ensayo and get ID
-            const { data, error } = await supabase.rpc(subject === 'm2' ? 'create_ensayo_m2' : 'create_ensayo_m1', { p_user_id: user.id })
+            const { data, error } = level === 'desafio'
+                ? await supabase.rpc('create_ensayo_desafio', { p_user_id: user.id, p_subject: subject })
+                : await supabase.rpc(subject === 'm2' ? 'create_ensayo_m2' : 'create_ensayo_m1', { p_user_id: user.id })
 
             if (error) {
                 console.error("RPC Error:", error)
@@ -85,45 +104,86 @@ export default function EnsayosDashboard() {
 
 
 
-            {/* Smart Start Card */}
-            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-8 md:p-10 text-white shadow-xl relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-12 translate-x-12 opacity-50" />
-
-                <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                    <div className="space-y-4 max-w-xl">
-                        <div className="flex items-center gap-2 bg-blue-500/30 w-fit px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border border-white/20">
-                            <Clock size={12} />
-                            2h 20m Duración
-                        </div>
-                        <h2 className="text-3xl font-bold">Nuevo Ensayo Completo</h2>
-                        <p className="text-blue-100 text-lg leading-relaxed">
-                            Ponte a prueba con {nQuestions} preguntas seleccionadas al azar, con la misma proporción de ejes de la prueba oficial{subject === "m2" ? ", incluidas preguntas de suficiencia de datos al final" : ""}, y obtén tu puntaje estimado en escala PAES (100–1000).
-                        </p>
-                        <div className="flex items-center gap-6 pt-2 text-sm font-medium text-blue-200">
-                            <span className="flex items-center gap-2"><LayoutGrid size={16} /> {nQuestions} Preguntas</span>
-                            <span className="flex items-center gap-2"><Trophy size={16} /> Escala Real</span>
-                        </div>
-                    </div>
-
-                    <div className="flex flex-col gap-2 items-end">
-                        <Button
-                            size="lg"
-                            onClick={handleStartEnsayo}
-                            disabled={creating}
-                            className="h-16 px-8 text-xl font-bold bg-white text-blue-600 hover:bg-blue-50 hover:scale-105 transition-all shadow-lg shrink-0"
-                        >
-                            {creating ? <Loader2 className="animate-spin mr-2" /> : <Play className="mr-2 fill-current" />}
-                            {creating ? "Generando..." : "Comenzar Ensayo"}
-                        </Button>
-                        {error && (
-                            <div className="flex items-center gap-2 text-red-100 bg-red-500/20 px-3 py-1 rounded-lg text-sm backdrop-blur-sm">
-                                <AlertCircle size={14} />
-                                {error}
+            {(() => {
+                const done = ensayos.filter(e => e.status === 'completed')
+                const best = done.reduce((m, e) => Math.max(m, e.score ?? 0), 0)
+                const bestDesafio = done.filter(e => e.level === 'desafio').reduce((m, e) => Math.max(m, e.score ?? 0), 0)
+                const { cur, next } = levelFor(best)
+                const pct = next ? Math.round(((best - cur.min) / (next.min - cur.min)) * 100) : 100
+                const recommendDesafio = cur.n >= 3
+                return (
+                    <>
+                        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm" aria-label="Tu nivel">
+                            <div className="flex flex-wrap items-end justify-between gap-3">
+                                <div>
+                                    <p className="text-sm font-semibold text-slate-500">Tu nivel {subject.toUpperCase()}</p>
+                                    <p className="text-2xl font-black text-slate-900">Nivel {cur.n} · {cur.name}</p>
+                                </div>
+                                <p className="text-sm font-semibold text-slate-600 tabular-nums">
+                                    {done.length ? <>Mejor puntaje: <strong className="text-slate-900">{best}</strong>{bestDesafio ? <> · Mejor desafío: <strong className="text-slate-900">{bestDesafio}</strong></> : null}</> : "Haz tu primer ensayo para medir tu nivel"}
+                                </p>
                             </div>
+                            <div className="mt-3 h-2.5 overflow-hidden rounded-full bg-slate-100" role="progressbar" aria-valuenow={pct} aria-valuemin={0} aria-valuemax={100} aria-label="Avance al siguiente nivel">
+                                <div className="h-full rounded-full bg-blue-600 transition-[width] duration-700" style={{ width: `${pct}%` }} />
+                            </div>
+                            <p className="mt-2 text-xs font-semibold text-slate-500 tabular-nums">
+                                {next ? `Te faltan ${next.min - best} puntos para el nivel ${next.n} (${next.name}).` : "¡Estás en el nivel máximo!"}
+                            </p>
+                        </section>
+
+                        <div className="grid gap-4 md:grid-cols-2">
+                            <div className="flex flex-col rounded-2xl bg-blue-600 p-6 text-white shadow-[0_16px_32px_-16px_rgba(37,99,235,0.7)]">
+                                <h2 className="text-2xl font-black">Ensayo PAES</h2>
+                                <p className="mt-2 flex-1 text-blue-100">
+                                    {nQuestions} preguntas al azar con la proporción de ejes de la prueba oficial{subject === "m2" ? " (suficiencia de datos al final)" : ""}. Puntaje estimado en escala PAES.
+                                </p>
+                                <p className="mt-4 flex items-center gap-4 text-sm font-semibold text-blue-100">
+                                    <span className="flex items-center gap-1.5"><Clock size={15} aria-hidden /> 2 h 20 min</span>
+                                    <span className="flex items-center gap-1.5"><LayoutGrid size={15} aria-hidden /> {nQuestions} preguntas</span>
+                                </p>
+                                <Button
+                                    size="lg"
+                                    onClick={() => handleStartEnsayo("normal")}
+                                    disabled={creating}
+                                    className="mt-5 h-14 rounded-2xl border-b-4 border-blue-200 bg-white text-lg font-black text-blue-700 hover:bg-blue-50"
+                                >
+                                    {creating && creatingLevel === "normal" ? <Loader2 className="mr-2 animate-spin" /> : <Play className="mr-2 fill-current" />}
+                                    {creating && creatingLevel === "normal" ? "Generando…" : "Comenzar ensayo"}
+                                </Button>
+                            </div>
+
+                            <div className="flex flex-col rounded-2xl border-2 border-amber-300 bg-amber-50 p-6">
+                                <div className="flex items-center justify-between gap-2">
+                                    <h2 className="flex items-center gap-2 text-2xl font-black text-slate-900"><Flame className="fill-orange-500 text-orange-500" aria-hidden /> Desafío</h2>
+                                    {recommendDesafio && <span className="rounded-full bg-amber-200 px-2.5 py-1 text-xs font-bold text-amber-900">Recomendado para ti</span>}
+                                </div>
+                                <p className="mt-2 flex-1 text-slate-700">
+                                    Solo preguntas intermedias y difíciles que aún no dominas, con la misma proporción de ejes. Para subir de nivel{!recommendDesafio ? " (ideal desde el nivel 3)" : ""}.
+                                </p>
+                                <p className="mt-4 flex items-center gap-4 text-sm font-semibold text-amber-900">
+                                    <span className="flex items-center gap-1.5"><Clock size={15} aria-hidden /> 2 h 20 min</span>
+                                    <span className="flex items-center gap-1.5"><Trophy size={15} aria-hidden /> Mismo puntaje PAES</span>
+                                </p>
+                                <Button
+                                    size="lg"
+                                    onClick={() => handleStartEnsayo("desafio")}
+                                    disabled={creating}
+                                    className="mt-5 h-14 rounded-2xl border-b-4 border-orange-700 bg-orange-500 text-lg font-black text-white hover:bg-orange-600"
+                                >
+                                    {creating && creatingLevel === "desafio" ? <Loader2 className="mr-2 animate-spin" /> : <Flame className="mr-2 fill-current" />}
+                                    {creating && creatingLevel === "desafio" ? "Generando…" : "Aceptar el desafío"}
+                                </Button>
+                            </div>
+                        </div>
+
+                        {error && (
+                            <p role="alert" className="flex items-center gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
+                                <AlertCircle size={16} aria-hidden /> {error}
+                            </p>
                         )}
-                    </div>
-                </div>
-            </div>
+                    </>
+                )
+            })()}
 
             {/* Score Evolution Chart */}
             {ensayos.filter(e => e.status === 'completed').length > 1 && (
@@ -222,6 +282,9 @@ export default function EnsayosDashboard() {
                                             <span className="font-bold text-slate-800">
                                                 {new Date(ensayo.started_at).toLocaleDateString('es-CL', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })}
                                             </span>
+                                            {ensayo.level === 'desafio' && (
+                                                <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-bold text-amber-800">Desafío</span>
+                                            )}
                                         </div>
                                         <div className="text-sm text-slate-500 pl-4">
                                             {ensayo.status === 'completed'
