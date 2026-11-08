@@ -1,6 +1,7 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
+import { createAdminClient } from "@/lib/supabase/admin"
 import { MercadoPagoConfig, PreApproval } from "mercadopago"
 
 export async function createSubscriptionPreference(planId: string) {
@@ -84,17 +85,27 @@ export async function updateUserSubscription(paymentId: string, status: string |
     console.log(`[Subscription Update] Processing ID: ${paymentId}, Status: ${status}`)
 
     try {
-        let userId, tier, finalStatus: string | null = status
-        let nextPaymentAt: string | null = null
+        // Seguridad: esta server action se puede invocar desde el navegador con cualquier
+        // argumento. Solo aceptamos un estado VERIFICADO con la API de MercadoPago y solo
+        // para el usuario con sesión iniciada.
+        const { data: { user: sessionUser } } = await supabase.auth.getUser()
+        if (!sessionUser) {
+            return { error: "Debes iniciar sesión para activar tu suscripción." }
+        }
 
-        // 1. Fetch real status from MP if we have a token and ID (most reliable)
+        let userId, tier, finalStatus: string | null = null
+        let nextPaymentAt: string | null = null
+        let verifiedWithMP = false
+
+        // 1. Fetch real status from MP (única fuente aceptada para el estado)
         if (accessToken && paymentId && paymentId !== 'n/a') {
             try {
                 const client = new MercadoPagoConfig({ accessToken })
                 const preApproval = new PreApproval(client)
                 const subData = await preApproval.get({ id: paymentId })
 
-                finalStatus = subData.status || status
+                finalStatus = subData.status ?? null
+                verifiedWithMP = true
                 console.log(`[Subscription Update] Verified Status: ${finalStatus}`)
 
                 // Capture next payment date
@@ -122,6 +133,10 @@ export async function updateUserSubscription(paymentId: string, status: string |
             }
         }
 
+        if (!verifiedWithMP) {
+            return { error: `No pudimos verificar tu pago con MercadoPago (estado informado: ${status || 'desconocido'}). Si ya pagaste, se activará automáticamente en unos minutos.` }
+        }
+
         const isApproved = finalStatus === "authorized" || finalStatus === "approved"
         if (!isApproved) {
             return { error: `La suscripción no está activa (Estado: ${finalStatus || 'desconocido'})` }
@@ -131,9 +146,15 @@ export async function updateUserSubscription(paymentId: string, status: string |
             return { error: "No se pudieron verificar los datos de usuario para la suscripción." }
         }
 
-        // 3. Update database
+        if (userId !== sessionUser.id) {
+            return { error: "Esta suscripción pertenece a otra cuenta." }
+        }
+
+        // 3. Update database (service role: el trigger protect_profile_columns impide que un
+        //    alumno cambie su propio subscription_tier desde el navegador)
+        const admin = createAdminClient()
         console.log(`[Subscription Update] Activating ${tier} for ${userId}`)
-        const { error: updateError } = await supabase
+        const { error: updateError } = await admin
             .from("profiles")
             .update({ subscription_tier: tier.toLowerCase() })
             .eq("id", userId)
@@ -141,7 +162,7 @@ export async function updateUserSubscription(paymentId: string, status: string |
         if (updateError) throw updateError
 
         // Ensure subscription record exists with the next payment date
-        const { error: subError } = await supabase
+        const { error: subError } = await admin
             .from("subscriptions")
             .upsert({
                 user_id: userId,
@@ -235,7 +256,9 @@ export async function cancelSubscription() {
         // The user will remain premium until their next_payment_at date.
         // We can use a background worker or a check on login to perform the final downgrade later.
 
-        const { error: subError } = await supabase
+        // Service role: subscriptions no tiene política de UPDATE para alumnos (con la sesión
+        // del usuario esto no hacía nada). El user_id viene de la sesión verificada.
+        const { error: subError } = await createAdminClient()
             .from('subscriptions')
             .update({
                 status: 'canceled',

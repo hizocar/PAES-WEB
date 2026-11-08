@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server"
+import { createAdminClient } from "@/lib/supabase/admin"
 import { MercadoPagoConfig, PreApproval, Payment } from "mercadopago"
 import { NextResponse } from "next/server"
 
@@ -30,7 +30,10 @@ export async function POST(req: Request) {
     }
 
     const client = new MercadoPagoConfig({ accessToken })
-    const supabase = await createClient()
+    // Un webhook no trae cookies de sesión: con el cliente anónimo, RLS bloqueaba los
+    // updates en silencio. Usamos service role porque cada dato se re-consulta a la API
+    // de MercadoPago por su ID (no confiamos en el cuerpo de la notificación).
+    const supabase = createAdminClient()
 
     try {
         if (type === "subscription_preapproval" || type === "preapproval") {
@@ -55,7 +58,7 @@ export async function POST(req: Request) {
                                 status: "active",
                                 mp_preapproval_id: subscription.id,
                                 next_payment_at: (subscription.auto_recurring as any)?.next_payment_date,
-                            })
+                            }, { onConflict: "user_id" })
                     }
                 } else if (subscription.status === "cancelled" || subscription.status === "paused") {
                     const externalReference = JSON.parse(subscription.external_reference || "{}")
