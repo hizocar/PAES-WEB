@@ -1,0 +1,41 @@
+[
+  {
+    "key": "m1-numeros-900",
+    "subject": "m1",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "argumentar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Una tienda de bicicletas en Temuco vende un casco a $40\\,000$ pesos. En noviembre sube su precio en un $15\\%$ y en diciembre aplica un descuento del $15\\%$ sobre el precio de noviembre.\n\nValentina afirma: «Como se subió y luego se bajó el mismo porcentaje, en diciembre el casco vuelve a costar $40\\,000$ pesos».\n\n¿Cuál de las siguientes afirmaciones es correcta respecto de lo dicho por Valentina?",
+    "alternatives": {
+      "A": "Valentina tiene razón, porque el aumento y el descuento se compensan.",
+      "B": "Valentina se equivoca: en diciembre el casco cuesta $39\\,100$ pesos.",
+      "C": "Valentina se equivoca: en diciembre el casco cuesta $40\\,900$ pesos.",
+      "D": "Valentina se equivoca: en diciembre el casco cuesta $34\\,000$ pesos."
+    },
+    "correct": "B",
+    "explanation": "En noviembre el precio es $40\\,000 \\cdot 1{,}15 = 46\\,000$ pesos. El descuento de diciembre se calcula sobre ese nuevo precio: $46\\,000 \\cdot 0{,}85 = 39\\,100$ pesos.\nLos porcentajes no se compensan porque se aplican sobre bases distintas: el $15\\%$ de $46\\,000$ es mayor que el $15\\%$ de $40\\,000$.\nA es el error típico de sumar y restar porcentajes. C invierte el efecto. D aplica solo el descuento al precio original.",
+    "verify": "const nov = 40000 * 1.15; const dic = nov * 0.85; if (Math.abs(dic - 39100) < 1e-6) return 'B'; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-900",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-dispersion",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "suficiencia",
+    "content": "Un conjunto tiene cinco datos enteros positivos: $3, 7, 7, 10$ y $x$.\n\nSe puede determinar el rango del conjunto si:\n\n(1) La media aritmética de los cinco datos es $7$.\n(2) La moda del conjunto es $7$ y $x$ es mayor que $10$.",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "A",
+    "explanation": "Con (1): la suma de los datos es $5 \\cdot 7 = 35$, entonces $x = 35 - 27 = 8$. El conjunto es $3, 7, 7, 8, 10$ y su rango es $10 - 3 = 7$. Basta.\nCon (2): solo se sabe que $x > 10$, de modo que el rango $x - 3$ puede ser $8, 9, 10, \\ldots$; no se determina.\nPor lo tanto, (1) por sí sola es suficiente y (2) por sí sola no lo es.",
+    "verify": "const base = [3,7,7,10]; const sum = base.reduce((a,b)=>a+b,0); const x1 = 5*7 - sum; const r1 = Math.max(...base, x1) - Math.min(...base, x1); const ok1 = Number.isInteger(x1) && x1 > 0 && r1 === 7; const ranges2 = new Set([11,12,13].map(x => Math.max(...base, x) - Math.min(...base, x))); const ok2 = ranges2.size === 1; if (ok1 && !ok2) return 'A'; return null;"
+  }
+]

@@ -1,0 +1,94 @@
+{
+  "_source": "Unidades temáticas del Temario PAES Regular Admisión 2027 (DEMRE). Solo estructura curricular; ninguna pregunta proviene de material DEMRE.",
+  "m1": {
+    "numeros": {
+      "name": "Números",
+      "topics": {
+        "enteros-y-racionales": "Números enteros y racionales",
+        "porcentaje": "Porcentaje",
+        "potencias-y-raices": "Potencias y raíces enésimas"
+      }
+    },
+    "algebra-y-funciones": {
+      "name": "Álgebra y Funciones",
+      "topics": {
+        "expresiones-algebraicas": "Expresiones algebraicas",
+        "proporcionalidad": "Proporcionalidad",
+        "ecuaciones-inecuaciones-lineales": "Ecuaciones e inecuaciones de primer grado",
+        "sistemas-2x2": "Sistemas de ecuaciones lineales (2x2)",
+        "funcion-lineal-afin": "Función lineal y afín",
+        "funcion-cuadratica": "Función cuadrática"
+      }
+    },
+    "geometria": {
+      "name": "Geometría",
+      "topics": {
+        "figuras-geometricas": "Figuras geométricas (Pitágoras, perímetros y áreas)",
+        "cuerpos-geometricos": "Cuerpos geométricos (área y volumen)",
+        "transformaciones-isometricas": "Transformaciones isométricas y vectores",
+        "semejanza": "Semejanza y proporcionalidad de figuras"
+      }
+    },
+    "probabilidad-y-estadistica": {
+      "name": "Probabilidad y Estadística",
+      "topics": {
+        "tablas-y-graficos": "Representación de datos (tablas, gráficos, promedio)",
+        "medidas-de-posicion": "Medidas de posición (cuartiles, percentiles, cajón)",
+        "reglas-probabilidades": "Reglas de las probabilidades"
+      }
+    }
+  },
+  "m2": {
+    "numeros": {
+      "name": "Números",
+      "topics": {
+        "numeros-reales": "Conjunto de los números reales",
+        "matematica-financiera": "Matemática financiera",
+        "logaritmos": "Logaritmos",
+        "enteros-y-racionales": "Números enteros y racionales",
+        "porcentaje": "Porcentaje",
+        "potencias-y-raices": "Potencias y raíces enésimas"
+      }
+    },
+    "algebra-y-funciones": {
+      "name": "Álgebra y Funciones",
+      "topics": {
+        "sistemas-casos-solucion": "Sistemas 2x2: única, infinitas o ninguna solución",
+        "funcion-potencia-exp-log": "Función potencia, exponencial y logarítmica",
+        "funciones-trigonometricas": "Funciones trigonométricas (seno y coseno)",
+        "expresiones-algebraicas": "Expresiones algebraicas",
+        "proporcionalidad": "Proporcionalidad",
+        "ecuaciones-inecuaciones-lineales": "Ecuaciones e inecuaciones de primer grado",
+        "sistemas-2x2": "Sistemas de ecuaciones lineales (2x2)",
+        "funcion-lineal-afin": "Función lineal y afín",
+        "funcion-cuadratica": "Función cuadrática"
+      }
+    },
+    "geometria": {
+      "name": "Geometría",
+      "topics": {
+        "homotecia": "Homotecia de figuras planas",
+        "razones-trigonometricas": "Razones trigonométricas en triángulos rectángulos",
+        "circunferencia": "Relaciones métricas en la circunferencia",
+        "esfera": "Esfera: superficie y volumen",
+        "rectas-en-el-plano": "Rectas en el plano",
+        "figuras-geometricas": "Figuras geométricas (Pitágoras, perímetros y áreas)",
+        "cuerpos-geometricos": "Cuerpos geométricos (área y volumen)",
+        "transformaciones-isometricas": "Transformaciones isométricas y vectores",
+        "semejanza": "Semejanza y proporcionalidad de figuras"
+      }
+    },
+    "probabilidad-y-estadistica": {
+      "name": "Probabilidad y Estadística",
+      "topics": {
+        "medidas-de-dispersion": "Medidas de dispersión",
+        "probabilidad-condicional": "Probabilidad condicional",
+        "permutacion-combinatoria": "Permutación y combinatoria",
+        "modelos-probabilisticos": "Modelos probabilísticos (binomial y normal)",
+        "tablas-y-graficos": "Representación de datos (tablas, gráficos, promedio)",
+        "medidas-de-posicion": "Medidas de posición (cuartiles, percentiles, cajón)",
+        "reglas-probabilidades": "Reglas de las probabilidades"
+      }
+    }
+  }
+}

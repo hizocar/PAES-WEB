@@ -1,0 +1,10 @@
+{
+  "_doc": "Preguntas marcadas por scripts/content/originality.mjs y revisadas a mano como NO copiadas: la coincidencia es fraseo matemático estándar, no contenido. Fecha de revisión: 2026-11-07.",
+  "m1-numeros-023": "Solo coincide 'si x es un número real positivo, ¿cuál de las siguientes expresiones...'. La expresión, los exponentes y las alternativas son distintos.",
+  "m2-numeros-013": "Solo coincide '¿cuál de las siguientes igualdades es verdadera?'. La pregunta oficial es de trigonometría; la nuestra, de logaritmos.",
+  "m2-algebra-y-funciones-013": "Solo coincide '¿cuál de los siguientes puntos pertenece a...'. La oficial es una transformación de figura; la nuestra, la gráfica de 2sen(x)-1.",
+  "m1-geometria-015": "Solo coincide 'en sentido antihorario con centro en el origen', que es la terminología estándar de rotaciones.",
+  "m1-geometria-018": "Igual que m1-geometria-015: terminología estándar de rotaciones.",
+  "m2-geometria-001": "Solo coincide 'se le aplica una homotecia con centro en', que es la terminología estándar de homotecias.",
+  "m2-probabilidad-y-estadistica-001": "Solo coincide '¿cuál es la desviación estándar de la cantidad...'; los datos y el contexto son distintos."
+}

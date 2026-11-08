@@ -116,7 +116,7 @@ export default function EnsayosDashboard() {
                         </div>
                         <h2 className="text-3xl font-bold">Nuevo Ensayo Completo</h2>
                         <p className="text-blue-100 text-lg leading-relaxed">
-                            Ponte a prueba con 60 preguntas seleccionadas aleatoriamente (15 por eje) y obtén tu puntaje en escala PAES real (100-1000).
+                            Ponte a prueba con 60 preguntas seleccionadas aleatoriamente, con la misma proporción de ejes de la prueba oficial, y obtén tu puntaje en escala PAES (100-1000).
                         </p>
                         <div className="flex items-center gap-6 pt-2 text-sm font-medium text-blue-200">
                             <span className="flex items-center gap-2"><LayoutGrid size={16} /> 60 Preguntas</span>

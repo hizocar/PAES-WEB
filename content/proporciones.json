@@ -1,0 +1,101 @@
+{
+  "m1": {
+    "pruebas_analizadas": [
+      "M1_2023_oficial-regular",
+      "M1_2024_oficial-invierno",
+      "M1_2024_oficial-regular",
+      "M1_2025_oficial-invierno",
+      "M1_2026_oficial-invierno",
+      "M1_2027_oficial-invierno"
+    ],
+    "n_preguntas": 390,
+    "por_eje": {
+      "numeros": 0.3308,
+      "algebra-y-funciones": 0.2769,
+      "geometria": 0.1974,
+      "probabilidad-y-estadistica": 0.1949
+    },
+    "por_topico": {
+      "numeros/enteros-y-racionales": 0.1357,
+      "probabilidad-y-estadistica/tablas-y-graficos": 0.1154,
+      "numeros/porcentaje": 0.1077,
+      "numeros/potencias-y-raices": 0.0872,
+      "geometria/transformaciones-isometricas": 0.0718,
+      "geometria/figuras-geometricas": 0.0641,
+      "algebra-y-funciones/ecuaciones-inecuaciones-lineales": 0.059,
+      "algebra-y-funciones/proporcionalidad": 0.059,
+      "algebra-y-funciones/expresiones-algebraicas": 0.0513,
+      "algebra-y-funciones/funcion-lineal-afin": 0.0487,
+      "probabilidad-y-estadistica/reglas-probabilidades": 0.0487,
+      "geometria/cuerpos-geometricos": 0.0385,
+      "algebra-y-funciones/funcion-cuadratica": 0.0308,
+      "probabilidad-y-estadistica/medidas-de-posicion": 0.0308,
+      "algebra-y-funciones/sistemas-2x2": 0.0282,
+      "geometria/semejanza": 0.0231
+    },
+    "por_habilidad": {
+      "resolver_problemas": 0.5975,
+      "argumentar": 0.141,
+      "modelar": 0.141,
+      "representar": 0.1205
+    },
+    "figura_faltante_n": 148
+  },
+  "m2": {
+    "pruebas_analizadas": [
+      "M2_2023_oficial-regular",
+      "M2_2024_oficial-invierno",
+      "M2_2024_oficial-regular",
+      "M2_2025_oficial-invierno",
+      "M2_2026_oficial-invierno",
+      "M2_2027_oficial-invierno"
+    ],
+    "n_preguntas": 330,
+    "por_eje": {
+      "algebra-y-funciones": 0.3334,
+      "numeros": 0.2606,
+      "geometria": 0.2242,
+      "probabilidad-y-estadistica": 0.1818
+    },
+    "por_topico": {
+      "algebra-y-funciones/m1:funcion-cuadratica": 0.1,
+      "numeros/m1:potencias-y-raices": 0.0667,
+      "algebra-y-funciones/m1:funcion-lineal-afin": 0.0606,
+      "numeros/logaritmos": 0.0576,
+      "geometria/m1:figuras-geometricas": 0.0515,
+      "geometria/m1:transformaciones-isometricas": 0.0485,
+      "numeros/m1:porcentaje": 0.0455,
+      "numeros/m1:enteros-y-racionales": 0.0424,
+      "algebra-y-funciones/m1:ecuaciones-inecuaciones-lineales": 0.0424,
+      "geometria/homotecia": 0.0424,
+      "algebra-y-funciones/m1:expresiones-algebraicas": 0.0394,
+      "probabilidad-y-estadistica/medidas-de-dispersion": 0.0364,
+      "probabilidad-y-estadistica/permutacion-combinatoria": 0.0364,
+      "numeros/numeros-reales": 0.0333,
+      "geometria/m1:semejanza": 0.0333,
+      "probabilidad-y-estadistica/m1:reglas-probabilidades": 0.0303,
+      "probabilidad-y-estadistica/probabilidad-condicional": 0.0303,
+      "algebra-y-funciones/funcion-potencia-exp-log": 0.0273,
+      "probabilidad-y-estadistica/m1:medidas-de-posicion": 0.0273,
+      "algebra-y-funciones/m1:sistemas-2x2": 0.0242,
+      "geometria/m1:cuerpos-geometricos": 0.0242,
+      "geometria/razones-trigonometricas": 0.0212,
+      "algebra-y-funciones/m1:proporcionalidad": 0.0182,
+      "algebra-y-funciones/sistemas-casos-solucion": 0.0182,
+      "probabilidad-y-estadistica/m1:tablas-y-graficos": 0.0182,
+      "numeros/matematica-financiera": 0.0152,
+      "geometria/esfera": 0.003,
+      "algebra-y-funciones/funciones-trigonometricas": 0.003,
+      "probabilidad-y-estadistica/modelos-probabilisticos": 0.003
+    },
+    "por_habilidad": {
+      "resolver_problemas": 0.5546,
+      "argumentar": 0.203,
+      "modelar": 0.1727,
+      "representar": 0.0697
+    },
+    "suficiencia_fraccion": 0.0727,
+    "suficiencia_n": 24,
+    "figura_faltante_n": 85
+  }
+}

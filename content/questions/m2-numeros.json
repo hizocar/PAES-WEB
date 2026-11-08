@@ -1,0 +1,727 @@
+[
+  {
+    "key": "m2-numeros-001",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "numeros-reales",
+    "habilidad": "representar",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "¿Cuál de los siguientes números es irracional?",
+    "alternatives": {
+      "A": "$\\sqrt{0{,}\\overline{4}}$",
+      "B": "$\\sqrt{2}\\cdot\\sqrt{18}$",
+      "C": "$\\dfrac{\\sqrt{75}}{\\sqrt{3}}$",
+      "D": "$\\sqrt{3}+\\sqrt{27}$"
+    },
+    "correct": "D",
+    "explanation": "A: $0{,}\\overline{4}=\\frac{4}{9}$, luego $\\sqrt{\\frac{4}{9}}=\\frac{2}{3}$, que es racional.\nB: $\\sqrt{2}\\cdot\\sqrt{18}=\\sqrt{36}=6$, racional. C: $\\frac{\\sqrt{75}}{\\sqrt{3}}=\\sqrt{25}=5$, racional.\nD: $\\sqrt{3}+\\sqrt{27}=\\sqrt{3}+3\\sqrt{3}=4\\sqrt{3}$, que es irracional porque $\\sqrt{3}$ lo es.\nEl error típico es pensar que toda raíz es irracional o que un decimal periódico bajo raíz no puede dar un racional.",
+    "verify": "const isRat = v => { for (let d = 1; d <= 2000; d++) { if (Math.abs(v*d - Math.round(v*d)) < 1e-9) return true; } return false; };\nconst vals = { A: Math.sqrt(4/9), B: Math.sqrt(2)*Math.sqrt(18), C: Math.sqrt(75)/Math.sqrt(3), D: Math.sqrt(3)+Math.sqrt(27) };\nconst irr = Object.keys(vals).filter(k => !isRat(vals[k]));\nreturn irr.length === 1 ? irr[0] : null;"
+  },
+  {
+    "key": "m2-numeros-002",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "numeros-reales",
+    "habilidad": "argumentar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Martina quiere racionalizar la expresión $\\dfrac{6}{\\sqrt{3}-1}$ y realiza el siguiente desarrollo:\n\nPaso 1: $\\dfrac{6}{\\sqrt{3}-1}\\cdot\\dfrac{\\sqrt{3}+1}{\\sqrt{3}+1}$\nPaso 2: $\\dfrac{6\\sqrt{3}+6}{3+1}$\nPaso 3: $\\dfrac{6(\\sqrt{3}+1)}{4}$\nPaso 4: $\\dfrac{3(\\sqrt{3}+1)}{2}$\n\n¿En cuál de los pasos se cometió el primer error?",
+    "alternatives": {
+      "A": "En el Paso 1",
+      "B": "En el Paso 2",
+      "C": "En el Paso 3",
+      "D": "En el Paso 4"
+    },
+    "correct": "B",
+    "explanation": "El Paso 1 es correcto: se amplifica por el conjugado del denominador.\nEn el Paso 2 el denominador debe ser $(\\sqrt{3}-1)(\\sqrt{3}+1)=(\\sqrt{3})^2-1^2=3-1=2$, no $3+1$. Ahí está el error.\nEl resultado correcto es $\\frac{6(\\sqrt{3}+1)}{2}=3\\sqrt{3}+3$.\nLos pasos 3 y 4 son consecuencias algebraicamente correctas del Paso 2 (factorizar y simplificar por 2), por lo que no contienen el primer error.",
+    "verify": "const s = Math.sqrt(3); const real = 6/(s-1);\nconst steps = [6/(s-1)*((s+1)/(s+1)), (6*s+6)/(3+1), 6*(s+1)/4, 3*(s+1)/2];\nconst i = steps.findIndex(v => Math.abs(v - real) > 1e-9);\nconst ok34 = Math.abs(steps[2]-steps[1]) < 1e-9 && Math.abs(steps[3]-steps[2]) < 1e-9;\nreturn (i >= 0 && ok34) ? 'ABCD'[i] : null;"
+  },
+  {
+    "key": "m2-numeros-003",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "numeros-reales",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "suficiencia",
+    "content": "Sea $x$ un número real positivo.\n\nSe puede determinar el valor de $x$, si se sabe que:\n\n(1) $x^2=3+2\\sqrt{2}$\n(2) $x-\\dfrac{1}{x}=2$",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "D",
+    "explanation": "Con (1): como $x>0$, $x=\\sqrt{3+2\\sqrt{2}}$. Además $(1+\\sqrt{2})^2=1+2\\sqrt{2}+2=3+2\\sqrt{2}$, así que $x=1+\\sqrt{2}$. Es suficiente.\nCon (2): multiplicando por $x$ se obtiene $x^2-2x-1=0$, cuyas soluciones son $1+\\sqrt{2}$ y $1-\\sqrt{2}$. Como $1-\\sqrt{2}<0$, se descarta y queda $x=1+\\sqrt{2}$. También es suficiente.\nPor lo tanto, cada una por sí sola determina $x$. El error frecuente es creer que (2), al ser una ecuación cuadrática, entrega dos valores, olvidando que $x$ es positivo.",
+    "verify": "const pos = arr => arr.filter(v => v > 0);\nconst r1 = pos([Math.sqrt(3+2*Math.SQRT2), -Math.sqrt(3+2*Math.SQRT2)]);\nconst d = Math.sqrt(4+4); const r2 = pos([(2+d)/2, (2-d)/2]);\nconst ok1 = r1.length === 1, ok2 = r2.length === 1 && Math.abs(r2[0]-(1+Math.SQRT2)) < 1e-9 && Math.abs(r1[0]-r2[0]) < 1e-9;\nif (ok1 && ok2) return 'D'; return null;"
+  },
+  {
+    "key": "m2-numeros-004",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "numeros-reales",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Considera el número $p=\\sqrt{45}-\\sqrt{20}+\\sqrt{5}$.\n\n¿Entre cuáles dos números enteros consecutivos se ubica $p$ en la recta numérica?",
+    "alternatives": {
+      "A": "Entre $2$ y $3$",
+      "B": "Entre $3$ y $4$",
+      "C": "Entre $4$ y $5$",
+      "D": "Entre $5$ y $6$"
+    },
+    "correct": "C",
+    "explanation": "Se simplifica cada raíz: $\\sqrt{45}=3\\sqrt{5}$ y $\\sqrt{20}=2\\sqrt{5}$. Entonces $p=3\\sqrt{5}-2\\sqrt{5}+\\sqrt{5}=2\\sqrt{5}=\\sqrt{20}$.\nComo $16<20<25$, se tiene $4<\\sqrt{20}<5$.\nD resulta de operar los radicandos como si $\\sqrt{a}-\\sqrt{b}+\\sqrt{c}=\\sqrt{a-b+c}=\\sqrt{30}$. A corresponde a quedarse solo con $\\sqrt{5}$, y B a calcular $\\sqrt{5}+\\sqrt{5}$ con signo erróneo o a aproximar mal $2\\sqrt{5}$.",
+    "verify": "const p = Math.sqrt(45) - Math.sqrt(20) + Math.sqrt(5);\nconst n = Math.floor(p); const map = {2:'A',3:'B',4:'C',5:'D'};\nreturn map[n] ?? null;"
+  },
+  {
+    "key": "m2-numeros-005",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "matematica-financiera",
+    "habilidad": "modelar",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Camila deposita $500\\,000$ pesos en un depósito a plazo que paga un interés compuesto del $2\\%$ mensual. El monto $C(n)$, en pesos, que tendrá al cabo de $n$ meses se modela mediante $C(n)=500\\,000\\cdot(1{,}02)^n$.\n\nSi Camila no retira ni agrega dinero, ¿cuál será el monto al cabo de $2$ meses?",
+    "alternatives": {
+      "A": "$510\\,000$ pesos",
+      "B": "$520\\,000$ pesos",
+      "C": "$520\\,200$ pesos",
+      "D": "$540\\,800$ pesos"
+    },
+    "correct": "C",
+    "explanation": "$C(2)=500\\,000\\cdot(1{,}02)^2=500\\,000\\cdot1{,}0404=520\\,200$ pesos.\nA es el monto al cabo de un solo mes. B corresponde a interés simple ($2\\%$ de $500\\,000$ dos veces, sin interés sobre el interés).\nD resulta de usar una tasa del $4\\%$ en cada uno de los dos meses: $500\\,000\\cdot(1{,}04)^2$.",
+    "verify": "let c = 500000; for (let m = 0; m < 2; m++) c = c * 1.02;\nconst alts = {A:510000,B:520000,C:520200,D:540800};\nconst k = Object.keys(alts).find(l => Math.abs(alts[l]-c) < 1e-6); return k ?? null;"
+  },
+  {
+    "key": "m2-numeros-006",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "matematica-financiera",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Tomás pide un crédito de $2\\,000\\,000$ pesos, con una tasa de interés compuesto del $10\\%$ anual. Acuerda con el banco pagar la deuda completa en una sola cuota al término de $2$ años.\n\n¿Cuánto dinero pagará Tomás solo por concepto de intereses?",
+    "alternatives": {
+      "A": "$400\\,000$ pesos",
+      "B": "$420\\,000$ pesos",
+      "C": "$2\\,400\\,000$ pesos",
+      "D": "$2\\,420\\,000$ pesos"
+    },
+    "correct": "B",
+    "explanation": "La deuda al cabo de $2$ años es $2\\,000\\,000\\cdot(1{,}1)^2=2\\,000\\,000\\cdot1{,}21=2\\,420\\,000$ pesos.\nLos intereses son la diferencia con el capital pedido: $2\\,420\\,000-2\\,000\\,000=420\\,000$ pesos.\nA corresponde a interés simple ($10\\%$ de $2\\,000\\,000$ por $2$ años). D es el monto total de la cuota, no los intereses, y C es el total calculado con interés simple.",
+    "verify": "const total = 2000000 * Math.pow(1.1, 2); const interes = total - 2000000;\nconst alts = {A:400000,B:420000,C:2400000,D:2420000};\nreturn Object.keys(alts).find(l => Math.abs(alts[l]-interes) < 1e-6) ?? null;"
+  },
+  {
+    "key": "m2-numeros-007",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "matematica-financiera",
+    "habilidad": "representar",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "La cuenta de capitalización individual de Rosa en su AFP tiene un saldo de $8\\,000\\,000$ pesos. Rosa dejará de cotizar y supondrá que el fondo obtiene una rentabilidad de un $4\\%$ anual, que se capitaliza cada año sobre el saldo acumulado.\n\n¿Cuál de las siguientes expresiones representa el saldo, en pesos, de la cuenta de Rosa al cabo de $t$ años?",
+    "alternatives": {
+      "A": "$8\\,000\\,000\\cdot(1{,}04)^t$",
+      "B": "$8\\,000\\,000\\cdot(1+0{,}04t)$",
+      "C": "$8\\,000\\,000\\cdot(0{,}04)^t$",
+      "D": "$8\\,000\\,000\\cdot(1{,}4)^t$"
+    },
+    "correct": "A",
+    "explanation": "Cada año el saldo se multiplica por $1+\\frac{4}{100}=1{,}04$, de modo que tras $t$ años queda $8\\,000\\,000\\cdot(1{,}04)^t$.\nB modela un interés simple: la ganancia no se suma al saldo para el año siguiente.\nC multiplica solo por la tasa, lo que haría disminuir el saldo. D confunde $4\\%$ con $0{,}4$, es decir, usa un $40\\%$ anual.",
+    "verify": "const t = 3; let s = 8000000; for (let i = 0; i < t; i++) s += s * 0.04;\nconst f = { A: x => 8000000*Math.pow(1.04,x), B: x => 8000000*(1+0.04*x), C: x => 8000000*Math.pow(0.04,x), D: x => 8000000*Math.pow(1.4,x) };\nconst ok = Object.keys(f).filter(k => Math.abs(f[k](t)-s) < 1e-6);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-008",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "matematica-financiera",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "suficiencia",
+    "content": "Andrés depositó un capital inicial en una cuenta de ahorro que paga una tasa fija de interés compuesto anual. No hizo retiros ni nuevos depósitos.\n\nSe puede determinar el monto que tendrá la cuenta al cabo de $3$ años, si se sabe que:\n\n(1) Al cabo de $1$ año, la cuenta tenía $1\\,050\\,000$ pesos.\n(2) Al cabo de $2$ años, la cuenta tenía $1\\,102\\,500$ pesos.",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "C",
+    "explanation": "Si $C$ es el capital inicial e $i$ la tasa, el monto al cabo de $n$ años es $C(1+i)^n$.\nCon (1) solo se sabe que $C(1+i)=1\\,050\\,000$; por ejemplo, $C=1\\,000\\,000$ con $i=5\\%$ o $C\\approx954\\,545$ con $i=10\\%$ dan montos distintos a los $3$ años. No basta.\nCon (2) ocurre lo mismo: hay infinitos pares $(C,i)$ con $C(1+i)^2=1\\,102\\,500$.\nJuntas: $1+i=\\frac{1\\,102\\,500}{1\\,050\\,000}=1{,}05$ y el monto a los $3$ años es $1\\,102\\,500\\cdot1{,}05=1\\,157\\,625$ pesos. Se requieren ambas.",
+    "verify": "const m3 = (C,i) => C*Math.pow(1+i,3);\nconst a1 = m3(1050000/1.05, 0.05), b1 = m3(1050000/1.10, 0.10);\nconst a2 = m3(1102500/Math.pow(1.05,2), 0.05), b2 = m3(1102500/Math.pow(1.10,2), 0.10);\nconst only1 = Math.abs(a1-b1) < 1e-6, only2 = Math.abs(a2-b2) < 1e-6;\nconst f = 1102500/1050000; const both = 1102500*f;\nif (!only1 && !only2 && Math.abs(both-1157625) < 1e-6) return 'C'; return null;"
+  },
+  {
+    "key": "m2-numeros-009",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "matematica-financiera",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Diego tiene una deuda de $1\\,000\\,000$ pesos en una tarjeta de crédito que cobra un interés compuesto del $1\\%$ mensual. Durante $12$ meses no hará pagos ni nuevas compras.\n\nDiego afirma: «Un $1\\%$ mensual equivale a un $12\\%$ anual, así que en un año mi deuda llegará a $1\\,120\\,000$ pesos».\n\nConsiderando que $(1{,}01)^{12}\\approx1{,}1268$, ¿cuál de las siguientes afirmaciones es correcta?",
+    "alternatives": {
+      "A": "Diego se equivoca: la deuda llegará a aproximadamente $1\\,126\\,800$ pesos, porque cada mes se cobra interés también sobre los intereses anteriores.",
+      "B": "Diego tiene razón, porque $12$ meses al $1\\%$ suman exactamente un $12\\%$.",
+      "C": "Diego se equivoca: la deuda será menor que $1\\,120\\,000$ pesos, porque al capitalizar cada mes la tasa anual equivalente es menor que $12\\%$.",
+      "D": "Diego se equivoca: la deuda llegará a aproximadamente $1\\,012\\,680$ pesos, porque la tasa anual equivalente es $1{,}268\\%$."
+    },
+    "correct": "A",
+    "explanation": "Con interés compuesto, la deuda tras $12$ meses es $1\\,000\\,000\\cdot(1{,}01)^{12}\\approx1\\,000\\,000\\cdot1{,}1268=1\\,126\\,800$ pesos.\nLa tasa anual equivalente es cercana a $12{,}68\\%$, mayor que $12\\%$, porque cada mes el $1\\%$ se aplica sobre un saldo que ya incluye intereses.\nB es el error de sumar tasas compuestas, que solo sería válido con interés simple. C invierte el efecto de la capitalización: la tasa equivalente es mayor, no menor.\nD lee mal el factor $1{,}1268$ como si fuera un porcentaje.",
+    "verify": "let d = 1000000; for (let m = 0; m < 12; m++) d *= 1.01;\nconst approx = 1000000*1.1268;\nconst ok = Math.abs(d - approx) < 100 && d > 1120000;\nreturn ok ? 'A' : null;"
+  },
+  {
+    "key": "m2-numeros-010",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "logaritmos",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "La magnitud $M$ de un sismo en la escala de Richter se puede modelar mediante $M=\\log\\left(\\dfrac{A}{A_0}\\right)$, donde $A$ es la amplitud de la onda registrada por el sismógrafo y $A_0$ es una amplitud de referencia fija.\n\nEn el norte de Chile se registró un sismo de magnitud $4{,}2$. Días después, otro sismo tuvo una amplitud $500$ veces mayor que la del primero.\n\nConsiderando $\\log 5\\approx0{,}7$, ¿cuál fue la magnitud aproximada del segundo sismo?",
+    "alternatives": {
+      "A": "$4{,}9$",
+      "B": "$5{,}6$",
+      "C": "$6{,}2$",
+      "D": "$6{,}9$"
+    },
+    "correct": "D",
+    "explanation": "Si $A_2=500A_1$, entonces $M_2=\\log\\left(\\frac{500A_1}{A_0}\\right)=\\log 500+M_1$.\nComo $\\log 500=\\log 5+\\log 100\\approx0{,}7+2=2{,}7$, se obtiene $M_2\\approx4{,}2+2{,}7=6{,}9$.\nA suma solo $\\log 5$, olvidando el factor $100$. B calcula $\\log 500$ como $2\\log 5$. C suma $2$, es decir, usa $\\log 100$ en lugar de $\\log 500$.",
+    "verify": "const log5 = 0.7; const m2 = 4.2 + log5 + 2;\nconst exact = 4.2 + Math.log10(500);\nconst alts = {A:4.9,B:5.6,C:6.2,D:6.9};\nif (Math.abs(exact - m2) > 0.05) return null;\nreturn Object.keys(alts).find(k => Math.abs(alts[k]-m2) < 1e-9) ?? null;"
+  },
+  {
+    "key": "m2-numeros-011",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "logaritmos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "El pH de una solución se calcula como $\\text{pH}=-\\log\\left[\\text{H}^+\\right]$, donde $\\left[\\text{H}^+\\right]$ es la concentración de iones hidrógeno, en mol/L.\n\nEn un laboratorio, la muestra P tiene un pH de $3{,}4$. La muestra Q tiene una concentración de iones hidrógeno igual a la quinta parte de la concentración de la muestra P.\n\nConsiderando $\\log 2\\approx0{,}30$, ¿cuál es el pH aproximado de la muestra Q?",
+    "alternatives": {
+      "A": "$2{,}7$",
+      "B": "$4{,}1$",
+      "C": "$4{,}4$",
+      "D": "$8{,}4$"
+    },
+    "correct": "B",
+    "explanation": "Si $\\left[\\text{H}^+\\right]_Q=\\frac{1}{5}\\left[\\text{H}^+\\right]_P$, entonces $\\text{pH}_Q=-\\log\\left[\\text{H}^+\\right]_P+\\log 5=3{,}4+\\log 5$.\nComo $\\log 5=\\log\\frac{10}{2}=1-\\log 2\\approx0{,}70$, se obtiene $\\text{pH}_Q\\approx4{,}1$.\nA resta $\\log 5$ (error de signo: una menor concentración implica un pH mayor). C suma $1$, como si la concentración fuera diez veces menor. D suma directamente $5$.",
+    "verify": "const log5 = 1 - 0.30; const phQ = 3.4 + log5;\nconst exact = -Math.log10(Math.pow(10,-3.4)/5);\nif (Math.abs(exact - phQ) > 0.02) return null;\nconst alts = {A:2.7,B:4.1,C:4.4,D:8.4};\nreturn Object.keys(alts).find(k => Math.abs(alts[k]-phQ) < 1e-9) ?? null;"
+  },
+  {
+    "key": "m2-numeros-012",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "logaritmos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "suficiencia",
+    "content": "Sean $a$ y $b$ números reales positivos y distintos de $1$.\n\nSe puede determinar el valor de $\\log_a b$, si se sabe que:\n\n(1) $\\log_b a=\\dfrac{1}{2}$\n(2) $a\\cdot b=8$",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "A",
+    "explanation": "Con (1): por cambio de base, $\\log_a b=\\frac{1}{\\log_b a}=2$. Es suficiente (por ejemplo, $a=2$, $b=4$).\nCon (2): hay varios pares posibles. Si $a=2$ y $b=4$, $\\log_a b=2$; si $a=4$ y $b=2$, $\\log_a b=\\frac{1}{2}$. No basta.\nPor lo tanto, (1) por sí sola es suficiente y (2) por sí sola no lo es.",
+    "verify": "const lg = (base, x) => Math.log(x)/Math.log(base);\nconst c1 = [[2,4],[9,81],[5,25]].map(([a,b]) => lg(a,b));\nconst ok1 = c1.every(v => Math.abs(v - 1/0.5) < 1e-9) && [[2,4],[9,81],[5,25]].every(([a,b]) => Math.abs(lg(b,a)-0.5) < 1e-9);\nconst c2 = [[2,4],[4,2]].map(([a,b]) => lg(a,b));\nconst ok2 = Math.abs(c2[0]-c2[1]) < 1e-9;\nif (ok1 && !ok2) return 'A'; return null;"
+  },
+  {
+    "key": "m2-numeros-013",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "logaritmos",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera que $\\log 2=p$ y $\\log 3=q$.\n\n¿Cuál de las siguientes igualdades es verdadera?",
+    "alternatives": {
+      "A": "$\\log 1{,}2=2p+q-1$",
+      "B": "$\\log 6=p\\cdot q$",
+      "C": "$\\log 1{,}5=\\dfrac{q}{p}$",
+      "D": "$\\log 0{,}3=-q$"
+    },
+    "correct": "A",
+    "explanation": "A: $\\log 1{,}2=\\log\\frac{12}{10}=\\log(2^2\\cdot3)-\\log 10=2p+q-1$. Es verdadera.\nB: $\\log 6=\\log 2+\\log 3=p+q$, no $p\\cdot q$ (confunde el logaritmo del producto con el producto de logaritmos).\nC: $\\log 1{,}5=\\log\\frac{3}{2}=q-p$, no $\\frac{q}{p}$.\nD: $\\log 0{,}3=\\log\\frac{3}{10}=q-1$, no $-q$.",
+    "verify": "const p = Math.log10(2), q = Math.log10(3);\nconst t = { A: Math.abs(Math.log10(1.2)-(2*p+q-1)) < 1e-9, B: Math.abs(Math.log10(6)-p*q) < 1e-9, C: Math.abs(Math.log10(1.5)-q/p) < 1e-9, D: Math.abs(Math.log10(0.3)+q) < 1e-9 };\nconst ok = Object.keys(t).filter(k => t[k]);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-101",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Sea $x$ un número real y considera que $2^{x}=a$.\n\n¿Cuál de las siguientes expresiones es igual a $2^{x+3}+2^{x-1}$?",
+    "alternatives": {
+      "A": "$6a$",
+      "B": "$\\dfrac{13a}{2}$",
+      "C": "$\\dfrac{17a}{2}$",
+      "D": "$10a$"
+    },
+    "correct": "C",
+    "explanation": "Por propiedades de potencias de igual base: $2^{x+3}=2^{x}\\cdot2^{3}=8a$ y $2^{x-1}=2^{x}\\cdot2^{-1}=\\dfrac{a}{2}$.\nLuego $2^{x+3}+2^{x-1}=8a+\\dfrac{a}{2}=\\dfrac{17a}{2}$.\n$10a$ resulta de tomar $2^{-1}$ como $2$; $6a$ de tomar $2^{-1}$ como $-2$.\n$\\dfrac{13a}{2}$ aparece al confundir $2^{3}$ con $2\\cdot3=6$.",
+    "verify": "const x = 1.7, a = 2 ** x;\nconst val = 2 ** (x + 3) + 2 ** (x - 1);\nconst alts = { A: 6 * a, B: 13 * a / 2, C: 17 * a / 2, D: 10 * a };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - val) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-102",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un satélite de observación transmite datos a una estación en la Antártica a una tasa constante de $3{,}2\\cdot10^{6}$ bits por segundo. Debe enviar un archivo de imágenes de $100$ gigabytes.\n\nConsidera que $1$ gigabyte equivale a $10^{9}$ bytes y que $1$ byte equivale a $8$ bits.\n\n¿Cuántos segundos demora la transmisión completa del archivo?",
+    "alternatives": {
+      "A": "$3{,}125\\cdot10^{4}$",
+      "B": "$2{,}5\\cdot10^{5}$",
+      "C": "$2{,}5\\cdot10^{6}$",
+      "D": "$2{,}56\\cdot10^{18}$"
+    },
+    "correct": "B",
+    "explanation": "El archivo tiene $100\\cdot10^{9}=10^{11}$ bytes, es decir, $8\\cdot10^{11}$ bits.\nEl tiempo es $\\dfrac{8\\cdot10^{11}}{3{,}2\\cdot10^{6}}=2{,}5\\cdot10^{5}$ segundos.\n$3{,}125\\cdot10^{4}$ se obtiene al olvidar convertir bytes a bits.\n$2{,}5\\cdot10^{6}$ proviene de un error al restar los exponentes, y $2{,}56\\cdot10^{18}$ de multiplicar en lugar de dividir.",
+    "verify": "const bits = 100 * 1e9 * 8;\nconst t = bits / 3.2e6;\nconst alts = { A: 3.125e4, B: 2.5e5, C: 2.5e6, D: 2.56e18 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - t) / t < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-103",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sea $n$ un número entero positivo.\n\n¿Cuál de las siguientes igualdades es verdadera para cualquier valor de $n$?",
+    "alternatives": {
+      "A": "$\\dfrac{3^{n+2}-3^{n}}{8}=3^{n}$",
+      "B": "$\\left(2^{n}\\right)^{2}=2^{n^{2}}$",
+      "C": "$5^{n}+5^{n}=10^{n}$",
+      "D": "$\\sqrt{4^{n}+4^{n}}=2^{n+1}$"
+    },
+    "correct": "A",
+    "explanation": "A: $3^{n+2}-3^{n}=3^{n}(9-1)=8\\cdot3^{n}$, por lo que el cociente es $3^{n}$ para todo $n$.\nB: $\\left(2^{n}\\right)^{2}=2^{2n}$, que coincide con $2^{n^{2}}$ solo si $n=2$ (con $n=3$: $64\\neq512$).\nC: $5^{n}+5^{n}=2\\cdot5^{n}$, que no es $10^{n}$ salvo $n=1$.\nD: $\\sqrt{2\\cdot4^{n}}=2^{n}\\sqrt{2}$, no $2^{n+1}$: se sumaron mal los términos bajo la raíz.",
+    "verify": "const st = {\n  A: n => Math.abs((3 ** (n + 2) - 3 ** n) / 8 - 3 ** n) < 1e-9,\n  B: n => (2 ** n) ** 2 === 2 ** (n * n),\n  C: n => 5 ** n + 5 ** n === 10 ** n,\n  D: n => Math.abs(Math.sqrt(4 ** n + 4 ** n) - 2 ** (n + 1)) < 1e-9,\n};\nconst ok = Object.keys(st).filter(k => [1, 2, 3, 4, 5, 6].every(n => st[k](n)));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-104",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En aguas profundas, la rapidez $v$ de una ola, en metros por segundo, se puede modelar mediante $v=\\sqrt{\\dfrac{g\\lambda}{2\\pi}}$, donde $\\lambda$ es la longitud de onda, en metros, y $g$ es la aceleración de gravedad, que se considera constante.\n\nSi la longitud de onda de una ola aumenta en un $44\\%$, ¿en qué porcentaje aumenta su rapidez según el modelo?",
+    "alternatives": {
+      "A": "En un $20\\%$",
+      "B": "En un $22\\%$",
+      "C": "En un $44\\%$",
+      "D": "En un $120\\%$"
+    },
+    "correct": "A",
+    "explanation": "Si la nueva longitud de onda es $1{,}44\\lambda$, la nueva rapidez es $\\sqrt{\\dfrac{g\\cdot1{,}44\\lambda}{2\\pi}}=\\sqrt{1{,}44}\\cdot v=1{,}2v$.\nEs decir, la rapidez aumenta en un $20\\%$.\n$22\\%$ resulta de dividir el porcentaje por $2$ en vez de aplicar la raíz al factor; $44\\%$ supone proporcionalidad directa.\n$120\\%$ confunde el factor $1{,}2$ con el porcentaje de aumento.",
+    "verify": "const g = 9.8, lam = 50;\nconst v = l => Math.sqrt(g * l / (2 * Math.PI));\nconst pct = (v(1.44 * lam) / v(lam) - 1) * 100;\nconst alts = { A: 20, B: 22, C: 44, D: 120 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - pct) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-105",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Para $a>0$, se quiere reducir la expresión $\\dfrac{\\sqrt[3]{a^{4}}\\cdot\\sqrt{a^{3}}}{\\sqrt[6]{a}}$ a su forma más simple.\n\n¿Qué resultado se obtiene al reducirla?",
+    "alternatives": {
+      "A": "$a\\sqrt[3]{a}$",
+      "B": "$a^{2}\\sqrt[3]{a}$",
+      "C": "$a^{2}\\sqrt[3]{a^{2}}$",
+      "D": "$a^{3}$"
+    },
+    "correct": "C",
+    "explanation": "Escribiendo cada raíz como potencia: $a^{\\frac{4}{3}}\\cdot a^{\\frac{3}{2}}\\cdot a^{-\\frac{1}{6}}=a^{\\frac{8}{6}+\\frac{9}{6}-\\frac{1}{6}}=a^{\\frac{16}{6}}=a^{\\frac{8}{3}}$.\nComo $\\frac{8}{3}=2+\\frac{2}{3}$, se tiene $a^{\\frac{8}{3}}=a^{2}\\sqrt[3]{a^{2}}$.\n$a\\sqrt[3]{a}=a^{\\frac{4}{3}}$ considera solo el primer factor; $a^{2}\\sqrt[3]{a}=a^{\\frac{7}{3}}$ surge de un error al sumar fracciones.\n$a^{3}$ resulta de sumar el exponente $\\frac{1}{6}$ en lugar de restarlo.",
+    "verify": "const a = 2.3;\nconst val = Math.cbrt(a ** 4) * Math.sqrt(a ** 3) / a ** (1 / 6);\nconst alts = { A: a * Math.cbrt(a), B: a * a * Math.cbrt(a), C: a * a * Math.cbrt(a * a), D: a ** 3 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - val) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-106",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Sea $m$ un número real positivo. Considera la expresión que se describe a continuación:\n\n\"el cubo de la raíz cuarta de $m$, dividido por la raíz cuadrada de $m$\".\n\n¿Cuál de las siguientes potencias es igual a esa expresión?",
+    "alternatives": {
+      "A": "$m^{-\\frac{1}{4}}$",
+      "B": "$m^{\\frac{1}{4}}$",
+      "C": "$m^{\\frac{3}{8}}$",
+      "D": "$m^{\\frac{5}{4}}$"
+    },
+    "correct": "B",
+    "explanation": "El cubo de la raíz cuarta de $m$ es $\\left(\\sqrt[4]{m}\\right)^{3}=m^{\\frac{3}{4}}$ y la raíz cuadrada es $m^{\\frac{1}{2}}$.\nEl cociente es $m^{\\frac{3}{4}-\\frac{1}{2}}=m^{\\frac{1}{4}}$.\n$m^{-\\frac{1}{4}}$ invierte el orden de la resta; $m^{\\frac{5}{4}}$ suma los exponentes como si fuera un producto.\n$m^{\\frac{3}{8}}$ multiplica los exponentes, confundiendo división con potencia de potencia.",
+    "verify": "const m = 7.5;\nconst val = Math.pow(Math.pow(m, 1 / 4), 3) / Math.sqrt(m);\nconst alts = { A: m ** (-1 / 4), B: m ** (1 / 4), C: m ** (3 / 8), D: m ** (5 / 4) };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - val) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-107",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un liceo de Temuco, el $60\\%$ de los estudiantes de cuarto medio son mujeres. Se sabe que el $25\\%$ de las mujeres y el $40\\%$ de los hombres de ese nivel participan en la selección de atletismo.\n\n¿Qué porcentaje del total de estudiantes de cuarto medio participa en la selección de atletismo?",
+    "alternatives": {
+      "A": "$31\\%$",
+      "B": "$32{,}5\\%$",
+      "C": "$34\\%$",
+      "D": "$65\\%$"
+    },
+    "correct": "A",
+    "explanation": "Si hay $N$ estudiantes, participan $0{,}25\\cdot0{,}6N+0{,}4\\cdot0{,}4N=0{,}15N+0{,}16N=0{,}31N$, es decir, el $31\\%$.\n$32{,}5\\%$ es el promedio simple de $25\\%$ y $40\\%$, sin ponderar por la cantidad de mujeres y hombres.\n$34\\%$ resulta de intercambiar los porcentajes de mujeres y hombres.\n$65\\%$ suma directamente $25\\%$ y $40\\%$.",
+    "verify": "const N = 1000;\nconst p = (0.25 * 0.6 * N + 0.4 * 0.4 * N) / N * 100;\nconst alts = { A: 31, B: 32.5, C: 34, D: 65 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - p) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-108",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "El precio de un pasaje en bus entre Santiago y La Serena aumentó un $a\\%$ durante el fin de semana largo. Después, la empresa aplicó un descuento del $b\\%$ sobre ese nuevo precio, con $a$ y $b$ números positivos menores que $100$.\n\n¿Cuál de las siguientes expresiones representa la variación porcentual del precio final respecto del precio original?",
+    "alternatives": {
+      "A": "$a-b$",
+      "B": "$a-b+\\dfrac{ab}{100}$",
+      "C": "$\\dfrac{(100+a)(100-b)}{100}$",
+      "D": "$a-b-\\dfrac{ab}{100}$"
+    },
+    "correct": "D",
+    "explanation": "Si el precio original es $P$, el precio final es $P\\left(1+\\dfrac{a}{100}\\right)\\left(1-\\dfrac{b}{100}\\right)=P\\left(1+\\dfrac{a-b}{100}-\\dfrac{ab}{10\\,000}\\right)$.\nLa variación porcentual es $100\\cdot\\left(\\dfrac{a-b}{100}-\\dfrac{ab}{10\\,000}\\right)=a-b-\\dfrac{ab}{100}$.\n$a-b$ supone que los porcentajes se restan directamente; $a-b+\\dfrac{ab}{100}$ tiene un error de signo al desarrollar el producto.\n$\\dfrac{(100+a)(100-b)}{100}$ es el precio final como porcentaje del original, no la variación.",
+    "verify": "const tests = [[30, 10], [20, 25], [15, 40]];\nconst alts = { A: (a, b) => a - b, B: (a, b) => a - b + a * b / 100, C: (a, b) => (100 + a) * (100 - b) / 100, D: (a, b) => a - b - a * b / 100 };\nconst ok = Object.keys(alts).filter(k => tests.every(([a, b]) => { const P = 1000; const fin = P * (1 + a / 100) * (1 - b / 100); return Math.abs((fin - P) / P * 100 - alts[k](a, b)) < 1e-9; }));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-109",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "argumentar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "La cantidad de socios de una cooperativa aumentó un $p\\%$ entre dos años, con $p>0$. Para volver a la cantidad inicial, la cantidad de socios tendría que disminuir un $q\\%$ respecto de la cantidad aumentada.\n\n¿Cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "$q=p$",
+      "B": "$q>p$",
+      "C": "$q=\\dfrac{100p}{100-p}$",
+      "D": "$q=\\dfrac{100p}{100+p}$"
+    },
+    "correct": "D",
+    "explanation": "Si la cantidad inicial es $S$, tras el aumento es $S\\left(1+\\frac{p}{100}\\right)$. Se requiere $S\\left(1+\\frac{p}{100}\\right)\\left(1-\\frac{q}{100}\\right)=S$.\nDespejando: $1-\\dfrac{q}{100}=\\dfrac{100}{100+p}$, luego $q=\\dfrac{100p}{100+p}$.\nComo $100+p>100$, se cumple $q<p$, por lo que A y B son falsas (por ejemplo, con $p=25$ se obtiene $q=20$).\nC usa $100-p$ en el denominador, que corresponde al caso inverso: una disminución seguida de un aumento.",
+    "verify": "const st = {\n  A: (p, q) => Math.abs(q - p) < 1e-9,\n  B: (p, q) => q > p,\n  C: (p, q) => Math.abs(q - 100 * p / (100 - p)) < 1e-9,\n  D: (p, q) => Math.abs(q - 100 * p / (100 + p)) < 1e-9,\n};\nconst ps = [5, 25, 50, 80];\nconst qOf = p => (1 - 1 / (1 + p / 100)) * 100;\nconst ok = Object.keys(st).filter(k => ps.every(p => st[k](p, qOf(p))));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-110",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "En la elección del centro de estudiantes de un colegio votaron $480$ estudiantes, lo que corresponde al $75\\%$ del total de estudiantes habilitados para votar. Del grupo que no votó, el $40\\%$ estaba con licencia médica ese día.\n\n¿Cuántos estudiantes habilitados no votaron y no estaban con licencia médica?",
+    "alternatives": {
+      "A": "$96$",
+      "B": "$120$",
+      "C": "$160$",
+      "D": "$256$"
+    },
+    "correct": "A",
+    "explanation": "El total de habilitados es $\\dfrac{480}{0{,}75}=640$, por lo que no votaron $640-480=160$.\nDe ellos, el $60\\%$ no tenía licencia: $0{,}6\\cdot160=96$.\n$120$ resulta de calcular el $25\\%$ de $480$ en lugar del $25\\%$ del total.\n$160$ es el total que no votó, sin descontar a quienes tenían licencia, y $256$ es el $40\\%$ de $640$.",
+    "verify": "const total = 480 / 0.75;\nconst noVot = total - 480;\nconst res = noVot * 0.6;\nconst alts = { A: 96, B: 120, C: 160, D: 256 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - res) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-111",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Desde un terminal de Antofagasta salen buses de dos recorridos. Los del recorrido 1 salen cada $12$ minutos y los del recorrido 2, cada $18$ minutos. A las 6:00 horas salió un bus de cada recorrido al mismo tiempo.\n\n¿Cuántas veces, entre las 6:00 y las 9:00 horas, ambas inclusive, salen simultáneamente buses de los dos recorridos?",
+    "alternatives": {
+      "A": "$4$",
+      "B": "$5$",
+      "C": "$6$",
+      "D": "$15$"
+    },
+    "correct": "C",
+    "explanation": "Los buses coinciden cada $\\text{mcm}(12,18)=36$ minutos.\nEntre las 6:00 y las 9:00 hay $180$ minutos, y $180=5\\cdot36$, por lo que coinciden en los minutos $0, 36, 72, 108, 144$ y $180$: son $6$ veces.\n$5$ olvida contar la salida de las 6:00; $4$ usa además un intervalo abierto.\n$15$ corresponde a la cantidad de salidas del recorrido 1 sin contar la inicial ($180:12$).",
+    "verify": "let c = 0;\nfor (let t = 0; t <= 180; t++) if (t % 12 === 0 && t % 18 === 0) c++;\nconst alts = { A: 4, B: 5, C: 6, D: 15 };\nconst ok = Object.keys(alts).filter(k => alts[k] === c);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-112",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sean $a$ y $b$ números racionales tales que $0<a<b<1$.\n\n¿Cuál de las siguientes desigualdades es siempre verdadera?",
+    "alternatives": {
+      "A": "$\\dfrac{a}{b}<a$",
+      "B": "$\\dfrac{1}{a}<\\dfrac{1}{b}$",
+      "C": "$b-a<b^{2}-a^{2}$",
+      "D": "$a^{2}<ab$"
+    },
+    "correct": "D",
+    "explanation": "D: como $a>0$, multiplicar $a<b$ por $a$ conserva la desigualdad: $a^{2}<ab$. Es siempre verdadera.\nA: como $0<b<1$, dividir por $b$ agranda: $\\frac{a}{b}>a$. Es falsa.\nB: para positivos, el mayor tiene el menor recíproco: $\\frac{1}{a}>\\frac{1}{b}$. Es falsa.\nC: $b^{2}-a^{2}=(b-a)(b+a)$, que es mayor que $b-a$ solo si $b+a>1$; con $a=\\frac{1}{4}$ y $b=\\frac{1}{2}$ falla.",
+    "verify": "const st = { A: (a, b) => a / b < a, B: (a, b) => 1 / a < 1 / b, C: (a, b) => b - a < b * b - a * a, D: (a, b) => a * a < a * b };\nconst pairs = [];\nfor (let i = 1; i < 20; i++) for (let j = i + 1; j < 20; j++) pairs.push([i / 20, j / 20]);\nconst ok = Object.keys(st).filter(k => pairs.every(([a, b]) => st[k](a, b)));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-113",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera los números $p=1{,}\\overline{6}$ y $q=0{,}8\\overline{3}$.\n\n¿Cuál es el valor de $\\dfrac{p}{q}-\\dfrac{q}{p}$?",
+    "alternatives": {
+      "A": "$\\dfrac{1}{2}$",
+      "B": "$\\dfrac{3}{2}$",
+      "C": "$2$",
+      "D": "$\\dfrac{5}{2}$"
+    },
+    "correct": "B",
+    "explanation": "$p=1{,}\\overline{6}=\\dfrac{16-1}{9}=\\dfrac{5}{3}$ y $q=0{,}8\\overline{3}=\\dfrac{83-8}{90}=\\dfrac{75}{90}=\\dfrac{5}{6}$.\nEntonces $\\dfrac{p}{q}=\\dfrac{5}{3}\\cdot\\dfrac{6}{5}=2$ y $\\dfrac{q}{p}=\\dfrac{1}{2}$, por lo que la diferencia es $2-\\dfrac{1}{2}=\\dfrac{3}{2}$.\n$2$ y $\\dfrac{1}{2}$ corresponden a cada cociente por separado.\n$\\dfrac{5}{2}$ resulta de sumar los cocientes en vez de restarlos.",
+    "verify": "const p = 5 / 3, qq = 5 / 6;\nif (Math.abs(p - (1 + 6 / 9)) > 1e-12 || Math.abs(qq - (0.8 + 3 / 90)) > 1e-12) return null;\nconst v = p / qq - qq / p;\nconst alts = { A: 1 / 2, B: 3 / 2, C: 2, D: 5 / 2 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-114",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Considera que $n$ es un entero menor que cero.\n\n¿Con cuál de estas expresiones se obtiene un resultado mayor que cero, sea cual sea el valor de $n$?",
+    "alternatives": {
+      "A": "$n^{3}$",
+      "B": "$-n^{2}$",
+      "C": "$n-n^{2}$",
+      "D": "$n^{2}-n$"
+    },
+    "correct": "D",
+    "explanation": "Si $n<0$, entonces $n^{2}>0$ y $-n>0$, por lo que $n^{2}-n$ es suma de dos positivos: siempre es positivo.\nA: el cubo de un negativo es negativo.\nB: $-n^{2}$ es el opuesto de un positivo, luego es negativo (no es lo mismo que $(-n)^{2}$).\nC: $n-n^{2}$ es la suma de dos negativos, $n$ y $-n^{2}$.",
+    "verify": "const st = { A: n => n ** 3 > 0, B: n => -(n ** 2) > 0, C: n => n - n ** 2 > 0, D: n => n ** 2 - n > 0 };\nconst ns = [-1, -2, -3, -7, -20];\nconst ok = Object.keys(st).filter(k => ns.every(n => st[k](n)));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-115",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Considera el número $a=\\sqrt{3}$.\n\n¿Cuál es el valor de $a^{5}-a^{3}$?",
+    "alternatives": {
+      "A": "$3$",
+      "B": "$3\\sqrt{3}$",
+      "C": "$6\\sqrt{3}$",
+      "D": "$9\\sqrt{3}$"
+    },
+    "correct": "C",
+    "explanation": "Como $a^{2}=3$, se tiene $a^{3}=a^{2}\\cdot a=3\\sqrt{3}$ y $a^{5}=a^{2}\\cdot a^{2}\\cdot a=9\\sqrt{3}$.\nLuego, $a^{5}-a^{3}=9\\sqrt{3}-3\\sqrt{3}=6\\sqrt{3}$.\nA resulta de restar los exponentes, como si $a^{5}-a^{3}$ fuera igual a $a^{2}$.\nB corresponde solo al valor de $a^{3}$ y D, solo al valor de $a^{5}$.",
+    "verify": "const a = Math.sqrt(3);\nconst v = a ** 5 - a ** 3;\nconst alts = { A: 3, B: 3 * Math.sqrt(3), C: 6 * Math.sqrt(3), D: 9 * Math.sqrt(3) };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-116",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un glóbulo rojo humano tiene un diámetro aproximado de $7{,}5\\cdot10^{-6}$ m. Una estudiante imagina una fila de glóbulos rojos ubicados uno a continuación del otro, en línea recta, que en total mide $3$ cm de largo.\n\n¿Cuántos glóbulos rojos forman esa fila?",
+    "alternatives": {
+      "A": "$4\\cdot10^{2}$",
+      "B": "$4\\cdot10^{3}$",
+      "C": "$4\\cdot10^{4}$",
+      "D": "$4\\cdot10^{5}$"
+    },
+    "correct": "B",
+    "explanation": "Se expresa la longitud en metros: $3$ cm $=3\\cdot10^{-2}$ m.\nLa cantidad de glóbulos es $\\dfrac{3\\cdot10^{-2}}{7{,}5\\cdot10^{-6}}=0{,}4\\cdot10^{4}=4\\cdot10^{3}$.\nD se obtiene al no convertir los centímetros a metros ($\\dfrac{3}{7{,}5\\cdot10^{-6}}$).\nA se obtiene al escribir $3$ cm como $3\\cdot10^{-3}$ m.\nC resulta de dividir mal las partes decimales, tomando $\\dfrac{3}{7{,}5}=4$ en lugar de $0{,}4$.",
+    "verify": "const v = 0.03 / 7.5e-6;\nconst alts = { A: 4e2, B: 4e3, C: 4e4, D: 4e5 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-6);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-117",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "argumentar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Gabriel debe calcular el valor de $\\left(\\sqrt{5}-\\sqrt{3}\\right)^{2}\\cdot\\left(8+2\\sqrt{15}\\right)$ y lo hace de la siguiente manera:\n\nPaso 1: $\\left(\\sqrt{5}-\\sqrt{3}\\right)^{2}=5-2\\sqrt{15}+3=8-2\\sqrt{15}$\nPaso 2: la expresión queda $\\left(8-2\\sqrt{15}\\right)\\left(8+2\\sqrt{15}\\right)=8^{2}-\\left(2\\sqrt{15}\\right)^{2}$\nPaso 3: $\\left(2\\sqrt{15}\\right)^{2}=2\\cdot15=30$\nPaso 4: el resultado es $64-30=34$\n\n¿En cuál de los pasos Gabriel cometió el primer error?",
+    "alternatives": {
+      "A": "En el Paso 1",
+      "B": "En el Paso 2",
+      "C": "En el Paso 3",
+      "D": "En el Paso 4"
+    },
+    "correct": "C",
+    "explanation": "El Paso 1 es correcto: el doble producto es $2\\cdot\\sqrt{5}\\cdot\\sqrt{3}=2\\sqrt{15}$.\nEl Paso 2 también es correcto: es una suma por su diferencia.\nEn el Paso 3 está el error: $\\left(2\\sqrt{15}\\right)^{2}=2^{2}\\cdot\\left(\\sqrt{15}\\right)^{2}=4\\cdot15=60$; Gabriel no elevó al cuadrado el coeficiente $2$.\nEl valor correcto es $64-60=4$. El Paso 4 solo arrastra el valor erróneo, pero la resta en sí está bien hecha.",
+    "verify": "const r15 = Math.sqrt(15);\nconst p1 = Math.abs((Math.sqrt(5) - Math.sqrt(3)) ** 2 - (8 - 2 * r15)) < 1e-9;\nconst p2 = Math.abs((8 - 2 * r15) * (8 + 2 * r15) - (64 - (2 * r15) ** 2)) < 1e-9;\nconst p3 = Math.abs((2 * r15) ** 2 - 30) < 1e-9;\nconst p4 = 64 - 30 === 34;\nconst i = [p1, p2, p3, p4].indexOf(false);\nreturn i < 0 ? null : 'ABCD'[i];"
+  },
+  {
+    "key": "m2-numeros-118",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sea $n$ un número entero.\n\n¿Cuál es el valor de la expresión $\\dfrac{4^{n+1}-2^{2n-1}}{2^{2n+1}}$?",
+    "alternatives": {
+      "A": "$\\dfrac{3}{2}$",
+      "B": "$\\dfrac{7}{4}$",
+      "C": "$\\dfrac{15}{8}$",
+      "D": "$\\dfrac{7}{2}$"
+    },
+    "correct": "B",
+    "explanation": "Se escribe todo en base $2$: $4^{n+1}=2^{2n+2}$.\nEl numerador es $2^{2n+2}-2^{2n-1}=2^{2n-1}\\left(2^{3}-1\\right)=7\\cdot2^{2n-1}$.\nAl dividir: $\\dfrac{7\\cdot2^{2n-1}}{2^{2n+1}}=7\\cdot2^{-2}=\\dfrac{7}{4}$, que no depende de $n$.\nD se obtiene al dividir por $2^{2n}$ en lugar de $2^{2n+1}$.\nA resulta de tomar $2^{2n-1}$ como si fuera $4^{n}$, y C, de tomarlo como $2^{2n-2}$.",
+    "verify": "const f = n => (4 ** (n + 1) - 2 ** (2 * n - 1)) / 2 ** (2 * n + 1);\nconst vals = [-1, 0, 1, 2, 5].map(f);\nif (!vals.every(x => Math.abs(x - vals[0]) < 1e-9)) return null;\nconst v = vals[0];\nconst alts = { A: 3 / 2, B: 7 / 4, C: 15 / 8, D: 7 / 2 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-119",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "potencias-y-raices",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Según la tercera ley de Kepler, el período orbital $T$ de un satélite que gira en una órbita circular alrededor de un planeta se puede modelar mediante $T=k\\sqrt{r^{3}}$, donde $r$ es el radio de la órbita y $k$ es una constante positiva que depende del planeta.\n\nDos satélites, P y Q, orbitan el mismo planeta. El radio de la órbita de Q es $9$ veces el radio de la órbita de P.\n\n¿Cuántas veces es el período de Q respecto del período de P?",
+    "alternatives": {
+      "A": "$9$",
+      "B": "$27$",
+      "C": "$81$",
+      "D": "$729$"
+    },
+    "correct": "B",
+    "explanation": "Si el radio de P es $r$, el de Q es $9r$.\n$\\dfrac{T_Q}{T_P}=\\dfrac{k\\sqrt{(9r)^{3}}}{k\\sqrt{r^{3}}}=\\sqrt{9^{3}}=\\left(\\sqrt{9}\\right)^{3}=27$.\nA supone que el período es directamente proporcional al radio.\nC eleva $9$ al cuadrado y D olvida extraer la raíz cuadrada de $9^{3}$.",
+    "verify": "const k = 2.3, r = 4;\nconst T = x => k * Math.sqrt(x ** 3);\nconst v = T(9 * r) / T(r);\nconst alts = { A: 9, B: 27, C: 81, D: 729 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-120",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "En Chile, el precio que paga un consumidor incluye el IVA, que corresponde al $19\\%$ del valor neto del producto. La boleta por la compra de un hervidor eléctrico indica un total de $59\\,500$ pesos, con el IVA incluido.\n\n¿A cuánto corresponde el IVA pagado en esa compra?",
+    "alternatives": {
+      "A": "$9\\,500$ pesos",
+      "B": "$11\\,305$ pesos",
+      "C": "$48\\,195$ pesos",
+      "D": "$50\\,000$ pesos"
+    },
+    "correct": "A",
+    "explanation": "El total equivale al $119\\%$ del valor neto: $1{,}19\\cdot N=59\\,500$, de donde $N=50\\,000$ pesos.\nEl IVA es $59\\,500-50\\,000=9\\,500$ pesos (o bien $0{,}19\\cdot50\\,000$).\nB calcula el $19\\%$ del total, que ya incluye el impuesto.\nC resta ese valor erróneo al total, y D es el valor neto, no el IVA.",
+    "verify": "const total = 59500;\nconst neto = total / 1.19;\nconst v = total - neto;\nconst alts = { A: 9500, B: 11305, C: 48195, D: 50000 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-6);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-121",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En una juguera se mezclan $x$ litros de un néctar que contiene $30\\%$ de pulpa de fruta con $y$ litros de otro néctar que contiene $50\\%$ de pulpa de fruta, con $x>0$ e $y>0$.\n\n¿Cuál de las siguientes expresiones representa el porcentaje de pulpa de fruta de la mezcla?",
+    "alternatives": {
+      "A": "$40\\%$",
+      "B": "$\\dfrac{80}{x+y}\\%$",
+      "C": "$\\dfrac{30x+50y}{100(x+y)}\\%$",
+      "D": "$\\dfrac{30x+50y}{x+y}\\%$"
+    },
+    "correct": "D",
+    "explanation": "La mezcla tiene $0{,}3x+0{,}5y$ litros de pulpa en un total de $x+y$ litros.\nEl porcentaje es $\\dfrac{0{,}3x+0{,}5y}{x+y}\\cdot100=\\dfrac{30x+50y}{x+y}\\%$.\nA es el promedio simple de los porcentajes, válido solo si $x=y$.\nB suma los porcentajes y los divide por el volumen total.\nC entrega la fracción de pulpa, pero sin multiplicar por $100$, por lo que no es un porcentaje.",
+    "verify": "const pairs = [[2, 6], [5, 1], [3, 3], [1.5, 4]];\nconst real = (x, y) => (0.3 * x + 0.5 * y) / (x + y) * 100;\nconst alts = { A: (x, y) => 40, B: (x, y) => 80 / (x + y), C: (x, y) => (30 * x + 50 * y) / (100 * (x + y)), D: (x, y) => (30 * x + 50 * y) / (x + y) };\nconst ok = Object.keys(alts).filter(k => pairs.every(([x, y]) => Math.abs(alts[k](x, y) - real(x, y)) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-122",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "porcentaje",
+    "habilidad": "argumentar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En una universidad, el porcentaje de estudiantes que aprobó la asignatura de Cálculo pasó de $40\\%$ en el primer semestre a $50\\%$ en el segundo semestre. La cantidad de inscritos no fue la misma en ambos semestres, y cada inscrito aprobó o reprobó la asignatura.\n\n¿Cuál de las siguientes afirmaciones se puede concluir a partir de esta información?",
+    "alternatives": {
+      "A": "El porcentaje de aprobación aumentó en un $10\\%$ respecto de su valor del primer semestre.",
+      "B": "El porcentaje de aprobación aumentó en un $25\\%$ respecto de su valor del primer semestre.",
+      "C": "El porcentaje de reprobación disminuyó en un $10\\%$ respecto de su valor del primer semestre.",
+      "D": "La cantidad de estudiantes que aprobó aumentó en un $25\\%$."
+    },
+    "correct": "B",
+    "explanation": "El porcentaje de aprobación subió $10$ puntos porcentuales, lo que en términos relativos es $\\dfrac{50-40}{40}=0{,}25$, es decir, un aumento del $25\\%$.\nA confunde los puntos porcentuales con la variación porcentual.\nC es falsa: la reprobación pasó de $60\\%$ a $50\\%$, una disminución de $\\dfrac{10}{60}\\approx16{,}7\\%$.\nD no se puede concluir, porque la cantidad de inscritos cambió: con $100$ y $60$ inscritos, los aprobados pasan de $40$ a $30$.",
+    "verify": "const rel = (50 - 40) / 40 * 100;\nconst rep = (50 - 60) / 60 * 100;\nconst casos = [[100, 100], [100, 60], [80, 120]];\nconst facts = {\n  A: Math.abs(rel - 10) < 1e-9,\n  B: Math.abs(rel - 25) < 1e-9,\n  C: Math.abs(rep + 10) < 1e-9,\n  D: casos.every(([n1, n2]) => Math.abs((0.5 * n2) / (0.4 * n1) - 1.25) < 1e-9),\n};\nconst ok = Object.keys(facts).filter(k => facts[k]);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-123",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Valentina destina $\\dfrac{2}{5}$ de su sueldo mensual al arriendo y $\\dfrac{1}{3}$ de lo que le queda, a alimentación.\n\n¿Qué fracción de su sueldo le queda después de pagar estos dos gastos?",
+    "alternatives": {
+      "A": "$\\dfrac{2}{15}$",
+      "B": "$\\dfrac{1}{5}$",
+      "C": "$\\dfrac{4}{15}$",
+      "D": "$\\dfrac{2}{5}$"
+    },
+    "correct": "D",
+    "explanation": "Después del arriendo le queda $1-\\dfrac{2}{5}=\\dfrac{3}{5}$ del sueldo.\nEn alimentación gasta $\\dfrac{1}{3}\\cdot\\dfrac{3}{5}=\\dfrac{1}{5}$ del sueldo, así que le queda $\\dfrac{3}{5}-\\dfrac{1}{5}=\\dfrac{2}{5}$.\nC calcula $1-\\dfrac{2}{5}-\\dfrac{1}{3}$, tomando el tercio sobre el sueldo completo.\nB es lo que gasta en alimentación, y A calcula el tercio sobre lo gastado en arriendo.",
+    "verify": "const resto = 1 - 2 / 5;\nconst v = resto - resto / 3;\nconst alts = { A: 2 / 15, B: 1 / 5, C: 4 / 15, D: 2 / 5 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-124",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "argumentar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Sean $p$ un número entero impar y $q$ un número entero par.\n\n¿Cuál de las siguientes expresiones representa siempre un número impar?",
+    "alternatives": {
+      "A": "$p^{2}+q^{2}$",
+      "B": "$pq+q$",
+      "C": "$(p+q)^{2}-1$",
+      "D": "$p^{2}+pq+p$"
+    },
+    "correct": "A",
+    "explanation": "El cuadrado de un impar es impar y el de un par es par; así, $p^{2}+q^{2}$ es impar más par, que es impar.\nEn B, $pq$ es par (tiene el factor $q$) y $q$ es par, así que la suma es par.\nEn C, $p+q$ es impar, su cuadrado es impar y al restarle $1$ queda un par.\nEn D, $p^{2}$ es impar, $pq$ es par y $p$ es impar: impar más par más impar es par.",
+    "verify": "const ps = [-7, -3, -1, 1, 3, 5, 9], qs = [-6, -2, 0, 2, 4, 8];\nconst odd = n => Math.abs(n % 2) === 1;\nconst alts = { A: (p, q) => p * p + q * q, B: (p, q) => p * q + q, C: (p, q) => (p + q) ** 2 - 1, D: (p, q) => p * p + p * q + p };\nconst ok = Object.keys(alts).filter(k => ps.every(p => qs.every(q => odd(alts[k](p, q)))));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-numeros-125",
+    "subject": "m2",
+    "eje": "numeros",
+    "topic": "enteros-y-racionales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un estanque de agua de una parcela en Pirque está lleno hasta los $\\dfrac{3}{8}$ de su capacidad. Se usa $\\dfrac{1}{3}$ del agua que contiene para regar y, después, se le agregan $150$ litros, con lo que el estanque queda lleno hasta los $\\dfrac{3}{4}$ de su capacidad.\n\n¿Cuál es la capacidad del estanque?",
+    "alternatives": {
+      "A": "$200$ litros",
+      "B": "$240$ litros",
+      "C": "$300$ litros",
+      "D": "$400$ litros"
+    },
+    "correct": "C",
+    "explanation": "Tras regar queda $\\dfrac{2}{3}\\cdot\\dfrac{3}{8}=\\dfrac{1}{4}$ de la capacidad $C$.\nEntonces $\\dfrac{1}{4}C+150=\\dfrac{3}{4}C$, es decir, $\\dfrac{1}{2}C=150$ y $C=300$ litros.\nD ignora el riego: $\\dfrac{3}{4}-\\dfrac{3}{8}=\\dfrac{3}{8}$ y $C=400$.\nB toma como agua restante el tercio usado ($\\dfrac{1}{8}$): $\\dfrac{3}{4}-\\dfrac{1}{8}=\\dfrac{5}{8}$ y $C=240$.\nA plantea $150=\\dfrac{3}{4}C$, como si el estanque hubiera estado vacío.",
+    "verify": "const queda = (2 / 3) * (3 / 8);\nconst v = 150 / (3 / 4 - queda);\nconst alts = { A: 200, B: 240, C: 300, D: 400 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  }
+]

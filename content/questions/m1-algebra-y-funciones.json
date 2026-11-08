@@ -1,0 +1,1009 @@
+[
+  {
+    "key": "m1-algebra-y-funciones-001",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "representar",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Camila compra $x$ cuadernos a $1\\,200$ pesos cada uno y $y$ lápices a $450$ pesos cada uno. Si paga con un billete de $10\\,000$ pesos, ¿cuál de las siguientes expresiones representa el vuelto, en pesos, que debe recibir?",
+    "alternatives": {
+      "A": "$10\\,000 - 1\\,650xy$",
+      "B": "$(1\\,200x + 450y) - 10\\,000$",
+      "C": "$10\\,000 - 1\\,200x + 450y$",
+      "D": "$10\\,000 - (1\\,200x + 450y)$"
+    },
+    "correct": "D",
+    "explanation": "El gasto total es $1\\,200x + 450y$ pesos, y el vuelto es lo que sobra del billete: $10\\,000 - (1\\,200x + 450y)$.\nA suma los precios unitarios y multiplica las cantidades, lo que no representa el gasto. B invierte la resta: daría un vuelto negativo cuando el gasto es menor que el billete. C omite el paréntesis: al restar el gasto también hay que restar $450y$, no sumarlo.",
+    "verify": "const vuelto = (x, y) => 10000 - (1200 * x + 450 * y)\nconst alts = { A: (x, y) => 10000 - 1650 * x * y, B: (x, y) => (1200 * x + 450 * y) - 10000, C: (x, y) => 10000 - 1200 * x + 450 * y, D: (x, y) => 10000 - (1200 * x + 450 * y) }\nconst pts = [[1, 2], [3, 4], [5, 1], [2, 6]]\nconst ok = Object.keys(alts).filter((k) => pts.every(([x, y]) => Math.abs(alts[k](x, y) - vuelto(x, y)) < 1e-9))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-002",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Al reducir la expresión $(3a + 2)^2 - (a - 5)(a + 5)$ se obtiene:",
+    "alternatives": {
+      "A": "$8a^2 + 12a - 21$",
+      "B": "$8a^2 + 6a + 29$",
+      "C": "$8a^2 + 12a + 29$",
+      "D": "$8a^2 + 29$"
+    },
+    "correct": "C",
+    "explanation": "Se tiene $(3a + 2)^2 = 9a^2 + 12a + 4$ y $(a - 5)(a + 5) = a^2 - 25$. Entonces $9a^2 + 12a + 4 - (a^2 - 25) = 8a^2 + 12a + 29$.\nA olvida que el signo menos delante del paréntesis transforma $-25$ en $+25$. B no duplica el término central del cuadrado de binomio ($6a$ en vez de $12a$). D eleva cada término al cuadrado por separado y pierde el término $12a$.",
+    "verify": "const f = (a) => (3 * a + 2) ** 2 - (a - 5) * (a + 5)\nconst alts = { A: (a) => 8 * a * a + 12 * a - 21, B: (a) => 8 * a * a + 6 * a + 29, C: (a) => 8 * a * a + 12 * a + 29, D: (a) => 8 * a * a + 29 }\nconst xs = [-2, 0, 1, 3, 5]\nconst ok = Object.keys(alts).filter((k) => xs.every((a) => Math.abs(alts[k](a) - f(a)) < 1e-9))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-003",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "argumentar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Martín desarrolló y redujo la expresión $(x + 5)^2 - 2(x - 3)$ de la siguiente manera:\nPaso 1: $x^2 + 10x + 25 - 2(x - 3)$\nPaso 2: $x^2 + 10x + 25 - 2x - 6$\nPaso 3: $x^2 + 8x + 19$\n¿En cuál de los pasos Martín cometió un error por primera vez?",
+    "alternatives": {
+      "A": "En el paso 1",
+      "B": "En el paso 2",
+      "C": "En el paso 3",
+      "D": "Martín no cometió errores"
+    },
+    "correct": "B",
+    "explanation": "El paso 1 desarrolla bien el cuadrado de binomio: $(x + 5)^2 = x^2 + 10x + 25$. En el paso 2, al multiplicar $-2$ por $-3$ se obtiene $+6$, no $-6$. Lo correcto es $x^2 + 10x + 25 - 2x + 6 = x^2 + 8x + 31$.\nEl paso 3 reduce correctamente lo que venía del paso 2; por eso, quien solo revisa la última operación puede elegir C o D. A es incorrecta porque el cuadrado de binomio está bien desarrollado.",
+    "verify": "const f = (x) => (x + 5) ** 2 - 2 * (x - 3)\nconst steps = [(x) => x * x + 10 * x + 25 - 2 * (x - 3), (x) => x * x + 10 * x + 25 - 2 * x - 6, (x) => x * x + 8 * x + 19]\nconst xs = [-3, 0, 1, 4]\nconst i = steps.findIndex((s) => xs.some((x) => Math.abs(s(x) - f(x)) > 1e-9))\nreturn i === -1 ? 'D' : ['A', 'B', 'C'][i]"
+  },
+  {
+    "key": "m1-algebra-y-funciones-004",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Ignacio tiene un huerto rectangular en Limache que mide $(2x + 3)$ metros de largo y $(x + 1)$ metros de ancho. Decide alargarlo $2$ metros y, para dejar espacio a un pasillo, reducir su ancho en $1$ metro.\nPara cualquier valor de $x > 0$, ¿qué ocurre con el área del nuevo huerto respecto del área del huerto original?",
+    "alternatives": {
+      "A": "Disminuye en $3\\ \\text{m}^2$.",
+      "B": "Disminuye en $1\\ \\text{m}^2$.",
+      "C": "No cambia.",
+      "D": "Aumenta en $1\\ \\text{m}^2$."
+    },
+    "correct": "A",
+    "explanation": "Área original: $(2x + 3)(x + 1) = 2x^2 + 5x + 3$. El nuevo huerto mide $(2x + 5)$ m de largo y $x$ m de ancho, con área $(2x + 5)x = 2x^2 + 5x$.\nLa diferencia es $2x^2 + 5x - (2x^2 + 5x + 3) = -3$: el área disminuye en $3\\ \\text{m}^2$, sin importar el valor de $x$.\nB calcula $2(x + 1) - 1 \\cdot (2x + 3) = -1$ y olvida el rectángulo de $2 \\times 1$ m de la esquina. D suma y resta las medidas ($+2 - 1$) como si fueran áreas. C supone que alargar y acortar se compensan.",
+    "verify": "const diffs = [1, 2, 5, 10].map((x) => (2 * x + 5) * x - (2 * x + 3) * (x + 1))\nif (!diffs.every((d) => d === diffs[0]))\nreturn null\nconst map = { '-3': 'A', '-1': 'B', '0': 'C', '1': 'D' }\nreturn map[String(diffs[0])] ?? null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-005",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "En un viñedo de Curicó, una bomba de riego entrega agua a un ritmo constante, de modo que el volumen de agua entregado es directamente proporcional al tiempo de funcionamiento. En $24$ minutos la bomba entrega $500$ litros.\n¿Cuántos litros entrega la bomba en $60$ minutos?",
+    "alternatives": {
+      "A": "$536$ litros",
+      "B": "$1\\,000$ litros",
+      "C": "$1\\,250$ litros",
+      "D": "$1\\,440$ litros"
+    },
+    "correct": "C",
+    "explanation": "Por proporcionalidad directa: $\\frac{500}{24} = \\frac{V}{60}$, de donde $V = \\frac{500 \\cdot 60}{24} = 1\\,250$ litros.\nA suma la diferencia de minutos ($500 + 36$) en vez de mantener la razón. B duplica el volumen, pero $60$ minutos son $2{,}5$ veces $24$ minutos, no el doble. D multiplica $24 \\cdot 60$ sin usar los litros del dato.",
+    "verify": "const V = (500 * 60) / 24\nconst alts = { A: 536, B: 1000, C: 1250, D: 1440 }\nreturn Object.keys(alts).find((k) => Math.abs(alts[k] - V) < 1e-9) ?? null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-006",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Para pintar las salas de un colegio en Antofagasta, $6$ pintores, trabajando todos al mismo ritmo, demoran $10$ días. Si $d$ es el número de días que demoran $p$ pintores en hacer el mismo trabajo, ¿cuál de las siguientes expresiones modela la relación entre $d$ y $p$?",
+    "alternatives": {
+      "A": "$d = 60p$",
+      "B": "$d = \\frac{5p}{3}$",
+      "C": "$d = 16 - p$",
+      "D": "$d = \\frac{60}{p}$"
+    },
+    "correct": "D",
+    "explanation": "A más pintores, menos días: es una proporcionalidad inversa, por lo que el producto $p \\cdot d$ es constante e igual a $6 \\cdot 10 = 60$. Así, $d = \\frac{60}{p}$.\nA multiplica en vez de dividir (más pintores darían más días). B plantea una proporcionalidad directa ($\\frac{d}{p} = \\frac{10}{6}$). C supone que la suma $p + d$ se mantiene constante.",
+    "verify": "const k = 6 * 10\nconst real = (p) => k / p\nconst alts = { A: (p) => 60 * p, B: (p) => (5 * p) / 3, C: (p) => 16 - p, D: (p) => 60 / p }\nconst ps = [1, 2, 3, 5, 6, 12]\nconst ok = Object.keys(alts).filter((key) => ps.every((p) => Math.abs(alts[key](p) - real(p)) < 1e-9))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-007",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un grupo de amigos arrienda una cabaña en Pucón por un fin de semana y reparte el costo total en partes iguales. La tabla muestra el monto $y$, en miles de pesos, que paga cada persona según la cantidad $x$ de personas que van:\n$\\displaystyle \\begin{array}{|c|c|c|c|c|}\\hline x & 2 & 3 & 5 & 6 \\\\ \\hline y & 15 & 10 & 6 & 5 \\\\ \\hline \\end{array}$\n¿Cuál de las siguientes expresiones relaciona correctamente $x$ e $y$?",
+    "alternatives": {
+      "A": "$y = \\frac{30}{x}$",
+      "B": "$y = \\frac{15x}{2}$",
+      "C": "$y = 25 - 5x$",
+      "D": "$y = 30x$"
+    },
+    "correct": "A",
+    "explanation": "En todos los pares se cumple $x \\cdot y = 30$ ($2 \\cdot 15 = 3 \\cdot 10 = 5 \\cdot 6 = 6 \\cdot 5 = 30$): el costo total es $30$ mil pesos y se divide entre las personas, así que $y = \\frac{30}{x}$.\nB usa la razón $\\frac{y}{x}$ del primer par como si fuera proporcionalidad directa. C solo calza con los dos primeros pares (para $x = 5$ daría $0$). D confunde el producto constante con una relación directa.",
+    "verify": "const t = [[2, 15], [3, 10], [5, 6], [6, 5]]\nconst alts = { A: (x) => 30 / x, B: (x) => (15 * x) / 2, C: (x) => 25 - 5 * x, D: (x) => 30 * x }\nconst ok = Object.keys(alts).filter((k) => t.every(([x, y]) => Math.abs(alts[k](x) - y) < 1e-9))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-008",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una panadería de Osorno hay hornos iguales, y cada uno hornea siempre la misma cantidad de hallullas por hora. Usando $3$ hornos se hornean $1\\,800$ hallullas en $4$ horas.\nConsidera las siguientes afirmaciones:\nI) Con $6$ hornos se hornean $1\\,800$ hallullas en $2$ horas.\nII) Con $3$ hornos se hornean $900$ hallullas en $2$ horas.\nIII) Con $2$ hornos se hornean $1\\,800$ hallullas en $8$ horas.\n¿Cuál o cuáles de ellas son verdaderas?",
+    "alternatives": {
+      "A": "Solo I",
+      "B": "Solo I y II",
+      "C": "Solo II y III",
+      "D": "I, II y III"
+    },
+    "correct": "B",
+    "explanation": "Cada horno hornea $\\frac{1\\,800}{3 \\cdot 4} = 150$ hallullas por hora.\nI) $6 \\cdot 2 \\cdot 150 = 1\\,800$: verdadera. II) $3 \\cdot 2 \\cdot 150 = 900$: verdadera. III) $2 \\cdot 8 \\cdot 150 = 2\\,400 \\neq 1\\,800$: falsa; $2$ hornos tardarían $6$ horas.\nQuien elige D duplica las horas al pasar de $3$ a $2$ hornos, pero el tiempo se multiplica por $\\frac{3}{2}$, no por $2$. A y C descartan una afirmación verdadera.",
+    "verify": "const r = 1800 / (3 * 4)\nconst v = [6 * 2 * r === 1800, 3 * 2 * r === 900, 2 * 8 * r === 1800]\nconst opts = { A: [true, false, false], B: [true, true, false], C: [false, true, true], D: [true, true, true] }\nreturn Object.keys(opts).find((k) => opts[k].every((b, i) => b === v[i])) ?? null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-009",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "¿Cuál es el valor de $x$ en la ecuación $3(x - 2) + 5 = 2x + 7$?",
+    "alternatives": {
+      "A": "$-4$",
+      "B": "$4$",
+      "C": "$6$",
+      "D": "$8$"
+    },
+    "correct": "D",
+    "explanation": "Distribuyendo: $3x - 6 + 5 = 2x + 7$, es decir, $3x - 1 = 2x + 7$. Luego $x = 7 + 1 = 8$.\nA resulta de escribir $3x + 6$ (error de signo al distribuir). B resulta de no distribuir el $3$ y escribir $3x - 2 + 5$. C resulta de restar el $1$ en vez de sumarlo al trasponerlo.",
+    "verify": "const x = (7 - (3 * -2 + 5)) / (3 - 2)\nif (Math.abs(3 * (x - 2) + 5 - (2 * x + 7)) > 1e-9)\nreturn null\nconst alts = { A: -4, B: 4, C: 6, D: 8 }\nreturn Object.keys(alts).find((k) => alts[k] === x) ?? null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-010",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En Valparaíso, un taxi cobra $400$ pesos fijos al iniciar el viaje (bajada de bandera) y $180$ pesos por cada $200$ metros recorridos. Josefa pagó en total $4\\,000$ pesos por un viaje.\nSi $d$ representa la distancia recorrida, en metros, ¿cuál de las siguientes ecuaciones permite calcular $d$?",
+    "alternatives": {
+      "A": "$400d + 180 = 4\\,000$",
+      "B": "$400 + 180d = 4\\,000$",
+      "C": "$400 + \\frac{180d}{200} = 4\\,000$",
+      "D": "$400 + \\frac{200d}{180} = 4\\,000$"
+    },
+    "correct": "C",
+    "explanation": "Cada metro cuesta $\\frac{180}{200}$ pesos, así que $d$ metros cuestan $\\frac{180d}{200}$ pesos. Sumando el cobro fijo: $400 + \\frac{180d}{200} = 4\\,000$, de donde $d = 4\\,000$ m.\nA intercambia el cobro fijo con el cobro variable. B cobra $180$ pesos por cada metro, no por cada $200$ metros. D invierte la razón entre pesos y metros.",
+    "verify": "const d = ((4000 - 400) / 180) * 200\nconst alts = { A: (d) => 400 * d + 180, B: (d) => 400 + 180 * d, C: (d) => 400 + (180 * d) / 200, D: (d) => 400 + (200 * d) / 180 }\nconst ok = Object.keys(alts).filter((k) => Math.abs(alts[k](d) - 4000) < 1e-9)\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-011",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "representar",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Benjamín quiere comprarse una bicicleta y para eso necesita juntar al menos $120\\,000$ pesos. Ya tiene $45\\,000$ pesos guardados y cada semana agrega $6\\,000$ pesos más.\n¿Cuál de las siguientes inecuaciones permite determinar el número $s$ de semanas necesarias para lograr su meta?",
+    "alternatives": {
+      "A": "$45\\,000 + 6\\,000s \\leq 120\\,000$",
+      "B": "$6\\,000 + 45\\,000s \\geq 120\\,000$",
+      "C": "$45\\,000 + 6\\,000s > 120\\,000$",
+      "D": "$45\\,000 + 6\\,000s \\geq 120\\,000$"
+    },
+    "correct": "D",
+    "explanation": "Después de $s$ semanas tiene $45\\,000 + 6\\,000s$ pesos. «Al menos $120\\,000$» significa mayor o igual: $45\\,000 + 6\\,000s \\geq 120\\,000$, que se cumple para $s \\geq 12{,}5$, es decir, desde la semana $13$.\nA invierte el sentido de la desigualdad. B intercambia el monto inicial con el ahorro semanal. C usa $>$ y excluye el caso de juntar exactamente $120\\,000$ pesos, que también cumple la meta.",
+    "verify": "const meta = (s) => 45000 + 6000 * s >= 120000\nconst alts = { A: (s) => 45000 + 6000 * s <= 120000, B: (s) => 6000 + 45000 * s >= 120000, C: (s) => 45000 + 6000 * s > 120000, D: (s) => 45000 + 6000 * s >= 120000 }\nconst ss = [0, 2, 5, 12, 12.5, 13, 20]\nconst ok = Object.keys(alts).filter((k) => ss.every((s) => alts[k](s) === meta(s)))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-012",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "El ascensor de carga de un edificio en Santiago soporta como máximo $650$ kg. Kevin, que pesa $80$ kg, debe subir en él cajas de $24$ kg cada una y viaja junto a ellas.\n¿Cuál es la mayor cantidad de cajas que puede subir en un solo viaje?",
+    "alternatives": {
+      "A": "$23$",
+      "B": "$24$",
+      "C": "$27$",
+      "D": "$28$"
+    },
+    "correct": "A",
+    "explanation": "Se debe cumplir $80 + 24n \\leq 650$, es decir, $24n \\leq 570$ y $n \\leq 23{,}75$. Como $n$ es un número entero, la mayor cantidad es $23$ cajas.\nB aproxima $23{,}75$ hacia arriba, pero con $24$ cajas la carga sería $656$ kg y supera el máximo. C y D olvidan el peso de Kevin: $\\frac{650}{24} \\approx 27{,}08$; C lo trunca y D lo aproxima hacia arriba.",
+    "verify": "const n = Math.floor((650 - 80) / 24)\nif (80 + 24 * n > 650 || 80 + 24 * (n + 1) <= 650)\nreturn null\nconst alts = { A: 23, B: 24, C: 27, D: 28 }\nreturn Object.keys(alts).find((k) => alts[k] === n) ?? null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-013",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Al resolver la inecuación $\\displaystyle \\frac{2 - x}{3} \\geq \\frac{x + 4}{2} - 1$, Antonia escribió:\nPaso 1: $2(2 - x) \\geq 3(x + 4) - 6$\nPaso 2: $4 - 2x \\geq 3x + 6$\nPaso 3: $-5x \\geq 2$\nPaso 4: $x \\geq -\\frac{2}{5}$\n¿En cuál de los pasos Antonia cometió un error?",
+    "alternatives": {
+      "A": "En el paso 1",
+      "B": "En el paso 2",
+      "C": "En el paso 3",
+      "D": "En el paso 4"
+    },
+    "correct": "D",
+    "explanation": "Paso 1: se multiplicaron ambos lados por $6$, incluido el $-1$, que pasa a ser $-6$: correcto. Paso 2: $3(x + 4) - 6 = 3x + 6$: correcto. Paso 3: al agrupar términos queda $-5x \\geq 2$: correcto.\nPaso 4: al dividir por $-5$, que es negativo, el sentido de la desigualdad debe invertirse; lo correcto es $x \\leq -\\frac{2}{5}$.\nQuien marca A suele creer que el $-1$ no se multiplicó por $6$, pero en este desarrollo sí se hizo. B y C corresponden a operaciones bien realizadas.",
+    "verify": "const orig = (x) => (2 - x) / 3 >= (x + 4) / 2 - 1\nconst steps = [(x) => 2 * (2 - x) >= 3 * (x + 4) - 6, (x) => 4 - 2 * x >= 3 * x + 6, (x) => -5 * x >= 2, (x) => x >= -2 / 5]\nconst xs = []\nfor (let x = -3.03; x < 3; x += 0.17) xs.push(x)\nconst i = steps.findIndex((s) => xs.some((x) => s(x) !== orig(x)))\nreturn i === -1 ? null : ['A', 'B', 'C', 'D'][i]"
+  },
+  {
+    "key": "m1-algebra-y-funciones-014",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-2x2",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Si $x + y = 11$ y $x - y = 3$, ¿cuál es el valor de $y$?",
+    "alternatives": {
+      "A": "$3$",
+      "B": "$4$",
+      "C": "$7$",
+      "D": "$8$"
+    },
+    "correct": "B",
+    "explanation": "Sumando ambas ecuaciones: $2x = 14$, así que $x = 7$. Reemplazando en $x + y = 11$ se obtiene $y = 4$.\nC corresponde al valor de $x$, no al de $y$. D resulta de calcular $11 - 3$ y olvidar dividir por $2$. A confunde $y$ con la diferencia $x - y$.",
+    "verify": "const x = (11 + 3) / 2\nconst y = 11 - x\nif (x - y !== 3)\nreturn null\nconst alts = { A: 3, B: 4, C: 7, D: 8 }\nreturn Object.keys(alts).find((k) => alts[k] === y) ?? null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-015",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-2x2",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Para un festival de cueca en Rancagua se vendieron $1\\,200$ entradas y se recaudaron $7\\,350\\,000$ pesos. La entrada de adulto costaba $8\\,000$ pesos y la de niño, $5\\,000$ pesos.\nSi $x$ es la cantidad de entradas de adulto e $y$ la cantidad de entradas de niño vendidas, ¿cuál de los siguientes sistemas permite determinar $x$ e $y$?",
+    "alternatives": {
+      "A": "$\\begin{cases} x + y = 1\\,200 \\\\ 8\\,000x + 5\\,000y = 7\\,350\\,000 \\end{cases}$",
+      "B": "$\\begin{cases} x + y = 1\\,200 \\\\ 5\\,000x + 8\\,000y = 7\\,350\\,000 \\end{cases}$",
+      "C": "$\\begin{cases} x + y = 7\\,350\\,000 \\\\ 8\\,000x + 5\\,000y = 1\\,200 \\end{cases}$",
+      "D": "$\\begin{cases} x - y = 1\\,200 \\\\ 8\\,000x + 5\\,000y = 7\\,350\\,000 \\end{cases}$"
+    },
+    "correct": "A",
+    "explanation": "El total de entradas da la ecuación $x + y = 1\\,200$. La recaudación suma lo obtenido por cada tipo de entrada: $8\\,000x + 5\\,000y = 7\\,350\\,000$. Resolviendo, $x = 450$ e $y = 750$.\nB asigna los precios al revés. C intercambia el número de entradas con el dinero recaudado. D usa una diferencia en lugar de la suma total de entradas.",
+    "verify": "const x = (7350000 - 5000 * 1200) / (8000 - 5000)\nconst y = 1200 - x\nconst sys = { A: [[1, 1, 1200], [8000, 5000, 7350000]], B: [[1, 1, 1200], [5000, 8000, 7350000]], C: [[1, 1, 7350000], [8000, 5000, 1200]], D: [[1, -1, 1200], [8000, 5000, 7350000]] }\nconst ok = Object.keys(sys).filter((k) => sys[k].every(([a, b, c]) => Math.abs(a * x + b * y - c) < 1e-9))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-016",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-2x2",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Florencia registra el nivel de agua, en centímetros, de dos estanques de su parcela en Paine. Ambos niveles cambian de forma lineal con el tiempo.\nEl estanque P tiene $2$ cm de agua al inicio y $8$ cm a las $3$ horas.\nEl estanque Q tiene $10$ cm de agua al inicio y $2$ cm a las $4$ horas.\n¿Después de cuántas horas ambos estanques tienen el mismo nivel de agua, y cuál es ese nivel?",
+    "alternatives": {
+      "A": "A las $2$ horas, con $6$ cm.",
+      "B": "A las $3$ horas, con $8$ cm.",
+      "C": "A las $4$ horas, con $2$ cm.",
+      "D": "A las $6$ horas, con $2$ cm."
+    },
+    "correct": "A",
+    "explanation": "P sube $\\frac{8 - 2}{3} = 2$ cm por hora: $P(t) = 2 + 2t$. Q baja $\\frac{10 - 2}{4} = 2$ cm por hora: $Q(t) = 10 - 2t$. Igualando, $2 + 2t = 10 - 2t$, de donde $t = 2$, y el nivel es $P(2) = 6$ cm.\nB y C son datos de un solo estanque: en esos instantes el otro tiene $4$ cm y $10$ cm, respectivamente. D intercambia el tiempo con el nivel de la solución.",
+    "verify": "const mP = (8 - 2) / 3, mQ = (2 - 10) / 4\nconst t = (10 - 2) / (mP - mQ)\nconst h = 2 + mP * t\nif (Math.abs(h - (10 + mQ * t)) > 1e-9)\nreturn null\nconst alts = { A: [2, 6], B: [3, 8], C: [4, 2], D: [6, 2] }\nreturn Object.keys(alts).find((k) => Math.abs(alts[k][0] - t) < 1e-9 && Math.abs(alts[k][1] - h) < 1e-9) ?? null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-017",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-2x2",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Hace $4$ años, la edad de Rocío era el triple de la edad de su hermano Tomás. Dentro de $6$ años, la edad de Rocío será el doble de la de Tomás.\n¿Cuál de las siguientes afirmaciones es verdadera?",
+    "alternatives": {
+      "A": "Tomás tiene actualmente $10$ años.",
+      "B": "La diferencia entre sus edades es de $20$ años.",
+      "C": "Rocío tiene actualmente $30$ años.",
+      "D": "La suma de sus edades actuales es $40$ años."
+    },
+    "correct": "B",
+    "explanation": "Con $R$ y $T$ las edades actuales: $R - 4 = 3(T - 4)$ y $R + 6 = 2(T + 6)$. De la primera, $R = 3T - 8$; al reemplazar, $3T - 2 = 2T + 12$, así que $T = 14$ y $R = 34$. La diferencia es $34 - 14 = 20$ años.\nA, C y D corresponden a las edades de hace $4$ años ($10$ y $30$) y a su suma ($40$): es el error de plantear el sistema con las edades pasadas y no sumar los $4$ años al final.",
+    "verify": "const det = 1 * -2 - -3 * 1\nconst R = (-8 * -2 - -3 * 6) / det\nconst T = (1 * 6 - 1 * -8) / det\nif (R - 4 !== 3 * (T - 4) || R + 6 !== 2 * (T + 6))\nreturn null\nconst v = { A: T === 10, B: R - T === 20, C: R === 30, D: R + T === 40 }\nconst ok = Object.keys(v).filter((k) => v[k])\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-018",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "modelar",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "En Valdivia, una empresa arrienda bicicletas y cobra según la función $C(t) = 1\\,500 + 800t$, donde $C(t)$ es el costo total, en pesos, de arrendar una bicicleta durante $t$ horas.\n¿Qué representa el número $800$ en este modelo?",
+    "alternatives": {
+      "A": "El cobro fijo que se paga al arrendar, sin importar las horas.",
+      "B": "El costo total de arrendar la bicicleta durante una hora.",
+      "C": "La cantidad máxima de horas que se puede arrendar la bicicleta.",
+      "D": "El aumento del costo por cada hora adicional de arriendo."
+    },
+    "correct": "D",
+    "explanation": "En una función afín $C(t) = b + mt$, la pendiente $m$ indica cuánto cambia $C$ cuando $t$ aumenta en $1$: $C(t + 1) - C(t) = 800$ pesos por cada hora adicional.\nA describe al coeficiente de posición, $C(0) = 1\\,500$. B es incorrecta porque una hora cuesta $C(1) = 2\\,300$ pesos. C no tiene sustento: el modelo no fija un máximo de horas.",
+    "verify": "const C = (t) => 1500 + 800 * t\nconst slope = [0, 1, 2, 5].every((t) => C(t + 1) - C(t) === 800)\nif (!slope || C(0) === 800 || C(1) === 800)\nreturn null\nreturn 'ABCD'[3]"
+  },
+  {
+    "key": "m1-algebra-y-funciones-019",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un globo meteorológico lanzado en Punta Arenas registra la temperatura del aire a medida que sube. La temperatura $T$, en grados Celsius, varía de forma afín con la altura $h$, en kilómetros, según la tabla:\n$\\displaystyle \\begin{array}{|c|c|c|c|c|}\\hline h & 0 & 1 & 3 & 6 \\\\ \\hline T & 4 & 1 & -5 & -14 \\\\ \\hline \\end{array}$\n¿Cuál de las siguientes funciones modela la temperatura del aire según la altura?",
+    "alternatives": {
+      "A": "$T(h) = -3h - 4$",
+      "B": "$T(h) = -3h + 4$",
+      "C": "$T(h) = 3h + 4$",
+      "D": "$T(h) = 4h - 3$"
+    },
+    "correct": "B",
+    "explanation": "La pendiente es $\\frac{1 - 4}{1 - 0} = -3$ (la temperatura baja $3$ grados por cada kilómetro de altura) y el valor inicial es $T(0) = 4$. Luego $T(h) = -3h + 4$, lo que se comprueba con $T(6) = -18 + 4 = -14$.\nC ignora que la temperatura disminuye (signo de la pendiente). A cambia el signo del valor inicial. D intercambia la pendiente con el coeficiente de posición.",
+    "verify": "const t = [[0, 4], [1, 1], [3, -5], [6, -14]]\nconst alts = { A: (x) => -3 * x - 4, B: (x) => -3 * x + 4, C: (x) => 3 * x + 4, D: (x) => 4 * x - 3 }\nconst ok = Object.keys(alts).filter((k) => t.every(([x, y]) => alts[k](x) === y))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-020",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un estanque de agua potable en Coyhaique se vacía a un ritmo constante. A las $2$ horas de comenzar el vaciado le quedan $900$ litros, y a las $5$ horas le quedan $450$ litros.\n¿Cuántas horas después de comenzar el vaciado queda completamente vacío?",
+    "alternatives": {
+      "A": "$3$ horas",
+      "B": "$6$ horas",
+      "C": "$8$ horas",
+      "D": "$12$ horas"
+    },
+    "correct": "C",
+    "explanation": "Entre la hora $2$ y la hora $5$ salen $450$ litros, es decir, $150$ litros por hora. Al inicio tenía $900 + 2 \\cdot 150 = 1\\,200$ litros, así que $V(t) = 1\\,200 - 150t$, que vale $0$ en $t = 8$.\nA es el tiempo que falta desde la hora $5$, no desde el inicio. B toma los $900$ litros como cantidad inicial. D divide los $450$ litros por $5$ horas en vez de por $3$, con lo que obtiene un ritmo de $90$ litros por hora.",
+    "verify": "const r = (900 - 450) / (5 - 2)\nconst v0 = 900 + 2 * r\nconst t = v0 / r\nconst alts = { A: 3, B: 6, C: 8, D: 12 }\nreturn Object.keys(alts).find((k) => Math.abs(alts[k] - t) < 1e-9) ?? null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-021",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sea $f(x) = ax + b$ una función afín con $a < 0$ y $b > 0$. ¿Cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "$f$ es una función creciente.",
+      "B": "$f(0) < 0$",
+      "C": "La gráfica de $f$ corta al eje $X$ en un punto de abscisa positiva.",
+      "D": "$f(x) > 0$ para todo $x > 0$."
+    },
+    "correct": "C",
+    "explanation": "La gráfica corta al eje $X$ cuando $ax + b = 0$, es decir, en $x = -\\frac{b}{a}$. Como $b > 0$ y $a < 0$, el número $-\\frac{b}{a}$ es positivo.\nA es falsa: con $a < 0$ la función es decreciente. B es falsa: $f(0) = b > 0$. D es falsa: para $x > -\\frac{b}{a}$ la función toma valores negativos; por ejemplo, si $f(x) = -2x + 4$, entonces $f(3) = -2$.",
+    "verify": "const pairs = []\nfor (const a of [-0.5, -1, -2, -7]) for (const b of [0.3, 1, 4, 10]) pairs.push([a, b])\nconst xs = [0.1, 1, 3, 10, 50, 1000]\nconst st = { A: ([a, b]) => a * 1 + b > a * 0 + b, B: ([a, b]) => b < 0, C: ([a, b]) => -b / a > 0 && Math.abs(a * (-b / a) + b) < 1e-9, D: ([a, b]) => xs.every((x) => a * x + b > 0), }\nconst ok = Object.keys(st).filter((k) => pairs.every((p) => st[k](p)))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-022",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "¿Cuáles son las coordenadas del vértice de la parábola de ecuación $y = x^2 - 6x + 5$?",
+    "alternatives": {
+      "A": "$(-3, 32)$",
+      "B": "$(3, -4)$",
+      "C": "$(3, 4)$",
+      "D": "$(6, 5)$"
+    },
+    "correct": "B",
+    "explanation": "La abscisa del vértice es $x = -\\frac{b}{2a} = -\\frac{-6}{2 \\cdot 1} = 3$, y su ordenada es $3^2 - 6 \\cdot 3 + 5 = -4$. El vértice es $(3, -4)$.\nA usa $x = \\frac{b}{2a}$, sin el signo menos. C calcula bien la abscisa, pero se equivoca en el signo de la ordenada. D usa $x = -\\frac{b}{a}$, olvidando el $2$ del denominador.",
+    "verify": "const f = (x) => x * x - 6 * x + 5\nconst h = 6 / 2\nconst k = f(h)\nconst alts = { A: [-3, 32], B: [3, -4], C: [3, 4], D: [6, 5] }\nreturn Object.keys(alts).find((key) => alts[key][0] === h && alts[key][1] === k) ?? null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-023",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Diego lanza una pelota hacia arriba desde la terraza de su casa en La Serena. La altura $h$, en metros, de la pelota a los $t$ segundos del lanzamiento está dada por $h(t) = -5t^2 + 20t + 1{,}5$.\n¿Cuál es la altura máxima que alcanza la pelota?",
+    "alternatives": {
+      "A": "$1{,}5$ m",
+      "B": "$20$ m",
+      "C": "$21{,}5$ m",
+      "D": "$61{,}5$ m"
+    },
+    "correct": "C",
+    "explanation": "El máximo se alcanza en $t = -\\frac{20}{2 \\cdot (-5)} = 2$ segundos, y la altura es $h(2) = -20 + 40 + 1{,}5 = 21{,}5$ m.\nA es la altura inicial $h(0)$ (que también es $h(4)$, valor que se obtiene si se usa $t = -\\frac{b}{a}$). B omite la altura desde la que se lanza la pelota. D comete un error de signo y calcula $5 \\cdot 4 + 40 + 1{,}5$.",
+    "verify": "const h = (t) => -5 * t * t + 20 * t + 1.5\nconst tv = -20 / (2 * -5)\nconst max = h(tv)\nconst alts = { A: 1.5, B: 20, C: 21.5, D: 61.5 }\nreturn Object.keys(alts).find((k) => Math.abs(alts[k] - max) < 1e-9) ?? null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-024",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "representar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un parque de Temuco se construirá una pasarela con un arco de forma parabólica. En un sistema de coordenadas, $x$ es la distancia horizontal, en metros, desde un extremo del arco, e $y$ es la altura del arco, en metros. Algunas mediciones del plano son:\n$\\displaystyle \\begin{array}{|c|c|c|c|c|c|}\\hline x & 0 & 10 & 20 & 30 & 40 \\\\ \\hline y & 0 & 15 & 20 & 15 & 0 \\\\ \\hline \\end{array}$\n¿Cuál de las siguientes funciones describe la altura del arco?",
+    "alternatives": {
+      "A": "$y = -\\frac{x^2}{20} + 2x$",
+      "B": "$y = -\\frac{x^2}{40} + x$",
+      "C": "$y = -(x - 20)^2 + 20$",
+      "D": "$y = \\frac{x^2}{20} - 2x$"
+    },
+    "correct": "A",
+    "explanation": "Los ceros en $x = 0$ y $x = 40$ permiten escribir $y = a\\,x(x - 40)$. Con el punto $(20, 20)$: $20 = a \\cdot 20 \\cdot (-20)$, así que $a = -\\frac{1}{20}$ e $y = -\\frac{x^2}{20} + 2x$. Se comprueba con $x = 10$: $y = -5 + 20 = 15$.\nB tiene los ceros correctos, pero su altura máxima es $10$ m. C tiene el vértice correcto, pero con $a = -1$ da $y = -80$ en $x = 10$. D tiene el signo de $a$ cambiado: se abre hacia arriba y toma valores negativos entre los ceros.",
+    "verify": "const t = [[0, 0], [10, 15], [20, 20], [30, 15], [40, 0]]\nconst alts = { A: (x) => -(x * x) / 20 + 2 * x, B: (x) => -(x * x) / 40 + x, C: (x) => -((x - 20) ** 2) + 20, D: (x) => (x * x) / 20 - 2 * x }\nconst ok = Object.keys(alts).filter((k) => t.every(([x, y]) => Math.abs(alts[k](x) - y) < 1e-9))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-025",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "argumentar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Considera la función $f(x) = -2(x - 1)^2 + 8$. ¿Cuál de las siguientes afirmaciones es verdadera?",
+    "alternatives": {
+      "A": "La gráfica de $f$ es una parábola que se abre hacia arriba.",
+      "B": "El vértice de la gráfica de $f$ es el punto $(-1, 8)$.",
+      "C": "El valor máximo de $f$ es $8$ y su gráfica corta al eje $X$ en $x = -1$ y en $x = 3$.",
+      "D": "La gráfica de $f$ intersecta al eje $Y$ en el punto $(0, 8)$."
+    },
+    "correct": "C",
+    "explanation": "Como el coeficiente $-2$ es negativo, la parábola se abre hacia abajo y su vértice $(1, 8)$ es un máximo. Los ceros cumplen $(x - 1)^2 = 4$, es decir, $x = -1$ o $x = 3$. Por lo tanto, C es verdadera.\nA ignora el signo de $-2$. B cambia el signo de la abscisa del vértice (en $(x - h)^2$ el vértice está en $x = h$). D confunde el valor máximo con el intercepto: $f(0) = -2 + 8 = 6$.",
+    "verify": "const f = (x) => -2 * (x - 1) ** 2 + 8\nconst xs = []\nfor (let x = -5; x <= 5; x += 0.25) xs.push(x)\nconst max = Math.max(...xs.map(f))\nconst opensUp = f(10) > f(1)\nconst v = { A: opensUp, B: f(-1) === 8 && xs.every((x) => f(x) <= f(-1)), C: max === 8 && f(-1) === 0 && f(3) === 0, D: f(0) === 8, }\nconst ok = Object.keys(v).filter((k) => v[k])\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-026",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Matías y Sofía juntaron dinero para la once de su curso en Talca. Matías aportó $2\\,000$ pesos más que el triple de lo que aportó Sofía, y entre los dos reunieron $26\\,000$ pesos.\n¿Cuánto dinero aportó Sofía?",
+    "alternatives": {
+      "A": "$6\\,000$ pesos",
+      "B": "$6\\,500$ pesos",
+      "C": "$7\\,000$ pesos",
+      "D": "$8\\,000$ pesos"
+    },
+    "correct": "A",
+    "explanation": "Si Sofía aportó $x$ pesos, Matías aportó $3x + 2\\,000$. Entonces $x + 3x + 2\\,000 = 26\\,000$, es decir, $4x = 24\\,000$ y $x = 6\\,000$.\nB divide $26\\,000$ por $4$ sin descontar los $2\\,000$ pesos. C suma los $2\\,000$ en lugar de restarlos: $(26\\,000 + 2\\,000) : 4$.\nD plantea $3x + 2\\,000 = 26\\,000$, olvidando sumar el aporte de Sofía.",
+    "verify": "const x = (26000 - 2000) / 4\nif (x + (3 * x + 2000) !== 26000) return null\nconst map = { 6000: 'A', 6500: 'B', 7000: 'C', 8000: 'D' }\nreturn map[x] ?? null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-027",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Fernanda tiene en Arica un plan de telefonía móvil que cuesta $13\\,000$ pesos al mes. Cuando se le acaban los datos del plan, puede comprar gigas adicionales a $1\\,500$ pesos cada uno.\nSi este mes no quiere gastar más de $25\\,000$ pesos en total, ¿cuál es la mayor cantidad de gigas adicionales que puede comprar?",
+    "alternatives": {
+      "A": "$7$",
+      "B": "$8$",
+      "C": "$16$",
+      "D": "$17$"
+    },
+    "correct": "B",
+    "explanation": "Con $g$ gigas adicionales el gasto es $13\\,000 + 1\\,500g$, y debe cumplirse $13\\,000 + 1\\,500g \\leq 25\\,000$.\nLuego $1\\,500g \\leq 12\\,000$, es decir, $g \\leq 8$. Como gastar exactamente $25\\,000$ pesos está permitido, el máximo es $8$.\nA usa la desigualdad estricta ($<$), que excluye el caso de gastar justo $25\\,000$ pesos.\nC y D olvidan el costo fijo del plan: $25\\,000 : 1\\,500 \\approx 16{,}7$, y truncan o redondean ese valor.",
+    "verify": "let g = 0\nwhile (13000 + 1500 * (g + 1) <= 25000) g++\nconst map = { 7: 'A', 8: 'B', 16: 'C', 17: 'D' }\nreturn map[g] ?? null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-028",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En la asignatura de Historia, Martina tiene tres notas: $4{,}8$, $6{,}1$ y $5{,}2$. Le falta una cuarta nota, $x$, y las cuatro notas tienen la misma ponderación.\nSi Martina quiere terminar con un promedio de al menos $5{,}5$, ¿cuál de las siguientes inecuaciones permite determinar los valores posibles de $x$?",
+    "alternatives": {
+      "A": "$\\displaystyle \\frac{4{,}8 + 6{,}1 + 5{,}2 + x}{4} \\geq 5{,}5$",
+      "B": "$\\displaystyle \\frac{4{,}8 + 6{,}1 + 5{,}2 + x}{4} \\leq 5{,}5$",
+      "C": "$\\displaystyle \\frac{4{,}8 + 6{,}1 + 5{,}2}{3} + x \\geq 5{,}5$",
+      "D": "$\\displaystyle 4{,}8 + 6{,}1 + 5{,}2 + \\frac{x}{4} \\geq 5{,}5$"
+    },
+    "correct": "A",
+    "explanation": "El promedio de las cuatro notas es la suma de ellas dividida por $4$, y \"al menos $5{,}5$\" significa mayor o igual que $5{,}5$. Eso es la opción A, cuya solución es $x \\geq 5{,}9$.\nB invierte el sentido de la desigualdad: describe un promedio de a lo más $5{,}5$.\nC promedia solo las tres primeras notas y suma $x$ completa, como si la cuarta nota valiera lo mismo que todo el promedio anterior.\nD divide por $4$ solo la nota que falta y no la suma completa.",
+    "verify": "const s = 4.8 + 6.1 + 5.2\nconst f = {\n  A: (x) => (s + x) / 4 >= 5.5,\n  B: (x) => (s + x) / 4 <= 5.5,\n  C: (x) => (4.8 + 6.1 + 5.2) / 3 + x >= 5.5,\n  D: (x) => s + x / 4 >= 5.5,\n}\nconst ok = (x) => x >= 5.9 - 1e-9\nconst tests = [1, 4, 5.85, 5.95, 6.5, 7]\nconst good = Object.keys(f).filter((k) => tests.every((x) => f[k](x) === ok(x)))\nreturn good.length === 1 ? good[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-029",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Ignacia resolvió la ecuación $\\displaystyle \\frac{x + 1}{2} - \\frac{x - 3}{5} = 2$ de la siguiente manera:\nPaso 1: multiplicó ambos lados por $10$ y obtuvo $5(x + 1) - 2(x - 3) = 20$.\nPaso 2: eliminó los paréntesis y obtuvo $5x + 5 - 2x - 6 = 20$.\nPaso 3: redujo los términos semejantes y obtuvo $3x - 1 = 20$.\nPaso 4: despejó $x$ y obtuvo $x = 7$.\n¿En cuál de los pasos cometió un error?",
+    "alternatives": {
+      "A": "En el Paso 1",
+      "B": "En el Paso 2",
+      "C": "En el Paso 3",
+      "D": "En el Paso 4"
+    },
+    "correct": "B",
+    "explanation": "El Paso 1 es correcto: $10 \\cdot \\frac{x+1}{2} = 5(x+1)$, $10 \\cdot \\frac{x-3}{5} = 2(x-3)$ y $10 \\cdot 2 = 20$.\nEn el Paso 2, $-2(x - 3) = -2x + 6$, no $-2x - 6$: el signo menos debe multiplicar también al $-3$. Lo correcto es $5x + 5 - 2x + 6 = 20$, es decir, $3x + 11 = 20$ y $x = 3$.\nLos Pasos 3 y 4 son algebraicamente coherentes con lo que se escribió antes ($3x - 1 = 20$ da $x = 7$), por lo que no contienen un error nuevo; el resultado es incorrecto solo por arrastrar el error del Paso 2.\nComprobación: con $x = 3$, $\\frac{4}{2} - \\frac{0}{5} = 2$.",
+    "verify": "const lhs = (x) => (x + 1) / 2 - (x - 3) / 5\nconst p1 = (x) => 5 * (x + 1) - 2 * (x - 3) - 20\nconst p2 = (x) => 5 * x + 5 - 2 * x - 6 - 20\nconst p3 = (x) => 3 * x - 1 - 20\nconst xs = [0, 1, 2, 5, 9]\nconst same = (f, g, k) => xs.every((x) => Math.abs(f(x) - k * g(x)) < 1e-9)\nconst eq0 = (x) => lhs(x) - 2\nif (!same(p1, eq0, 10)) return 'A'\nif (!same(p2, p1, 1)) return 'B'\nif (!same(p3, p2, 1)) return 'C'\nif (Math.abs(p3(7)) > 1e-9) return 'D'\nreturn null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-030",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "En una estación de servicio de Los Ángeles, el precio que se paga por la bencina es directamente proporcional a la cantidad de litros cargados. Por $12$ litros, Cristóbal pagó $15\\,480$ pesos.\n¿Cuánto pagará por $30$ litros de la misma bencina?",
+    "alternatives": {
+      "A": "$6\\,192$ pesos",
+      "B": "$33\\,480$ pesos",
+      "C": "$38\\,700$ pesos",
+      "D": "$46\\,440$ pesos"
+    },
+    "correct": "C",
+    "explanation": "El precio por litro es $15\\,480 : 12 = 1\\,290$ pesos, así que $30$ litros cuestan $30 \\cdot 1\\,290 = 38\\,700$ pesos.\nA trata la relación como inversa: $15\\,480 \\cdot 12 : 30 = 6\\,192$.\nB redondea el precio a $1\\,000$ pesos por cada uno de los $18$ litros adicionales: $15\\,480 + 18\\,000$.\nD triplica el precio, como si $30$ litros fueran el triple de $12$ (en realidad son $2{,}5$ veces).",
+    "verify": "const p = (15480 / 12) * 30\nconst map = { 6192: 'A', 33480: 'B', 38700: 'C', 46440: 'D' }\nreturn map[Math.round(p)] ?? null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-031",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Para llenar el estanque de riego de una parcela en Melipilla se usan $k$ llaves iguales, todas abiertas al mismo tiempo y con el mismo caudal. El tiempo $t$, en horas, que demora en llenarse el estanque se modela con la función $\\displaystyle t(k) = \\frac{36}{k}$.\n¿Qué representa el número $36$ en este modelo?",
+    "alternatives": {
+      "A": "El tiempo, en horas, que demora una sola llave en llenar el estanque.",
+      "B": "La cantidad de llaves que se usan para llenar el estanque.",
+      "C": "El tiempo, en horas, que demoran $k$ llaves en llenar el estanque.",
+      "D": "La cantidad de horas que disminuye el tiempo de llenado por cada llave que se agrega."
+    },
+    "correct": "A",
+    "explanation": "El tiempo y la cantidad de llaves son inversamente proporcionales, y $36 = k \\cdot t$ es la constante de proporcionalidad. Con $k = 1$ se obtiene $t(1) = 36$: es el tiempo que demora una sola llave.\nB confunde la constante con la variable $k$. C describe $t(k)$, no el número $36$.\nD supone una disminución constante, propia de un modelo afín; aquí la disminución no es fija (de $1$ a $2$ llaves baja $18$ horas, pero de $2$ a $3$ llaves baja solo $6$ horas).",
+    "verify": "const t = (k) => 36 / k\nconst constante = [1, 2, 3, 4, 6].every((k) => Math.abs(k * t(k) - 36) < 1e-9)\nconst bajaFija = Math.abs((t(1) - t(2)) - (t(2) - t(3))) < 1e-9\nreturn constante && !bajaFija && t(1) === 36 ? 'A' : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-032",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un camión de reparto recorre siempre el mismo tramo de carretera entre dos ciudades del norte de Chile. El tiempo que demora es inversamente proporcional a la rapidez constante con que viaja. La tabla muestra algunos valores:\n$\\displaystyle \\begin{array}{|c|c|}\\hline \\text{Rapidez (km/h)} & \\text{Tiempo (h)} \\\\ \\hline 30 & 4 \\\\ \\hline 40 & 3 \\\\ \\hline 60 & p \\\\ \\hline q & 1{,}5 \\\\ \\hline \\end{array}$\n¿Cuáles son los valores de $p$ y $q$?",
+    "alternatives": {
+      "A": "$p = 1$ y $q = 55$",
+      "B": "$p = 2$ y $q = 45$",
+      "C": "$p = 2$ y $q = 80$",
+      "D": "$p = 8$ y $q = 11{,}25$"
+    },
+    "correct": "C",
+    "explanation": "En una proporcionalidad inversa el producto es constante: $30 \\cdot 4 = 40 \\cdot 3 = 120$. Entonces $60 \\cdot p = 120$, con $p = 2$, y $q \\cdot 1{,}5 = 120$, con $q = 80$.\nA supone que el tiempo baja $1$ hora por cada $10$ km/h, como en una relación afín.\nB obtiene bien $p$, pero calcula $q$ multiplicando $30 \\cdot 1{,}5$ en lugar de dividir $120 : 1{,}5$.\nD trata la relación como directa: $p = 4 \\cdot \\frac{60}{30} = 8$ y $q = 30 \\cdot \\frac{1{,}5}{4} = 11{,}25$.",
+    "verify": "const k = 30 * 4\nif (40 * 3 !== k) return null\nconst p = k / 60\nconst q = k / 1.5\nconst alts = { A: [1, 55], B: [2, 45], C: [2, 80], D: [8, 11.25] }\nconst hit = Object.keys(alts).filter((l) => Math.abs(alts[l][0] - p) < 1e-9 && Math.abs(alts[l][1] - q) < 1e-9)\nreturn hit.length === 1 ? hit[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-033",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una imprenta de Concepción, $4$ máquinas iguales, funcionando al mismo ritmo, imprimen $6\\,000$ folletos en $3$ horas.\n¿Cuántas horas demorarán $6$ máquinas iguales a las anteriores en imprimir $15\\,000$ folletos?",
+    "alternatives": {
+      "A": "$2$",
+      "B": "$5$",
+      "C": "$7{,}5$",
+      "D": "$11{,}25$"
+    },
+    "correct": "B",
+    "explanation": "Cada máquina imprime $6\\,000 : (4 \\cdot 3) = 500$ folletos por hora. Las $6$ máquinas imprimen $3\\,000$ folletos por hora, así que demoran $15\\,000 : 3\\,000 = 5$ horas.\nA considera solo el aumento de máquinas ($3 \\cdot \\frac{4}{6} = 2$) y olvida que hay más folletos.\nC considera solo el aumento de folletos ($3 \\cdot \\frac{15\\,000}{6\\,000} = 7{,}5$) y olvida que hay más máquinas.\nD trata la cantidad de máquinas como directamente proporcional al tiempo: $3 \\cdot \\frac{6}{4} \\cdot \\frac{15\\,000}{6\\,000} = 11{,}25$.",
+    "verify": "const porMaquinaHora = 6000 / (4 * 3)\nconst h = 15000 / (6 * porMaquinaHora)\nconst alts = { A: 2, B: 5, C: 7.5, D: 11.25 }\nconst hit = Object.keys(alts).filter((l) => Math.abs(alts[l] - h) < 1e-9)\nreturn hit.length === 1 ? hit[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-034",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "argumentar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Rodrigo comprará un televisor de $360\\,000$ pesos en una tienda de Rancagua y lo pagará en $n$ cuotas iguales sin interés, cada una de $v$ pesos.\n¿Cuál de las siguientes afirmaciones es verdadera?",
+    "alternatives": {
+      "A": "$n$ y $v$ son directamente proporcionales.",
+      "B": "Cada vez que $n$ aumenta en $1$, el valor $v$ disminuye siempre en el mismo monto.",
+      "C": "Si paga en $12$ cuotas, cada cuota es de $36\\,000$ pesos.",
+      "D": "Si paga en $8$ cuotas en lugar de $4$, el valor de cada cuota se reduce a la mitad."
+    },
+    "correct": "D",
+    "explanation": "Se cumple $n \\cdot v = 360\\,000$, de modo que $n$ y $v$ son inversamente proporcionales. Con $4$ cuotas, $v = 90\\,000$; con $8$ cuotas, $v = 45\\,000$, que es la mitad. D es verdadera.\nA es falsa: al aumentar $n$, $v$ disminuye.\nB es falsa: de $4$ a $5$ cuotas, $v$ baja de $90\\,000$ a $72\\,000$ (baja $18\\,000$), y de $5$ a $6$ cuotas baja a $60\\,000$ (baja $12\\,000$).\nC es falsa: $360\\,000 : 12 = 30\\,000$ pesos.",
+    "verify": "const v = (n) => 360000 / n\nconst A = v(2) / 2 === v(1) / 1\nconst B = v(4) - v(5) === v(5) - v(6)\nconst C = v(12) === 36000\nconst D = v(8) === v(4) / 2\nconst t = { A, B, C, D }\nconst ok = Object.keys(t).filter((k) => t[k])\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-035",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "¿Cuál de las siguientes expresiones es igual a $3(2a - b) - 2(a - 4b)$?",
+    "alternatives": {
+      "A": "$4a - 11b$",
+      "B": "$4a + b$",
+      "C": "$4a + 5b$",
+      "D": "$8a + 5b$"
+    },
+    "correct": "C",
+    "explanation": "Se distribuye: $3(2a - b) = 6a - 3b$ y $-2(a - 4b) = -2a + 8b$. Sumando, $6a - 3b - 2a + 8b = 4a + 5b$.\nA escribe $-2 \\cdot (-4b) = -8b$, un error de signo.\nB solo cambia el signo de $-4b$ sin multiplicarlo por $2$: $-2a + 4b$.\nD escribe $-2 \\cdot a = +2a$ y suma $6a + 2a$.",
+    "verify": "const f = (a, b) => 3 * (2 * a - b) - 2 * (a - 4 * b)\nconst alts = {\n  A: (a, b) => 4 * a - 11 * b,\n  B: (a, b) => 4 * a + b,\n  C: (a, b) => 4 * a + 5 * b,\n  D: (a, b) => 8 * a + 5 * b,\n}\nconst pts = [[1, 2], [3, -1], [0, 5], [-2, 7]]\nconst ok = Object.keys(alts).filter((k) => pts.every(([a, b]) => alts[k](a, b) === f(a, b)))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-036",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "representar",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Un terreno rectangular en Puerto Montt tiene $a$ metros de ancho, y su largo excede en $4$ metros al triple de su ancho.\n¿Cuál de las siguientes expresiones representa el perímetro del terreno, en metros?",
+    "alternatives": {
+      "A": "$4a + 4$",
+      "B": "$6a + 8$",
+      "C": "$8a + 4$",
+      "D": "$8a + 8$"
+    },
+    "correct": "D",
+    "explanation": "El largo mide $3a + 4$ metros. El perímetro es $2 \\cdot a + 2 \\cdot (3a + 4) = 2a + 6a + 8 = 8a + 8$.\nA suma solo un ancho y un largo ($a + 3a + 4$): es el semiperímetro.\nB considera solo los dos largos, $2(3a + 4)$, y olvida los anchos.\nC no multiplica el $4$ por $2$: escribe $2a + 2 \\cdot 3a + 4$.",
+    "verify": "const P = (a) => 2 * a + 2 * (3 * a + 4)\nconst alts = { A: (a) => 4 * a + 4, B: (a) => 6 * a + 8, C: (a) => 8 * a + 4, D: (a) => 8 * a + 8 }\nconst ok = Object.keys(alts).filter((k) => [1, 2, 5, 10].every((a) => alts[k](a) === P(a)))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-037",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "argumentar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Valentina elige un número entero $n$ y calcula la diferencia entre el cuadrado de su sucesor y el cuadrado del número, es decir, $(n + 1)^2 - n^2$.\n¿Cuál de las siguientes afirmaciones es verdadera para cualquier número entero $n$?",
+    "alternatives": {
+      "A": "El resultado es siempre igual a $1$.",
+      "B": "El resultado es siempre un número par.",
+      "C": "El resultado es siempre un múltiplo de $3$.",
+      "D": "El resultado es siempre un número impar."
+    },
+    "correct": "D",
+    "explanation": "Al desarrollar, $(n + 1)^2 - n^2 = n^2 + 2n + 1 - n^2 = 2n + 1$, que es un número par más $1$: siempre impar.\nA resulta de escribir $(n + 1)^2 = n^2 + 1$, olvidando el término $2n$.\nB es falsa: con $n = 1$ se obtiene $3$.\nC es falsa: con $n = 2$ se obtiene $5$.",
+    "verify": "const ns = []\nfor (let n = -20; n <= 20; n++) ns.push((n + 1) ** 2 - n ** 2)\nconst t = {\n  A: ns.every((r) => r === 1),\n  B: ns.every((r) => r % 2 === 0),\n  C: ns.every((r) => r % 3 === 0),\n  D: ns.every((r) => Math.abs(r % 2) === 1),\n}\nconst ok = Object.keys(t).filter((k) => t[k])\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-038",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Constanza imprimió una fotografía de su viaje a San Pedro de Atacama. La fotografía es rectangular y mide $x$ cm de ancho y $(x + 10)$ cm de largo. Para enmarcarla, la rodea con un marco de $4$ cm de ancho en todos sus bordes.\n¿Cuál de las siguientes expresiones representa el área del marco, en $\\text{cm}^2$?",
+    "alternatives": {
+      "A": "$8x + 56$",
+      "B": "$16x + 80$",
+      "C": "$x^2 + 26x + 144$",
+      "D": "$16x + 144$"
+    },
+    "correct": "D",
+    "explanation": "Con el marco, el rectángulo exterior mide $(x + 8)$ cm por $(x + 18)$ cm, porque el marco agrega $4$ cm a cada lado. El área del marco es la diferencia:\n$(x + 8)(x + 18) - x(x + 10) = x^2 + 26x + 144 - x^2 - 10x = 16x + 144$.\nA agrega solo $4$ cm a cada medida: $(x + 4)(x + 14) - x(x + 10)$.\nB multiplica el perímetro de la fotografía por $4$ y olvida los cuatro cuadrados de $4 \\times 4$ de las esquinas.\nC es el área total del rectángulo exterior, sin restar la fotografía.",
+    "verify": "const marco = (x) => (x + 8) * (x + 18) - x * (x + 10)\nconst alts = {\n  A: (x) => 8 * x + 56,\n  B: (x) => 16 * x + 80,\n  C: (x) => x * x + 26 * x + 144,\n  D: (x) => 16 * x + 144,\n}\nconst ok = Object.keys(alts).filter((k) => [1, 5, 12, 20].every((x) => alts[k](x) === marco(x)))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-039",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "modelar",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Durante un corte de luz en Castro, Pedro enciende una vela nueva. La altura $h$, en centímetros, de la vela a las $t$ horas de encendida se modela con la función $h(t) = 24 - 1{,}5t$.\n¿Qué representa el número $1{,}5$ en este modelo?",
+    "alternatives": {
+      "A": "La altura inicial de la vela, en centímetros.",
+      "B": "Los centímetros que disminuye la altura de la vela por cada hora.",
+      "C": "Las horas que demora la vela en consumirse por completo.",
+      "D": "La altura de la vela, en centímetros, después de una hora."
+    },
+    "correct": "B",
+    "explanation": "En $h(t) = 24 - 1{,}5t$, la pendiente $-1{,}5$ indica que por cada hora la altura baja $1{,}5$ cm. Por ejemplo, $h(0) = 24$ y $h(1) = 22{,}5$.\nA corresponde al coeficiente de posición, $24 = h(0)$.\nC sería $16$ horas, el valor de $t$ para el cual $h(t) = 0$.\nD sería $h(1) = 22{,}5$ cm, no $1{,}5$.",
+    "verify": "const h = (t) => 24 - 1.5 * t\nconst baja = [0, 1, 2, 5].every((t) => Math.abs(h(t) - h(t + 1) - 1.5) < 1e-9)\nconst inicial = h(0)\nconst fin = 24 / 1.5\nconst enUna = h(1)\nif (!baja) return null\nif (inicial === 1.5 || fin === 1.5 || enUna === 1.5) return null\nreturn 'B'"
+  },
+  {
+    "key": "m1-algebra-y-funciones-040",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una academia de natación de Rancagua ofrece dos planes mensuales:\nPlan P: $15\\,000$ pesos fijos más $800$ pesos por cada clase.\nPlan Q: $9\\,000$ pesos fijos más $1\\,100$ pesos por cada clase.\n¿Cuál es la menor cantidad de clases que debe tomar una persona en un mes para que el plan P le resulte más barato que el plan Q?",
+    "alternatives": {
+      "A": "$4$",
+      "B": "$20$",
+      "C": "$21$",
+      "D": "$30$"
+    },
+    "correct": "C",
+    "explanation": "Con $x$ clases, los costos son $P(x) = 15\\,000 + 800x$ y $Q(x) = 9\\,000 + 1\\,100x$. El plan P es más barato si $15\\,000 + 800x < 9\\,000 + 1\\,100x$, es decir, $6\\,000 < 300x$, o sea, $x > 20$.\nLa menor cantidad entera de clases es $21$.\nB corresponde a $x = 20$, donde ambos planes cuestan lo mismo ($31\\,000$ pesos), así que P todavía no es más barato.\nA divide $6\\,000$ por $800 + 1\\,100$, sumando las tarifas por clase en lugar de restarlas.\nD divide el cargo fijo del plan Q por la diferencia de tarifas: $9\\,000 : 300$.",
+    "verify": "const P = (x) => 15000 + 800 * x\nconst Q = (x) => 9000 + 1100 * x\nlet x = 0\nwhile (!(P(x) < Q(x))) x++\nconst map = { 4: 'A', 20: 'B', 21: 'C', 30: 'D' }\nreturn map[x] ?? null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-041",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En Copiapó, el cobro mensual de agua potable de una vivienda es una función afín de la cantidad $x$ de metros cúbicos consumidos. La tabla muestra el cobro para algunos consumos:\n$\\displaystyle \\begin{array}{|c|c|}\\hline \\text{Consumo } (\\text{m}^3) & \\text{Cobro (pesos)} \\\\ \\hline 10 & 13\\,400 \\\\ \\hline 15 & 18\\,900 \\\\ \\hline 20 & 24\\,400 \\\\ \\hline \\end{array}$\n¿Cuál de las siguientes funciones representa el cobro $f(x)$, en pesos?",
+    "alternatives": {
+      "A": "$f(x) = 1\\,100x + 2\\,400$",
+      "B": "$f(x) = 1\\,340x$",
+      "C": "$f(x) = 2\\,400x + 1\\,100$",
+      "D": "$f(x) = 5\\,500x + 2\\,400$"
+    },
+    "correct": "A",
+    "explanation": "Al aumentar el consumo en $5\\ \\text{m}^3$, el cobro aumenta $5\\,500$ pesos, así que la pendiente es $5\\,500 : 5 = 1\\,100$ pesos por $\\text{m}^3$. El cargo fijo es $13\\,400 - 10 \\cdot 1\\,100 = 2\\,400$. Luego $f(x) = 1\\,100x + 2\\,400$.\nB usa solo el primer dato, $13\\,400 : 10$, como si la relación fuera proporcional; no cumple $f(15) = 18\\,900$.\nC intercambia la pendiente con el coeficiente de posición.\nD toma como pendiente el aumento por cada $5\\ \\text{m}^3$ en lugar del aumento por cada $\\text{m}^3$.",
+    "verify": "const data = [[10, 13400], [15, 18900], [20, 24400]]\nconst alts = {\n  A: (x) => 1100 * x + 2400,\n  B: (x) => 1340 * x,\n  C: (x) => 2400 * x + 1100,\n  D: (x) => 5500 * x + 2400,\n}\nconst ok = Object.keys(alts).filter((k) => data.every(([x, y]) => alts[k](x) === y))\nreturn ok.length === 1 ? ok[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-042",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Josefina cercará un corral rectangular para gallinas en su parcela de Quillota. Uno de los lados del corral será un muro que ya existe, y para los otros tres lados usará $60$ m de malla. Si $x$ es la medida, en metros, de cada uno de los dos lados perpendiculares al muro, el área del corral, en $\\text{m}^2$, está dada por $A(x) = x(60 - 2x)$.\n¿Cuál es el área máxima que puede tener el corral?",
+    "alternatives": {
+      "A": "$225\\ \\text{m}^2$",
+      "B": "$400\\ \\text{m}^2$",
+      "C": "$450\\ \\text{m}^2$",
+      "D": "$675\\ \\text{m}^2$"
+    },
+    "correct": "C",
+    "explanation": "$A(x) = -2x^2 + 60x$ es una parábola que se abre hacia abajo; su vértice está en $x = \\frac{-60}{2 \\cdot (-2)} = 15$ (el punto medio entre los ceros $0$ y $30$). El área máxima es $A(15) = 15 \\cdot 30 = 450\\ \\text{m}^2$.\nA supone un corral cuadrado cercado por los cuatro lados: $15 \\cdot 15$.\nB reparte la malla en tres lados iguales de $20$ m: $A(20) = 20 \\cdot 20 = 400$, que no es el máximo.\nD usa $x = 15$ pero calcula el largo como $60 - x = 45$.",
+    "verify": "const A = (x) => x * (60 - 2 * x)\nlet best = 0\nfor (let x = 0; x <= 30; x += 0.5) best = Math.max(best, A(x))\nconst map = { 225: 'A', 400: 'B', 450: 'C', 675: 'D' }\nreturn map[best] ?? null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-043",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En una corrida familiar en Valdivia, el recorrido total de $9{,}5$ km se divide en tres tramos. El segundo tramo mide $1{,}5$ km más que el primero, y el tercer tramo mide el doble que el primero.\n\n¿Cuántos kilómetros mide el tercer tramo?",
+    "alternatives": {
+      "A": "$2$",
+      "B": "$3{,}5$",
+      "C": "$4$",
+      "D": "$5{,}5$"
+    },
+    "correct": "C",
+    "explanation": "Si el primer tramo mide $x$ km, entonces $x + (x + 1{,}5) + 2x = 9{,}5$, es decir, $4x = 8$ y $x = 2$. El tercer tramo mide $2 \\cdot 2 = 4$ km.\nA es la medida del primer tramo.\nB es la medida del segundo tramo.\nD toma el tercer tramo como el doble del segundo: $x + (x + 1{,}5) + 2(x + 1{,}5) = 9{,}5$ da $x = 1{,}25$ y un tercer tramo de $5{,}5$ km.",
+    "verify": "const x = (9.5 - 1.5) / 4\nconst ok = Math.abs(x + (x + 1.5) + 2 * x - 9.5) < 1e-9\nconst t = 2 * x\nconst alts = { A: 2, B: 3.5, C: 4, D: 5.5 }\nconst k = Object.keys(alts).filter((l) => Math.abs(alts[l] - t) < 1e-9)\nreturn ok && k.length === 1 ? k[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-044",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "representar",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "En un vivero de Limache, Rocío tiene $x$ maceteros. Si duplica la cantidad de maceteros que tiene y luego regala $7$, le quedan al menos $15$ maceteros.\n\n¿Cuál de las siguientes inecuaciones representa esta situación?",
+    "alternatives": {
+      "A": "$2(x - 7) \\geq 15$",
+      "B": "$2x - 7 > 15$",
+      "C": "$2x - 7 \\leq 15$",
+      "D": "$2x - 7 \\geq 15$"
+    },
+    "correct": "D",
+    "explanation": "Al duplicar tiene $2x$ maceteros; al regalar $7$ le quedan $2x - 7$. \"Al menos $15$\" significa mayor o igual que $15$: $2x - 7 \\geq 15$.\nA resta los $7$ antes de duplicar, invirtiendo el orden de las acciones.\nB usa la desigualdad estricta, que excluye el caso en que le quedan exactamente $15$.\nC interpreta \"al menos\" como \"a lo más\".",
+    "verify": "// x = 11 deja exactamente 15 (debe cumplirse) y x = 10 deja 13 (no debe cumplirse)\nconst real = (x) => 2 * x - 7 >= 15\nconst alts = { A: (x) => 2 * (x - 7) >= 15, B: (x) => 2 * x - 7 > 15, C: (x) => 2 * x - 7 <= 15, D: (x) => 2 * x - 7 >= 15 }\nconst xs = [0, 5, 10, 11, 12, 20]\nconst k = Object.keys(alts).filter((l) => xs.every((x) => alts[l](x) === real(x)))\nreturn k.length === 1 ? k[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-045",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "resolver_problemas",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Una impresora 3D de un liceo técnico de Talcahuano consume filamento a un ritmo constante: en $3$ horas de trabajo usa $45$ g de filamento.\n\n¿Cuántos gramos de filamento usará en $8$ horas de trabajo?",
+    "alternatives": {
+      "A": "$15$",
+      "B": "$50$",
+      "C": "$53$",
+      "D": "$120$"
+    },
+    "correct": "D",
+    "explanation": "El consumo es directamente proporcional al tiempo: usa $45 : 3 = 15$ g por hora, así que en $8$ horas usa $15 \\cdot 8 = 120$ g.\nA es el consumo en una sola hora.\nB suma a $45$ g la diferencia de horas, $8 - 3 = 5$, como si cada hora extra consumiera $1$ g.\nC suma $8$ a $45$, mezclando horas con gramos.",
+    "verify": "const g = (45 / 3) * 8\nconst alts = { A: 15, B: 50, C: 53, D: 120 }\nconst k = Object.keys(alts).filter((l) => alts[l] === g)\nreturn k.length === 1 ? k[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-046",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Una estudiante de arquitectura de La Serena construye la maqueta de un edificio a escala $1 : 250$, es decir, cada longitud de la maqueta es $250$ veces menor que la longitud real correspondiente.\n\nSi la altura real del edificio es $h$ metros, ¿cuál de las siguientes expresiones representa la altura de la maqueta, en centímetros?",
+    "alternatives": {
+      "A": "$\\frac{h}{250}$",
+      "B": "$0{,}4h$",
+      "C": "$2{,}5h$",
+      "D": "$250h$"
+    },
+    "correct": "B",
+    "explanation": "La altura real en centímetros es $100h$. En la maqueta se divide por $250$: $\\frac{100h}{250} = 0{,}4h$ cm. Por ejemplo, un edificio de $50$ m mide $20$ cm en la maqueta.\nA divide por $250$ pero deja el resultado en metros.\nC invierte la razón: calcula $\\frac{250}{100}h$.\nD multiplica por $250$ en lugar de dividir.",
+    "verify": "const real = (h) => (h * 100) / 250\nconst alts = { A: (h) => h / 250, B: (h) => 0.4 * h, C: (h) => 2.5 * h, D: (h) => 250 * h }\nconst k = Object.keys(alts).filter((l) => [20, 50, 75].every((h) => Math.abs(alts[l](h) - real(h)) < 1e-9))\nreturn k.length === 1 ? k[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-047",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Si $a + b = 7$ y $a \\cdot b = 10$, ¿cuál es el valor de $a^{2} + b^{2}$?",
+    "alternatives": {
+      "A": "$29$",
+      "B": "$39$",
+      "C": "$49$",
+      "D": "$69$"
+    },
+    "correct": "A",
+    "explanation": "Como $(a + b)^{2} = a^{2} + 2ab + b^{2}$, se tiene $a^{2} + b^{2} = (a + b)^{2} - 2ab = 49 - 20 = 29$. Se puede comprobar con $a = 5$ y $b = 2$: $25 + 4 = 29$.\nB resta $ab$ una sola vez, olvidando el factor $2$ del término central.\nC supone que $(a + b)^{2} = a^{2} + b^{2}$.\nD suma $2ab$ en lugar de restarlo.",
+    "verify": "const a = 5, b = 2\nconst ok = a + b === 7 && a * b === 10\nconst x = a * a + b * b\nconst alts = { A: 29, B: 39, C: 49, D: 69 }\nconst k = Object.keys(alts).filter((l) => alts[l] === x && x === 49 - 20)\nreturn ok && k.length === 1 ? k[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-048",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Mariana quiere factorizar la expresión $9a^{2} - 16 - (3a + 4)(a - 2)$ y realiza el siguiente desarrollo, en el que comete un error:\nPaso 1: $(3a + 4)(3a - 4) - (3a + 4)(a - 2)$\nPaso 2: $(3a + 4)\\left[(3a - 4) - (a - 2)\\right]$\nPaso 3: $(3a + 4)(3a - 4 - a - 2)$\nPaso 4: $(3a + 4)(2a - 6) = 2(3a + 4)(a - 3)$\n\n¿En cuál de los pasos se cometió el error?",
+    "alternatives": {
+      "A": "En el Paso 1",
+      "B": "En el Paso 2",
+      "C": "En el Paso 3",
+      "D": "En el Paso 4"
+    },
+    "correct": "C",
+    "explanation": "El Paso 1 es correcto, porque $9a^{2} - 16 = (3a + 4)(3a - 4)$ es una suma por diferencia. El Paso 2 es correcto: se factoriza el término común $(3a + 4)$.\nEn el Paso 3, al eliminar el paréntesis precedido de un signo menos, debía cambiar el signo de ambos términos: $(3a - 4) - (a - 2) = 3a - 4 - a + 2 = 2a - 2$. Mariana escribió $-2$ en lugar de $+2$.\nEl Paso 4 reduce correctamente lo que se obtuvo en el Paso 3. La factorización correcta es $2(3a + 4)(a - 1)$.",
+    "verify": "const E = (a) => 9 * a * a - 16 - (3 * a + 4) * (a - 2)\nconst pasos = [\n  (a) => (3 * a + 4) * (3 * a - 4) - (3 * a + 4) * (a - 2),\n  (a) => (3 * a + 4) * ((3 * a - 4) - (a - 2)),\n  (a) => (3 * a + 4) * (3 * a - 4 - a - 2),\n  (a) => 2 * (3 * a + 4) * (a - 3),\n]\nconst xs = [-2, 0, 1, 3, 5]\nconst i = pasos.findIndex((p) => xs.some((a) => Math.abs(p(a) - E(a)) > 1e-9))\nreturn i >= 0 ? 'ABCD'[i] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-049",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "modelar",
+    "difficulty": "easy",
+    "format": "standard",
+    "content": "Sofía, que vive en Osorno, abrió un saco nuevo de alimento para su perro. La cantidad de alimento que queda en el saco, en kilogramos, $d$ días después de abrirlo se modela con la función $A(d) = 15 - 0{,}4d$.\n\n¿Qué representa el número $0{,}4$ en este modelo?",
+    "alternatives": {
+      "A": "La cantidad de kilogramos de alimento que tenía el saco al abrirlo.",
+      "B": "La cantidad de kilogramos de alimento que come el perro cada día.",
+      "C": "La cantidad de días que dura el saco de alimento.",
+      "D": "La cantidad de kilogramos de alimento que quedan en el saco después de $15$ días."
+    },
+    "correct": "B",
+    "explanation": "El $0{,}4$ es la pendiente (con signo negativo): cada día que pasa, la cantidad de alimento disminuye $0{,}4$ kg, que es lo que come el perro diariamente.\nA corresponde al $15$, que es $A(0)$.\nC confunde la pendiente con la duración del saco, que es $15 : 0{,}4 = 37{,}5$ días.\nD confunde la pendiente con $A(15) = 15 - 6 = 9$ kg.",
+    "verify": "const f = (d) => 15 - 0.4 * d\nconst consumo = f(0) - f(1)\nconst hechos = { A: f(0), B: consumo, C: 15 / 0.4, D: f(15) }\nconst k = Object.keys(hechos).filter((l) => Math.abs(hechos[l] - 0.4) < 1e-9)\nreturn k.length === 1 ? k[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-050",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "La gráfica de una función afín $f$ es una recta que pasa por los puntos $(-2,\\ 7)$ y $(4,\\ -2)$.\n\n¿En qué punto la gráfica de $f$ intersecta al eje $Y$?",
+    "alternatives": {
+      "A": "$(0,\\ 4)$",
+      "B": "$\\left(0,\\ \\frac{17}{3}\\right)$",
+      "C": "$(0,\\ 10)$",
+      "D": "$\\left(\\frac{8}{3},\\ 0\\right)$"
+    },
+    "correct": "A",
+    "explanation": "La pendiente es $m = \\frac{-2 - 7}{4 - (-2)} = \\frac{-9}{6} = -\\frac{3}{2}$. Desde $(-2,\\ 7)$, al avanzar $2$ unidades hasta $x = 0$, la función baja $3$: $f(0) = 7 - 3 = 4$. El punto es $(0,\\ 4)$.\nB invierte la pendiente ($-\\frac{2}{3}$): $7 - \\frac{4}{3} = \\frac{17}{3}$.\nC usa la pendiente con el signo cambiado: $7 + 3 = 10$.\nD es la intersección con el eje $X$, ya que $f(x) = -\\frac{3}{2}x + 4$ se anula en $x = \\frac{8}{3}$.",
+    "verify": "const m = (-2 - 7) / (4 - -2)\nconst n = 7 - m * -2\nconst ok = Math.abs(m * 4 + n - -2) < 1e-9\nconst alts = { A: [0, 4], B: [0, 17 / 3], C: [0, 10], D: [8 / 3, 0] }\nconst k = Object.keys(alts).filter((l) => alts[l][0] === 0 && Math.abs(alts[l][1] - n) < 1e-9)\nreturn ok && k.length === 1 ? k[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-051",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Una emprendedora de Coyhaique vende frascos de mermelada de calafate. Su ganancia semanal $G$, en miles de pesos, cuando vende cada frasco a $x$ miles de pesos, se modela con la función $G(x) = -30x^{2} + 360x - 600$.\n\n¿Cuál es la ganancia semanal máxima que puede obtener, en miles de pesos?",
+    "alternatives": {
+      "A": "$-600$",
+      "B": "$6$",
+      "C": "$210$",
+      "D": "$480$"
+    },
+    "correct": "D",
+    "explanation": "Como el coeficiente de $x^{2}$ es negativo, la ganancia máxima está en el vértice: $x = -\\frac{360}{2 \\cdot (-30)} = 6$. Entonces $G(6) = -30 \\cdot 36 + 360 \\cdot 6 - 600 = -1\\,080 + 2\\,160 - 600 = 480$.\nA calcula la abscisa como $-\\frac{b}{a} = 12$, olvidando el $2$ del denominador: $G(12) = -600$.\nB es el precio que maximiza la ganancia, no la ganancia máxima.\nC evalúa en $x = 3$, la mitad de la abscisa del vértice: $G(3) = 210$.",
+    "verify": "const G = (x) => -30 * x * x + 360 * x - 600\nconst xv = -360 / (2 * -30)\nconst max = G(xv)\nconst alts = { A: -600, B: 6, C: 210, D: 480 }\nconst k = Object.keys(alts).filter((l) => Math.abs(alts[l] - max) < 1e-9)\nreturn G(12) === -600 && G(3) === 210 && k.length === 1 ? k[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-052",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sea $f(x) = ax^{2} + bx + c$ una función cuadrática, con $a$, $b$ y $c$ números reales tales que $a > 0$ y $c < 0$.\n\n¿Cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "El vértice de la parábola está en el cuarto cuadrante.",
+      "B": "La parábola intersecta al eje $X$ en dos puntos distintos.",
+      "C": "La función $f$ alcanza un valor máximo.",
+      "D": "El eje de simetría de la parábola es una recta $x = k$, con $k > 0$."
+    },
+    "correct": "B",
+    "explanation": "Como $f(0) = c < 0$, la parábola pasa por un punto bajo el eje $X$, y como $a > 0$, se abre hacia arriba; por lo tanto, corta al eje $X$ en dos puntos. Equivalentemente, el discriminante $b^{2} - 4ac$ es positivo, pues $-4ac > 0$.\nA y D son falsas: $f(x) = x^{2} + 4x - 1$ cumple las condiciones y su vértice es $(-2,\\ -5)$, en el tercer cuadrante, con eje de simetría $x = -2$.\nC es falsa: con $a > 0$ la función alcanza un mínimo, no un máximo.",
+    "verify": "const casos = []\nfor (const a of [0.5, 1, 3]) for (const b of [-4, 0, 4]) for (const c of [-5, -1]) casos.push([a, b, c])\nconst props = {\n  A: ([a, b, c]) => { const h = -b / (2 * a); const k = c - (b * b) / (4 * a); return h > 0 && k < 0 },\n  B: ([a, b, c]) => b * b - 4 * a * c > 0,\n  C: ([a]) => a < 0,\n  D: ([a, b]) => -b / (2 * a) > 0,\n}\nconst k = Object.keys(props).filter((l) => casos.every(props[l]))\nreturn k.length === 1 ? k[0] : null"
+  },
+  {
+    "key": "m1-algebra-y-funciones-053",
+    "subject": "m1",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-2x2",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una fiesta costumbrista de Chillán, todos los platos de paila marina tienen el mismo precio y todos los vasos de mote con huesillo también. La familia Rojas pagó $28\\,500$ pesos por $4$ pailas marinas y $3$ motes con huesillo, y la familia Millán pagó $31\\,000$ pesos por $3$ pailas marinas y $5$ motes con huesillo.\n\n¿Cuántos pesos más cuesta una paila marina que un mote con huesillo?",
+    "alternatives": {
+      "A": "$1\\,000$",
+      "B": "$2\\,500$",
+      "C": "$3\\,500$",
+      "D": "$4\\,500$"
+    },
+    "correct": "A",
+    "explanation": "Sean $p$ el precio de una paila y $m$ el de un mote: $4p + 3m = 28\\,500$ y $3p + 5m = 31\\,000$. Multiplicando la primera por $5$ y la segunda por $3$ y restando: $20p - 9p = 142\\,500 - 93\\,000$, es decir, $11p = 49\\,500$ y $p = 4\\,500$. Luego $3m = 28\\,500 - 18\\,000$, así que $m = 3\\,500$. La diferencia es $1\\,000$ pesos.\nB resta los totales pagados por las familias, que corresponden a cantidades distintas de productos.\nC es el precio de un mote con huesillo.\nD es el precio de una paila marina.",
+    "verify": "const det = 4 * 5 - 3 * 3\nconst p = (28500 * 5 - 3 * 31000) / det\nconst m = (4 * 31000 - 3 * 28500) / det\nconst ok = 4 * p + 3 * m === 28500 && 3 * p + 5 * m === 31000\nconst alts = { A: 1000, B: 2500, C: 3500, D: 4500 }\nconst k = Object.keys(alts).filter((l) => alts[l] === p - m)\nreturn ok && k.length === 1 ? k[0] : null"
+  }
+]
