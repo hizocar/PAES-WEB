@@ -1,3 +1,4 @@
+import { ADMISSION_PROCESS, examFor, formatDay } from "@/lib/paes-calendar"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { createClient } from "@/lib/supabase/server"
@@ -58,21 +59,10 @@ export default async function Home() {
       <main className="flex-1 bg-white">
         {/* Hero Section */}
         <section className="relative overflow-hidden pt-12 pb-20 md:pt-20 md:pb-32">
-          {/* Animated Background Gradients - Reduced on mobile for performance/overflow */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] md:w-[1000px] md:h-[600px] bg-gradient-to-tr from-blue-200/40 via-purple-200/40 to-pink-200/40 rounded-full blur-3xl opacity-50 md:opacity-70 pointer-events-none animate-pulse-slow" />
-          <div className="hidden md:block absolute bottom-0 right-1/4 w-[800px] h-[500px] bg-gradient-to-bl from-emerald-100/40 to-cyan-100/40 rounded-full blur-3xl opacity-50 pointer-events-none" />
 
           <div className="container mx-auto px-6 relative z-10 text-center max-w-5xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50/80 backdrop-blur-sm text-blue-700 text-xs md:text-sm font-bold mb-6 md:mb-8 border border-blue-100 shadow-sm hover:scale-105 transition-transform cursor-default">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
-              </span>
-              Nueva admisión 2027
-            </div>
-
             <h1 className="text-4xl md:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 md:mb-8 leading-[1.1]">
-              Domina la PAES con <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600 block md:inline">Inteligencia y Diversión</span> 🚀
+              Domina la PAES <span className="block text-blue-600">jugando</span>
             </h1>
 
             <p className="text-lg md:text-xl text-slate-600 mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed px-4 md:px-0">
@@ -82,12 +72,12 @@ export default async function Home() {
             <div className="flex flex-col items-center justify-center gap-6 md:gap-8">
               <LoginButton
                 size="lg"
-                className="h-14 md:h-16 w-full md:w-auto px-8 md:px-12 text-lg md:text-xl rounded-2xl shadow-xl shadow-blue-600/30 hover:scale-105 hover:shadow-2xl transition-all duration-300 font-bold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 border-b-4 border-blue-800 active:border-b-0 active:translate-y-1"
+                className="h-14 md:h-16 w-full md:w-auto px-8 md:px-12 text-lg md:text-xl rounded-2xl font-black bg-blue-600 hover:bg-blue-700 border-b-4 border-blue-800 shadow-[0_10px_24px_-8px_rgba(37,99,235,0.6)] transition-[background-color,transform] active:translate-y-0.5 active:border-b-2"
               >
-                ¡Empieza tu Aventura! 🎮
+                ¡Empieza gratis!
               </LoginButton>
-              <p className="text-sm text-slate-500 font-medium animate-bounce">
-                👆 ¡Es gratis comenzar!
+              <p className="text-sm font-semibold text-slate-600">
+                PAES Regular {ADMISSION_PROCESS}: M2 el {formatDay(examFor("m2").at)} · M1 el {formatDay(examFor("m1").at)}
               </p>
 
               {/* Exam Status Cards */}
@@ -147,32 +137,23 @@ export default async function Home() {
               </div>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12 md:mt-24 pt-8 md:pt-12 border-t border-slate-200/60 relative">
-              <div className="hover:-translate-y-1 transition-transform cursor-default">
-                <div className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-blue-600 to-indigo-600 mb-1">15k+</div>
-                <div className="text-xs md:text-sm text-slate-600 font-bold uppercase tracking-wider">Estudiantes</div>
-              </div>
-              <div className="hover:-translate-y-1 transition-transform cursor-default">
-                <div className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-purple-600 to-pink-600 mb-1">2.5M</div>
-                <div className="text-xs md:text-sm text-slate-600 font-bold uppercase tracking-wider">Ejercicios</div>
-              </div>
-              <div className="hover:-translate-y-1 transition-transform cursor-default">
-                <div className="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-br from-emerald-600 to-teal-600 mb-1">850+</div>
-                <div className="text-xs md:text-sm text-slate-600 font-bold uppercase tracking-wider">Puntaje Prom.</div>
-              </div>
-              <div className="hover:-translate-y-1 transition-transform cursor-default">
-                <div className="text-3xl md:text-4xl font-black text-slate-800 mb-1 flex items-center justify-center gap-2">
-                  <span>∞</span>
+            {/* Datos del producto (verificables) */}
+            <dl className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-12 md:mt-20 pt-8 md:pt-12 border-t border-slate-200">
+              {[
+                { value: "360+", label: "Preguntas originales tipo PAES" },
+                { value: "M1 y M2", label: "Las dos pruebas de Matemática" },
+                { value: "4 ejes", label: "Del temario oficial 2027" },
+                { value: "100–1000", label: "Puntaje PAES en tus ensayos" },
+              ].map((d) => (
+                <div key={d.label}>
+                  <dd className="text-3xl md:text-4xl font-black text-slate-900 tabular-nums">{d.value}</dd>
+                  <dt className="mt-1 text-sm font-semibold text-slate-600 text-balance">{d.label}</dt>
                 </div>
-                <div className="text-xs md:text-sm text-slate-600 font-bold uppercase tracking-wider">Vidas Recargables</div>
-              </div>
-            </div>
+              ))}
+            </dl>
           </div>
         </section>
 
-        {/* Features Preview */}
-        {/* Features Preview */}
         {/* Features Preview */}
         <ProductShowcase />
 
@@ -181,7 +162,7 @@ export default async function Home() {
 
       <footer className="bg-slate-900 py-12 text-slate-400 text-sm">
         <div className="container mx-auto px-6 text-center">
-          <p>© 2027 PAES Lab. Todos los derechos reservados.</p>
+          <p>© {new Date().getFullYear()} PAES Lab. Todos los derechos reservados.</p>
         </div>
       </footer>
     </div>

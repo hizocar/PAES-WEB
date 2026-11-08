@@ -46,7 +46,7 @@ export function PricingSection({ plans = DEFAULT_PLANS }: { plans?: Plan[] }) {
             <div className="container mx-auto px-6 relative z-10">
                 <div className="text-center mb-16 md:mb-24 max-w-3xl mx-auto">
                     <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight">
-                        Elige tu camino al <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Éxito</span>
+                        Elige tu camino al <span className="text-blue-600">éxito</span>
                     </h2>
                     <p className="text-xl text-slate-600 font-medium leading-relaxed">
                         Planes diseñados para que nada te detenga. <br className="hidden md:block" />

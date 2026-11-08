@@ -87,12 +87,8 @@ export default function ProductShowcase() {
         <section id="features" className="py-20 md:py-32 bg-slate-50 overflow-hidden relative">
             <div className="container mx-auto px-6">
                 <div className="text-center mb-16 md:mb-24 max-w-3xl mx-auto">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-600 text-xs font-bold uppercase tracking-wider mb-6">
-                        <Zap size={14} className="fill-current" />
-                        Potencia tu Estudio
-                    </div>
                     <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
-                        Todo lo que necesitas para <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">romperla</span>
+                        Todo lo que necesitas para <span className="text-blue-600">romperla</span>
                     </h2>
                     <p className="text-lg text-slate-600 leading-relaxed">
                         PAES Lab combina tecnología de punta con gamificación para transformar tu preparación en algo que realmente disfrutes.
