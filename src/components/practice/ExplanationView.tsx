@@ -113,6 +113,10 @@ export function ExplanationView({ questionId, explanationText, videoPath }: Expl
             setCredits(prev => (prev !== null ? prev - 1 : 0))
             setIsRevealed(true)
 
+            // Analítica: registrar que el alumno abrió la explicación (no bloquea la UI)
+            supabase.from('explanation_views').insert({ user_id: user.id, question_id: questionId })
+                .then(({ error }) => { if (error) console.error("explanation_views:", error.message) })
+
             if (videoPath) {
                 const { data } = await supabase.storage
                     .from('explanation-videos')

@@ -8,12 +8,17 @@ import { useSubject } from "@/components/providers/SubjectContext"
 type StudyTrackerType = {
     isTracking: boolean
     todaySeconds: number
+    /** id de la fila activa en study_sessions; se adjunta a cada intento para modelar secuencias */
+    sessionId: string | null
 }
 
 const StudyTrackerContext = createContext<StudyTrackerType>({
     isTracking: false,
     todaySeconds: 0,
+    sessionId: null,
 })
+
+export const useStudyTracker = () => useContext(StudyTrackerContext)
 
 const IDLE_TIMEOUT_MS = 2 * 60 * 1000 // 2 minutes
 const PING_INTERVAL_MS = 30 * 1000 // Save every 30s
@@ -25,15 +30,19 @@ export function StudyTrackerProvider({ children }: { children: React.ReactNode }
 
     const [isTracking, setIsTracking] = useState(false)
     const [todaySeconds, setTodaySeconds] = useState(0)
+    const [sessionId, setSessionId] = useState<string | null>(null)
 
     const sessionIdRef = useRef<string | null>(null)
+    // Evita crear dos sesiones si llegan varios eventos antes de que responda el insert
+    const startingRef = useRef(false)
     const startTimeRef = useRef<number | null>(null)
     const lastActiveRef = useRef<number>(Date.now())
     const idleTimerRef = useRef<NodeJS.Timeout | null>(null)
 
     // Start/Stop session logic
     const startSession = async () => {
-        if (sessionIdRef.current || !user) return
+        if (sessionIdRef.current || startingRef.current || !user) return
+        startingRef.current = true
 
         const now = new Date()
         startTimeRef.current = now.getTime()
@@ -50,11 +59,15 @@ export function StudyTrackerProvider({ children }: { children: React.ReactNode }
                 .select('id')
                 .single()
 
+            if (error) console.error("Failed to start study session", error)
             if (data) {
                 sessionIdRef.current = data.id
+                setSessionId(data.id)
             }
         } catch (e) {
             console.error("Failed to start study session", e)
+        } finally {
+            startingRef.current = false
         }
     }
 
@@ -72,6 +85,7 @@ export function StudyTrackerProvider({ children }: { children: React.ReactNode }
 
         const sid = sessionIdRef.current
         sessionIdRef.current = null // Preventive null
+        setSessionId(null)
         startTimeRef.current = null
         setIsTracking(false)
 
@@ -91,7 +105,7 @@ export function StudyTrackerProvider({ children }: { children: React.ReactNode }
     // Handle activity
     const handleActivity = () => {
         lastActiveRef.current = Date.now()
-        if (!sessionIdRef.current) {
+        if (!sessionIdRef.current && !startingRef.current) {
             startSession()
         }
         if (idleTimerRef.current) clearTimeout(idleTimerRef.current)
@@ -136,8 +150,18 @@ export function StudyTrackerProvider({ children }: { children: React.ReactNode }
         }
     }, [user])
 
+    // Si el alumno cambia de M1 a M2 (o viceversa), cerramos la sesión para que el tiempo
+    // quede atribuido a la materia correcta; la próxima actividad abre una sesión nueva.
+    const subjectRef = useRef(subject)
+    useEffect(() => {
+        if (subjectRef.current !== subject) {
+            subjectRef.current = subject
+            endSession()
+        }
+    }, [subject])
+
     return (
-        <StudyTrackerContext.Provider value={{ isTracking, todaySeconds }}>
+        <StudyTrackerContext.Provider value={{ isTracking, todaySeconds, sessionId }}>
             {children}
         </StudyTrackerContext.Provider>
     )

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { createClient } from "@/lib/supabase/client"
 import 'katex/dist/katex.min.css'
 // @ts-ignore
@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { motion, AnimatePresence } from "framer-motion"
 import { CheckCircle2, XCircle, History, TrendingUp } from "lucide-react"
 import { QuestionTimer } from "./QuestionTimer"
+import { useStudyTracker } from "@/context/study-tracker"
 
 import { ExplanationView } from "./ExplanationView"
 import { QuestionFeedback } from "./QuestionFeedback"
@@ -45,6 +46,14 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
     const [unlockedAchievement, setUnlockedAchievement] = useState<any>(null)
 
     const supabase = createClient()
+    const { sessionId } = useStudyTracker()
+
+    // Analítica: momento en que se mostró esta pregunta (para time_spent_ms)
+    const shownAtRef = useRef<number>(Date.now())
+    useEffect(() => {
+        shownAtRef.current = Date.now()
+    }, [question.id])
+    const elapsedMs = () => Math.max(0, Math.min(Date.now() - shownAtRef.current, 3600000))
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -91,8 +100,10 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
                 user_id: user.id,
                 question_id: question.id,
                 selected_answer: selected,
-                is_correct: isAnswerCorrect,
-                mode: mode
+                is_correct: isAnswerCorrect, // la base lo recalcula; se mantiene por compatibilidad
+                mode: mode,
+                time_spent_ms: elapsedMs(),
+                session_id: sessionId
             })
 
             // Update local stats
@@ -136,7 +147,9 @@ export function QuestionCard({ question, onNext, onWrongAnswer, mode = 'practice
                 question_id: question.id,
                 selected_answer: "TIMEOUT", // distinct marker
                 is_correct: false,
-                mode: mode
+                mode: mode,
+                time_spent_ms: elapsedMs(),
+                session_id: sessionId
             })
         }
 
