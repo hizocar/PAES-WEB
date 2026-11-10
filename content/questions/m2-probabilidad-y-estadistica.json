@@ -895,5 +895,1016 @@
     "correct": "C",
     "explanation": "Idea clave: se estandariza con $Z = \\frac{X - \\mu}{\\sigma}$ y se usa la simetría de la normal estándar para los valores negativos.\nPaso 1: $16$ minutos corresponde a $z = \\frac{16 - 20}{4} = -1$ y $28$ minutos a $z = \\frac{28 - 20}{4} = 2$.\nPaso 2: por simetría, $P(Z \\leq -1) = 1 - 0{,}841 = 0{,}159$.\nPaso 3: $P(-1 \\leq Z \\leq 2) = 0{,}977 - 0{,}159 = 0{,}818$.\nRespuesta: C, $0{,}818$.\nErrores frecuentes: La A resta $0{,}977 - 0{,}841$, que es la probabilidad entre $z = 1$ y $z = 2$. La B calcula el intervalo simétrico entre $z = -1$ y $z = 1$. La D calcula el intervalo entre $z = -2$ y $z = 2$.",
     "verify": "const mu=20,s=4; const F={1:0.841,2:0.977}; const z1=(16-mu)/s, z2=(28-mu)/s; const cdf=(z)=> z>=0 ? F[z] : 1-F[-z]; const p=cdf(z2)-cdf(z1); const o={A:0.136,B:0.682,C:0.818,D:0.954}; for (const [k,v] of Object.entries(o)) if (Math.abs(v-p)<1e-9) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-201",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-dispersion",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una cooperativa de Chillán, los sueldos de los trabajadores tienen promedio $m$ pesos y coeficiente de variación $c$, donde el coeficiente de variación se define como el cociente entre la desviación estándar y el promedio. Para fin de año, la cooperativa entrega a cada trabajador un bono fijo de $k$ pesos, con $m > 0$ y $k > 0$, que se suma a su sueldo.\n\n¿Cuál de las siguientes expresiones representa el coeficiente de variación de los sueldos con el bono incluido?",
+    "alternatives": {
+      "A": "$c$",
+      "B": "$\\dfrac{c\\,m}{m+k}$",
+      "C": "$\\dfrac{c\\,(m+k)}{m}$",
+      "D": "$\\dfrac{c\\,m+k}{m+k}$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: sumar una constante a todos los datos desplaza el promedio, pero no cambia la desviación estándar.\nPaso 1: como $c = \\dfrac{s}{m}$, la desviación estándar de los sueldos es $s = c\\,m$.\nPaso 2: con el bono, el promedio pasa a $m + k$ y la desviación estándar sigue siendo $c\\,m$.\nPaso 3: el nuevo coeficiente es $\\dfrac{c\\,m}{m+k}$, que es menor que $c$ porque el denominador creció.\nRespuesta: B, $\\dfrac{c\\,m}{m+k}$.\nErrores frecuentes: La A supone que el coeficiente no cambia, pero el promedio sí cambia. La C invierte el cociente al ajustar por el nuevo promedio. La D suma el bono también a la desviación estándar, como si la dispersión aumentara en $k$.",
+    "verify": "const mean=a=>a.reduce((s,x)=>s+x,0)/a.length; const vr=a=>{const m=mean(a);return a.reduce((s,x)=>s+(x-m)**2,0)/a.length;}; const sd=a=>Math.sqrt(vr(a)); const d=[400,520,610,770]; const k=150; const c=sd(d)/mean(d); const m=mean(d); const nuevo=sd(d.map(x=>x+k))/mean(d.map(x=>x+k)); const o={A:c,B:c*m/(m+k),C:c*(m+k)/m,D:(c*m+k)/(m+k)}; const hits=Object.keys(o).filter(l=>Math.abs(o[l]-nuevo)<1e-9); return hits.length===1?hits[0]:null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-202",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-dispersion",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una nutricionista de Rancagua registró la cantidad de gramos de azúcar que consumieron $20$ pacientes en el desayuno. Con esos datos calculó que la suma de los $20$ valores es $300$ y la suma de sus cuadrados es $4\\,820$.\n\nDespués notó que había registrado $25$ gramos para un paciente que en realidad consumió $15$ gramos, y corrigió ese dato.\n\nConsiderando que la varianza es igual al promedio de los cuadrados de los datos menos el cuadrado del promedio, ¿cuál es la varianza de los datos corregidos?",
+    "alternatives": {
+      "A": "$10{,}75$",
+      "B": "$11$",
+      "C": "$16$",
+      "D": "$30{,}75$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: al corregir un dato cambian tanto la suma de los datos como la suma de sus cuadrados, y hay que recalcular ambas.\nPaso 1: la nueva suma es $300 - 25 + 15 = 290$, así que el nuevo promedio es $\\dfrac{290}{20} = 14{,}5$.\nPaso 2: la nueva suma de cuadrados es $4\\,820 - 25^2 + 15^2 = 4\\,820 - 625 + 225 = 4\\,420$, cuyo promedio es $\\dfrac{4\\,420}{20} = 221$.\nPaso 3: la varianza corregida es $221 - 14{,}5^2 = 221 - 210{,}25 = 10{,}75$.\nRespuesta: A, $10{,}75$.\nErrores frecuentes: La B resta a la varianza original $\\dfrac{(25-15)^2}{20} = 5$, un atajo que no es válido. La C es la varianza original ($241 - 15^2 = 16$), sin corregir. La D actualiza el promedio pero no la suma de cuadrados ($241 - 210{,}25$).",
+    "verify": "const n=20, S=300, Q=4820; const S2=S-25+15, Q2=Q-625+225; const m=S2/n; const v=Q2/n-m*m; const o={A:10.75,B:11,C:16,D:30.75}; for(const l in o) if(Math.abs(o[l]-v)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-203",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-dispersion",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera los números reales $k$ y $d$, con $d > 0$, y los siguientes grupos de datos:\n\nGrupo P: $k - d$, $k$, $k + d$\nGrupo Q: $k - 2d$, $k$, $k$, $k + 2d$\n\n¿Cuál de las siguientes afirmaciones es siempre verdadera respecto de las desviaciones estándar de ambos grupos?",
+    "alternatives": {
+      "A": "Ambos grupos tienen la misma desviación estándar.",
+      "B": "La desviación estándar de Q es $\\sqrt{3}$ veces la de P.",
+      "C": "La desviación estándar de Q es el doble de la de P.",
+      "D": "La desviación estándar de Q es el triple de la de P."
+    },
+    "correct": "B",
+    "explanation": "Idea clave: ambos grupos tienen promedio $k$, así que basta comparar los promedios de las desviaciones al cuadrado.\nPaso 1: en P, las desviaciones son $-d$, $0$ y $d$, y la varianza es $\\dfrac{d^2 + 0 + d^2}{3} = \\dfrac{2d^2}{3}$.\nPaso 2: en Q, las desviaciones son $-2d$, $0$, $0$ y $2d$, y la varianza es $\\dfrac{4d^2 + 0 + 0 + 4d^2}{4} = 2d^2$.\nPaso 3: la varianza de Q es $3$ veces la de P, así que su desviación estándar es $\\sqrt{3}$ veces la de P.\nRespuesta: B.\nErrores frecuentes: La A cree que el dato $k$ repetido compensa exactamente la mayor separación. La C duplica la desviación porque los extremos se alejan el doble, pero olvida que Q tiene un dato más en el centro. La D confunde la razón de las varianzas ($3$) con la de las desviaciones estándar.",
+    "verify": "const mean=a=>a.reduce((s,x)=>s+x,0)/a.length; const vr=a=>{const m=mean(a);return a.reduce((s,x)=>s+(x-m)**2,0)/a.length;}; const sd=a=>Math.sqrt(vr(a)); for (const [k,d] of [[5,2],[-3,0.7],[100,9]]) { const r=sd([k-2*d,k,k,k+2*d])/sd([k-d,k,k+d]); if(Math.abs(r-Math.sqrt(3))>1e-9) return null; } const r=sd([1,4,4,7])/sd([2.5,4,5.5]); const o={A:1,B:Math.sqrt(3),C:2,D:3}; for(const l in o) if(Math.abs(o[l]-r)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-204",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-dispersion",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Una cadena de panaderías registró durante un mes la cantidad diaria de kilogramos de pan vendidos en cuatro sucursales. En la tabla se muestran el promedio y la desviación estándar de cada una:\n\n$\\displaystyle \\begin{array}{|c|c|c|}\\hline \\text{Sucursal} & \\text{Promedio (kg)} & \\text{Desviación estándar (kg)} \\\\ \\hline \\text{Norte} & 50 & 7 \\\\ \\hline \\text{Centro} & 80 & 8 \\\\ \\hline \\text{Sur} & 20 & 3 \\\\ \\hline \\text{Costa} & 120 & 15 \\\\ \\hline \\end{array}$\n\nPara comparar la dispersión relativa se usa el coeficiente de variación, que es el cociente entre la desviación estándar y el promedio. ¿En cuál sucursal la dispersión relativa de las ventas es mayor?",
+    "alternatives": {
+      "A": "Norte",
+      "B": "Centro",
+      "C": "Sur",
+      "D": "Costa"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: la dispersión relativa no se mide con la desviación estándar sola, sino dividiéndola por el promedio.\nPaso 1: Norte: $\\dfrac{7}{50} = 0{,}14$. Centro: $\\dfrac{8}{80} = 0{,}10$.\nPaso 2: Sur: $\\dfrac{3}{20} = 0{,}15$. Costa: $\\dfrac{15}{120} = 0{,}125$.\nPaso 3: el mayor coeficiente es $0{,}15$, de la sucursal Sur.\nRespuesta: C, Sur.\nErrores frecuentes: La A tiene un coeficiente alto ($0{,}14$), pero menor que el de Sur. La B divide el promedio por la desviación estándar (cociente invertido) y elige el mayor. La D elige la sucursal con la mayor desviación estándar absoluta, sin considerar que su promedio también es el mayor.",
+    "verify": "const t={A:[50,7],B:[80,8],C:[20,3],D:[120,15]}; let best=null, bv=-1; for(const l in t){const cv=t[l][1]/t[l][0]; if(cv>bv+1e-12){bv=cv;best=l;}} return best;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-205",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-dispersion",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Durante cinco días, Ignacia aumentó la distancia de su entrenamiento en bicicleta en una misma cantidad cada día, de modo que las distancias recorridas, en kilómetros, fueron $a$, $a + r$, $a + 2r$, $a + 3r$ y $a + 4r$, con $r > 0$.\n\nSi la desviación estándar de las cinco distancias es $6$ km, ¿cuál es el rango de las distancias?",
+    "alternatives": {
+      "A": "$6\\sqrt{2}$ km",
+      "B": "$12$ km",
+      "C": "$12\\sqrt{2}$ km",
+      "D": "$24$ km"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: en una progresión aritmética el promedio es el término central, y la desviación estándar depende solo de la diferencia $r$.\nPaso 1: el promedio es $a + 2r$, y las desviaciones son $-2r$, $-r$, $0$, $r$ y $2r$.\nPaso 2: la varianza es $\\dfrac{4r^2 + r^2 + 0 + r^2 + 4r^2}{5} = 2r^2$, así que la desviación estándar es $r\\sqrt{2}$.\nPaso 3: de $r\\sqrt{2} = 6$ se obtiene $r = 3\\sqrt{2}$, y el rango es $4r = 12\\sqrt{2}$ km.\nRespuesta: C, $12\\sqrt{2}$ km.\nErrores frecuentes: La A calcula $2r$ en vez de $4r$. La B supone que el rango es el doble de la desviación estándar. La D supone que el rango es cuatro veces la desviación estándar, confundiendo $r$ con la desviación estándar.",
+    "verify": "const mean=a=>a.reduce((s,x)=>s+x,0)/a.length; const vr=a=>{const m=mean(a);return a.reduce((s,x)=>s+(x-m)**2,0)/a.length;}; const sd=a=>Math.sqrt(vr(a)); const r=6/Math.sqrt(2); const d=[0,1,2,3,4].map(i=>7+i*r); if(Math.abs(sd(d)-6)>1e-9) return null; const rango=Math.max(...d)-Math.min(...d); const o={A:6*Math.sqrt(2),B:12,C:12*Math.sqrt(2),D:24}; for(const l in o) if(Math.abs(o[l]-rango)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-206",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-dispersion",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un curso de $40$ estudiantes de un liceo de Valdivia se registró si cada estudiante aprobó un taller, anotando $1$ si aprobó y $0$ si no aprobó. La varianza de esos $40$ datos resultó ser $0{,}24$.\n\nSi más de la mitad del curso aprobó el taller, ¿cuántos estudiantes lo aprobaron?",
+    "alternatives": {
+      "A": "$10$",
+      "B": "$16$",
+      "C": "$20$",
+      "D": "$24$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: si $p$ es la proporción de unos, el promedio de los datos es $p$ y el promedio de sus cuadrados también es $p$ (porque $1^2 = 1$ y $0^2 = 0$).\nPaso 1: la varianza es $p - p^2 = p(1 - p)$.\nPaso 2: de $p(1-p) = 0{,}24$ se obtiene $p^2 - p + 0{,}24 = 0$, con soluciones $p = 0{,}4$ y $p = 0{,}6$.\nPaso 3: como aprobó más de la mitad, $p = 0{,}6$, es decir, $0{,}6 \\cdot 40 = 24$ estudiantes.\nRespuesta: D, $24$ estudiantes.\nErrores frecuentes: La A multiplica la varianza por $40$ ($9{,}6 \\approx 10$), como si fuera una proporción. La B toma la solución $p = 0{,}4$, que no cumple la condición de más de la mitad. La C supone que la mitad aprobó, pero entonces la varianza sería $0{,}25$.",
+    "verify": "const mean=a=>a.reduce((s,x)=>s+x,0)/a.length; const vr=a=>{const m=mean(a);return a.reduce((s,x)=>s+(x-m)**2,0)/a.length;}; const sd=a=>Math.sqrt(vr(a)); for (let x=0;x<=40;x++){ const d=Array(40).fill(0).map((_,i)=>i<x?1:0); if(Math.abs(vr(d)-0.24)<1e-9 && x>20){ const o={A:10,B:16,C:20,D:24}; for(const l in o) if(o[l]===x) return l; } } return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-207",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-dispersion",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una fábrica de Antofagasta, las piezas deben medir $c$ milímetros. Al medir un lote se obtuvieron $n$ largos, cuyo promedio es $m$ milímetros y cuya varianza es $v$ milímetros al cuadrado. Para cada pieza se calcula su error cuadrático $(x_i - c)^2$, donde $x_i$ es el largo de la pieza.\n\n¿Cuál de las siguientes expresiones es siempre igual al promedio de los $n$ errores cuadráticos?",
+    "alternatives": {
+      "A": "$v$",
+      "B": "$v + (m - c)^2$",
+      "C": "$v - (m - c)^2$",
+      "D": "$(m - c)^2$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: escribir $x_i - c = (x_i - m) + (m - c)$ y usar que la suma de las desviaciones respecto del promedio es $0$.\nPaso 1: $(x_i - c)^2 = (x_i - m)^2 + 2(x_i - m)(m - c) + (m - c)^2$.\nPaso 2: al promediar, el primer término da $v$, el segundo da $0$ (porque el promedio de $x_i - m$ es $0$) y el tercero da $(m - c)^2$.\nPaso 3: el promedio de los errores cuadráticos es $v + (m - c)^2$; solo coincide con $v$ cuando $m = c$.\nRespuesta: B, $v + (m - c)^2$.\nErrores frecuentes: La A olvida que los errores se miden respecto de $c$ y no respecto del promedio. La C resta el término del sesgo, lo que podría dar un valor negativo. La D solo considera la distancia entre el promedio y $c$, ignorando la dispersión de los datos.",
+    "verify": "const mean=a=>a.reduce((s,x)=>s+x,0)/a.length; const vr=a=>{const m=mean(a);return a.reduce((s,x)=>s+(x-m)**2,0)/a.length;}; const sd=a=>Math.sqrt(vr(a)); const d=[49.2,50.6,50.1,51.3,49.8]; const c=50; const m=mean(d), v=vr(d); const e=mean(d.map(x=>(x-c)**2)); const o={A:v,B:v+(m-c)**2,C:v-(m-c)**2,D:(m-c)**2}; const h=Object.keys(o).filter(l=>Math.abs(o[l]-e)<1e-9); return h.length===1?h[0]:null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-208",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-dispersion",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un restaurante de Valparaíso registró cuántas personas se sentaron en cada una de las mesas que atendió durante un almuerzo. Los resultados se muestran en la tabla:\n\n$\\displaystyle \\begin{array}{|c|c|}\\hline \\text{Personas por mesa} & \\text{Cantidad de mesas} \\\\ \\hline 2 & 1 \\\\ \\hline 4 & 3 \\\\ \\hline 6 & 3 \\\\ \\hline 8 & 1 \\\\ \\hline \\end{array}$\n\n¿Qué valor tiene la desviación estándar del número de comensales por mesa?",
+    "alternatives": {
+      "A": "$\\sqrt{3}$",
+      "B": "$\\sqrt{5}$",
+      "C": "$3$",
+      "D": "$6$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: en una tabla de frecuencias, cada desviación al cuadrado se cuenta tantas veces como indica su frecuencia.\nPaso 1: hay $8$ mesas y el promedio es $\\dfrac{2 + 12 + 18 + 8}{8} = 5$.\nPaso 2: las desviaciones al cuadrado son $9$, $1$, $1$ y $9$, y ponderadas suman $9 \\cdot 1 + 1 \\cdot 3 + 1 \\cdot 3 + 9 \\cdot 1 = 24$.\nPaso 3: la varianza es $\\dfrac{24}{8} = 3$ y la desviación estándar es $\\sqrt{3}$.\nRespuesta: A, $\\sqrt{3}$.\nErrores frecuentes: La B ignora las frecuencias y trabaja con los cuatro valores $2$, $4$, $6$ y $8$ ($\\dfrac{20}{4} = 5$). La C entrega la varianza en vez de la desviación estándar. La D divide $24$ por la cantidad de filas de la tabla ($4$) en lugar de por la cantidad de mesas.",
+    "verify": "const mean=a=>a.reduce((s,x)=>s+x,0)/a.length; const vr=a=>{const m=mean(a);return a.reduce((s,x)=>s+(x-m)**2,0)/a.length;}; const sd=a=>Math.sqrt(vr(a)); const d=[2,4,4,4,6,6,6,8]; const s=sd(d); const o={A:Math.sqrt(3),B:Math.sqrt(5),C:3,D:6}; for(const l in o) if(Math.abs(o[l]-s)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-209",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-dispersion",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Tomás registró los puntos que anotó en tres partidos de básquetbol: $4$, $6$ y $8$. Le falta registrar los puntos del cuarto partido, que pueden ser cualquier número entero mayor o igual que $0$.\n\n¿Cuál es la menor desviación estándar que pueden tener los puntos de los cuatro partidos?",
+    "alternatives": {
+      "A": "$\\sqrt{2}$",
+      "B": "$\\dfrac{2\\sqrt{6}}{3}$",
+      "C": "$2$",
+      "D": "$2\\sqrt{2}$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: la dispersión es mínima cuando el dato nuevo coincide con el promedio de los datos que ya están, porque así no agrega ninguna desviación.\nPaso 1: el promedio de $4$, $6$ y $8$ es $6$, así que conviene que el cuarto dato sea $6$ (cualquier otro valor aleja ese dato del centro).\nPaso 2: con los datos $4$, $6$, $6$ y $8$, el promedio es $6$ y las desviaciones al cuadrado suman $4 + 0 + 0 + 4 = 8$.\nPaso 3: la varianza es $\\dfrac{8}{4} = 2$ y la desviación estándar es $\\sqrt{2}$.\nRespuesta: A, $\\sqrt{2}$.\nErrores frecuentes: La B es la desviación estándar de los tres primeros datos ($\\sqrt{8/3}$): agregar un dato igual al promedio sí la reduce, porque se divide por más datos. La C entrega la varianza mínima en vez de la desviación estándar. La D no divide la suma de cuadrados por la cantidad de datos ($\\sqrt{8}$).",
+    "verify": "const mean=a=>a.reduce((s,x)=>s+x,0)/a.length; const vr=a=>{const m=mean(a);return a.reduce((s,x)=>s+(x-m)**2,0)/a.length;}; const sd=a=>Math.sqrt(vr(a)); let best=Infinity; for(let x=0;x<=60;x++){ const s=sd([4,6,8,x]); if(s<best) best=s; } const o={A:Math.sqrt(2),B:2*Math.sqrt(6)/3,C:2,D:2*Math.sqrt(2)}; for(const l in o) if(Math.abs(o[l]-best)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-210",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-dispersion",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un sensor de una estación meteorológica de Punta Arenas tomó cinco mediciones de la velocidad del viento. Las diferencias entre cada medición y el promedio de las cinco, en kilómetros por hora, son $-3$, $-1$, $0$, $2$ y $k$.\n\n¿Cuál es la desviación estándar de las cinco mediciones?",
+    "alternatives": {
+      "A": "$\\sqrt{\\dfrac{14}{5}}$ km/h",
+      "B": "$\\dfrac{3\\sqrt{10}}{5}$ km/h",
+      "C": "$\\dfrac{3\\sqrt{2}}{2}$ km/h",
+      "D": "$\\dfrac{18}{5}$ km/h"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: las diferencias respecto del promedio siempre suman $0$, lo que permite encontrar $k$.\nPaso 1: $-3 - 1 + 0 + 2 + k = 0$, así que $k = 2$.\nPaso 2: la varianza es $\\dfrac{9 + 1 + 0 + 4 + 4}{5} = \\dfrac{18}{5}$.\nPaso 3: la desviación estándar es $\\sqrt{\\dfrac{18}{5}} = \\dfrac{3\\sqrt{2}}{\\sqrt{5}} = \\dfrac{3\\sqrt{10}}{5}$ km/h.\nRespuesta: B, $\\dfrac{3\\sqrt{10}}{5}$ km/h.\nErrores frecuentes: La A toma $k = 0$, sin usar que las diferencias suman cero. La C divide por $4$ en vez de por $5$ ($\\sqrt{18/4}$). La D entrega la varianza en vez de la desviación estándar.",
+    "verify": "const mean=a=>a.reduce((s,x)=>s+x,0)/a.length; const vr=a=>{const m=mean(a);return a.reduce((s,x)=>s+(x-m)**2,0)/a.length;}; const sd=a=>Math.sqrt(vr(a)); const dev=[-3,-1,0,2]; const k=-dev.reduce((s,x)=>s+x,0); const d=[...dev,k].map(x=>x+20); const s=sd(d); const o={A:Math.sqrt(14/5),B:3*Math.sqrt(10)/5,C:3*Math.sqrt(2)/2,D:18/5}; for(const l in o) if(Math.abs(o[l]-s)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-211",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-posicion",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un conjunto de datos, un dato es atípico si es menor que $Q_1 - \\dfrac{3}{2}R$ o mayor que $Q_3 + \\dfrac{3}{2}R$, donde $Q_1$ y $Q_3$ son el primer y el tercer cuartil y $R = Q_3 - Q_1$ es el rango intercuartílico.\n\nUn conjunto de datos tiene al menos un dato atípico. Cada dato $x$ del conjunto se reemplaza por $-2x + 5$.\n\n¿Cuál de las siguientes afirmaciones es siempre verdadera respecto del nuevo conjunto de datos?",
+    "alternatives": {
+      "A": "La cantidad de datos atípicos se mantiene.",
+      "B": "La cantidad de datos atípicos disminuye, porque el rango intercuartílico se duplica y los límites se alejan.",
+      "C": "Los datos que eran atípicos por ser mayores que $Q_3 + \\frac{3}{2}R$ siguen siendo mayores que el nuevo límite superior.",
+      "D": "La cantidad de datos atípicos aumenta, porque al multiplicar por $-2$ los datos se separan más entre sí."
+    },
+    "correct": "A",
+    "explanation": "Idea clave: la transformación $-2x + 5$ invierte el orden de los datos y multiplica todas las distancias por $2$, incluidas las distancias a los cuartiles.\nPaso 1: el nuevo primer cuartil es $-2Q_3 + 5$, el nuevo tercer cuartil es $-2Q_1 + 5$ y el nuevo rango intercuartílico es $2R$.\nPaso 2: un dato con $x > Q_3 + \\frac{3}{2}R$ pasa a cumplir $-2x + 5 < (-2Q_3 + 5) - \\frac{3}{2}(2R)$, es decir, queda bajo el nuevo límite inferior.\nPaso 3: lo mismo ocurre al revés con los atípicos por abajo, así que cada dato atípico sigue siéndolo (cambiando de lado) y ninguno nuevo aparece.\nRespuesta: A.\nErrores frecuentes: La B y la D olvidan que los datos y el rango intercuartílico se escalan por el mismo factor, por lo que la situación relativa no cambia. La C no considera que el signo negativo invierte el orden: esos datos pasan a ser atípicos por abajo.",
+    "verify": "const med=a=>{const b=[...a].sort((x,y)=>x-y);const n=b.length;return n%2?b[(n-1)/2]:(b[n/2-1]+b[n/2])/2;}; const qs=a=>{const b=[...a].sort((x,y)=>x-y);const n=b.length;const h=Math.floor(n/2);return [med(b.slice(0,h)),med(b),med(b.slice(n-h))];}; const cnt=a=>{const [q1,,q3]=qs(a);const R=q3-q1;return a.filter(x=>x<q1-1.5*R||x>q3+1.5*R).length;}; const sides=a=>{const [q1,,q3]=qs(a);const R=q3-q1;return a.map(x=>x>q3+1.5*R?1:(x<q1-1.5*R?-1:0));}; const d=[1,20,21,22,23,24,25,26,27,60,61]; const t=d.map(x=>-2*x+5); const c0=cnt(d), c1=cnt(t); if(c0<1) return null; const s0=sides(d), s1=sides(t); const ok=s0.every((s,i)=>s1[i]===-s); return (c0===c1 && ok)?'A':(c1<c0?'B':(c1>c0?'D':null));"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-212",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-posicion",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un preuniversitario tiene dos sedes. En un ensayo, el puntaje $600$ correspondió al percentil $40$ en la sede Ñuñoa, donde lo rindieron $50$ estudiantes, y al percentil $60$ en la sede Maipú, donde lo rindieron $75$ estudiantes. Considera que el percentil $p$ de un puntaje indica que exactamente el $p\\%$ de los estudiantes obtuvo un puntaje menor que ese.\n\nSi se consideran los $125$ estudiantes de ambas sedes en conjunto, ¿a qué percentil corresponde el puntaje $600$?",
+    "alternatives": {
+      "A": "Percentil $48$",
+      "B": "Percentil $50$",
+      "C": "Percentil $52$",
+      "D": "Percentil $65$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: los percentiles de grupos de distinto tamaño no se promedian directamente; hay que contar estudiantes.\nPaso 1: en Ñuñoa, bajo $600$ puntos hay $0{,}40 \\cdot 50 = 20$ estudiantes.\nPaso 2: en Maipú, bajo $600$ puntos hay $0{,}60 \\cdot 75 = 45$ estudiantes.\nPaso 3: en total, $20 + 45 = 65$ de $125$ estudiantes están bajo $600$, es decir, $\\dfrac{65}{125} = 52\\%$.\nRespuesta: C, percentil $52$.\nErrores frecuentes: La A pondera con los tamaños cruzados ($\\frac{40 \\cdot 75 + 60 \\cdot 50}{125}$). La B promedia los dos percentiles sin ponderar. La D entrega la cantidad de estudiantes ($65$) como si fuera el porcentaje.",
+    "verify": "const below=0.40*50+0.60*75; const p=100*below/125; const o={A:48,B:50,C:52,D:65}; for(const l in o) if(Math.abs(o[l]-p)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-213",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-posicion",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un conjunto tiene $2n + 1$ datos distintos, con $n \\geq 2$, y su mediana es $M$, con $M > 0$.\n\n¿Cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "Si se agregan dos datos mayores que $M$, la mediana sigue siendo $M$.",
+      "B": "Si cada dato aumenta en un $10\\%$, la mediana aumenta en $10$ unidades.",
+      "C": "Si el dato mayor se duplica, la mediana se duplica.",
+      "D": "Si se agregan un dato menor que $M$ y otro mayor que $M$, la mediana sigue siendo $M$."
+    },
+    "correct": "D",
+    "explanation": "Idea clave: la mediana de $2n + 1$ datos ordenados es el dato que tiene exactamente $n$ datos a cada lado.\nPaso 1: al agregar uno menor y otro mayor que $M$, quedan $2n + 3$ datos y $M$ tiene $n + 1$ datos a cada lado, así que sigue en el centro.\nPaso 2: si se agregan dos mayores, $M$ queda con $n$ datos a la izquierda y $n + 2$ a la derecha; la nueva mediana es el dato siguiente a $M$, que es mayor.\nPaso 3: aumentar cada dato en un $10\\%$ multiplica la mediana por $1{,}1$ (sube $0{,}1M$, no $10$), y duplicar el dato mayor no mueve la mediana.\nRespuesta: D.\nErrores frecuentes: La A olvida que agregar datos solo por un lado desplaza la posición central. La B confunde un aumento porcentual con uno absoluto. La C supone que la mediana depende de los valores extremos, cuando solo depende del orden.",
+    "verify": "const med=a=>{const b=[...a].sort((x,y)=>x-y);const n=b.length;return n%2?b[(n-1)/2]:(b[n/2-1]+b[n/2])/2;}; const qs=a=>{const b=[...a].sort((x,y)=>x-y);const n=b.length;const h=Math.floor(n/2);return [med(b.slice(0,h)),med(b),med(b.slice(n-h))];}; const d=[2,5,9,11,14,20,23]; const M=med(d); const A=med([...d,30,40])===M; const B=Math.abs(med(d.map(x=>1.1*x))-(M+10))<1e-9; const dd=[...d]; dd[dd.length-1]*=2; const C=Math.abs(med(dd)-2*M)<1e-9; const D=med([...d,1,50])===M && med([...d,M-0.5,M+0.5])===M; const r={A,B,C,D}; const h=Object.keys(r).filter(l=>r[l]); return h.length===1?h[0]:null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-214",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-posicion",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Los siguientes son los tiempos de traslado, en minutos, de $8$ trabajadores de una empresa de Concepción, ordenados de menor a mayor, donde $a$ y $b$ son números reales:\n\n$2$, $a$, $6$, $8$, $10$, $12$, $b$, $20$\n\nConsidera que el primer cuartil es la mediana de los cuatro datos menores y el tercer cuartil es la mediana de los cuatro datos mayores. Si el promedio de los tiempos es $10$ minutos y el rango intercuartílico es $10$ minutos, ¿cuál es el valor de $b$?",
+    "alternatives": {
+      "A": "$13$",
+      "B": "$14$",
+      "C": "$16$",
+      "D": "$18$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: cada condición entrega una ecuación en $a$ y $b$; se resuelve el sistema y se revisa que se respete el orden.\nPaso 1: del promedio, $2 + a + 6 + 8 + 10 + 12 + b + 20 = 80$, así que $a + b = 22$.\nPaso 2: $Q_1 = \\dfrac{a + 6}{2}$ y $Q_3 = \\dfrac{12 + b}{2}$, y de $Q_3 - Q_1 = 10$ se obtiene $\\dfrac{b - a + 6}{2} = 10$, es decir, $b - a = 14$.\nPaso 3: resolviendo, $b = 18$ y $a = 4$, valores que respetan el orden ($2 \\leq 4 \\leq 6$ y $12 \\leq 18 \\leq 20$).\nRespuesta: D, $b = 18$.\nErrores frecuentes: La A olvida dividir por $2$ al calcular los cuartiles ($b - a + 6 = 10$). La B toma el valor de $b - a$ como si fuera $b$. La C usa $a$ y $b$ directamente como cuartiles ($b - a = 10$).",
+    "verify": "const med=a=>{const b=[...a].sort((x,y)=>x-y);const n=b.length;return n%2?b[(n-1)/2]:(b[n/2-1]+b[n/2])/2;}; const qs=a=>{const b=[...a].sort((x,y)=>x-y);const n=b.length;const h=Math.floor(n/2);return [med(b.slice(0,h)),med(b),med(b.slice(n-h))];}; const mean=x=>x.reduce((s,y)=>s+y,0)/x.length; for(let b=12;b<=20;b+=0.5){ const a=22-b; if(a<2||a>6) continue; const d=[2,a,6,8,10,12,b,20]; const [q1,,q3]=qs(d); if(Math.abs(mean(d)-10)<1e-9 && Math.abs(q3-q1-10)<1e-9){ const o={A:13,B:14,C:16,D:18}; for(const l in o) if(Math.abs(o[l]-b)<1e-9) return l; } } return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-215",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-posicion",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Se pidió a $40$ clientes de una tienda de Osorno evaluar la atención con una nota entera de $1$ a $5$. Los resultados se muestran en la tabla:\n\n$\\displaystyle \\begin{array}{|c|c|}\\hline \\text{Nota} & \\text{Cantidad de clientes} \\\\ \\hline 1 & 6 \\\\ \\hline 2 & 10 \\\\ \\hline 3 & 12 \\\\ \\hline 4 & 8 \\\\ \\hline 5 & 4 \\\\ \\hline \\end{array}$\n\nConsidera que el primer cuartil es la mediana de las $20$ notas menores y el tercer cuartil es la mediana de las $20$ notas mayores. ¿Cuál es el rango intercuartílico de las notas?",
+    "alternatives": {
+      "A": "$1$",
+      "B": "$2$",
+      "C": "$3$",
+      "D": "$4$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: con la tabla de frecuencias acumuladas se ubica qué nota ocupa cada posición.\nPaso 1: las frecuencias acumuladas son $6$, $16$, $28$, $36$ y $40$.\nPaso 2: el primer cuartil es el promedio de las posiciones $10$ y $11$, que tienen nota $2$ (están entre la $7$ y la $16$); por lo tanto $Q_1 = 2$.\nPaso 3: el tercer cuartil es el promedio de las posiciones $30$ y $31$, que tienen nota $4$ (están entre la $29$ y la $36$); por lo tanto $Q_3 = 4$ y $Q_3 - Q_1 = 2$.\nRespuesta: B, $2$.\nErrores frecuentes: La A toma la mediana ($3$) como tercer cuartil. La C usa $Q_1 = 1$, la primera nota de la tabla, en vez de ubicar la posición correspondiente. La D calcula el rango ($5 - 1$) en vez del rango intercuartílico.",
+    "verify": "const med=a=>{const b=[...a].sort((x,y)=>x-y);const n=b.length;return n%2?b[(n-1)/2]:(b[n/2-1]+b[n/2])/2;}; const qs=a=>{const b=[...a].sort((x,y)=>x-y);const n=b.length;const h=Math.floor(n/2);return [med(b.slice(0,h)),med(b),med(b.slice(n-h))];}; const f={1:6,2:10,3:12,4:8,5:4}; const d=[]; for(const v in f) for(let i=0;i<f[v];i++) d.push(+v); const [q1,,q3]=qs(d); const r=q3-q1; const o={A:1,B:2,C:3,D:4}; for(const l in o) if(Math.abs(o[l]-r)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-216",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-posicion",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Cuatro estudiantes rindieron pruebas distintas. Para comparar su posición relativa dentro de su grupo se usa el puntaje estándar $z = \\dfrac{x - \\mu}{\\sigma}$, donde $x$ es el puntaje del estudiante, $\\mu$ es el promedio de su prueba y $\\sigma$ es la desviación estándar de su prueba.\n\n$\\displaystyle \\begin{array}{|c|c|c|c|}\\hline \\text{Estudiante} & \\text{Puntaje} & \\text{Promedio} & \\text{Desviación estándar} \\\\ \\hline \\text{Amanda} & 620 & 560 & 40 \\\\ \\hline \\text{Benjamín} & 700 & 610 & 75 \\\\ \\hline \\text{Catalina} & 540 & 480 & 30 \\\\ \\hline \\text{Diego} & 760 & 640 & 80 \\\\ \\hline \\end{array}$\n\n¿Cuál de los estudiantes tiene la mejor posición relativa dentro de su grupo?",
+    "alternatives": {
+      "A": "Amanda",
+      "B": "Benjamín",
+      "C": "Catalina",
+      "D": "Diego"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el puntaje estándar indica a cuántas desviaciones estándar sobre el promedio está cada estudiante, lo que permite comparar pruebas distintas.\nPaso 1: Amanda: $z = \\dfrac{620 - 560}{40} = 1{,}5$. Benjamín: $z = \\dfrac{700 - 610}{75} = 1{,}2$.\nPaso 2: Catalina: $z = \\dfrac{540 - 480}{30} = 2$. Diego: $z = \\dfrac{760 - 640}{80} = 1{,}5$.\nPaso 3: el mayor puntaje estándar es el de Catalina, aunque tiene el menor puntaje bruto.\nRespuesta: C, Catalina.\nErrores frecuentes: La A empata con Diego en $z = 1{,}5$, pero ambos quedan bajo Catalina. La B tiene un puntaje alto, pero su prueba tiene mucha dispersión. La D elige la mayor diferencia con el promedio ($120$ puntos) sin dividir por la desviación estándar.",
+    "verify": "const t={A:[620,560,40],B:[700,610,75],C:[540,480,30],D:[760,640,80]}; let best=null,bv=-Infinity; for(const l in t){const z=(t[l][0]-t[l][1])/t[l][2]; if(z>bv+1e-12){bv=z;best=l;}} return best;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-217",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "tablas-y-graficos",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una encuesta a $40$ usuarios del Biotren registró cuántos minutos dura su viaje diario. Los resultados se agruparon en la tabla:\n\n$\\displaystyle \\begin{array}{|c|c|}\\hline \\text{Minutos} & \\text{Cantidad de usuarios} \\\\ \\hline [0, 10[ & 8 \\\\ \\hline [10, 20[ & 14 \\\\ \\hline [20, 30[ & 12 \\\\ \\hline [30, 40[ & 6 \\\\ \\hline \\end{array}$\n\n¿Cuál de las siguientes afirmaciones se puede deducir de la tabla?",
+    "alternatives": {
+      "A": "La mediana de los tiempos está en el intervalo $[20, 30[$.",
+      "B": "Al menos la mitad de los usuarios viaja $20$ minutos o más.",
+      "C": "El promedio estimado con las marcas de clase es mayor que $20$ minutos.",
+      "D": "El percentil $75$ de los tiempos está en el intervalo $[20, 30[$."
+    },
+    "correct": "D",
+    "explanation": "Idea clave: las frecuencias acumuladas ($8$, $22$, $34$, $40$) permiten ubicar en qué intervalo cae cada posición.\nPaso 1: la mediana corresponde a las posiciones $20$ y $21$, que están en $[10, 20[$ (acumulada $22$). Así, la A es falsa.\nPaso 2: viajan $20$ minutos o más $12 + 6 = 18$ usuarios, menos de la mitad, y el promedio estimado es $\\dfrac{5 \\cdot 8 + 15 \\cdot 14 + 25 \\cdot 12 + 35 \\cdot 6}{40} = \\dfrac{760}{40} = 19$. Así, la B y la C son falsas.\nPaso 3: el percentil $75$ está en la posición $0{,}75 \\cdot 40 = 30$, que cae en $[20, 30[$, porque la acumulada pasa de $22$ a $34$.\nRespuesta: D.\nErrores frecuentes: La A ubica la mediana en el intervalo central de la tabla y no por posiciones. La B cuenta mal a los usuarios de $20$ minutos o más ($18$ de $40$). La C supone que el promedio está en la mitad del recorrido, pero los datos se concentran en los intervalos bajos.",
+    "verify": "const L=[0,10,20,30], f=[8,14,12,6], n=40; const cum=[]; f.reduce((s,x,i)=>(cum[i]=s+x),0); const at=pos=>cum.findIndex(c=>c>=pos); const A=at(20)===2&&at(21)===2; const B=(f[2]+f[3])>=n/2; const m=f.reduce((s,x,i)=>s+x*(L[i]+5),0)/n; const C=m>20; const D=at(30)===2; const r={A,B,C,D}; const h=Object.keys(r).filter(l=>r[l]); return h.length===1?h[0]:null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-218",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "tablas-y-graficos",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un gráfico circular se representan las respuestas de una encuesta sobre el medio de transporte preferido en Talca. El sector de micro mide $108°$, el de automóvil mide $90°$ y el resto del círculo corresponde a bicicleta.\n\nLuego se encuestó a $60$ personas más, y todas prefirieron la bicicleta. En el nuevo gráfico circular, con todas las respuestas, el sector de bicicleta mide exactamente $180°$.\n\n¿Cuántas personas había en la encuesta original?",
+    "alternatives": {
+      "A": "$300$",
+      "B": "$540$",
+      "C": "$600$",
+      "D": "$1\\,200$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el ángulo de cada sector es proporcional a la fracción del total, así que se plantea una ecuación con el total original $n$.\nPaso 1: bicicleta medía $360° - 108° - 90° = 162°$, es decir, $\\dfrac{162}{360} = 0{,}45$ del total: $0{,}45n$ personas.\nPaso 2: después hay $0{,}45n + 60$ personas que prefieren bicicleta de un total de $n + 60$, y $180°$ es la mitad del círculo: $\\dfrac{0{,}45n + 60}{n + 60} = 0{,}5$.\nPaso 3: $0{,}45n + 60 = 0{,}5n + 30$, de donde $0{,}05n = 30$ y $n = 600$.\nRespuesta: C, $600$ personas.\nErrores frecuentes: La A usa $0{,}4$ en vez de $0{,}45$ como fracción inicial de bicicleta. La B resta otra vez las $60$ personas al resultado. La D olvida sumar las $60$ personas al total en el denominador ($\\frac{0{,}45n + 60}{n} = 0{,}5$).",
+    "verify": "for(let n=1;n<=5000;n++){ const b=n*(360-108-90)/360; if(Math.abs(b-Math.round(b))>1e-9) continue; if(Math.abs(360*(b+60)/(n+60)-180)<1e-9){ const o={A:300,B:540,C:600,D:1200}; for(const l in o) if(o[l]===n) return l; return null; } } return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-219",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "tablas-y-graficos",
+    "habilidad": "representar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un histograma muestra la distancia, en kilómetros, entre la casa y el lugar de trabajo de un grupo de personas de Puerto Montt. Como los intervalos tienen anchos distintos, la altura de cada barra es la densidad de frecuencia, es decir, la cantidad de personas del intervalo dividida por su ancho. Las alturas son:\n\n$\\displaystyle \\begin{array}{|c|c|}\\hline \\text{Distancia (km)} & \\text{Altura de la barra} \\\\ \\hline [0, 5[ & 4 \\\\ \\hline [5, 10[ & 5 \\\\ \\hline [10, 20[ & 3{,}5 \\\\ \\hline [20, 40] & 1 \\\\ \\hline \\end{array}$\n\n¿Qué porcentaje de las personas vive a $10$ km o más de su lugar de trabajo?",
+    "alternatives": {
+      "A": "$33{,}\\overline{3}\\%$",
+      "B": "$35\\%$",
+      "C": "$45\\%$",
+      "D": "$55\\%$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: la cantidad de personas de cada intervalo es la altura por el ancho (el área de la barra), no la altura.\nPaso 1: las frecuencias son $4 \\cdot 5 = 20$, $5 \\cdot 5 = 25$, $3{,}5 \\cdot 10 = 35$ y $1 \\cdot 20 = 20$, con un total de $100$ personas.\nPaso 2: a $10$ km o más viven $35 + 20 = 55$ personas.\nPaso 3: eso corresponde a $\\dfrac{55}{100} = 55\\%$.\nRespuesta: D, $55\\%$.\nErrores frecuentes: La A trata las alturas como frecuencias ($\\frac{3{,}5 + 1}{13{,}5}$). La B considera solo el intervalo $[10, 20[$ y olvida el último. La C calcula el porcentaje de quienes viven a menos de $10$ km.",
+    "verify": "const iv=[[0,5,4],[5,10,5],[10,20,3.5],[20,40,1]]; const f=iv.map(([a,b,h])=>h*(b-a)); const n=f.reduce((s,x)=>s+x,0); const p=100*(f[2]+f[3])/n; const o={A:100/3,B:35,C:45,D:55}; for(const l in o) if(Math.abs(o[l]-p)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-220",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "tablas-y-graficos",
+    "habilidad": "argumentar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Se preguntó a $30$ estudiantes de un liceo de Curicó cuántas veces fueron al cine durante el último mes. Los resultados se muestran en la tabla:\n\n$\\displaystyle \\begin{array}{|c|c|}\\hline \\text{Veces} & \\text{Cantidad de estudiantes} \\\\ \\hline 0 & 5 \\\\ \\hline 1 & 12 \\\\ \\hline 2 & 8 \\\\ \\hline 3 & 3 \\\\ \\hline 4 & 1 \\\\ \\hline 5 & 1 \\\\ \\hline \\end{array}$\n\n¿Cuál de las siguientes relaciones entre la moda, la mediana y el promedio de estos datos es verdadera?",
+    "alternatives": {
+      "A": "Moda $=$ mediana $<$ promedio",
+      "B": "Moda $<$ mediana $<$ promedio",
+      "C": "Promedio $<$ mediana $=$ moda",
+      "D": "Mediana $<$ moda $<$ promedio"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: se calcula cada medida por separado; los pocos valores altos de la cola elevan el promedio, pero no la mediana.\nPaso 1: la moda es $1$, porque es el valor con mayor frecuencia ($12$).\nPaso 2: la mediana es el promedio de las posiciones $15$ y $16$; como la frecuencia acumulada pasa de $5$ a $17$ en el valor $1$, la mediana es $1$.\nPaso 3: el promedio es $\\dfrac{0 + 12 + 16 + 9 + 4 + 5}{30} = \\dfrac{46}{30} \\approx 1{,}53$, mayor que $1$.\nRespuesta: A.\nErrores frecuentes: La B calcula la mediana como el valor central de la columna de veces ($2{,}5$) y no por posiciones. La C supone que el promedio es menor porque hay estudiantes que fueron $0$ veces. La D confunde la mediana con el valor $0$ o con la frecuencia de la primera fila.",
+    "verify": "const f={0:5,1:12,2:8,3:3,4:1,5:1}; const d=[]; for(const v in f) for(let i=0;i<f[v];i++) d.push(+v); d.sort((a,b)=>a-b); const n=d.length; const me=(d[n/2-1]+d[n/2])/2; const mean=d.reduce((s,x)=>s+x,0)/n; let mo=null,mf=-1; for(const v in f) if(f[v]>mf){mf=f[v];mo=+v;} const r={A:mo===me&&me<mean, B:mo<me&&me<mean, C:mean<me&&me===mo, D:me<mo&&mo<mean}; const h=Object.keys(r).filter(l=>r[l]); return h.length===1?h[0]:null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-221",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "tablas-y-graficos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una oficina del Registro Civil se midió el tiempo de espera de $200$ personas. La tabla muestra el porcentaje acumulado de personas en cada intervalo de tiempo:\n\n$\\displaystyle \\begin{array}{|c|c|}\\hline \\text{Tiempo de espera (min)} & \\text{Porcentaje acumulado} \\\\ \\hline [0, 10[ & 15\\% \\\\ \\hline [10, 20[ & 40\\% \\\\ \\hline [20, 30[ & 70\\% \\\\ \\hline [30, 40[ & 100\\% \\\\ \\hline \\end{array}$\n\nAl día siguiente se agregaron al registro $50$ personas más, y todas esperaron entre $20$ y $30$ minutos (en el intervalo $[20, 30[$). En la tabla actualizada con las $250$ personas, ¿cuál es el porcentaje acumulado correspondiente al intervalo $[20, 30[$?",
+    "alternatives": {
+      "A": "$70\\%$",
+      "B": "$76\\%$",
+      "C": "$90\\%$",
+      "D": "$95\\%$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: los porcentajes acumulados se transforman primero en cantidades de personas, se actualizan y luego se vuelven a dividir por el nuevo total.\nPaso 1: originalmente, esperaron menos de $30$ minutos $0{,}70 \\cdot 200 = 140$ personas.\nPaso 2: las $50$ personas nuevas también esperaron menos de $30$ minutos, así que ahora son $140 + 50 = 190$ personas.\nPaso 3: el nuevo porcentaje acumulado es $\\dfrac{190}{250} = 0{,}76$, es decir, $76\\%$.\nRespuesta: B, $76\\%$.\nErrores frecuentes: La A no actualiza la tabla tras agregar personas. La C suma al $70\\%$ los $20$ puntos que representan las $50$ personas sobre $250$, sin recalcular el peso de las $140$ originales. La D suma las $50$ personas pero sigue dividiendo por $200$.",
+    "verify": "const n=200, add=50; const cum=[0.15,0.40,0.70,1].map(p=>p*n); const nuevo=100*(cum[2]+add)/(n+add); const o={A:70,B:76,C:90,D:95}; for(const l in o) if(Math.abs(o[l]-nuevo)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-222",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-dispersion",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "suficiencia",
+    "content": "Las temperaturas mínimas, en grados Celsius, de tres días de invierno en Coyhaique fueron $a$, $b$ y $c$, con $a < b < c$.\n\nSe puede determinar la desviación estándar de las tres temperaturas, si se sabe que:\n\n(1) $c - a = 6$ y $b$ es igual al promedio de las tres temperaturas.\n(2) $b - a = 3$.",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: la desviación estándar no depende de la posición de los datos, sino de las distancias de cada uno al promedio.\nPaso 1: con (1), $b = \\dfrac{a + b + c}{3}$ implica $a + c = 2b$, así que $a = b - 3$ y $c = b + 3$. Las desviaciones son $-3$, $0$ y $3$, y la desviación estándar es $\\sqrt{\\dfrac{9 + 0 + 9}{3}} = \\sqrt{6}$ para cualquier $b$. (1) es suficiente.\nPaso 2: con (2), se conoce la distancia entre $a$ y $b$, pero $c$ puede estar tan lejos como se quiera: por ejemplo, $-2$, $1$, $4$ y $-2$, $1$, $10$ tienen desviaciones estándar distintas. (2) no es suficiente.\nRespuesta: A, (1) por sí sola.\nErrores frecuentes: La C supone que hace falta conocer $b - a$ además de $c - a$, sin notar que la condición sobre el promedio ya ubica a $b$ en el centro. La B y la D creen que conocer una sola distancia basta. La E piensa que sin los valores concretos de las temperaturas no se puede calcular la dispersión.",
+    "verify": "const mean=a=>a.reduce((s,x)=>s+x,0)/a.length; const vr=a=>{const m=mean(a);return a.reduce((s,x)=>s+(x-m)**2,0)/a.length;}; const sd=a=>Math.sqrt(vr(a)); const s1=[[-4,-1,2],[0,3,6],[10.5,13.5,16.5]].map(sd); const ok1=s1.every(v=>Math.abs(v-s1[0])<1e-9) && [[-4,-1,2],[0,3,6]].every(([a,b,c])=>Math.abs(b-(a+b+c)/3)<1e-9&&c-a===6); const s2=[[-2,1,4],[-2,1,10]].map(sd); const ok2=Math.abs(s2[0]-s2[1])<1e-9; if(ok1&&!ok2) return 'A'; if(!ok1&&ok2) return 'B'; if(ok1&&ok2) return 'D'; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-223",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "medidas-de-posicion",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "suficiencia",
+    "content": "Las notas de $9$ estudiantes de un taller de teatro son todas distintas y su mediana es $5{,}0$. Luego se incorpora al registro la nota de un décimo estudiante.\n\nSe puede determinar la mediana de las $10$ notas, si se sabe que:\n\n(1) La nota del décimo estudiante es $6{,}0$.\n(2) Al ordenar de menor a mayor las $9$ notas originales, la sexta nota es $5{,}4$.",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: con $10$ datos, la mediana es el promedio del quinto y el sexto dato ordenados, y hay que ver qué datos ocupan esas posiciones.\nPaso 1: con (1), la nota nueva es mayor que $5{,}0$, así que el quinto dato sigue siendo $5{,}0$, pero el sexto es la menor entre $6{,}0$ y la sexta nota original, que no se conoce (por ejemplo, si es $5{,}4$ la mediana es $5{,}2$; si es $6{,}5$, la mediana es $5{,}5$). (1) no basta.\nPaso 2: con (2), no se sabe dónde queda la nota nueva: si es $3{,}0$, el quinto y sexto dato son la cuarta nota original y $5{,}0$; si es $6{,}0$, son $5{,}0$ y $5{,}4$. (2) no basta.\nPaso 3: con ambas, las notas ordenadas tienen en quinto lugar $5{,}0$ y en sexto lugar $5{,}4$ (que es menor que $6{,}0$), así que la mediana es $\\dfrac{5{,}0 + 5{,}4}{2} = 5{,}2$.\nRespuesta: C, ambas juntas.\nErrores frecuentes: La A supone que la sexta posición la ocupa la nota nueva. La B olvida que la nota nueva podría quedar bajo la mediana. La D combina los dos errores anteriores, y la E no nota que juntas ubican exactamente el quinto y el sexto dato.",
+    "verify": "const med=a=>{const b=[...a].sort((x,y)=>x-y);const n=b.length;return n%2?b[(n-1)/2]:(b[n/2-1]+b[n/2])/2;}; const qs=a=>{const b=[...a].sort((x,y)=>x-y);const n=b.length;const h=Math.floor(n/2);return [med(b.slice(0,h)),med(b),med(b.slice(n-h))];}; const base1=[3.1,3.8,4.2,4.6,5.0,5.4,5.9,6.3,6.8]; const base2=[3.1,3.8,4.2,4.6,5.0,6.5,6.7,6.8,6.9]; const m1a=med([...base1,6.0]), m1b=med([...base2,6.0]); const one=Math.abs(m1a-m1b)<1e-9; const m2a=med([...base1,6.0]), m2b=med([...base1,3.0]); const two=Math.abs(m2a-m2b)<1e-9; const base3=[2.0,2.5,4.0,4.9,5.0,5.4,6.1,6.2,6.9]; const both=Math.abs(med([...base1,6.0])-med([...base3,6.0]))<1e-9 && Math.abs(med([...base1,6.0])-5.2)<1e-9; if(med(base1)!==5||med(base2)!==5||med(base3)!==5) return null; if(one&&two) return 'D'; if(one) return 'A'; if(two) return 'B'; return both?'C':'E';"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-301",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "permutacion-combinatoria",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Para un juego de palabras en una radio de Talcahuano, se forman ordenaciones con todas las letras de la palabra TALCAHUANO, que tiene $10$ letras, entre ellas tres letras A. Dos ordenaciones que solo se diferencian en el intercambio de dos letras A se consideran iguales.\n\n¿Cuántas de esas ordenaciones comienzan con una consonante y terminan con una consonante?",
+    "alternatives": {
+      "A": "$67\\,200$",
+      "B": "$134\\,400$",
+      "C": "$604\\,800$",
+      "D": "$806\\,400$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: primero se ubican los extremos con el principio multiplicativo y luego se permutan las $8$ letras restantes, dividiendo por las repeticiones de la A.\nPaso 1: las consonantes son T, L, C, H y N, todas distintas. Para el primer lugar hay $5$ opciones y para el último quedan $4$: $5 \\cdot 4 = 20$.\nPaso 2: quedan $8$ letras: $3$ consonantes distintas, las tres A, la U y la O. Sus ordenaciones son $\\frac{8!}{3!} = \\frac{40\\,320}{6} = 6\\,720$.\nPaso 3: en total, $20 \\cdot 6\\,720 = 134\\,400$.\nRespuesta: B, $134\\,400$.\nErrores frecuentes: La A usa $\\binom{5}{2} = 10$ para los extremos, como si no importara cuál consonante va primero. La C cuenta $\\frac{10!}{3!}$, todas las ordenaciones, sin la condición de los extremos. La D olvida dividir por $3!$ y trata las tres A como letras distintas.",
+    "verify": "const f=n=>n<=1?1:n*f(n-1); const word='TALCAHUANO'.split(''); const cons=new Set(word.filter(c=>!'AEIOU'.includes(c)));\nconst ext=cons.size*(cons.size-1); const mid=f(8)/f(3); const r=ext*mid;\nconst m={A:67200,B:134400,C:604800,D:806400}; for(const [k,v] of Object.entries(m)) if(v===r) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-302",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "permutacion-combinatoria",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "La brigada de reciclaje de un liceo de Coyhaique tiene $n$ integrantes, con $n \\geq 5$. Considera las siguientes afirmaciones:\n\nI) La cantidad de grupos de $3$ integrantes que se pueden formar es igual a la cantidad de grupos de $n - 3$ integrantes.\nII) La cantidad de maneras de elegir un encargado y un subencargado, distintos entre sí, es el doble de la cantidad de grupos de $2$ integrantes.\nIII) Si la cantidad de grupos de $3$ integrantes es el doble de la cantidad de grupos de $2$ integrantes, entonces $n = 7$.\n\n¿Cuál o cuáles de las afirmaciones anteriores son siempre verdaderas?",
+    "alternatives": {
+      "A": "Solo I",
+      "B": "Solo III",
+      "C": "Solo I y III",
+      "D": "Solo I y II"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: elegir un grupo de $3$ equivale a elegir los $n - 3$ que quedan fuera, y una elección con cargos es una combinación multiplicada por las formas de repartir los cargos.\nPaso 1: I es verdadera: $\\binom{n}{3} = \\binom{n}{n-3}$, porque cada grupo de $3$ queda determinado por los $n - 3$ que no entran.\nPaso 2: II es verdadera: $n(n - 1) = 2 \\cdot \\frac{n(n - 1)}{2}$; cada pareja da dos asignaciones de cargos.\nPaso 3: III es falsa: $\\binom{n}{3} = 2\\binom{n}{2}$ equivale a $\\frac{n(n-1)(n-2)}{6} = n(n - 1)$, es decir, $n - 2 = 6$ y $n = 8$, no $7$.\nRespuesta: D, solo I y II.\nErrores frecuentes: La A descarta II, sin notar que el orden de los cargos duplica cada pareja. La B y la C aceptan III, porque al simplificar se iguala $n - 2$ a $5$ o se divide por $3$ en vez de por $6$.",
+    "verify": "const C=(n,k)=>{if(k<0||k>n)return 0;let r=1;for(let i=1;i<=k;i++)r=r*(n-k+i)/i;return Math.round(r);};\nlet I=true,II=true; for(let n=5;n<=30;n++){ if(C(n,3)!==C(n,n-3)) I=false; if(n*(n-1)!==2*C(n,2)) II=false; }\nlet sols=[]; for(let n=5;n<=60;n++) if(C(n,3)===2*C(n,2)) sols.push(n); const III=(sols.length===1&&sols[0]===7);\nconst m={A:[true,false,false],B:[false,false,true],C:[true,false,true],D:[true,true,false]}; const r=[I,II,III];\nfor(const [k,v] of Object.entries(m)) if(v.every((x,i)=>x===r[i])) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-303",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "permutacion-combinatoria",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Las bicicletas públicas de una ciudad se desbloquean con un código de $4$ dígitos, elegidos entre $0$ y $9$, que pueden repetirse y pueden comenzar con $0$.\n\n¿Cuántos de esos códigos tienen al menos dos dígitos iguales?",
+    "alternatives": {
+      "A": "$4\\,320$",
+      "B": "$4\\,960$",
+      "C": "$5\\,040$",
+      "D": "$9\\,790$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: es más simple contar el complemento, los códigos con los cuatro dígitos distintos, y restarlo del total.\nPaso 1: total de códigos: $10^4 = 10\\,000$.\nPaso 2: códigos con los cuatro dígitos distintos: $10 \\cdot 9 \\cdot 8 \\cdot 7 = 5\\,040$.\nPaso 3: con al menos dos iguales: $10\\,000 - 5\\,040 = 4\\,960$.\nRespuesta: B, $4\\,960$.\nErrores frecuentes: La A cuenta solo los códigos con exactamente un par repetido y los otros dos dígitos distintos, $\\binom{4}{2} \\cdot 10 \\cdot 9 \\cdot 8$, y deja fuera tríos, cuartetos y dos pares. La C es la cantidad de códigos con todos los dígitos distintos, el complemento. La D resta $\\binom{10}{4} = 210$, como si en un código no importara el orden.",
+    "verify": "let cnt=0; for(let x=0;x<10000;x++){ const s=String(x).padStart(4,'0'); if(new Set(s).size<4) cnt++; }\nconst alt=10**4-10*9*8*7; if(alt!==cnt) return null;\nconst m={A:4320,B:4960,C:5040,D:9790}; for(const [k,v] of Object.entries(m)) if(v===cnt) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-304",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "permutacion-combinatoria",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un repartidor de Iquique recorre un barrio cuyas calles forman una cuadrícula. Sale de la esquina $P = (0, 0)$ y debe llegar a la esquina $Q = (4, 3)$, avanzando siempre una cuadra hacia el este (aumenta en $1$ la primera coordenada) o una cuadra hacia el norte (aumenta en $1$ la segunda coordenada).\n\nDebe pasar a dejar un pedido en la esquina $R = (2, 1)$ y, por una obra en la calle, no puede pasar por la esquina $S = (3, 2)$. ¿Cuántos recorridos distintos puede hacer?",
+    "alternatives": {
+      "A": "$6$",
+      "B": "$12$",
+      "C": "$15$",
+      "D": "$18$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: un recorrido de $e$ cuadras al este y $k$ al norte es elegir cuáles de los $e + k$ pasos van al norte, $\\binom{e+k}{k}$; los tramos se multiplican y lo prohibido se resta.\nPaso 1: de $P$ a $R$ hay $2$ pasos al este y $1$ al norte: $\\binom{3}{1} = 3$ recorridos.\nPaso 2: de $R$ a $Q$ hay $2$ al este y $2$ al norte: $\\binom{4}{2} = 6$. De ellos, pasan por $S$ los que van de $R$ a $S$ ($\\binom{2}{1} = 2$) y luego de $S$ a $Q$ ($\\binom{2}{1} = 2$): $4$. Sin pasar por $S$ quedan $6 - 4 = 2$.\nPaso 3: total: $3 \\cdot 2 = 6$.\nRespuesta: A, $6$.\nErrores frecuentes: La B cuenta justamente los recorridos que sí pasan por $S$, $3 \\cdot 4$. La C cuenta los recorridos de $P$ a $Q$ que evitan $S$ ($35 - 20$), pero olvida que deben pasar por $R$. La D cuenta los que pasan por $R$ sin descartar los que pasan por $S$.",
+    "verify": "const ways=(a,b,c,d)=>{ if(c<a||d<b) return 0; const n=(c-a)+(d-b), k=d-b; let r=1; for(let i=1;i<=k;i++) r=r*(n-k+i)/i; return Math.round(r); };\nconst r = ways(0,0,2,1)*(ways(2,1,4,3)-ways(2,1,3,2)*ways(3,2,4,3));\nconst m={A:6,B:12,C:15,D:18}; for(const [k,v] of Object.entries(m)) if(v===r) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-305",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "permutacion-combinatoria",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Una heladería de Puerto Natales ofrece $n$ sabores, con $n \\geq 3$. Un cono doble lleva $2$ sabores distintos y un cono triple lleva $3$ sabores distintos. En ambos casos no importa el orden en que se sirven los sabores.\n\n¿Cuál de las siguientes expresiones representa la cantidad total de conos distintos, dobles o triples, que se pueden pedir?",
+    "alternatives": {
+      "A": "$\\dfrac{n(n - 1)}{2} \\cdot \\dfrac{n(n - 1)(n - 2)}{6}$",
+      "B": "$\\dfrac{n(n - 1)(n - 2)}{6}$",
+      "C": "$n(n - 1) + n(n - 1)(n - 2)$",
+      "D": "$\\dfrac{(n + 1)\\,n\\,(n - 1)}{6}$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: los conos dobles y los triples son casos excluyentes, así que sus cantidades se suman; dentro de cada caso no importa el orden, por lo que se usan combinaciones.\nPaso 1: conos dobles: $\\binom{n}{2} = \\frac{n(n - 1)}{2}$. Conos triples: $\\binom{n}{3} = \\frac{n(n - 1)(n - 2)}{6}$.\nPaso 2: se suman y se factoriza: $\\frac{n(n-1)}{6}\\left(3 + (n - 2)\\right) = \\frac{n(n - 1)(n + 1)}{6}$.\nRespuesta: D, $\\frac{(n + 1)\\,n\\,(n - 1)}{6}$.\nErrores frecuentes: La A multiplica los dos casos, como si cada cliente pidiera un cono doble y además uno triple. La B considera solo los conos triples. La C suma variaciones, contando como distintos los conos que solo cambian el orden de los sabores.",
+    "verify": "const C=(n,k)=>{let r=1;for(let i=1;i<=k;i++)r=r*(n-k+i)/i;return r;};\nconst ex={A:n=>n*(n-1)/2*n*(n-1)*(n-2)/6,B:n=>n*(n-1)*(n-2)/6,C:n=>n*(n-1)+n*(n-1)*(n-2),D:n=>(n+1)*n*(n-1)/6};\nconst ok=Object.keys(ex).filter(k=>[3,4,7,10,15].every(n=>Math.abs(ex[k](n)-(C(n,2)+C(n,3)))<1e-9));\nreturn ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-306",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "permutacion-combinatoria",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un club de lectura de Punta Arenas, la coordinadora tiene $6$ libros distintos y los reparte entre tres participantes, Amanda, Bruno y Catalina, de modo que cada uno reciba exactamente $2$ libros.\n\n¿De cuántas maneras distintas puede hacer el reparto?",
+    "alternatives": {
+      "A": "$15$",
+      "B": "$22$",
+      "C": "$90$",
+      "D": "$720$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: se eligen los libros persona por persona y se aplica el principio multiplicativo, porque cada participante es distinguible.\nPaso 1: para Amanda se eligen $2$ de los $6$ libros: $\\binom{6}{2} = 15$.\nPaso 2: para Bruno, $2$ de los $4$ que quedan: $\\binom{4}{2} = 6$. Catalina recibe los $2$ restantes: $\\binom{2}{2} = 1$.\nPaso 3: total: $15 \\cdot 6 \\cdot 1 = 90$.\nRespuesta: C, $90$.\nErrores frecuentes: La A divide por $3!$, como si los tres grupos de libros no tuvieran dueño. La B suma $15 + 6 + 1$ en vez de multiplicar, aunque las elecciones ocurren una tras otra. La D cuenta las $6!$ ordenaciones de los libros, distinguiendo el orden dentro del par que recibe cada persona.",
+    "verify": "const C=(n,k)=>{let r=1;for(let i=1;i<=k;i++)r=r*(n-k+i)/i;return Math.round(r);};\nlet cnt=0; for(let a=0;a<3**6;a++){ let x=a, c=[0,0,0]; for(let i=0;i<6;i++){ c[x%3]++; x=Math.floor(x/3);} if(c.every(v=>v===2)) cnt++; }\nif(cnt!==C(6,2)*C(4,2)*C(2,2)) return null;\nconst m={A:15,B:22,C:90,D:720}; for(const [k,v] of Object.entries(m)) if(v===cnt) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-307",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "permutacion-combinatoria",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un torneo de tenis de mesa en Arica, cada jugador juega exactamente un partido contra cada uno de los demás. A última hora se inscribieron $3$ jugadores nuevos y, por eso, la cantidad total de partidos del torneo aumentó en $27$.\n\n¿Cuántos jugadores había inscritos antes de la llegada de los nuevos?",
+    "alternatives": {
+      "A": "$8$",
+      "B": "$9$",
+      "C": "$10$",
+      "D": "$11$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: con $n$ jugadores hay $\\binom{n}{2}$ partidos; el aumento es la diferencia entre $\\binom{n+3}{2}$ y $\\binom{n}{2}$, que se iguala a $27$.\nPaso 1: $\\binom{n+3}{2} - \\binom{n}{2} = \\frac{(n + 3)(n + 2) - n(n - 1)}{2} = \\frac{6n + 6}{2} = 3n + 3$.\nPaso 2: también se ve así: cada nuevo juega con los $n$ antiguos ($3n$ partidos) y los nuevos juegan entre sí ($\\binom{3}{2} = 3$ partidos).\nPaso 3: $3n + 3 = 27$, así que $n = 8$.\nRespuesta: A, $8$ jugadores.\nErrores frecuentes: La B plantea $3n = 27$ y olvida los $3$ partidos entre los nuevos. La C plantea $3n - 3 = 27$, restando esos partidos en vez de sumarlos. La D entrega la cantidad final de jugadores, $8 + 3$, y no la inicial.",
+    "verify": "const C2=n=>n*(n-1)/2; let sol=[]; for(let n=2;n<=100;n++) if(C2(n+3)-C2(n)===27) sol.push(n); if(sol.length!==1) return null;\nconst m={A:8,B:9,C:10,D:11}; for(const [k,v] of Object.entries(m)) if(v===sol[0]) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-308",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "permutacion-combinatoria",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una faena minera de Calama hay $4$ mujeres y $6$ hombres capacitados en primeros auxilios. Se debe formar una brigada de $3$ personas que tenga al menos una mujer. Martín hizo el siguiente cálculo:\n\nPaso 1: primero elijo a una mujer, y eso se puede hacer de $4$ maneras.\nPaso 2: luego elijo a las otras $2$ personas entre las $9$ que quedan: $\\binom{9}{2} = 36$ maneras.\nPaso 3: la cantidad de brigadas es $4 \\cdot 36 = 144$.\n\n¿Cuál de las siguientes afirmaciones es correcta respecto del cálculo de Martín?",
+    "alternatives": {
+      "A": "El error está en el paso 2: debía elegir entre los $6$ hombres, y el resultado correcto es $60$.",
+      "B": "Su método cuenta más de una vez las brigadas con dos o más mujeres, y el resultado correcto es $100$.",
+      "C": "Su método cuenta más de una vez las brigadas con dos o más mujeres, y el resultado correcto es $120$.",
+      "D": "Le faltó multiplicar por $3!$, porque importa el orden de elección, y el resultado correcto es $864$."
+    },
+    "correct": "B",
+    "explanation": "Idea clave: fijar «una mujer» y completar con cualquiera genera repeticiones cuando la brigada tiene más de una mujer; lo seguro es restar al total las brigadas sin mujeres.\nPaso 1: una brigada con, por ejemplo, Ana y Berta aparece dos veces en el cálculo de Martín: una al elegir primero a Ana y otra al elegir primero a Berta. Por eso $144$ es demasiado.\nPaso 2: total de brigadas: $\\binom{10}{3} = 120$. Brigadas sin mujeres: $\\binom{6}{3} = 20$.\nPaso 3: con al menos una mujer: $120 - 20 = 100$.\nRespuesta: B.\nErrores frecuentes: La A calcula $4 \\cdot \\binom{6}{2} = 60$, que cuenta solo las brigadas con exactamente una mujer. La C detecta bien el error, pero $120$ es el total de brigadas sin la condición. La D agrega un orden que no existe, porque la brigada no tiene cargos.",
+    "verify": "let cnt=0; for(let a=0;a<10;a++)for(let b=a+1;b<10;b++)for(let c=b+1;c<10;c++){ if(a<4||b<4||c<4) cnt++; }\nconst martin=4*36; if(!(martin>cnt)) return null; const total=120;\nif(cnt===100 && total!==cnt) return 'B'; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-309",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "permutacion-combinatoria",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Javiera ordena $5$ libros distintos en una repisa, uno al lado del otro: $2$ libros de matemática, $1$ diccionario y $2$ novelas. Quiere que los dos libros de matemática queden juntos y que el diccionario no quede en ninguno de los dos extremos de la fila.\n\n¿De cuántas maneras distintas puede ordenar los libros?",
+    "alternatives": {
+      "A": "$24$",
+      "B": "$48$",
+      "C": "$72$",
+      "D": "$120$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: el par de matemática se trata como un solo bloque, se ordenan los bloques con la restricción y al final se multiplica por el orden interno del par.\nPaso 1: con el bloque quedan $4$ unidades: bloque, diccionario y las dos novelas.\nPaso 2: el diccionario no puede ir en la primera ni en la última de las $4$ posiciones: tiene $2$ lugares posibles, y las otras $3$ unidades se ordenan de $3! = 6$ maneras: $2 \\cdot 6 = 12$.\nPaso 3: los libros de matemática pueden intercambiarse dentro del bloque: $12 \\cdot 2 = 24$.\nRespuesta: A, $24$.\nErrores frecuentes: La B cuenta $4! \\cdot 2 = 48$, los órdenes con el bloque, pero sin la restricción del diccionario. La C cuenta $3 \\cdot 4! = 72$, el diccionario lejos de los extremos sin exigir que los de matemática estén juntos. La D es $5!$, todos los órdenes sin ninguna restricción.",
+    "verify": "const items=['M1','M2','D','N1','N2']; let cnt=0;\nconst perm=(a,l)=>{ if(l===a.length){ const iM1=a.indexOf('M1'), iM2=a.indexOf('M2'), iD=a.indexOf('D'); if(Math.abs(iM1-iM2)===1 && iD!==0 && iD!==4) cnt++; return; } for(let i=l;i<a.length;i++){ [a[l],a[i]]=[a[i],a[l]]; perm(a,l+1); [a[l],a[i]]=[a[i],a[l]]; } };\nperm(items.slice(),0); const m={A:24,B:48,C:72,D:120}; for(const [k,v] of Object.entries(m)) if(v===cnt) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-310",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "reglas-probabilidades",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sean $A$ y $B$ dos sucesos de un experimento aleatorio, con $P(A) = a$ y $P(B) = b$, donde $0 < a < 1$ y $0 < b < 1$. Además, $A^c$ y $B^c$ son sus complementos. Considera las siguientes afirmaciones:\n\nI) Si $A$ y $B$ son mutuamente excluyentes, entonces no son independientes.\nII) Si $A$ y $B$ son independientes, entonces $P(A^c \\cap B^c) = (1 - a)(1 - b)$.\nIII) Si $A$ y $B$ son mutuamente excluyentes, entonces $P(A^c \\cap B^c) = (1 - a)(1 - b)$.\n\n¿Cuál o cuáles de las afirmaciones anteriores son siempre verdaderas?",
+    "alternatives": {
+      "A": "Solo I",
+      "B": "Solo II",
+      "C": "Solo II y III",
+      "D": "Solo I y II"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: excluyentes significa $P(A \\cap B) = 0$; independientes significa $P(A \\cap B) = ab$. Como $ab > 0$, no pueden ocurrir las dos cosas a la vez.\nPaso 1: I es verdadera: si son excluyentes, $P(A \\cap B) = 0 \\neq ab$, así que no son independientes.\nPaso 2: II es verdadera: $P(A^c \\cap B^c) = 1 - P(A \\cup B) = 1 - a - b + ab = (1 - a)(1 - b)$.\nPaso 3: III es falsa: si son excluyentes, $P(A^c \\cap B^c) = 1 - (a + b)$, que difiere de $(1 - a)(1 - b)$ en $ab > 0$. Por ejemplo, con $a = 0{,}3$ y $b = 0{,}5$ se obtiene $0{,}2$ y no $0{,}35$.\nRespuesta: D, solo I y II.\nErrores frecuentes: La A descarta II, aunque la independencia se traspasa a los complementos. La B descarta I por confundir «excluyentes» con «independientes». La C acepta III, que aplica la regla del producto a sucesos que no son independientes.",
+    "verify": "let I=true,II=true,III=true; for(const [a,b] of [[0.3,0.5],[0.1,0.2],[0.45,0.5],[0.05,0.9]]){ if(Math.abs(0-a*b)<1e-12) I=false; const indNone=1-(a+b-a*b); if(Math.abs(indNone-(1-a)*(1-b))>1e-12) II=false; if(a+b<=1){ const exNone=1-(a+b); if(Math.abs(exNone-(1-a)*(1-b))>1e-12) III=false; } }\nconst m={A:[true,false,false],B:[false,true,false],C:[false,true,true],D:[true,true,false]}; const r=[I,II,III];\nfor(const [k,v] of Object.entries(m)) if(v.every((x,i)=>x===r[i])) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-311",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "reglas-probabilidades",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En el taller de computación de un colegio de Rancagua hay una caja con $10$ pendrives, de los cuales $3$ están dañados. Un técnico los prueba uno a uno, al azar y sin devolverlos a la caja, hasta encontrar el primer pendrive dañado.\n\n¿Cuál es la probabilidad de que encuentre el primer pendrive dañado justo en la tercera prueba?",
+    "alternatives": {
+      "A": "$\\dfrac{147}{1\\,000}$",
+      "B": "$\\dfrac{7}{40}$",
+      "C": "$\\dfrac{3}{10}$",
+      "D": "$\\dfrac{3}{8}$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: «el primer dañado aparece en la tercera prueba» significa bueno, bueno y dañado, en ese orden, y cada probabilidad cambia porque no hay reposición.\nPaso 1: primera prueba buena: $\\frac{7}{10}$. Segunda buena, dado que la primera lo fue: $\\frac{6}{9}$.\nPaso 2: tercera dañada, dado que las dos primeras fueron buenas: quedan $3$ dañados entre $8$, $\\frac{3}{8}$.\nPaso 3: $\\frac{7}{10} \\cdot \\frac{6}{9} \\cdot \\frac{3}{8} = \\frac{126}{720} = \\frac{7}{40}$.\nRespuesta: B, $\\frac{7}{40}$.\nErrores frecuentes: La A calcula $\\left(\\frac{7}{10}\\right)^2 \\cdot \\frac{3}{10}$, como si los pendrives se devolvieran a la caja. La C es la probabilidad de que un pendrive cualquiera esté dañado, sin considerar el orden. La D usa solo el último factor y olvida que las dos primeras pruebas debían salir buenas.",
+    "verify": "const r=(7/10)*(6/9)*(3/8); const m={A:147/1000,B:7/40,C:3/10,D:3/8}; for(const [k,v] of Object.entries(m)) if(Math.abs(v-r)<1e-12) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-312",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "reglas-probabilidades",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un hospital de Temuco quiere instalar generadores de respaldo que funcionan de manera independiente. Ante un corte de luz, cada generador falla con probabilidad $0{,}2$. Se busca que la probabilidad de que al menos un generador funcione sea mayor o igual que $0{,}999$.\n\nConsiderando que $\\log 2 \\approx 0{,}301$, ¿cuál es la menor cantidad de generadores que se deben instalar?",
+    "alternatives": {
+      "A": "$3$",
+      "B": "$4$",
+      "C": "$5$",
+      "D": "$31$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: «al menos uno funciona» es el complemento de «todos fallan», y con independencia esa probabilidad es $0{,}2^n$; la desigualdad se resuelve con logaritmos.\nPaso 1: se pide $1 - 0{,}2^n \\geq 0{,}999$, es decir, $0{,}2^n \\leq 0{,}001 = 10^{-3}$.\nPaso 2: aplicando logaritmo: $n \\log 0{,}2 \\leq -3$. Como $\\log 0{,}2 = \\log 2 - 1 \\approx -0{,}699$ es negativo, al dividir se invierte la desigualdad: $n \\geq \\frac{3}{0{,}699} \\approx 4{,}29$.\nPaso 3: el menor entero es $n = 5$. Se comprueba: $0{,}2^4 = 0{,}0016 > 0{,}001$ y $0{,}2^5 = 0{,}00032 \\leq 0{,}001$.\nRespuesta: C, $5$ generadores.\nErrores frecuentes: La A trata $0{,}2$ como si fuera $0{,}1$ y concluye $n \\geq 3$. La B redondea $4{,}29$ hacia abajo, pero con $4$ generadores no se alcanza la meta. La D usa $0{,}8^n$, la probabilidad de que todos funcionen, en lugar de la de que todos fallen.",
+    "verify": "let n=1; while(1-0.2**n < 0.999) n++; const nl=Math.ceil(3/(1-0.301)); if(nl!==n) return null;\nconst m={A:3,B:4,C:5,D:31}; for(const [k,v] of Object.entries(m)) if(v===n) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-313",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "reglas-probabilidades",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un juego de una feria escolar de Quilpué se lanzan dos dados comunes, uno rojo y uno azul. Se gana un premio si la suma de los puntos es mayor que $8$ o si en al menos uno de los dados sale un $6$.\n\n¿Cuál es la probabilidad de ganar un premio en un lanzamiento?",
+    "alternatives": {
+      "A": "$\\dfrac{7}{36}$",
+      "B": "$\\dfrac{5}{18}$",
+      "C": "$\\dfrac{7}{18}$",
+      "D": "$\\dfrac{7}{12}$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: para una «o» entre sucesos que pueden ocurrir juntos se usa $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$.\nPaso 1: $A$: suma mayor que $8$. Hay $4$ resultados con suma $9$, $3$ con suma $10$, $2$ con suma $11$ y $1$ con suma $12$: $10$ de $36$.\nPaso 2: $B$: al menos un $6$. Son $36 - 25 = 11$ resultados. $A \\cap B$: $(3,6)$, $(6,3)$, $(4,6)$, $(6,4)$, $(5,6)$, $(6,5)$ y $(6,6)$, que son $7$.\nPaso 3: $P(A \\cup B) = \\frac{10 + 11 - 7}{36} = \\frac{14}{36} = \\frac{7}{18}$.\nRespuesta: C, $\\frac{7}{18}$.\nErrores frecuentes: La A es la probabilidad de la intersección, que exige ambas condiciones. La B considera solo la suma mayor que $8$. La D suma $10 + 11$ sin restar los $7$ resultados contados dos veces.",
+    "verify": "let f=0; for(let r=1;r<=6;r++) for(let a=1;a<=6;a++) if(r+a>8 || r===6 || a===6) f++;\nconst p=f/36; const m={A:7/36,B:5/18,C:7/18,D:7/12}; for(const [k,v] of Object.entries(m)) if(Math.abs(v-p)<1e-12) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-314",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "reglas-probabilidades",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En la tómbola de un colegio de Melipilla hay $2n$ fichas numeradas del $1$ al $2n$, con $n \\geq 2$. Se extraen al azar dos fichas a la vez.\n\n¿Cuál de las siguientes expresiones representa la probabilidad de obtener dos fichas cuyos números sumen un valor impar?",
+    "alternatives": {
+      "A": "$\\dfrac{n}{2n - 1}$",
+      "B": "$\\dfrac{1}{2}$",
+      "C": "$\\dfrac{n}{2(2n - 1)}$",
+      "D": "$\\dfrac{n - 1}{2n - 1}$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: la suma es impar solo si una ficha es par y la otra impar; entre $1$ y $2n$ hay exactamente $n$ pares y $n$ impares.\nPaso 1: casos totales: $\\binom{2n}{2} = \\frac{2n(2n - 1)}{2} = n(2n - 1)$.\nPaso 2: casos favorables: una par y una impar, $n \\cdot n = n^2$.\nPaso 3: $P = \\frac{n^2}{n(2n - 1)} = \\frac{n}{2n - 1}$. Por ejemplo, con $n = 2$ (fichas $1$ a $4$), $4$ de los $6$ pares posibles tienen suma impar: $\\frac{2}{3}$.\nRespuesta: A, $\\frac{n}{2n - 1}$.\nErrores frecuentes: La B supone que par e impar son igual de probables, como si las fichas se devolvieran a la tómbola. La C cuenta los casos favorables sin orden, $n^2$, pero divide por los casos ordenados, $2n(2n - 1)$. La D es la probabilidad de que las dos fichas tengan la misma paridad, es decir, de que la suma sea par.",
+    "verify": "const ex={A:n=>n/(2*n-1),B:n=>0.5,C:n=>n/(2*(2*n-1)),D:n=>(n-1)/(2*n-1)};\nconst real=n=>{let f=0,t=0; for(let i=1;i<=2*n;i++) for(let j=i+1;j<=2*n;j++){ t++; if((i+j)%2===1) f++; } return f/t; };\nconst ok=Object.keys(ex).filter(k=>[2,3,5,8].every(n=>Math.abs(ex[k](n)-real(n))<1e-12)); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-315",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "probabilidad-condicional",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una sala de arte de Valdivia hay dos cajas de lápices. La caja 1 tiene $2$ lápices rojos y $3$ azules, y la caja 2 tiene $4$ lápices rojos y $2$ azules. Se saca al azar un lápiz de la caja 1 y, sin mirarlo, se pone en la caja 2. Luego se saca al azar un lápiz de la caja 2 y resulta ser rojo.\n\n¿Cuál es la probabilidad de que el lápiz que se pasó de la caja 1 a la caja 2 haya sido rojo?",
+    "alternatives": {
+      "A": "$\\dfrac{2}{7}$",
+      "B": "$\\dfrac{2}{5}$",
+      "C": "$\\dfrac{5}{11}$",
+      "D": "$\\dfrac{6}{11}$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el dato del segundo lápiz cambia la probabilidad del primero; se calcula $P(\\text{rojo pasado} \\mid \\text{rojo extraído}) = \\frac{P(\\text{ambos})}{P(\\text{rojo extraído})}$.\nPaso 1: si se pasó un rojo (probabilidad $\\frac{2}{5}$), la caja 2 queda con $5$ rojos de $7$: $\\frac{2}{5} \\cdot \\frac{5}{7} = \\frac{10}{35}$.\nPaso 2: si se pasó un azul (probabilidad $\\frac{3}{5}$), la caja 2 queda con $4$ rojos de $7$: $\\frac{3}{5} \\cdot \\frac{4}{7} = \\frac{12}{35}$. Así, $P(\\text{rojo extraído}) = \\frac{22}{35}$.\nPaso 3: $\\frac{10/35}{22/35} = \\frac{10}{22} = \\frac{5}{11}$.\nRespuesta: C, $\\frac{5}{11}$.\nErrores frecuentes: La A es $\\frac{10}{35}$, la probabilidad de que ambos sean rojos, sin dividir por la del suceso conocido. La B es la probabilidad de pasar un rojo antes de saber nada, $\\frac{2}{5}$. La D es la probabilidad de que se haya pasado un azul, el complemento de lo pedido.",
+    "verify": "const rr=(2/5)*(5/7), ar=(3/5)*(4/7); const p=rr/(rr+ar);\nconst m={A:2/7,B:2/5,C:5/11,D:6/11}; for(const [k,v] of Object.entries(m)) if(Math.abs(v-p)<1e-12) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-316",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "probabilidad-condicional",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una tienda en línea de Temuco analiza sus pedidos. Se elige un pedido al azar y se definen los sucesos $A$: «el cliente devuelve el producto» y $B$: «el pedido se envió con despacho a domicilio». Los pedidos que no se envían a domicilio se retiran en tienda. Se sabe que $P(B) = 0{,}6$, que $P(A \\mid B) = 0{,}3$ y que $P(A \\mid B^c) = 0{,}3$.\n\n¿Cuál de las siguientes conclusiones se puede deducir de esta información?",
+    "alternatives": {
+      "A": "$P(A) = 0{,}3$ y los sucesos $A$ y $B$ son independientes.",
+      "B": "$P(A) = 0{,}18$ y los sucesos $A$ y $B$ no son independientes.",
+      "C": "$P(A) = 0{,}6$ y los sucesos $A$ y $B$ son independientes.",
+      "D": "No es posible calcular $P(A)$ sin conocer $P(A \\cap B)$."
+    },
+    "correct": "A",
+    "explanation": "Idea clave: con la probabilidad total, $P(A) = P(A \\mid B)P(B) + P(A \\mid B^c)P(B^c)$; si ambas condicionales son iguales, $P(A)$ coincide con ellas.\nPaso 1: $P(B^c) = 1 - 0{,}6 = 0{,}4$.\nPaso 2: $P(A) = 0{,}3 \\cdot 0{,}6 + 0{,}3 \\cdot 0{,}4 = 0{,}18 + 0{,}12 = 0{,}3$.\nPaso 3: como $P(A \\mid B) = 0{,}3 = P(A)$, saber que el pedido fue a domicilio no cambia la probabilidad de devolución: $A$ y $B$ son independientes. En efecto, $P(A \\cap B) = 0{,}18 = 0{,}3 \\cdot 0{,}6$.\nRespuesta: A.\nErrores frecuentes: La B toma $0{,}18 = P(A \\cap B)$ como si fuera $P(A)$. La C confunde $P(A)$ con $P(B)$. La D no ve que $P(A \\cap B) = P(A \\mid B) \\cdot P(B)$ se obtiene de los datos.",
+    "verify": "const pB=0.6, aB=0.3, aBc=0.3; const pA=aB*pB+aBc*(1-pB); const inter=aB*pB; const indep=Math.abs(inter-pA*pB)<1e-12;\nif(Math.abs(pA-0.3)<1e-12 && indep) return 'A'; if(Math.abs(pA-0.18)<1e-12 && !indep) return 'B'; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-317",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "probabilidad-condicional",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un concurso de una radio de Arica, el locutor elige al azar dos números distintos del $1$ al $9$, sin importar el orden. Antes de revelarlos, anuncia que el producto de los dos números es par.\n\nCon esa información, ¿cuál es la probabilidad de que, al sumar ambos números, se obtenga un resultado par?",
+    "alternatives": {
+      "A": "$\\dfrac{1}{6}$",
+      "B": "$\\dfrac{3}{13}$",
+      "C": "$\\dfrac{3}{8}$",
+      "D": "$\\dfrac{4}{9}$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: la condición reduce el espacio a los pares de números con producto par; dentro de ese grupo se buscan los de suma par.\nPaso 1: hay $\\binom{9}{2} = 36$ pares. Entre $1$ y $9$ hay $5$ impares y $4$ pares. El producto es impar solo si ambos son impares: $\\binom{5}{2} = 10$. Con producto par quedan $36 - 10 = 26$.\nPaso 2: con producto par, la suma es par solo si ambos números son pares: $\\binom{4}{2} = 6$.\nPaso 3: $P = \\frac{6}{26} = \\frac{3}{13}$.\nRespuesta: B, $\\frac{3}{13}$.\nErrores frecuentes: La A divide $6$ por los $36$ pares, sin usar la información del producto. La C calcula $\\frac{6}{16}$, la probabilidad inversa: producto par dado que la suma es par. La D es $\\frac{16}{36}$, la probabilidad de suma par sin condición.",
+    "verify": "let t=0,f=0; for(let i=1;i<=9;i++) for(let j=i+1;j<=9;j++){ if((i*j)%2===0){ t++; if((i+j)%2===0) f++; } }\nconst p=f/t; const m={A:1/6,B:3/13,C:3/8,D:4/9}; for(const [k,v] of Object.entries(m)) if(Math.abs(v-p)<1e-12) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-318",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "probabilidad-condicional",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un curso de $n$ estudiantes, con $n \\geq 4$, están los mellizos Ignacia y Vicente. Se eligen al azar $2$ estudiantes del curso para representarlo en el consejo escolar. Se sabe que al menos uno de los mellizos quedó elegido.\n\n¿Cuál de las siguientes expresiones representa la probabilidad de que hayan quedado elegidos ambos mellizos?",
+    "alternatives": {
+      "A": "$\\dfrac{2}{n(n - 1)}$",
+      "B": "$\\dfrac{1}{n - 1}$",
+      "C": "$\\dfrac{1}{2(n - 2)}$",
+      "D": "$\\dfrac{1}{2n - 3}$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: la condición «al menos uno de los mellizos» deja como espacio solo las parejas que incluyen a Ignacia, a Vicente o a ambos.\nPaso 1: hay $\\binom{n}{2}$ parejas posibles. Las que no incluyen a ningún mellizo son $\\binom{n-2}{2}$.\nPaso 2: parejas con al menos un mellizo: $\\binom{n}{2} - \\binom{n-2}{2} = \\frac{n(n - 1) - (n - 2)(n - 3)}{2} = \\frac{4n - 6}{2} = 2n - 3$. Son las $2(n - 2)$ parejas con exactamente un mellizo, más la pareja de los dos.\nPaso 3: solo una de esas parejas tiene a ambos, así que la probabilidad es $\\frac{1}{2n - 3}$.\nRespuesta: D, $\\frac{1}{2n - 3}$.\nErrores frecuentes: La A es la probabilidad de elegir a ambos sin usar la información dada. La B responde otra pregunta: la probabilidad de que salga Vicente sabiendo que salió Ignacia. La C divide por las parejas con exactamente un mellizo y olvida incluir la pareja de los dos.",
+    "verify": "const ex={A:n=>2/(n*(n-1)),B:n=>1/(n-1),C:n=>1/(2*(n-2)),D:n=>1/(2*n-3)};\nconst real=n=>{let t=0,f=0; for(let i=0;i<n;i++) for(let j=i+1;j<n;j++){ if(i<2||j<2){ t++; if(i===0&&j===1) f++; } } return f/t; };\nconst ok=Object.keys(ex).filter(k=>[4,5,9,20].every(n=>Math.abs(ex[k](n)-real(n))<1e-12)); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-319",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "probabilidad-condicional",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Según un estudio del transporte en Concepción, cierto tren llega con atraso con probabilidad $0{,}4$ los días de lluvia y con probabilidad $0{,}1$ los días sin lluvia. Además, a lo largo del año, el tren llegó con atraso el $22\\%$ de los días.\n\nSi se elige al azar un día del año en que el tren llegó con atraso, ¿cuál es la probabilidad de que ese día haya llovido?",
+    "alternatives": {
+      "A": "$0{,}16$",
+      "B": "$\\dfrac{3}{11}$",
+      "C": "$0{,}4$",
+      "D": "$\\dfrac{8}{11}$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: primero se usa la probabilidad total para despejar la probabilidad de lluvia, y luego se invierte la condición.\nPaso 1: sea $p$ la probabilidad de que llueva. Por probabilidad total, $0{,}4p + 0{,}1(1 - p) = 0{,}22$, es decir, $0{,}3p = 0{,}12$ y $p = 0{,}4$.\nPaso 2: $P(\\text{lluvia y atraso}) = 0{,}4 \\cdot 0{,}4 = 0{,}16$.\nPaso 3: $P(\\text{lluvia} \\mid \\text{atraso}) = \\frac{0{,}16}{0{,}22} = \\frac{8}{11}$.\nRespuesta: D, $\\frac{8}{11}$.\nErrores frecuentes: La A es la probabilidad de que llueva y haya atraso, sin dividir por $0{,}22$. La B es $\\frac{0{,}06}{0{,}22}$, la probabilidad de que no haya llovido dado el atraso. La C es la probabilidad de lluvia de un día cualquiera, que coincide numéricamente con $P(\\text{atraso} \\mid \\text{lluvia})$, pero no es lo que se pide.",
+    "verify": "const p=(0.22-0.1)/(0.4-0.1); const r=0.4*p/0.22; const m={A:0.16,B:3/11,C:0.4,D:8/11}; for(const [k,v] of Object.entries(m)) if(Math.abs(v-r)<1e-9) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-320",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "probabilidad-condicional",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un museo de Valparaíso registró a sus $300$ visitantes de un día. El $60\\%$ de ellos eran adultos y el resto, menores de edad. De los adultos, el $40\\%$ tomó la visita guiada, y en total $150$ visitantes tomaron la visita guiada.\n\nSi se elige al azar a uno de los visitantes que tomaron la visita guiada, ¿cuál es la probabilidad de que sea adulto?",
+    "alternatives": {
+      "A": "$0{,}24$",
+      "B": "$0{,}4$",
+      "C": "$0{,}48$",
+      "D": "$0{,}6$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: conviene pasar los porcentajes a cantidades y armar la tabla; la condición «tomó la visita guiada» fija el total por el que se divide.\nPaso 1: adultos: $0{,}6 \\cdot 300 = 180$. Adultos con visita guiada: $0{,}4 \\cdot 180 = 72$.\nPaso 2: el nuevo espacio son los $150$ visitantes con visita guiada.\nPaso 3: $P(\\text{adulto} \\mid \\text{guiada}) = \\frac{72}{150} = 0{,}48$.\nRespuesta: C, $0{,}48$.\nErrores frecuentes: La A divide $72$ por los $300$ visitantes, que es la probabilidad de «adulto y guiada». La B es $P(\\text{guiada} \\mid \\text{adulto})$, la condición invertida. La D es la proporción de adultos entre todos los visitantes, sin condición.",
+    "verify": "const ad=0.6*300, adG=0.4*ad, G=150; const p=adG/G; const m={A:0.24,B:0.4,C:0.48,D:0.6}; for(const [k,v] of Object.entries(m)) if(Math.abs(v-p)<1e-12) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-321",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "probabilidad-condicional",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En el bingo de una junta de vecinos de Ancud, una tómbola contiene $r$ bolas rojas y $a$ bolas azules, con $r \\geq 2$ y $a \\geq 2$, todas del mismo tipo. Se extraen al azar dos bolas, una tras otra y sin reposición. Considera las siguientes afirmaciones:\n\nI) Obtener una bola roja en la segunda extracción tiene probabilidad $\\frac{r}{r + a}$.\nII) Sabiendo que en la primera extracción salió una bola roja, obtener otra roja en la segunda extracción es menos probable que lo indicado en I.\nIII) Obtener bolas rojas en ambas extracciones tiene probabilidad $\\left(\\frac{r}{r + a}\\right)^2$.\n\n¿Cuál o cuáles de las afirmaciones anteriores son siempre verdaderas?",
+    "alternatives": {
+      "A": "Solo I",
+      "B": "Solo II",
+      "C": "Solo I y II",
+      "D": "I, II y III"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: sin reposición, la segunda extracción vista sola tiene la misma probabilidad que la primera, pero condicionada a lo que salió antes sí cambia.\nPaso 1: I es verdadera: $\\frac{r}{r+a} \\cdot \\frac{r-1}{r+a-1} + \\frac{a}{r+a} \\cdot \\frac{r}{r+a-1} = \\frac{r(r - 1 + a)}{(r+a)(r+a-1)} = \\frac{r}{r+a}$.\nPaso 2: II es verdadera: $\\frac{r - 1}{r + a - 1} < \\frac{r}{r + a}$ equivale a $(r - 1)(r + a) < r(r + a - 1)$, es decir, $-a < 0$, que se cumple siempre.\nPaso 3: III es falsa: ambas rojas es $\\frac{r}{r+a} \\cdot \\frac{r - 1}{r + a - 1}$; el cuadrado corresponde a extraer con reposición. Con $r = a = 2$ da $\\frac{1}{6}$ y no $\\frac{1}{4}$.\nRespuesta: C, solo I y II.\nErrores frecuentes: La A descarta II, sin notar que sacar una roja deja menos rojas en la tómbola. La B descarta I, porque cree que la segunda extracción depende de la primera aunque no se sepa qué salió. La D acepta III, que trata la extracción como si fuera con reposición.",
+    "verify": "let I=true,II=true,III=true; for(const [r,a] of [[2,2],[5,3],[2,9],[10,4]]){ const t=r+a; const s=(r/t)*((r-1)/(t-1))+(a/t)*(r/(t-1)); if(Math.abs(s-r/t)>1e-12) I=false; if(!((r-1)/(t-1) < s)) II=false; if(Math.abs((r/t)*((r-1)/(t-1))-(r/t)**2)<1e-12) {} else III=false; }\nconst m={A:[true,false,false],B:[false,true,false],C:[true,true,false],D:[true,true,true]}; const res=[I,II,III];\nfor(const [k,v] of Object.entries(m)) if(v.every((x,i)=>x===res[i])) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-322",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "modelos-probabilisticos",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un centro de atención telefónica de Santiago, cada llamada se responde en menos de un minuto con probabilidad $p$, de manera independiente entre llamadas. Se sabe que la probabilidad de que, de $2$ llamadas, ninguna se responda en menos de un minuto es $0{,}09$.\n\nSi la probabilidad de que exactamente $k$ de $n$ llamadas se respondan en menos de un minuto es $\\binom{n}{k} p^k (1 - p)^{n - k}$, ¿cuál es la probabilidad de que, de $3$ llamadas, exactamente $2$ se respondan en menos de un minuto?",
+    "alternatives": {
+      "A": "$0{,}147$",
+      "B": "$0{,}189$",
+      "C": "$0{,}343$",
+      "D": "$0{,}441$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: el dato de las $2$ llamadas permite despejar $p$, y luego se aplica el modelo binomial con $n = 3$ y $k = 2$.\nPaso 1: ninguna de $2$ a tiempo: $(1 - p)^2 = 0{,}09$, así que $1 - p = 0{,}3$ y $p = 0{,}7$.\nPaso 2: $P(X = 2) = \\binom{3}{2} \\cdot 0{,}7^2 \\cdot 0{,}3 = 3 \\cdot 0{,}49 \\cdot 0{,}3$.\nPaso 3: $P(X = 2) = 0{,}441$.\nRespuesta: D, $0{,}441$.\nErrores frecuentes: La A olvida el coeficiente $\\binom{3}{2} = 3$, que cuenta en qué posiciones van las dos llamadas a tiempo. La B intercambia los papeles de $p$ y $1 - p$ y calcula la probabilidad de exactamente una llamada a tiempo. La C es $0{,}7^3$, la probabilidad de que las tres se respondan a tiempo.",
+    "verify": "const q=Math.sqrt(0.09), p=1-q; const r=3*p**2*q; const m={A:0.147,B:0.189,C:0.343,D:0.441}; for(const [k,v] of Object.entries(m)) if(Math.abs(v-r)<1e-9) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-323",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "modelos-probabilisticos",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un club de tiro con arco de Rancagua, una arquera lanza $n$ flechas y cada una da en el blanco con probabilidad $p$, con $0 < p < 1$, de forma independiente. La cantidad $X$ de flechas que dan en el blanco tiene distribución binomial, con esperanza $np$ y varianza $np(1 - p)$. Considera las siguientes afirmaciones:\n\nI) Si $p = 0{,}5$, entonces $P(X = k) = P(X = n - k)$ para todo $k$ entre $0$ y $n$.\nII) Para algunos valores de $p$, la varianza de $X$ es mayor que su esperanza.\nIII) Si la arquera duplica la cantidad de flechas y $p$ no cambia, la varianza de $X$ se duplica.\n\n¿Cuál o cuáles de las afirmaciones anteriores son siempre verdaderas?",
+    "alternatives": {
+      "A": "Solo I",
+      "B": "Solo II",
+      "C": "Solo I y III",
+      "D": "I, II y III"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: la varianza binomial es la esperanza multiplicada por $1 - p$, un número entre $0$ y $1$; y con $p = 0{,}5$ el modelo es simétrico.\nPaso 1: I es verdadera: con $p = 0{,}5$, $P(X = k) = \\binom{n}{k} 0{,}5^n$ y $\\binom{n}{k} = \\binom{n}{n-k}$.\nPaso 2: II es falsa: $np(1 - p) < np$ porque $0 < 1 - p < 1$; la varianza siempre es menor que la esperanza.\nPaso 3: III es verdadera: con $2n$ flechas, la varianza es $2np(1 - p)$, el doble. Lo que no se duplica es la desviación estándar, que queda multiplicada por $\\sqrt{2}$.\nRespuesta: C, solo I y III.\nErrores frecuentes: La A descarta III porque confunde varianza con desviación estándar. La B acepta II, como si $1 - p$ pudiera ser mayor que $1$. La D acepta las tres, sin revisar que la varianza nunca supera a la esperanza.",
+    "verify": "const C=(n,k)=>{let r=1;for(let i=1;i<=k;i++)r=r*(n-k+i)/i;return r;}; const pmf=(n,p,k)=>C(n,k)*p**k*(1-p)**(n-k);\nlet I=true; for(const n of [3,6,11]) for(let k=0;k<=n;k++) if(Math.abs(pmf(n,0.5,k)-pmf(n,0.5,n-k))>1e-12) I=false;\nlet II=false; for(let p=0.01;p<1;p+=0.01) for(const n of [1,5,20]) if(n*p*(1-p)>n*p) II=true;\nlet III=true; for(const [n,p] of [[5,0.3],[12,0.8],[7,0.5]]) if(Math.abs(2*n*p*(1-p)-2*(n*p*(1-p)))>1e-12) III=false;\nconst m={A:[true,false,false],B:[false,true,false],C:[true,false,true],D:[true,true,true]}; const res=[I,II,III];\nfor(const [k,v] of Object.entries(m)) if(v.every((x,i)=>x===res[i])) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-324",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "modelos-probabilisticos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "La duración de la batería de los scooters eléctricos de una empresa de arriendo en Viña del Mar sigue una distribución normal. Se sabe que el $15{,}9\\%$ de las baterías dura más de $34$ horas y que el $2{,}3\\%$ dura menos de $22$ horas.\n\nConsidera que, si $Z$ tiene distribución normal estándar, entonces $P(Z \\leq 1) = 0{,}841$ y $P(Z \\leq 2) = 0{,}977$. Si se elige al azar una de estas baterías, ¿cuál es la probabilidad de que dure entre $26$ y $38$ horas?",
+    "alternatives": {
+      "A": "$0{,}682$",
+      "B": "$0{,}818$",
+      "C": "$0{,}841$",
+      "D": "$0{,}977$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: los porcentajes dados corresponden a $Z = 1$ y a $Z = -2$; con eso se plantea un sistema para la media $\\mu$ y la desviación $\\sigma$.\nPaso 1: como $1 - 0{,}841 = 0{,}159$, el valor $34$ está a una desviación sobre la media: $\\mu + \\sigma = 34$. Como $1 - 0{,}977 = 0{,}023$, el valor $22$ está a dos desviaciones bajo la media: $\\mu - 2\\sigma = 22$.\nPaso 2: restando, $3\\sigma = 12$, así que $\\sigma = 4$ y $\\mu = 30$.\nPaso 3: $26$ y $38$ corresponden a $Z = -1$ y $Z = 2$. Entonces $P(-1 \\leq Z \\leq 2) = 0{,}977 - (1 - 0{,}841) = 0{,}977 - 0{,}159 = 0{,}818$.\nRespuesta: B, $0{,}818$.\nErrores frecuentes: La A es $P(-1 \\leq Z \\leq 1)$, que supone el intervalo simétrico. La C es $P(Z \\leq 1)$, que ignora el límite inferior y usa mal el superior. La D es $P(Z \\leq 2)$, que solo considera el límite superior del intervalo.",
+    "verify": "const s=(34-22)/3, mu=34-s; const z1=(26-mu)/s, z2=(38-mu)/s; const F={'-1':1-0.841,'1':0.841,'2':0.977};\nconst r=F[String(Math.round(z2))]-F[String(Math.round(z1))]; const m={A:0.682,B:0.818,C:0.841,D:0.977}; for(const [k,v] of Object.entries(m)) if(Math.abs(v-r)<1e-9) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-325",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "modelos-probabilisticos",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un instituto de Los Ángeles aplica una prueba de $20$ preguntas, cada una con $4$ alternativas y solo una correcta. Cada respuesta correcta suma $1$ punto y cada respuesta incorrecta descuenta $\\frac{1}{4}$ de punto. Un postulante responde las $20$ preguntas completamente al azar, de manera independiente.\n\nSi la cantidad de respuestas correctas tiene distribución binomial, con esperanza $np$, ¿cuál es el puntaje esperado de este postulante?",
+    "alternatives": {
+      "A": "$0$",
+      "B": "$1{,}25$",
+      "C": "$3{,}75$",
+      "D": "$5$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: se calcula la cantidad esperada de correctas e incorrectas con el modelo binomial y luego se aplica la regla de puntaje.\nPaso 1: correctas esperadas: $np = 20 \\cdot \\frac{1}{4} = 5$. Incorrectas esperadas: $20 - 5 = 15$.\nPaso 2: puntaje esperado: $5 \\cdot 1 - 15 \\cdot \\frac{1}{4} = 5 - 3{,}75$.\nPaso 3: el resultado es $1{,}25$ puntos.\nRespuesta: B, $1{,}25$.\nErrores frecuentes: La A supone que responder al azar siempre da $0$ en promedio, pero aquí el descuento no compensa del todo los aciertos. La C aplica el descuento a las $5$ correctas en lugar de a las $15$ incorrectas. La D olvida el descuento.",
+    "verify": "const n=20,p=0.25; const E=n*p*1-(n-n*p)*0.25; const m={A:0,B:1.25,C:3.75,D:5}; for(const [k,v] of Object.entries(m)) if(Math.abs(v-E)<1e-12) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-326",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "modelos-probabilisticos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una planta de Antofagasta se revisan lotes de $10$ paneles solares. Cada panel resulta defectuoso con probabilidad $p$, con $0 < p < 1$, de forma independiente. La probabilidad de que un lote tenga exactamente $k$ paneles defectuosos es $\\binom{10}{k} p^k (1 - p)^{10 - k}$.\n\nSi en un lote es igual de probable encontrar exactamente $3$ paneles defectuosos que exactamente $4$, ¿cuál es el valor de $p$?",
+    "alternatives": {
+      "A": "$\\dfrac{4}{11}$",
+      "B": "$\\dfrac{1}{2}$",
+      "C": "$\\dfrac{4}{7}$",
+      "D": "$\\dfrac{7}{11}$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: se igualan las dos probabilidades binomiales y se simplifican las potencias comunes, sin olvidar que los coeficientes $\\binom{10}{3}$ y $\\binom{10}{4}$ son distintos.\nPaso 1: $\\binom{10}{3} p^3 (1 - p)^7 = \\binom{10}{4} p^4 (1 - p)^6$. Al dividir por $p^3(1 - p)^6$: $120(1 - p) = 210p$.\nPaso 2: $120 = 330p$.\nPaso 3: $p = \\frac{120}{330} = \\frac{4}{11}$.\nRespuesta: A, $\\frac{4}{11}$.\nErrores frecuentes: La B omite los coeficientes y plantea $1 - p = p$. La C es $\\frac{120}{210}$, que compara solo los coeficientes como si $p = \\frac{\\binom{10}{3}}{\\binom{10}{4}}$. La D intercambia los coeficientes y plantea $210(1 - p) = 120p$.",
+    "verify": "const C=(n,k)=>{let r=1;for(let i=1;i<=k;i++)r=r*(n-k+i)/i;return r;}; const p=C(10,3)/(C(10,3)+C(10,4));\nconst f=k=>C(10,k)*p**k*(1-p)**(10-k); if(Math.abs(f(3)-f(4))>1e-12) return null;\nconst m={A:4/11,B:1/2,C:4/7,D:7/11}; for(const [k,v] of Object.entries(m)) if(Math.abs(v-p)<1e-12) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-327",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "modelos-probabilisticos",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una embotelladora de Curicó tiene dos máquinas que llenan botellas de jugo. El volumen que llena la máquina A sigue una distribución normal con media $1\\,000$ mL y desviación estándar $5$ mL, y el de la máquina B, una distribución normal con media $1\\,002$ mL y desviación estándar $10$ mL. Considera las siguientes afirmaciones:\n\nI) La proporción de botellas con más de $1\\,010$ mL es mayor en la máquina B que en la máquina A.\nII) La proporción de botellas con menos de $995$ mL es mayor en la máquina A que en la máquina B.\nIII) La proporción de botellas entre $995$ mL y $1\\,005$ mL en la máquina A es igual a la proporción de botellas entre $992$ mL y $1\\,012$ mL en la máquina B.\n\n¿Cuál o cuáles de las afirmaciones anteriores son verdaderas?",
+    "alternatives": {
+      "A": "Solo I",
+      "B": "Solo II",
+      "C": "Solo I y II",
+      "D": "Solo I y III"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: se comparan proporciones de distintas normales pasando cada valor a puntaje $Z = \\frac{x - \\mu}{\\sigma}$; no se necesita tabla, solo comparar los valores de $Z$.\nPaso 1: I es verdadera: en A, $1\\,010$ da $Z = \\frac{10}{5} = 2$; en B, $Z = \\frac{8}{10} = 0{,}8$. Como $P(Z > 0{,}8) > P(Z > 2)$, B tiene más botellas sobre $1\\,010$ mL.\nPaso 2: II es falsa: en A, $995$ da $Z = -1$; en B, $Z = \\frac{-7}{10} = -0{,}7$. Como $P(Z < -0{,}7) > P(Z < -1)$, es B la que tiene más botellas bajo $995$ mL.\nPaso 3: III es verdadera: en A, el intervalo va de $Z = -1$ a $Z = 1$; en B, de $\\frac{992 - 1\\,002}{10} = -1$ a $\\frac{1\\,012 - 1\\,002}{10} = 1$. Es la misma proporción.\nRespuesta: D, solo I y III.\nErrores frecuentes: La A descarta III, porque cree que intervalos de distinto ancho no pueden tener la misma proporción. La B y la C aceptan II, porque comparan solo las medias o solo las distancias en mL, sin dividir por la desviación estándar.",
+    "verify": "const erf=x=>{const t=1/(1+0.3275911*Math.abs(x)); const y=1-(((((1.061405429*t-1.453152027)*t)+1.421413741)*t-0.284496736)*t+0.254829592)*t*Math.exp(-x*x); return x>=0?y:-y;};\nconst F=(x,m,s)=>0.5*(1+erf((x-m)/(s*Math.SQRT2)));\nconst I=(1-F(1010,1002,10))>(1-F(1010,1000,5)); const II=F(995,1000,5)>F(995,1002,10);\nconst III=Math.abs((F(1005,1000,5)-F(995,1000,5))-(F(1012,1002,10)-F(992,1002,10)))<1e-9;\nconst m={A:[true,false,false],B:[false,true,false],C:[true,true,false],D:[true,false,true]}; const res=[I,II,III];\nfor(const [k,v] of Object.entries(m)) if(v.every((x,i)=>x===res[i])) return k; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-328",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "modelos-probabilisticos",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un packing de Quillota, la masa de las paltas sigue una distribución normal con media $200$ g y desviación estándar $20$ g. Una palta se clasifica como «extra» si su masa supera los $240$ g. Se arma una bandeja con $3$ paltas elegidas al azar, de manera independiente.\n\nConsiderando que, si $Z$ tiene distribución normal estándar, $P(Z \\leq 2) = 0{,}977$, ¿cuál de las siguientes expresiones representa la probabilidad de que la bandeja tenga al menos una palta «extra»?",
+    "alternatives": {
+      "A": "$1 - 0{,}977^3$",
+      "B": "$3 \\cdot 0{,}023$",
+      "C": "$1 - 0{,}023^3$",
+      "D": "$0{,}023^3$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: la normal entrega la probabilidad de que una palta sea «extra», y para «al menos una» de $3$ independientes se usa el complemento de «ninguna».\nPaso 1: $240$ g corresponde a $Z = \\frac{240 - 200}{20} = 2$, así que $P(\\text{extra}) = 1 - 0{,}977 = 0{,}023$.\nPaso 2: la probabilidad de que una palta no sea «extra» es $0{,}977$, y de que ninguna de las $3$ lo sea, $0{,}977^3$.\nPaso 3: al menos una «extra»: $1 - 0{,}977^3$.\nRespuesta: A, $1 - 0{,}977^3$.\nErrores frecuentes: La B suma la probabilidad tres veces y cuenta de más los casos con dos o tres paltas «extra». La C es el complemento de que las tres sean «extra», es decir, que al menos una no lo sea. La D es la probabilidad de que las tres sean «extra».",
+    "verify": "const p=1-0.977; let s=0; for(let m=1;m<8;m++){ const bits=[m&1,(m>>1)&1,(m>>2)&1]; s+=bits.reduce((a,b)=>a*(b?p:1-p),1); }\nconst ex={A:1-0.977**3,B:3*0.023,C:1-0.023**3,D:0.023**3}; const ok=Object.keys(ex).filter(k=>Math.abs(ex[k]-s)<1e-12); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-329",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "probabilidad-condicional",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "suficiencia",
+    "content": "En un liceo de Los Andes se elige al azar a un estudiante. Sean $A$ el suceso «participa en el taller de teatro» y $B$ el suceso «participa en el coro». Además, $A^c$ y $B^c$ son sus complementos.\n\nSe puede determinar $P(A \\mid B)$, si se sabe que:\n\n(1) $P(A \\cup B) = 0{,}5$ y $P(A^c \\cap B) = 0{,}2$.\n(2) $P(A \\cap B^c) = 0{,}2$.",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: $P(A \\mid B) = \\frac{P(A \\cap B)}{P(B)}$, y la unión se reparte en tres zonas disjuntas: solo $A$, ambos y solo $B$.\nPaso 1: con (1), la unión es «solo $A$» más «ambos» más «solo $B$»: $P(A \\cap B^c) + P(A \\cap B) = 0{,}3$, pero no se sabe cómo se reparte. Si $P(A \\cap B) = 0{,}1$, $P(A \\mid B) = \\frac{0{,}1}{0{,}3} = \\frac{1}{3}$; si $P(A \\cap B) = 0{,}2$, da $\\frac{0{,}2}{0{,}4} = \\frac{1}{2}$. No basta.\nPaso 2: con (2) sola no se conoce ni $P(A \\cap B)$ ni $P(B)$. No basta.\nPaso 3: juntas, $P(A \\cap B) = 0{,}3 - 0{,}2 = 0{,}1$ y $P(B) = 0{,}1 + 0{,}2 = 0{,}3$, así que $P(A \\mid B) = \\frac{1}{3}$.\nRespuesta: C, ambas juntas.\nErrores frecuentes: La A cree que con la unión y la zona «solo $B$» ya se conoce la intersección. La B usa (2) como si fuera la intersección. La D supone que cada dato por separado alcanza. La E no nota que juntas determinan las tres zonas.",
+    "verify": "const cond=(x,y)=>x/(x+y); // x=P(A∩B), y=P(Ac∩B)\nconst s1=[0.1,0.2].map(x=>cond(x,0.2)); const ok1=Math.abs(s1[0]-s1[1])<1e-12;\nconst s2=[[0.1,0.2],[0.1,0.4]].map(([x,y])=>cond(x,y)); const ok2=Math.abs(s2[0]-s2[1])<1e-12;\nconst x=0.5-0.2-0.2; const both=x>0; if(!ok1 && !ok2 && both && Math.abs(cond(x,0.2)-1/3)<1e-12) return 'C'; return null;"
+  },
+  {
+    "key": "m2-probabilidad-y-estadistica-330",
+    "subject": "m2",
+    "eje": "probabilidad-y-estadistica",
+    "topic": "permutacion-combinatoria",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "suficiencia",
+    "content": "El centro de padres de un colegio de Castro tiene $n$ socios, con $n \\geq 5$, y debe elegir entre ellos una directiva formada por un presidente, un secretario y un tesorero, todos distintos.\n\nSe puede determinar la cantidad de directivas distintas que se pueden formar, si se sabe que:\n\n(1) La cantidad de grupos de $3$ socios que se pueden formar es igual a la cantidad de grupos de $5$ socios que se pueden formar.\n(2) La cantidad de grupos de $2$ socios que se pueden formar es mayor que $20$ y menor que $30$.",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: la cantidad de directivas es $n(n - 1)(n - 2)$, así que basta con determinar $n$; hay que revisar si cada condición deja un único valor posible.\nPaso 1: con (1), $\\binom{n}{3} = \\binom{n}{5}$. Como $3 \\neq 5$, eso ocurre solo si $3 + 5 = n$, es decir, $n = 8$. Hay $8 \\cdot 7 \\cdot 6 = 336$ directivas. Basta.\nPaso 2: con (2), $20 < \\binom{n}{2} < 30$. Se cumple para $n = 7$ ($21$ grupos) y para $n = 8$ ($28$ grupos), que dan $210$ y $336$ directivas. No basta.\nPaso 3: como (1) sola determina la respuesta y (2) sola no, la respuesta es (1) por sí sola.\nRespuesta: A, (1) por sí sola.\nErrores frecuentes: La B cree que el intervalo deja un solo valor, sin probar $n = 7$. La C pide ambas, aunque (1) ya fija $n$. La D supone que (2) también basta. La E no reconoce la propiedad $\\binom{n}{k} = \\binom{n}{n-k}$.",
+    "verify": "const C=(n,k)=>{let r=1;for(let i=1;i<=k;i++)r=r*(n-k+i)/i;return Math.round(r);}; const dir=n=>n*(n-1)*(n-2);\nconst s1=new Set(), s2=new Set(); for(let n=5;n<=200;n++){ if(C(n,3)===C(n,5)) s1.add(dir(n)); const c=C(n,2); if(c>20&&c<30) s2.add(dir(n)); }\nconst ok1=s1.size===1, ok2=s2.size===1; if(ok1&&!ok2) return 'A'; if(!ok1&&ok2) return 'B'; if(ok1&&ok2) return 'D'; return null;"
   }
 ]

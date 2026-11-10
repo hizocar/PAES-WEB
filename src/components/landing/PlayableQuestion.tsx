@@ -137,7 +137,7 @@ export function PlayableQuestion({ q }: { q: DemoQuestion }) {
                                     href="/register"
                                     className="inline-flex h-11 items-center justify-center rounded-xl border-b-4 border-blue-800 bg-blue-600 px-5 text-sm font-black text-white transition-[background-color,transform] duration-150 hover:bg-blue-700 active:translate-y-0.5 active:border-b-2"
                                 >
-                                    Seguir con 590 más, gratis
+                                    Seguir con 850 más, gratis
                                 </Link>
                                 <button
                                     type="button"

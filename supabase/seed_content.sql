@@ -1,6 +1,6 @@
 -- GENERADO por scripts/content/build.mjs — no editar a mano.
 -- Banco de preguntas ORIGINALES de PAES-WEB (ver content/SPEC.md).
--- 597 preguntas. Idempotente: se puede re-ejecutar.
+-- 851 preguntas. Idempotente: se puede re-ejecutar.
 begin;
 
 -- Ejes y tópicos
@@ -5828,6 +5828,1164 @@ insert into public.question_topics (question_id, topic_id)
   select '5e952e21-8f1c-549a-9aa0-3d473e8d2114', t.id from public.topics t join public.ejes e on e.id = t.eje_id
   where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funciones-trigonometricas'
   on conflict do nothing;
+-- m2-algebra-y-funciones-201
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('cb1cd546-40ef-5a72-b045-1b586ac8d232', 'm2-algebra-y-funciones-201', 'La parábola de ecuación $y=x^{2}+bx+c$, con $b$ y $c$ números reales y $b\neq0$, pasa por el origen del plano cartesiano y su vértice está sobre la recta de ecuación $y=2x$.
+
+¿Cuál es el valor de $b$?', '[{"id":"A","content":"$-4$"},{"id":"B","content":"$2$"},{"id":"C","content":"$4$"},{"id":"D","content":"$8$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: el vértice de $y=x^{2}+bx+c$ es el punto $\left(-\dfrac{b}{2},\,c-\dfrac{b^{2}}{4}\right)$; basta imponer que sus coordenadas cumplan $y=2x$.
+Paso 1: Como la parábola pasa por $(0,0)$, se tiene $c=0$.
+Paso 2: El vértice queda en $\left(-\dfrac{b}{2},\,-\dfrac{b^{2}}{4}\right)$.
+Paso 3: Al reemplazar en $y=2x$: $-\dfrac{b^{2}}{4}=2\cdot\left(-\dfrac{b}{2}\right)=-b$, o sea, $b^{2}=4b$. Como $b\neq0$, resulta $b=4$. Comprobación: el vértice es $(-2,-4)$ y cumple $-4=2\cdot(-2)$.
+Respuesta: C, $b=4$.
+Errores frecuentes: La A usa $\dfrac{b}{2}$ como abscisa del vértice (signo cambiado) y plantea $-\dfrac{b^{2}}{4}=b$. La B escribe la ordenada del vértice como $-\dfrac{b^{2}}{2}$. La D toma $-b$ como abscisa del vértice, olvidando dividir por $2$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'cb1cd546-40ef-5a72-b045-1b586ac8d232', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-202
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('adb2e43e-d799-5062-ab1e-084bb90845e4', 'm2-algebra-y-funciones-202', 'Considera la función $f(x)=a(x-p)(x-q)$, con dominio el conjunto de los números reales, donde $a$, $p$ y $q$ son números reales tales que $a>0$ y $p<0<q$.
+
+¿Cuál de las siguientes afirmaciones es siempre verdadera?', '[{"id":"A","content":"$f(0)>0$"},{"id":"B","content":"La abscisa del vértice de la parábola asociada a $f$ es positiva."},{"id":"C","content":"El valor mínimo de $f$ es $f(0)$."},{"id":"D","content":"$f(p+q)=f(0)$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: la parábola es simétrica respecto de la recta $x=\dfrac{p+q}{2}$, que está justo a mitad de camino entre $0$ y $p+q$.
+Paso 1: $f(0)=a(-p)(-q)=apq$. Como $a>0$ y $p$, $q$ tienen signos opuestos, $f(0)<0$.
+Paso 2: $f(p+q)=a(p+q-p)(p+q-q)=a\cdot q\cdot p=apq=f(0)$, para cualquier elección de $a$, $p$ y $q$.
+Paso 3: La abscisa del vértice, $\dfrac{p+q}{2}$, tiene el signo de $p+q$: con $p=-5$ y $q=1$ es negativa. Por lo mismo, el mínimo solo es $f(0)$ cuando $p+q=0$.
+Respuesta: D, $f(p+q)=f(0)$.
+Errores frecuentes: La A olvida que el producto $pq$ es negativo. La B supone que el cero positivo pesa más, pero depende de los valores. La C confunde el intercepto con el eje $Y$ con el vértice, lo que solo ocurre si $q=-p$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'adb2e43e-d799-5062-ab1e-084bb90845e4', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-203
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('848fa68e-9c14-5737-bf18-6d937fb32718', 'm2-algebra-y-funciones-203', 'En un plano cartesiano graduado en metros, el borde superior de un arco de entrada a una feria se modela mediante la parábola de ecuación $y=9-x^{2}$, con $-3\leq x\leq3$, y el suelo corresponde al eje $X$.
+Se instalará un marco rectangular de luces con un lado sobre el suelo y sus dos vértices superiores sobre el arco, ubicado de forma simétrica respecto del eje $Y$.
+
+¿Cuál es el mayor perímetro, en metros, que puede tener el marco?', '[{"id":"A","content":"$18$"},{"id":"B","content":"$\\dfrac{37}{2}$"},{"id":"C","content":"$20$"},{"id":"D","content":"$22$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: si un vértice superior es $(x,\,9-x^{2})$ con $0<x<3$, el perímetro queda como una función cuadrática de $x$, que se maximiza en su vértice.
+Paso 1: La base mide $2x$ y la altura $9-x^{2}$, así que $P(x)=2\cdot2x+2(9-x^{2})=-2x^{2}+4x+18$.
+Paso 2: La abscisa del vértice es $x=-\dfrac{4}{2\cdot(-2)}=1$, que está dentro de $]0,3[$.
+Paso 3: $P(1)=-2+4+18=20$.
+Respuesta: C, $20$ m.
+Errores frecuentes: La A usa $x=-\dfrac{b}{a}=2$ en vez de $-\dfrac{b}{2a}$ y obtiene $P(2)=18$. La B toma la base como $x$ en vez de $2x$, con lo que $P(x)=-2x^{2}+2x+18$ y su máximo es $\dfrac{37}{2}$. La D olvida el término $-2x^{2}$ al evaluar en $x=1$.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '848fa68e-9c14-5737-bf18-6d937fb32718', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-204
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('d309ce15-8528-5590-bf74-19a2299e5391', 'm2-algebra-y-funciones-204', 'Considera las funciones $f(x)=ax^{2}+bx+c$ y $g(x)=cx^{2}+bx+a$, con dominio el conjunto de los números reales, donde $a$, $b$ y $c$ son números reales, $a\neq0$, $c\neq0$ y $a\neq c$.
+
+¿Cuál de las siguientes afirmaciones es siempre verdadera?', '[{"id":"A","content":"$f$ y $g$ tienen exactamente los mismos ceros."},{"id":"B","content":"Si $r$ es un cero de $f$, entonces $-r$ es un cero de $g$."},{"id":"C","content":"Las parábolas asociadas a $f$ y a $g$ tienen el mismo eje de simetría."},{"id":"D","content":"Si $r$ es un cero de $f$, entonces $\\dfrac{1}{r}$ es un cero de $g$."},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: $g$ tiene los coeficientes de $f$ en orden inverso; al evaluar $g$ en $\dfrac{1}{r}$ y multiplicar por $r^{2}$ aparece $f(r)$.
+Paso 1: Como $c\neq0$, $f(0)=c\neq0$, así que todo cero $r$ de $f$ es distinto de $0$ y $\dfrac{1}{r}$ existe.
+Paso 2: $g\left(\dfrac{1}{r}\right)=\dfrac{c}{r^{2}}+\dfrac{b}{r}+a=\dfrac{ar^{2}+br+c}{r^{2}}=\dfrac{f(r)}{r^{2}}=0$.
+Paso 3: Las otras fallan con un ejemplo: $f(x)=x^{2}-5x+6$ tiene ceros $2$ y $3$, mientras que $g(x)=6x^{2}-5x+1$ tiene ceros $\dfrac{1}{2}$ y $\dfrac{1}{3}$; además, $g(-2)=35\neq0$ y los ejes son $x=\dfrac{5}{2}$ y $x=\dfrac{5}{12}$.
+Respuesta: D, los ceros de $g$ son los recíprocos de los ceros de $f$.
+Errores frecuentes: La A cree que reordenar los coeficientes no cambia las soluciones. La B confunde el recíproco con el opuesto. La C supone que el eje $x=-\dfrac{b}{2a}$ no depende del coeficiente principal, pero en $g$ ese coeficiente es $c$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'd309ce15-8528-5590-bf74-19a2299e5391', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-205
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('f0b10fed-8ef4-5323-985e-52ecd34d4365', 'm2-algebra-y-funciones-205', 'En un videojuego, el borde de un obstáculo corresponde a la parábola de ecuación $y=x^{2}+1$. Un rayo láser parte desde el punto $(0,-3)$ y sigue una línea recta de pendiente $m$, con $m$ un número real.
+
+¿Para qué valores de $m$ la recta del láser no toca la parábola en ningún punto?', '[{"id":"A","content":"$]-4,4[$"},{"id":"B","content":"$]-2,2[$"},{"id":"C","content":"$]-\\infty,-4[\\,\\cup\\,]4,+\\infty[$"},{"id":"D","content":"$]-16,16[$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: la recta y la parábola no se tocan cuando la ecuación que resulta de igualarlas no tiene soluciones reales, es decir, cuando su discriminante es negativo.
+Paso 1: La recta del láser es $y=mx-3$.
+Paso 2: Al igualar, $x^{2}+1=mx-3$, o sea, $x^{2}-mx+4=0$.
+Paso 3: Su discriminante es $m^{2}-16$, y $m^{2}-16<0$ se cumple si y solo si $-4<m<4$.
+Respuesta: A, $m\in\,]-4,4[$.
+Errores frecuentes: La B no traslada el $-3$ y trabaja con $x^{2}-mx+1=0$, cuyo discriminante es $m^{2}-4$. La C da los valores para los cuales la recta corta a la parábola en dos puntos. La D resuelve $m<16$ sin sacar la raíz cuadrada.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'f0b10fed-8ef4-5323-985e-52ecd34d4365', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-206
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('65c15061-e08e-5fad-a66a-26b7dc51fe7d', 'm2-algebra-y-funciones-206', 'Considera la función $f(x)=\log_{2}\left(x^{2}-6x+17\right)$, con dominio el conjunto de los números reales.
+
+¿Cuál es el valor mínimo de $f$?', '[{"id":"A","content":"$3$"},{"id":"B","content":"$\\log_{2}11$"},{"id":"C","content":"$\\log_{2}17$"},{"id":"D","content":"$8$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: como $\log_{2}$ es creciente, $f$ alcanza su mínimo donde la expresión cuadrática dentro del logaritmo es mínima.
+Paso 1: Completando el cuadrado, $x^{2}-6x+17=(x-3)^{2}+8$, cuyo valor mínimo es $8$ (en $x=3$). Además, siempre es positivo, así que el dominio son todos los reales.
+Paso 2: El mínimo de $f$ es $\log_{2}8=3$, porque $2^{3}=8$.
+Respuesta: A, $3$.
+Errores frecuentes: La B completa mal el cuadrado: resta $6$ en vez de $9$ a $17$. La C evalúa en $x=0$, que no es donde está el vértice. La D se queda con el mínimo de la cuadrática y olvida aplicar el logaritmo.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '65c15061-e08e-5fad-a66a-26b7dc51fe7d', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-207
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('3c8543e8-16c9-5ae6-bff4-0601d5f806f6', 'm2-algebra-y-funciones-207', 'Considera las funciones $f(t)=t^{2}-4t+3$ y $g(x)=f(\operatorname{sen}x)$, ambas con dominio el conjunto de los números reales.
+
+¿Cuál es el recorrido de $g$?', '[{"id":"A","content":"$[-1,8]$"},{"id":"B","content":"$[0,3]$"},{"id":"C","content":"$[0,8]$"},{"id":"D","content":"$[3,8]$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: $g$ toma los valores de $f$ cuando $t=\operatorname{sen}x$ recorre solo el intervalo $[-1,1]$; hay que ver si el vértice de $f$ está o no en ese intervalo.
+Paso 1: El vértice de $f$ está en $t=2$, fuera de $[-1,1]$. Como la parábola abre hacia arriba, $f$ es decreciente en todo $[-1,1]$.
+Paso 2: El mayor valor es $f(-1)=1+4+3=8$ y el menor es $f(1)=1-4+3=0$.
+Paso 3: Como $\operatorname{sen}x$ toma todos los valores de $[-1,1]$, $g$ toma todos los valores entre $0$ y $8$.
+Respuesta: C, $[0,8]$.
+Errores frecuentes: La A usa el mínimo de $f$ en su vértice, $f(2)=-1$, pero $\operatorname{sen}x$ nunca vale $2$. La B considera que $\operatorname{sen}x$ solo varía entre $0$ y $1$. La D considera solo los valores de $\operatorname{sen}x$ entre $-1$ y $0$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '3c8543e8-16c9-5ae6-bff4-0601d5f806f6', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-208
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('eca6d6c8-6e0f-5817-838d-c8546f1ddf24', 'm2-algebra-y-funciones-208', 'Desde la cubierta de un bote se lanza una bengala de señalización. Su altura $h$ sobre el nivel del mar, en metros, a los $t$ segundos del lanzamiento, se modela mediante $h(t)=-5t^{2}+bt+c$, con $b$ y $c$ números reales.
+Se registró que la bengala estaba a $22$ m de altura al primer segundo y de nuevo a los $3$ segundos.
+
+Según el modelo, ¿cuál es la altura máxima, en metros, que alcanza la bengala?', '[{"id":"A","content":"$17$"},{"id":"B","content":"$20$"},{"id":"C","content":"$22$"},{"id":"D","content":"$27$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: dos instantes con la misma altura están a igual distancia del instante de altura máxima; eso entrega el eje de simetría y, con él, los parámetros.
+Paso 1: El eje de simetría es $t=\dfrac{1+3}{2}=2$. Como $t=-\dfrac{b}{2\cdot(-5)}=\dfrac{b}{10}$, se tiene $b=20$.
+Paso 2: Con $h(1)=22$: $-5+20+c=22$, así que $c=7$.
+Paso 3: La altura máxima es $h(2)=-5\cdot4+20\cdot2+7=27$.
+Respuesta: D, $27$ m.
+Errores frecuentes: La A despeja mal $c$ ($c=22-20-5=-3$) y obtiene $17$. La B olvida sumar $c$ en el último paso. La C supone que $22$ m ya es la altura máxima, aunque se alcanza dos veces.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'eca6d6c8-6e0f-5817-838d-c8546f1ddf24', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-209
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('d2b92d10-9795-5451-9851-58deb69964da', 'm2-algebra-y-funciones-209', 'La utilidad diaria $U$ de una fábrica de cecinas, en millones de pesos, al producir $x$ miles de unidades se modela mediante $U(x)=-x^{2}+8x-7$.
+Por la capacidad de sus máquinas, la fábrica puede producir a lo más $3$ mil unidades diarias, es decir, $0\leq x\leq3$.
+
+Según el modelo, ¿cuál es la mayor utilidad diaria, en millones de pesos, que puede obtener la fábrica?', '[{"id":"A","content":"$-7$"},{"id":"B","content":"$5$"},{"id":"C","content":"$8$"},{"id":"D","content":"$9$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: el máximo de una parábola en un intervalo está en el vértice solo si el vértice pertenece al intervalo; si no, está en el extremo más cercano a él.
+Paso 1: La abscisa del vértice es $x=-\dfrac{8}{2\cdot(-1)}=4$, que queda fuera de $[0,3]$.
+Paso 2: Como la parábola abre hacia abajo, $U$ es creciente para $x<4$; en $[0,3]$ el máximo está en $x=3$.
+Paso 3: $U(3)=-9+24-7=8$.
+Respuesta: C, $8$ millones de pesos.
+Errores frecuentes: La A toma el valor en $x=0$, que es el mínimo del intervalo. La B evalúa en el punto medio, $x=2$. La D usa el vértice, $U(4)=9$, sin notar que la fábrica no puede producir $4$ mil unidades.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'd2b92d10-9795-5451-9851-58deb69964da', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-210
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('2ded5aa2-7b83-5e55-b79f-d869de4d087c', 'm2-algebra-y-funciones-210', 'Considera la función $f(x)=x^{2}-2(m+1)x+m^{2}+4$, con $m$ un número real y dominio el conjunto de los números reales.
+
+¿Para qué valores de $m$ la gráfica de $f$ interseca al eje $X$ y todos sus puntos de intersección con ese eje tienen abscisa positiva?', '[{"id":"A","content":"$m\\geq\\dfrac{3}{2}$"},{"id":"B","content":"$m>-1$"},{"id":"C","content":"$-1<m\\leq\\dfrac{3}{2}$"},{"id":"D","content":"$m\\leq\\dfrac{3}{2}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: hay que pedir dos cosas a la vez: que existan ceros reales (discriminante no negativo) y que sean positivos (suma y producto positivos).
+Paso 1: El discriminante es $4(m+1)^{2}-4(m^{2}+4)=4(2m-3)$, que es mayor o igual que $0$ si $m\geq\dfrac{3}{2}$.
+Paso 2: El producto de los ceros es $m^{2}+4>0$, así que tienen el mismo signo; su suma es $2(m+1)$, positiva si $m>-1$.
+Paso 3: Ambas condiciones juntas se cumplen si $m\geq\dfrac{3}{2}$ (para $m=\dfrac{3}{2}$ hay un solo cero, $x=\dfrac{5}{2}$, que es positivo).
+Respuesta: A, $m\geq\dfrac{3}{2}$.
+Errores frecuentes: La B solo exige que la suma de los ceros sea positiva y olvida que, por ejemplo, con $m=0$ no hay ceros reales. La C mezcla las dos condiciones con el discriminante al revés. La D invierte el sentido de la condición del discriminante.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '2ded5aa2-7b83-5e55-b79f-d869de4d087c', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-211
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('68b716a0-475c-5d20-99c2-649475291876', 'm2-algebra-y-funciones-211', 'Considera la ecuación $4^{x}-6\cdot2^{x}+8=0$, en $x$.
+
+¿Cuál es la suma de todas sus soluciones reales?', '[{"id":"A","content":"$2$"},{"id":"B","content":"$3$"},{"id":"C","content":"$6$"},{"id":"D","content":"$8$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: como $4^{x}=\left(2^{x}\right)^{2}$, el cambio de variable $u=2^{x}$ transforma la ecuación en una cuadrática.
+Paso 1: Con $u=2^{x}$ (siempre positivo) queda $u^{2}-6u+8=0$, es decir, $(u-2)(u-4)=0$, así que $u=2$ o $u=4$.
+Paso 2: Al volver a $x$: $2^{x}=2$ da $x=1$ y $2^{x}=4$ da $x=2$.
+Paso 3: La suma de las soluciones es $1+2=3$.
+Respuesta: B, $3$.
+Errores frecuentes: La A calcula el producto de las soluciones en $x$. La C entrega la suma de las soluciones en $u$, olvidando volver a la variable $x$. La D entrega el producto de las soluciones en $u$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '68b716a0-475c-5d20-99c2-649475291876', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-212
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('2ff38182-6415-53ef-a6a5-5c76264b02dc', 'm2-algebra-y-funciones-212', 'Una viñatera de Colchagua cercará un terreno rectangular. El lado que da al camino llevará una reja que cuesta $3\,000$ pesos por metro, y los otros tres lados llevarán una malla que cuesta $1\,000$ pesos por metro. Su presupuesto para el cerco es de $240\,000$ pesos y lo gastará completo.
+
+¿Cuál es el área máxima, en $\text{m}^{2}$, que puede tener el terreno?', '[{"id":"A","content":"$1\\,200$"},{"id":"B","content":"$1\\,800$"},{"id":"C","content":"$2\\,400$"},{"id":"D","content":"$3\\,600$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: el presupuesto entrega una relación lineal entre los lados; al despejar uno y reemplazar en el área, queda una función cuadrática.
+Paso 1: Sea $x$ el largo del lado del camino y $y$ el de los lados perpendiculares. El costo es $3\,000x+1\,000x+2\cdot1\,000y=4\,000x+2\,000y=240\,000$, así que $y=120-2x$.
+Paso 2: El área es $A(x)=x(120-2x)=-2x^{2}+120x$, cuyo vértice está en $x=30$.
+Paso 3: $A(30)=30\cdot60=1\,800$.
+Respuesta: B, $1\,800\ \text{m}^{2}$.
+Errores frecuentes: La A cobra el lado opuesto al camino también a $3\,000$ pesos por metro, con lo que $y=120-3x$. La C olvida el lado opuesto al camino y usa $3\,000x+2\,000y=240\,000$. La D cobra todos los lados a $1\,000$ pesos por metro.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '2ff38182-6415-53ef-a6a5-5c76264b02dc', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-213
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('27cb67a7-15f2-5472-8d61-609447bf74b4', 'm2-algebra-y-funciones-213', 'Una función cuadrática $f$, con dominio el conjunto de los números reales, cumple que $f(1)=f(7)$ y que $f(4)<f(1)$.
+
+¿Cuál de las siguientes afirmaciones es siempre verdadera?', '[{"id":"A","content":"$f(2)>f(7)$"},{"id":"B","content":"$f$ tiene dos ceros reales distintos."},{"id":"C","content":"$f(-1)<f(8)$"},{"id":"D","content":"$f(0)=f(8)$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: si dos valores de $x$ tienen la misma imagen, el eje de simetría pasa por su punto medio; los datos además indican hacia dónde abre la parábola.
+Paso 1: El eje de simetría es $x=\dfrac{1+7}{2}=4$, así que el vértice está en $x=4$. Como $f(4)<f(1)$, el vértice es un mínimo y la parábola abre hacia arriba.
+Paso 2: $0$ y $8$ están a distancia $4$ del eje, por lo que $f(0)=f(8)$ siempre.
+Paso 3: Al abrir hacia arriba, mientras más lejos del eje, mayor es la imagen: $2$ está a distancia $2$ y $7$ a distancia $3$, así que $f(2)<f(7)$; $-1$ está a distancia $5$ y $8$ a distancia $4$, así que $f(-1)>f(8)$. Y si el mínimo es positivo, como en $f(x)=(x-4)^{2}+1$, no hay ceros.
+Respuesta: D, $f(0)=f(8)$.
+Errores frecuentes: La A compara al revés las distancias al eje. La B olvida que el vértice puede estar sobre el eje $X$. La C supone que el valor de $x$ más pequeño siempre tiene menor imagen.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '27cb67a7-15f2-5472-8d61-609447bf74b4', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-214
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('068076f4-8c28-5429-9c27-0ed0c5190c49', 'm2-algebra-y-funciones-214', 'Una antena de telefonía está ubicada en el origen de un plano cartesiano graduado en kilómetros. Un camino recto sigue la recta de ecuación $x+y=10$.
+Para ubicar el punto del camino más cercano a la antena, se expresa el cuadrado de la distancia entre la antena y un punto $(x,y)$ del camino como función de $x$.
+
+¿Cuál es la menor distancia, en kilómetros, entre la antena y un punto del camino?', '[{"id":"A","content":"$5$"},{"id":"B","content":"$5\\sqrt{2}$"},{"id":"C","content":"$10$"},{"id":"D","content":"$50$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: el cuadrado de la distancia es una función cuadrática de $x$; su mínimo indica el punto más cercano, y al final hay que sacar raíz.
+Paso 1: En el camino, $y=10-x$, así que por Pitágoras $d^{2}(x)=x^{2}+(10-x)^{2}=2x^{2}-20x+100$.
+Paso 2: El vértice está en $x=\dfrac{20}{4}=5$, con $d^{2}(5)=50-100+100=50$.
+Paso 3: La distancia mínima es $\sqrt{50}=5\sqrt{2}$ km, en el punto $(5,5)$.
+Respuesta: B, $5\sqrt{2}$ km.
+Errores frecuentes: La A entrega la abscisa del punto más cercano en vez de la distancia. La C usa la distancia a un punto donde el camino corta un eje, por ejemplo $(10,0)$, que no es el más cercano. La D olvida sacar la raíz cuadrada al valor mínimo de $d^{2}$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '068076f4-8c28-5429-9c27-0ed0c5190c49', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-215
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('1eb3431d-e643-552a-85ec-99c2bc2f031a', 'm2-algebra-y-funciones-215', 'En la siguiente tabla se muestran algunos valores de una función cuadrática $f$, con dominio el conjunto de los números reales:
+
+$\displaystyle \begin{array}{|c|c|c|c|c|}\hline x & 1 & 2 & 3 & 4 \\ \hline f(x) & 7 & 3 & 1 & 1 \\ \hline \end{array}$
+
+¿Cuál es el valor mínimo de $f$?', '[{"id":"A","content":"$0$"},{"id":"B","content":"$\\dfrac{3}{4}$"},{"id":"C","content":"$1$"},{"id":"D","content":"$13$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: como $f(3)=f(4)$, el eje de simetría está en $x=3{,}5$, y el mínimo es $f(3{,}5)$, que no aparece en la tabla.
+Paso 1: Con $f(x)=x^{2}+bx+c$ (las segundas diferencias son $2$, así que el coeficiente principal es $1$): $f(3)=9+3b+c=1$ y $f(4)=16+4b+c=1$, de donde $b=-7$ y $c=13$.
+Paso 2: Se comprueba: $f(1)=1-7+13=7$ y $f(2)=4-14+13=3$.
+Paso 3: $f(3{,}5)=12{,}25-24{,}5+13=0{,}75=\dfrac{3}{4}$.
+Respuesta: B, $\dfrac{3}{4}$.
+Errores frecuentes: La A supone que el vértice está sobre el eje $X$. La C toma el menor valor que aparece en la tabla, sin notar que el vértice está entre $x=3$ y $x=4$. La D confunde el valor mínimo con $f(0)=c$.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '1eb3431d-e643-552a-85ec-99c2bc2f031a', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-216
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('3d494f4c-7dc0-5f70-980d-c509dddc0c23', 'm2-algebra-y-funciones-216', 'Los números reales positivos $x$ e $y$ cumplen la relación $x+2y=20$.
+
+¿Cuál es el mayor valor posible del producto $xy$?', '[{"id":"A","content":"$25$"},{"id":"B","content":"$\\dfrac{400}{9}$"},{"id":"C","content":"$50$"},{"id":"D","content":"$100$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: al despejar una variable en la relación lineal, el producto queda como una función cuadrática de la otra.
+Paso 1: $x=20-2y$, así que $P(y)=(20-2y)y=-2y^{2}+20y$, con $0<y<10$.
+Paso 2: El vértice está en $y=-\dfrac{20}{2\cdot(-2)}=5$, y entonces $x=10$.
+Paso 3: El producto máximo es $10\cdot5=50$.
+Respuesta: C, $50$.
+Errores frecuentes: La A multiplica $5\cdot5$, usando el valor de $y$ para ambos números. La B supone que el máximo ocurre con $x=y=\dfrac{20}{3}$. La D olvida el coeficiente $2$ y trabaja con $x+y=20$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '3d494f4c-7dc0-5f70-980d-c509dddc0c23', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-217
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('726a7c6c-a86e-5344-a917-74870e28dbba', 'm2-algebra-y-funciones-217', 'La parábola asociada a una función cuadrática $f$ tiene como eje de simetría la recta $x=2$ y pasa por los puntos $(0,5)$ y $(1,2)$.
+
+¿Cuál es el valor mínimo de $f$?', '[{"id":"A","content":"$1$"},{"id":"B","content":"$2$"},{"id":"C","content":"$5$"},{"id":"D","content":"$\\dfrac{37}{5}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'medium'::difficulty_level, 'Idea clave: conocer el eje de simetría permite usar la forma $f(x)=a(x-2)^{2}+k$, con solo dos incógnitas, donde $k$ es el valor en el vértice.
+Paso 1: Con $(0,5)$: $4a+k=5$. Con $(1,2)$: $a+k=2$.
+Paso 2: Restando, $3a=3$, así que $a=1$ y $k=1$. Como $a>0$, la parábola abre hacia arriba y $k$ es un mínimo.
+Paso 3: El valor mínimo es $f(2)=1$.
+Respuesta: A, $1$.
+Errores frecuentes: La B toma el menor de los valores dados, sin notar que $x=1$ no es el vértice. La C confunde el mínimo con el valor en $x=0$. La D usa la forma $a(x+2)^{2}+k$, con el signo de la abscisa del vértice cambiado.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '726a7c6c-a86e-5344-a917-74870e28dbba', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-218
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('81aee341-325c-51db-81ca-3b7a7cfc4432', 'm2-algebra-y-funciones-218', 'Considera la función $f(x)=-3x^{2}+12x-5$, con dominio el conjunto de los números reales.
+
+¿Cuál es el recorrido de $f$?', '[{"id":"A","content":"$]-\\infty,7]$"},{"id":"B","content":"$]-\\infty,-5]$"},{"id":"C","content":"$[7,+\\infty[$"},{"id":"D","content":"$]-\\infty,2]$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'medium'::difficulty_level, 'Idea clave: el recorrido de una función cuadrática queda determinado por la ordenada del vértice y por el sentido en que abre la parábola.
+Paso 1: La abscisa del vértice es $x=-\dfrac{12}{2\cdot(-3)}=2$.
+Paso 2: $f(2)=-12+24-5=7$.
+Paso 3: Como $a=-3<0$, la parábola abre hacia abajo y $7$ es el valor máximo; $f$ toma todos los valores menores o iguales que $7$.
+Respuesta: A, $]-\infty,7]$.
+Errores frecuentes: La B usa el valor de $f$ en $x=0$ en lugar del vértice. La C olvida que con $a<0$ la parábola abre hacia abajo. La D confunde la abscisa del vértice con su ordenada.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '81aee341-325c-51db-81ca-3b7a7cfc4432', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-219
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('5331b7fc-80c8-5c4f-a0dc-701c2ccdb7a9', 'm2-algebra-y-funciones-219', 'El cable principal de un puente colgante tiene forma de parábola. Las dos torres que lo sostienen están separadas por $100$ m; en lo alto de cada torre el cable está a $30$ m sobre la calzada, y su punto más bajo, justo a mitad de camino entre las torres, está a $5$ m sobre la calzada.
+
+¿A qué altura sobre la calzada, en metros, está el cable en un punto ubicado a $20$ m horizontales de una de las torres?', '[{"id":"A","content":"$9$"},{"id":"B","content":"$14$"},{"id":"C","content":"$20$"},{"id":"D","content":"$26$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: ubicando una torre en $x=0$, el vértice del cable queda en $(50,5)$ y la parábola es $y=a(x-50)^{2}+5$.
+Paso 1: En la torre, $y(0)=30$: $2\,500a+5=30$, así que $a=0{,}01$.
+Paso 2: A $20$ m de esa torre, $y(20)=0{,}01\cdot(20-50)^{2}+5=0{,}01\cdot900+5=14$.
+Respuesta: B, $14$ m.
+Errores frecuentes: La A mide los $20$ m desde el centro del puente y no desde la torre. La C supone que el cable baja en línea recta entre la torre y el punto más bajo. La D resta $0{,}01\cdot20^{2}$ a la altura de la torre, como si el vértice estuviera en la torre.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '5331b7fc-80c8-5c4f-a0dc-701c2ccdb7a9', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-220
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('65ba169e-d029-5d9c-9353-23a52dc2f62f', 'm2-algebra-y-funciones-220', 'Una pyme de Temuco que fabrica mermeladas estima que su ganancia diaria $G$, en miles de pesos, al producir $x$ cajas es $G(x)=-2x^{2}+40x-150$.
+
+¿Para qué cantidades de cajas la pyme no tiene pérdidas, es decir, $G(x)\geq0$?', '[{"id":"A","content":"$[-15,-5]$"},{"id":"B","content":"$]-\\infty,5]\\,\\cup\\,[15,+\\infty[$"},{"id":"C","content":"$[3,25]$"},{"id":"D","content":"$[5,15]$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'medium'::difficulty_level, 'Idea clave: una parábola que abre hacia abajo es mayor o igual que cero entre sus ceros, ambos incluidos.
+Paso 1: $-2x^{2}+40x-150\geq0$ equivale, al dividir por $-2$ e invertir la desigualdad, a $x^{2}-20x+75\leq0$.
+Paso 2: $x^{2}-20x+75=(x-5)(x-15)$, cuyos ceros son $5$ y $15$.
+Paso 3: El producto es menor o igual que $0$ entre los ceros: $5\leq x\leq15$.
+Respuesta: D, $[5,15]$.
+Errores frecuentes: La A cambia el signo de los ceros al factorizar. La B no invierte la desigualdad al dividir por $-2$. La C factoriza mal: $(x-3)(x-25)$ da $x^{2}-28x+75$, no $x^{2}-20x+75$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '65ba169e-d029-5d9c-9353-23a52dc2f62f', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-221
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('0c0c5d27-6d44-5588-88a7-ad164b59bd27', 'm2-algebra-y-funciones-221', 'Sea $f(x)=ax+b$ una función afín, con $a$ y $b$ números reales, $a>0$ y dominio el conjunto de los números reales. Se sabe que $f(f(x))=9x-8$ para todo número real $x$.
+
+¿Cuál es el valor de $f(2)$?', '[{"id":"A","content":"$-2$"},{"id":"B","content":"$\\dfrac{10}{3}$"},{"id":"C","content":"$4$"},{"id":"D","content":"$10$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: al componer $f$ consigo misma se obtiene otra función afín; igualando coeficientes con $9x-8$ se encuentran $a$ y $b$.
+Paso 1: $f(f(x))=a(ax+b)+b=a^{2}x+ab+b$.
+Paso 2: $a^{2}=9$ y, como $a>0$, $a=3$. Además, $ab+b=4b=-8$, así que $b=-2$.
+Paso 3: $f(x)=3x-2$ y $f(2)=4$. Comprobación: $f(f(x))=3(3x-2)-2=9x-8$.
+Respuesta: C, $4$.
+Errores frecuentes: La A usa $a=-3$, que se descarta porque $a>0$ (con $a=-3$ resulta $b=4$ y $f(2)=-2$). La B escribe $f(f(x))=a^{2}x+ab$, olvidando el último $b$, y obtiene $b=-\dfrac{8}{3}$. La D evalúa $f(f(2))$ en vez de $f(2)$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '0c0c5d27-6d44-5588-88a7-ad164b59bd27', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-lineal-afin'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-222
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('f6aa6c44-7d1d-5182-a8d4-b94964973956', 'm2-algebra-y-funciones-222', 'Una función afín $f(x)=mx+n$, con dominio el conjunto de los números reales, cumple que $f(a)=b$ y $f(b)=a$, donde $a$ y $b$ son números reales distintos.
+
+¿Cuál de las siguientes afirmaciones es siempre verdadera?', '[{"id":"A","content":"La pendiente de la gráfica de $f$ es $1$."},{"id":"B","content":"$f(a+b)=a+b$"},{"id":"C","content":"La gráfica de $f$ pasa por el origen."},{"id":"D","content":"$f(0)=a+b$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: los puntos $(a,b)$ y $(b,a)$ determinan la recta; su pendiente sale de inmediato y luego se despeja el coeficiente de posición.
+Paso 1: $m=\dfrac{a-b}{b-a}=-1$.
+Paso 2: De $f(a)=-a+n=b$ se obtiene $n=a+b$, así que $f(x)=-x+a+b$.
+Paso 3: Entonces $f(0)=a+b$, mientras que $f(a+b)=0$ y la gráfica pasa por el origen solo si $a+b=0$.
+Respuesta: D, $f(0)=a+b$.
+Errores frecuentes: La A calcula la pendiente como $\dfrac{a-b}{a-b}$, invirtiendo solo una de las diferencias. La B confunde $f(0)$ con $f(a+b)$, que en realidad vale $0$. La C solo es cierta en el caso particular $b=-a$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'f6aa6c44-7d1d-5182-a8d4-b94964973956', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-lineal-afin'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-223
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('d2e26304-47fe-520f-b18b-1eeb1aa7c979', 'm2-algebra-y-funciones-223', 'Una camioneta nueva cuesta $P$ pesos. Su valor comercial disminuye en forma lineal con el tiempo y, a los $3$ años de comprada, vale el $76\,\%$ de $P$.
+
+Según este modelo, ¿a los cuántos años de comprada su valor será el $40\,\%$ de $P$?', '[{"id":"A","content":"$4{,}5$"},{"id":"B","content":"$5$"},{"id":"C","content":"$7{,}5$"},{"id":"D","content":"$12{,}5$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: la disminución lineal significa que cada año se pierde el mismo porcentaje del precio inicial $P$, no del valor del año anterior.
+Paso 1: En $3$ años se perdió el $24\,\%$ de $P$, o sea, $8\,\%$ de $P$ por año: $V(t)=P(1-0{,}08t)$.
+Paso 2: Se pide $P(1-0{,}08t)=0{,}40P$, es decir, $0{,}08t=0{,}60$.
+Paso 3: $t=\dfrac{0{,}60}{0{,}08}=7{,}5$ años.
+Respuesta: C, $7{,}5$ años.
+Errores frecuentes: La A calcula $\dfrac{76-40}{8}=4{,}5$, que es el tiempo que falta desde el año $3$, no desde la compra. La B interpreta el $40\,\%$ como lo perdido y no como lo que vale. La D entrega el tiempo en que el valor llegaría a $0$.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'd2e26304-47fe-520f-b18b-1eeb1aa7c979', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-lineal-afin'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-224
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('48bc31e7-8ae6-5968-bba5-6aa789bb4c29', 'm2-algebra-y-funciones-224', 'En el plano cartesiano se consideran las rectas de ecuaciones $y=2x+1$ e $y=-x+k$, con $k$ un número real.
+
+¿Para qué valores de $k$ el punto de intersección de ambas rectas está en el primer cuadrante, es decir, tiene sus dos coordenadas positivas?', '[{"id":"A","content":"$k>-\\dfrac{1}{2}$"},{"id":"B","content":"$-\\dfrac{1}{2}<k<1$"},{"id":"C","content":"$k>0$"},{"id":"D","content":"$k>1$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: se calcula el punto de intersección en función de $k$ y se exige que ambas coordenadas sean positivas al mismo tiempo.
+Paso 1: $2x+1=-x+k$ da $x=\dfrac{k-1}{3}$, y luego $y=2\cdot\dfrac{k-1}{3}+1=\dfrac{2k+1}{3}$.
+Paso 2: $x>0$ exige $k>1$, e $y>0$ exige $k>-\dfrac{1}{2}$.
+Paso 3: Ambas se cumplen a la vez si $k>1$.
+Respuesta: D, $k>1$.
+Errores frecuentes: La A solo exige que la ordenada sea positiva. La B corresponde a los valores en que la ordenada es positiva pero la abscisa no, es decir, el segundo cuadrante. La C supone que basta con que la segunda recta corte al eje $Y$ sobre el origen.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '48bc31e7-8ae6-5968-bba5-6aa789bb4c29', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-lineal-afin'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-225
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('5a0a774b-d22d-51ca-bdf1-bca16b42f6ec', 'm2-algebra-y-funciones-225', 'En un laboratorio de física de un liceo de Rancagua se cuelgan masas de un resorte. La longitud $L$ del resorte, en centímetros, es una función afín de la masa $m$ colgada, en gramos. Con $200$ g el resorte mide $13$ cm y con $500$ g mide $16$ cm.
+
+Según este modelo, ¿qué masa, en gramos, hay que colgar para que el resorte mida el doble de lo que mide sin ninguna masa colgada?', '[{"id":"A","content":"$1\\,100$"},{"id":"B","content":"$1\\,500$"},{"id":"C","content":"$2\\,200$"},{"id":"D","content":"$2\\,600$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: el coeficiente de posición de la función afín es la longitud sin carga; hay que encontrarlo antes de plantear el doble.
+Paso 1: La pendiente es $\dfrac{16-13}{500-200}=0{,}01$ cm por gramo.
+Paso 2: $13=L_{0}+0{,}01\cdot200$, así que $L_{0}=11$ cm y $L(m)=11+0{,}01m$.
+Paso 3: Se pide $L(m)=22$: $0{,}01m=11$, es decir, $m=1\,100$ g.
+Respuesta: A, $1\,100$ g.
+Errores frecuentes: La B duplica la longitud con $200$ g ($26$ cm) en vez de la longitud sin carga. La C resuelve $0{,}01m=22$, olvidando que el resorte ya mide $11$ cm sin carga. La D comete ambos errores: usa $26$ cm y olvida la longitud inicial.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '5a0a774b-d22d-51ca-bdf1-bca16b42f6ec', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-lineal-afin'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-226
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('81e199fd-5914-5b86-8e2f-9ef30b3f60bc', 'm2-algebra-y-funciones-226', 'Las funciones afines $f$ y $g$, con dominio el conjunto de los números reales, son tales que $f$ es decreciente, $g$ es creciente y $f(2)=g(2)$.
+
+¿Cuál de las siguientes afirmaciones es siempre verdadera?', '[{"id":"A","content":"$f(0)<g(0)$"},{"id":"B","content":"La función $f+g$ es decreciente."},{"id":"C","content":"Las gráficas de $f$ y $g$ se intersectan sobre el eje $Y$."},{"id":"D","content":"Para todo $x>2$ se cumple que $f(x)<g(x)$."},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: la diferencia $h(x)=f(x)-g(x)$ es afín, con pendiente negativa (pendiente de $f$ menos pendiente de $g$) y con $h(2)=0$.
+Paso 1: Si $f(x)=m_{1}x+n_{1}$ y $g(x)=m_{2}x+n_{2}$, con $m_{1}<0<m_{2}$, entonces $h$ tiene pendiente $m_{1}-m_{2}<0$.
+Paso 2: Como $h(2)=0$ y $h$ es decreciente, $h(x)<0$ para todo $x>2$, es decir, $f(x)<g(x)$.
+Paso 3: Por la misma razón, $h(0)>0$, así que $f(0)>g(0)$. Con $f(x)=-x+4$ y $g(x)=3x-4$, $f+g=2x$ es creciente y las gráficas se cortan en $x=2$, no sobre el eje $Y$.
+Respuesta: D, para todo $x>2$ se cumple $f(x)<g(x)$.
+Errores frecuentes: La A invierte la conclusión a la izquierda del punto de corte. La B supone que la suma hereda el comportamiento de $f$, pero depende de qué pendiente es mayor en valor absoluto. La C confunde el punto de corte con el intercepto en el eje $Y$, que solo coincide si el corte fuera en $x=0$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '81e199fd-5914-5b86-8e2f-9ef30b3f60bc', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-lineal-afin'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-227
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('360d15b5-75a1-5db3-a237-7a789549f409', 'm2-algebra-y-funciones-227', 'Una función afín $f$, con dominio el conjunto de los números reales, cumple que $f(2x+1)=6x+7$ para todo número real $x$.
+
+¿Cuál es el valor de $f(5)$?', '[{"id":"A","content":"$19$"},{"id":"B","content":"$22$"},{"id":"C","content":"$25$"},{"id":"D","content":"$37$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: $f(5)$ se obtiene buscando el valor de $x$ que hace $2x+1=5$, o bien escribiendo $f$ en términos de su propia variable.
+Paso 1: Sea $t=2x+1$; entonces $x=\dfrac{t-1}{2}$.
+Paso 2: $f(t)=6\cdot\dfrac{t-1}{2}+7=3t+4$.
+Paso 3: $f(5)=3\cdot5+4=19$. Comprobación: con $x=2$, $2x+1=5$ y $6\cdot2+7=19$.
+Respuesta: A, $19$.
+Errores frecuentes: La B divide solo el coeficiente de $x$ por $2$ y usa $f(t)=3t+7$. La C despeja mal la variable, con $x=\dfrac{t+1}{2}$. La D reemplaza $x=5$ directamente en $6x+7$.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '360d15b5-75a1-5db3-a237-7a789549f409', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-lineal-afin'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-228
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('826defb5-aefe-5a92-b94f-369ab507ea4b', 'm2-algebra-y-funciones-228', 'Un taller estampa poleras para cursos de cuarto medio. El costo total $C$, en pesos, de estampar $x$ poleras es una función afín $C(x)=ax+b$. Estampar $40$ poleras cuesta $172\,000$ pesos, y al estampar $100$ poleras el costo promedio por polera es $3\,700$ pesos.
+
+¿Cuál es el valor de $b$, el costo fijo del taller, en pesos?', '[{"id":"A","content":"$24\\,000$"},{"id":"B","content":"$40\\,000$"},{"id":"C","content":"$132\\,000$"},{"id":"D","content":"$370\\,000$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: el costo promedio es el costo total dividido por la cantidad; con él se obtiene un segundo punto de la función afín.
+Paso 1: $C(100)=100\cdot3\,700=370\,000$ pesos.
+Paso 2: La pendiente es $a=\dfrac{370\,000-172\,000}{100-40}=3\,300$ pesos por polera.
+Paso 3: $b=172\,000-40\cdot3\,300=172\,000-132\,000=40\,000$.
+Respuesta: B, $40\,000$ pesos.
+Errores frecuentes: La A usa el costo promedio, $3\,700$, como si fuera la pendiente. La C entrega el costo variable de $40$ poleras en vez del costo fijo. La D confunde el costo fijo con el costo total de $100$ poleras.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '826defb5-aefe-5a92-b94f-369ab507ea4b', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-lineal-afin'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-229
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('ca8f5212-ae65-5502-9413-15b2077fb631', 'm2-algebra-y-funciones-229', 'La gráfica de una función afín $f$ pasa por el punto $(2,3)$ y corta a los semiejes positivos $X$ e $Y$ en dos puntos que están a la misma distancia del origen.
+
+¿Cuál es el área, en unidades cuadradas, del triángulo que forma la gráfica de $f$ con los ejes coordenados?', '[{"id":"A","content":"$6$"},{"id":"B","content":"$\\dfrac{25}{2}$"},{"id":"C","content":"$18$"},{"id":"D","content":"$25$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: si ambos interceptos valen $p$, la recta es $\dfrac{x}{p}+\dfrac{y}{p}=1$, es decir, $x+y=p$, y el punto dado fija $p$.
+Paso 1: Como $(2,3)$ está en la recta, $p=2+3=5$; la recta es $y=-x+5$.
+Paso 2: Corta los ejes en $(5,0)$ y $(0,5)$, formando un triángulo rectángulo de catetos $5$ y $5$.
+Paso 3: Área $=\dfrac{5\cdot5}{2}=\dfrac{25}{2}$.
+Respuesta: B, $\dfrac{25}{2}$.
+Errores frecuentes: La A calcula el área del rectángulo de vértices $(0,0)$ y $(2,3)$. La C supone que los interceptos están en $6=2\cdot3$. La D olvida dividir por $2$ el producto de los catetos.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'ca8f5212-ae65-5502-9413-15b2077fb631', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-lineal-afin'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-230
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('7cab57bb-97f5-5098-b647-36321d5fe102', 'm2-algebra-y-funciones-230', 'Julieta deposita todas las semanas la misma cantidad de dinero en una alcancía que ya tenía algo de dinero al comenzar. Al final de la semana $3$ tenía $41\,000$ pesos y al final de la semana $8$ tenía $66\,000$ pesos.
+
+Si mantiene este ritmo, ¿al final de qué semana su ahorro superará por primera vez los $100\,000$ pesos?', '[{"id":"A","content":"$12$"},{"id":"B","content":"$14$"},{"id":"C","content":"$15$"},{"id":"D","content":"$20$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: el ahorro es una función afín del número de semanas; se encuentra su expresión y se resuelve una inecuación, cuidando que la semana sea un número entero.
+Paso 1: El aporte semanal es $\dfrac{66\,000-41\,000}{8-3}=5\,000$ pesos, y el monto inicial es $41\,000-3\cdot5\,000=26\,000$ pesos.
+Paso 2: $A(s)=26\,000+5\,000s>100\,000$ da $s>14{,}8$.
+Paso 3: La primera semana entera que cumple es $s=15$, con $101\,000$ pesos.
+Respuesta: C, semana $15$.
+Errores frecuentes: La A usa $41\,000$ como monto inicial. La B redondea $14{,}8$ hacia abajo, pero en la semana $14$ tiene solo $96\,000$ pesos. La D divide $100\,000$ por el aporte semanal e ignora el monto inicial.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '7cab57bb-97f5-5098-b647-36321d5fe102', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-lineal-afin'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-231
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('fe59ba38-3bff-5b66-8eed-d08bc6c66925', 'm2-algebra-y-funciones-231', 'La gráfica de una función afín $f$ es paralela a la gráfica de $g(x)=-3x+4$ y pasa por el punto $(-2,7)$.
+
+¿En qué punto la gráfica de $f$ interseca al eje $X$?', '[{"id":"A","content":"$\\left(\\dfrac{1}{3},0\\right)$"},{"id":"B","content":"$\\left(\\dfrac{4}{3},0\\right)$"},{"id":"C","content":"$\\left(\\dfrac{7}{3},0\\right)$"},{"id":"D","content":"$\\left(\\dfrac{13}{3},0\\right)$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'medium'::difficulty_level, 'Idea clave: las rectas paralelas tienen la misma pendiente; con ella y el punto dado se obtiene el coeficiente de posición.
+Paso 1: $f(x)=-3x+n$. Como $f(-2)=7$: $6+n=7$, así que $n=1$.
+Paso 2: $f(x)=-3x+1=0$ da $x=\dfrac{1}{3}$.
+Respuesta: A, $\left(\dfrac{1}{3},0\right)$.
+Errores frecuentes: La B entrega el cero de $g$ y no el de $f$. La C usa la ordenada del punto, $7$, como coeficiente de posición. La D evalúa mal $-3\cdot(-2)$ como $-6$ y obtiene $n=13$.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'fe59ba38-3bff-5b66-8eed-d08bc6c66925', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-lineal-afin'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-232
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('67ad24f2-effa-55f1-8ff0-bf854ac769b4', 'm2-algebra-y-funciones-232', 'Un profesor transforma el puntaje $p$ de una prueba en una nota $N$ mediante una función afín. Con $12$ puntos se obtiene nota $2{,}0$ y con $48$ puntos, nota $6{,}5$.
+
+¿Cuál es el puntaje con el que se obtiene exactamente nota $4{,}0$?', '[{"id":"A","content":"$16$"},{"id":"B","content":"$24$"},{"id":"C","content":"$28$"},{"id":"D","content":"$32$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: con dos pares (puntaje, nota) se obtiene la pendiente, que indica cuánto sube la nota por cada punto.
+Paso 1: La pendiente es $\dfrac{6{,}5-2{,}0}{48-12}=\dfrac{4{,}5}{36}=0{,}125$ décimas de nota por punto, es decir, se necesitan $8$ puntos por cada punto de nota.
+Paso 2: Para subir de $2{,}0$ a $4{,}0$ faltan $2$ puntos de nota: $\dfrac{2}{0{,}125}=16$ puntos más.
+Paso 3: $12+16=28$ puntos.
+Respuesta: C, $28$ puntos.
+Errores frecuentes: La A entrega solo los $16$ puntos que hay que sumar, olvidando los $12$ iniciales. La B supone que la nota es proporcional al puntaje y duplica los $12$ puntos porque $4{,}0$ es el doble de $2{,}0$. La D supone que la recta pasa por el origen y multiplica $4{,}0$ por $8$.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '67ad24f2-effa-55f1-8ff0-bf854ac769b4', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-lineal-afin'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-233
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('65380965-4430-59a9-9489-272156f02f69', 'm2-algebra-y-funciones-233', 'Una cooperativa de Chiloé fabrica chalecos de lana. Su costo total al fabricar $x$ chalecos es $12\,000x+3\,000\,000$ pesos y vende cada chaleco en $20\,000$ pesos. La utilidad es el ingreso por ventas menos el costo total.
+
+Si vende todo lo que fabrica, ¿cuál es la menor cantidad de chalecos que debe fabricar y vender para que su utilidad sea al menos el $25\,\%$ de su ingreso por ventas?', '[{"id":"A","content":"$375$"},{"id":"B","content":"$600$"},{"id":"C","content":"$750$"},{"id":"D","content":"$1\\,000$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: se escriben la utilidad y el ingreso como expresiones en $x$ y se plantea una inecuación lineal entre ellas.
+Paso 1: Ingreso: $20\,000x$. Utilidad: $20\,000x-12\,000x-3\,000\,000=8\,000x-3\,000\,000$.
+Paso 2: $8\,000x-3\,000\,000\geq0{,}25\cdot20\,000x=5\,000x$.
+Paso 3: $3\,000x\geq3\,000\,000$, así que $x\geq1\,000$.
+Respuesta: D, $1\,000$ chalecos.
+Errores frecuentes: La A solo pide que la utilidad no sea negativa. La B plantea $5\,000x\geq3\,000\,000$, comparando el $25\,\%$ del ingreso con el costo fijo. La C toma el $25\,\%$ del costo total en vez del ingreso.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '65380965-4430-59a9-9489-272156f02f69', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'ecuaciones-inecuaciones-lineales'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-234
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('edd03ccc-3150-5b1b-ae9d-b805de894107', 'm2-algebra-y-funciones-234', 'Considera la inecuación $3x-a\leq x+5$, en $x$, con $a$ un número real.
+
+¿Para qué valores de $a$ la inecuación tiene exactamente cuatro soluciones que son números enteros positivos?', '[{"id":"A","content":"$[3,5[$"},{"id":"B","content":"$]3,5]$"},{"id":"C","content":"$[3,5]$"},{"id":"D","content":"$[-1,0[$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: se despeja $x$ en función de $a$; las soluciones enteras positivas serán $1,2,3,4$ si el extremo cae desde $4$ (incluido) hasta antes de $5$.
+Paso 1: $3x-x\leq5+a$, así que $x\leq\dfrac{a+5}{2}$.
+Paso 2: Para que los enteros positivos solución sean exactamente $1$, $2$, $3$ y $4$ se necesita $4\leq\dfrac{a+5}{2}<5$.
+Paso 3: Multiplicando por $2$: $8\leq a+5<10$, es decir, $3\leq a<5$.
+Respuesta: A, $a\in[3,5[$.
+Errores frecuentes: La B cambia cuál extremo se incluye: con $a=3$ el $4$ sí es solución y con $a=5$ también lo es el $5$. La C incluye $a=5$, que deja cinco soluciones enteras positivas. La D olvida dividir por $2$ y plantea $4\leq a+5<5$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'edd03ccc-3150-5b1b-ae9d-b805de894107', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'ecuaciones-inecuaciones-lineales'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-235
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('aed1e419-14ab-5a6a-b374-c0ca3878be0b', 'm2-algebra-y-funciones-235', 'Un bidón contiene $20$ litros de una mezcla de agua y anticongelante, de la cual el $25\,\%$ es anticongelante. Se quiere sacar cierta cantidad de mezcla y reemplazarla por la misma cantidad de anticongelante puro, de modo que el bidón vuelva a tener $20$ litros y el $40\,\%$ sea anticongelante.
+
+¿Cuántos litros de mezcla se deben sacar?', '[{"id":"A","content":"$3$"},{"id":"B","content":"$4$"},{"id":"C","content":"$5$"},{"id":"D","content":"$8$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: al sacar $x$ litros de mezcla se pierde solo el $25\,\%$ de esos $x$ litros como anticongelante, y al reponer se agregan $x$ litros completos de anticongelante.
+Paso 1: Anticongelante inicial: $0{,}25\cdot20=5$ litros. Anticongelante final deseado: $0{,}40\cdot20=8$ litros.
+Paso 2: $5-0{,}25x+x=8$, es decir, $0{,}75x=3$.
+Paso 3: $x=4$ litros. Comprobación: $5-1+4=8$ litros de anticongelante en $20$ litros.
+Respuesta: B, $4$ litros.
+Errores frecuentes: La A no descuenta el anticongelante que sale con la mezcla y plantea $5+x=8$. La C agrega anticongelante sin sacar mezcla, con $5+x=0{,}40(20+x)$. La D confunde lo que se saca con la cantidad final de anticongelante.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'aed1e419-14ab-5a6a-b374-c0ca3878be0b', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'ecuaciones-inecuaciones-lineales'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-236
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('d5df2f89-737a-57ab-85bf-9b8d7262ab0b', 'm2-algebra-y-funciones-236', 'Considera la ecuación $(a^{2}-4)x=a-2$, en $x$, con $a$ un número real.
+
+¿Cuál de las siguientes afirmaciones es verdadera?', '[{"id":"A","content":"Si $a=2$, la ecuación no tiene solución."},{"id":"B","content":"Si $a=-2$, la ecuación tiene infinitas soluciones."},{"id":"C","content":"Para todo $a\\neq2$, la ecuación tiene solución única."},{"id":"D","content":"Si $a=-2$, la ecuación no tiene solución."},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: una ecuación de la forma $kx=c$ tiene solución única si $k\neq0$; si $k=0$, tiene infinitas soluciones cuando $c=0$ y ninguna cuando $c\neq0$.
+Paso 1: El coeficiente $a^{2}-4$ se anula para $a=2$ y para $a=-2$.
+Paso 2: Con $a=2$ queda $0\cdot x=0$: infinitas soluciones.
+Paso 3: Con $a=-2$ queda $0\cdot x=-4$: ninguna solución. Para $a\neq\pm2$, la solución única es $x=\dfrac{a-2}{a^{2}-4}=\dfrac{1}{a+2}$.
+Respuesta: D, si $a=-2$ la ecuación no tiene solución.
+Errores frecuentes: La A confunde los casos: con $a=2$ ambos lados se anulan y hay infinitas soluciones. La B intercambia los casos $a=2$ y $a=-2$. La C simplifica a $x=\dfrac{1}{a+2}$ sin advertir que esa expresión no existe para $a=-2$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'd5df2f89-737a-57ab-85bf-9b8d7262ab0b', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'ecuaciones-inecuaciones-lineales'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-237
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('e2f6a563-6877-50ee-85d9-92381cd7386d', 'm2-algebra-y-funciones-237', 'Los números reales $x$ e $y$ cumplen que $1\leq x\leq3$ y $2\leq y\leq5$.
+
+¿Cuál es el conjunto de todos los valores que puede tomar la expresión $x-2y$?', '[{"id":"A","content":"$[-9,-1]$"},{"id":"B","content":"$[-9,-3]$"},{"id":"C","content":"$[-7,-3]$"},{"id":"D","content":"$[-7,-1]$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: al multiplicar una desigualdad por un número negativo se invierte su sentido; luego se suman desigualdades del mismo sentido.
+Paso 1: De $2\leq y\leq5$ se obtiene $-10\leq-2y\leq-4$.
+Paso 2: Sumando con $1\leq x\leq3$: $1-10\leq x-2y\leq3-4$, es decir, $-9\leq x-2y\leq-1$.
+Paso 3: Ambos extremos se alcanzan: $-9$ con $x=1$, $y=5$, y $-1$ con $x=3$, $y=2$.
+Respuesta: A, $[-9,-1]$.
+Errores frecuentes: La B fija $x=1$ y solo hace variar $y$. La C resta extremo con extremo ($1-2\cdot2$ y $3-2\cdot5$) sin invertir la desigualdad de $-2y$. La D fija $x=3$ y solo hace variar $y$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'e2f6a563-6877-50ee-85d9-92381cd7386d', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'ecuaciones-inecuaciones-lineales'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-238
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('567ca3a2-9ace-5a94-9487-4539d37dcc6e', 'm2-algebra-y-funciones-238', 'Ignacio resolvió la inecuación $(a-1)x>a^{2}-1$, en $x$, sabiendo que $a$ es un número real menor que $1$, de la siguiente manera:
+
+Paso 1: $(a-1)x>(a-1)(a+1)$
+Paso 2: Como $a-1<0$, al dividir por $a-1$ se invierte la desigualdad: $x<a+1$
+Paso 3: Como $a<1$, se tiene $a+1<2$, así que el conjunto solución es $]-\infty,2[$
+
+¿En cuál de los pasos cometió Ignacio el primer error?', '[{"id":"A","content":"En el paso 1"},{"id":"B","content":"En el paso 2"},{"id":"C","content":"En el paso 3"},{"id":"D","content":"No cometió errores"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: el conjunto solución debe quedar expresado en términos de $a$; acotar $a+1$ por $2$ cambia el conjunto, porque agrega valores que no son solución.
+Paso 1: La factorización $a^{2}-1=(a-1)(a+1)$ es correcta.
+Paso 2: Como $a-1<0$, dividir por $a-1$ invierte la desigualdad: $x<a+1$. También es correcto.
+Paso 3: El conjunto solución es $]-\infty,a+1[$. Por ejemplo, con $a=0$ es $]-\infty,1[$, y $x=1{,}5$ está en $]-\infty,2[$ pero no cumple $-x>-1$. El error está aquí.
+Respuesta: C, en el paso 3.
+Errores frecuentes: La A duda de una factorización correcta (diferencia de cuadrados). La B cree que no se debía invertir la desigualdad, pero el divisor es negativo. La D acepta que $a+1<2$ permite reemplazar $a+1$ por $2$, lo que solo da un conjunto que contiene al verdadero.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '567ca3a2-9ace-5a94-9487-4539d37dcc6e', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'ecuaciones-inecuaciones-lineales'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-239
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('23e83eb6-c3eb-5640-bb57-bfa2a8d61c85', 'm2-algebra-y-funciones-239', 'En una asignatura, la nota final se calcula como el $60\,\%$ del promedio de controles $p$ más el $40\,\%$ de la nota del examen. Las notas van de $1{,}0$ a $7{,}0$ y se aprueba con nota final mayor o igual que $4{,}0$.
+
+¿Cuál es el menor promedio de controles con el que todavía es posible aprobar la asignatura?', '[{"id":"A","content":"$1{,}0$"},{"id":"B","content":"$2{,}0$"},{"id":"C","content":"$2{,}8$"},{"id":"D","content":"$4{,}0$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: el caso más favorable es obtener un $7{,}0$ en el examen; con esa nota se plantea la inecuación para $p$.
+Paso 1: Con examen $7{,}0$: $0{,}6p+0{,}4\cdot7{,}0\geq4{,}0$, es decir, $0{,}6p+2{,}8\geq4{,}0$.
+Paso 2: $0{,}6p\geq1{,}2$, así que $p\geq2{,}0$.
+Respuesta: B, $2{,}0$.
+Errores frecuentes: La A intercambia las ponderaciones: con $0{,}4p+0{,}6\cdot7{,}0\geq4{,}0$ bastaría cualquier promedio. La C entrega el aporte del examen, $0{,}4\cdot7{,}0$, y no el promedio buscado. La D supone que hay que tener promedio de aprobación en los controles.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '23e83eb6-c3eb-5640-bb57-bfa2a8d61c85', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'ecuaciones-inecuaciones-lineales'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-240
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('6606c77a-debb-5315-ad4d-a7069b2a5ac6', 'm2-algebra-y-funciones-240', 'En un juego, Sofía piensa un número entero $n$ y da dos pistas: el doble del número, disminuido en $5$, es mayor que $7$, y la semisuma del número con $3$ es a lo más $9$.
+
+¿Cuántos números enteros cumplen ambas pistas?', '[{"id":"A","content":"$8$"},{"id":"B","content":"$9$"},{"id":"C","content":"$10$"},{"id":"D","content":"$15$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: cada pista es una inecuación lineal; los números que sirven son los enteros que cumplen ambas a la vez.
+Paso 1: $2n-5>7$ da $n>6$.
+Paso 2: $\dfrac{n+3}{2}\leq9$ da $n\leq15$.
+Paso 3: Los enteros con $6<n\leq15$ son $7,8,\ldots,15$, que son $15-7+1=9$ números.
+Respuesta: B, $9$ números.
+Errores frecuentes: La A resta $15-7$ y olvida contar uno de los extremos. La C incluye el $6$, como si la primera pista fuera mayor o igual. La D confunde la cantidad de números con el mayor de ellos.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '6606c77a-debb-5315-ad4d-a7069b2a5ac6', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'ecuaciones-inecuaciones-lineales'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-241
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('bc96fff9-c03f-50e1-baf4-a1019757ba7f', 'm2-algebra-y-funciones-241', 'Considera la función $f(x)=x^{2}+bx+c$, con $b$ y $c$ números reales y dominio el conjunto de los números reales.
+
+Se puede determinar el valor de $c$, si se sabe que:
+
+(1) La ecuación $f(x)=0$ tiene dos soluciones reales cuya diferencia es $2$.
+(2) El vértice de la parábola asociada a $f$ está sobre la recta de ecuación $y=-1$.', '[{"id":"A","content":"(1) por sí sola"},{"id":"B","content":"(2) por sí sola"},{"id":"C","content":"Ambas juntas, (1) y (2)"},{"id":"D","content":"Cada una por sí sola, (1) ó (2)"},{"id":"E","content":"Se requiere información adicional"},{"id":"F","content":"No sé responder esta pregunta"}]'::jsonb, 'E', 'hard'::difficulty_level, 'Idea clave: hay que traducir cada afirmación a una ecuación en $b$ y $c$; con dos incógnitas, se necesitan dos ecuaciones independientes.
+Paso 1: Con (1), las soluciones son $\dfrac{-b\pm\sqrt{b^{2}-4c}}{2}$ y su diferencia es $\sqrt{b^{2}-4c}=2$, o sea, $b^{2}-4c=4$. Por ejemplo, $(b,c)=(0,-1)$ y $(b,c)=(2,0)$ la cumplen. No basta.
+Paso 2: Con (2), la ordenada del vértice es $c-\dfrac{b^{2}}{4}=-1$, que también equivale a $b^{2}-4c=4$. No basta.
+Paso 3: Juntas, ambas dicen lo mismo: los mismos dos ejemplos cumplen (1) y (2), y dan $c=-1$ y $c=0$. Siguen sin bastar.
+Respuesta: E, se requiere información adicional.
+Errores frecuentes: La A y la B creen que una sola condición fija ambos coeficientes. La C supone que dos afirmaciones distintas siempre entregan dos ecuaciones distintas, pero aquí son equivalentes. La D cae en ambos errores a la vez.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'bc96fff9-c03f-50e1-baf4-a1019757ba7f', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-cuadratica'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-242
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('bd148737-4d3b-5279-b833-50b75af4c95d', 'm2-algebra-y-funciones-242', 'Considera la función afín $f(x)=mx+n$, con $m$ y $n$ números reales y dominio el conjunto de los números reales.
+
+Se puede determinar el valor de $f(0)$, si se sabe que:
+
+(1) $f(2)+f(-2)=8$
+(2) $f(3)-3f(1)=-8$', '[{"id":"A","content":"(1) por sí sola"},{"id":"B","content":"(2) por sí sola"},{"id":"C","content":"Ambas juntas, (1) y (2)"},{"id":"D","content":"Cada una por sí sola, (1) ó (2)"},{"id":"E","content":"Se requiere información adicional"},{"id":"F","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: $f(0)=n$; hay que ver si cada condición permite despejar $n$ aunque $m$ quede desconocido.
+Paso 1: Con (1), $f(2)+f(-2)=(2m+n)+(-2m+n)=2n=8$, así que $n=4$ para cualquier $m$. Basta.
+Paso 2: Con (2), $f(3)-3f(1)=(3m+n)-3(m+n)=-2n=-8$, así que $n=4$ para cualquier $m$. Basta.
+Paso 3: Cada una por separado determina $f(0)=4$, aunque ninguna permite conocer $m$.
+Respuesta: D, cada una por sí sola, (1) ó (2).
+Errores frecuentes: La A y la B no notan que en la otra afirmación el término con $m$ también se cancela. La C cree que, al haber dos incógnitas, se necesitan las dos ecuaciones, pero la pregunta solo pide $n$. La E piensa que sin conocer $m$ no se puede concluir nada.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'bd148737-4d3b-5279-b833-50b75af4c95d', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-lineal-afin'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-301
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('3ab613a3-ef7c-5e17-8981-d23aed4f1701', 'm2-algebra-y-funciones-301', 'Sea $x$ un número real tal que $x>1$ y $x+\dfrac{1}{x}=3$.
+
+¿Cuál es el valor de $x^{2}-\dfrac{1}{x^{2}}$?', '[{"id":"A","content":"$5$"},{"id":"B","content":"$3\\sqrt{5}$"},{"id":"C","content":"$7$"},{"id":"D","content":"$9$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: $x^{2}-\frac{1}{x^{2}}$ es una diferencia de cuadrados, $\left(x+\frac{1}{x}\right)\left(x-\frac{1}{x}\right)$, así que basta encontrar $x-\frac{1}{x}$.
+Paso 1: Al cuadrar el dato, $x^{2}+2+\frac{1}{x^{2}}=9$, luego $x^{2}+\frac{1}{x^{2}}=7$.
+Paso 2: $\left(x-\frac{1}{x}\right)^{2}=x^{2}-2+\frac{1}{x^{2}}=7-2=5$, así que $x-\frac{1}{x}=\pm\sqrt{5}$.
+Paso 3: Como $x>1$, se cumple $x>\frac{1}{x}$, por lo que $x-\frac{1}{x}=\sqrt{5}$.
+Paso 4: $x^{2}-\frac{1}{x^{2}}=3\cdot\sqrt{5}=3\sqrt{5}$.
+Respuesta: B, $3\sqrt{5}$.
+Errores frecuentes: La A entrega $\left(x-\frac{1}{x}\right)^{2}$ y olvida multiplicar por $x+\frac{1}{x}$. La C calcula $x^{2}+\frac{1}{x^{2}}$, que es una suma y no una diferencia. La D eleva al cuadrado el dato y se detiene ahí.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '3ab613a3-ef7c-5e17-8981-d23aed4f1701', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'expresiones-algebraicas'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-302
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('32c5bc18-a163-53d1-8a0b-e78d84367945', 'm2-algebra-y-funciones-302', 'Sean $a$ y $b$ números reales distintos.
+
+¿Cuál de las siguientes expresiones es equivalente a $\dfrac{a^{3}-b^{3}}{a-b}-(a+b)^{2}$?', '[{"id":"A","content":"$-3ab$"},{"id":"B","content":"$-2ab$"},{"id":"C","content":"$-ab$"},{"id":"D","content":"$ab$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: la diferencia de cubos se factoriza como $a^{3}-b^{3}=(a-b)\left(a^{2}+ab+b^{2}\right)$, lo que permite simplificar la fracción.
+Paso 1: Como $a\neq b$, $\dfrac{a^{3}-b^{3}}{a-b}=a^{2}+ab+b^{2}$.
+Paso 2: $(a+b)^{2}=a^{2}+2ab+b^{2}$.
+Paso 3: $\left(a^{2}+ab+b^{2}\right)-\left(a^{2}+2ab+b^{2}\right)=-ab$.
+Respuesta: C, $-ab$.
+Errores frecuentes: La A usa el factor $a^{2}-ab+b^{2}$, que corresponde a la suma de cubos. La B olvida el término $ab$ del factor y resta $a^{2}+b^{2}$ menos $(a+b)^{2}$. La D cambia el signo al restar el paréntesis.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '32c5bc18-a163-53d1-8a0b-e78d84367945', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'expresiones-algebraicas'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-303
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('b878d151-cd1a-54c3-96e3-4f10b2353293', 'm2-algebra-y-funciones-303', 'En un taller de Temuco fabrican cajas sin tapa a partir de planchas cuadradas de cartón de lado $a$ cm. A cada plancha se le recorta un cuadrado de lado $b$ cm en cada una de sus cuatro esquinas, con $a>2b$, y luego se doblan hacia arriba las cuatro solapas que quedan.
+
+¿Cuál de las siguientes expresiones representa el área total, en $\text{cm}^{2}$, de la superficie interior de la caja (fondo más paredes)?', '[{"id":"A","content":"$(a-2b)^{2}$"},{"id":"B","content":"$a^{2}-2b^{2}$"},{"id":"C","content":"$(a-2b)(a+2b)$"},{"id":"D","content":"$a^{2}+4b^{2}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: la superficie interior es todo el cartón que queda después de recortar las esquinas, o bien el fondo más las cuatro paredes.
+Paso 1: El fondo es un cuadrado de lado $a-2b$, con área $(a-2b)^{2}$.
+Paso 2: Cada pared es un rectángulo de $(a-2b)$ por $b$, y hay cuatro: $4b(a-2b)$.
+Paso 3: Total: $(a-2b)^{2}+4b(a-2b)=(a-2b)(a-2b+4b)=(a-2b)(a+2b)$, que coincide con $a^{2}-4b^{2}$, el cartón inicial menos las cuatro esquinas.
+Respuesta: C, $(a-2b)(a+2b)$.
+Errores frecuentes: La A considera solo el fondo de la caja. La B resta solo dos esquinas en vez de cuatro. La D suma las esquinas recortadas en lugar de restarlas.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'b878d151-cd1a-54c3-96e3-4f10b2353293', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'expresiones-algebraicas'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-304
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('30b0ab90-b61f-5f70-be24-9513e0fb3b0c', 'm2-algebra-y-funciones-304', 'Considera la expresión $x^{2}-(k+1)x+9$, donde $k$ es un número real.
+
+¿Cuál es la suma de todos los valores de $k$ para los cuales esta expresión es el cuadrado de un binomio?', '[{"id":"A","content":"$-7$"},{"id":"B","content":"$-2$"},{"id":"C","content":"$5$"},{"id":"D","content":"$6$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: un trinomio $x^{2}+px+9$ es cuadrado de binomio solo si coincide con $(x+3)^{2}$ o con $(x-3)^{2}$, es decir, si $p=6$ o $p=-6$.
+Paso 1: Aquí el coeficiente de $x$ es $-(k+1)$, así que se necesita $-(k+1)=6$ o $-(k+1)=-6$.
+Paso 2: Del primer caso, $k=-7$; del segundo, $k=5$.
+Paso 3: La suma de ambos valores es $-7+5=-2$.
+Respuesta: B, $-2$.
+Errores frecuentes: La A considera solo el binomio $(x+3)^{2}$. La C considera solo el binomio $(x-3)^{2}$. La D entrega el valor de $k+1$ en vez del valor de $k$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '30b0ab90-b61f-5f70-be24-9513e0fb3b0c', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'expresiones-algebraicas'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-305
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('63aef147-e817-5730-88a2-ef3278919642', 'm2-algebra-y-funciones-305', 'Sean $p$ y $q$ números reales positivos, con $p>q$. Se definen $M=(p+q)^{2}$ y $N=2\left(p^{2}+q^{2}\right)$.
+
+¿Cuál de las siguientes afirmaciones es siempre verdadera?', '[{"id":"A","content":"$M>N$"},{"id":"B","content":"$M=N$"},{"id":"C","content":"La relación entre $M$ y $N$ depende de los valores de $p$ y $q$."},{"id":"D","content":"$N>M$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: para comparar dos expresiones conviene estudiar el signo de su diferencia y factorizarla.
+Paso 1: $N-M=2p^{2}+2q^{2}-\left(p^{2}+2pq+q^{2}\right)=p^{2}-2pq+q^{2}$.
+Paso 2: Esa expresión es $(p-q)^{2}$.
+Paso 3: Como $p>q$, se tiene $p-q\neq0$, luego $(p-q)^{2}>0$ y por lo tanto $N>M$ para cualquier par de valores.
+Respuesta: D, $N>M$.
+Errores frecuentes: La A suele salir de probar con un solo par de valores mal calculado o de olvidar el doble producto. La B confunde $(p+q)^{2}$ con $p^{2}+q^{2}$ y luego duplica. La C no advierte que la diferencia es un cuadrado, que nunca es negativo, y que solo se anula si $p=q$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '63aef147-e817-5730-88a2-ef3278919642', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'expresiones-algebraicas'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-306
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('41b4de84-8683-53f9-b6b1-94b4610185fe', 'm2-algebra-y-funciones-306', '¿Cuál es el valor de la siguiente expresión?
+
+$50^{2}-49^{2}+48^{2}-47^{2}+46^{2}-45^{2}+\ldots+4^{2}-3^{2}+2^{2}-1^{2}$', '[{"id":"A","content":"$25$"},{"id":"B","content":"$1\\,225$"},{"id":"C","content":"$1\\,275$"},{"id":"D","content":"$2\\,550$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: cada par $n^{2}-(n-1)^{2}$ es una diferencia de cuadrados que se simplifica a $n+(n-1)$.
+Paso 1: $n^{2}-(n-1)^{2}=(n-(n-1))(n+(n-1))=n+(n-1)$.
+Paso 2: Así, la expresión es $(50+49)+(48+47)+\ldots+(2+1)$, que es la suma de todos los enteros del $1$ al $50$.
+Paso 3: $1+2+\ldots+50=\dfrac{50\cdot51}{2}=1\,275$.
+Respuesta: C, $1\,275$.
+Errores frecuentes: La A supone que cada par vale $1$, porque las bases difieren en $1$, y cuenta $25$ pares. La B suma solo hasta $49$. La D olvida dividir por $2$ en la fórmula de la suma.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '41b4de84-8683-53f9-b6b1-94b4610185fe', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'expresiones-algebraicas'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-307
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('254ee571-5672-5d5d-8e3c-f4a3f8e821f4', 'm2-algebra-y-funciones-307', 'Sean $a$ y $b$ números reales distintos.
+
+¿Cuál de las siguientes expresiones es equivalente a $\dfrac{a^{2}}{a-b}+\dfrac{b^{2}}{b-a}$?', '[{"id":"A","content":"$a+b$"},{"id":"B","content":"$a-b$"},{"id":"C","content":"$a^{2}-b^{2}$"},{"id":"D","content":"$\\dfrac{a^{2}+b^{2}}{a-b}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'medium'::difficulty_level, 'Idea clave: $b-a=-(a-b)$, así que ambas fracciones pueden escribirse con el mismo denominador.
+Paso 1: $\dfrac{b^{2}}{b-a}=-\dfrac{b^{2}}{a-b}$.
+Paso 2: La suma queda $\dfrac{a^{2}-b^{2}}{a-b}$.
+Paso 3: Factorizando, $\dfrac{(a-b)(a+b)}{a-b}=a+b$, pues $a\neq b$.
+Respuesta: A, $a+b$.
+Errores frecuentes: La B simplifica mal la diferencia de cuadrados y se queda con el factor que debía cancelarse. La C olvida dividir por $a-b$ al final. La D suma las fracciones como si los denominadores fueran iguales sin cambiar el signo.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '254ee571-5672-5d5d-8e3c-f4a3f8e821f4', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'expresiones-algebraicas'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-308
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('62d2c78e-7c10-536a-9bab-a9372a111ce0', 'm2-algebra-y-funciones-308', 'En una clase de matemática en Antofagasta, la profesora Ximena propone un juego con un número fijo $k$ elegido por ella. Cada estudiante piensa un número $x$ distinto de cero y sigue estas instrucciones:
+
+Primero, le suma $k$ al número pensado y eleva el resultado al cuadrado. Luego, a ese resultado le resta el cuadrado del número pensado y también le resta $k^{2}$. Finalmente, divide lo obtenido por el número pensado.
+
+¿Cuál de las siguientes expresiones representa el resultado final que obtiene cada estudiante?', '[{"id":"A","content":"$2k$"},{"id":"B","content":"$2k+\\dfrac{k^{2}}{x}$"},{"id":"C","content":"$2x$"},{"id":"D","content":"$\\dfrac{2k}{x}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'medium'::difficulty_level, 'Idea clave: se traduce cada instrucción a una expresión y se simplifica usando el cuadrado de binomio.
+Paso 1: Las instrucciones dan $\dfrac{(x+k)^{2}-x^{2}-k^{2}}{x}$.
+Paso 2: $(x+k)^{2}=x^{2}+2kx+k^{2}$, así que el numerador es $2kx$.
+Paso 3: $\dfrac{2kx}{x}=2k$, que no depende del número pensado.
+Respuesta: A, $2k$.
+Errores frecuentes: La B olvida restar $k^{2}$, que es una de las instrucciones. La C divide el numerador $2kx$ por $k$ en lugar de dividirlo por el número pensado. La D escribe el doble producto como $2k$, sin la $x$, y luego divide por $x$.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '62d2c78e-7c10-536a-9bab-a9372a111ce0', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'expresiones-algebraicas'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-309
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('4928c7f3-485c-527e-907a-9d47deac9a1a', 'm2-algebra-y-funciones-309', 'En un laboratorio de la Universidad de Talca se estudian dos cultivos. El cultivo P comienza con $200$ células y su cantidad se triplica cada hora. El cultivo Q comienza con $5\,400$ células y su cantidad se reduce a la tercera parte cada hora.
+
+¿Al cabo de cuántas horas ambos cultivos tienen la misma cantidad de células?', '[{"id":"A","content":"$1{,}5$"},{"id":"B","content":"$3$"},{"id":"C","content":"$9$"},{"id":"D","content":"$13{,}5$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: se modela cada cultivo con una función exponencial y se igualan, escribiendo todo como potencias de base $3$.
+Paso 1: $P(t)=200\cdot3^{t}$ y $Q(t)=5\,400\cdot3^{-t}$.
+Paso 2: $200\cdot3^{t}=5\,400\cdot3^{-t}$ equivale a $3^{t}\cdot3^{t}=\dfrac{5\,400}{200}$, es decir, $3^{2t}=27=3^{3}$.
+Paso 3: $2t=3$, luego $t=1{,}5$ horas.
+Respuesta: A, $1{,}5$ horas.
+Errores frecuentes: La B olvida que la potencia $3^{-t}$ pasa multiplicando y resuelve $3^{t}=27$. La C divide $27$ por la base $3$. La D divide $27$ por $2$ en vez de usar el exponente.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '4928c7f3-485c-527e-907a-9d47deac9a1a', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-potencia-exp-log'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-310
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('1c30f57e-bffd-5a2b-bfbe-c7a09ab041cb', 'm2-algebra-y-funciones-310', 'Considera la función $f(x)=\log_{3}(x)$, con dominio el conjunto de los números reales positivos.
+
+¿Cuál de las siguientes igualdades es verdadera para todo $x>0$?', '[{"id":"A","content":"$f(3x)=3f(x)$"},{"id":"B","content":"$f(x+3)=f(x)+1$"},{"id":"C","content":"$f(9x)=f(x)+2$"},{"id":"D","content":"$f\\left(x^{2}\\right)=\\left(f(x)\\right)^{2}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: el logaritmo de un producto es la suma de los logaritmos, y el de una potencia baja el exponente multiplicando; no hay regla para el logaritmo de una suma.
+Paso 1: $f(9x)=\log_{3}9+\log_{3}x=2+f(x)$, verdadera para todo $x>0$.
+Paso 2: $f(3x)=1+f(x)$, que no es $3f(x)$: con $x=1$ se obtiene $1\neq0$.
+Paso 3: $f(x^{2})=2f(x)$, que no es $(f(x))^{2}$: con $x=3$ se obtiene $2\neq1$.
+Paso 4: Con $x=6$, $f(9)=2$ pero $f(6)+1=\log_{3}18\neq2$, así que $f(x+3)\neq f(x)+1$ en general.
+Respuesta: C, $f(9x)=f(x)+2$.
+Errores frecuentes: La A confunde el logaritmo de un producto con un producto. La B aplica a una suma una regla que solo vale para productos. La D confunde $\log\left(x^{2}\right)$ con $\left(\log x\right)^{2}$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '1c30f57e-bffd-5a2b-bfbe-c7a09ab041cb', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-potencia-exp-log'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-311
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('821dcaee-8d78-5d1c-8bd4-1e9b2e987873', 'm2-algebra-y-funciones-311', 'La función potencia $f(x)=k\cdot x^{n}$, con $k$ y $n$ números reales, definida para $x>0$, cumple que $f(2)=12$ y $f(4)=96$.
+
+¿Cuál es el valor de $f(3)$?', '[{"id":"A","content":"$18$"},{"id":"B","content":"$27$"},{"id":"C","content":"$40{,}5$"},{"id":"D","content":"$54$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: al dividir dos valores de una función potencia se cancela $k$ y queda una ecuación solo en $n$.
+Paso 1: $\dfrac{f(4)}{f(2)}=\dfrac{k\cdot4^{n}}{k\cdot2^{n}}=2^{n}=\dfrac{96}{12}=8$, luego $n=3$.
+Paso 2: De $k\cdot2^{3}=12$ se obtiene $k=1{,}5$.
+Paso 3: $f(3)=1{,}5\cdot27=40{,}5$.
+Respuesta: C, $40{,}5$.
+Errores frecuentes: La A supone proporcionalidad directa, $f(x)=6x$. La B toma $n=2$ y luego $k=3$. La D calcula el promedio entre $12$ y $96$, como si la función fuera lineal entre $x=2$ y $x=4$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '821dcaee-8d78-5d1c-8bd4-1e9b2e987873', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-potencia-exp-log'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-312
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('01396220-0f40-5698-9186-a8d6fb722a1a', 'm2-algebra-y-funciones-312', 'El pH de una solución se calcula como $\text{pH}=-\log\left[H^{+}\right]$, donde $\left[H^{+}\right]$ es la concentración de iones de hidrógeno, en mol/L. En una piscina de Iquique, un tratamiento químico hizo que la concentración de iones de hidrógeno se multiplicara por $20$.
+
+Considerando $\log 2\approx0{,}3$, ¿qué ocurrió con el pH del agua?', '[{"id":"A","content":"Disminuyó en $0{,}3$"},{"id":"B","content":"Disminuyó en $1{,}3$"},{"id":"C","content":"Disminuyó en $2$"},{"id":"D","content":"Aumentó en $1{,}3$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: multiplicar la concentración suma un logaritmo dentro del pH, y el signo menos de la fórmula convierte esa suma en una disminución.
+Paso 1: Si la concentración inicial es $c$, el nuevo pH es $-\log(20c)=-\log 20-\log c=\text{pH}_{\text{inicial}}-\log 20$.
+Paso 2: $\log 20=\log 2+\log 10\approx0{,}3+1=1{,}3$.
+Paso 3: Por lo tanto, el pH disminuyó en aproximadamente $1{,}3$.
+Respuesta: B, disminuyó en $1{,}3$.
+Errores frecuentes: La A usa solo $\log 2$ y olvida el factor $10$. La C aproxima $\log 20$ como si fuera $\log 100$. La D olvida el signo menos de la fórmula del pH.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '01396220-0f40-5698-9186-a8d6fb722a1a', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-potencia-exp-log'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-313
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('90f26301-fa57-588c-90a2-8aa645482f5b', 'm2-algebra-y-funciones-313', 'Considera la función $f(x)=2^{x-1}+3$, con dominio el conjunto de los números reales y recorrido el intervalo $\left]3,+\infty\right[$.
+
+¿Cuál de las siguientes expresiones corresponde a la función inversa $f^{-1}(x)$, definida para $x>3$?', '[{"id":"A","content":"$\\log_{2}(x+3)-1$"},{"id":"B","content":"$\\log_{2}(x-1)+3$"},{"id":"C","content":"$\\log_{2}(x-3)-1$"},{"id":"D","content":"$\\log_{2}(x-3)+1$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'medium'::difficulty_level, 'Idea clave: para invertir se despeja $x$ de $y=f(x)$ deshaciendo las operaciones en orden inverso; la inversa de una exponencial de base $2$ es un logaritmo de base $2$.
+Paso 1: $y=2^{x-1}+3$ implica $y-3=2^{x-1}$.
+Paso 2: Aplicando $\log_{2}$, $x-1=\log_{2}(y-3)$, luego $x=\log_{2}(y-3)+1$.
+Paso 3: Intercambiando las variables, $f^{-1}(x)=\log_{2}(x-3)+1$. Comprobación: $f(3)=2^{2}+3=7$ y $f^{-1}(7)=\log_{2}4+1=3$.
+Respuesta: D, $\log_{2}(x-3)+1$.
+Errores frecuentes: La A cambia de signo las dos constantes sin despejar. La B intercambia el papel de los números $1$ y $3$. La C despeja bien el logaritmo, pero resta $1$ en vez de sumarlo en el último paso.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '90f26301-fa57-588c-90a2-8aa645482f5b', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-potencia-exp-log'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-314
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('53698ee4-bc48-5a03-907f-68acbcc9ccab', 'm2-algebra-y-funciones-314', 'Un equipo de investigación registra una magnitud $y$ que crece con el tiempo $x$ según un modelo de la forma $y=a\cdot b^{x}$, con $a>0$ y $b>0$. Al graficar $\log y$ en función de $x$, los puntos quedan sobre la recta $\log y=0{,}3x+1$.
+
+Considerando $\log 2\approx0{,}3$, ¿cuál de las siguientes funciones corresponde aproximadamente al modelo?', '[{"id":"A","content":"$y=2\\cdot10^{x}$"},{"id":"B","content":"$y=10\\cdot2^{x}$"},{"id":"C","content":"$y=10\\cdot x^{2}$"},{"id":"D","content":"$y=10\\cdot(0{,}3)^{x}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: al aplicar logaritmo a $y=a\cdot b^{x}$ se obtiene $\log y=\log a+x\log b$, una recta cuya pendiente es $\log b$ y cuyo coeficiente de posición es $\log a$.
+Paso 1: Comparando con $\log y=0{,}3x+1$: $\log a=1$ y $\log b=0{,}3$.
+Paso 2: $\log a=1$ da $a=10$; $\log b=0{,}3\approx\log 2$ da $b\approx2$.
+Paso 3: El modelo es $y\approx10\cdot2^{x}$.
+Respuesta: B, $y=10\cdot2^{x}$.
+Errores frecuentes: La A intercambia los papeles de la pendiente y del coeficiente de posición. La C confunde el modelo exponencial con uno potencia, cuya linealización usa $\log x$ en el eje horizontal. La D usa la pendiente $0{,}3$ como base, sin deshacer el logaritmo.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '53698ee4-bc48-5a03-907f-68acbcc9ccab', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-potencia-exp-log'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-315
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('6099f488-6eb5-54c8-a8aa-3e62a22dbe45', 'm2-algebra-y-funciones-315', 'Una lancha recorre $d$ km por el río Valdivia a favor de la corriente en $t_{1}$ horas, y luego vuelve al punto de partida, en contra de la corriente, en $t_{2}$ horas, con $t_{1}<t_{2}$. La rapidez de la lancha en aguas tranquilas y la rapidez de la corriente son constantes.
+
+¿Cuál de las siguientes expresiones representa la rapidez de la corriente, en km/h?', '[{"id":"A","content":"$\\dfrac{d}{t_{1}}-\\dfrac{d}{t_{2}}$"},{"id":"B","content":"$\\dfrac{d\\left(t_{1}+t_{2}\\right)}{2t_{1}t_{2}}$"},{"id":"C","content":"$\\dfrac{d}{t_{2}-t_{1}}$"},{"id":"D","content":"$\\dfrac{d\\left(t_{2}-t_{1}\\right)}{2t_{1}t_{2}}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: a favor de la corriente las rapideces se suman y en contra se restan; eso forma un sistema con incógnitas $v$ (lancha) y $c$ (corriente).
+Paso 1: $v+c=\dfrac{d}{t_{1}}$ y $v-c=\dfrac{d}{t_{2}}$.
+Paso 2: Restando las ecuaciones, $2c=\dfrac{d}{t_{1}}-\dfrac{d}{t_{2}}=\dfrac{d\left(t_{2}-t_{1}\right)}{t_{1}t_{2}}$.
+Paso 3: $c=\dfrac{d\left(t_{2}-t_{1}\right)}{2t_{1}t_{2}}$.
+Respuesta: D, $\dfrac{d\left(t_{2}-t_{1}\right)}{2t_{1}t_{2}}$.
+Errores frecuentes: La A olvida dividir por $2$ al despejar $c$. La B suma las ecuaciones, y eso entrega la rapidez de la lancha, no la de la corriente. La C divide la distancia por la diferencia de tiempos, lo que no corresponde a ninguna rapidez del problema.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '6099f488-6eb5-54c8-a8aa-3e62a22dbe45', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'sistemas-2x2'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-316
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('ad0405fc-ee57-54ec-9d24-168ba53ce5fe', 'm2-algebra-y-funciones-316', 'En un parque de diversiones de Santiago, la entrada de adulto tiene un precio único y la de niño, otro. La familia Huenchullán pagó $P$ pesos por $2$ entradas de adulto y $3$ de niño, mientras que la familia Rojas pagó $Q$ pesos por $3$ entradas de adulto y $1$ de niño.
+
+¿Cuál de las siguientes expresiones representa el precio, en pesos, de una entrada de adulto?', '[{"id":"A","content":"$\\dfrac{P-3Q}{7}$"},{"id":"B","content":"$\\dfrac{3P-2Q}{7}$"},{"id":"C","content":"$\\dfrac{3Q-P}{11}$"},{"id":"D","content":"$\\dfrac{3Q-P}{7}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: se plantea un sistema con las letras $P$ y $Q$ como datos y se elimina la incógnita que no interesa.
+Paso 1: Si $x$ es el precio de adulto e $y$ el de niño: $2x+3y=P$ y $3x+y=Q$.
+Paso 2: De la segunda, $y=Q-3x$. Reemplazando: $2x+3Q-9x=P$, es decir, $-7x=P-3Q$.
+Paso 3: $x=\dfrac{3Q-P}{7}$. Por ejemplo, con $x=8\,000$ e $y=5\,000$ se tiene $P=31\,000$ y $Q=29\,000$, y la expresión da $\dfrac{87\,000-31\,000}{7}=8\,000$.
+Respuesta: D, $\dfrac{3Q-P}{7}$.
+Errores frecuentes: La A comete un error de signo al dividir por $-7$. La B corresponde al precio de la entrada de niño. La C suma $2+9$ en vez de restar al reducir los términos en $x$.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'ad0405fc-ee57-54ec-9d24-168ba53ce5fe', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'sistemas-2x2'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-317
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('b39806d7-ae06-5451-92a4-bc474bb8cc00', 'm2-algebra-y-funciones-317', 'Un estanque de riego en una parcela de Rancagua se llena con dos llaves, A y B, cada una con caudal constante. Si se abren ambas llaves a la vez, el estanque vacío se llena en $4$ horas. Si en cambio la llave A funciona sola durante $2$ horas y luego se cierra, la llave B necesita funcionar sola $5$ horas más para terminar de llenarlo.
+
+¿Cuántas horas tardaría la llave A, funcionando sola, en llenar el estanque vacío?', '[{"id":"A","content":"$6$"},{"id":"B","content":"$8$"},{"id":"C","content":"$10$"},{"id":"D","content":"$12$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: conviene usar como incógnitas la fracción del estanque que llena cada llave en una hora, porque así las condiciones quedan lineales.
+Paso 1: Si A llena $a$ y B llena $b$ del estanque por hora: $4a+4b=1$ y $2a+5b=1$.
+Paso 2: De la primera, $b=\dfrac{1}{4}-a$. Reemplazando: $2a+\dfrac{5}{4}-5a=1$, luego $a=\dfrac{1}{12}$ y $b=\dfrac{1}{6}$.
+Paso 3: Si A llena $\dfrac{1}{12}$ del estanque por hora, sola tarda $12$ horas.
+Respuesta: D, $12$ horas.
+Errores frecuentes: La A es el tiempo de la llave B sola. La B supone que A aporta los $2$ tercios del trabajo conjunto sin plantear el sistema. La C suma los tiempos y le resta un poco, como si los tiempos de llenado se sumaran.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'b39806d7-ae06-5451-92a4-bc474bb8cc00', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'sistemas-2x2'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-318
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('adf1c489-c24b-5a93-91b6-20d0bc2a8bdc', 'm2-algebra-y-funciones-318', 'En un curso de un liceo de Punta Arenas hay $40$ estudiantes, entre mujeres y hombres. El $25\%$ de las mujeres y el $50\%$ de los hombres participan en el taller de fútbol, y en total el taller tiene $14$ estudiantes del curso.
+
+Si $x$ es la cantidad de mujeres e $y$ la cantidad de hombres del curso, ¿cuál de los siguientes sistemas permite calcular $x$ e $y$?', '[{"id":"A","content":"$\\begin{cases} x+y=40 \\\\ 25x+50y=14 \\end{cases}$"},{"id":"B","content":"$\\begin{cases} x+y=40 \\\\ 0{,}25x+0{,}5y=14 \\end{cases}$"},{"id":"C","content":"$\\begin{cases} x+y=14 \\\\ 0{,}25x+0{,}5y=40 \\end{cases}$"},{"id":"D","content":"$\\begin{cases} x+y=40 \\\\ 0{,}75x+0{,}5y=14 \\end{cases}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: una ecuación cuenta a todo el curso y la otra cuenta solo a quienes van al taller, usando cada porcentaje como decimal.
+Paso 1: El curso completo da $x+y=40$.
+Paso 2: El $25\%$ de las mujeres es $0{,}25x$ y el $50\%$ de los hombres es $0{,}5y$; juntos son $14$: $0{,}25x+0{,}5y=14$.
+Paso 3: Comprobación: con $x=24$ e $y=16$ se cumplen ambas, pues $6+8=14$.
+Respuesta: B, el sistema formado por $x+y=40$ y $0{,}25x+0{,}5y=14$.
+Errores frecuentes: La A escribe los porcentajes sin dividir por $100$. La C intercambia el total del curso con el total del taller. La D usa el porcentaje de mujeres que no participa.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'adf1c489-c24b-5a93-91b6-20d0bc2a8bdc', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'sistemas-2x2'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-319
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('8c5fb531-28ad-5ef8-81a0-f8011a12520b', 'm2-algebra-y-funciones-319', 'Benjamín resolvió el siguiente sistema de ecuaciones en $x$ e $y$:
+
+$\begin{cases} 2x+3y=12 \\ 5x-3y=9 \end{cases}$
+
+Su desarrollo fue el siguiente:
+
+Paso 1: Al sumar ambas ecuaciones se obtiene $7x=21$.
+Paso 2: Luego, $x=3$.
+Paso 3: Reemplazando en la segunda ecuación, $5\cdot3-3y=9$, por lo que $-3y=24$.
+Paso 4: Por lo tanto, $y=-8$.
+
+¿En cuál de los pasos Benjamín cometió el primer error?', '[{"id":"A","content":"En el paso 1"},{"id":"B","content":"En el paso 2"},{"id":"C","content":"En el paso 3"},{"id":"D","content":"En el paso 4"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: se revisa cada paso por separado; un error al trasponer términos arrastra un resultado falso hacia los pasos siguientes.
+Paso 1: Sumar las ecuaciones cancela $3y$ con $-3y$ y da $7x=21$. Correcto.
+Paso 2: $x=\dfrac{21}{7}=3$. Correcto.
+Paso 3: $15-3y=9$ implica $-3y=9-15=-6$, no $24$. Benjamín sumó $15$ en lugar de restarlo. Aquí está el error.
+Paso 4: Dividir $24$ por $-3$ está bien hecho, pero parte de un dato erróneo. La solución correcta es $y=2$, pues $2\cdot3+3\cdot2=12$.
+Respuesta: C, en el paso 3.
+Errores frecuentes: La A y la B señalan pasos que están bien. La D marca el paso donde aparece el valor incorrecto, pero ese paso solo divide correctamente un resultado que ya venía mal.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '8c5fb531-28ad-5ef8-81a0-f8011a12520b', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'sistemas-2x2'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-320
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('c0d9a1e8-8f13-530e-b5f0-dda3d5bf6168', 'm2-algebra-y-funciones-320', 'Una magnitud $y$ es directamente proporcional al cuadrado de $x$ e inversamente proporcional a $z$, con $x$, $y$ y $z$ positivos.
+
+Si $x$ aumenta en un $20\%$ y $z$ disminuye en un $20\%$, ¿qué ocurre con el valor de $y$?', '[{"id":"A","content":"Aumenta en un $40\\%$"},{"id":"B","content":"Aumenta en un $44\\%$"},{"id":"C","content":"Aumenta en un $72{,}8\\%$"},{"id":"D","content":"Aumenta en un $80\\%$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: se escribe el modelo $y=\dfrac{kx^{2}}{z}$ y se reemplazan los cambios como factores multiplicativos.
+Paso 1: $x$ pasa a $1{,}2x$ y $z$ pasa a $0{,}8z$.
+Paso 2: El nuevo valor es $\dfrac{k(1{,}2x)^{2}}{0{,}8z}=\dfrac{1{,}44}{0{,}8}\cdot\dfrac{kx^{2}}{z}=1{,}8\,y$.
+Paso 3: Multiplicar por $1{,}8$ equivale a aumentar en un $80\%$.
+Respuesta: D, aumenta en un $80\%$.
+Errores frecuentes: La A suma los porcentajes como si todo fuera lineal. La B considera solo el efecto de $x^{2}$ e ignora el cambio de $z$. La C cree que dividir por $0{,}8$ es lo mismo que multiplicar por $1{,}2$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'c0d9a1e8-8f13-530e-b5f0-dda3d5bf6168', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'proporcionalidad'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-321
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('c98e098d-fa21-5a22-a6de-f961ddf1e9d2', 'm2-algebra-y-funciones-321', 'Para vaciar un tranque de relave se usan bombas iguales. El tiempo de vaciado es inversamente proporcional a la cantidad de bombas que funcionan. Con $6$ bombas, el tranque se vacía en $10$ horas.
+
+Si se quiere que el tranque se vacíe en $4$ horas menos, ¿cuántas bombas adicionales a las $6$ se necesitan?', '[{"id":"A","content":"$2$"},{"id":"B","content":"$4$"},{"id":"C","content":"$9$"},{"id":"D","content":"$10$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: en una proporcionalidad inversa el producto bombas por horas es constante.
+Paso 1: $6\cdot10=60$ bomba-horas.
+Paso 2: El nuevo tiempo es $10-4=6$ horas, así que se necesitan $\dfrac{60}{6}=10$ bombas.
+Paso 3: Las adicionales son $10-6=4$.
+Respuesta: B, $4$ bombas adicionales.
+Errores frecuentes: La A aplica proporcionalidad directa: reducir el tiempo en un $40\%$ y tomar el $40\%$ de $6$ bombas. La C usa $4$ horas como nuevo tiempo en vez de $6$. La D entrega el total de bombas y no las adicionales.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'c98e098d-fa21-5a22-a6de-f961ddf1e9d2', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'proporcionalidad'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-322
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('b423f781-a298-5de2-a8a7-58eb9e077b77', 'm2-algebra-y-funciones-322', 'En una máquina de una viña del valle de Colchagua hay tres engranajes en línea: A, de $40$ dientes, engrana con B, de $24$ dientes, y B engrana con C, de $60$ dientes. En engranajes que encajan, el número de dientes y la cantidad de vueltas por minuto son inversamente proporcionales.
+
+¿Cuántas vueltas por minuto da el engranaje C si el engranaje A da $90$ vueltas por minuto?', '[{"id":"A","content":"$60$"},{"id":"B","content":"$135$"},{"id":"C","content":"$150$"},{"id":"D","content":"$375$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: en cada par que encaja se conserva el producto dientes por vueltas, y como B comparte ese producto con A y con C, el engranaje intermedio no altera la relación entre A y C.
+Paso 1: A con B: $40\cdot90=24\cdot n_{B}$, luego $n_{B}=150$ vueltas por minuto.
+Paso 2: B con C: $24\cdot150=60\cdot n_{C}$, luego $n_{C}=\dfrac{3\,600}{60}=60$ vueltas por minuto.
+Paso 3: Se confirma que $40\cdot90=60\cdot60=3\,600$: el engranaje B no cambia el resultado final.
+Respuesta: A, $60$ vueltas por minuto.
+Errores frecuentes: La B usa proporcionalidad directa entre A y C. La C entrega las vueltas del engranaje B. La D calcula bien B, pero aplica proporcionalidad directa entre B y C.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'b423f781-a298-5de2-a8a7-58eb9e077b77', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'proporcionalidad'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-323
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('bfc6c12d-607c-5228-97b4-9b271becfbc6', 'm2-algebra-y-funciones-323', 'La intensidad de la luz que llega a una superficie desde un foco es inversamente proporcional al cuadrado de la distancia entre ambos. Un fotógrafo de Viña del Mar ubica un foco a $3$ m de su modelo.
+
+¿A qué distancia del modelo, en metros, debe ubicar el foco para que la intensidad sea el $25\%$ de la que recibe a $3$ m?', '[{"id":"A","content":"$0{,}75$"},{"id":"B","content":"$1{,}5$"},{"id":"C","content":"$6$"},{"id":"D","content":"$12$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: si $I=\dfrac{k}{d^{2}}$, entonces $I\cdot d^{2}$ es constante; para que la intensidad se divida por $4$, el cuadrado de la distancia debe multiplicarse por $4$.
+Paso 1: $I_{2}=0{,}25\,I_{1}$ implica $d_{2}^{2}=\dfrac{I_{1}}{I_{2}}\cdot d_{1}^{2}=4\cdot9=36$.
+Paso 2: $d_{2}=\sqrt{36}=6$ m.
+Respuesta: C, $6$ m.
+Errores frecuentes: La A multiplica la distancia por $0{,}25$, como si la relación fuera directa. La B divide la distancia por $2$, acercando el foco, lo que aumenta la intensidad. La D multiplica la distancia por $4$ y olvida que la relación es con el cuadrado.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'bfc6c12d-607c-5228-97b4-9b271becfbc6', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'proporcionalidad'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-324
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('6eca9355-0a2d-57e4-bf77-8f501c545e32', 'm2-algebra-y-funciones-324', 'Las variables $x$ e $y$ son directamente proporcionales, con constante de proporcionalidad $k$, es decir, $y=kx$, con $k>0$ y $k\neq1$. Los pares $\left(x_{1},y_{1}\right)$ y $\left(x_{2},y_{2}\right)$ cumplen esa relación, con $x_{1}$ y $x_{2}$ positivos y distintos.
+
+¿Cuál de las siguientes afirmaciones es siempre verdadera?', '[{"id":"A","content":"$\\dfrac{y_{1}+y_{2}}{x_{1}+x_{2}}=k$"},{"id":"B","content":"$y_{1}\\cdot y_{2}=k\\cdot x_{1}\\cdot x_{2}$"},{"id":"C","content":"$y_{1}-y_{2}=x_{1}-x_{2}$"},{"id":"D","content":"$\\dfrac{y_{1}}{x_{2}}=\\dfrac{y_{2}}{x_{1}}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: se reemplaza $y_{1}=kx_{1}$ e $y_{2}=kx_{2}$ en cada afirmación y se revisa si la igualdad se cumple para cualquier par de valores.
+Paso 1: $\dfrac{y_{1}+y_{2}}{x_{1}+x_{2}}=\dfrac{k\left(x_{1}+x_{2}\right)}{x_{1}+x_{2}}=k$. Siempre verdadera.
+Paso 2: $y_{1}y_{2}=k^{2}x_{1}x_{2}$, que es distinto de $kx_{1}x_{2}$ porque $k\neq1$.
+Paso 3: $y_{1}-y_{2}=k\left(x_{1}-x_{2}\right)$, que no es $x_{1}-x_{2}$ si $k\neq1$.
+Paso 4: $\dfrac{y_{1}}{x_{2}}=\dfrac{y_{2}}{x_{1}}$ obliga a $kx_{1}^{2}=kx_{2}^{2}$, falso si $x_{1}\neq x_{2}$; esa sería la propiedad de una proporcionalidad inversa mal planteada.
+Respuesta: A, $\dfrac{y_{1}+y_{2}}{x_{1}+x_{2}}=k$.
+Errores frecuentes: La B olvida que la constante aparece una vez por cada factor. La C confunde la proporcionalidad directa con mantener las diferencias. La D cruza los índices de los pares.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '6eca9355-0a2d-57e4-bf77-8f501c545e32', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'proporcionalidad'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-325
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('af27afc7-1ca0-54ef-8f68-88319a433b95', 'm2-algebra-y-funciones-325', 'Considera el siguiente sistema de ecuaciones en $x$ e $y$, con $a$ y $b$ números reales:
+
+$\begin{cases} ax+2y=4 \\ 2x+ay=b \end{cases}$
+
+¿Cuál de las siguientes afirmaciones es verdadera?', '[{"id":"A","content":"Si $a=2$, el sistema tiene infinitas soluciones."},{"id":"B","content":"Si $a\\neq2$, el sistema tiene solución única."},{"id":"C","content":"Si $a=-2$ y $b=4$, el sistema no tiene solución."},{"id":"D","content":"Si $a=-2$ y $b=-4$, el sistema no tiene solución."},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: el sistema tiene solución única si y solo si $a\cdot a-2\cdot2\neq0$; cuando $a^{2}=4$ hay que comparar los términos libres para distinguir entre infinitas soluciones y ninguna.
+Paso 1: $a^{2}-4=0$ para $a=2$ y para $a=-2$. Para cualquier otro valor la solución es única.
+Paso 2: Con $a=2$: $2x+2y=4$ y $2x+2y=b$. Hay infinitas soluciones solo si $b=4$; en otro caso no hay solución. Por eso la A no es siempre cierta, y la B falla con $a=-2$.
+Paso 3: Con $a=-2$: $-2x+2y=4$ y $2x-2y=b$, que equivale a $-2x+2y=-b$. Si $b=4$ se pide $-2x+2y=4$ y $-2x+2y=-4$ a la vez: no hay solución. Si $b=-4$ las ecuaciones coinciden y hay infinitas soluciones.
+Respuesta: C, si $a=-2$ y $b=4$, el sistema no tiene solución.
+Errores frecuentes: La A olvida que con $a=2$ también importa el valor de $b$. La B olvida el caso $a=-2$. La D confunde el caso: con $b=-4$ las dos rectas son la misma.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'af27afc7-1ca0-54ef-8f68-88319a433b95', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'sistemas-casos-solucion'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-326
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('9e9bc4e7-7dee-5286-80ea-d5dea5d09b7c', 'm2-algebra-y-funciones-326', 'Considera el siguiente sistema de ecuaciones en $x$ e $y$, con $k$ un número real:
+
+$\begin{cases} kx+y=1 \\ x+ky=k \end{cases}$
+
+¿Para qué valor o valores de $k$ el sistema tiene infinitas soluciones?', '[{"id":"A","content":"Solo para $k=1$"},{"id":"B","content":"Solo para $k=-1$"},{"id":"C","content":"Para ningún valor de $k$"},{"id":"D","content":"Para $k=1$ y para $k=-1$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: primero se buscan los valores de $k$ que anulan $k\cdot k-1\cdot1$ (solución no única) y luego se revisa cada uno por separado.
+Paso 1: $k^{2}-1=0$ para $k=1$ o $k=-1$; con cualquier otro valor la solución es única.
+Paso 2: Con $k=1$: $x+y=1$ y $x+y=1$, la misma ecuación. Infinitas soluciones.
+Paso 3: Con $k=-1$: $-x+y=1$ y $x-y=-1$. Multiplicando la segunda por $-1$ se obtiene $-x+y=1$, de nuevo la misma ecuación. Infinitas soluciones.
+Respuesta: D, para $k=1$ y para $k=-1$.
+Errores frecuentes: La A revisa solo el caso positivo. La B descarta $k=1$ sin probarlo. La C supone que al anularse la expresión el sistema siempre queda sin solución, sin comparar los términos libres.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '9e9bc4e7-7dee-5286-80ea-d5dea5d09b7c', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'sistemas-casos-solucion'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-327
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('90a02fa9-e03b-5132-bb91-5d54cdf5e0ba', 'm2-algebra-y-funciones-327', 'En el plano cartesiano se dibujan las rectas $L_{1}: y=mx+3$ y $L_{2}: 2y-4x=n$, donde los parámetros $m$ y $n$ pueden tomar cualquier valor.
+
+¿Qué requisito sobre $m$ y $n$ asegura que $L_{1}$ y $L_{2}$ no se cortan en ningún punto?', '[{"id":"A","content":"$m=2$ y $n=6$"},{"id":"B","content":"$m=2$ y $n\\neq6$"},{"id":"C","content":"$m\\neq2$"},{"id":"D","content":"$m=-2$ y $n\\neq6$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: dos rectas sin puntos en común son paralelas y distintas: misma pendiente y distinto coeficiente de posición. Eso equivale a un sistema sin solución.
+Paso 1: Despejando, $L_{2}: y=2x+\dfrac{n}{2}$, con pendiente $2$ y coeficiente de posición $\dfrac{n}{2}$.
+Paso 2: Para que sean paralelas, $m=2$.
+Paso 3: Para que sean distintas, $\dfrac{n}{2}\neq3$, es decir, $n\neq6$.
+Respuesta: B, $m=2$ y $n\neq6$.
+Errores frecuentes: La A describe dos rectas coincidentes, que tienen infinitos puntos en común. La C garantiza justo lo contrario: un único punto de intersección. La D lee mal la pendiente de $L_{2}$ al despejar.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '90a02fa9-e03b-5132-bb91-5d54cdf5e0ba', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'sistemas-casos-solucion'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-328
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('275c46b1-ba37-5744-afa1-fd139b62068b', 'm2-algebra-y-funciones-328', 'El siguiente sistema de ecuaciones en $x$ e $y$, con $p$ y $q$ números reales, tiene infinitas soluciones:
+
+$\begin{cases} 3x-py=6 \\ qx+4y=-8 \end{cases}$
+
+¿Cuál es el valor de $p+q$?', '[{"id":"A","content":"$-7$"},{"id":"B","content":"$-1$"},{"id":"C","content":"$1$"},{"id":"D","content":"$7$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: con infinitas soluciones, la segunda ecuación es la primera multiplicada por un mismo número $\lambda$, y ese número lo fijan los términos libres.
+Paso 1: De los términos libres, $\lambda=\dfrac{-8}{6}=-\dfrac{4}{3}$.
+Paso 2: Coeficientes de $x$: $q=3\lambda=-4$.
+Paso 3: Coeficientes de $y$: $4=-p\cdot\lambda=\dfrac{4p}{3}$, luego $p=3$.
+Paso 4: $p+q=3+(-4)=-1$.
+Respuesta: B, $-1$.
+Errores frecuentes: La A cambia el signo de $p$ al no considerar el signo menos que lo acompaña. La C cambia los signos de $p$ y de $q$. La D toma $\lambda$ positivo e ignora el signo de $-8$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '275c46b1-ba37-5744-afa1-fd139b62068b', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'sistemas-casos-solucion'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-329
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('924d75b9-3097-5e57-ae4a-8848f5368ffe', 'm2-algebra-y-funciones-329', 'En una tienda de ropa deportiva de Concepción, cada polera tiene un mismo precio y cada jockey, otro. Se sabe que $6$ poleras y $4$ jockeys cuestan en total $50\,000$ pesos, y que $3$ poleras y $2$ jockeys cuestan en total $P$ pesos.
+
+¿Cuál de las siguientes afirmaciones es verdadera?', '[{"id":"A","content":"Si $P=25\\,000$, hay infinitas combinaciones de precios que cumplen ambas condiciones."},{"id":"B","content":"Si $P=25\\,000$, el precio de cada polera queda determinado."},{"id":"C","content":"Si $P\\neq25\\,000$, el precio de cada artículo queda determinado de manera única."},{"id":"D","content":"Si $P=20\\,000$, hay infinitas combinaciones de precios que cumplen ambas condiciones."},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: los coeficientes de la primera ecuación son el doble de los de la segunda, así que el sistema nunca tiene solución única; todo depende de si el total también es el doble.
+Paso 1: Con $x$ el precio de una polera e $y$ el de un jockey: $6x+4y=50\,000$ y $3x+2y=P$.
+Paso 2: La primera ecuación equivale a $3x+2y=25\,000$.
+Paso 3: Si $P=25\,000$, ambas ecuaciones son la misma y hay infinitos pares de precios posibles; por ejemplo, $x=5\,000$, $y=5\,000$ o $x=7\,000$, $y=2\,000$.
+Paso 4: Si $P\neq25\,000$, las condiciones se contradicen y no hay ningún par de precios que las cumpla.
+Respuesta: A, con $P=25\,000$ hay infinitas combinaciones de precios.
+Errores frecuentes: La B supone que dos ecuaciones siempre determinan las dos incógnitas. La C confunde un sistema sin solución con uno de solución única. La D corresponde a un caso contradictorio, sin solución.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '924d75b9-3097-5e57-ae4a-8848f5368ffe', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'sistemas-casos-solucion'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-330
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('79d5b202-19b4-5794-997f-55062d5a343b', 'm2-algebra-y-funciones-330', 'En los siguientes sistemas de ecuaciones en $x$ e $y$, $k$ es un número real.
+
+¿Cuál de ellos tiene solución única para cualquier valor de $k$?', '[{"id":"A","content":"$\\begin{cases} x+ky=1 \\\\ kx-y=3 \\end{cases}$"},{"id":"B","content":"$\\begin{cases} kx+y=1 \\\\ x+ky=2 \\end{cases}$"},{"id":"C","content":"$\\begin{cases} kx+2y=1 \\\\ 2x+ky=1 \\end{cases}$"},{"id":"D","content":"$\\begin{cases} x+y=k \\\\ 2x+2y=3 \\end{cases}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: el sistema $\begin{cases} a_{1}x+b_{1}y=c_{1} \\ a_{2}x+b_{2}y=c_{2} \end{cases}$ tiene solución única exactamente cuando $a_{1}b_{2}-a_{2}b_{1}\neq0$; hay que ver si esa expresión puede anularse para algún $k$.
+Paso 1: En A, $1\cdot(-1)-k\cdot k=-1-k^{2}$, que es siempre negativo y nunca vale $0$. Solución única para todo $k$.
+Paso 2: En B, $k^{2}-1$ se anula con $k=1$ y con $k=-1$.
+Paso 3: En C, $k^{2}-4$ se anula con $k=2$ y con $k=-2$.
+Paso 4: En D, $1\cdot2-2\cdot1=0$ para todo $k$: nunca hay solución única.
+Respuesta: A, el sistema formado por $x+ky=1$ y $kx-y=3$.
+Errores frecuentes: La B y la C tienen solución única para casi todos los valores, pero fallan en dos de ellos. La D se elige al ver que $k$ aparece solo en el término libre, aunque las rectas son paralelas para cualquier $k$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '79d5b202-19b4-5794-997f-55062d5a343b', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'sistemas-casos-solucion'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-331
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('580af252-1f3c-5f18-8ed0-a785c541726d', 'm2-algebra-y-funciones-331', 'La altura $h$, en metros, de una cabina de una rueda de la fortuna en un parque de La Serena se modela mediante la función $h(t)=22-20\cos\left(\dfrac{\pi t}{6}\right)$, donde $t$ es el tiempo, en minutos, desde que la cabina parte de su punto más bajo.
+
+En cada vuelta completa, ¿durante cuántos minutos la cabina está a más de $32$ m de altura?', '[{"id":"A","content":"$2$"},{"id":"B","content":"$4$"},{"id":"C","content":"$6$"},{"id":"D","content":"$8$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: se traduce la condición de altura a una desigualdad para el coseno y se resuelve dentro de un período.
+Paso 1: El período es $\dfrac{2\pi}{\pi/6}=12$ minutos, que es lo que dura una vuelta.
+Paso 2: $22-20\cos\left(\frac{\pi t}{6}\right)>32$ equivale a $\cos\left(\frac{\pi t}{6}\right)<-\frac{1}{2}$.
+Paso 3: En una vuelta, el coseno es menor que $-\frac{1}{2}$ cuando $\frac{2\pi}{3}<\frac{\pi t}{6}<\frac{4\pi}{3}$, es decir, para $4<t<8$.
+Paso 4: Ese intervalo dura $8-4=4$ minutos.
+Respuesta: B, $4$ minutos.
+Errores frecuentes: La A considera solo el tramo de subida, de $4$ a $6$ minutos. La C toma media vuelta, como si la mitad del tiempo se estuviera sobre $32$ m. La D entrega el instante en que la cabina baja de $32$ m, no la duración.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '580af252-1f3c-5f18-8ed0-a785c541726d', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funciones-trigonometricas'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-332
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('135a9a1a-20cd-5e58-af7c-e10caafbb542', 'm2-algebra-y-funciones-332', 'Considera la función $g(x)=-2\operatorname{sen}(x)+k$, con $k$ un número real y dominio el conjunto de los números reales.
+
+¿Cuál de las siguientes afirmaciones es verdadera para cualquier valor de $k$?', '[{"id":"A","content":"El valor mínimo de $g$ es $k-2$ y se alcanza en $x=\\dfrac{\\pi}{2}$."},{"id":"B","content":"El valor máximo de $g$ es $k+2$ y se alcanza en $x=\\dfrac{\\pi}{2}$."},{"id":"C","content":"El valor mínimo de $g$ es $k-2$ y se alcanza en $x=\\dfrac{3\\pi}{2}$."},{"id":"D","content":"El recorrido de $g$ es el intervalo $[-2,2]$."},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: el coeficiente negativo invierte la gráfica del seno: donde el seno es máximo, $g$ es mínima, y viceversa.
+Paso 1: Como $-1\leq\operatorname{sen}(x)\leq1$, se tiene $-2\leq-2\operatorname{sen}(x)\leq2$, así que $g$ toma valores entre $k-2$ y $k+2$.
+Paso 2: En $x=\frac{\pi}{2}$, $\operatorname{sen}(x)=1$ y $g=k-2$, el mínimo.
+Paso 3: En $x=\frac{3\pi}{2}$, $\operatorname{sen}(x)=-1$ y $g=k+2$, el máximo.
+Respuesta: A, el mínimo es $k-2$ y se alcanza en $x=\dfrac{\pi}{2}$.
+Errores frecuentes: La B olvida que el signo menos invierte la gráfica y ubica el máximo donde está el del seno. La C asocia el valor mínimo con el punto donde el seno es mínimo. La D ignora la traslación vertical $k$; el recorrido es $[k-2,k+2]$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '135a9a1a-20cd-5e58-af7c-e10caafbb542', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funciones-trigonometricas'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-333
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('8074dab2-296a-5a3a-9ef3-b1b87de596a4', 'm2-algebra-y-funciones-333', 'La función $f(x)=3\operatorname{sen}(bx)+1$, con $b>0$, alcanza su valor máximo en $x=2$ y el siguiente valor máximo en $x=10$, sin alcanzarlo entre esos dos valores de $x$.
+
+¿Cuál es el valor de $b$?', '[{"id":"A","content":"$\\dfrac{\\pi}{4}$"},{"id":"B","content":"$\\dfrac{\\pi}{2}$"},{"id":"C","content":"$8$"},{"id":"D","content":"$16\\pi$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'medium'::difficulty_level, 'Idea clave: la distancia entre dos máximos consecutivos es el período, y en $f(x)=a\operatorname{sen}(bx)+c$ el período es $\dfrac{2\pi}{b}$.
+Paso 1: El período es $10-2=8$.
+Paso 2: $\dfrac{2\pi}{b}=8$, luego $b=\dfrac{\pi}{4}$.
+Paso 3: Comprobación: $f(2)=3\operatorname{sen}\left(\frac{\pi}{2}\right)+1=4$, que es el máximo, y $f(10)=3\operatorname{sen}\left(\frac{5\pi}{2}\right)+1=4$.
+Respuesta: A, $\dfrac{\pi}{4}$.
+Errores frecuentes: La B toma la distancia entre máximos como si fuera medio período. La C confunde el período con el valor de $b$. La D multiplica $2\pi$ por el período en vez de dividir.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '8074dab2-296a-5a3a-9ef3-b1b87de596a4', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funciones-trigonometricas'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-334
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('2cffe317-c6cf-58d4-835e-7683408292cf', 'm2-algebra-y-funciones-334', '¿Cuántas soluciones tiene la ecuación $2\cos(2x)=1$ en el intervalo $[0,2\pi]$?', '[{"id":"A","content":"$1$"},{"id":"B","content":"$2$"},{"id":"C","content":"$4$"},{"id":"D","content":"$8$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: si $x$ recorre $[0,2\pi]$, el ángulo $2x$ recorre $[0,4\pi]$, es decir, dos vueltas completas, y en cada vuelta el coseno toma el valor $\frac{1}{2}$ dos veces.
+Paso 1: La ecuación equivale a $\cos(2x)=\dfrac{1}{2}$.
+Paso 2: Con $u=2x\in[0,4\pi]$: $u=\dfrac{\pi}{3},\dfrac{5\pi}{3},\dfrac{7\pi}{3},\dfrac{11\pi}{3}$.
+Paso 3: Dividiendo por $2$: $x=\dfrac{\pi}{6},\dfrac{5\pi}{6},\dfrac{7\pi}{6},\dfrac{11\pi}{6}$, cuatro soluciones.
+Respuesta: C, $4$ soluciones.
+Errores frecuentes: La A se queda solo con la solución del primer cuadrante. La B resuelve como si fuera $\cos(x)=\frac{1}{2}$, sin considerar que el $2$ duplica las vueltas. La D duplica dos veces: multiplica el intervalo por $2$ y además vuelve a duplicar las soluciones.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '2cffe317-c6cf-58d4-835e-7683408292cf', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funciones-trigonometricas'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-335
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('e212e8f3-b295-56a6-bc0c-2e28072de11d', 'm2-algebra-y-funciones-335', 'La gráfica de la función $f(x)=\operatorname{sen}(x)$ se traslada $\dfrac{\pi}{2}$ unidades hacia la izquierda y, luego, cada ordenada de la gráfica obtenida se multiplica por $2$. Así se obtiene la gráfica de una función $g$.
+
+¿Cuál de las siguientes expresiones corresponde a $g(x)$?', '[{"id":"A","content":"$-2\\cos(x)$"},{"id":"B","content":"$2\\operatorname{sen}(x)+\\dfrac{\\pi}{2}$"},{"id":"C","content":"$\\operatorname{sen}\\left(2x+\\dfrac{\\pi}{2}\\right)$"},{"id":"D","content":"$2\\cos(x)$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'medium'::difficulty_level, 'Idea clave: trasladar hacia la izquierda en $h$ unidades cambia $x$ por $x+h$, y multiplicar las ordenadas por $2$ multiplica toda la función por $2$.
+Paso 1: La traslación da $\operatorname{sen}\left(x+\frac{\pi}{2}\right)$.
+Paso 2: Por la identidad $\operatorname{sen}\left(x+\frac{\pi}{2}\right)=\cos(x)$, la función trasladada es $\cos(x)$.
+Paso 3: Al multiplicar las ordenadas por $2$: $g(x)=2\cos(x)$. Comprobación: $g(0)=2\operatorname{sen}\left(\frac{\pi}{2}\right)=2$.
+Respuesta: D, $2\cos(x)$.
+Errores frecuentes: La A traslada hacia la derecha, pues $2\operatorname{sen}\left(x-\frac{\pi}{2}\right)=-2\cos(x)$. La B aplica la traslación en sentido vertical. La C multiplica por $2$ la variable $x$ en lugar de las ordenadas.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'e212e8f3-b295-56a6-bc0c-2e28072de11d', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funciones-trigonometricas'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-336
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('0a9fae33-555f-57e2-8e9a-37f0fefbd568', 'm2-algebra-y-funciones-336', 'En un día de otoño en Calama, la temperatura $T$, en grados Celsius, se modela mediante la función $T(h)=12-6\cos\left(\dfrac{\pi(h-4)}{12}\right)$, donde $h$ es la hora del día, con $0\leq h\leq24$.
+
+¿A qué hora se alcanza la temperatura máxima del día y cuál es ese valor?', '[{"id":"A","content":"A las $4$ horas, con $18\\,^{\\circ}\\text{C}$"},{"id":"B","content":"A las $10$ horas, con $18\\,^{\\circ}\\text{C}$"},{"id":"C","content":"A las $16$ horas, con $12\\,^{\\circ}\\text{C}$"},{"id":"D","content":"A las $16$ horas, con $18\\,^{\\circ}\\text{C}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: por el signo menos delante del coseno, la temperatura es máxima cuando el coseno vale $-1$.
+Paso 1: El máximo es $12-6\cdot(-1)=18\,^{\circ}\text{C}$.
+Paso 2: $\cos\left(\frac{\pi(h-4)}{12}\right)=-1$ cuando $\frac{\pi(h-4)}{12}=\pi$, es decir, $h-4=12$.
+Paso 3: Así, $h=16$: la máxima ocurre a las $16$ horas.
+Respuesta: D, a las $16$ horas, con $18\,^{\circ}\text{C}$.
+Errores frecuentes: La A iguala el argumento a $0$; a las $4$ horas el coseno vale $1$ y la temperatura es la mínima, $6\,^{\circ}\text{C}$. La B iguala el argumento a $\frac{\pi}{2}$, donde el coseno vale $0$. La C encuentra bien la hora, pero entrega el valor medio $12$ en lugar del máximo.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '0a9fae33-555f-57e2-8e9a-37f0fefbd568', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funciones-trigonometricas'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-337
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('bba67f97-8f43-5601-8dcb-3f66a692038a', 'm2-algebra-y-funciones-337', 'Considera la función $f(x)=\log_{b}(x)+c$, con $b>0$, $b\neq1$ y $c$ un número real, definida para $x>0$.
+
+Se puede determinar el valor de $b$, si se sabe que:
+
+(1) $f(b)=3$.
+(2) $f(9)-f(3)=\dfrac{1}{2}$.', '[{"id":"A","content":"(1) por sí sola"},{"id":"B","content":"(2) por sí sola"},{"id":"C","content":"Ambas juntas, (1) y (2)"},{"id":"D","content":"Cada una por sí sola, (1) ó (2)"},{"id":"E","content":"Se requiere información adicional"},{"id":"F","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: en una diferencia de valores de $f$ la constante $c$ se cancela, mientras que evaluar en la propia base solo informa sobre $c$.
+Paso 1: Con (1): $f(b)=\log_{b}(b)+c=1+c=3$, luego $c=2$. Cualquier base sirve: por ejemplo, $b=2$ y $b=5$ cumplen la condición. No basta.
+Paso 2: Con (2): $\log_{b}9-\log_{b}3=\log_{b}3=\dfrac{1}{2}$, es decir, $b^{\frac{1}{2}}=3$, luego $b=9$. Basta, aunque $c$ siga desconocido.
+Respuesta: B, (2) por sí sola.
+Errores frecuentes: La A cree que evaluar en $b$ entrega la base, pero solo fija $c$. La C supone que primero hay que conocer $c$ para usar (2). La D da por suficiente a (1). La E no advierte que en (2) la constante desaparece.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'bba67f97-8f43-5601-8dcb-3f66a692038a', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'funcion-potencia-exp-log'
+  on conflict do nothing;
+-- m2-algebra-y-funciones-338
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('e0ab03af-9f9b-5665-8d39-26f73db312e3', 'm2-algebra-y-funciones-338', 'Las variables positivas $x$ e $y$ son inversamente proporcionales.
+
+Se puede determinar el valor de $y$ cuando $x=6$, si se sabe que:
+
+(1) Cuando $x=3$, el valor de $y$ es $6$.
+(2) La suma de los valores de $y$ cuando $x=2$ y cuando $x=9$ es $11$.', '[{"id":"A","content":"(1) por sí sola"},{"id":"B","content":"(2) por sí sola"},{"id":"C","content":"Ambas juntas, (1) y (2)"},{"id":"D","content":"Cada una por sí sola, (1) ó (2)"},{"id":"E","content":"Se requiere información adicional"},{"id":"F","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: en una proporcionalidad inversa $y=\dfrac{k}{x}$, basta un dato que permita obtener la constante $k$ para conocer cualquier valor.
+Paso 1: Con (1): $k=3\cdot6=18$, y entonces $y=\dfrac{18}{6}=3$. Basta.
+Paso 2: Con (2): $\dfrac{k}{2}+\dfrac{k}{9}=11$, es decir, $\dfrac{11k}{18}=11$, luego $k=18$ e $y=3$. También basta.
+Respuesta: D, cada una por sí sola.
+Errores frecuentes: La A no reconoce que (2) es una ecuación lineal en $k$ con solución única. La B pasa por alto que (1) entrega $k$ directamente. La C cree que hacen falta dos datos para una sola constante. La E no ve que en una proporcionalidad la constante es la única incógnita.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'e0ab03af-9f9b-5665-8d39-26f73db312e3', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'algebra-y-funciones' and e.subject = 'm2' and t.slug = 'proporcionalidad'
+  on conflict do nothing;
 -- m2-geometria-001
 insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('5620f027-3d0c-506a-9b9a-09ef71c238fa', 'm2-geometria-001', 'En un plano cartesiano se dibuja el triángulo de vértices $A(2, 1)$, $B(6, 1)$ y $C(2, 4)$. A este triángulo se le aplica una homotecia con centro en el origen y razón negativa, y se obtiene el triángulo $A''B''C''$, cuya área es $54$ unidades cuadradas.
 
@@ -6687,6 +7845,884 @@ Errores frecuentes: La A compara los radios al cuadrado ($\frac{36}{4} = 9$) par
 insert into public.question_topics (question_id, topic_id)
   select '647add35-04b7-5b4e-a3e5-578f237e98ef', t.id from public.topics t join public.ejes e on e.id = t.eje_id
   where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'esfera'
+  on conflict do nothing;
+-- m2-geometria-201
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('0ef1019b-7834-55bf-ab9a-4eea4075e2f9', 'm2-geometria-201', 'Una homotecia de centro $C$ y razón $k$, ambos desconocidos, transforma el punto $A(2, 3)$ en $A''(-1, -3)$ y el punto $B(4, 1)$ en $B''(-5, 1)$.
+
+¿Cuáles son las coordenadas de la imagen del punto $Q(0, 4)$ mediante esta misma homotecia?', '[{"id":"A","content":"$(-1, 7)$"},{"id":"B","content":"$(0, -8)$"},{"id":"C","content":"$\\left(\\frac{3}{2}, -\\frac{1}{2}\\right)$"},{"id":"D","content":"$(3, -5)$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: una homotecia de razón $k$ multiplica todo vector por $k$, así que $\overrightarrow{A''B''} = k \cdot \overrightarrow{AB}$; con $k$ conocido se despeja el centro.
+Paso 1: $\overrightarrow{AB} = (2, -2)$ y $\overrightarrow{A''B''} = (-4, 4)$. Como $(-4, 4) = -2 \cdot (2, -2)$, la razón es $k = -2$.
+Paso 2: De $A'' = C + k(A - C)$ se obtiene $C = \frac{A'' - kA}{1 - k} = \frac{(-1 + 4,\ -3 + 6)}{3} = (1, 1)$. Se comprueba con $B$: $(1, 1) - 2(3, 0) = (-5, 1)$.
+Paso 3: $Q'' = C + k(Q - C) = (1, 1) - 2(-1, 3) = (3, -5)$.
+Respuesta: D, $(3, -5)$.
+Errores frecuentes: La A usa $k = 2$ y olvida que los vectores cambiaron de sentido. La B multiplica $Q$ por $-2$ como si el centro fuera el origen. La C usa la razón inversa, $-\frac{1}{2}$, que corresponde a ir de la imagen a la figura original.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '0ef1019b-7834-55bf-ab9a-4eea4075e2f9', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'homotecia'
+  on conflict do nothing;
+-- m2-geometria-202
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('c68beb82-ef31-58a3-8a48-fae512b671e9', 'm2-geometria-202', 'La recta $L$, de ecuación $y = 2x + 3$, se transforma en la recta $L''$ mediante la homotecia de razón $k$ (con $k \neq 0$ y $k \neq 1$) cuyo centro es el origen del plano.
+
+¿Cuál es la ecuación de $L''$?', '[{"id":"A","content":"$y = 2x + 3k$"},{"id":"B","content":"$y = 2kx + 3$"},{"id":"C","content":"$y = 2kx + 3k$"},{"id":"D","content":"$y = 2x + \\frac{3}{k}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: si $(X, Y)$ es la imagen de un punto $(x, y)$ de $L$, entonces $X = kx$ e $Y = ky$; basta despejar $x$ e $y$ y reemplazar en la ecuación de $L$.
+Paso 1: De $X = kx$ e $Y = ky$ se obtiene $x = \frac{X}{k}$ e $y = \frac{Y}{k}$.
+Paso 2: Reemplazando en $y = 2x + 3$: $\frac{Y}{k} = \frac{2X}{k} + 3$.
+Paso 3: Multiplicando por $k$: $Y = 2X + 3k$. La pendiente no cambia (la homotecia conserva las direcciones) y el coeficiente de posición se multiplica por $k$.
+Respuesta: A, $y = 2x + 3k$.
+Errores frecuentes: La B multiplica la pendiente por $k$, pero una homotecia no cambia la inclinación de las rectas. La C multiplica toda la ecuación por $k$ solo en el lado derecho. La D divide por $k$, que es lo que haría la homotecia inversa.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'c68beb82-ef31-58a3-8a48-fae512b671e9', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'homotecia'
+  on conflict do nothing;
+-- m2-geometria-203
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('6ed9ef24-721d-5492-8029-70262453702b', 'm2-geometria-203', 'Se aplica a una figura una homotecia de centro $O$ y razón $k$, con $k \neq 0$. Considera las siguientes afirmaciones:
+
+I) Si $k = -1$, entonces $O$ es el punto medio entre cada punto de la figura y su imagen.
+II) Si $A$ y $B$ son puntos de la figura, la recta que pasa por sus imágenes $A''$ y $B''$ es paralela a la recta $AB$ o coincide con ella.
+III) El perímetro de la figura imagen es igual a $k$ veces el perímetro de la figura original.
+
+¿Cuál o cuáles de ellas son siempre verdaderas?', '[{"id":"A","content":"Solo I"},{"id":"B","content":"Solo II"},{"id":"C","content":"Solo I y III"},{"id":"D","content":"Solo I y II"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: en una homotecia, $\overrightarrow{OP''} = k \cdot \overrightarrow{OP}$ y todo vector entre dos puntos se multiplica por $k$; las longitudes, en cambio, se multiplican por $|k|$.
+Paso 1: I es verdadera: con $k = -1$, $\overrightarrow{OP''} = -\overrightarrow{OP}$, así que $O$ está a la misma distancia de $P$ y de $P''$, en la misma recta y entre ellos.
+Paso 2: II es verdadera: $\overrightarrow{A''B''} = k \cdot \overrightarrow{AB}$, de modo que ambos vectores tienen la misma dirección; las rectas son paralelas, o coinciden si $AB$ pasa por $O$.
+Paso 3: III es falsa: cada lado mide $|k|$ veces el original. Si $k = -2$, el perímetro se duplica; no se multiplica por $-2$, porque un perímetro no puede ser negativo.
+Respuesta: D, solo I y II.
+Errores frecuentes: La A descarta II, quizás pensando que con $k$ negativo las rectas se cruzan; invertir el sentido no cambia la dirección. La B descarta I, sin ver que $k = -1$ es una simetría central. La C acepta III, que solo se cumple cuando $k > 0$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '6ed9ef24-721d-5492-8029-70262453702b', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'homotecia'
+  on conflict do nothing;
+-- m2-geometria-204
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('c9898ce3-6181-56dc-955e-e7775ab9966e', 'm2-geometria-204', 'Sean $P$ y $Q$ dos puntos distintos del plano. A una figura $F$ se le aplica una homotecia de centro $P$ y razón $3$, y a la figura obtenida se le aplica otra homotecia de centro $Q$ y razón $\frac{1}{3}$, con lo que se obtiene la figura $F''''$.
+
+¿Cuál de las siguientes afirmaciones describe la transformación que lleva $F$ directamente a $F''''$?', '[{"id":"A","content":"Es la traslación según el vector $\\frac{2}{3}\\overrightarrow{PQ}$."},{"id":"B","content":"Es la traslación según el vector $\\overrightarrow{PQ}$."},{"id":"C","content":"Es la traslación según el vector $\\frac{2}{3}\\overrightarrow{QP}$."},{"id":"D","content":"Es la identidad: cada punto de $F$ vuelve a su posición, porque $3 \\cdot \\frac{1}{3} = 1$."},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: la composición de dos homotecias cuyas razones multiplican $1$ conserva tamaño y dirección, así que es una traslación; hay que calcular su vector.
+Paso 1: La primera homotecia lleva $X$ a $X_1 = P + 3(X - P) = 3X - 2P$.
+Paso 2: La segunda lleva $X_1$ a $X'''' = Q + \frac{1}{3}(X_1 - Q) = Q + X - \frac{2}{3}P - \frac{1}{3}Q = X + \frac{2}{3}(Q - P)$.
+Paso 3: Cada punto se desplaza en el mismo vector $\frac{2}{3}(Q - P) = \frac{2}{3}\overrightarrow{PQ}$, que no es nulo porque $P \neq Q$.
+Respuesta: A, la traslación según $\frac{2}{3}\overrightarrow{PQ}$.
+Errores frecuentes: La B intuye que es una traslación, pero no calcula el vector. La C obtiene la longitud correcta con el sentido invertido, un error típico al restar $P - Q$ en vez de $Q - P$. La D solo sería correcta si ambos centros coincidieran; con centros distintos, la figura queda desplazada.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'c9898ce3-6181-56dc-955e-e7775ab9966e', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'homotecia'
+  on conflict do nothing;
+-- m2-geometria-205
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('4bb168c1-2990-5f97-9338-43d6d1862bb2', 'm2-geometria-205', 'Tomás construye una cámara estenopeica: una caja cerrada con un pequeño orificio en una cara. La imagen de un objeto se forma invertida en la cara opuesta, que está a $15$ cm del orificio, y corresponde a una homotecia con centro en el orificio.
+
+Con esta cámara, Tomás observa una araucaria de $6$ m de altura, ubicada frente al orificio, y su imagen invertida mide $4$ cm de alto. ¿A qué distancia del orificio está la araucaria?', '[{"id":"A","content":"$1{,}6$ m"},{"id":"B","content":"$2{,}25$ m"},{"id":"C","content":"$22{,}5$ m"},{"id":"D","content":"$225$ m"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: en la homotecia con centro en el orificio, la razón entre la imagen y el objeto es la misma para las alturas y para las distancias al orificio (con signo negativo, porque la imagen se invierte).
+Paso 1: En centímetros, la araucaria mide $600$ cm, así que $k = -\frac{4}{600} = -\frac{1}{150}$.
+Paso 2: La distancia de la imagen al orificio es $|k|$ veces la del objeto: $15 = \frac{1}{150} \cdot d$, luego $d = 2\,250$ cm.
+Paso 3: $2\,250$ cm $= 22{,}5$ m.
+Respuesta: C, $22{,}5$ m.
+Errores frecuentes: La A invierte la razón y calcula $\frac{600 \cdot 4}{15} = 160$ cm. La B y la D obtienen bien $2\,250$ cm, pero lo convierten mal a metros.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '4bb168c1-2990-5f97-9338-43d6d1862bb2', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'homotecia'
+  on conflict do nothing;
+-- m2-geometria-206
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('f9d05190-d408-5a6e-be60-64c297f91637', 'm2-geometria-206', 'A un triángulo $ABC$ de $12\ \text{cm}^2$ de área se le aplica una homotecia de centro en el vértice $A$ y razón $k$, con $k > 1$, y se obtiene el triángulo $AB''C''$, que contiene al triángulo original.
+
+Si la región del triángulo $AB''C''$ que queda fuera del triángulo $ABC$ (el cuadrilátero $BB''C''C$) tiene $36\ \text{cm}^2$ de área, ¿cuál es el valor de $k$?', '[{"id":"A","content":"$\\sqrt{3}$"},{"id":"B","content":"$2$"},{"id":"C","content":"$3$"},{"id":"D","content":"$4$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: las áreas de figuras homotéticas están en la razón $k^2$, y el área del triángulo grande es la del original más la del cuadrilátero.
+Paso 1: Área de $AB''C''$: $12 + 36 = 48\ \text{cm}^2$.
+Paso 2: $k^2 = \frac{48}{12} = 4$.
+Paso 3: Como $k > 1$, $k = 2$.
+Respuesta: B, $k = 2$.
+Errores frecuentes: La A usa $k^2 = \frac{36}{12}$, comparando el cuadrilátero con el triángulo original en vez del triángulo completo. La C comete el mismo error y además no extrae la raíz. La D toma la razón de áreas, $4$, como si fuera la razón de homotecia.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'f9d05190-d408-5a6e-be60-64c297f91637', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'homotecia'
+  on conflict do nothing;
+-- m2-geometria-207
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('2f6b259b-53a9-50e2-82f1-3afb4479f458', 'm2-geometria-207', 'Una homotecia de razón $3$ transforma el punto $P(1, 2)$ en el punto $P''(7, 8)$.
+
+¿Cuál es la distancia entre el centro de esta homotecia y el punto $P''$?', '[{"id":"A","content":"$3\\sqrt{2}$"},{"id":"B","content":"$\\frac{9\\sqrt{2}}{2}$"},{"id":"C","content":"$6\\sqrt{2}$"},{"id":"D","content":"$9\\sqrt{2}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: de $P'' = C + k(P - C)$ se despeja el centro $C$, y luego se calcula la distancia con Pitágoras.
+Paso 1: $C = \frac{P'' - kP}{1 - k} = \frac{(7 - 3,\ 8 - 6)}{-2} = (-2, -1)$.
+Paso 2: $\overrightarrow{CP''} = (9, 9)$, así que $CP'' = \sqrt{81 + 81} = 9\sqrt{2}$.
+Paso 3: Control: $CP = \sqrt{9 + 9} = 3\sqrt{2}$ y $CP'' = 3 \cdot CP$, como corresponde a $k = 3$.
+Respuesta: D, $9\sqrt{2}$.
+Errores frecuentes: La A calcula la distancia del centro a $P$, no a $P''$. La B ubica el centro entre $P$ y $P''$, como si la razón fuera $-3$. La C calcula la distancia de $P$ a $P''$, que no es la que se pide.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '2f6b259b-53a9-50e2-82f1-3afb4479f458', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'homotecia'
+  on conflict do nothing;
+-- m2-geometria-208
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('6da68f94-ac0d-56af-8eeb-04a065a2bf9c', 'm2-geometria-208', 'Una circunferencia tiene centro en $M(2, 1)$ y pasa por el punto $R(5, 5)$. Mediante la homotecia de razón $-2$ cuyo centro es el origen, la circunferencia se transforma en otra.
+
+¿Por cuál de estos puntos pasa la circunferencia obtenida?', '[{"id":"A","content":"$(2, 6)$"},{"id":"B","content":"$(1, -2)$"},{"id":"C","content":"$(4, 12)$"},{"id":"D","content":"$(-4, 18)$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: la imagen de una circunferencia por una homotecia es otra circunferencia: su centro es la imagen del centro y su radio es $|k|$ veces el radio original.
+Paso 1: Radio original: $MR = \sqrt{3^2 + 4^2} = 5$.
+Paso 2: Centro imagen: $M'' = -2 \cdot (2, 1) = (-4, -2)$. Radio imagen: $2 \cdot 5 = 10$.
+Paso 3: Se revisa la distancia de cada punto a $M''$. Para $(2, 6)$: $\sqrt{6^2 + 8^2} = 10$, así que pertenece.
+Respuesta: A, $(2, 6)$.
+Errores frecuentes: La B está a distancia $5$ de $M''$: no multiplica el radio por $|k|$. La C está a distancia $10$ de $(4, 2)$: usa razón $2$ en vez de $-2$ para el centro. La D está a distancia $20$ de $M''$: multiplica el radio por $k^2 = 4$, como si fuera un área.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '6da68f94-ac0d-56af-8eeb-04a065a2bf9c', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'homotecia'
+  on conflict do nothing;
+-- m2-geometria-209
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('c1430c5e-9735-5c35-855e-43732624ac03', 'm2-geometria-209', 'Un triángulo tiene lados de $5$ cm, $12$ cm y $13$ cm. Se le aplica una homotecia de razón negativa y se obtiene un triángulo de $480\ \text{cm}^2$ de área.
+
+¿Cuál es el perímetro del triángulo obtenido?', '[{"id":"A","content":"$30$ cm"},{"id":"B","content":"$60$ cm"},{"id":"C","content":"$120$ cm"},{"id":"D","content":"$240$ cm"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: el área se multiplica por $k^2$ y el perímetro por $|k|$, sin importar el signo de la razón.
+Paso 1: Como $5^2 + 12^2 = 13^2$, el triángulo es rectángulo y su área es $\frac{5 \cdot 12}{2} = 30\ \text{cm}^2$.
+Paso 2: $k^2 = \frac{480}{30} = 16$, así que $|k| = 4$.
+Paso 3: Perímetro original $30$ cm; perímetro de la imagen $4 \cdot 30 = 120$ cm.
+Respuesta: C, $120$ cm.
+Errores frecuentes: La A no aplica la razón y entrega el perímetro original. La B saca dos veces raíz: toma $|k| = 2$. La D divide $16$ por $2$ en vez de sacar raíz cuadrada y usa $|k| = 8$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'c1430c5e-9735-5c35-855e-43732624ac03', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'homotecia'
+  on conflict do nothing;
+-- m2-geometria-210
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('eab81161-c60f-581d-a1f9-c55808066de2', 'm2-geometria-210', 'Una homotecia transforma cada punto $(x, y)$ del plano en el punto $(-2x + 6,\ -2y + 3)$.
+
+¿Cuál es el centro y cuál es la razón de esta homotecia?', '[{"id":"A","content":"Centro $(2, 1)$ y razón $-2$."},{"id":"B","content":"Centro $(2, 1)$ y razón $2$."},{"id":"C","content":"Centro $\\left(3, \\frac{3}{2}\\right)$ y razón $-2$."},{"id":"D","content":"Centro $(6, 3)$ y razón $-2$."},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: la razón es el factor que multiplica a las coordenadas, y el centro es el único punto que queda fijo.
+Paso 1: Dos puntos cualesquiera $P$ y $Q$ cumplen $\overrightarrow{P''Q''} = -2\,\overrightarrow{PQ}$, así que la razón es $-2$.
+Paso 2: El centro cumple $x = -2x + 6$ e $y = -2y + 3$, de donde $3x = 6$ y $3y = 3$: el centro es $(2, 1)$.
+Paso 3: Control: $(2, 1) + (-2)\big((x, y) - (2, 1)\big) = (-2x + 6,\ -2y + 3)$.
+Respuesta: A, centro $(2, 1)$ y razón $-2$.
+Errores frecuentes: La B encuentra bien el centro, pero ignora que el signo negativo invierte la figura. La C divide los términos constantes por $2$ en vez de por $1 - k = 3$. La D toma los términos constantes como si fueran el centro, lo que solo vale cuando el centro es el origen.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'eab81161-c60f-581d-a1f9-c55808066de2', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'homotecia'
+  on conflict do nothing;
+-- m2-geometria-211
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('fa86722a-b0fb-5432-b1c3-4d91246f8bed', 'm2-geometria-211', 'En una obra de teatro de sombras, una lámpara (considerada un punto) ilumina un cartón cuadrado de $20$ cm de lado, ubicado a $50$ cm de la lámpara y paralelo a una pared. La sombra del cartón en la pared es la imagen del cartón por una homotecia con centro en la lámpara, y es un cuadrado de $900\ \text{cm}^2$.
+
+Si se acerca el cartón $10$ cm hacia la pared, manteniéndolo paralelo a ella y sin mover la lámpara ni la pared, ¿cuál será el área de la nueva sombra?', '[{"id":"A","content":"$576\\ \\text{cm}^2$"},{"id":"B","content":"$625\\ \\text{cm}^2$"},{"id":"C","content":"$750\\ \\text{cm}^2$"},{"id":"D","content":"$1\\,406{,}25\\ \\text{cm}^2$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: la razón de la homotecia es el cociente entre la distancia de la lámpara a la pared y la distancia de la lámpara al cartón.
+Paso 1: La sombra mide $\sqrt{900} = 30$ cm de lado, así que $k = \frac{30}{20} = 1{,}5$ y la pared está a $1{,}5 \cdot 50 = 75$ cm de la lámpara.
+Paso 2: Al acercarlo a la pared, el cartón queda a $60$ cm de la lámpara. La nueva razón es $k = \frac{75}{60} = 1{,}25$.
+Paso 3: La nueva sombra mide $1{,}25 \cdot 20 = 25$ cm de lado, y su área es $625\ \text{cm}^2$.
+Respuesta: B, $625\ \text{cm}^2$.
+Errores frecuentes: La A usa como razón $\frac{60}{50}$, comparando las dos posiciones del cartón en vez de la pared con el cartón. La C cambia el área en proporción a la razón lineal, $900 \cdot \frac{1{,}25}{1{,}5} = 750$, olvidando que el área cambia con el cuadrado. La D acerca el cartón a la lámpara (a $40$ cm) en vez de a la pared.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'fa86722a-b0fb-5432-b1c3-4d91246f8bed', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'homotecia'
+  on conflict do nothing;
+-- m2-geometria-212
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('57a32faa-f8ff-50bf-a4c0-828a65eb03e4', 'm2-geometria-212', 'En un triángulo $ABC$, los puntos $M$, $N$ y $P$ son los puntos medios de los lados $BC$, $CA$ y $AB$, respectivamente. El triángulo $MNP$ es la imagen del triángulo $ABC$ por una homotecia que lleva $A$ en $M$, $B$ en $N$ y $C$ en $P$.
+
+¿Cuál es el centro y cuál es la razón de esa homotecia?', '[{"id":"A","content":"Centro en el vértice $A$ y razón $\\frac{1}{2}$."},{"id":"B","content":"Centro en el centro de gravedad (baricentro) del triángulo $ABC$ y razón $-\\frac{1}{2}$."},{"id":"C","content":"Centro en el centro de gravedad (baricentro) del triángulo $ABC$ y razón $\\frac{1}{2}$."},{"id":"D","content":"Centro en el punto medio $M$ y razón $-\\frac{1}{2}$."},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: cada vértice y el punto medio del lado opuesto están en una misma transversal de gravedad, y el baricentro $G$ la divide en razón $2 : 1$.
+Paso 1: $A$, $G$ y $M$ son colineales, con $G$ entre ellos y $GM = \frac{1}{2}\,GA$; lo mismo pasa con $B$ y $N$ y con $C$ y $P$.
+Paso 2: Como $M$ queda al otro lado de $G$ respecto de $A$, se tiene $\overrightarrow{GM} = -\frac{1}{2}\,\overrightarrow{GA}$.
+Paso 3: Por lo tanto, la homotecia tiene centro $G$ y razón $-\frac{1}{2}$. Además, $MN = \frac{1}{2} AB$, lo que confirma $|k| = \frac{1}{2}$.
+Respuesta: B.
+Errores frecuentes: La A confunde esta homotecia con la de centro $A$ y razón $\frac{1}{2}$, que lleva $B$ en $P$ y $C$ en $N$, pero no lleva $A$ en $M$. La C acierta en el centro, pero olvida que el triángulo $MNP$ queda invertido respecto de $ABC$. La D ubica el centro en $M$, que es la imagen de $A$; el centro de una homotecia de razón distinta de $1$ es su único punto fijo, y $M$ no lo es.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '57a32faa-f8ff-50bf-a4c0-828a65eb03e4', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'homotecia'
+  on conflict do nothing;
+-- m2-geometria-213
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('71fa97b1-3af9-5ae9-aabf-aed7e033114c', 'm2-geometria-213', 'En una imprenta de Chillán se reduce un afiche con la opción de fotocopiado al $80\%$, que corresponde a una homotecia de razón $0{,}8$: cada longitud del original queda en el $80\%$ de su medida. Luego, la copia obtenida se vuelve a reducir con la misma opción.
+
+¿Qué porcentaje del área del afiche original representa el área de la segunda copia?', '[{"id":"A","content":"$40{,}96\\%$"},{"id":"B","content":"$51{,}2\\%$"},{"id":"C","content":"$60\\%$"},{"id":"D","content":"$64\\%$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'medium'::difficulty_level, 'Idea clave: dos homotecias sucesivas equivalen a una de razón igual al producto de las razones, y el área se multiplica por el cuadrado de esa razón.
+Paso 1: La razón total es $0{,}8 \cdot 0{,}8 = 0{,}64$: las longitudes quedan en el $64\%$.
+Paso 2: El área se multiplica por $0{,}64^2 = 0{,}4096$.
+Paso 3: Es decir, la segunda copia tiene el $40{,}96\%$ del área original.
+Respuesta: A, $40{,}96\%$.
+Errores frecuentes: La B calcula $0{,}8^3$, mezclando la cantidad de copias con el exponente. La C resta dos veces $20\%$ al área, como si las reducciones se sumaran. La D da el porcentaje de las longitudes, no el de las áreas.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '71fa97b1-3af9-5ae9-aabf-aed7e033114c', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'homotecia'
+  on conflict do nothing;
+-- m2-geometria-214
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('0f43a337-32c8-5c16-b8bd-e50570a5cc48', 'm2-geometria-214', 'Una homotecia de centro $C(1, 2)$ y razón $k$ transforma el punto $P(3, 6)$ en un punto ubicado sobre el eje $X$.
+
+¿Cuál es la imagen del punto $Q(5, 0)$ mediante esta misma homotecia?', '[{"id":"A","content":"$(-7, 6)$"},{"id":"B","content":"$\\left(-\\frac{5}{2}, 0\\right)$"},{"id":"C","content":"$(-1, 3)$"},{"id":"D","content":"$(3, 1)$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: se escribe la imagen de $P$ en función de $k$, se impone que su ordenada sea $0$ y con ese $k$ se transforma $Q$.
+Paso 1: $P'' = C + k(P - C) = (1 + 2k,\ 2 + 4k)$.
+Paso 2: Como $P''$ está en el eje $X$: $2 + 4k = 0$, así que $k = -\frac{1}{2}$ (y $P''$ resulta ser el origen).
+Paso 3: $Q'' = (1, 2) - \frac{1}{2}\big((5, 0) - (1, 2)\big) = (1, 2) - \frac{1}{2}(4, -2) = (-1, 3)$.
+Respuesta: C, $(-1, 3)$.
+Errores frecuentes: La A despeja mal y usa $k = -2$. La B usa $k = -\frac{1}{2}$, pero toma el origen como centro. La D olvida el signo y usa $k = \frac{1}{2}$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '0f43a337-32c8-5c16-b8bd-e50570a5cc48', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'homotecia'
+  on conflict do nothing;
+-- m2-geometria-215
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('f40a1d51-809e-51f9-a9dc-9f93b729be4a', 'm2-geometria-215', 'Una caja cúbica de arista $a$ cm se guarda dentro de una esfera hueca de acrílico, de modo que los ocho vértices de la caja tocan la superficie interior de la esfera.
+
+Si el volumen de una esfera de radio $r$ es $\frac{4}{3}\pi r^3$, ¿cuál es la razón entre el volumen de la esfera y el volumen de la caja?', '[{"id":"A","content":"$\\frac{\\pi}{6}$"},{"id":"B","content":"$\\frac{\\sqrt{2}\\,\\pi}{3}$"},{"id":"C","content":"$\\frac{\\sqrt{3}\\,\\pi}{2}$"},{"id":"D","content":"$\\frac{4\\pi}{3}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: si los vértices del cubo tocan la esfera, la diagonal del cubo es un diámetro de la esfera.
+Paso 1: Diagonal del cubo: $\sqrt{a^2 + a^2 + a^2} = a\sqrt{3}$, así que $r = \frac{a\sqrt{3}}{2}$.
+Paso 2: Volumen de la esfera: $\frac{4}{3}\pi \cdot \frac{3\sqrt{3}\,a^3}{8} = \frac{\sqrt{3}}{2}\pi a^3$.
+Paso 3: Al dividir por el volumen del cubo, $a^3$, la razón es $\frac{\sqrt{3}\,\pi}{2}$.
+Respuesta: C, $\frac{\sqrt{3}\,\pi}{2}$.
+Errores frecuentes: La A corresponde a la esfera inscrita en el cubo (radio $\frac{a}{2}$), que toca las caras y no los vértices. La B usa la diagonal de una cara, $a\sqrt{2}$, como diámetro. La D toma el radio igual a la arista.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'f40a1d51-809e-51f9-a9dc-9f93b729be4a', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'esfera'
+  on conflict do nothing;
+-- m2-geometria-216
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('e3c4b4a5-35e7-59ad-9b34-0570e8316fbc', 'm2-geometria-216', 'Para exhibir una pelota esférica de $13$ cm de radio, se la apoya sobre un aro circular horizontal de $12$ cm de radio. La pelota queda tocando todo el borde del aro y la mayor parte de ella queda por encima del aro.
+
+¿A qué altura sobre el plano del aro queda el punto más alto de la pelota?', '[{"id":"A","content":"$1$ cm"},{"id":"B","content":"$8$ cm"},{"id":"C","content":"$18$ cm"},{"id":"D","content":"$25$ cm"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: el aro es un corte de la esfera por un plano; el radio de la esfera, el radio del aro y la distancia del centro al plano forman un triángulo rectángulo.
+Paso 1: Si $d$ es la distancia del centro de la pelota al plano del aro: $d^2 + 12^2 = 13^2$, así que $d = 5$ cm.
+Paso 2: Como la mayor parte de la pelota está sobre el aro, su centro está $5$ cm por encima del plano.
+Paso 3: El punto más alto está un radio más arriba del centro: $5 + 13 = 18$ cm.
+Respuesta: C, $18$ cm.
+Errores frecuentes: La A resta los radios, $13 - 12$, sin usar Pitágoras. La B calcula $13 - 5 = 8$, que es cuánto baja la pelota bajo el plano del aro, no su altura máxima. La D suma los radios, $13 + 12$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'e3c4b4a5-35e7-59ad-9b34-0570e8316fbc', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'esfera'
+  on conflict do nothing;
+-- m2-geometria-217
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('f727fbbd-1d2d-543c-9443-3a47d1f1cebc', 'm2-geometria-217', 'En un laboratorio se calienta una esfera metálica y, al dilatarse, el área de su superficie aumenta en un $44\%$. La esfera conserva su forma.
+
+Si el área de la superficie de una esfera de radio $r$ es $4\pi r^2$ y su volumen es $\frac{4}{3}\pi r^3$, ¿en qué porcentaje aumentó el volumen de la esfera?', '[{"id":"A","content":"$20\\%$"},{"id":"B","content":"$44\\%$"},{"id":"C","content":"$66\\%$"},{"id":"D","content":"$72{,}8\\%$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: el área depende de $r^2$ y el volumen de $r^3$; primero se obtiene cuánto creció el radio y luego se eleva al cubo.
+Paso 1: El área se multiplica por $1{,}44$, así que el radio se multiplica por $\sqrt{1{,}44} = 1{,}2$.
+Paso 2: El volumen se multiplica por $1{,}2^3 = 1{,}728$.
+Paso 3: El aumento del volumen es $1{,}728 - 1 = 0{,}728$, es decir, $72{,}8\%$.
+Respuesta: D, $72{,}8\%$.
+Errores frecuentes: La A da el aumento del radio. La B supone que el volumen crece en el mismo porcentaje que el área. La C multiplica $44\%$ por $\frac{3}{2}$, como si los porcentajes fueran proporcionales a los exponentes.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'f727fbbd-1d2d-543c-9443-3a47d1f1cebc', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'esfera'
+  on conflict do nothing;
+-- m2-geometria-218
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('53866240-ed13-57d6-b628-f70e4fc4dabd', 'm2-geometria-218', 'Dos esferas tienen volúmenes $V_1$ y $V_2$, áreas de superficie $A_1$ y $A_2$ y radios $r_1$ y $r_2$, respectivamente. Se sabe que $\log(V_2) - \log(V_1) = 0{,}6$, con logaritmos en base $10$.
+
+Si $V = \frac{4}{3}\pi r^3$ y $A = 4\pi r^2$, ¿cuál es el valor de $\log(A_2) - \log(A_1)$?', '[{"id":"A","content":"$0{,}2$"},{"id":"B","content":"$0{,}3$"},{"id":"C","content":"$0{,}36$"},{"id":"D","content":"$0{,}4$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: al tomar logaritmo, la constante de la fórmula se cancela en la resta y el exponente del radio pasa a multiplicar.
+Paso 1: $\log(V_2) - \log(V_1) = \log\left(\frac{V_2}{V_1}\right) = \log\left(\frac{r_2^3}{r_1^3}\right) = 3\log\left(\frac{r_2}{r_1}\right)$.
+Paso 2: Entonces $3\log\left(\frac{r_2}{r_1}\right) = 0{,}6$, y $\log\left(\frac{r_2}{r_1}\right) = 0{,}2$.
+Paso 3: $\log(A_2) - \log(A_1) = \log\left(\frac{r_2^2}{r_1^2}\right) = 2 \cdot 0{,}2 = 0{,}4$.
+Respuesta: D, $0{,}4$.
+Errores frecuentes: La A da $\log\left(\frac{r_2}{r_1}\right)$ y se detiene antes de llegar al área. La B divide $0{,}6$ por $2$, invirtiendo el papel de los exponentes. La C eleva $0{,}6$ al cuadrado, confundiendo $\log(x^2)$ con $(\log x)^2$.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '53866240-ed13-57d6-b628-f70e4fc4dabd', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'esfera'
+  on conflict do nothing;
+-- m2-geometria-219
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('fb255dde-6a9f-58e6-8de7-a01e00c5e47d', 'm2-geometria-219', 'Un silo de granos tiene forma de cilindro recto de radio basal $r$ y altura $h$, coronado por una semiesfera del mismo radio $r$. Se sabe que el volumen de la semiesfera es la cuarta parte del volumen total del silo.
+
+Si el volumen de una esfera de radio $r$ es $\frac{4}{3}\pi r^3$ y el de un cilindro es $\pi r^2 h$, ¿cuál es la altura $h$ del cilindro, en términos de $r$?', '[{"id":"A","content":"$\\frac{4r}{3}$"},{"id":"B","content":"$2r$"},{"id":"C","content":"$\\frac{8r}{3}$"},{"id":"D","content":"$4r$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: si la semiesfera es un cuarto del total, el cilindro es los otros tres cuartos, es decir, el triple de la semiesfera.
+Paso 1: Volumen de la semiesfera: $\frac{1}{2} \cdot \frac{4}{3}\pi r^3 = \frac{2}{3}\pi r^3$.
+Paso 2: Cilindro $= 3 \cdot$ semiesfera: $\pi r^2 h = 3 \cdot \frac{2}{3}\pi r^3 = 2\pi r^3$.
+Paso 3: Dividiendo por $\pi r^2$: $h = 2r$.
+Respuesta: B, $h = 2r$.
+Errores frecuentes: La A plantea que el cilindro es el doble de la semiesfera, como si esta fuera un tercio del total. La C toma la semiesfera como un cuarto del cilindro, no del silo completo. La D usa el volumen de la esfera completa en lugar de la semiesfera.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'fb255dde-6a9f-58e6-8de7-a01e00c5e47d', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'esfera'
+  on conflict do nothing;
+-- m2-geometria-220
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('a192ddac-a221-532e-b0d7-1cbd6a75f553', 'm2-geometria-220', 'En un taller de artesanía de Pomaire se fabrica una semiesfera maciza de madera de $6$ cm de radio, que se pinta completa: la parte curva y la cara plana circular.
+
+Si el área de la superficie de una esfera de radio $r$ es $4\pi r^2$, ¿cuál es el área total que se pinta?', '[{"id":"A","content":"$36\\pi\\ \\text{cm}^2$"},{"id":"B","content":"$72\\pi\\ \\text{cm}^2$"},{"id":"C","content":"$108\\pi\\ \\text{cm}^2$"},{"id":"D","content":"$144\\pi\\ \\text{cm}^2$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: la superficie de una semiesfera maciza tiene dos partes: la mitad de la superficie esférica y un círculo de radio $r$.
+Paso 1: Parte curva: $\frac{1}{2} \cdot 4\pi \cdot 6^2 = 72\pi\ \text{cm}^2$.
+Paso 2: Cara plana: $\pi \cdot 6^2 = 36\pi\ \text{cm}^2$.
+Paso 3: Total: $72\pi + 36\pi = 108\pi\ \text{cm}^2$.
+Respuesta: C, $108\pi\ \text{cm}^2$.
+Errores frecuentes: La A considera solo la cara plana. La B considera solo la parte curva. La D usa la superficie de la esfera completa.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'a192ddac-a221-532e-b0d7-1cbd6a75f553', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'esfera'
+  on conflict do nothing;
+-- m2-geometria-221
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('e3c67855-3a88-5080-afbf-febf52f3f048', 'm2-geometria-221', 'Una pelota de playa esférica se desinfla en parte y, conservando su forma esférica, su volumen queda en $\frac{1}{8}$ del volumen que tenía.
+
+Si el volumen de una esfera de radio $r$ es $\frac{4}{3}\pi r^3$ y el área de su superficie es $4\pi r^2$, ¿qué fracción del área original tiene ahora la superficie de la pelota?', '[{"id":"A","content":"$\\frac{1}{64}$"},{"id":"B","content":"$\\frac{1}{8}$"},{"id":"C","content":"$\\frac{1}{4}$"},{"id":"D","content":"$\\frac{1}{2}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: el volumen cambia con el cubo del radio y el área con su cuadrado.
+Paso 1: Si el volumen se multiplica por $\frac{1}{8}$, el radio se multiplica por $\sqrt[3]{\frac{1}{8}} = \frac{1}{2}$.
+Paso 2: El área se multiplica por $\left(\frac{1}{2}\right)^2 = \frac{1}{4}$.
+Respuesta: C, $\frac{1}{4}$.
+Errores frecuentes: La A eleva $\frac{1}{8}$ al cuadrado sin pasar por el radio. La B supone que el área cambia igual que el volumen. La D da la fracción del radio, no la del área.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'e3c67855-3a88-5080-afbf-febf52f3f048', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'esfera'
+  on conflict do nothing;
+-- m2-geometria-222
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('1d4aade4-2a3c-535e-bb2d-89d53362541e', 'm2-geometria-222', 'Un dron está detenido a $h$ metros de altura, justo sobre un punto $D$ de una cancha horizontal. Antonia, en el punto $A$, y Benjamín, en el punto $B$, están en lados opuestos de $D$, de modo que $A$, $D$ y $B$ están alineados. Antonia ve el dron con un ángulo de elevación $\alpha$ y Benjamín, con un ángulo de elevación $\beta$.
+
+Si la estatura de ambos es despreciable, ¿cuál de las siguientes expresiones representa la distancia, en metros, entre Antonia y Benjamín?', '[{"id":"A","content":"$h\\left(\\frac{1}{\\tan(\\alpha)} + \\frac{1}{\\tan(\\beta)}\\right)$"},{"id":"B","content":"$h\\left(\\tan(\\alpha) + \\tan(\\beta)\\right)$"},{"id":"C","content":"$\\frac{h}{\\tan(\\alpha) + \\tan(\\beta)}$"},{"id":"D","content":"$h\\left(\\frac{1}{\\operatorname{sen}(\\alpha)} + \\frac{1}{\\operatorname{sen}(\\beta)}\\right)$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: en cada triángulo rectángulo, la altura $h$ es el cateto opuesto al ángulo de elevación y la distancia horizontal es el cateto adyacente.
+Paso 1: En el triángulo de Antonia: $\tan(\alpha) = \frac{h}{AD}$, así que $AD = \frac{h}{\tan(\alpha)}$.
+Paso 2: De igual forma, $DB = \frac{h}{\tan(\beta)}$.
+Paso 3: Como están en lados opuestos de $D$, $AB = AD + DB = h\left(\frac{1}{\tan(\alpha)} + \frac{1}{\tan(\beta)}\right)$.
+Respuesta: A.
+Errores frecuentes: La B multiplica $h$ por la tangente, como si $h$ fuera el cateto adyacente. La C suma las tangentes antes de dividir, y $\frac{1}{x} + \frac{1}{y} \neq \frac{1}{x + y}$. La D usa el seno y obtiene la suma de las distancias de cada persona al dron (las hipotenusas), no la distancia entre ellos.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '1d4aade4-2a3c-535e-bb2d-89d53362541e', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'razones-trigonometricas'
+  on conflict do nothing;
+-- m2-geometria-223
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('fd5e85cc-eecb-57bd-b456-a848170c7e77', 'm2-geometria-223', 'En un triángulo rectángulo, la hipotenusa mide $10$ cm y uno de sus ángulos agudos, $\alpha$, cumple que $\operatorname{sen}(\alpha) = 2\cos(\alpha)$.
+
+¿Cuál es el área del triángulo?', '[{"id":"A","content":"$\\frac{100}{9}\\ \\text{cm}^2$"},{"id":"B","content":"$20\\ \\text{cm}^2$"},{"id":"C","content":"$25\\ \\text{cm}^2$"},{"id":"D","content":"$40\\ \\text{cm}^2$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: con la identidad $\operatorname{sen}^2(\alpha) + \cos^2(\alpha) = 1$ se obtienen el seno y el coseno; con ellos, los catetos.
+Paso 1: Reemplazando $\operatorname{sen}(\alpha) = 2\cos(\alpha)$: $4\cos^2(\alpha) + \cos^2(\alpha) = 1$, así que $\cos(\alpha) = \frac{1}{\sqrt{5}}$ y $\operatorname{sen}(\alpha) = \frac{2}{\sqrt{5}}$.
+Paso 2: Catetos: $10 \cdot \frac{2}{\sqrt{5}} = 4\sqrt{5}$ cm y $10 \cdot \frac{1}{\sqrt{5}} = 2\sqrt{5}$ cm.
+Paso 3: Área: $\frac{4\sqrt{5} \cdot 2\sqrt{5}}{2} = \frac{40}{2} = 20\ \text{cm}^2$.
+Respuesta: B, $20\ \text{cm}^2$.
+Errores frecuentes: La A supone $\operatorname{sen}(\alpha) + \cos(\alpha) = 1$ y toma $\operatorname{sen}(\alpha) = \frac{2}{3}$ y $\cos(\alpha) = \frac{1}{3}$, olvidando los cuadrados. La C supone un triángulo isósceles ($\alpha = 45^\circ$), que no cumple la condición. La D multiplica los catetos y olvida dividir por $2$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'fd5e85cc-eecb-57bd-b456-a848170c7e77', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'razones-trigonometricas'
+  on conflict do nothing;
+-- m2-geometria-224
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('3a0cf1c6-8b24-5bf8-94b6-c3d0eb161434', 'm2-geometria-224', 'Sea $\alpha$ un ángulo agudo de un triángulo rectángulo. Considera las siguientes afirmaciones:
+
+I) $\operatorname{sen}(\alpha) < \tan(\alpha)$
+II) $\operatorname{sen}(\alpha) + \cos(\alpha) > 1$
+III) $\operatorname{sen}(\alpha) = \cos(90^\circ - \alpha)$
+
+¿Cuál o cuáles de ellas son siempre verdaderas?', '[{"id":"A","content":"Solo III"},{"id":"B","content":"Solo I y III"},{"id":"C","content":"Solo II y III"},{"id":"D","content":"I, II y III"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: si los catetos miden $a$ (opuesto a $\alpha$) y $b$, y la hipotenusa $c$, cada afirmación se traduce en una relación entre los lados.
+Paso 1: I: $\operatorname{sen}(\alpha) = \frac{a}{c}$ y $\tan(\alpha) = \frac{a}{b}$. Como el cateto $b$ es menor que la hipotenusa $c$, $\frac{a}{c} < \frac{a}{b}$. Verdadera.
+Paso 2: II: $\operatorname{sen}(\alpha) + \cos(\alpha) = \frac{a + b}{c}$, y por la desigualdad triangular $a + b > c$. Verdadera.
+Paso 3: III: el otro ángulo agudo mide $90^\circ - \alpha$ y su cateto adyacente es $a$, así que $\cos(90^\circ - \alpha) = \frac{a}{c} = \operatorname{sen}(\alpha)$. Verdadera.
+Respuesta: D, I, II y III.
+Errores frecuentes: La A solo reconoce la relación entre ángulos complementarios. La B descarta II, quizás por pensar en $\operatorname{sen}^2(\alpha) + \cos^2(\alpha) = 1$, que es otra cosa. La C descarta I, sin advertir que dividir por un cateto da más que dividir por la hipotenusa.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '3a0cf1c6-8b24-5bf8-94b6-c3d0eb161434', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'razones-trigonometricas'
+  on conflict do nothing;
+-- m2-geometria-225
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('2f615ccf-f15c-5a21-ac20-15c5d2ac848b', 'm2-geometria-225', 'Desde una ventana ubicada a $12$ m de altura, Sofía observa un árbol que está frente a su edificio, en un terreno horizontal. Ve la base del árbol con un ángulo de depresión $\beta$, tal que $\tan(\beta) = \frac{3}{4}$, y la copa del árbol, que está más alta que la ventana, con un ángulo de elevación $\alpha$, tal que $\tan(\alpha) = \frac{1}{2}$.
+
+¿Cuál es la altura del árbol?', '[{"id":"A","content":"$8$ m"},{"id":"B","content":"$16$ m"},{"id":"C","content":"$20$ m"},{"id":"D","content":"$24$ m"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: la horizontal que pasa por la ventana divide el problema en dos triángulos rectángulos que comparten el cateto horizontal (la distancia al árbol).
+Paso 1: Triángulo inferior: $\tan(\beta) = \frac{12}{d}$, así que $d = \frac{12}{3/4} = 16$ m.
+Paso 2: Triángulo superior: la copa está $d \cdot \tan(\alpha) = 16 \cdot \frac{1}{2} = 8$ m por encima de la ventana.
+Paso 3: Altura del árbol: $12 + 8 = 20$ m.
+Respuesta: C, $20$ m.
+Errores frecuentes: La A da solo la parte del árbol que está sobre la ventana. La B da la distancia horizontal entre el edificio y el árbol. La D usa $\tan(\beta)$ también para la parte superior: $12 + 16 \cdot \frac{3}{4} = 24$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '2f615ccf-f15c-5a21-ac20-15c5d2ac848b', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'razones-trigonometricas'
+  on conflict do nothing;
+-- m2-geometria-226
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('44e7eb2a-c417-5885-b31b-5ae7189e10bc', 'm2-geometria-226', 'Un sendero recto en un cerro de Valparaíso mide $50$ m de largo y, al recorrerlo completo, se sube $14$ m. Sea $\alpha$ el ángulo que forma el sendero con la horizontal.
+
+La pendiente del sendero se define como $\tan(\alpha)$, es decir, el desnivel dividido por el avance horizontal. ¿Cuál es la pendiente del sendero?', '[{"id":"A","content":"$\\frac{7}{25}$"},{"id":"B","content":"$\\frac{7}{24}$"},{"id":"C","content":"$\\frac{24}{25}$"},{"id":"D","content":"$\\frac{24}{7}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: el largo del sendero es la hipotenusa; el avance horizontal se obtiene con Pitágoras.
+Paso 1: Avance horizontal: $\sqrt{50^2 - 14^2} = \sqrt{2\,500 - 196} = \sqrt{2\,304} = 48$ m.
+Paso 2: $\tan(\alpha) = \frac{14}{48} = \frac{7}{24}$.
+Respuesta: B, $\frac{7}{24}$.
+Errores frecuentes: La A divide el desnivel por el largo del sendero, lo que da $\operatorname{sen}(\alpha)$. La C da $\cos(\alpha) = \frac{48}{50}$. La D invierte la razón y divide el avance por el desnivel.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '44e7eb2a-c417-5885-b31b-5ae7189e10bc', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'razones-trigonometricas'
+  on conflict do nothing;
+-- m2-geometria-227
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('03e1d4d5-c936-57c3-824f-9210918dc6c4', 'm2-geometria-227', 'Un poste vertical de $6$ m de altura proyecta sobre el suelo horizontal una sombra de $6\sqrt{3}$ m. Una hora más tarde, el ángulo de elevación del Sol ha aumentado en $15^\circ$.
+
+Si $\tan(30^\circ) = \frac{\sqrt{3}}{3}$, $\tan(45^\circ) = 1$ y $\tan(60^\circ) = \sqrt{3}$, ¿cuánto mide la nueva sombra del poste?', '[{"id":"A","content":"$2\\sqrt{3}$ m"},{"id":"B","content":"$3\\sqrt{2}$ m"},{"id":"C","content":"$(6\\sqrt{3} - 6)$ m"},{"id":"D","content":"$6$ m"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'medium'::difficulty_level, 'Idea clave: el ángulo de elevación del Sol se obtiene de la tangente (altura del poste dividida por la sombra).
+Paso 1: Al principio, $\tan(\theta) = \frac{6}{6\sqrt{3}} = \frac{\sqrt{3}}{3}$, así que $\theta = 30^\circ$.
+Paso 2: Una hora después, el ángulo es $30^\circ + 15^\circ = 45^\circ$.
+Paso 3: La nueva sombra mide $\frac{6}{\tan(45^\circ)} = 6$ m.
+Respuesta: D, $6$ m.
+Errores frecuentes: La A usa $60^\circ$ en lugar de $45^\circ$. La B calcula $6\cos(45^\circ)$, mezclando la altura del poste con la hipotenusa. La C calcula cuánto se acortó la sombra, no cuánto mide.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '03e1d4d5-c936-57c3-824f-9210918dc6c4', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'razones-trigonometricas'
+  on conflict do nothing;
+-- m2-geometria-228
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('b7d7e2c9-544a-5b1c-b834-240298ef8081', 'm2-geometria-228', 'Para un cotillón, Florencia recorta un semicírculo de cartulina de radio $R$ y une sus dos radios rectos, sin traslaparlos, para formar la superficie lateral de un cono recto (un gorro sin base).
+
+Si el volumen de un cono de radio basal $r$ y altura $h$ es $\frac{1}{3}\pi r^2 h$, ¿cuál es el volumen del cono que se forma?', '[{"id":"A","content":"$\\frac{\\sqrt{3}\\,\\pi R^3}{24}$"},{"id":"B","content":"$\\frac{\\pi R^3}{12}$"},{"id":"C","content":"$\\frac{\\sqrt{3}\\,\\pi R^3}{8}$"},{"id":"D","content":"$\\frac{\\pi R^3}{3}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: el radio del semicírculo pasa a ser la generatriz del cono, y el arco del semicírculo pasa a ser el perímetro de la base.
+Paso 1: El arco mide $\pi R$, que es el perímetro de la base: $2\pi r = \pi R$, así que $r = \frac{R}{2}$.
+Paso 2: Con la generatriz $R$: $h = \sqrt{R^2 - \frac{R^2}{4}} = \frac{\sqrt{3}}{2}R$.
+Paso 3: $V = \frac{1}{3}\pi \cdot \frac{R^2}{4} \cdot \frac{\sqrt{3}}{2}R = \frac{\sqrt{3}\,\pi R^3}{24}$.
+Respuesta: A, $\frac{\sqrt{3}\,\pi R^3}{24}$.
+Errores frecuentes: La B toma la generatriz $R$ como si fuera la altura. La C calcula bien radio y altura, pero olvida el factor $\frac{1}{3}$. La D supone que el radio basal es $R$ y la altura también $R$.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'b7d7e2c9-544a-5b1c-b834-240298ef8081', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'cuerpos-geometricos'
+  on conflict do nothing;
+-- m2-geometria-229
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('fa0d00de-d5cc-5525-9fe8-ca9611b130a9', 'm2-geometria-229', 'Un florero cilíndrico de vidrio tiene $8$ cm de diámetro interior y contiene agua hasta $10$ cm de altura. Martina introduce en él piedras decorativas macizas con forma de cubo de $2$ cm de arista, que quedan completamente bajo el agua, y el nivel sube hasta $11{,}5$ cm.
+
+Si se considera $\pi \approx 3$, ¿cuántas piedras introdujo Martina?', '[{"id":"A","content":"$3$"},{"id":"B","content":"$9$"},{"id":"C","content":"$18$"},{"id":"D","content":"$36$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: el volumen de agua desplazada, que es un cilindro de altura igual a la subida del nivel, es igual al volumen total de las piedras.
+Paso 1: El radio interior es $4$ cm y el nivel sube $11{,}5 - 10 = 1{,}5$ cm.
+Paso 2: Volumen desplazado: $3 \cdot 4^2 \cdot 1{,}5 = 72\ \text{cm}^3$.
+Paso 3: Cada piedra tiene $2^3 = 8\ \text{cm}^3$, así que son $\frac{72}{8} = 9$ piedras.
+Respuesta: B, $9$.
+Errores frecuentes: La A divide por el área total de un cubo, $24\ \text{cm}^2$, en vez de por su volumen. La C divide por $2^2 = 4$, el área de una cara. La D usa el diámetro, $8$ cm, como si fuera el radio.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'fa0d00de-d5cc-5525-9fe8-ca9611b130a9', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'cuerpos-geometricos'
+  on conflict do nothing;
+-- m2-geometria-230
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('59503890-ec35-5685-9dfa-904257716d7b', 'm2-geometria-230', 'Un cubo macizo de arista $a$ se divide en seis pirámides iguales, uniendo su centro con sus ocho vértices. Cada pirámide tiene como base una cara del cubo y su cúspide en el centro del cubo.
+
+¿Cuál es el área de las cuatro caras triangulares (el área lateral) de una de estas pirámides?', '[{"id":"A","content":"$a^2$"},{"id":"B","content":"$a^2\\sqrt{2}$"},{"id":"C","content":"$a^2\\sqrt{3}$"},{"id":"D","content":"$2a^2$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: la altura de cada cara triangular (la apotema de la pirámide) es la hipotenusa del triángulo formado por la altura de la pirámide y la mitad de la arista.
+Paso 1: La altura de la pirámide es la distancia del centro del cubo a una cara: $\frac{a}{2}$.
+Paso 2: Apotema: $\sqrt{\left(\frac{a}{2}\right)^2 + \left(\frac{a}{2}\right)^2} = \frac{a\sqrt{2}}{2}$.
+Paso 3: Cada cara triangular tiene área $\frac{1}{2} \cdot a \cdot \frac{a\sqrt{2}}{2} = \frac{a^2\sqrt{2}}{4}$, y las cuatro suman $a^2\sqrt{2}$.
+Respuesta: B, $a^2\sqrt{2}$.
+Errores frecuentes: La A usa la altura de la pirámide, $\frac{a}{2}$, como altura de cada triángulo. La C usa la distancia del centro a un vértice, $\frac{a\sqrt{3}}{2}$, que es una arista lateral y no la altura de la cara. La D usa la arista $a$ como altura de cada triángulo.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '59503890-ec35-5685-9dfa-904257716d7b', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'cuerpos-geometricos'
+  on conflict do nothing;
+-- m2-geometria-231
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('91501672-c5b6-5ccf-ba8b-a5c32bf6fa32', 'm2-geometria-231', 'Para fabricar una caja sin tapa, se toma una lámina rectangular de cartón de $a$ cm por $b$ cm, se recorta un cuadrado de $x$ cm de lado en cada una de sus cuatro esquinas y se doblan hacia arriba las cuatro solapas que quedan, con $2x < a$ y $2x < b$.
+
+¿Cuál de las siguientes expresiones representa el área exterior de la caja (la base más las cuatro caras laterales), en $\text{cm}^2$?', '[{"id":"A","content":"$ab - 4x^2$"},{"id":"B","content":"$ab - 2x^2$"},{"id":"C","content":"$(a - 2x)(b - 2x)$"},{"id":"D","content":"$ab + 4x^2$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'medium'::difficulty_level, 'Idea clave: al doblar, no se agrega ni se quita cartón; la caja usa toda la lámina menos los cuatro cuadrados recortados.
+Paso 1: Base: $(a - 2x)(b - 2x)$. Caras laterales: dos de $x(a - 2x)$ y dos de $x(b - 2x)$.
+Paso 2: Suma: $ab - 2ax - 2bx + 4x^2 + 2ax - 4x^2 + 2bx - 4x^2 = ab - 4x^2$.
+Paso 3: Coincide con el área de la lámina, $ab$, menos los cuatro cuadrados de área $x^2$.
+Respuesta: A, $ab - 4x^2$.
+Errores frecuentes: La B descuenta solo dos cuadrados. La C entrega solo el área de la base. La D calcula las caras laterales con los largos $a$ y $b$ completos, sin restarles $2x$, y así suma área que se recortó.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '91501672-c5b6-5ccf-ba8b-a5c32bf6fa32', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'cuerpos-geometricos'
+  on conflict do nothing;
+-- m2-geometria-232
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('b4c09277-340e-5ab8-a087-931243bb42ee', 'm2-geometria-232', 'Una copa tiene forma de cono recto con el vértice hacia abajo y la abertura circular hacia arriba. Se vierte jugo hasta que la superficie del líquido queda a $\frac{2}{3}$ de la altura de la copa, medida desde el vértice.
+
+¿Qué fracción de la capacidad de la copa falta por llenar?', '[{"id":"A","content":"$\\frac{8}{27}$"},{"id":"B","content":"$\\frac{1}{3}$"},{"id":"C","content":"$\\frac{5}{9}$"},{"id":"D","content":"$\\frac{19}{27}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: el jugo forma un cono semejante a la copa (homotético, con centro en el vértice) de razón $\frac{2}{3}$, y los volúmenes están en la razón $\left(\frac{2}{3}\right)^3$.
+Paso 1: Razón entre las alturas y entre los radios: $\frac{2}{3}$.
+Paso 2: Volumen de jugo: $\left(\frac{2}{3}\right)^3 = \frac{8}{27}$ de la capacidad.
+Paso 3: Falta por llenar $1 - \frac{8}{27} = \frac{19}{27}$.
+Respuesta: D, $\frac{19}{27}$.
+Errores frecuentes: La A da la fracción que está llena, no la que falta. La B supone que el volumen es proporcional a la altura. La C usa la razón de áreas, $\left(\frac{2}{3}\right)^2$, en vez de la de volúmenes.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'b4c09277-340e-5ab8-a087-931243bb42ee', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'cuerpos-geometricos'
+  on conflict do nothing;
+-- m2-geometria-233
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('a882d380-dd88-50d6-9f22-f180012c7b3a', 'm2-geometria-233', 'Considera una esfera de radio $r$ cm. El área de su superficie es $4\pi r^2$ y su volumen es $\frac{4}{3}\pi r^3$.
+
+Se puede determinar el volumen de la esfera, si se sabe que:
+
+(1) Si su radio aumentara en $3$ cm, el área de su superficie aumentaría en $84\pi\ \text{cm}^2$.
+(2) El área de su superficie, medida en $\text{cm}^2$, y su volumen, medido en $\text{cm}^3$, son numéricamente iguales.', '[{"id":"A","content":"(1) por sí sola"},{"id":"B","content":"(2) por sí sola"},{"id":"C","content":"Ambas juntas, (1) y (2)"},{"id":"D","content":"Cada una por sí sola, (1) ó (2)"},{"id":"E","content":"Se requiere información adicional"},{"id":"F","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: cada afirmación es suficiente si permite plantear una ecuación con una única solución positiva para $r$.
+Paso 1: Con (1): $4\pi(r + 3)^2 - 4\pi r^2 = 84\pi$, es decir, $4\pi(6r + 9) = 84\pi$, así que $6r + 9 = 21$ y $r = 2$. Se obtiene $V = \frac{32}{3}\pi\ \text{cm}^3$. Basta.
+Paso 2: Con (2): $4\pi r^2 = \frac{4}{3}\pi r^3$; como $r > 0$, se divide por $4\pi r^2$ y queda $r = 3$. Se obtiene $V = 36\pi\ \text{cm}^3$. Basta.
+Paso 3: Cada afirmación por separado determina el radio y, con él, el volumen.
+Respuesta: D, cada una por sí sola, (1) ó (2).
+Errores frecuentes: La A y la B reconocen solo una de las ecuaciones; en (1) los términos $r^2$ se cancelan y queda una ecuación de primer grado, y en (2) basta dividir por $r^2$. La C supone que hacen falta dos datos para una incógnita. La E no ve que en ambos casos queda una ecuación con solución única.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'a882d380-dd88-50d6-9f22-f180012c7b3a', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'esfera'
+  on conflict do nothing;
+-- m2-geometria-234
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('4b7c4214-48e9-56ee-a7c6-cdf8debb53f6', 'm2-geometria-234', 'Considera el triángulo $ABC$, rectángulo en $C$.
+
+Se puede determinar el área del triángulo $ABC$, si se sabe que:
+
+(1) $\cos(\angle ABC) = \frac{5}{13}$.
+(2) $AB = 26$ cm y $\operatorname{sen}(\angle BAC) \cdot \cos(\angle BAC) = \frac{60}{169}$.', '[{"id":"A","content":"(1) por sí sola"},{"id":"B","content":"(2) por sí sola"},{"id":"C","content":"Ambas juntas, (1) y (2)"},{"id":"D","content":"Cada una por sí sola, (1) ó (2)"},{"id":"E","content":"Se requiere información adicional"},{"id":"F","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: las razones trigonométricas fijan la forma del triángulo, pero no su tamaño; para el área se necesita además una longitud.
+Paso 1: Con (1): el triángulo puede ser de catetos $5$ y $12$ con hipotenusa $13$, o de catetos $10$ y $24$ con hipotenusa $26$, y ambos cumplen la condición; sus áreas son $30$ y $120\ \text{cm}^2$. No basta.
+Paso 2: Con (2): los catetos miden $BC = AB \cdot \operatorname{sen}(\angle BAC)$ y $AC = AB \cdot \cos(\angle BAC)$, así que el área es $\frac{1}{2} AB^2 \operatorname{sen}(\angle BAC)\cos(\angle BAC) = \frac{1}{2} \cdot 676 \cdot \frac{60}{169} = 120\ \text{cm}^2$. Basta, aunque no se calcule cada cateto por separado.
+Respuesta: B, (2) por sí sola.
+Errores frecuentes: La A cree que conocer un coseno determina el triángulo, pero triángulos semejantes de distinto tamaño tienen el mismo coseno. La C supone que se necesita (1) para obtener los catetos, cuando el producto de (2) da directamente el área. La D comete el error de la A. La E no reconoce que el área es $\frac{1}{2}c^2\operatorname{sen}(\alpha)\cos(\alpha)$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '4b7c4214-48e9-56ee-a7c6-cdf8debb53f6', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'razones-trigonometricas'
+  on conflict do nothing;
+-- m2-geometria-301
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('a3f9adb4-1ceb-5166-8ada-7cd9d3ac522f', 'm2-geometria-301', 'En una plaza de Talca hay una pileta formada por dos circunferencias concéntricas: el espejo de agua es el círculo interior y el anillo comprendido entre ambas circunferencias se cubrirá con baldosas. No se conoce ninguno de los dos radios. Un trabajador apoya una regla recta de $8$ m de modo que sus dos extremos quedan sobre la circunferencia exterior y la regla toca a la circunferencia interior en un solo punto.
+
+¿Cuál es el área del anillo que se cubrirá con baldosas?', '[{"id":"A","content":"$4\\pi\\ \\text{m}^2$"},{"id":"B","content":"$16\\pi\\ \\text{m}^2$"},{"id":"C","content":"$32\\pi\\ \\text{m}^2$"},{"id":"D","content":"$64\\pi\\ \\text{m}^2$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: el radio interior que llega al punto de tangencia es perpendicular a la regla y la corta en su punto medio, así que se forma un triángulo rectángulo con ambos radios.
+Paso 1: Sean $R$ y $r$ los radios exterior e interior. La regla es una cuerda de la circunferencia exterior tangente a la interior, y el radio $r$ trazado al punto de tangencia la divide en dos tramos de $4$ m.
+Paso 2: En el triángulo rectángulo de catetos $r$ y $4$ e hipotenusa $R$, por Pitágoras: $R^2 = r^2 + 4^2$, es decir, $R^2 - r^2 = 16$.
+Paso 3: El área del anillo es $\pi R^2 - \pi r^2 = \pi(R^2 - r^2) = 16\pi\ \text{m}^2$. No hace falta conocer cada radio por separado.
+Respuesta: B, $16\pi\ \text{m}^2$.
+Errores frecuentes: La A usa $R^2 - r^2 = 4$, olvidando elevar al cuadrado la media cuerda. La C suma los cuadrados de los dos tramos ($4^2 + 4^2 = 32$), como si ambos fueran catetos. La D usa la cuerda completa de $8$ m como cateto en vez de su mitad.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'a3f9adb4-1ceb-5166-8ada-7cd9d3ac522f', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'figuras-geometricas'
+  on conflict do nothing;
+-- m2-geometria-302
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('127c0488-f846-5004-9f59-0004bb9499c0', 'm2-geometria-302', 'Valentina tiene una hoja rectangular de $16$ cm de largo y $12$ cm de ancho. La dobla una sola vez, de modo que dos vértices opuestos de la hoja quedan exactamente uno sobre el otro, y luego la desdobla.
+
+¿Cuál es la longitud del pliegue que quedó marcado en la hoja?', '[{"id":"A","content":"$10$ cm"},{"id":"B","content":"$12$ cm"},{"id":"C","content":"$15$ cm"},{"id":"D","content":"$20$ cm"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: si dos vértices opuestos coinciden, el pliegue es la simetral de la diagonal que los une: la corta perpendicularmente en su punto medio.
+Paso 1: La diagonal mide $\sqrt{16^2 + 12^2} = \sqrt{400} = 20$ cm, y su punto medio queda a $10$ cm de cada vértice.
+Paso 2: Sea $x$ la mitad del pliegue. El triángulo formado por la mitad de la diagonal, la mitad del pliegue y el lado largo es semejante al triángulo de catetos $16$ y $12$ (comparten un ángulo agudo y ambos son rectángulos), así que $\frac{x}{10} = \frac{12}{16}$.
+Paso 3: Se obtiene $x = 7{,}5$ cm, y el pliegue mide $2 \cdot 7{,}5 = 15$ cm. Con coordenadas se comprueba: el pliegue va de $(3{,}5;\ 12)$ a $(12{,}5;\ 0)$ y mide $\sqrt{9^2 + 12^2} = 15$ cm.
+Respuesta: C, $15$ cm.
+Errores frecuentes: La A confunde el pliegue con la mitad de la diagonal. La B supone que el pliegue es paralelo al lado corto y mide lo mismo que él. La D confunde el pliegue con la diagonal completa, que es perpendicular a él.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '127c0488-f846-5004-9f59-0004bb9499c0', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'figuras-geometricas'
+  on conflict do nothing;
+-- m2-geometria-303
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('49584f4c-379c-5e3d-87f2-abc4cb5819f6', 'm2-geometria-303', 'Un agricultor de Linares tiene un potrero con forma de triángulo. Dos de sus lados miden $40$ m y $50$ m, y el ángulo comprendido entre esos dos lados mide $150^\circ$.
+
+¿Cuál es el área del potrero?', '[{"id":"A","content":"$500\\ \\text{m}^2$"},{"id":"B","content":"$500\\sqrt{3}\\ \\text{m}^2$"},{"id":"C","content":"$1\\,000\\ \\text{m}^2$"},{"id":"D","content":"$1\\,000\\sqrt{3}\\ \\text{m}^2$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'medium'::difficulty_level, 'Idea clave: el área de un triángulo con dos lados $a$ y $b$ y ángulo comprendido $\theta$ es $\frac{1}{2}ab\,\text{sen}(\theta)$; con un ángulo obtuso, la altura cae fuera del triángulo.
+Paso 1: Se toma el lado de $40$ m como base. La altura desde el extremo del lado de $50$ m cae en la prolongación de la base y forma con ella el ángulo suplementario $180^\circ - 150^\circ = 30^\circ$.
+Paso 2: La altura mide $50 \cdot \text{sen}(30^\circ) = 50 \cdot \frac{1}{2} = 25$ m.
+Paso 3: El área es $\frac{40 \cdot 25}{2} = 500\ \text{m}^2$, lo mismo que $\frac{1}{2} \cdot 40 \cdot 50 \cdot \text{sen}(150^\circ)$.
+Respuesta: A, $500\ \text{m}^2$.
+Errores frecuentes: La B usa $\frac{\sqrt{3}}{2}$ como seno del ángulo, confundiendo $\text{sen}(30^\circ)$ con $\cos(30^\circ)$. La C olvida dividir por $2$. La D comete ambos errores a la vez.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '49584f4c-379c-5e3d-87f2-abc4cb5819f6', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'figuras-geometricas'
+  on conflict do nothing;
+-- m2-geometria-304
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('aa2fca4f-a617-59f6-a6e5-6b9ddeb57427', 'm2-geometria-304', 'Considera un triángulo rectángulo cualquiera, cuyos catetos miden $a$ y $b$, cuya hipotenusa mide $c$ y en el que la altura trazada hacia la hipotenusa mide $h$, todas las medidas en la misma unidad.
+
+¿Cuál de las siguientes igualdades es siempre verdadera?', '[{"id":"A","content":"$h = \\frac{c}{2}$"},{"id":"B","content":"$h^2 = a \\cdot b$"},{"id":"C","content":"$a + b = c + h$"},{"id":"D","content":"$\\frac{1}{h^2} = \\frac{1}{a^2} + \\frac{1}{b^2}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: el área del triángulo se puede calcular de dos formas, con los catetos o con la hipotenusa y su altura, y eso relaciona $h$ con $a$, $b$ y $c$.
+Paso 1: $\frac{ab}{2} = \frac{ch}{2}$, de donde $h = \frac{ab}{c}$.
+Paso 2: Entonces $\frac{1}{h^2} = \frac{c^2}{a^2b^2} = \frac{a^2 + b^2}{a^2b^2} = \frac{1}{b^2} + \frac{1}{a^2}$, usando $c^2 = a^2 + b^2$.
+Paso 3: Se comprueba con el triángulo de lados $3$, $4$ y $5$, donde $h = \frac{12}{5} = 2{,}4$: $\frac{1}{2{,}4^2} = \frac{25}{144}$ y $\frac{1}{9} + \frac{1}{16} = \frac{25}{144}$.
+Respuesta: D.
+Errores frecuentes: La A solo se cumple en el triángulo rectángulo isósceles (en el $3$-$4$-$5$, $h = 2{,}4 \neq 2{,}5$). La B confunde con $h^2 = p \cdot q$, que usa las proyecciones de los catetos y no los catetos ($2{,}4^2 = 5{,}76 \neq 12$). La C es falsa: $7 \neq 7{,}4$; de hecho, siempre $a + b < c + h$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'aa2fca4f-a617-59f6-a6e5-6b9ddeb57427', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'figuras-geometricas'
+  on conflict do nothing;
+-- m2-geometria-305
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('1939cbec-8045-5ccb-8605-9e752dad1e83', 'm2-geometria-305', 'Un mueblista de Puerto Varas quiere obtener una cubierta de mesa con forma de octágono regular a partir de una plancha cuadrada. Para ello corta, en cada una de las cuatro esquinas de la plancha, un triángulo rectángulo isósceles, de modo que los ocho lados del octágono resultante midan $30$ cm cada uno.
+
+¿Cuál es el área de la cubierta octagonal?', '[{"id":"A","content":"$(900 + 1\\,800\\sqrt{2})\\ \\text{cm}^2$"},{"id":"B","content":"$(1\\,800 + 1\\,800\\sqrt{2})\\ \\text{cm}^2$"},{"id":"C","content":"$(2\\,700 + 1\\,800\\sqrt{2})\\ \\text{cm}^2$"},{"id":"D","content":"$(3\\,600 + 1\\,800\\sqrt{2})\\ \\text{cm}^2$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: la hipotenusa de cada triángulo cortado es un lado del octágono; con Pitágoras se obtienen sus catetos, luego el lado de la plancha, y al área de la plancha se le restan los cuatro triángulos.
+Paso 1: Si cada cateto mide $x$, entonces $x^2 + x^2 = 30^2$, así que $x = \frac{30}{\sqrt{2}} = 15\sqrt{2}$ cm.
+Paso 2: El lado de la plancha es $30 + 2 \cdot 15\sqrt{2} = 30 + 30\sqrt{2}$ cm y su área es $(30 + 30\sqrt{2})^2 = 900 + 1\,800\sqrt{2} + 1\,800 = 2\,700 + 1\,800\sqrt{2}\ \text{cm}^2$.
+Paso 3: Cada triángulo tiene área $\frac{(15\sqrt{2})^2}{2} = 225\ \text{cm}^2$; los cuatro suman $900\ \text{cm}^2$.
+Paso 4: El octágono mide $2\,700 + 1\,800\sqrt{2} - 900 = 1\,800 + 1\,800\sqrt{2}\ \text{cm}^2$.
+Respuesta: B, $(1\,800 + 1\,800\sqrt{2})\ \text{cm}^2$.
+Errores frecuentes: La A calcula cada triángulo como $x \cdot x = 450$, sin dividir por $2$, y resta $1\,800$. La C es el área de la plancha completa, sin restar los cortes. La D suma los triángulos en vez de restarlos.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '1939cbec-8045-5ccb-8605-9e752dad1e83', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'figuras-geometricas'
+  on conflict do nothing;
+-- m2-geometria-306
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('22a7e8d8-36e2-5f4c-a255-54df6c62b2be', 'm2-geometria-306', 'Un diseñador arma un logo a partir de un triángulo rectángulo de catetos $a$ cm y $b$ cm. Sobre cada cateto dibuja, hacia afuera del triángulo, un semicírculo cuyo diámetro es ese cateto. Sobre la hipotenusa dibuja un semicírculo cuyo diámetro es la hipotenusa, hacia el lado donde está el triángulo, de modo que lo contiene. Las dos lúnulas del logo son las partes de los semicírculos de los catetos que quedan fuera del semicírculo de la hipotenusa.
+
+¿Cuál de las siguientes expresiones representa el área total de las dos lúnulas, en $\text{cm}^2$?', '[{"id":"A","content":"$\\frac{ab}{2}$"},{"id":"B","content":"$\\frac{\\pi ab}{4}$"},{"id":"C","content":"$\\frac{\\pi(a^2 + b^2)}{8}$"},{"id":"D","content":"$\\frac{\\pi(a^2 + b^2)}{8} - \\frac{ab}{2}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: por el teorema de Tales, el vértice del ángulo recto está sobre la semicircunferencia de la hipotenusa, así que el semicírculo grande se compone del triángulo y de dos segmentos circulares; cada lúnula es un semicírculo pequeño menos uno de esos segmentos.
+Paso 1: Las áreas de los semicírculos son $\frac{\pi a^2}{8}$, $\frac{\pi b^2}{8}$ y $\frac{\pi c^2}{8}$, donde $c$ es la hipotenusa (el radio es la mitad del diámetro).
+Paso 2: Los dos segmentos circulares suman $\frac{\pi c^2}{8} - \frac{ab}{2}$ (semicírculo grande menos el triángulo).
+Paso 3: Lúnulas $= \frac{\pi a^2}{8} + \frac{\pi b^2}{8} - \left(\frac{\pi c^2}{8} - \frac{ab}{2}\right) = \frac{\pi(a^2 + b^2 - c^2)}{8} + \frac{ab}{2}$.
+Paso 4: Por Pitágoras, $a^2 + b^2 - c^2 = 0$, así que el área de las lúnulas es $\frac{ab}{2}$: exactamente el área del triángulo.
+Respuesta: A, $\frac{ab}{2}$.
+Errores frecuentes: La B mezcla el producto de los catetos con la fórmula del círculo, sin justificación. La C es la suma de los dos semicírculos pequeños, sin quitar la parte que queda dentro del semicírculo grande. La D es el área de los dos segmentos circulares (semicírculo grande menos el triángulo), no la de las lúnulas.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '22a7e8d8-36e2-5f4c-a255-54df6c62b2be', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'figuras-geometricas'
+  on conflict do nothing;
+-- m2-geometria-307
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('f8e8c0e2-5f78-5ecf-ab14-1371ee4ea62a', 'm2-geometria-307', 'De una lámina con forma de triángulo equilátero se recorta, en cada uno de sus tres vértices, un triángulo equilátero pequeño, los tres de igual tamaño, y se obtiene un hexágono. Se sabe que el perímetro del hexágono es $\frac{4}{5}$ del perímetro de la lámina original.
+
+¿Qué fracción del área de la lámina original representa el área del hexágono?', '[{"id":"A","content":"$\\frac{16}{25}$"},{"id":"B","content":"$\\frac{4}{5}$"},{"id":"C","content":"$\\frac{22}{25}$"},{"id":"D","content":"$\\frac{24}{25}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: primero se usa el perímetro para obtener el tamaño de los cortes; después, como cada triángulo cortado es semejante al original, su área se obtiene con el cuadrado de la razón de semejanza.
+Paso 1: Sea $L$ el lado de la lámina y $x$ el lado de cada corte. En cada vértice se pierden $2x$ de borde y se gana el lado nuevo $x$, así que el perímetro del hexágono es $3L - 3x$.
+Paso 2: $3L - 3x = \frac{4}{5} \cdot 3L$, de donde $x = \frac{L}{5}$.
+Paso 3: Cada corte es semejante a la lámina con razón $\frac{1}{5}$, así que su área es $\frac{1}{25}$ del área original; los tres cortes suman $\frac{3}{25}$.
+Paso 4: El hexágono representa $1 - \frac{3}{25} = \frac{22}{25}$ del área original.
+Respuesta: C, $\frac{22}{25}$.
+Errores frecuentes: La A eleva al cuadrado la razón de perímetros, como si el hexágono fuera semejante al triángulo, y no lo es. La B supone que el área disminuye en la misma proporción que el perímetro. La D descuenta un solo triángulo en vez de tres.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'f8e8c0e2-5f78-5ecf-ab14-1371ee4ea62a', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'figuras-geometricas'
+  on conflict do nothing;
+-- m2-geometria-308
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('573d93ea-3d91-53b9-a59c-8fa163ba9bca', 'm2-geometria-308', 'Una velería de Algarrobo fabrica velas con forma de triángulo rectángulo. Una de sus velas tiene catetos de $a$ m y $b$ m. Para un nuevo modelo, se duplica la medida del cateto de $a$ m y se reduce a la mitad la medida del cateto de $b$ m, manteniendo el ángulo recto.
+
+¿Cuál de las siguientes afirmaciones es siempre verdadera al comparar el nuevo modelo con la vela original?', '[{"id":"A","content":"El área y la hipotenusa se mantienen."},{"id":"B","content":"El área se mantiene y la hipotenusa siempre aumenta."},{"id":"C","content":"El área se duplica y la hipotenusa aumenta únicamente cuando $a > b$."},{"id":"D","content":"El área se mantiene y la hipotenusa aumenta únicamente cuando $2a > b$."},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: el área depende del producto de los catetos, que no cambia; la hipotenusa depende de la suma de sus cuadrados, que sí puede cambiar.
+Paso 1: Área nueva: $\frac{2a \cdot \frac{b}{2}}{2} = \frac{ab}{2}$, igual a la original.
+Paso 2: Hipotenusa nueva al cuadrado: $(2a)^2 + \left(\frac{b}{2}\right)^2 = 4a^2 + \frac{b^2}{4}$; la original al cuadrado es $a^2 + b^2$.
+Paso 3: La diferencia es $3a^2 - \frac{3b^2}{4} = \frac{3}{4}(4a^2 - b^2)$, que es positiva exactamente cuando $2a > b$. Por ejemplo, con $a = 1$ y $b = 4$ la hipotenusa pasa de $\sqrt{17}$ a $\sqrt{8}$ y disminuye.
+Respuesta: D.
+Errores frecuentes: La A supone que, si el área no cambia, tampoco cambia la hipotenusa. La B generaliza un caso particular; el ejemplo $a = 1$, $b = 4$ la contradice. La C se equivoca en el área, que no se duplica, y en la condición, que es $2a > b$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '573d93ea-3d91-53b9-a59c-8fa163ba9bca', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'figuras-geometricas'
+  on conflict do nothing;
+-- m2-geometria-309
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('a7a0a4db-840b-5176-9a50-37fe7307c50f', 'm2-geometria-309', 'En un parque de Antofagasta hay un jardín con forma de triángulo rectángulo cuyos catetos miden $20$ m y $21$ m. En su interior se construirá una pileta circular que toca a los tres lados del jardín, es decir, su borde es la circunferencia inscrita en el triángulo. El resto del jardín se cubrirá con pasto.
+
+¿Cuál es el área que se cubrirá con pasto?', '[{"id":"A","content":"$(210 - 36\\pi)\\ \\text{m}^2$"},{"id":"B","content":"$(210 - 12\\pi)\\ \\text{m}^2$"},{"id":"C","content":"$(210 - 9\\pi)\\ \\text{m}^2$"},{"id":"D","content":"$(420 - 36\\pi)\\ \\text{m}^2$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'medium'::difficulty_level, 'Idea clave: al unir el centro de la pileta con los tres vértices, el jardín queda dividido en tres triángulos cuya altura es el radio $r$; por eso el área del triángulo es $r \cdot s$, con $s$ el semiperímetro.
+Paso 1: La hipotenusa mide $\sqrt{20^2 + 21^2} = \sqrt{841} = 29$ m.
+Paso 2: El área del jardín es $\frac{20 \cdot 21}{2} = 210\ \text{m}^2$ y el semiperímetro es $\frac{20 + 21 + 29}{2} = 35$ m.
+Paso 3: De $210 = 35r$ se obtiene $r = 6$ m, así que la pileta ocupa $36\pi\ \text{m}^2$.
+Paso 4: El pasto cubre $(210 - 36\pi)\ \text{m}^2$.
+Respuesta: A, $(210 - 36\pi)\ \text{m}^2$.
+Errores frecuentes: La B resta $2\pi r = 12\pi$, que es el perímetro de la pileta y no su área. La C divide el área por el perímetro completo ($70$ m) en vez del semiperímetro y obtiene $r = 3$. La D olvida dividir por $2$ el producto de los catetos.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'a7a0a4db-840b-5176-9a50-37fe7307c50f', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'figuras-geometricas'
+  on conflict do nothing;
+-- m2-geometria-310
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('44a67a70-9ae3-5c1f-b82e-790f308ab8a8', 'm2-geometria-310', 'El frontón de una casa de madera en Frutillar tiene forma de triángulo isósceles: su base, horizontal, mide $2a$ m y cada uno de los otros dos lados mide $b$ m, con $b > a > 0$.
+
+¿Cuál de las siguientes expresiones representa el área del frontón, en $\text{m}^2$?', '[{"id":"A","content":"$\\frac{a\\sqrt{b^2 - a^2}}{2}$"},{"id":"B","content":"$a\\sqrt{b^2 - a^2}$"},{"id":"C","content":"$a\\sqrt{b^2 - 4a^2}$"},{"id":"D","content":"$2a\\sqrt{b^2 - a^2}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: en un triángulo isósceles, la altura hacia la base cae en el punto medio de la base y forma dos triángulos rectángulos.
+Paso 1: Cada triángulo rectángulo tiene hipotenusa $b$ y un cateto de $a$ (la mitad de la base $2a$).
+Paso 2: Por Pitágoras, la altura mide $h = \sqrt{b^2 - a^2}$.
+Paso 3: El área es $\frac{2a \cdot \sqrt{b^2 - a^2}}{2} = a\sqrt{b^2 - a^2}$.
+Respuesta: B, $a\sqrt{b^2 - a^2}$.
+Errores frecuentes: La A toma $a$ como base y además divide por $2$, dividiendo dos veces. La C usa la base completa $2a$ como cateto en Pitágoras. La D olvida dividir por $2$ al calcular el área.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '44a67a70-9ae3-5c1f-b82e-790f308ab8a8', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'figuras-geometricas'
+  on conflict do nothing;
+-- m2-geometria-311
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('9eb0583e-f73b-5208-aa98-12715127c221', 'm2-geometria-311', 'Considera el vector $\vec{v} = (a, b)$, con $a$ y $b$ números reales no ambos nulos. Sea $\vec{w}$ el vector que se obtiene al rotar $\vec{v}$ en $90^\circ$ en sentido antihorario en torno al origen.
+
+¿Cuál de las siguientes expresiones representa la magnitud del vector $\vec{v} + \vec{w}$?', '[{"id":"A","content":"$\\sqrt{a^2 + b^2}$"},{"id":"B","content":"$\\sqrt{2(a^2 + b^2)}$"},{"id":"C","content":"$2\\sqrt{a^2 + b^2}$"},{"id":"D","content":"$|a + b|\\sqrt{2}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: una rotación de $90^\circ$ antihoraria transforma $(a, b)$ en $(-b, a)$; el vector rotado tiene la misma magnitud y es perpendicular al original.
+Paso 1: $\vec{w} = (-b, a)$, así que $\vec{v} + \vec{w} = (a - b,\ a + b)$.
+Paso 2: $|\vec{v} + \vec{w}|^2 = (a - b)^2 + (a + b)^2 = 2a^2 + 2b^2$.
+Paso 3: $|\vec{v} + \vec{w}| = \sqrt{2(a^2 + b^2)}$. Geométricamente, es la diagonal del cuadrado de lado $|\vec{v}|$.
+Respuesta: B, $\sqrt{2(a^2 + b^2)}$.
+Errores frecuentes: La A supone que la suma conserva la magnitud de $\vec{v}$. La C suma las magnitudes, lo que solo vale si los vectores tienen igual dirección y sentido. La D usa $\vec{w} = (b, a)$, que es la reflexión respecto de $y = x$ y no una rotación.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '9eb0583e-f73b-5208-aa98-12715127c221', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'transformaciones-isometricas'
+  on conflict do nothing;
+-- m2-geometria-312
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('f2ed5a51-f0ea-555d-90b7-d62dd41c7a1c', 'm2-geometria-312', 'En un videojuego, un rayo láser se refleja en un espejo recto. En el plano cartesiano del juego, el punto $P(-1, 3)$ tiene como imagen el punto $P''(5, -1)$ mediante la reflexión respecto de la recta que contiene al espejo.
+
+¿Cuál es la ecuación de esa recta?', '[{"id":"A","content":"$y = -\\frac{2}{3}x + \\frac{7}{3}$"},{"id":"B","content":"$y = -\\frac{3}{2}x + 4$"},{"id":"C","content":"$y = \\frac{3}{2}x + \\frac{9}{2}$"},{"id":"D","content":"$y = \\frac{3}{2}x - 2$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: el eje de una reflexión es la simetral del segmento que une un punto con su imagen: pasa por su punto medio y es perpendicular a él.
+Paso 1: El punto medio de $PP''$ es $\left(\frac{-1 + 5}{2}, \frac{3 + (-1)}{2}\right) = (2, 1)$.
+Paso 2: La pendiente de $PP''$ es $\frac{-1 - 3}{5 - (-1)} = -\frac{2}{3}$, así que la pendiente del eje es $\frac{3}{2}$.
+Paso 3: La recta de pendiente $\frac{3}{2}$ que pasa por $(2, 1)$ es $y - 1 = \frac{3}{2}(x - 2)$, es decir, $y = \frac{3}{2}x - 2$.
+Respuesta: D, $y = \frac{3}{2}x - 2$.
+Errores frecuentes: La A es la recta que pasa por $P$ y $P''$, no el espejo. La B pasa por el punto medio, pero usa la pendiente opuesta en vez de la recíproca opuesta. La C tiene la pendiente correcta, pero pasa por $P$ en lugar del punto medio.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'f2ed5a51-f0ea-555d-90b7-d62dd41c7a1c', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'transformaciones-isometricas'
+  on conflict do nothing;
+-- m2-geometria-313
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('07d5eb13-c45f-5ba8-8ec5-a262e4940c83', 'm2-geometria-313', 'En un plano cartesiano, cada punto se gira primero $90^\circ$ en torno al origen, en sentido contrario al de las manecillas del reloj; después, el punto obtenido se gira otros $90^\circ$, en ese mismo sentido, en torno al punto $(2, 0)$.
+
+¿Cuál de las siguientes transformaciones produce, para todo punto, el mismo resultado que esa composición?', '[{"id":"A","content":"La traslación según el vector $(2, -2)$."},{"id":"B","content":"La rotación de $180^\\circ$ con centro en el punto $(2, 0)$."},{"id":"C","content":"La rotación de $180^\\circ$ con centro en el punto $(1, 1)$."},{"id":"D","content":"La rotación de $180^\\circ$ con centro en el punto $(1, -1)$."},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: dos rotaciones de $90^\circ$ en el mismo sentido suman un giro de $180^\circ$, pero el centro de la rotación resultante hay que calcularlo siguiendo un punto genérico.
+Paso 1: La primera rotación lleva $(x, y)$ a $(-y, x)$.
+Paso 2: Para rotar $(-y, x)$ en torno a $(2, 0)$: se resta el centro, $(-y - 2,\ x)$; se gira $90^\circ$, $(-x,\ -y - 2)$; y se suma el centro, $(2 - x,\ -2 - y)$.
+Paso 3: La regla $(x, y) \to (2 - x,\ -2 - y)$ es una rotación de $180^\circ$ cuyo centro es el punto medio entre cada punto y su imagen: $\left(\frac{2}{2}, \frac{-2}{2}\right) = (1, -1)$.
+Paso 4: Comprobación con $(1, 0)$: la composición da $(1, 0) \to (0, 1) \to (1, -2)$, y el giro de $180^\circ$ en torno a $(1, -1)$ también lo lleva a $(1, -2)$.
+Respuesta: D.
+Errores frecuentes: La A coincide solo para el origen, que va a $(2, -2)$, pero falla con $(1, 0)$: la traslación lo lleva a $(3, -2)$. La B toma como centro el de la segunda rotación y lleva el origen a $(4, 0)$. La C equivoca el signo de la ordenada del centro y lleva el origen a $(2, 2)$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '07d5eb13-c45f-5ba8-8ec5-a262e4940c83', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'transformaciones-isometricas'
+  on conflict do nothing;
+-- m2-geometria-314
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('65c82b29-3340-5204-a6f7-b6febd9a6c82', 'm2-geometria-314', 'Considera un punto cualquiera $P(a, b)$ del plano cartesiano y la recta $L$ de ecuación $y = x + 3$.
+
+Si $P$ se refleja respecto de la recta $L$, ¿qué punto se obtiene?', '[{"id":"A","content":"$(b - 3,\\ a + 3)$"},{"id":"B","content":"$(b + 3,\\ a - 3)$"},{"id":"C","content":"$(b,\\ a + 3)$"},{"id":"D","content":"$(b - 3,\\ a - 3)$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: se traslada todo para que la recta pase por el origen, se refleja respecto de $y = x$ (que intercambia las coordenadas) y luego se deshace la traslación.
+Paso 1: La traslación según $(0, -3)$ lleva $L$ a la recta $y = x$ y lleva $P$ a $(a,\ b - 3)$.
+Paso 2: La reflexión respecto de $y = x$ intercambia las coordenadas: $(b - 3,\ a)$.
+Paso 3: Se deshace la traslación con el vector $(0, 3)$: $(b - 3,\ a + 3)$.
+Paso 4: Comprobación: el punto medio entre $P$ y su imagen es $\left(\frac{a + b - 3}{2}, \frac{a + b + 3}{2}\right)$, que cumple $y = x + 3$, y el segmento tiene dirección $(1, -1)$, perpendicular a $L$.
+Respuesta: A, $(b - 3,\ a + 3)$.
+Errores frecuentes: La B traslada en el sentido contrario (primero suma $3$ y después lo resta). La C intercambia las coordenadas y solo corrige una de ellas. La D resta $3$ en ambas coordenadas, sin deshacer la traslación.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '65c82b29-3340-5204-a6f7-b6febd9a6c82', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'transformaciones-isometricas'
+  on conflict do nothing;
+-- m2-geometria-315
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('b76f00bc-b7f4-5ff8-a83b-3c13016978a5', 'm2-geometria-315', 'Para el diseño de una plaza en Copiapó se ubican, en un plano cartesiano con unidades en decámetros, tres esquinas de un paso peatonal con forma de paralelogramo: $A(1, 2)$, $B(5, 3)$ y $C(6, 7)$. La cuarta esquina, $D$, se ubica de modo que $ABCD$ es un paralelogramo con sus vértices nombrados en ese orden.
+
+¿Cuáles son las coordenadas de $D$?', '[{"id":"A","content":"$(0, -2)$"},{"id":"B","content":"$(1, 4)$"},{"id":"C","content":"$(2, 6)$"},{"id":"D","content":"$(10, 8)$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: en el paralelogramo $ABCD$, los lados opuestos $AB$ y $DC$ son vectores iguales; $D$ se obtiene trasladando $C$ según el vector opuesto de $\vec{AB}$.
+Paso 1: $\vec{AB} = (5 - 1,\ 3 - 2) = (4, 1)$.
+Paso 2: De $\vec{DC} = \vec{AB}$ se obtiene $D = C - \vec{AB} = (6 - 4,\ 7 - 1) = (2, 6)$.
+Paso 3: Comprobación: $\vec{AD} = (1, 4)$ y $\vec{BC} = (1, 4)$ son iguales, como corresponde.
+Respuesta: C, $(2, 6)$.
+Errores frecuentes: La A calcula $A + B - C$, que corresponde al paralelogramo en que $AB$ es diagonal. La B es el vector $\vec{BC}$, y olvida sumarlo al punto $A$. La D calcula $B + C - A$, que corresponde al paralelogramo $ABDC$, con $BC$ como diagonal.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'b76f00bc-b7f4-5ff8-a83b-3c13016978a5', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'transformaciones-isometricas'
+  on conflict do nothing;
+-- m2-geometria-316
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('c26d8e72-1e12-5e2c-8514-62c67335521b', 'm2-geometria-316', 'Una isometría del plano lleva el punto $A(1, 0)$ al punto $A''(0, 1)$, y el punto $B(3, 0)$ al punto $B''(0, 3)$. No se tiene ninguna otra información sobre la isometría.
+
+¿Cuál de las siguientes afirmaciones es necesariamente verdadera?', '[{"id":"A","content":"La isometría es el giro de $90^\\circ$ en torno al origen, en sentido contrario al de las manecillas del reloj."},{"id":"B","content":"La isometría es la reflexión respecto de la recta $y = x$."},{"id":"C","content":"La imagen del punto $(1, 2)$ es el punto $(2, 1)$."},{"id":"D","content":"La imagen del punto $(2, 0)$ es el punto $(0, 2)$."},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: dos puntos no bastan para identificar una isometría (puede haber una que invierte la orientación y otra que no), pero toda isometría conserva distancias, y eso fija la imagen del punto medio de $AB$.
+Paso 1: La rotación de $90^\circ$ antihoraria en torno al origen, $(x, y) \to (-y, x)$, lleva $A$ a $(0, 1)$ y $B$ a $(0, 3)$. La reflexión respecto de $y = x$, $(x, y) \to (y, x)$, también. Por lo tanto, ninguna de las dos es obligatoria.
+Paso 2: El punto $(1, 2)$ va a $(-2, 1)$ con la rotación y a $(2, 1)$ con la reflexión, así que su imagen no queda determinada.
+Paso 3: $M(2, 0)$ cumple $AM = MB = 1$ y $AB = 2$. Su imagen $M''$ debe cumplir $A''M'' = M''B'' = 1$ con $A''B'' = 2$, y el único punto así es el punto medio de $A''B''$: $(0, 2)$.
+Respuesta: D.
+Errores frecuentes: La A y la B eligen una de las dos isometrías posibles, sin notar que la otra también cumple los datos. La C supone que se trata de la reflexión; con la rotación, la imagen de $(1, 2)$ es $(-2, 1)$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'c26d8e72-1e12-5e2c-8514-62c67335521b', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'transformaciones-isometricas'
+  on conflict do nothing;
+-- m2-geometria-317
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('8f30c8f6-3689-5bc1-9183-ece7cd421a16', 'm2-geometria-317', 'Un robot de una feria científica en Concepción solo puede avanzar en dos direcciones, dadas por los vectores $\vec{u} = (2, 1)$ y $\vec{v} = (1, -1)$. Para ir desde el origen hasta el punto $(7, 2)$, el robot avanza $m$ veces el vector $\vec{u}$ y luego $n$ veces el vector $\vec{v}$, con $m$ y $n$ números reales tales que $m\vec{u} + n\vec{v} = (7, 2)$.
+
+¿Cuál es el valor de $m + n$?', '[{"id":"A","content":"$2$"},{"id":"B","content":"$3$"},{"id":"C","content":"$4$"},{"id":"D","content":"$7$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: la igualdad de vectores se cumple componente a componente, lo que entrega un sistema de dos ecuaciones con incógnitas $m$ y $n$.
+Paso 1: $m(2, 1) + n(1, -1) = (2m + n,\ m - n) = (7, 2)$.
+Paso 2: Se obtiene el sistema $2m + n = 7$ y $m - n = 2$. Al sumar las ecuaciones: $3m = 9$, así que $m = 3$ y $n = 1$.
+Paso 3: Comprobación: $3(2, 1) + 1(1, -1) = (7, 2)$. Luego $m + n = 4$.
+Respuesta: C, $4$.
+Errores frecuentes: La A usa $\vec{v} = (1, 1)$, perdiendo el signo, y llega a $m + n = 2$. La B responde solo el valor de $m$. La D reemplaza $m = 3$ en la primera ecuación olvidando el coeficiente $2$ ($3 + n = 7$), obtiene $n = 4$ y suma $7$.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '8f30c8f6-3689-5bc1-9183-ece7cd421a16', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'transformaciones-isometricas'
+  on conflict do nothing;
+-- m2-geometria-318
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('c44785bb-4820-56be-a477-be243e565b17', 'm2-geometria-318', 'Las huellas que deja una persona al caminar por la arena de una playa de La Serena se modelan en un plano cartesiano con la transformación $T$: cada punto se refleja en el eje $X$ y, a continuación, se desplaza con el vector $(4, 0)$. La primera huella está en el punto $(1, 2)$; la segunda es la imagen de la primera mediante $T$; la tercera es la imagen de la segunda mediante $T$, y así sucesivamente.
+
+¿Cuáles son las coordenadas de la sexta huella?', '[{"id":"A","content":"$(17, 2)$"},{"id":"B","content":"$(21, -2)$"},{"id":"C","content":"$(21, 2)$"},{"id":"D","content":"$(25, 2)$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: cada aplicación de $T$ suma $4$ a la abscisa y cambia el signo de la ordenada; hay que contar bien cuántas veces se aplica.
+Paso 1: $T(x, y) = (x + 4,\ -y)$.
+Paso 2: La sexta huella se obtiene al aplicar $T$ cinco veces a la primera: la abscisa es $1 + 5 \cdot 4 = 21$.
+Paso 3: La ordenada cambia de signo cinco veces, una cantidad impar, así que queda $-2$.
+Paso 4: La sucesión es $(1, 2)$, $(5, -2)$, $(9, 2)$, $(13, -2)$, $(17, 2)$, $(21, -2)$.
+Respuesta: B, $(21, -2)$.
+Errores frecuentes: La A es la quinta huella (aplica $T$ cuatro veces). La C calcula bien la abscisa, pero se equivoca con la paridad de los cambios de signo. La D aplica $T$ seis veces, lo que corresponde a la séptima huella.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'c44785bb-4820-56be-a477-be243e565b17', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'transformaciones-isometricas'
+  on conflict do nothing;
+-- m2-geometria-319
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('f4fc279f-ed80-513b-ac0e-e7ed475aadcf', 'm2-geometria-319', 'Un dron parte desde el punto $A(-2, 5)$ de un plano cartesiano, con unidades en metros, y vuela en línea recta en la dirección y el sentido del vector que va desde $A$ hasta $B(4, -3)$. El dron recorre $15$ m, pasando de largo el punto $B$, y se detiene.
+
+¿En qué punto se detiene el dron?', '[{"id":"A","content":"$(-11, 17)$"},{"id":"B","content":"$(1, 1)$"},{"id":"C","content":"$(7, -7)$"},{"id":"D","content":"$(9, -12)$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: el desplazamiento tiene la dirección de $\vec{AB}$, pero su magnitud debe ser $15$; por eso se escala $\vec{AB}$ según la razón entre $15$ y su magnitud.
+Paso 1: $\vec{AB} = (4 - (-2),\ -3 - 5) = (6, -8)$ y su magnitud es $\sqrt{36 + 64} = 10$.
+Paso 2: El desplazamiento es $\frac{15}{10}(6, -8) = (9, -12)$.
+Paso 3: El punto final es $A + (9, -12) = (-2 + 9,\ 5 - 12) = (7, -7)$.
+Respuesta: C, $(7, -7)$.
+Errores frecuentes: La A se desplaza en el sentido opuesto al de $\vec{AB}$. La B recorre solo la mitad de $\vec{AB}$, es decir, $5$ m. La D es el vector de desplazamiento, y olvida sumarlo al punto de partida.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'f4fc279f-ed80-513b-ac0e-e7ed475aadcf', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'transformaciones-isometricas'
+  on conflict do nothing;
+-- m2-geometria-320
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('9842cb9e-9086-5098-b8a9-dc91a1c60a91', 'm2-geometria-320', 'Un vitral de una iglesia de Valparaíso tiene forma de trapecio $ABCD$, con $AB$ paralelo a $CD$, $AB = 9$ dm y $CD = 6$ dm. Sus dos diagonales son varillas de plomo que se cortan en el punto $O$ y dividen el vitral en cuatro triángulos. El triángulo $COD$ tiene un área de $12\ \text{dm}^2$.
+
+¿Cuál es el área total del vitral?', '[{"id":"A","content":"$39\\ \\text{dm}^2$"},{"id":"B","content":"$57\\ \\text{dm}^2$"},{"id":"C","content":"$66\\ \\text{dm}^2$"},{"id":"D","content":"$75\\ \\text{dm}^2$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: los triángulos $COD$ y $AOB$ son semejantes, y los dos triángulos laterales se comparan con $COD$ porque comparten su altura.
+Paso 1: Como $AB \parallel CD$, los triángulos $AOB$ y $COD$ tienen ángulos alternos internos iguales y son semejantes, con razón $\frac{9}{6} = \frac{3}{2}$. Entonces el área de $AOB$ es $12 \cdot \left(\frac{3}{2}\right)^2 = 27\ \text{dm}^2$.
+Paso 2: Por la misma semejanza, $\frac{OA}{OC} = \frac{3}{2}$. Los triángulos $AOD$ y $COD$ tienen la misma altura desde $D$, así que el área de $AOD$ es $12 \cdot \frac{3}{2} = 18\ \text{dm}^2$. Del mismo modo, el área de $BOC$ es $18\ \text{dm}^2$.
+Paso 3: Área total: $12 + 27 + 18 + 18 = 75\ \text{dm}^2$.
+Respuesta: D, $75\ \text{dm}^2$.
+Errores frecuentes: La A suma solo los triángulos de las bases ($12 + 27$). La B considera solo uno de los triángulos laterales. La C usa la razón lineal $\frac{3}{2}$ para el área de $AOB$ ($18$ en vez de $27$).', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '9842cb9e-9086-5098-b8a9-dc91a1c60a91', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'semejanza'
+  on conflict do nothing;
+-- m2-geometria-321
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('24a1a249-1164-51cf-803b-525c675cf21d', 'm2-geometria-321', 'En un triángulo $ABC$ rectángulo en $C$, la altura $CH$ divide a la hipotenusa $AB$ en los segmentos $AH = p$ y $HB = q$, con $p = 4q$.
+
+¿Cuál de las siguientes afirmaciones es verdadera?', '[{"id":"A","content":"$AC = 4 \\cdot BC$"},{"id":"B","content":"La altura $CH$ mide la mitad de la hipotenusa $AB$."},{"id":"C","content":"El área del triángulo $AHC$ es $16$ veces el área del triángulo $CHB$."},{"id":"D","content":"$AC = 2 \\cdot BC$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: la altura divide al triángulo rectángulo en dos triángulos semejantes entre sí y al original; de ahí salen los teoremas de Euclides: $CH^2 = pq$, $AC^2 = AB \cdot p$ y $BC^2 = AB \cdot q$.
+Paso 1: $AB = p + q = 5q$. Entonces $AC^2 = 5q \cdot 4q = 20q^2$ y $BC^2 = 5q \cdot q = 5q^2$.
+Paso 2: $\frac{AC^2}{BC^2} = 4$, así que $\frac{AC}{BC} = 2$, es decir, $AC = 2 \cdot BC$.
+Paso 3: $CH^2 = pq = 4q^2$, así que $CH = 2q$, mientras que la mitad de la hipotenusa es $2{,}5q$. Además, los triángulos $AHC$ y $CHB$ tienen la misma altura $CH$, así que sus áreas están en razón $p : q = 4 : 1$.
+Respuesta: D.
+Errores frecuentes: La A confunde la razón entre las proyecciones ($4$) con la razón entre los catetos, que es su raíz cuadrada. La B supone que la altura llega al punto medio de la hipotenusa, lo que solo ocurre si $p = q$. La C eleva $4$ al cuadrado; los triángulos son semejantes con razón $2$, así que sus áreas están en razón $4$, no $16$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '24a1a249-1164-51cf-803b-525c675cf21d', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'semejanza'
+  on conflict do nothing;
+-- m2-geometria-322
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('15baec9f-8fbc-59a5-86fd-da8c29dd5729', 'm2-geometria-322', 'Un farol de una calle de Punta Arenas tiene su ampolleta a $4$ m de altura. Josefa, que mide $1{,}6$ m, camina en línea recta alejándose de la base del farol, sobre un suelo horizontal, con una rapidez constante de $1{,}2$ m/s.
+
+¿Con qué rapidez se aleja de la base del farol el extremo de la sombra de Josefa?', '[{"id":"A","content":"$0{,}8$ m/s"},{"id":"B","content":"$1{,}2$ m/s"},{"id":"C","content":"$2$ m/s"},{"id":"D","content":"$3$ m/s"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: el farol y Josefa, con sus rayos de luz, forman dos triángulos semejantes que comparten el vértice en el extremo de la sombra; así se expresa la posición de ese extremo en función de la distancia de Josefa al farol.
+Paso 1: Sea $d$ la distancia de Josefa a la base del farol y $s$ el largo de su sombra. Por semejanza, $\frac{4}{d + s} = \frac{1{,}6}{s}$.
+Paso 2: $4s = 1{,}6d + 1{,}6s$, luego $2{,}4s = 1{,}6d$ y $s = \frac{2}{3}d$.
+Paso 3: El extremo de la sombra está a $d + s = \frac{5}{3}d$ de la base. Como $d$ aumenta $1{,}2$ m cada segundo, esa distancia aumenta $\frac{5}{3} \cdot 1{,}2 = 2$ m cada segundo.
+Respuesta: C, $2$ m/s.
+Errores frecuentes: La A es la rapidez con que se alarga la sombra ($\frac{2}{3} \cdot 1{,}2$), no la de su extremo. La B supone que el extremo de la sombra avanza igual que Josefa. La D multiplica $1{,}2$ por $\frac{4}{1{,}6} = 2{,}5$, usando la razón de alturas en vez de la razón entre distancias.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '15baec9f-8fbc-59a5-86fd-da8c29dd5729', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'semejanza'
+  on conflict do nothing;
+-- m2-geometria-323
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('fb50b502-aa4d-587f-b2e4-4b67b9c15aea', 'm2-geometria-323', 'Un terreno tiene forma de triángulo $ABC$, con $AB = 12$ m y $AC = 9$ m. Se construye un muro recto $DE$, con $D$ en el lado $AB$ y $E$ en el lado $AC$, de modo que $AD = 3$ m y el ángulo $ADE$ mide lo mismo que el ángulo $ACB$. El muro no es paralelo al lado $BC$.
+
+¿Cuál es la medida del segmento $EC$?', '[{"id":"A","content":"$4$ m"},{"id":"B","content":"$5$ m"},{"id":"C","content":"$6{,}75$ m"},{"id":"D","content":"$8$ m"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: los triángulos $ADE$ y $ACB$ son semejantes porque comparten el ángulo en $A$ y tienen $\angle ADE = \angle ACB$; hay que hacer corresponder bien los vértices: $A$ con $A$, $D$ con $C$ y $E$ con $B$.
+Paso 1: De la correspondencia se obtiene $\frac{AD}{AC} = \frac{AE}{AB}$.
+Paso 2: $\frac{3}{9} = \frac{AE}{12}$, así que $AE = 4$ m.
+Paso 3: Como $E$ está en el lado $AC$, $EC = AC - AE = 9 - 4 = 5$ m.
+Respuesta: B, $5$ m.
+Errores frecuentes: La A entrega $AE$ y olvida restarlo de $AC$. La C supone que $DE$ es paralelo a $BC$ y usa $\frac{AD}{AB} = \frac{AE}{AC}$, de donde $AE = 2{,}25$ m. La D resta $AE$ de $AB$ en vez de $AC$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'fb50b502-aa4d-587f-b2e4-4b67b9c15aea', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'semejanza'
+  on conflict do nothing;
+-- m2-geometria-324
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('489d8daa-229e-56b9-ad5d-16a1b1f8d937', 'm2-geometria-324', 'Una tienda de Iquique fabrica dos placas de acrílico con forma de triángulos semejantes. El perímetro de la placa mayor es un $50\%$ más que el perímetro de la placa menor, y entre las dos placas suman un área de $65\ \text{cm}^2$.
+
+¿Cuál es el área de la placa menor?', '[{"id":"A","content":"$20\\ \\text{cm}^2$"},{"id":"B","content":"$26\\ \\text{cm}^2$"},{"id":"C","content":"$32{,}5\\ \\text{cm}^2$"},{"id":"D","content":"$45\\ \\text{cm}^2$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'medium'::difficulty_level, 'Idea clave: si los perímetros de dos figuras semejantes están en razón $k$, sus áreas están en razón $k^2$.
+Paso 1: Un $50\%$ más significa que la razón de perímetros mayor : menor es $1{,}5 = \frac{3}{2}$, es decir, menor : mayor $= 2 : 3$.
+Paso 2: Las áreas están en razón $2^2 : 3^2 = 4 : 9$. Se escriben como $4k$ y $9k$, con $4k + 9k = 65$, así que $k = 5$.
+Paso 3: La placa menor mide $4 \cdot 5 = 20\ \text{cm}^2$, y la mayor, $45\ \text{cm}^2$.
+Respuesta: A, $20\ \text{cm}^2$.
+Errores frecuentes: La B reparte $65$ en la razón lineal $2 : 3$, sin elevar al cuadrado. La C divide el área total en partes iguales, ignorando la diferencia de tamaño. La D es el área de la placa mayor.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '489d8daa-229e-56b9-ad5d-16a1b1f8d937', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'semejanza'
+  on conflict do nothing;
+-- m2-geometria-325
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('6a32368b-5a6e-5b69-b952-456430472da6', 'm2-geometria-325', 'En un predio agrícola de Curacaví hay dos postes verticales sobre un suelo horizontal, de alturas $a$ m y $b$ m, separados por una distancia de $d$ m. Se tiende un cable tenso desde el extremo superior de cada poste hasta la base del otro poste, y los dos cables se cruzan en un punto.
+
+¿Cuál de las siguientes expresiones representa la altura, en metros, del punto donde se cruzan los cables?', '[{"id":"A","content":"$\\frac{ab}{a + b}$"},{"id":"B","content":"$\\frac{2ab}{a + b}$"},{"id":"C","content":"$\\sqrt{ab}$"},{"id":"D","content":"$\\frac{a + b}{2}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: cada cable forma, con el suelo y un poste, un triángulo rectángulo semejante al que forma con el suelo y la vertical que baja desde el cruce; así se escriben dos proporciones con la altura $h$ del cruce.
+Paso 1: Sea $x$ la distancia horizontal desde la base del poste de altura $a$ hasta el pie de la vertical del cruce. El cable que baja desde el poste de altura $b$ hasta la base del poste de altura $a$ da $\frac{h}{x} = \frac{b}{d}$, es decir, $x = \frac{hd}{b}$.
+Paso 2: El otro cable da $\frac{h}{d - x} = \frac{a}{d}$, es decir, $d - x = \frac{hd}{a}$.
+Paso 3: Al sumar: $d = hd\left(\frac{1}{a} + \frac{1}{b}\right)$, y al dividir por $d$: $h = \frac{ab}{a + b}$. La distancia $d$ no influye.
+Respuesta: A, $\frac{ab}{a + b}$.
+Errores frecuentes: La B es el doble del valor correcto (la media armónica de las alturas). La C es la media geométrica de las alturas, que no resulta de ninguna semejanza del problema. La D es el promedio de las alturas, que corresponde al punto medio entre los extremos superiores, no al cruce.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '6a32368b-5a6e-5b69-b952-456430472da6', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'semejanza'
+  on conflict do nothing;
+-- m2-geometria-326
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('23b4245a-bec0-55a7-ac3e-9e976f74827e', 'm2-geometria-326', 'El punto $P(a, 2)$ se refleja respecto de una recta vertical de ecuación $x = k$ y se obtiene el punto $P''(9, 2)$.
+
+Se puede determinar el valor de $k$, si se sabe que:
+
+(1) $a = 2k - 9$.
+(2) La distancia entre $P$ y $P''$ es $8$ unidades y $P$ está a la derecha de $P''$.', '[{"id":"A","content":"(1) por sí sola"},{"id":"B","content":"(2) por sí sola"},{"id":"C","content":"Ambas juntas, (1) y (2)"},{"id":"D","content":"Cada una por sí sola, (1) ó (2)"},{"id":"E","content":"Se requiere información adicional"},{"id":"F","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: en una reflexión respecto de $x = k$, la recta pasa por el punto medio del segmento $PP''$, así que siempre $k = \frac{a + 9}{2}$; una afirmación que solo repite esa relación no aporta información nueva.
+Paso 1: (1) por sí sola: $a = 2k - 9$ equivale a $k = \frac{a + 9}{2}$, que se cumple para cualquier reflexión de este tipo. Por ejemplo, $k = 1$ con $a = -7$ y $k = 5$ con $a = 1$ la cumplen. No basta.
+Paso 2: (2) por sí sola: si $P$ está a la derecha de $P''$ y a $8$ unidades, entonces $a = 9 + 8 = 17$, y $k = \frac{17 + 9}{2} = 13$. Basta.
+Paso 3: Sin la condición de estar a la derecha habría dos opciones ($a = 17$ o $a = 1$), pero la afirmación (2) la incluye.
+Respuesta: B, (2) por sí sola.
+Errores frecuentes: La A cree que (1) es una ecuación nueva, pero es la misma condición del punto medio. La C pide ambas, aunque (2) ya basta. La D supone que (1) también basta. La E pasa por alto que (2) fija la posición de $P$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '23b4245a-bec0-55a7-ac3e-9e976f74827e', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'transformaciones-isometricas'
+  on conflict do nothing;
+-- m2-geometria-327
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('f45fa251-77a3-5ef4-baa7-4f1e609a72ad', 'm2-geometria-327', 'Considera un triángulo isósceles.
+
+Se puede determinar el área del triángulo, si se sabe que:
+
+(1) Cada uno de sus dos lados de igual medida mide $10$ cm.
+(2) Uno de sus ángulos interiores mide $30^\circ$.', '[{"id":"A","content":"(1) por sí sola"},{"id":"B","content":"(2) por sí sola"},{"id":"C","content":"Ambas juntas, (1) y (2)"},{"id":"D","content":"Cada una por sí sola, (1) ó (2)"},{"id":"E","content":"Se requiere información adicional"},{"id":"F","content":"No sé responder esta pregunta"}]'::jsonb, 'E', 'hard'::difficulty_level, 'Idea clave: en un triángulo isósceles, saber que un ángulo mide $30^\circ$ no dice si es el ángulo entre los lados iguales o uno de los ángulos basales, y cada caso da un triángulo distinto.
+Paso 1: (1) por sí sola: falta el ángulo entre los lados iguales; por ejemplo, con $60^\circ$ el área es $25\sqrt{3}\ \text{cm}^2$ y con $90^\circ$ es $50\ \text{cm}^2$. No basta.
+Paso 2: (2) por sí sola: da la forma, pero no el tamaño. No basta.
+Paso 3: Juntas, si el ángulo de $30^\circ$ está entre los lados iguales, el área es $\frac{1}{2} \cdot 10 \cdot 10 \cdot \text{sen}(30^\circ) = 25\ \text{cm}^2$. Si los $30^\circ$ son un ángulo basal, el ángulo entre los lados iguales mide $120^\circ$ y el área es $\frac{1}{2} \cdot 10 \cdot 10 \cdot \text{sen}(120^\circ) = 25\sqrt{3}\ \text{cm}^2$. Hay dos áreas posibles.
+Respuesta: E, se requiere información adicional.
+Errores frecuentes: La A y la B suponen que un solo dato fija el triángulo. La C considera solo el caso en que el ángulo de $30^\circ$ está entre los lados iguales y olvida el caso del ángulo basal. La D falla porque ninguna afirmación basta por separado.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'f45fa251-77a3-5ef4-baa7-4f1e609a72ad', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'geometria' and e.subject = 'm2' and t.slug = 'figuras-geometricas'
   on conflict do nothing;
 -- m2-numeros-001
 insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('b8b46958-f4ee-50ca-91a1-770dff6a4bf9', 'm2-numeros-001', '¿Cuál de los siguientes números es irracional?', '[{"id":"A","content":"$\\sqrt{0{,}\\overline{4}}$"},{"id":"B","content":"$\\sqrt{2}\\cdot\\sqrt{18}$"},{"id":"C","content":"$\\dfrac{\\sqrt{75}}{\\sqrt{3}}$"},{"id":"D","content":"$\\sqrt{3}+\\sqrt{27}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'easy'::difficulty_level, 'Idea clave: un número es irracional si, después de simplificarlo, no puede escribirse como fracción; no toda raíz es irracional.
@@ -7670,6 +9706,863 @@ insert into public.question_topics (question_id, topic_id)
   select 'b70cf007-9e7e-53dc-a6d0-16b51037ff34', t.id from public.topics t join public.ejes e on e.id = t.eje_id
   where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'matematica-financiera'
   on conflict do nothing;
+-- m2-numeros-201
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('7cbbeb21-e1b5-5d02-af50-58c36d5b1d0e', 'm2-numeros-201', 'Sean $a$ y $b$ números reales mayores que $1$ tales que $\log_{a}b=k$.
+
+¿Cuál de las siguientes expresiones es igual a $\log_{ab}a$?', '[{"id":"A","content":"$\\dfrac{k}{1+k}$"},{"id":"B","content":"$1+\\dfrac{1}{k}$"},{"id":"C","content":"$\\dfrac{1}{k}$"},{"id":"D","content":"$\\dfrac{1}{1+k}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: con cambio de base, un logaritmo cuya base es un producto se transforma en un cociente donde el denominador es una suma de logaritmos.
+Paso 1: $\log_{ab}a=\dfrac{\log a}{\log(ab)}=\dfrac{\log a}{\log a+\log b}$.
+Paso 2: se divide numerador y denominador por $\log a$ (que es positivo, pues $a>1$): $\dfrac{1}{1+\dfrac{\log b}{\log a}}$.
+Paso 3: como $\dfrac{\log b}{\log a}=\log_{a}b=k$, queda $\log_{ab}a=\dfrac{1}{1+k}$. Comprobación con $a=2$, $b=8$: $k=3$ y $\log_{16}2=\dfrac{1}{4}=\dfrac{1}{1+3}$.
+Respuesta: D, $\dfrac{1}{1+k}$.
+Errores frecuentes: La A es $\log_{ab}b$, es decir, se calculó el logaritmo del otro factor. La B separa la base como si $\log_{ab}a=\log_{a}a+\log_{b}a$, propiedad que no existe. La C ignora el factor $a$ de la base y calcula $\log_{b}a$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '7cbbeb21-e1b5-5d02-af50-58c36d5b1d0e', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'logaritmos'
+  on conflict do nothing;
+-- m2-numeros-202
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('400e8b04-f1d5-5956-a462-19116c2f6bcd', 'm2-numeros-202', 'En una piscina de Rancagua, después de aplicar una dosis de cloro, la concentración de cloro en el agua disminuye un $20\%$ cada hora respecto de la concentración que había al comenzar esa hora.
+
+Considerando $\log 2\approx0{,}30$ y $\log 3\approx0{,}48$, ¿al cabo de cuántas horas, aproximadamente, la concentración será la cuarta parte de la concentración inicial?', '[{"id":"A","content":"$1{,}2$"},{"id":"B","content":"$3{,}75$"},{"id":"C","content":"$6$"},{"id":"D","content":"$7{,}5$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: una disminución porcentual constante por período es un modelo exponencial; para despejar el exponente se aplica logaritmo.
+Paso 1: si $C_{0}$ es la concentración inicial, a las $t$ horas queda $C_{0}\cdot(0{,}8)^{t}$. Se plantea $(0{,}8)^{t}=\dfrac{1}{4}$.
+Paso 2: aplicando logaritmo, $t\cdot\log 0{,}8=\log\dfrac{1}{4}=-2\log 2\approx-0{,}60$.
+Paso 3: $\log 0{,}8=\log 8-\log 10=3\log 2-1\approx0{,}90-1=-0{,}10$.
+Paso 4: $t\approx\dfrac{-0{,}60}{-0{,}10}=6$ horas.
+Respuesta: C, aproximadamente $6$ horas.
+Errores frecuentes: La A resuelve $(0{,}8)^{t}=\dfrac{3}{4}$, es decir, calcula cuándo se perdió un cuarto y no cuándo queda un cuarto. La B supone que cada hora se pierde el $20\%$ de la concentración inicial (modelo lineal): $\dfrac{75\%}{20\%}=3{,}75$. La D usa el factor $1{,}2$ en vez de $0{,}8$: $\dfrac{0{,}60}{\log 1{,}2}=\dfrac{0{,}60}{0{,}08}=7{,}5$.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '400e8b04-f1d5-5956-a462-19116c2f6bcd', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'logaritmos'
+  on conflict do nothing;
+-- m2-numeros-203
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('4571f247-8721-53f4-b15e-5869fcf8309a', 'm2-numeros-203', 'Sean $a$ y $b$ números reales tales que $0<a<1<b$.
+
+¿Cuál de las siguientes afirmaciones es siempre verdadera?', '[{"id":"A","content":"$\\log_{a}b<0$"},{"id":"B","content":"$\\log_{b}a>0$"},{"id":"C","content":"$\\log a+\\log b>0$"},{"id":"D","content":"$\\log_{a}b>\\log_{b}a$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: el signo de un logaritmo depende de si la base y el argumento están al mismo lado de $1$ o en lados distintos.
+Paso 1: $\log_{a}b=\dfrac{\log b}{\log a}$. Como $b>1$, $\log b>0$; como $0<a<1$, $\log a<0$. El cociente es negativo, así que $\log_{a}b<0$ siempre.
+Paso 2: por la misma razón, $\log_{b}a=\dfrac{\log a}{\log b}<0$, de modo que la B es falsa.
+Paso 3: $\log a+\log b=\log(ab)$, que es positivo solo si $ab>1$. Con $a=0{,}1$ y $b=2$ se obtiene $ab=0{,}2$ y la suma es negativa.
+Paso 4: si $k=\log_{a}b<0$, entonces $\log_{b}a=\dfrac{1}{k}$. Con $k=-2$ resulta $-2>-\dfrac{1}{2}$, que es falso; con $k=-\dfrac{1}{2}$ sí se cumple. Depende de los valores.
+Respuesta: A, $\log_{a}b<0$.
+Errores frecuentes: La B olvida que base y argumento quedan en lados opuestos de $1$. La C supone que el producto de un número mayor que $1$ con uno menor que $1$ siempre supera a $1$. La D compara $k$ con $\dfrac{1}{k}$ sin notar que, para negativos, el orden cambia según si $k$ es mayor o menor que $-1$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '4571f247-8721-53f4-b15e-5869fcf8309a', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'logaritmos'
+  on conflict do nothing;
+-- m2-numeros-204
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('bca4fd99-cbc2-57f6-a99a-9d6c1881acab', 'm2-numeros-204', 'En un laboratorio de Valdivia se estudia un cultivo de levaduras. Se supone que la cantidad $N(t)$ de levaduras, en miles, a las $t$ horas de iniciado el estudio es de la forma $N(t)=c\cdot b^{t}$, con $c$ y $b$ constantes positivas.
+
+Al graficar $\log N(t)$ en función de $t$ se obtiene una recta que pasa por los puntos $(0,\,1)$ y $(2;\,1{,}6)$.
+
+Considerando $\log 2\approx0{,}3$, ¿cuál de las siguientes funciones modela la cantidad de levaduras?', '[{"id":"A","content":"$N(t)=1+0{,}3t$"},{"id":"B","content":"$N(t)=10\\cdot2^{t}$"},{"id":"C","content":"$N(t)=10\\cdot(1{,}3)^{t}$"},{"id":"D","content":"$N(t)=2\\cdot10^{t}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: si $N(t)=c\cdot b^{t}$, entonces $\log N(t)=\log c+t\cdot\log b$, una recta cuyo coeficiente de posición es $\log c$ y cuya pendiente es $\log b$.
+Paso 1: el punto $(0,\,1)$ da $\log c=1$, luego $c=10$.
+Paso 2: la pendiente es $\dfrac{1{,}6-1}{2-0}=0{,}3$, así que $\log b=0{,}3\approx\log 2$ y $b\approx2$.
+Paso 3: el modelo es $N(t)=10\cdot2^{t}$. Comprobación: $\log N(2)=\log 40=\log 4+1\approx1{,}6$.
+Respuesta: B, $N(t)=10\cdot2^{t}$.
+Errores frecuentes: La A toma la recta como si fuera $N(t)$, olvidando que en el eje vertical está $\log N(t)$. La C interpreta la pendiente $0{,}3$ como un crecimiento del $30\%$ por hora, cuando en realidad $0{,}3$ es $\log b$. La D intercambia los papeles: usa $\log 2$ como valor inicial y $1$ como pendiente.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'bca4fd99-cbc2-57f6-a99a-9d6c1881acab', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'logaritmos'
+  on conflict do nothing;
+-- m2-numeros-205
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('e5b5f388-c869-55d8-981e-7601a8e3b91f', 'm2-numeros-205', 'Tomás debe encontrar todos los números reales $x$ que satisfacen $\log_{3}(x-1)+\log_{3}(x+1)=1$.
+
+¿Qué conjunto reúne exactamente esos valores de $x$?', '[{"id":"A","content":"$\\left\\{\\dfrac{3}{2}\\right\\}$"},{"id":"B","content":"$\\{-2,\\,2\\}$"},{"id":"C","content":"$\\{\\sqrt{2}\\}$"},{"id":"D","content":"$\\{2\\}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'medium'::difficulty_level, 'Idea clave: la suma de logaritmos de igual base es el logaritmo del producto, pero cada solución debe hacer positivos los argumentos originales.
+Paso 1: $\log_{3}\big((x-1)(x+1)\big)=1$, es decir, $\log_{3}\left(x^{2}-1\right)=1$.
+Paso 2: por definición de logaritmo, $x^{2}-1=3^{1}=3$, de donde $x^{2}=4$ y $x=2$ o $x=-2$.
+Paso 3: con $x=-2$ los argumentos son $-3$ y $-1$, que no son positivos, así que se descarta. Con $x=2$: $\log_{3}1+\log_{3}3=0+1=1$.
+Respuesta: D, el conjunto solución es $\{2\}$.
+Errores frecuentes: La A suma los argumentos en vez de multiplicarlos: $\log_{3}(2x)=1$ da $x=\dfrac{3}{2}$. La B no revisa que los argumentos sean positivos. La C iguala el argumento a $1$, confundiendo $\log_{3}M=1$ con $\log_{3}M=0$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'e5b5f388-c869-55d8-981e-7601a8e3b91f', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'logaritmos'
+  on conflict do nothing;
+-- m2-numeros-206
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('d806ccda-fd2f-553d-85f9-76c436397c68', 'm2-numeros-206', 'Joaquín resuelve la ecuación $2\log x=\log(4x-3)$, con $x$ número real, de la siguiente manera:
+
+Paso 1: $\log\left(x^{2}\right)=\log(4x-3)$
+Paso 2: $x^{2}=4x-3$
+Paso 3: $x^{2}-4x+3=0$, de donde $x=1$ o $x=3$.
+Paso 4: Como $\log 1=0$, el valor $x=1$ no puede ser solución. Por lo tanto, la única solución es $x=3$.
+
+¿En cuál de los pasos se cometió el primer error?', '[{"id":"A","content":"En el Paso 1"},{"id":"B","content":"En el Paso 2"},{"id":"C","content":"En el Paso 3"},{"id":"D","content":"En el Paso 4"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: un valor se descarta solo si algún argumento original no es positivo; que un logaritmo valga $0$ no impide que sea solución.
+Paso 1: el Paso 1 es correcto, porque para $x>0$ se cumple $2\log x=\log\left(x^{2}\right)$.
+Paso 2: los Pasos 2 y 3 son correctos: el logaritmo es inyectivo y $x^{2}-4x+3=(x-1)(x-3)$.
+Paso 3: con $x=1$ los argumentos son $x=1>0$ y $4x-3=1>0$, y la igualdad queda $2\cdot0=0$, que es verdadera. Luego $x=1$ sí es solución.
+Paso 4: el error está en el Paso 4, al descartar $x=1$. El conjunto solución es $\{1,\,3\}$.
+Respuesta: D, en el Paso 4.
+Errores frecuentes: La A cree que $2\log x=\log\left(x^{2}\right)$ falla, pero es válida para $x>0$. La B piensa que no se puede igualar argumentos, lo que sí es válido. La C sospecha de la factorización, que es correcta. Quien elige otra alternativa suele confundir «el logaritmo vale $0$» con «el logaritmo no existe».', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'd806ccda-fd2f-553d-85f9-76c436397c68', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'logaritmos'
+  on conflict do nothing;
+-- m2-numeros-207
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('f5ce9e10-0371-576d-a4bb-e1acfff32d60', 'm2-numeros-207', 'La energía $E$, en joules, que libera un sismo de magnitud $M$ se relaciona con ella mediante la expresión $\log E=4{,}8+1{,}5M$.
+
+Durante una misma semana, en la región de Coquimbo se registraron un sismo de magnitud $7{,}4$ y varias réplicas de magnitud $6{,}2$.
+
+Considerando $\log 2\approx0{,}3$, ¿cuántas réplicas de magnitud $6{,}2$ se necesitan, aproximadamente, para liberar en total la misma energía que el sismo de magnitud $7{,}4$?', '[{"id":"A","content":"$1{,}8$"},{"id":"B","content":"$16$"},{"id":"C","content":"$18$"},{"id":"D","content":"$64$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: la diferencia de los logaritmos de las energías es el logaritmo del cociente, y ese cociente indica cuántas réplicas equivalen al sismo mayor.
+Paso 1: $\log E_{1}-\log E_{2}=1{,}5\cdot(7{,}4-6{,}2)=1{,}5\cdot1{,}2=1{,}8$.
+Paso 2: entonces $\log\dfrac{E_{1}}{E_{2}}=1{,}8$, es decir, $\dfrac{E_{1}}{E_{2}}=10^{1{,}8}$.
+Paso 3: como $\log 2^{6}=6\cdot0{,}3=1{,}8$, se tiene $10^{1{,}8}\approx2^{6}=64$.
+Respuesta: D, aproximadamente $64$ réplicas.
+Errores frecuentes: La A entrega el logaritmo del cociente y no el cociente. La B olvida el factor $1{,}5$ y calcula $10^{1{,}2}\approx16$. La C multiplica $1{,}8$ por $10$, como si $10^{1{,}8}$ fuera $1{,}8\cdot10$.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'f5ce9e10-0371-576d-a4bb-e1acfff32d60', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'logaritmos'
+  on conflict do nothing;
+-- m2-numeros-208
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('943a501e-c6b4-5a2a-a0ce-90e2391e6e68', 'm2-numeros-208', 'Si $\log_{2}3=a$, ¿cuál de las siguientes expresiones es igual a $\log_{12}18$?', '[{"id":"A","content":"$\\dfrac{1+2a}{2+a}$"},{"id":"B","content":"$\\dfrac{2+a}{1+2a}$"},{"id":"C","content":"$\\dfrac{1+a}{2+a}$"},{"id":"D","content":"$\\dfrac{3}{2}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: se cambia a base $2$ y se descomponen $18$ y $12$ en factores primos para escribir todo en función de $\log_{2}3$.
+Paso 1: $\log_{12}18=\dfrac{\log_{2}18}{\log_{2}12}$.
+Paso 2: $18=2\cdot3^{2}$, luego $\log_{2}18=1+2\log_{2}3=1+2a$.
+Paso 3: $12=2^{2}\cdot3$, luego $\log_{2}12=2+\log_{2}3=2+a$.
+Respuesta: A, $\dfrac{1+2a}{2+a}$.
+Errores frecuentes: La B invierte el cociente del cambio de base, lo que corresponde a $\log_{18}12$. La C escribe $\log_{2}18=1+a$, olvidando que $9=3^{2}$. La D divide los argumentos, $\dfrac{18}{12}$, como si el logaritmo «se simplificara».', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '943a501e-c6b4-5a2a-a0ce-90e2391e6e68', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'logaritmos'
+  on conflict do nothing;
+-- m2-numeros-209
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('f2d875b7-9d6f-5b84-96f6-ea6f24d135b8', 'm2-numeros-209', 'Sean $x$ e $y$ números reales tales que $\log_{x}y=2$ e $y-x=6$.
+
+¿Cuál es el valor de $x+y$?', '[{"id":"A","content":"$2$"},{"id":"B","content":"$9$"},{"id":"C","content":"$12$"},{"id":"D","content":"$18$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: se traduce el logaritmo a una potencia y se obtiene una ecuación cuadrática; la base de un logaritmo debe ser positiva y distinta de $1$.
+Paso 1: $\log_{x}y=2$ significa $y=x^{2}$.
+Paso 2: reemplazando en $y-x=6$: $x^{2}-x-6=0$, es decir, $(x-3)(x+2)=0$, de donde $x=3$ o $x=-2$.
+Paso 3: $x=-2$ no sirve como base. Con $x=3$ se obtiene $y=9$, y se verifica $\log_{3}9=2$.
+Paso 4: $x+y=3+9=12$.
+Respuesta: C, $x+y=12$.
+Errores frecuentes: La A usa $x=-2$ e $y=4$, olvidando que la base no puede ser negativa. La B entrega solo el valor de $y$. La D interpreta $\log_{x}y=2$ como $y=2x$, de donde $x=6$ e $y=12$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'f2d875b7-9d6f-5b84-96f6-ea6f24d135b8', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'logaritmos'
+  on conflict do nothing;
+-- m2-numeros-210
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('4321f2b5-c9c1-5175-8a51-b7ee3df34b1f', 'm2-numeros-210', 'Un sistema de seguridad informática usa claves de $50$ bits, por lo que la cantidad de claves distintas posibles es $2^{50}$.
+
+Considerando $\log 2\approx0{,}301$, ¿cuántas cifras tiene el número $2^{50}$ escrito en el sistema decimal?', '[{"id":"A","content":"$15$"},{"id":"B","content":"$16$"},{"id":"C","content":"$17$"},{"id":"D","content":"$25$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: un número $N\geq1$ tiene $k$ cifras cuando $10^{k-1}\leq N<10^{k}$, es decir, cuando $k-1\leq\log N<k$.
+Paso 1: $\log 2^{50}=50\cdot\log 2\approx50\cdot0{,}301=15{,}05$.
+Paso 2: entonces $10^{15}\leq2^{50}<10^{16}$, porque $15\leq15{,}05<16$.
+Paso 3: todo número entre $10^{15}$ y $10^{16}$ (sin incluir este último) tiene $16$ cifras; por ejemplo, $10^{15}$ es un $1$ seguido de $15$ ceros.
+Respuesta: B, $16$ cifras.
+Errores frecuentes: La A toma la parte entera del logaritmo como la cantidad de cifras, sin sumar $1$. La C redondea $15{,}05$ hacia arriba y luego suma $1$. La D divide el exponente por $2$, como si cada dos bits se agregara una cifra.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '4321f2b5-c9c1-5175-8a51-b7ee3df34b1f', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'logaritmos'
+  on conflict do nothing;
+-- m2-numeros-211
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('ab327dfb-3dbb-5e26-9141-270a5907f518', 'm2-numeros-211', 'El nivel de intensidad sonora $\beta$, en decibeles, se calcula como $\beta=10\cdot\log\left(\dfrac{I}{I_{0}}\right)$, donde $I$ es la intensidad del sonido e $I_{0}$ es una intensidad de referencia fija. Cuando la distancia a un parlante se duplica, la intensidad $I$ que llega se reduce a la cuarta parte.
+
+En una feria costumbrista de Temuco, a $5$ metros de un parlante se miden $90$ decibeles. Considerando $\log 2\approx0{,}30$, ¿cuál es el nivel de intensidad sonora aproximado a $10$ metros del parlante?', '[{"id":"A","content":"$22{,}5$ decibeles"},{"id":"B","content":"$45$ decibeles"},{"id":"C","content":"$84$ decibeles"},{"id":"D","content":"$87$ decibeles"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: dividir la intensidad por un factor resta $10\cdot\log(\text{factor})$ decibeles; los decibeles no se dividen directamente.
+Paso 1: a $10$ metros la intensidad es $\dfrac{I}{4}$, luego $\beta_{2}=10\cdot\log\left(\dfrac{I}{4I_{0}}\right)=10\cdot\log\left(\dfrac{I}{I_{0}}\right)-10\cdot\log 4$.
+Paso 2: $10\cdot\log 4=10\cdot2\cdot\log 2\approx10\cdot0{,}60=6$.
+Paso 3: $\beta_{2}\approx90-6=84$ decibeles.
+Respuesta: C, aproximadamente $84$ decibeles.
+Errores frecuentes: La A divide los $90$ decibeles por $4$. La B divide los decibeles por $2$ porque la distancia se duplicó. La D resta $10\cdot\log 2=3$, como si la intensidad se redujera solo a la mitad.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'ab327dfb-3dbb-5e26-9141-270a5907f518', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'logaritmos'
+  on conflict do nothing;
+-- m2-numeros-212
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('5239fc99-4524-5ea4-99be-0e1806fd9da4', 'm2-numeros-212', 'Sean $x$ e $y$ números reales positivos tales que $\log x=a$ y $\log y=b$, con $a>b>0$.
+
+¿Cuál de las siguientes afirmaciones es siempre verdadera?', '[{"id":"A","content":"$\\log(x-y)=a-b$"},{"id":"B","content":"$\\log(x+y)<a+b$"},{"id":"C","content":"$\\log\\left(x^{2}\\right)>\\left(\\log x\\right)^{2}$"},{"id":"D","content":"$\\log\\left(\\dfrac{x}{y}\\right)>0$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: las propiedades de los logaritmos transforman productos y cocientes, no sumas ni restas; y para descartar una afirmación basta un contraejemplo.
+Paso 1: $\log\left(\dfrac{x}{y}\right)=\log x-\log y=a-b>0$, pues $a>b$. Siempre se cumple.
+Paso 2: la A es falsa: $a-b=\log\left(\dfrac{x}{y}\right)$, no $\log(x-y)$. Con $x=100$ e $y=10$: $\log 90\neq1$.
+Paso 3: la B compara $\log(x+y)$ con $\log(xy)$. Con $x=1{,}2$ e $y=1{,}1$ (ambos con logaritmo positivo): $x+y=2{,}3>xy=1{,}32$, así que la desigualdad falla.
+Paso 4: la C equivale a $2a>a^{2}$, que solo vale si $0<a<2$. Con $x=1000$ ($a=3$): $6>9$ es falso.
+Respuesta: D, $\log\left(\dfrac{x}{y}\right)>0$.
+Errores frecuentes: La A aplica a la resta la propiedad del cociente. La B supone que la suma siempre es menor que el producto, lo que falla cuando ambos números están cerca de $1$. La C confunde $\log\left(x^{2}\right)=2\log x$ con $\left(\log x\right)^{2}$ y supone que el primero siempre es mayor.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '5239fc99-4524-5ea4-99be-0e1806fd9da4', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'logaritmos'
+  on conflict do nothing;
+-- m2-numeros-213
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('6897a068-7dc9-5e9b-b340-d820191b73ce', 'm2-numeros-213', 'Sean $p=\log 2$ y $q=\log 3$. Si $x$ es el número real que cumple $3^{x+1}=5\cdot2^{x}$, ¿cuál de las siguientes expresiones es igual a $x$?', '[{"id":"A","content":"$\\dfrac{1-p-q}{q-p}$"},{"id":"B","content":"$\\dfrac{1+p-q}{q-p}$"},{"id":"C","content":"$\\dfrac{1-p}{q-p}$"},{"id":"D","content":"$\\dfrac{1-p-q}{p-q}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: se aplica logaritmo a ambos lados, se agrupan los términos con $x$ y se escribe $\log 5$ como $\log 10-\log 2$.
+Paso 1: $(x+1)\log 3=\log 5+x\log 2$, es decir, $xq+q=\log 5+xp$.
+Paso 2: $x(q-p)=\log 5-q$.
+Paso 3: $\log 5=\log\dfrac{10}{2}=1-p$, luego $x(q-p)=1-p-q$ y $x=\dfrac{1-p-q}{q-p}$.
+Respuesta: A, $\dfrac{1-p-q}{q-p}$.
+Errores frecuentes: La B escribe $\log 5=1+p$, sumando en vez de restar $\log 2$. La C olvida el término $q$ que aparece al desarrollar $(x+1)\log 3$, como si la ecuación fuera $3^{x}=5\cdot2^{x}$. La D se equivoca de signo al pasar los términos con $x$ a un mismo lado.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '6897a068-7dc9-5e9b-b340-d820191b73ce', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'logaritmos'
+  on conflict do nothing;
+-- m2-numeros-214
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('7d63b392-4bfc-5aff-a506-eb2e0db91586', 'm2-numeros-214', '¿Cuál es el valor de $\log_{4}\left(8\sqrt{2}\right)$?', '[{"id":"A","content":"$\\dfrac{3}{2}$"},{"id":"B","content":"$\\dfrac{7}{4}$"},{"id":"C","content":"$2$"},{"id":"D","content":"$\\dfrac{7}{2}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: se escriben la base y el argumento como potencias de $2$ y se igualan exponentes.
+Paso 1: $8\sqrt{2}=2^{3}\cdot2^{\frac{1}{2}}=2^{\frac{7}{2}}$ y $4=2^{2}$.
+Paso 2: si $\log_{4}\left(8\sqrt{2}\right)=y$, entonces $2^{2y}=2^{\frac{7}{2}}$, de donde $2y=\dfrac{7}{2}$.
+Paso 3: $y=\dfrac{7}{4}$.
+Respuesta: B, $\dfrac{7}{4}$.
+Errores frecuentes: La A calcula solo $\log_{4}8=\dfrac{3}{2}$ e ignora el factor $\sqrt{2}$. La C toma $\log_{4}\sqrt{2}=\dfrac{1}{2}$, cuando en realidad es $\dfrac{1}{4}$. La D calcula $\log_{2}\left(8\sqrt{2}\right)$, olvidando que la base es $4$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '7d63b392-4bfc-5aff-a506-eb2e0db91586', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'logaritmos'
+  on conflict do nothing;
+-- m2-numeros-215
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('1522ba62-81f7-533b-9807-87e46bad1a7f', 'm2-numeros-215', 'Florencia deja una taza de café sobre la mesa de una sala que está a $20\,^{\circ}\text{C}$. La temperatura del café, en grados Celsius, a los $t$ minutos se modela mediante
+
+$T(t)=20+70\cdot\left(\dfrac{1}{2}\right)^{\frac{t}{10}}$
+
+¿Cuál de las siguientes expresiones representa el tiempo, en minutos, que tarda el café en enfriarse hasta $30\,^{\circ}\text{C}$?', '[{"id":"A","content":"$\\dfrac{10\\log 3}{\\log 2}$"},{"id":"B","content":"$\\dfrac{10\\log 7}{\\log 2}$"},{"id":"C","content":"$10\\log\\left(\\dfrac{7}{2}\\right)$"},{"id":"D","content":"$\\dfrac{\\log 7}{10\\log 2}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: primero se aísla la parte exponencial restando la temperatura ambiente; luego se despeja el exponente con logaritmos.
+Paso 1: $20+70\cdot\left(\dfrac{1}{2}\right)^{\frac{t}{10}}=30$ implica $\left(\dfrac{1}{2}\right)^{\frac{t}{10}}=\dfrac{10}{70}=\dfrac{1}{7}$, es decir, $2^{\frac{t}{10}}=7$.
+Paso 2: aplicando logaritmo, $\dfrac{t}{10}\cdot\log 2=\log 7$.
+Paso 3: $t=\dfrac{10\log 7}{\log 2}$ (unos $28$ minutos).
+Respuesta: B, $\dfrac{10\log 7}{\log 2}$.
+Errores frecuentes: La A no descuenta la temperatura ambiente y plantea $90\cdot\left(\dfrac{1}{2}\right)^{\frac{t}{10}}=30$, de donde sale $2^{\frac{t}{10}}=3$. La C transforma $\dfrac{\log 7}{\log 2}$ en $\log\left(\dfrac{7}{2}\right)$, una propiedad que no existe. La D despeja mal el $10$ y lo deja dividiendo.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '1522ba62-81f7-533b-9807-87e46bad1a7f', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'logaritmos'
+  on conflict do nothing;
+-- m2-numeros-216
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('f2e13465-1f74-516f-8583-c2367e74a539', 'm2-numeros-216', 'Sea $a$ un número real positivo y distinto de $1$ tal que $\log_{a}2=0{,}4$.
+
+¿Cuál es el valor de $\log_{a}\left(\dfrac{a^{2}}{8}\right)$?', '[{"id":"A","content":"$-0{,}8$"},{"id":"B","content":"$0{,}8$"},{"id":"C","content":"$1{,}6$"},{"id":"D","content":"$3{,}2$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: el logaritmo de un cociente es la resta de logaritmos, y $8=2^{3}$ permite usar el dato $\log_{a}2$.
+Paso 1: $\log_{a}\left(\dfrac{a^{2}}{8}\right)=\log_{a}a^{2}-\log_{a}8$.
+Paso 2: $\log_{a}a^{2}=2$ y $\log_{a}8=3\log_{a}2=3\cdot0{,}4=1{,}2$.
+Paso 3: $2-1{,}2=0{,}8$.
+Respuesta: B, $0{,}8$.
+Errores frecuentes: La A resta en el orden inverso, $1{,}2-2$. La C usa $\log_{a}8=0{,}4$, olvidando el exponente $3$. La D suma los logaritmos, como si la expresión fuera $\log_{a}\left(8a^{2}\right)$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'f2e13465-1f74-516f-8583-c2367e74a539', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'logaritmos'
+  on conflict do nothing;
+-- m2-numeros-217
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('b778172d-b1c5-55a9-a464-496a2ccb552c', 'm2-numeros-217', 'Sea $n$ un número entero positivo tal que
+
+$\log\left(\dfrac{1}{2}\right)+\log\left(\dfrac{2}{3}\right)+\log\left(\dfrac{3}{4}\right)+\ldots+\log\left(\dfrac{n}{n+1}\right)=-2$
+
+¿Cuál es el valor de $n$?', '[{"id":"A","content":"$98$"},{"id":"B","content":"$99$"},{"id":"C","content":"$100$"},{"id":"D","content":"$101$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: la suma de logaritmos es el logaritmo del producto, y en este producto cada numerador se cancela con el denominador anterior (producto telescópico).
+Paso 1: la suma es $\log\left(\dfrac{1}{2}\cdot\dfrac{2}{3}\cdot\dfrac{3}{4}\cdot\ldots\cdot\dfrac{n}{n+1}\right)$.
+Paso 2: al cancelar, el producto queda $\dfrac{1}{n+1}$, así que la ecuación es $\log\left(\dfrac{1}{n+1}\right)=-2$.
+Paso 3: $\dfrac{1}{n+1}=10^{-2}=\dfrac{1}{100}$, luego $n+1=100$ y $n=99$.
+Respuesta: B, $n=99$.
+Errores frecuentes: La A considera que el último factor es $\dfrac{n+1}{n+2}$ y obtiene $n+2=100$. La C cree que el producto da $\dfrac{1}{n}$ y concluye $n=100$. La D llega a $n+1=100$, pero suma $1$ en lugar de restarlo.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'b778172d-b1c5-55a9-a464-496a2ccb552c', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'logaritmos'
+  on conflict do nothing;
+-- m2-numeros-218
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('2a6647f6-502d-532e-8a8c-f4ffa65efc7f', 'm2-numeros-218', 'Sean $a$ un número racional positivo y $b$ un número irracional positivo.
+
+¿Cuál de los siguientes números es siempre irracional?', '[{"id":"A","content":"$b^{2}$"},{"id":"B","content":"$\\sqrt{a}+b$"},{"id":"C","content":"$b\\,(b+a)$"},{"id":"D","content":"$\\sqrt{a\\cdot b}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: para descartar una alternativa basta un contraejemplo; para asegurar la correcta se razona por contradicción.
+Paso 1: la A falla con $b=\sqrt{2}$, pues $b^{2}=2$. La B falla con $a=2$ y $b=3-\sqrt{2}$ (irracional positivo): $\sqrt{2}+3-\sqrt{2}=3$.
+Paso 2: la C falla con $a=1$ y $b=\dfrac{\sqrt{5}-1}{2}$, que cumple $b^{2}+b=1$, así que $b\,(b+1)=1$.
+Paso 3: en la D, si $\sqrt{a\cdot b}=r$ fuera racional, entonces $a\cdot b=r^{2}$ y $b=\dfrac{r^{2}}{a}$ sería racional (cociente de racionales con $a\neq0$), lo que contradice que $b$ es irracional.
+Respuesta: D, $\sqrt{a\cdot b}$ es siempre irracional.
+Errores frecuentes: La A supone que el cuadrado de un irracional sigue siendo irracional. La B olvida que $\sqrt{a}$ puede ser irracional y «cancelarse» con $b$. La C supone que multiplicar dos irracionales siempre da un irracional.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '2a6647f6-502d-532e-8a8c-f4ffa65efc7f', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'numeros-reales'
+  on conflict do nothing;
+-- m2-numeros-219
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('352b15b9-6c0e-5700-8b49-32552a6bd366', 'm2-numeros-219', 'Sean $x$ e $y$ números reales tales que $x\in[-1,\,3[$ e $y\in\,]2,\,5]$.
+
+¿Cuál es el conjunto de todos los valores que puede tomar la expresión $x-y$?', '[{"id":"A","content":"$[-6,\\,1[$"},{"id":"B","content":"$]-6,\\,1[$"},{"id":"C","content":"$[-6,\\,1]$"},{"id":"D","content":"$[-3,\\,-2[$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: una resta es mínima cuando el minuendo es mínimo y el sustraendo es máximo; además, un extremo se alcanza solo si ambos valores que lo producen están incluidos en sus intervalos.
+Paso 1: valor mínimo: $x=-1$ (incluido) e $y=5$ (incluido) dan $x-y=-6$, que sí se alcanza: el corchete en $-6$ es cerrado.
+Paso 2: cota superior: $x$ cercano a $3$ e $y$ cercano a $2$ dan valores cercanos a $1$, pero $x=3$ e $y=2$ están excluidos, así que $1$ no se alcanza: el corchete en $1$ es abierto.
+Paso 3: entre ambos extremos se obtienen todos los valores intermedios, luego el conjunto es $[-6,\,1[$.
+Respuesta: A, $[-6,\,1[$.
+Errores frecuentes: La B no advierte que $-6$ se alcanza porque $-1$ y $5$ están incluidos. La C cierra el extremo $1$, aunque $3$ y $2$ están excluidos. La D resta los extremos «en orden», $-1-2$ y $3-5$, en vez de cruzarlos.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '352b15b9-6c0e-5700-8b49-32552a6bd366', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'numeros-reales'
+  on conflict do nothing;
+-- m2-numeros-220
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('ebd7d245-3b4e-5707-ba65-349115e5466f', 'm2-numeros-220', '¿Cuál es el valor de la siguiente suma?
+
+$\dfrac{1}{\sqrt{1}+\sqrt{2}}+\dfrac{1}{\sqrt{2}+\sqrt{3}}+\dfrac{1}{\sqrt{3}+\sqrt{4}}+\ldots+\dfrac{1}{\sqrt{99}+\sqrt{100}}$', '[{"id":"A","content":"$9$"},{"id":"B","content":"$10$"},{"id":"C","content":"$11$"},{"id":"D","content":"$99$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: al racionalizar cada término con su conjugado, la suma se vuelve telescópica y casi todos los términos se cancelan.
+Paso 1: $\dfrac{1}{\sqrt{k}+\sqrt{k+1}}\cdot\dfrac{\sqrt{k+1}-\sqrt{k}}{\sqrt{k+1}-\sqrt{k}}=\dfrac{\sqrt{k+1}-\sqrt{k}}{(k+1)-k}=\sqrt{k+1}-\sqrt{k}$.
+Paso 2: la suma queda $\left(\sqrt{2}-\sqrt{1}\right)+\left(\sqrt{3}-\sqrt{2}\right)+\ldots+\left(\sqrt{100}-\sqrt{99}\right)$.
+Paso 3: se cancelan todos los términos intermedios y queda $\sqrt{100}-\sqrt{1}=10-1=9$.
+Respuesta: A, $9$.
+Errores frecuentes: La B olvida restar el término $\sqrt{1}$ que queda al inicio. La C suma ese término en lugar de restarlo, por un error de signo en el conjugado. La D cuenta la cantidad de términos de la suma en vez de calcular su valor.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'ebd7d245-3b4e-5707-ba65-349115e5466f', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'numeros-reales'
+  on conflict do nothing;
+-- m2-numeros-221
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('32aee239-8649-55d5-acb4-2a651798644b', 'm2-numeros-221', '¿Cuál de los siguientes números está comprendido entre $0{,}3$ y $0{,}4$?', '[{"id":"A","content":"$\\sqrt{5}-2$"},{"id":"B","content":"$2-\\sqrt{3}$"},{"id":"C","content":"$\\sqrt{3}-\\sqrt{2}$"},{"id":"D","content":"$\\sqrt{2}-1$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: una diferencia de raíces se estima mejor escribiéndola como fracción con el conjugado: $\sqrt{m}-\sqrt{n}=\dfrac{m-n}{\sqrt{m}+\sqrt{n}}$, porque la suma de raíces se acota con facilidad.
+Paso 1: $\sqrt{3}-\sqrt{2}=\dfrac{1}{\sqrt{3}+\sqrt{2}}$. Como $1{,}7<\sqrt{3}<1{,}8$ y $1{,}4<\sqrt{2}<1{,}5$, se tiene $3{,}1<\sqrt{3}+\sqrt{2}<3{,}3$, y el número está entre $\dfrac{1}{3{,}3}\approx0{,}303$ y $\dfrac{1}{3{,}1}\approx0{,}323$.
+Paso 2: $\sqrt{2}-1=\dfrac{1}{\sqrt{2}+1}$ con $\sqrt{2}+1<2{,}5$, así que es mayor que $0{,}4$.
+Paso 3: $2-\sqrt{3}=\dfrac{1}{2+\sqrt{3}}$ con $2+\sqrt{3}>3{,}7$, así que es menor que $0{,}28$. Y $\sqrt{5}-2=\dfrac{1}{\sqrt{5}+2}$ con $\sqrt{5}+2>4{,}2$, así que es menor que $0{,}24$.
+Respuesta: C, $\sqrt{3}-\sqrt{2}\approx0{,}32$.
+Errores frecuentes: La A y la B parecen cercanas a $0{,}3$, pero sus valores son $0{,}236$ y $0{,}268$ aproximadamente. La D se descarta al aproximar $\sqrt{2}\approx1{,}4$ sin notar que $\sqrt{2}>1{,}41$, lo que da un valor mayor que $0{,}4$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '32aee239-8649-55d5-acb4-2a651798644b', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'numeros-reales'
+  on conflict do nothing;
+-- m2-numeros-222
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('5635e67e-2c17-51ad-a85a-1b17a015aa3f', 'm2-numeros-222', 'Un cuadrado tiene lados que miden $\left(\sqrt{6}-\sqrt{2}\right)$ cm.
+
+¿Cuál es el área del cuadrado?', '[{"id":"A","content":"$\\left(8-4\\sqrt{3}\\right)$ cm$^{2}$"},{"id":"B","content":"$4$ cm$^{2}$"},{"id":"C","content":"$\\left(8-2\\sqrt{3}\\right)$ cm$^{2}$"},{"id":"D","content":"$8$ cm$^{2}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'medium'::difficulty_level, 'Idea clave: el cuadrado de un binomio tiene tres términos, y el término central se simplifica con la propiedad $\sqrt{a}\cdot\sqrt{b}=\sqrt{ab}$.
+Paso 1: $\left(\sqrt{6}-\sqrt{2}\right)^{2}=6-2\sqrt{6}\cdot\sqrt{2}+2=8-2\sqrt{12}$.
+Paso 2: $\sqrt{12}=\sqrt{4\cdot3}=2\sqrt{3}$, así que $2\sqrt{12}=4\sqrt{3}$.
+Paso 3: el área es $\left(8-4\sqrt{3}\right)$ cm$^{2}$, aproximadamente $1{,}07$ cm$^{2}$.
+Respuesta: A, $\left(8-4\sqrt{3}\right)$ cm$^{2}$.
+Errores frecuentes: La B eleva cada raíz y las resta, $6-2$, como si $(a-b)^{2}=a^{2}-b^{2}$. La C simplifica mal $2\sqrt{12}$ como $2\sqrt{3}$. La D suma los cuadrados y olvida el término central.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '5635e67e-2c17-51ad-a85a-1b17a015aa3f', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'numeros-reales'
+  on conflict do nothing;
+-- m2-numeros-223
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('01c04da8-34db-5938-b71d-301c1eca207a', 'm2-numeros-223', 'Sean $p=2\sqrt{3}$, $q=3\sqrt{2}$ y $r=\sqrt{17}$.
+
+¿Cuál de las siguientes relaciones es verdadera?', '[{"id":"A","content":"$q<r<p$"},{"id":"B","content":"$r<p<q$"},{"id":"C","content":"$p<r<q$"},{"id":"D","content":"$p<q<r$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: para comparar raíces se introducen los coeficientes dentro de la raíz y se comparan los radicandos.
+Paso 1: $p=2\sqrt{3}=\sqrt{4\cdot3}=\sqrt{12}$.
+Paso 2: $q=3\sqrt{2}=\sqrt{9\cdot2}=\sqrt{18}$.
+Paso 3: como $12<17<18$, se cumple $\sqrt{12}<\sqrt{17}<\sqrt{18}$, es decir, $p<r<q$.
+Respuesta: C, $p<r<q$.
+Errores frecuentes: La A ordena por el número dentro de la raíz sin considerar los coeficientes ($2<3<17$, al revés). La B supone que $r$ es el menor porque no tiene coeficiente. La D supone que $r$ es el mayor solo porque tiene el radicando más grande a la vista, sin comparar $\sqrt{17}$ con $\sqrt{18}$.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '01c04da8-34db-5938-b71d-301c1eca207a', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'numeros-reales'
+  on conflict do nothing;
+-- m2-numeros-224
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('757f4cf2-500a-5022-9f6d-7ac6789e1c4b', 'm2-numeros-224', '¿Cuál de las siguientes expresiones es igual a $\dfrac{3}{\sqrt[3]{9}}$?', '[{"id":"A","content":"$\\dfrac{\\sqrt[3]{3}}{3}$"},{"id":"B","content":"$\\sqrt{3}$"},{"id":"C","content":"$\\sqrt[3]{9}$"},{"id":"D","content":"$\\sqrt[3]{3}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'medium'::difficulty_level, 'Idea clave: para racionalizar una raíz cúbica se amplifica por el factor que completa un cubo perfecto en el denominador.
+Paso 1: $\sqrt[3]{9}=\sqrt[3]{3^{2}}$; falta un factor $3$ para tener $3^{3}$, así que se amplifica por $\sqrt[3]{3}$.
+Paso 2: $\dfrac{3}{\sqrt[3]{9}}\cdot\dfrac{\sqrt[3]{3}}{\sqrt[3]{3}}=\dfrac{3\sqrt[3]{3}}{\sqrt[3]{27}}=\dfrac{3\sqrt[3]{3}}{3}$.
+Paso 3: se simplifica el $3$ y queda $\sqrt[3]{3}$.
+Respuesta: D, $\sqrt[3]{3}$.
+Errores frecuentes: La A amplifica bien, pero escribe $9$ en el denominador en lugar de $\sqrt[3]{27}=3$. La B confunde la raíz cúbica con la raíz cuadrada. La C amplifica por $\sqrt[3]{9}$ y luego toma $\sqrt[3]{81}$ como si fuera $3$.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '757f4cf2-500a-5022-9f6d-7ac6789e1c4b', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'numeros-reales'
+  on conflict do nothing;
+-- m2-numeros-225
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('d7538b32-4230-52fa-aa1e-ac0c3bdce4f0', 'm2-numeros-225', 'Florencia quiere comparar los números $a=\sqrt{11}-\sqrt{10}$ y $b=\sqrt{10}-3$ sin usar calculadora, y razona así:
+
+Paso 1: $a=\dfrac{1}{\sqrt{11}+\sqrt{10}}$, porque $\left(\sqrt{11}-\sqrt{10}\right)\left(\sqrt{11}+\sqrt{10}\right)=1$.
+Paso 2: $b=\dfrac{1}{\sqrt{10}+3}$, porque $\left(\sqrt{10}-3\right)\left(\sqrt{10}+3\right)=1$.
+Paso 3: Como $\sqrt{11}+\sqrt{10}>\sqrt{10}+3$, se cumple que $\dfrac{1}{\sqrt{11}+\sqrt{10}}>\dfrac{1}{\sqrt{10}+3}$.
+Paso 4: Por lo tanto, $a>b$.
+
+¿En cuál de los pasos se cometió el primer error?', '[{"id":"A","content":"En el Paso 1"},{"id":"B","content":"En el Paso 2"},{"id":"C","content":"En el Paso 3"},{"id":"D","content":"En el Paso 4"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: entre números positivos, al tomar recíprocos la desigualdad se invierte: si $u>v>0$, entonces $\dfrac{1}{u}<\dfrac{1}{v}$.
+Paso 1: los Pasos 1 y 2 son correctos: $11-10=1$ y $10-9=1$, así que cada número es el recíproco de la suma conjugada.
+Paso 2: en el Paso 3 la primera desigualdad es correcta ($\sqrt{11}>3$), pero al pasar a los recíprocos se debía invertir: $\dfrac{1}{\sqrt{11}+\sqrt{10}}<\dfrac{1}{\sqrt{10}+3}$.
+Paso 3: la conclusión correcta es $a<b$ (en efecto, $a\approx0{,}154$ y $b\approx0{,}162$). El Paso 4 solo arrastra el error anterior.
+Respuesta: C, en el Paso 3.
+Errores frecuentes: La A y la B desconfían de la racionalización, que es correcta en ambos casos. La D detecta que la conclusión es falsa, pero el primer error está antes: en el Paso 3, donde no se invirtió la desigualdad.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'd7538b32-4230-52fa-aa1e-ac0c3bdce4f0', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'numeros-reales'
+  on conflict do nothing;
+-- m2-numeros-226
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('5bc83ba2-785d-5587-8bdd-57fe5883c1a1', 'm2-numeros-226', 'Ignacio deposita un capital en un fondo que paga un $5\%$ de interés compuesto anual, sin hacer retiros ni nuevos depósitos.
+
+Considerando $\log 2\approx0{,}301$ y $\log 1{,}05\approx0{,}0212$, ¿al cabo de cuántos años completos el monto será, por primera vez, mayor o igual que el doble del capital inicial?', '[{"id":"A","content":"$6$"},{"id":"B","content":"$14$"},{"id":"C","content":"$15$"},{"id":"D","content":"$20$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: con interés compuesto el monto es $C\cdot(1{,}05)^{n}$; para saber cuándo se duplica se despeja $n$ con logaritmos y se redondea hacia arriba, porque se piden años completos.
+Paso 1: se plantea $C\cdot(1{,}05)^{n}\geq2C$, es decir, $(1{,}05)^{n}\geq2$.
+Paso 2: aplicando logaritmo, $n\cdot\log 1{,}05\geq\log 2$, de donde $n\geq\dfrac{0{,}301}{0{,}0212}\approx14{,}2$.
+Paso 3: a los $14$ años todavía no se alcanza el doble; el primer año completo en que se alcanza es el año $15$.
+Respuesta: C, al cabo de $15$ años.
+Errores frecuentes: La A usa $\log 1{,}05\approx0{,}05$, confundiendo el logaritmo con la tasa. La B trunca $14{,}2$ en lugar de pasar al año siguiente, cuando a los $14$ años el monto aún no llega al doble. La D usa interés simple: $\dfrac{100\%}{5\%}=20$.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '5bc83ba2-785d-5587-8bdd-57fe5883c1a1', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'matematica-financiera'
+  on conflict do nothing;
+-- m2-numeros-227
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('184e1189-c2ce-53a0-a3ac-264a5c3e2741', 'm2-numeros-227', 'Valentina tiene una deuda de $1\,000\,000$ pesos que crece con un interés compuesto del $2\%$ mensual. Al terminar el primer mes, justo después de que se aplican los intereses, abona $220\,000$ pesos. No hace otros pagos ni nuevas compras.
+
+¿Cuánto deberá Valentina al terminar el segundo mes, después de que se apliquen los intereses de ese mes?', '[{"id":"A","content":"$795\\,600$ pesos"},{"id":"B","content":"$811\\,512$ pesos"},{"id":"C","content":"$816\\,000$ pesos"},{"id":"D","content":"$820\\,400$ pesos"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: el interés de cada mes se calcula sobre el saldo que queda después del pago, así que el orden de las operaciones importa.
+Paso 1: al terminar el primer mes la deuda es $1\,000\,000\cdot1{,}02=1\,020\,000$ pesos.
+Paso 2: después del abono queda $1\,020\,000-220\,000=800\,000$ pesos.
+Paso 3: al terminar el segundo mes: $800\,000\cdot1{,}02=816\,000$ pesos.
+Respuesta: C, $816\,000$ pesos.
+Errores frecuentes: La A olvida los intereses del primer mes y calcula $(1\,000\,000-220\,000)\cdot1{,}02$. La B descuenta el abono al inicio y aplica dos meses de interés: $780\,000\cdot1{,}02^{2}$. La D aplica los dos meses de interés a toda la deuda y resta el abono al final, sin considerar que el abono deja de generar interés.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '184e1189-c2ce-53a0-a3ac-264a5c3e2741', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'matematica-financiera'
+  on conflict do nothing;
+-- m2-numeros-228
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('737d052a-3d1d-566f-9ce5-1ecf95cbaa67', 'm2-numeros-228', 'Un capital $C>0$ se deposita a una tasa $i>0$ de interés compuesto anual, sin retiros ni nuevos depósitos. Sea $I_{n}$ el interés generado solo durante el año número $n$.
+
+¿Cuál de las siguientes afirmaciones es siempre verdadera?', '[{"id":"A","content":"$\\dfrac{I_{3}}{I_{2}}=1+i$"},{"id":"B","content":"$I_{2}=I_{1}$"},{"id":"C","content":"$I_{1}+I_{2}=2Ci$"},{"id":"D","content":"$I_{3}=3I_{1}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: en interés compuesto, el interés de un año es la tasa aplicada al saldo al inicio de ese año, y ese saldo crece en el factor $1+i$ cada año.
+Paso 1: al inicio del año $n$ el saldo es $C(1+i)^{n-1}$, así que $I_{n}=C\,i\,(1+i)^{n-1}$.
+Paso 2: $\dfrac{I_{3}}{I_{2}}=\dfrac{C\,i\,(1+i)^{2}}{C\,i\,(1+i)}=1+i$, para cualquier $C$ e $i$ positivos.
+Paso 3: $I_{2}=C\,i\,(1+i)>C\,i=I_{1}$, luego la B es falsa; $I_{1}+I_{2}=2Ci+Ci^{2}>2Ci$, luego la C es falsa; $I_{3}=C\,i\,(1+i)^{2}$, que es igual a $3I_{1}$ solo si $(1+i)^{2}=3$.
+Respuesta: A, $\dfrac{I_{3}}{I_{2}}=1+i$.
+Errores frecuentes: La B y la C corresponden a interés simple, donde cada año se gana lo mismo. La D supone que el interés de cada año aumenta en una cantidad fija, cuando en realidad se multiplica por $1+i$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '737d052a-3d1d-566f-9ce5-1ecf95cbaa67', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'matematica-financiera'
+  on conflict do nothing;
+-- m2-numeros-229
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('4697e0ce-98b2-513e-ac70-cc9c416baf3e', 'm2-numeros-229', 'Una camioneta se compró en $12\,000\,000$ pesos. Cada año pierde un $15\%$ del valor que tenía al comienzo de ese año.
+
+¿Cuál será el valor de la camioneta al cabo de $2$ años?', '[{"id":"A","content":"$8\\,400\\,000$ pesos"},{"id":"B","content":"$8\\,670\\,000$ pesos"},{"id":"C","content":"$10\\,200\\,000$ pesos"},{"id":"D","content":"$15\\,870\\,000$ pesos"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: una pérdida porcentual sobre el valor del año anterior es una depreciación compuesta: cada año el valor se multiplica por $1-0{,}15=0{,}85$.
+Paso 1: al cabo de $1$ año: $12\,000\,000\cdot0{,}85=10\,200\,000$ pesos.
+Paso 2: al cabo de $2$ años: $10\,200\,000\cdot0{,}85=8\,670\,000$ pesos, es decir, $12\,000\,000\cdot(0{,}85)^{2}$.
+Respuesta: B, $8\,670\,000$ pesos.
+Errores frecuentes: La A descuenta el $30\%$ del valor inicial, como si cada año se perdiera el $15\%$ del precio de compra. La C corresponde al valor tras un solo año. La D aplica un aumento del $15\%$ anual en lugar de una disminución.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '4697e0ce-98b2-513e-ac70-cc9c416baf3e', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'matematica-financiera'
+  on conflict do nothing;
+-- m2-numeros-230
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('7499eaad-43f5-515b-b191-f2bdc90d1ff0', 'm2-numeros-230', 'Sea $x$ un número real.
+
+Se puede asegurar que $x$ pertenece al conjunto de los números racionales, si se sabe que:
+
+(1) $x^{2}$ es un número racional.
+(2) $x^{3}$ es un número racional.', '[{"id":"A","content":"(1) por sí sola"},{"id":"B","content":"(2) por sí sola"},{"id":"C","content":"Ambas juntas, (1) y (2)"},{"id":"D","content":"Cada una por sí sola, (1) ó (2)"},{"id":"E","content":"Se requiere información adicional"},{"id":"F","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: en suficiencia se busca un contraejemplo para cada afirmación por separado y luego se analiza qué permiten concluir juntas.
+Paso 1: con (1) sola no basta: $x=\sqrt{2}$ cumple $x^{2}=2$, racional, pero $x$ es irracional; y $x=3$ también la cumple siendo racional.
+Paso 2: con (2) sola no basta: $x=\sqrt[3]{2}$ cumple $x^{3}=2$, racional, pero $x$ es irracional.
+Paso 3: con ambas juntas: si $x=0$, es racional. Si $x\neq0$, entonces $x=\dfrac{x^{3}}{x^{2}}$ es un cociente de dos racionales con denominador distinto de $0$, luego es racional.
+Respuesta: C, ambas juntas, (1) y (2).
+Errores frecuentes: La A cree que si el cuadrado es racional el número también lo es, lo que falla con $\sqrt{2}$. La B hace lo mismo con el cubo, lo que falla con $\sqrt[3]{2}$. La D suma esos dos errores. La E no ve que el cociente $\dfrac{x^{3}}{x^{2}}$ recupera el valor de $x$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '7499eaad-43f5-515b-b191-f2bdc90d1ff0', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'numeros-reales'
+  on conflict do nothing;
+-- m2-numeros-231
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('8bf6dc26-1d8e-5478-bbac-316d426d4f2c', 'm2-numeros-231', 'Sofía depositó un capital $C$, en pesos, en una cuenta que paga una tasa fija de interés compuesto anual. No hizo retiros ni nuevos depósitos.
+
+Se puede determinar el valor de $C$, si se sabe que:
+
+(1) Al cabo de $2$ años, el monto de la cuenta era un $21\%$ mayor que $C$.
+(2) El interés generado durante el segundo año fue un $10\%$ mayor que el interés generado durante el primer año.', '[{"id":"A","content":"(1) por sí sola"},{"id":"B","content":"(2) por sí sola"},{"id":"C","content":"Ambas juntas, (1) y (2)"},{"id":"D","content":"Cada una por sí sola, (1) ó (2)"},{"id":"E","content":"Se requiere información adicional"},{"id":"F","content":"No sé responder esta pregunta"}]'::jsonb, 'E', 'hard'::difficulty_level, 'Idea clave: ambas afirmaciones son relativas (porcentajes y comparaciones), así que permiten hallar la tasa, pero ninguna da una cantidad de dinero para despejar $C$.
+Paso 1: (1) dice $(1+i)^{2}=1{,}21$, de donde $i=0{,}1$. Sirve para la tasa, pero $C$ puede ser cualquier valor.
+Paso 2: (2) dice $C\,i\,(1+i)=1{,}1\cdot C\,i$, de donde $1+i=1{,}1$ e $i=0{,}1$. De nuevo, $C$ se cancela.
+Paso 3: juntas solo repiten que $i=10\%$. Un capital de $100\,000$ pesos y uno de $500\,000$ pesos cumplen ambas condiciones, así que $C$ no queda determinado.
+Respuesta: E, se requiere información adicional.
+Errores frecuentes: La A y la B confunden determinar la tasa con determinar el capital. La C supone que juntar dos datos siempre basta, pero aquí ambos entregan la misma información. La D comete los dos errores de la A y la B a la vez.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '8bf6dc26-1d8e-5478-bbac-316d426d4f2c', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'matematica-financiera'
+  on conflict do nothing;
+-- m2-numeros-301
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('0af929dc-9a05-56cd-bbf2-b402cbfa413e', 'm2-numeros-301', 'Sea $a$ un número real negativo y sea $n$ un número entero positivo.
+
+¿Cuál de las siguientes relaciones es verdadera para cualquier par de valores de $a$ y $n$?', '[{"id":"A","content":"$\\sqrt[2n]{a^{2n}}=a$"},{"id":"B","content":"$\\sqrt[2n+1]{a^{4n+2}}=a^{2}$"},{"id":"C","content":"$\\sqrt[2n+1]{a^{2n}}<0$"},{"id":"D","content":"$\\left(\\sqrt[2n+1]{a}\\right)^{2n}=-\\sqrt[2n+1]{a^{2n}}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: una raíz de índice par de un número positivo es siempre positiva, y una raíz de índice impar conserva el signo de la cantidad subradical.
+Paso 1: $a^{4n+2}=\left(a^{2}\right)^{2n+1}$ y el índice $2n+1$ es impar, así que $\sqrt[2n+1]{\left(a^{2}\right)^{2n+1}}=a^{2}$. La B es siempre verdadera.
+Paso 2: en la A, $\sqrt[2n]{a^{2n}}=|a|=-a$, que es positivo, mientras que $a$ es negativo. Con $a=-2$ y $n=1$: $\sqrt{4}=2\neq-2$.
+Paso 3: en la C, $a^{2n}>0$, así que su raíz de índice impar es positiva, no negativa.
+Paso 4: en la D, $\left(\sqrt[2n+1]{a}\right)^{2n}$ es una potencia de exponente par, por lo tanto positiva, y es igual a $\sqrt[2n+1]{a^{2n}}$, sin el signo menos.
+Respuesta: B, $\sqrt[2n+1]{a^{4n+2}}=a^{2}$.
+Errores frecuentes: La A olvida que la raíz de índice par entrega el valor absoluto. La C cree que el signo negativo de $a$ pasa a la raíz, aunque el exponente par ya lo eliminó. La D le aplica el signo de $a$ a una potencia de exponente par.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '0af929dc-9a05-56cd-bbf2-b402cbfa413e', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'potencias-y-raices'
+  on conflict do nothing;
+-- m2-numeros-302
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('0ba3696c-da10-5c69-8a16-8f717c6268e8', 'm2-numeros-302', 'Considera la suma
+
+$\displaystyle S=\frac{1}{\sqrt{1}+\sqrt{2}}+\frac{1}{\sqrt{2}+\sqrt{3}}+\frac{1}{\sqrt{3}+\sqrt{4}}+\cdots+\frac{1}{\sqrt{24}+\sqrt{25}}$
+
+¿Cuál es el valor de $S$?', '[{"id":"A","content":"$\\dfrac{1}{6}$"},{"id":"B","content":"$\\sqrt{24}-1$"},{"id":"C","content":"$4$"},{"id":"D","content":"$6$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: al racionalizar cada sumando, la suma se vuelve telescópica: casi todos los términos se cancelan.
+Paso 1: $\dfrac{1}{\sqrt{k}+\sqrt{k+1}}\cdot\dfrac{\sqrt{k+1}-\sqrt{k}}{\sqrt{k+1}-\sqrt{k}}=\dfrac{\sqrt{k+1}-\sqrt{k}}{(k+1)-k}=\sqrt{k+1}-\sqrt{k}$.
+Paso 2: entonces $S=(\sqrt{2}-\sqrt{1})+(\sqrt{3}-\sqrt{2})+\cdots+(\sqrt{25}-\sqrt{24})$.
+Paso 3: cada raíz intermedia aparece una vez con signo $+$ y otra con signo $-$, así que solo quedan $S=\sqrt{25}-\sqrt{1}=5-1=4$.
+Respuesta: C, $4$.
+Errores frecuentes: La A junta todo en una sola fracción, $\dfrac{1}{\sqrt{1}+\sqrt{25}}$, como si se pudieran sumar los denominadores. La B deja como último término $\sqrt{24}$ y olvida que el último sumando aporta $\sqrt{25}$. La D cancela mal los signos y suma $\sqrt{25}+\sqrt{1}$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '0ba3696c-da10-5c69-8a16-8f717c6268e8', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'potencias-y-raices'
+  on conflict do nothing;
+-- m2-numeros-303
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('c628d16d-be73-50fc-9452-4c8add5a5a5a', 'm2-numeros-303', 'En un laboratorio de Concepción se estudia un cultivo de levaduras. La cantidad de células se modela mediante $N(t)=N_{0}\cdot b^{t}$, donde $t$ es el tiempo en horas, $N_{0}$ es la cantidad inicial y $b>1$ es una constante. Se observó que en $5$ horas la cantidad de células se multiplicó por $32$.
+
+¿Por qué factor se multiplica la cantidad de células en $2{,}5$ horas?', '[{"id":"A","content":"$4\\sqrt{2}$"},{"id":"B","content":"$8$"},{"id":"C","content":"$16$"},{"id":"D","content":"$16\\sqrt{2}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'medium'::difficulty_level, 'Idea clave: si en $5$ horas el factor es $b^{5}$, en la mitad del tiempo el factor es la raíz cuadrada de ese número, no su mitad.
+Paso 1: $b^{5}=32=2^{5}$, de donde $b=2$.
+Paso 2: el factor en $2{,}5$ horas es $b^{2{,}5}=2^{\frac{5}{2}}=\sqrt{2^{5}}=\sqrt{32}$.
+Paso 3: $\sqrt{32}=\sqrt{16\cdot2}=4\sqrt{2}\approx5{,}66$.
+Respuesta: A, $4\sqrt{2}$.
+Errores frecuentes: La B redondea $2{,}5$ horas a $3$ horas y calcula $2^{3}$. La C razona de forma lineal y toma la mitad de $32$. La D divide $32$ por $\sqrt{2}$ en vez de extraer la raíz cuadrada de $32$.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'c628d16d-be73-50fc-9452-4c8add5a5a5a', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'potencias-y-raices'
+  on conflict do nothing;
+-- m2-numeros-304
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('1205c22d-9d9e-5bd7-9fd5-a03d6d6e4189', 'm2-numeros-304', 'Sea $x$ un número real tal que $0<x<1$.
+
+¿Cuál de las siguientes desigualdades es siempre verdadera?', '[{"id":"A","content":"$\\sqrt{x}<x$"},{"id":"B","content":"$x^{\\frac{3}{2}}>x$"},{"id":"C","content":"$\\sqrt[3]{x}<\\sqrt{x}$"},{"id":"D","content":"$x^{-\\frac{1}{2}}<x^{-1}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: si $0<x<1$, la potencia $x^{r}$ disminuye a medida que el exponente $r$ aumenta.
+Paso 1: escribe todo como potencias de $x$: $\sqrt{x}=x^{\frac{1}{2}}$, $\sqrt[3]{x}=x^{\frac{1}{3}}$ y $x=x^{1}$.
+Paso 2: como $-1<-\dfrac{1}{2}$, se cumple $x^{-1}>x^{-\frac{1}{2}}$, así que la D es verdadera. Por ejemplo, con $x=\dfrac{1}{4}$: $x^{-\frac{1}{2}}=2$ y $x^{-1}=4$.
+Paso 3: las demás fallan con $x=\dfrac{1}{4}$: $\sqrt{x}=\dfrac{1}{2}>\dfrac{1}{4}$; $x^{\frac{3}{2}}=\dfrac{1}{8}<\dfrac{1}{4}$; $\sqrt[3]{x}\approx0{,}63>\sqrt{x}=0{,}5$.
+Respuesta: D, $x^{-\frac{1}{2}}<x^{-1}$.
+Errores frecuentes: La A y la B usan la intuición de los números mayores que $1$, para los que la raíz achica y la potencia agranda. La C supone que una raíz de mayor índice siempre entrega un número menor, lo que solo ocurre si $x>1$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '1205c22d-9d9e-5bd7-9fd5-a03d6d6e4189', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'potencias-y-raices'
+  on conflict do nothing;
+-- m2-numeros-305
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('101df0a3-6d1e-5135-9675-2aa6f92d3b66', 'm2-numeros-305', 'La potencia luminosa $P$ que emite una estrella se puede modelar mediante $P=k\cdot R^{2}\cdot T^{4}$, donde $R$ es el radio de la estrella, $T$ es la temperatura de su superficie y $k$ es una constante positiva.
+
+Una estrella B tiene un radio que es el triple del radio de una estrella A, y la temperatura de su superficie es $\dfrac{1}{\sqrt{3}}$ veces la temperatura de la superficie de A.
+
+¿Cuál es el valor de $\dfrac{P_{B}}{P_{A}}$?', '[{"id":"A","content":"$\\dfrac{1}{3}$"},{"id":"B","content":"$1$"},{"id":"C","content":"$3$"},{"id":"D","content":"$9$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: al reemplazar $R$ y $T$ por sus múltiplos, cada factor queda elevado al exponente que tiene en el modelo.
+Paso 1: $R_{B}=3R_{A}$ y $T_{B}=\dfrac{T_{A}}{\sqrt{3}}$.
+Paso 2: $P_{B}=k\cdot(3R_{A})^{2}\cdot\left(\dfrac{T_{A}}{\sqrt{3}}\right)^{4}=k\cdot9R_{A}^{2}\cdot\dfrac{T_{A}^{4}}{9}$, porque $\left(\sqrt{3}\right)^{4}=9$.
+Paso 3: entonces $P_{B}=k\,R_{A}^{2}\,T_{A}^{4}=P_{A}$ y el cociente es $1$.
+Respuesta: B, $1$.
+Errores frecuentes: La A no eleva al cuadrado el factor del radio y calcula $3\cdot\dfrac{1}{9}$. La C eleva el factor de la temperatura al cuadrado en vez de a la cuarta: $9\cdot\dfrac{1}{3}$. La D considera solo el cambio del radio.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '101df0a3-6d1e-5135-9675-2aa6f92d3b66', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'potencias-y-raices'
+  on conflict do nothing;
+-- m2-numeros-306
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('29fb3c64-1f9a-5a8b-8f27-6156888b3062', 'm2-numeros-306', '¿Cuál es el valor de $\sqrt{7+4\sqrt{3}}-\sqrt{7-4\sqrt{3}}$?', '[{"id":"A","content":"$2\\sqrt{3}$"},{"id":"B","content":"$\\sqrt{8\\sqrt{3}}$"},{"id":"C","content":"$4$"},{"id":"D","content":"$12$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: cada cantidad subradical es un cuadrado perfecto de la forma $\left(p\pm q\sqrt{3}\right)^{2}$.
+Paso 1: $\left(2+\sqrt{3}\right)^{2}=4+4\sqrt{3}+3=7+4\sqrt{3}$ y, del mismo modo, $\left(2-\sqrt{3}\right)^{2}=7-4\sqrt{3}$.
+Paso 2: como $2+\sqrt{3}>0$ y $2-\sqrt{3}>0$ (porque $\sqrt{3}<2$), se tiene $\sqrt{7+4\sqrt{3}}=2+\sqrt{3}$ y $\sqrt{7-4\sqrt{3}}=2-\sqrt{3}$.
+Paso 3: la diferencia es $\left(2+\sqrt{3}\right)-\left(2-\sqrt{3}\right)=2\sqrt{3}$.
+Respuesta: A, $2\sqrt{3}$.
+Errores frecuentes: La B resta las cantidades subradicales, como si $\sqrt{u}-\sqrt{v}=\sqrt{u-v}$. La C toma $\sqrt{7-4\sqrt{3}}=\sqrt{3}-2$, que es negativo y no puede ser una raíz cuadrada. La D eleva la expresión al cuadrado, obtiene $14-2\sqrt{49-48}=12$ y olvida extraer la raíz al final.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '29fb3c64-1f9a-5a8b-8f27-6156888b3062', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'potencias-y-raices'
+  on conflict do nothing;
+-- m2-numeros-307
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('9aefe7d8-6936-51d1-b4f1-89f31c398e5c', 'm2-numeros-307', 'Una gota de agua tiene una masa de $0{,}09$ g. Se sabe que $18$ g de agua contienen aproximadamente $6\cdot10^{23}$ moléculas de agua.
+
+Según estos datos, ¿cuántas moléculas de agua hay, aproximadamente, en esa gota?', '[{"id":"A","content":"$3\\cdot10^{20}$"},{"id":"B","content":"$3\\cdot10^{21}$"},{"id":"C","content":"$3\\cdot10^{22}$"},{"id":"D","content":"$9{,}72\\cdot10^{22}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: la cantidad de moléculas es proporcional a la masa, así que basta calcular qué fracción de $18$ g es la gota.
+Paso 1: $\dfrac{0{,}09}{18}=0{,}005=5\cdot10^{-3}$.
+Paso 2: $5\cdot10^{-3}\cdot6\cdot10^{23}=30\cdot10^{20}$.
+Paso 3: en notación científica, $30\cdot10^{20}=3\cdot10^{21}$.
+Respuesta: B, $3\cdot10^{21}$ moléculas.
+Errores frecuentes: La A escribe $30\cdot10^{20}$ como $3\cdot10^{20}$, sin sumar $1$ al exponente. La C se equivoca en un lugar decimal al calcular $\dfrac{0{,}09}{18}$ y obtiene $0{,}05$. La D multiplica por $18$ en vez de dividir: $0{,}09\cdot18\cdot6\cdot10^{23}$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '9aefe7d8-6936-51d1-b4f1-89f31c398e5c', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'potencias-y-raices'
+  on conflict do nothing;
+-- m2-numeros-308
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('4a338324-7236-50e4-a032-ff494ad1787b', 'm2-numeros-308', 'Una hoja de papel tiene un grosor de $0{,}1$ mm. Cada vez que se dobla por la mitad, el grosor se duplica, de modo que después de $n$ dobleces el grosor sería $0{,}1\cdot2^{n}$ mm, si se pudiera doblar tantas veces como se quisiera.
+
+¿Cuál es la menor cantidad de dobleces necesaria para que el grosor supere los $100$ metros?', '[{"id":"A","content":"$10$"},{"id":"B","content":"$17$"},{"id":"C","content":"$20$"},{"id":"D","content":"$30$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: hay que trabajar en una misma unidad y luego comparar potencias de $2$ con potencias de $10$, usando que $2^{10}=1\,024\approx10^{3}$.
+Paso 1: $100$ m $=100\,000$ mm $=10^{5}$ mm. La condición es $0{,}1\cdot2^{n}>10^{5}$, es decir, $2^{n}>10^{6}$.
+Paso 2: $2^{20}=\left(2^{10}\right)^{2}=1\,024^{2}=1\,048\,576$, que es mayor que $10^{6}$.
+Paso 3: $2^{19}=524\,288$, que es menor que $10^{6}$, así que con $19$ dobleces no alcanza. La menor cantidad es $20$.
+Respuesta: C, $20$ dobleces.
+Errores frecuentes: La A no convierte los metros a milímetros y resuelve $0{,}1\cdot2^{n}>100$. La B olvida el grosor inicial de $0{,}1$ mm y resuelve $2^{n}>10^{5}$. La D usa una conversión equivocada, $1$ m $=10^{6}$ mm, y resuelve $2^{n}>10^{9}$.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '4a338324-7236-50e4-a032-ff494ad1787b', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'potencias-y-raices'
+  on conflict do nothing;
+-- m2-numeros-309
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('eefd62b1-e085-59de-b003-ca959d61f954', 'm2-numeros-309', '¿Cuántas cifras tiene el número $4^{12}\cdot5^{25}$ al escribirlo en el sistema decimal?', '[{"id":"A","content":"$24$"},{"id":"B","content":"$25$"},{"id":"C","content":"$26$"},{"id":"D","content":"$37$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: conviene formar potencias de $10$ juntando factores $2$ y $5$ en igual cantidad.
+Paso 1: $4^{12}=\left(2^{2}\right)^{12}=2^{24}$.
+Paso 2: $2^{24}\cdot5^{25}=2^{24}\cdot5^{24}\cdot5=10^{24}\cdot5$.
+Paso 3: $5\cdot10^{24}$ es un $5$ seguido de $24$ ceros, así que tiene $25$ cifras.
+Respuesta: B, $25$ cifras.
+Errores frecuentes: La A cuenta solo los ceros de $10^{24}$ y olvida la cifra $5$. La C aproxima el número por $10^{25}$, que tiene $26$ cifras, sin notar que $5\cdot10^{24}<10^{25}$. La D suma los exponentes $12+25$ como si las bases fueran iguales.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'eefd62b1-e085-59de-b003-ca959d61f954', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'potencias-y-raices'
+  on conflict do nothing;
+-- m2-numeros-310
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('9058dd0d-4b12-51f7-8fd1-22b44baab28e', 'm2-numeros-310', 'La intensidad $I$ de la luz que llega desde una ampolleta a un sensor se puede modelar mediante $I=\dfrac{k}{d^{2}}$, donde $d$ es la distancia entre la ampolleta y el sensor, y $k$ es una constante positiva.
+
+Si se aleja el sensor de modo que la intensidad que recibe disminuye a la tercera parte, ¿en qué porcentaje, aproximadamente, aumentó la distancia? Considera $\sqrt{3}\approx1{,}73$.', '[{"id":"A","content":"$73\\%$"},{"id":"B","content":"$173\\%$"},{"id":"C","content":"$200\\%$"},{"id":"D","content":"$300\\%$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: como $I$ es inversamente proporcional a $d^{2}$, dividir $I$ por $3$ equivale a multiplicar $d^{2}$ por $3$, es decir, multiplicar $d$ por $\sqrt{3}$.
+Paso 1: si $d''$ es la nueva distancia, $\dfrac{k}{d''^{2}}=\dfrac{1}{3}\cdot\dfrac{k}{d^{2}}$, de donde $d''^{2}=3d^{2}$.
+Paso 2: $d''=\sqrt{3}\,d\approx1{,}73\,d$.
+Paso 3: multiplicar por $1{,}73$ es aumentar en $0{,}73$ veces el valor inicial, es decir, en un $73\%$.
+Respuesta: A, $73\%$.
+Errores frecuentes: La B confunde el factor $1{,}73$ con el porcentaje de aumento. La C supone que la distancia se triplica, como si $I$ fuera inversamente proporcional a $d$ y no a $d^{2}$. La D también triplica la distancia y, además, confunde el factor $3$ con un aumento del $300\%$.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '9058dd0d-4b12-51f7-8fd1-22b44baab28e', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'potencias-y-raices'
+  on conflict do nothing;
+-- m2-numeros-311
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('ec812d17-4bcc-5a71-8104-73abd0590d06', 'm2-numeros-311', '¿Cuál es la cifra de las unidades del número $7^{2026}+3^{2026}$?', '[{"id":"A","content":"$0$"},{"id":"B","content":"$2$"},{"id":"C","content":"$8$"},{"id":"D","content":"$9$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: las cifras de las unidades de las potencias de $7$ y de $3$ se repiten en ciclos de largo $4$.
+Paso 1: las potencias de $7$ terminan en $7$, $9$, $3$, $1$, $7$, $9$, ... y las de $3$ terminan en $3$, $9$, $7$, $1$, $3$, $9$, ...
+Paso 2: $2\,026=4\cdot506+2$, así que $7^{2026}$ termina igual que $7^{2}$, en $9$, y $3^{2026}$ termina igual que $3^{2}$, también en $9$.
+Paso 3: la suma termina en la cifra de las unidades de $9+9=18$, es decir, en $8$.
+Respuesta: C, $8$.
+Errores frecuentes: La A supone que, como $7+3=10$, la suma termina siempre en $0$, lo que solo ocurre con exponentes impares. La B usa mal el resto de la división por $4$ y toma la posición del ciclo en que ambas potencias terminan en $1$. La D considera la cifra de una sola de las dos potencias.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'ec812d17-4bcc-5a71-8104-73abd0590d06', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'potencias-y-raices'
+  on conflict do nothing;
+-- m2-numeros-312
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('0f28bda2-3695-5891-bb02-285acb23d9c7', 'm2-numeros-312', 'Una panadería tiene dos locales, uno en Ñuñoa y otro en Maipú. Entre 2025 y 2026, las ventas del local de Ñuñoa aumentaron un $10\%$ y las del local de Maipú disminuyeron un $20\%$. Aun así, las ventas totales de la panadería fueron las mismas en ambos años.
+
+En 2025, ¿qué porcentaje de las ventas totales correspondió al local de Ñuñoa?', '[{"id":"A","content":"$33{,}\\overline{3}\\%$"},{"id":"B","content":"$42{,}1\\%$ aproximadamente"},{"id":"C","content":"$50\\%$"},{"id":"D","content":"$66{,}\\overline{6}\\%$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: si el total no cambia, lo que gana un local debe ser exactamente lo que pierde el otro.
+Paso 1: sean $a$ y $b$ las ventas de 2025 en Ñuñoa y en Maipú. Ñuñoa gana $0{,}1a$ y Maipú pierde $0{,}2b$.
+Paso 2: como el total se mantiene, $0{,}1a=0{,}2b$, de donde $a=2b$.
+Paso 3: la parte de Ñuñoa es $\dfrac{a}{a+b}=\dfrac{2b}{3b}=\dfrac{2}{3}$, es decir, $66{,}\overline{6}\%$.
+Respuesta: D, $66{,}\overline{6}\%$.
+Errores frecuentes: La A invierte la relación y escribe $b=2a$. La B iguala las ventas nuevas de cada local, $1{,}1a=0{,}8b$, en vez de igualar los totales de ambos años. La C supone que los dos locales vendían lo mismo, pero en ese caso el total habría bajado.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '0f28bda2-3695-5891-bb02-285acb23d9c7', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'porcentaje'
+  on conflict do nothing;
+-- m2-numeros-313
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('640feeb8-83a3-53f8-9b78-24554c9a422b', 'm2-numeros-313', 'En una planta de Limache se deshidratan tomates. Los tomates frescos tienen un $94\%$ de agua en masa y, después del secado, los tomates deshidratados tienen un $70\%$ de agua. Durante el proceso solo se pierde agua.
+
+¿Cuántos kilogramos de tomates deshidratados se obtienen a partir de $100$ kg de tomates frescos?', '[{"id":"A","content":"$6$ kg"},{"id":"B","content":"$20$ kg"},{"id":"C","content":"$30$ kg"},{"id":"D","content":"$76$ kg"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: en el secado no cambia la masa de la parte sólida; lo que cambia es el porcentaje que esa parte representa.
+Paso 1: en $100$ kg de tomates frescos hay un $6\%$ de sólidos, es decir, $6$ kg.
+Paso 2: en los tomates secos, esos $6$ kg son el $30\%$ de la masa total $M$: $0{,}3M=6$.
+Paso 3: $M=\dfrac{6}{0{,}3}=20$ kg.
+Respuesta: B, $20$ kg.
+Errores frecuentes: La A entrega solo la masa de los sólidos, sin el agua que todavía contienen los tomates secos. La C aplica el $30\%$ a los $100$ kg iniciales. La D resta los $24$ puntos porcentuales de diferencia como si fueran $24$ kg.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '640feeb8-83a3-53f8-9b78-24554c9a422b', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'porcentaje'
+  on conflict do nothing;
+-- m2-numeros-314
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('d7334611-f054-5fd1-9c82-165a496aad84', 'm2-numeros-314', 'Rosa compra paltas todas las semanas en una feria de Quillota. Una semana, el precio del kilo de paltas subió, por lo que Rosa compró un $20\%$ menos de kilos que la semana anterior. Aun así, gastó un $4\%$ más que la semana anterior.
+
+¿En qué porcentaje subió el precio del kilo de paltas?', '[{"id":"A","content":"$20\\%$"},{"id":"B","content":"$24\\%$"},{"id":"C","content":"$25\\%$"},{"id":"D","content":"$30\\%$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: el gasto es el producto entre el precio y la cantidad, así que los factores de cambio se multiplican.
+Paso 1: si el precio se multiplica por $f$ y la cantidad por $0{,}8$, el gasto se multiplica por $0{,}8f$.
+Paso 2: el gasto aumentó un $4\%$, por lo tanto $0{,}8f=1{,}04$.
+Paso 3: $f=\dfrac{1{,}04}{0{,}8}=1{,}3$, es decir, el precio subió un $30\%$.
+Respuesta: D, $30\%$.
+Errores frecuentes: La A cree que el precio subió lo mismo que bajó la cantidad. La B suma los porcentajes, $20\%+4\%$, como si se pudieran sumar. La C calcula el alza que mantendría el gasto igual, $\dfrac{1}{0{,}8}=1{,}25$, sin considerar el $4\%$ extra.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'd7334611-f054-5fd1-9c82-165a496aad84', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'porcentaje'
+  on conflict do nothing;
+-- m2-numeros-315
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('2e3c2f08-e72d-5762-adc3-773848f0c907', 'm2-numeros-315', 'En Chile, el precio de venta de un producto incluye el IVA, que corresponde al $19\%$ del valor neto. Un producto se vende en $P$ pesos con el IVA incluido.
+
+Si la tasa del IVA bajara al $15\%$ y el valor neto del producto no cambiara, ¿cuál de las siguientes expresiones representa el nuevo precio de venta, en pesos?', '[{"id":"A","content":"$\\dfrac{1{,}15}{1{,}19}\\cdot P$"},{"id":"B","content":"$\\dfrac{0{,}15}{1{,}19}\\cdot P$"},{"id":"C","content":"$0{,}81\\cdot1{,}15\\cdot P$"},{"id":"D","content":"$0{,}96\\cdot P$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: primero hay que recuperar el valor neto dividiendo por $1{,}19$; recién después se aplica la nueva tasa.
+Paso 1: si $N$ es el valor neto, $P=1{,}19N$, por lo que $N=\dfrac{P}{1{,}19}$.
+Paso 2: con la nueva tasa, el precio de venta es $1{,}15N=\dfrac{1{,}15}{1{,}19}\cdot P$.
+Respuesta: A, $\dfrac{1{,}15}{1{,}19}\cdot P$.
+Errores frecuentes: La B calcula solo el nuevo impuesto, sin sumarle el valor neto. La C supone que el valor neto es el $81\%$ de $P$, es decir, que el IVA es el $19\%$ del precio final. La D le resta $4$ puntos porcentuales directamente al precio con IVA.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '2e3c2f08-e72d-5762-adc3-773848f0c907', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'porcentaje'
+  on conflict do nothing;
+-- m2-numeros-316
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('76d1c75a-c073-5f2d-96a8-d45aa904ccd9', 'm2-numeros-316', 'En una encuesta a los hogares de una comuna de la Región de Valparaíso se obtuvo que el $30\%$ de los hogares tiene perro y el $15\%$ tiene gato. Además, el $20\%$ de los hogares que tienen perro también tiene gato.
+
+¿Qué porcentaje de los hogares que tienen gato también tiene perro?', '[{"id":"A","content":"$6\\%$"},{"id":"B","content":"$20\\%$"},{"id":"C","content":"$40\\%$"},{"id":"D","content":"$50\\%$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: hay que cambiar el grupo de referencia: primero se calcula qué parte del total tiene ambas mascotas y luego se compara con el grupo de hogares con gato.
+Paso 1: los hogares con perro y gato son el $20\%$ del $30\%$, es decir, $0{,}2\cdot0{,}3=0{,}06$, el $6\%$ del total.
+Paso 2: los hogares con gato son el $15\%$ del total.
+Paso 3: $\dfrac{6\%}{15\%}=0{,}4$, así que el $40\%$ de los hogares con gato también tiene perro.
+Respuesta: C, $40\%$.
+Errores frecuentes: La A entrega el porcentaje respecto del total de hogares, no respecto de los que tienen gato. La B supone que el porcentaje es el mismo en ambos sentidos. La D compara directamente el $15\%$ con el $30\%$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '76d1c75a-c073-5f2d-96a8-d45aa904ccd9', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'porcentaje'
+  on conflict do nothing;
+-- m2-numeros-317
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('b280e648-c608-5289-91c8-591fb21999ce', 'm2-numeros-317', 'Valeria vende empanadas en Chillán. Fija el precio de venta de cada empanada de modo que su ganancia sea el $g\%$ del costo de producción, con $g>0$.
+
+¿Qué porcentaje del precio de venta representa la ganancia de cada empanada?', '[{"id":"A","content":"$\\dfrac{100g}{100+g}\\%$"},{"id":"B","content":"$g\\%$"},{"id":"C","content":"$\\dfrac{100g}{100-g}\\%$"},{"id":"D","content":"$(100-g)\\%$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: un mismo monto de ganancia representa porcentajes distintos según con qué se compare: con el costo o con el precio de venta.
+Paso 1: si el costo es $C$, la ganancia es $\dfrac{g}{100}\cdot C$ y el precio de venta es $C+\dfrac{g}{100}\cdot C=\dfrac{100+g}{100}\cdot C$.
+Paso 2: la ganancia como fracción del precio de venta es $\dfrac{g}{100}\cdot C:\dfrac{100+g}{100}\cdot C=\dfrac{g}{100+g}$.
+Paso 3: en porcentaje, es $\dfrac{100g}{100+g}\%$. Por ejemplo, con $g=25$ resulta un $20\%$.
+Respuesta: A, $\dfrac{100g}{100+g}\%$.
+Errores frecuentes: La B cree que el porcentaje no depende de la base con que se compara. La C divide la ganancia por el costo menos la ganancia, en vez de dividirla por el costo más la ganancia. La D resta $g$ de $100$, como si la ganancia y el precio de venta se repartieran el $100\%$.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'b280e648-c608-5289-91c8-591fb21999ce', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'porcentaje'
+  on conflict do nothing;
+-- m2-numeros-318
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('8d984929-bd87-5b4f-917d-c36c529a3030', 'm2-numeros-318', 'Un celular nuevo cuesta $V$ pesos. Según una tienda de Temuco, su valor de reventa disminuye un $30\%$ durante el primer año y, desde entonces, disminuye un $20\%$ cada año respecto del valor que tenía al comienzo de ese año.
+
+¿Cuál de las siguientes expresiones representa el valor de reventa del celular, en pesos, al cabo de $n$ años, con $n\geq1$?', '[{"id":"A","content":"$V\\cdot0{,}5^{n}$"},{"id":"B","content":"$V\\cdot0{,}7\\cdot0{,}8^{n}$"},{"id":"C","content":"$V\\cdot\\left(1-0{,}3-0{,}2(n-1)\\right)$"},{"id":"D","content":"$V\\cdot0{,}7\\cdot0{,}8^{n-1}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'medium'::difficulty_level, 'Idea clave: cada disminución porcentual se aplica sobre el valor del año anterior, así que cada año se multiplica por un factor.
+Paso 1: durante el primer año el valor se multiplica por $1-0{,}3=0{,}7$.
+Paso 2: en cada uno de los $n-1$ años siguientes se multiplica por $1-0{,}2=0{,}8$.
+Paso 3: al cabo de $n$ años el valor es $V\cdot0{,}7\cdot0{,}8^{n-1}$. Con $n=1$ se obtiene $0{,}7V$, como corresponde.
+Respuesta: D, $V\cdot0{,}7\cdot0{,}8^{n-1}$.
+Errores frecuentes: La A suma ambas tasas y aplica un $50\%$ por año. La B aplica el $20\%$ también durante el primer año y cuenta $n$ factores $0{,}8$. La C resta los porcentajes siempre sobre el precio original, como si la disminución fuera lineal.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '8d984929-bd87-5b4f-917d-c36c529a3030', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'porcentaje'
+  on conflict do nothing;
+-- m2-numeros-319
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('ea5ce577-b4fd-5a70-9caf-003203acbca8', 'm2-numeros-319', 'En un viñedo del valle de Colchagua, el $15\%$ de la uva cosechada se descarta por daños. Del resto, el $40\%$ se destina a exportación, lo que corresponde a $6\,800$ kg de uva.
+
+¿Cuántos kilogramos de uva se cosecharon en total?', '[{"id":"A","content":"$17\\,000$ kg"},{"id":"B","content":"$19\\,550$ kg"},{"id":"C","content":"$20\\,000$ kg"},{"id":"D","content":"$27\\,200$ kg"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: el $40\%$ se calcula sobre la uva que queda después del descarte, no sobre el total cosechado.
+Paso 1: la uva no descartada es el $85\%$ del total $T$, y lo exportado es $0{,}4\cdot0{,}85\cdot T=0{,}34\,T$.
+Paso 2: $0{,}34\,T=6\,800$, de donde $T=\dfrac{6\,800}{0{,}34}=20\,000$ kg.
+Respuesta: C, $20\,000$ kg.
+Errores frecuentes: La A calcula $\dfrac{6\,800}{0{,}4}=17\,000$, que es solo la uva no descartada. La B parte de esos $17\,000$ kg y les suma un $15\%$ de sí mismos, en vez de dividir por $0{,}85$. La D resta los porcentajes y divide por $0{,}25$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'ea5ce577-b4fd-5a70-9caf-003203acbca8', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'porcentaje'
+  on conflict do nothing;
+-- m2-numeros-320
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('c14a447f-9a3f-5e58-9b54-9dfd50064a53', 'm2-numeros-320', 'Sea $n$ un número entero cualquiera.
+
+¿Cuál de las siguientes expresiones representa siempre un múltiplo de $6$?', '[{"id":"A","content":"$n^{2}+n$"},{"id":"B","content":"$n^{2}+3n+2$"},{"id":"C","content":"$n^{3}+n$"},{"id":"D","content":"$n^{3}-n$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: el producto de tres enteros consecutivos siempre contiene un factor múltiplo de $2$ y uno múltiplo de $3$.
+Paso 1: $n^{3}-n=n\left(n^{2}-1\right)=(n-1)\cdot n\cdot(n+1)$, que es el producto de tres enteros consecutivos.
+Paso 2: entre tres enteros consecutivos hay al menos un par y exactamente un múltiplo de $3$, así que el producto es múltiplo de $2\cdot3=6$.
+Paso 3: las otras fallan con un ejemplo: con $n=1$, $n^{2}+n=2$ y $n^{3}+n=2$; con $n=0$, $n^{2}+3n+2=2$.
+Respuesta: D, $n^{3}-n$.
+Errores frecuentes: La A y la B son productos de solo dos enteros consecutivos, $n(n+1)$ y $(n+1)(n+2)$, que garantizan el factor $2$ pero no el factor $3$. La C se parece a la correcta, pero $n^{3}+n=n\left(n^{2}+1\right)$ no es un producto de enteros consecutivos.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'c14a447f-9a3f-5e58-9b54-9dfd50064a53', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'enteros-y-racionales'
+  on conflict do nothing;
+-- m2-numeros-321
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('40c6dd39-f023-56e3-8f73-fe9ea93a8348', 'm2-numeros-321', 'Al escribir la fracción $\dfrac{3}{7}$ como número decimal se obtiene un decimal periódico.
+
+¿Cuál es la cifra que ocupa la posición $2\,026$ después de la coma?', '[{"id":"A","content":"$2$"},{"id":"B","content":"$5$"},{"id":"C","content":"$7$"},{"id":"D","content":"$8$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: en un decimal periódico puro las cifras se repiten en bloques del largo del período, así que basta conocer el resto de dividir la posición por ese largo.
+Paso 1: al dividir, $\dfrac{3}{7}=0{,}\overline{428571}$, con un período de $6$ cifras.
+Paso 2: $2\,026=6\cdot337+4$, así que la posición $2\,026$ corresponde a la cuarta cifra del período.
+Paso 3: la cuarta cifra de $428571$ es $5$.
+Respuesta: B, $5$.
+Errores frecuentes: La A usa un ciclo de $4$ cifras, como el de las cifras finales de las potencias, y toma la segunda cifra. La C cuenta una posición de más dentro del período. La D cuenta una posición de menos.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '40c6dd39-f023-56e3-8f73-fe9ea93a8348', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'enteros-y-racionales'
+  on conflict do nothing;
+-- m2-numeros-322
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('10e8b5c8-d78f-53ec-9660-3da7a5468264', 'm2-numeros-322', 'La piscina de un condominio de Paine se puede llenar con la bomba P en $6$ horas o con la bomba Q en $4$ horas, cada una funcionando sola. Además, la piscina tiene un desagüe que, abierto y con las bombas apagadas, la vacía completamente en $12$ horas.
+
+Si la piscina está vacía y se encienden ambas bombas al mismo tiempo que se abre el desagüe, ¿en cuántas horas se llena la piscina?', '[{"id":"A","content":"$2$"},{"id":"B","content":"$2{,}4$"},{"id":"C","content":"$3$"},{"id":"D","content":"$5$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: lo que se suma o se resta son las fracciones de la piscina que se llenan o se vacían en una hora, no los tiempos.
+Paso 1: en una hora, P llena $\dfrac{1}{6}$, Q llena $\dfrac{1}{4}$ y el desagüe vacía $\dfrac{1}{12}$ de la piscina.
+Paso 2: en conjunto, en una hora: $\dfrac{1}{6}+\dfrac{1}{4}-\dfrac{1}{12}=\dfrac{2+3-1}{12}=\dfrac{4}{12}=\dfrac{1}{3}$.
+Paso 3: si en una hora se llena $\dfrac{1}{3}$ de la piscina, la piscina completa se llena en $3$ horas.
+Respuesta: C, $3$ horas.
+Errores frecuentes: La A suma el aporte del desagüe en vez de restarlo. La B olvida el desagüe: $\dfrac{1}{6}+\dfrac{1}{4}=\dfrac{5}{12}$, que da $2{,}4$ horas. La D promedia los tiempos de las dos bombas, como si el tiempo conjunto fuera un promedio.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '10e8b5c8-d78f-53ec-9660-3da7a5468264', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'enteros-y-racionales'
+  on conflict do nothing;
+-- m2-numeros-323
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('6ab97acf-7bbe-5799-a948-85ae2c5ae05b', 'm2-numeros-323', 'Sean $a$ y $b$ números enteros tales que $a\cdot b<0$ y $a+b>0$.
+
+¿Cuál de las siguientes afirmaciones es siempre verdadera?', '[{"id":"A","content":"$a^{2}b+ab^{2}<0$"},{"id":"B","content":"$a-b>0$"},{"id":"C","content":"$\\dfrac{a}{b}>-1$"},{"id":"D","content":"$a^{3}+b^{3}<0$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: conviene factorizar para escribir cada expresión en términos de $ab$ y de $a+b$, cuyos signos se conocen.
+Paso 1: $a^{2}b+ab^{2}=ab(a+b)$. Como $ab<0$ y $a+b>0$, el producto es negativo, así que la A es siempre verdadera.
+Paso 2: $ab<0$ indica que uno es positivo y el otro negativo, pero no cuál. Con $a=-1$ y $b=3$: $a-b=-4<0$, así que la B no siempre se cumple.
+Paso 3: con $a=3$ y $b=-1$: $\dfrac{a}{b}=-3<-1$, así que la C no siempre se cumple. Y $a^{3}+b^{3}=(a+b)\left(a^{2}-ab+b^{2}\right)$ es positivo, porque ambos factores son positivos, así que la D nunca se cumple.
+Respuesta: A, $a^{2}b+ab^{2}<0$.
+Errores frecuentes: La B supone que $a$ es el número positivo. La C supone que el número negativo es el del numerador. La D cree que al elevar al cubo se impone el signo negativo, pero el número positivo tiene mayor valor absoluto y su cubo pesa más.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '6ab97acf-7bbe-5799-a948-85ae2c5ae05b', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'enteros-y-racionales'
+  on conflict do nothing;
+-- m2-numeros-324
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('1aa9e7d3-1e58-57a9-88a1-2e1f92b9cd8a', 'm2-numeros-324', 'Dos números enteros positivos tienen máximo común divisor $6$ y mínimo común múltiplo $180$. Ninguno de ellos es igual a $6$ ni a $180$ y, entre todos los pares que cumplen estas condiciones, la diferencia entre ellos es la menor posible.
+
+¿Cuál es la suma de esos dos números?', '[{"id":"A","content":"$66$"},{"id":"B","content":"$78$"},{"id":"C","content":"$102$"},{"id":"D","content":"$186$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: si el máximo común divisor es $6$, ambos números son $6$ multiplicado por enteros primos entre sí.
+Paso 1: escribe los números como $6m$ y $6n$, con $m$ y $n$ primos entre sí. Entonces el mínimo común múltiplo es $6mn=180$, de donde $mn=30$.
+Paso 2: los pares de primos entre sí con producto $30$ son $(1,30)$, $(2,15)$, $(3,10)$ y $(5,6)$, que dan los pares de números $(6,180)$, $(12,90)$, $(18,60)$ y $(30,36)$.
+Paso 3: se descarta $(6,180)$. De los restantes, la menor diferencia es la de $30$ y $36$, cuya suma es $66$.
+Respuesta: A, $66$.
+Errores frecuentes: La B corresponde a $18$ y $60$, que cumplen las condiciones de divisores pero no tienen la menor diferencia. La C corresponde a $12$ y $90$, con una diferencia aún mayor. La D usa el par $6$ y $180$, que el enunciado excluye.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '1aa9e7d3-1e58-57a9-88a1-2e1f92b9cd8a', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'enteros-y-racionales'
+  on conflict do nothing;
+-- m2-numeros-325
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('55c67920-c277-5412-a69e-0cfd23cf594c', 'm2-numeros-325', 'Un contenedor refrigerado se encuentra en el puerto de San Antonio a una temperatura de $-7{,}5$ °C. Debido a una falla, su temperatura comienza a subir $\dfrac{2}{3}$ de grado Celsius cada hora, de manera constante.
+
+¿Cuántas horas deben pasar desde la falla para que la temperatura del contenedor llegue a $4{,}5$ °C?', '[{"id":"A","content":"$4{,}5$"},{"id":"B","content":"$6{,}75$"},{"id":"C","content":"$8$"},{"id":"D","content":"$18$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'medium'::difficulty_level, 'Idea clave: primero se calcula la variación total de temperatura, cuidando los signos, y luego se divide por la variación de cada hora.
+Paso 1: la temperatura debe subir desde $-7{,}5$ °C hasta $4{,}5$ °C, es decir, $4{,}5-(-7{,}5)=12$ grados.
+Paso 2: como sube $\dfrac{2}{3}$ de grado por hora, el tiempo es $12:\dfrac{2}{3}=12\cdot\dfrac{3}{2}=18$ horas.
+Respuesta: D, $18$ horas.
+Errores frecuentes: La A calcula la variación como $4{,}5+(-7{,}5)=-3$ y usa $3$ grados. La B considera solo la subida desde $0$ °C hasta $4{,}5$ °C. La C multiplica $12$ por $\dfrac{2}{3}$ en vez de dividir.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '55c67920-c277-5412-a69e-0cfd23cf594c', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'enteros-y-racionales'
+  on conflict do nothing;
+-- m2-numeros-326
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('b33ff69b-a633-56e6-8fee-532a9e5b97c9', 'm2-numeros-326', 'La suma de tres números enteros impares consecutivos es $-45$.
+
+¿Cuál es el producto entre el mayor y el menor de esos tres números?', '[{"id":"A","content":"$-221$"},{"id":"B","content":"$195$"},{"id":"C","content":"$221$"},{"id":"D","content":"$255$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: tres impares consecutivos se pueden escribir como $m-2$, $m$ y $m+2$, de modo que su suma es $3m$.
+Paso 1: $3m=-45$, de donde $m=-15$. Los números son $-17$, $-15$ y $-13$.
+Paso 2: el mayor es $-13$, el más cercano a cero, y el menor es $-17$.
+Paso 3: $(-13)\cdot(-17)=221$.
+Respuesta: C, $221$.
+Errores frecuentes: La A se equivoca con la regla de los signos: el producto de dos negativos es positivo. La B multiplica $-15$ por $-13$, es decir, toma el número del medio en vez del menor. La D multiplica $-17$ por $-15$, tomando el número del medio en vez del mayor.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'b33ff69b-a633-56e6-8fee-532a9e5b97c9', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'enteros-y-racionales'
+  on conflict do nothing;
+-- m2-numeros-327
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('f238b0df-f206-5c46-9657-a1004c9794f6', 'm2-numeros-327', '¿Cuál de las siguientes fracciones tiene una representación decimal finita?', '[{"id":"A","content":"$\\dfrac{7}{12}$"},{"id":"B","content":"$\\dfrac{9}{24}$"},{"id":"C","content":"$\\dfrac{4}{15}$"},{"id":"D","content":"$\\dfrac{13}{18}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: una fracción irreducible tiene decimal finito si y solo si su denominador no tiene factores primos distintos de $2$ y $5$.
+Paso 1: hay que simplificar antes de mirar el denominador: $\dfrac{9}{24}=\dfrac{3}{8}$, y $8=2^{3}$.
+Paso 2: entonces $\dfrac{9}{24}=\dfrac{3}{8}=0{,}375$, que es un decimal finito.
+Paso 3: las otras fracciones ya son irreducibles y sus denominadores tienen el factor $3$: $12=2^{2}\cdot3$, $15=3\cdot5$ y $18=2\cdot3^{2}$, así que sus decimales son periódicos o semiperiódicos.
+Respuesta: B, $\dfrac{9}{24}$.
+Errores frecuentes: La A y la D tienen denominador par, y se cree que basta un factor $2$ en el denominador. La C tiene el factor $5$ en el denominador, pero también el factor $3$, que produce un período. Quien descarta la B por el factor $3$ de $24$ olvida simplificar primero.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'f238b0df-f206-5c46-9657-a1004c9794f6', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'enteros-y-racionales'
+  on conflict do nothing;
+-- m2-numeros-328
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('8e770afe-eb8c-5c9f-89b5-4f3664f6c2eb', 'm2-numeros-328', 'Una tienda de Osorno vende una parka a un precio original de $P$ pesos.
+
+Se puede determinar el valor de $P$, si se sabe que:
+
+(1) Si al precio original se le aplica un descuento del $15\%$ y, luego, al precio rebajado se le aplica un recargo del $15\%$, se paga $900$ pesos menos que el precio original.
+(2) Aplicar al precio original dos descuentos sucesivos del $10\%$ equivale a aplicarle un único descuento del $19\%$.', '[{"id":"A","content":"(1) por sí sola"},{"id":"B","content":"(2) por sí sola"},{"id":"C","content":"Ambas juntas, (1) y (2)"},{"id":"D","content":"Cada una por sí sola, (1) ó (2)"},{"id":"E","content":"Se requiere información adicional"},{"id":"F","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: una afirmación es suficiente solo si entrega una ecuación que fija el valor de $P$; una igualdad que se cumple para cualquier precio no aporta información.
+Paso 1: por (1), el precio final es $P\cdot0{,}85\cdot1{,}15=0{,}9775P$, que es menor que $P$. Entonces $P-0{,}9775P=900$, o sea, $0{,}0225P=900$ y $P=40\,000$. Es suficiente.
+Paso 2: por (2), $P\cdot0{,}9\cdot0{,}9=0{,}81P=P\cdot(1-0{,}19)$, igualdad que se cumple para cualquier valor de $P$. No es suficiente.
+Respuesta: A, (1) por sí sola.
+Errores frecuentes: La D cree que (2) entrega un dato, pero es una igualdad válida para todo precio. La B y la E suponen que en (1) el descuento y el recargo del $15\%$ se anulan, de modo que (1) no informaría nada. La C combina ambas afirmaciones sin notar que (1) ya basta.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '8e770afe-eb8c-5c9f-89b5-4f3664f6c2eb', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'porcentaje'
+  on conflict do nothing;
+-- m2-numeros-329
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('4e68220c-eda5-5b0a-b4b7-34ae1b9bb8dd', 'm2-numeros-329', 'Sean $a$ y $x$ números reales, con $a>0$ y $a\neq1$.
+
+Se puede determinar el valor de $a^{x}$, si se sabe que:
+
+(1) $a^{2x}-a^{x}=6$
+(2) $a^{x+1}=3a$', '[{"id":"A","content":"(1) por sí sola"},{"id":"B","content":"(2) por sí sola"},{"id":"C","content":"Ambas juntas, (1) y (2)"},{"id":"D","content":"Cada una por sí sola, (1) ó (2)"},{"id":"E","content":"Se requiere información adicional"},{"id":"F","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: si $a>0$, la potencia $a^{x}$ es siempre positiva, lo que permite descartar soluciones negativas.
+Paso 1: en (1), con $u=a^{x}$ queda $u^{2}-u-6=0$, es decir, $(u-3)(u+2)=0$. Como $u=a^{x}>0$, se descarta $u=-2$ y queda $a^{x}=3$. Es suficiente.
+Paso 2: en (2), $a^{x+1}=a^{x}\cdot a=3a$. Como $a\neq0$, se puede dividir por $a$ y resulta $a^{x}=3$. Es suficiente.
+Paso 3: cada afirmación por sí sola determina el valor de $a^{x}$.
+Respuesta: D, cada una por sí sola, (1) ó (2).
+Errores frecuentes: La B cree que (1) deja dos valores posibles, $3$ y $-2$, sin notar que una potencia de base positiva no puede ser negativa. La A piensa que en (2) hace falta conocer $a$ para despejar, aunque $a$ se simplifica. La C y la E no reconocen que cada ecuación, por sí sola, fija el valor de $a^{x}$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '4e68220c-eda5-5b0a-b4b7-34ae1b9bb8dd', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'numeros' and e.subject = 'm2' and t.slug = 'potencias-y-raices'
+  on conflict do nothing;
 -- m2-probabilidad-y-estadistica-001
 insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('9ad50acc-0268-55aa-addb-5e171dea6835', 'm2-probabilidad-y-estadistica-001', 'En un taller de lectura se registró la cantidad de páginas que leyó cada participante durante una semana, y la varianza de esos datos fue $16$ páginas al cuadrado. A la semana siguiente, cada participante leyó exactamente el triple de páginas que la semana anterior.
 
@@ -8374,6 +11267,809 @@ Errores frecuentes: La A resta $0{,}977 - 0{,}841$, que es la probabilidad entre
 insert into public.question_topics (question_id, topic_id)
   select '1ef327ec-66c8-50d3-987e-ea295f404bdc', t.id from public.topics t join public.ejes e on e.id = t.eje_id
   where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'modelos-probabilisticos'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-201
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('01d70c47-3682-503c-96e9-7cbde4ea98e1', 'm2-probabilidad-y-estadistica-201', 'En una cooperativa de Chillán, los sueldos de los trabajadores tienen promedio $m$ pesos y coeficiente de variación $c$, donde el coeficiente de variación se define como el cociente entre la desviación estándar y el promedio. Para fin de año, la cooperativa entrega a cada trabajador un bono fijo de $k$ pesos, con $m > 0$ y $k > 0$, que se suma a su sueldo.
+
+¿Cuál de las siguientes expresiones representa el coeficiente de variación de los sueldos con el bono incluido?', '[{"id":"A","content":"$c$"},{"id":"B","content":"$\\dfrac{c\\,m}{m+k}$"},{"id":"C","content":"$\\dfrac{c\\,(m+k)}{m}$"},{"id":"D","content":"$\\dfrac{c\\,m+k}{m+k}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: sumar una constante a todos los datos desplaza el promedio, pero no cambia la desviación estándar.
+Paso 1: como $c = \dfrac{s}{m}$, la desviación estándar de los sueldos es $s = c\,m$.
+Paso 2: con el bono, el promedio pasa a $m + k$ y la desviación estándar sigue siendo $c\,m$.
+Paso 3: el nuevo coeficiente es $\dfrac{c\,m}{m+k}$, que es menor que $c$ porque el denominador creció.
+Respuesta: B, $\dfrac{c\,m}{m+k}$.
+Errores frecuentes: La A supone que el coeficiente no cambia, pero el promedio sí cambia. La C invierte el cociente al ajustar por el nuevo promedio. La D suma el bono también a la desviación estándar, como si la dispersión aumentara en $k$.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '01d70c47-3682-503c-96e9-7cbde4ea98e1', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'medidas-de-dispersion'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-202
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('b0bfb464-621d-5bfa-9f16-c4e50abf155f', 'm2-probabilidad-y-estadistica-202', 'Una nutricionista de Rancagua registró la cantidad de gramos de azúcar que consumieron $20$ pacientes en el desayuno. Con esos datos calculó que la suma de los $20$ valores es $300$ y la suma de sus cuadrados es $4\,820$.
+
+Después notó que había registrado $25$ gramos para un paciente que en realidad consumió $15$ gramos, y corrigió ese dato.
+
+Considerando que la varianza es igual al promedio de los cuadrados de los datos menos el cuadrado del promedio, ¿cuál es la varianza de los datos corregidos?', '[{"id":"A","content":"$10{,}75$"},{"id":"B","content":"$11$"},{"id":"C","content":"$16$"},{"id":"D","content":"$30{,}75$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: al corregir un dato cambian tanto la suma de los datos como la suma de sus cuadrados, y hay que recalcular ambas.
+Paso 1: la nueva suma es $300 - 25 + 15 = 290$, así que el nuevo promedio es $\dfrac{290}{20} = 14{,}5$.
+Paso 2: la nueva suma de cuadrados es $4\,820 - 25^2 + 15^2 = 4\,820 - 625 + 225 = 4\,420$, cuyo promedio es $\dfrac{4\,420}{20} = 221$.
+Paso 3: la varianza corregida es $221 - 14{,}5^2 = 221 - 210{,}25 = 10{,}75$.
+Respuesta: A, $10{,}75$.
+Errores frecuentes: La B resta a la varianza original $\dfrac{(25-15)^2}{20} = 5$, un atajo que no es válido. La C es la varianza original ($241 - 15^2 = 16$), sin corregir. La D actualiza el promedio pero no la suma de cuadrados ($241 - 210{,}25$).', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'b0bfb464-621d-5bfa-9f16-c4e50abf155f', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'medidas-de-dispersion'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-203
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('b8531058-156a-5e98-b84d-be100da6ee62', 'm2-probabilidad-y-estadistica-203', 'Considera los números reales $k$ y $d$, con $d > 0$, y los siguientes grupos de datos:
+
+Grupo P: $k - d$, $k$, $k + d$
+Grupo Q: $k - 2d$, $k$, $k$, $k + 2d$
+
+¿Cuál de las siguientes afirmaciones es siempre verdadera respecto de las desviaciones estándar de ambos grupos?', '[{"id":"A","content":"Ambos grupos tienen la misma desviación estándar."},{"id":"B","content":"La desviación estándar de Q es $\\sqrt{3}$ veces la de P."},{"id":"C","content":"La desviación estándar de Q es el doble de la de P."},{"id":"D","content":"La desviación estándar de Q es el triple de la de P."},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: ambos grupos tienen promedio $k$, así que basta comparar los promedios de las desviaciones al cuadrado.
+Paso 1: en P, las desviaciones son $-d$, $0$ y $d$, y la varianza es $\dfrac{d^2 + 0 + d^2}{3} = \dfrac{2d^2}{3}$.
+Paso 2: en Q, las desviaciones son $-2d$, $0$, $0$ y $2d$, y la varianza es $\dfrac{4d^2 + 0 + 0 + 4d^2}{4} = 2d^2$.
+Paso 3: la varianza de Q es $3$ veces la de P, así que su desviación estándar es $\sqrt{3}$ veces la de P.
+Respuesta: B.
+Errores frecuentes: La A cree que el dato $k$ repetido compensa exactamente la mayor separación. La C duplica la desviación porque los extremos se alejan el doble, pero olvida que Q tiene un dato más en el centro. La D confunde la razón de las varianzas ($3$) con la de las desviaciones estándar.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'b8531058-156a-5e98-b84d-be100da6ee62', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'medidas-de-dispersion'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-204
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('778011d5-aa2e-54ba-b0e3-e9c8a9532519', 'm2-probabilidad-y-estadistica-204', 'Una cadena de panaderías registró durante un mes la cantidad diaria de kilogramos de pan vendidos en cuatro sucursales. En la tabla se muestran el promedio y la desviación estándar de cada una:
+
+$\displaystyle \begin{array}{|c|c|c|}\hline \text{Sucursal} & \text{Promedio (kg)} & \text{Desviación estándar (kg)} \\ \hline \text{Norte} & 50 & 7 \\ \hline \text{Centro} & 80 & 8 \\ \hline \text{Sur} & 20 & 3 \\ \hline \text{Costa} & 120 & 15 \\ \hline \end{array}$
+
+Para comparar la dispersión relativa se usa el coeficiente de variación, que es el cociente entre la desviación estándar y el promedio. ¿En cuál sucursal la dispersión relativa de las ventas es mayor?', '[{"id":"A","content":"Norte"},{"id":"B","content":"Centro"},{"id":"C","content":"Sur"},{"id":"D","content":"Costa"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: la dispersión relativa no se mide con la desviación estándar sola, sino dividiéndola por el promedio.
+Paso 1: Norte: $\dfrac{7}{50} = 0{,}14$. Centro: $\dfrac{8}{80} = 0{,}10$.
+Paso 2: Sur: $\dfrac{3}{20} = 0{,}15$. Costa: $\dfrac{15}{120} = 0{,}125$.
+Paso 3: el mayor coeficiente es $0{,}15$, de la sucursal Sur.
+Respuesta: C, Sur.
+Errores frecuentes: La A tiene un coeficiente alto ($0{,}14$), pero menor que el de Sur. La B divide el promedio por la desviación estándar (cociente invertido) y elige el mayor. La D elige la sucursal con la mayor desviación estándar absoluta, sin considerar que su promedio también es el mayor.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '778011d5-aa2e-54ba-b0e3-e9c8a9532519', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'medidas-de-dispersion'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-205
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('41c9e61c-ec63-540c-bc86-e22b1502f196', 'm2-probabilidad-y-estadistica-205', 'Durante cinco días, Ignacia aumentó la distancia de su entrenamiento en bicicleta en una misma cantidad cada día, de modo que las distancias recorridas, en kilómetros, fueron $a$, $a + r$, $a + 2r$, $a + 3r$ y $a + 4r$, con $r > 0$.
+
+Si la desviación estándar de las cinco distancias es $6$ km, ¿cuál es el rango de las distancias?', '[{"id":"A","content":"$6\\sqrt{2}$ km"},{"id":"B","content":"$12$ km"},{"id":"C","content":"$12\\sqrt{2}$ km"},{"id":"D","content":"$24$ km"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: en una progresión aritmética el promedio es el término central, y la desviación estándar depende solo de la diferencia $r$.
+Paso 1: el promedio es $a + 2r$, y las desviaciones son $-2r$, $-r$, $0$, $r$ y $2r$.
+Paso 2: la varianza es $\dfrac{4r^2 + r^2 + 0 + r^2 + 4r^2}{5} = 2r^2$, así que la desviación estándar es $r\sqrt{2}$.
+Paso 3: de $r\sqrt{2} = 6$ se obtiene $r = 3\sqrt{2}$, y el rango es $4r = 12\sqrt{2}$ km.
+Respuesta: C, $12\sqrt{2}$ km.
+Errores frecuentes: La A calcula $2r$ en vez de $4r$. La B supone que el rango es el doble de la desviación estándar. La D supone que el rango es cuatro veces la desviación estándar, confundiendo $r$ con la desviación estándar.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '41c9e61c-ec63-540c-bc86-e22b1502f196', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'medidas-de-dispersion'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-206
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('f06ffac5-ba89-5504-8f82-a826fb58155a', 'm2-probabilidad-y-estadistica-206', 'En un curso de $40$ estudiantes de un liceo de Valdivia se registró si cada estudiante aprobó un taller, anotando $1$ si aprobó y $0$ si no aprobó. La varianza de esos $40$ datos resultó ser $0{,}24$.
+
+Si más de la mitad del curso aprobó el taller, ¿cuántos estudiantes lo aprobaron?', '[{"id":"A","content":"$10$"},{"id":"B","content":"$16$"},{"id":"C","content":"$20$"},{"id":"D","content":"$24$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: si $p$ es la proporción de unos, el promedio de los datos es $p$ y el promedio de sus cuadrados también es $p$ (porque $1^2 = 1$ y $0^2 = 0$).
+Paso 1: la varianza es $p - p^2 = p(1 - p)$.
+Paso 2: de $p(1-p) = 0{,}24$ se obtiene $p^2 - p + 0{,}24 = 0$, con soluciones $p = 0{,}4$ y $p = 0{,}6$.
+Paso 3: como aprobó más de la mitad, $p = 0{,}6$, es decir, $0{,}6 \cdot 40 = 24$ estudiantes.
+Respuesta: D, $24$ estudiantes.
+Errores frecuentes: La A multiplica la varianza por $40$ ($9{,}6 \approx 10$), como si fuera una proporción. La B toma la solución $p = 0{,}4$, que no cumple la condición de más de la mitad. La C supone que la mitad aprobó, pero entonces la varianza sería $0{,}25$.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'f06ffac5-ba89-5504-8f82-a826fb58155a', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'medidas-de-dispersion'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-207
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('cf0c19e2-f0fa-56a2-95de-b3d9596f9915', 'm2-probabilidad-y-estadistica-207', 'En una fábrica de Antofagasta, las piezas deben medir $c$ milímetros. Al medir un lote se obtuvieron $n$ largos, cuyo promedio es $m$ milímetros y cuya varianza es $v$ milímetros al cuadrado. Para cada pieza se calcula su error cuadrático $(x_i - c)^2$, donde $x_i$ es el largo de la pieza.
+
+¿Cuál de las siguientes expresiones es siempre igual al promedio de los $n$ errores cuadráticos?', '[{"id":"A","content":"$v$"},{"id":"B","content":"$v + (m - c)^2$"},{"id":"C","content":"$v - (m - c)^2$"},{"id":"D","content":"$(m - c)^2$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: escribir $x_i - c = (x_i - m) + (m - c)$ y usar que la suma de las desviaciones respecto del promedio es $0$.
+Paso 1: $(x_i - c)^2 = (x_i - m)^2 + 2(x_i - m)(m - c) + (m - c)^2$.
+Paso 2: al promediar, el primer término da $v$, el segundo da $0$ (porque el promedio de $x_i - m$ es $0$) y el tercero da $(m - c)^2$.
+Paso 3: el promedio de los errores cuadráticos es $v + (m - c)^2$; solo coincide con $v$ cuando $m = c$.
+Respuesta: B, $v + (m - c)^2$.
+Errores frecuentes: La A olvida que los errores se miden respecto de $c$ y no respecto del promedio. La C resta el término del sesgo, lo que podría dar un valor negativo. La D solo considera la distancia entre el promedio y $c$, ignorando la dispersión de los datos.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'cf0c19e2-f0fa-56a2-95de-b3d9596f9915', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'medidas-de-dispersion'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-208
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('2af79384-91c2-5fd1-92fb-1c3319a5bf86', 'm2-probabilidad-y-estadistica-208', 'Un restaurante de Valparaíso registró cuántas personas se sentaron en cada una de las mesas que atendió durante un almuerzo. Los resultados se muestran en la tabla:
+
+$\displaystyle \begin{array}{|c|c|}\hline \text{Personas por mesa} & \text{Cantidad de mesas} \\ \hline 2 & 1 \\ \hline 4 & 3 \\ \hline 6 & 3 \\ \hline 8 & 1 \\ \hline \end{array}$
+
+¿Qué valor tiene la desviación estándar del número de comensales por mesa?', '[{"id":"A","content":"$\\sqrt{3}$"},{"id":"B","content":"$\\sqrt{5}$"},{"id":"C","content":"$3$"},{"id":"D","content":"$6$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'medium'::difficulty_level, 'Idea clave: en una tabla de frecuencias, cada desviación al cuadrado se cuenta tantas veces como indica su frecuencia.
+Paso 1: hay $8$ mesas y el promedio es $\dfrac{2 + 12 + 18 + 8}{8} = 5$.
+Paso 2: las desviaciones al cuadrado son $9$, $1$, $1$ y $9$, y ponderadas suman $9 \cdot 1 + 1 \cdot 3 + 1 \cdot 3 + 9 \cdot 1 = 24$.
+Paso 3: la varianza es $\dfrac{24}{8} = 3$ y la desviación estándar es $\sqrt{3}$.
+Respuesta: A, $\sqrt{3}$.
+Errores frecuentes: La B ignora las frecuencias y trabaja con los cuatro valores $2$, $4$, $6$ y $8$ ($\dfrac{20}{4} = 5$). La C entrega la varianza en vez de la desviación estándar. La D divide $24$ por la cantidad de filas de la tabla ($4$) en lugar de por la cantidad de mesas.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '2af79384-91c2-5fd1-92fb-1c3319a5bf86', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'medidas-de-dispersion'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-209
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('fd89dab1-6698-5c7c-8155-d9db172f7f28', 'm2-probabilidad-y-estadistica-209', 'Tomás registró los puntos que anotó en tres partidos de básquetbol: $4$, $6$ y $8$. Le falta registrar los puntos del cuarto partido, que pueden ser cualquier número entero mayor o igual que $0$.
+
+¿Cuál es la menor desviación estándar que pueden tener los puntos de los cuatro partidos?', '[{"id":"A","content":"$\\sqrt{2}$"},{"id":"B","content":"$\\dfrac{2\\sqrt{6}}{3}$"},{"id":"C","content":"$2$"},{"id":"D","content":"$2\\sqrt{2}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: la dispersión es mínima cuando el dato nuevo coincide con el promedio de los datos que ya están, porque así no agrega ninguna desviación.
+Paso 1: el promedio de $4$, $6$ y $8$ es $6$, así que conviene que el cuarto dato sea $6$ (cualquier otro valor aleja ese dato del centro).
+Paso 2: con los datos $4$, $6$, $6$ y $8$, el promedio es $6$ y las desviaciones al cuadrado suman $4 + 0 + 0 + 4 = 8$.
+Paso 3: la varianza es $\dfrac{8}{4} = 2$ y la desviación estándar es $\sqrt{2}$.
+Respuesta: A, $\sqrt{2}$.
+Errores frecuentes: La B es la desviación estándar de los tres primeros datos ($\sqrt{8/3}$): agregar un dato igual al promedio sí la reduce, porque se divide por más datos. La C entrega la varianza mínima en vez de la desviación estándar. La D no divide la suma de cuadrados por la cantidad de datos ($\sqrt{8}$).', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'fd89dab1-6698-5c7c-8155-d9db172f7f28', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'medidas-de-dispersion'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-210
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('d594c4c8-23e5-5b29-be79-0aeeb1180cec', 'm2-probabilidad-y-estadistica-210', 'Un sensor de una estación meteorológica de Punta Arenas tomó cinco mediciones de la velocidad del viento. Las diferencias entre cada medición y el promedio de las cinco, en kilómetros por hora, son $-3$, $-1$, $0$, $2$ y $k$.
+
+¿Cuál es la desviación estándar de las cinco mediciones?', '[{"id":"A","content":"$\\sqrt{\\dfrac{14}{5}}$ km/h"},{"id":"B","content":"$\\dfrac{3\\sqrt{10}}{5}$ km/h"},{"id":"C","content":"$\\dfrac{3\\sqrt{2}}{2}$ km/h"},{"id":"D","content":"$\\dfrac{18}{5}$ km/h"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: las diferencias respecto del promedio siempre suman $0$, lo que permite encontrar $k$.
+Paso 1: $-3 - 1 + 0 + 2 + k = 0$, así que $k = 2$.
+Paso 2: la varianza es $\dfrac{9 + 1 + 0 + 4 + 4}{5} = \dfrac{18}{5}$.
+Paso 3: la desviación estándar es $\sqrt{\dfrac{18}{5}} = \dfrac{3\sqrt{2}}{\sqrt{5}} = \dfrac{3\sqrt{10}}{5}$ km/h.
+Respuesta: B, $\dfrac{3\sqrt{10}}{5}$ km/h.
+Errores frecuentes: La A toma $k = 0$, sin usar que las diferencias suman cero. La C divide por $4$ en vez de por $5$ ($\sqrt{18/4}$). La D entrega la varianza en vez de la desviación estándar.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'd594c4c8-23e5-5b29-be79-0aeeb1180cec', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'medidas-de-dispersion'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-211
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('30045c78-9f52-5e0b-bcdd-7026c4493740', 'm2-probabilidad-y-estadistica-211', 'En un conjunto de datos, un dato es atípico si es menor que $Q_1 - \dfrac{3}{2}R$ o mayor que $Q_3 + \dfrac{3}{2}R$, donde $Q_1$ y $Q_3$ son el primer y el tercer cuartil y $R = Q_3 - Q_1$ es el rango intercuartílico.
+
+Un conjunto de datos tiene al menos un dato atípico. Cada dato $x$ del conjunto se reemplaza por $-2x + 5$.
+
+¿Cuál de las siguientes afirmaciones es siempre verdadera respecto del nuevo conjunto de datos?', '[{"id":"A","content":"La cantidad de datos atípicos se mantiene."},{"id":"B","content":"La cantidad de datos atípicos disminuye, porque el rango intercuartílico se duplica y los límites se alejan."},{"id":"C","content":"Los datos que eran atípicos por ser mayores que $Q_3 + \\frac{3}{2}R$ siguen siendo mayores que el nuevo límite superior."},{"id":"D","content":"La cantidad de datos atípicos aumenta, porque al multiplicar por $-2$ los datos se separan más entre sí."},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: la transformación $-2x + 5$ invierte el orden de los datos y multiplica todas las distancias por $2$, incluidas las distancias a los cuartiles.
+Paso 1: el nuevo primer cuartil es $-2Q_3 + 5$, el nuevo tercer cuartil es $-2Q_1 + 5$ y el nuevo rango intercuartílico es $2R$.
+Paso 2: un dato con $x > Q_3 + \frac{3}{2}R$ pasa a cumplir $-2x + 5 < (-2Q_3 + 5) - \frac{3}{2}(2R)$, es decir, queda bajo el nuevo límite inferior.
+Paso 3: lo mismo ocurre al revés con los atípicos por abajo, así que cada dato atípico sigue siéndolo (cambiando de lado) y ninguno nuevo aparece.
+Respuesta: A.
+Errores frecuentes: La B y la D olvidan que los datos y el rango intercuartílico se escalan por el mismo factor, por lo que la situación relativa no cambia. La C no considera que el signo negativo invierte el orden: esos datos pasan a ser atípicos por abajo.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '30045c78-9f52-5e0b-bcdd-7026c4493740', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'medidas-de-posicion'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-212
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('a3e5e520-8a6b-5cfc-a004-54d922da1e3a', 'm2-probabilidad-y-estadistica-212', 'Un preuniversitario tiene dos sedes. En un ensayo, el puntaje $600$ correspondió al percentil $40$ en la sede Ñuñoa, donde lo rindieron $50$ estudiantes, y al percentil $60$ en la sede Maipú, donde lo rindieron $75$ estudiantes. Considera que el percentil $p$ de un puntaje indica que exactamente el $p\%$ de los estudiantes obtuvo un puntaje menor que ese.
+
+Si se consideran los $125$ estudiantes de ambas sedes en conjunto, ¿a qué percentil corresponde el puntaje $600$?', '[{"id":"A","content":"Percentil $48$"},{"id":"B","content":"Percentil $50$"},{"id":"C","content":"Percentil $52$"},{"id":"D","content":"Percentil $65$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: los percentiles de grupos de distinto tamaño no se promedian directamente; hay que contar estudiantes.
+Paso 1: en Ñuñoa, bajo $600$ puntos hay $0{,}40 \cdot 50 = 20$ estudiantes.
+Paso 2: en Maipú, bajo $600$ puntos hay $0{,}60 \cdot 75 = 45$ estudiantes.
+Paso 3: en total, $20 + 45 = 65$ de $125$ estudiantes están bajo $600$, es decir, $\dfrac{65}{125} = 52\%$.
+Respuesta: C, percentil $52$.
+Errores frecuentes: La A pondera con los tamaños cruzados ($\frac{40 \cdot 75 + 60 \cdot 50}{125}$). La B promedia los dos percentiles sin ponderar. La D entrega la cantidad de estudiantes ($65$) como si fuera el porcentaje.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'a3e5e520-8a6b-5cfc-a004-54d922da1e3a', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'medidas-de-posicion'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-213
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('9a416f48-03dc-50fd-b9a7-c7169504b8d5', 'm2-probabilidad-y-estadistica-213', 'Un conjunto tiene $2n + 1$ datos distintos, con $n \geq 2$, y su mediana es $M$, con $M > 0$.
+
+¿Cuál de las siguientes afirmaciones es siempre verdadera?', '[{"id":"A","content":"Si se agregan dos datos mayores que $M$, la mediana sigue siendo $M$."},{"id":"B","content":"Si cada dato aumenta en un $10\\%$, la mediana aumenta en $10$ unidades."},{"id":"C","content":"Si el dato mayor se duplica, la mediana se duplica."},{"id":"D","content":"Si se agregan un dato menor que $M$ y otro mayor que $M$, la mediana sigue siendo $M$."},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: la mediana de $2n + 1$ datos ordenados es el dato que tiene exactamente $n$ datos a cada lado.
+Paso 1: al agregar uno menor y otro mayor que $M$, quedan $2n + 3$ datos y $M$ tiene $n + 1$ datos a cada lado, así que sigue en el centro.
+Paso 2: si se agregan dos mayores, $M$ queda con $n$ datos a la izquierda y $n + 2$ a la derecha; la nueva mediana es el dato siguiente a $M$, que es mayor.
+Paso 3: aumentar cada dato en un $10\%$ multiplica la mediana por $1{,}1$ (sube $0{,}1M$, no $10$), y duplicar el dato mayor no mueve la mediana.
+Respuesta: D.
+Errores frecuentes: La A olvida que agregar datos solo por un lado desplaza la posición central. La B confunde un aumento porcentual con uno absoluto. La C supone que la mediana depende de los valores extremos, cuando solo depende del orden.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '9a416f48-03dc-50fd-b9a7-c7169504b8d5', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'medidas-de-posicion'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-214
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('6f877e08-d065-58c9-8321-398745ef47f1', 'm2-probabilidad-y-estadistica-214', 'Los siguientes son los tiempos de traslado, en minutos, de $8$ trabajadores de una empresa de Concepción, ordenados de menor a mayor, donde $a$ y $b$ son números reales:
+
+$2$, $a$, $6$, $8$, $10$, $12$, $b$, $20$
+
+Considera que el primer cuartil es la mediana de los cuatro datos menores y el tercer cuartil es la mediana de los cuatro datos mayores. Si el promedio de los tiempos es $10$ minutos y el rango intercuartílico es $10$ minutos, ¿cuál es el valor de $b$?', '[{"id":"A","content":"$13$"},{"id":"B","content":"$14$"},{"id":"C","content":"$16$"},{"id":"D","content":"$18$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: cada condición entrega una ecuación en $a$ y $b$; se resuelve el sistema y se revisa que se respete el orden.
+Paso 1: del promedio, $2 + a + 6 + 8 + 10 + 12 + b + 20 = 80$, así que $a + b = 22$.
+Paso 2: $Q_1 = \dfrac{a + 6}{2}$ y $Q_3 = \dfrac{12 + b}{2}$, y de $Q_3 - Q_1 = 10$ se obtiene $\dfrac{b - a + 6}{2} = 10$, es decir, $b - a = 14$.
+Paso 3: resolviendo, $b = 18$ y $a = 4$, valores que respetan el orden ($2 \leq 4 \leq 6$ y $12 \leq 18 \leq 20$).
+Respuesta: D, $b = 18$.
+Errores frecuentes: La A olvida dividir por $2$ al calcular los cuartiles ($b - a + 6 = 10$). La B toma el valor de $b - a$ como si fuera $b$. La C usa $a$ y $b$ directamente como cuartiles ($b - a = 10$).', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '6f877e08-d065-58c9-8321-398745ef47f1', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'medidas-de-posicion'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-215
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('4060b2cf-d6e4-5639-ae31-0e09ac0d0fd9', 'm2-probabilidad-y-estadistica-215', 'Se pidió a $40$ clientes de una tienda de Osorno evaluar la atención con una nota entera de $1$ a $5$. Los resultados se muestran en la tabla:
+
+$\displaystyle \begin{array}{|c|c|}\hline \text{Nota} & \text{Cantidad de clientes} \\ \hline 1 & 6 \\ \hline 2 & 10 \\ \hline 3 & 12 \\ \hline 4 & 8 \\ \hline 5 & 4 \\ \hline \end{array}$
+
+Considera que el primer cuartil es la mediana de las $20$ notas menores y el tercer cuartil es la mediana de las $20$ notas mayores. ¿Cuál es el rango intercuartílico de las notas?', '[{"id":"A","content":"$1$"},{"id":"B","content":"$2$"},{"id":"C","content":"$3$"},{"id":"D","content":"$4$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: con la tabla de frecuencias acumuladas se ubica qué nota ocupa cada posición.
+Paso 1: las frecuencias acumuladas son $6$, $16$, $28$, $36$ y $40$.
+Paso 2: el primer cuartil es el promedio de las posiciones $10$ y $11$, que tienen nota $2$ (están entre la $7$ y la $16$); por lo tanto $Q_1 = 2$.
+Paso 3: el tercer cuartil es el promedio de las posiciones $30$ y $31$, que tienen nota $4$ (están entre la $29$ y la $36$); por lo tanto $Q_3 = 4$ y $Q_3 - Q_1 = 2$.
+Respuesta: B, $2$.
+Errores frecuentes: La A toma la mediana ($3$) como tercer cuartil. La C usa $Q_1 = 1$, la primera nota de la tabla, en vez de ubicar la posición correspondiente. La D calcula el rango ($5 - 1$) en vez del rango intercuartílico.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '4060b2cf-d6e4-5639-ae31-0e09ac0d0fd9', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'medidas-de-posicion'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-216
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('5037df9f-4bda-51e3-93fa-d121c4ccb9c0', 'm2-probabilidad-y-estadistica-216', 'Cuatro estudiantes rindieron pruebas distintas. Para comparar su posición relativa dentro de su grupo se usa el puntaje estándar $z = \dfrac{x - \mu}{\sigma}$, donde $x$ es el puntaje del estudiante, $\mu$ es el promedio de su prueba y $\sigma$ es la desviación estándar de su prueba.
+
+$\displaystyle \begin{array}{|c|c|c|c|}\hline \text{Estudiante} & \text{Puntaje} & \text{Promedio} & \text{Desviación estándar} \\ \hline \text{Amanda} & 620 & 560 & 40 \\ \hline \text{Benjamín} & 700 & 610 & 75 \\ \hline \text{Catalina} & 540 & 480 & 30 \\ \hline \text{Diego} & 760 & 640 & 80 \\ \hline \end{array}$
+
+¿Cuál de los estudiantes tiene la mejor posición relativa dentro de su grupo?', '[{"id":"A","content":"Amanda"},{"id":"B","content":"Benjamín"},{"id":"C","content":"Catalina"},{"id":"D","content":"Diego"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: el puntaje estándar indica a cuántas desviaciones estándar sobre el promedio está cada estudiante, lo que permite comparar pruebas distintas.
+Paso 1: Amanda: $z = \dfrac{620 - 560}{40} = 1{,}5$. Benjamín: $z = \dfrac{700 - 610}{75} = 1{,}2$.
+Paso 2: Catalina: $z = \dfrac{540 - 480}{30} = 2$. Diego: $z = \dfrac{760 - 640}{80} = 1{,}5$.
+Paso 3: el mayor puntaje estándar es el de Catalina, aunque tiene el menor puntaje bruto.
+Respuesta: C, Catalina.
+Errores frecuentes: La A empata con Diego en $z = 1{,}5$, pero ambos quedan bajo Catalina. La B tiene un puntaje alto, pero su prueba tiene mucha dispersión. La D elige la mayor diferencia con el promedio ($120$ puntos) sin dividir por la desviación estándar.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '5037df9f-4bda-51e3-93fa-d121c4ccb9c0', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'medidas-de-posicion'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-217
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('900aab45-0d21-5dd8-8a48-7001c9def614', 'm2-probabilidad-y-estadistica-217', 'Una encuesta a $40$ usuarios del Biotren registró cuántos minutos dura su viaje diario. Los resultados se agruparon en la tabla:
+
+$\displaystyle \begin{array}{|c|c|}\hline \text{Minutos} & \text{Cantidad de usuarios} \\ \hline [0, 10[ & 8 \\ \hline [10, 20[ & 14 \\ \hline [20, 30[ & 12 \\ \hline [30, 40[ & 6 \\ \hline \end{array}$
+
+¿Cuál de las siguientes afirmaciones se puede deducir de la tabla?', '[{"id":"A","content":"La mediana de los tiempos está en el intervalo $[20, 30[$."},{"id":"B","content":"Al menos la mitad de los usuarios viaja $20$ minutos o más."},{"id":"C","content":"El promedio estimado con las marcas de clase es mayor que $20$ minutos."},{"id":"D","content":"El percentil $75$ de los tiempos está en el intervalo $[20, 30[$."},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: las frecuencias acumuladas ($8$, $22$, $34$, $40$) permiten ubicar en qué intervalo cae cada posición.
+Paso 1: la mediana corresponde a las posiciones $20$ y $21$, que están en $[10, 20[$ (acumulada $22$). Así, la A es falsa.
+Paso 2: viajan $20$ minutos o más $12 + 6 = 18$ usuarios, menos de la mitad, y el promedio estimado es $\dfrac{5 \cdot 8 + 15 \cdot 14 + 25 \cdot 12 + 35 \cdot 6}{40} = \dfrac{760}{40} = 19$. Así, la B y la C son falsas.
+Paso 3: el percentil $75$ está en la posición $0{,}75 \cdot 40 = 30$, que cae en $[20, 30[$, porque la acumulada pasa de $22$ a $34$.
+Respuesta: D.
+Errores frecuentes: La A ubica la mediana en el intervalo central de la tabla y no por posiciones. La B cuenta mal a los usuarios de $20$ minutos o más ($18$ de $40$). La C supone que el promedio está en la mitad del recorrido, pero los datos se concentran en los intervalos bajos.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '900aab45-0d21-5dd8-8a48-7001c9def614', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'tablas-y-graficos'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-218
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('f1881451-8729-5d0c-8182-36fd4c6631a5', 'm2-probabilidad-y-estadistica-218', 'En un gráfico circular se representan las respuestas de una encuesta sobre el medio de transporte preferido en Talca. El sector de micro mide $108°$, el de automóvil mide $90°$ y el resto del círculo corresponde a bicicleta.
+
+Luego se encuestó a $60$ personas más, y todas prefirieron la bicicleta. En el nuevo gráfico circular, con todas las respuestas, el sector de bicicleta mide exactamente $180°$.
+
+¿Cuántas personas había en la encuesta original?', '[{"id":"A","content":"$300$"},{"id":"B","content":"$540$"},{"id":"C","content":"$600$"},{"id":"D","content":"$1\\,200$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: el ángulo de cada sector es proporcional a la fracción del total, así que se plantea una ecuación con el total original $n$.
+Paso 1: bicicleta medía $360° - 108° - 90° = 162°$, es decir, $\dfrac{162}{360} = 0{,}45$ del total: $0{,}45n$ personas.
+Paso 2: después hay $0{,}45n + 60$ personas que prefieren bicicleta de un total de $n + 60$, y $180°$ es la mitad del círculo: $\dfrac{0{,}45n + 60}{n + 60} = 0{,}5$.
+Paso 3: $0{,}45n + 60 = 0{,}5n + 30$, de donde $0{,}05n = 30$ y $n = 600$.
+Respuesta: C, $600$ personas.
+Errores frecuentes: La A usa $0{,}4$ en vez de $0{,}45$ como fracción inicial de bicicleta. La B resta otra vez las $60$ personas al resultado. La D olvida sumar las $60$ personas al total en el denominador ($\frac{0{,}45n + 60}{n} = 0{,}5$).', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'f1881451-8729-5d0c-8182-36fd4c6631a5', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'tablas-y-graficos'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-219
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('210004a6-7d2f-5f03-b83a-d05465ad7a69', 'm2-probabilidad-y-estadistica-219', 'Un histograma muestra la distancia, en kilómetros, entre la casa y el lugar de trabajo de un grupo de personas de Puerto Montt. Como los intervalos tienen anchos distintos, la altura de cada barra es la densidad de frecuencia, es decir, la cantidad de personas del intervalo dividida por su ancho. Las alturas son:
+
+$\displaystyle \begin{array}{|c|c|}\hline \text{Distancia (km)} & \text{Altura de la barra} \\ \hline [0, 5[ & 4 \\ \hline [5, 10[ & 5 \\ \hline [10, 20[ & 3{,}5 \\ \hline [20, 40] & 1 \\ \hline \end{array}$
+
+¿Qué porcentaje de las personas vive a $10$ km o más de su lugar de trabajo?', '[{"id":"A","content":"$33{,}\\overline{3}\\%$"},{"id":"B","content":"$35\\%$"},{"id":"C","content":"$45\\%$"},{"id":"D","content":"$55\\%$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: la cantidad de personas de cada intervalo es la altura por el ancho (el área de la barra), no la altura.
+Paso 1: las frecuencias son $4 \cdot 5 = 20$, $5 \cdot 5 = 25$, $3{,}5 \cdot 10 = 35$ y $1 \cdot 20 = 20$, con un total de $100$ personas.
+Paso 2: a $10$ km o más viven $35 + 20 = 55$ personas.
+Paso 3: eso corresponde a $\dfrac{55}{100} = 55\%$.
+Respuesta: D, $55\%$.
+Errores frecuentes: La A trata las alturas como frecuencias ($\frac{3{,}5 + 1}{13{,}5}$). La B considera solo el intervalo $[10, 20[$ y olvida el último. La C calcula el porcentaje de quienes viven a menos de $10$ km.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '210004a6-7d2f-5f03-b83a-d05465ad7a69', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'tablas-y-graficos'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-220
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('ff23d2fc-e37b-5d42-b43f-45163b0c0aa8', 'm2-probabilidad-y-estadistica-220', 'Se preguntó a $30$ estudiantes de un liceo de Curicó cuántas veces fueron al cine durante el último mes. Los resultados se muestran en la tabla:
+
+$\displaystyle \begin{array}{|c|c|}\hline \text{Veces} & \text{Cantidad de estudiantes} \\ \hline 0 & 5 \\ \hline 1 & 12 \\ \hline 2 & 8 \\ \hline 3 & 3 \\ \hline 4 & 1 \\ \hline 5 & 1 \\ \hline \end{array}$
+
+¿Cuál de las siguientes relaciones entre la moda, la mediana y el promedio de estos datos es verdadera?', '[{"id":"A","content":"Moda $=$ mediana $<$ promedio"},{"id":"B","content":"Moda $<$ mediana $<$ promedio"},{"id":"C","content":"Promedio $<$ mediana $=$ moda"},{"id":"D","content":"Mediana $<$ moda $<$ promedio"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'medium'::difficulty_level, 'Idea clave: se calcula cada medida por separado; los pocos valores altos de la cola elevan el promedio, pero no la mediana.
+Paso 1: la moda es $1$, porque es el valor con mayor frecuencia ($12$).
+Paso 2: la mediana es el promedio de las posiciones $15$ y $16$; como la frecuencia acumulada pasa de $5$ a $17$ en el valor $1$, la mediana es $1$.
+Paso 3: el promedio es $\dfrac{0 + 12 + 16 + 9 + 4 + 5}{30} = \dfrac{46}{30} \approx 1{,}53$, mayor que $1$.
+Respuesta: A.
+Errores frecuentes: La B calcula la mediana como el valor central de la columna de veces ($2{,}5$) y no por posiciones. La C supone que el promedio es menor porque hay estudiantes que fueron $0$ veces. La D confunde la mediana con el valor $0$ o con la frecuencia de la primera fila.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'ff23d2fc-e37b-5d42-b43f-45163b0c0aa8', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'tablas-y-graficos'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-221
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('da0f7365-54ce-58ab-89f9-925a6d817016', 'm2-probabilidad-y-estadistica-221', 'En una oficina del Registro Civil se midió el tiempo de espera de $200$ personas. La tabla muestra el porcentaje acumulado de personas en cada intervalo de tiempo:
+
+$\displaystyle \begin{array}{|c|c|}\hline \text{Tiempo de espera (min)} & \text{Porcentaje acumulado} \\ \hline [0, 10[ & 15\% \\ \hline [10, 20[ & 40\% \\ \hline [20, 30[ & 70\% \\ \hline [30, 40[ & 100\% \\ \hline \end{array}$
+
+Al día siguiente se agregaron al registro $50$ personas más, y todas esperaron entre $20$ y $30$ minutos (en el intervalo $[20, 30[$). En la tabla actualizada con las $250$ personas, ¿cuál es el porcentaje acumulado correspondiente al intervalo $[20, 30[$?', '[{"id":"A","content":"$70\\%$"},{"id":"B","content":"$76\\%$"},{"id":"C","content":"$90\\%$"},{"id":"D","content":"$95\\%$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: los porcentajes acumulados se transforman primero en cantidades de personas, se actualizan y luego se vuelven a dividir por el nuevo total.
+Paso 1: originalmente, esperaron menos de $30$ minutos $0{,}70 \cdot 200 = 140$ personas.
+Paso 2: las $50$ personas nuevas también esperaron menos de $30$ minutos, así que ahora son $140 + 50 = 190$ personas.
+Paso 3: el nuevo porcentaje acumulado es $\dfrac{190}{250} = 0{,}76$, es decir, $76\%$.
+Respuesta: B, $76\%$.
+Errores frecuentes: La A no actualiza la tabla tras agregar personas. La C suma al $70\%$ los $20$ puntos que representan las $50$ personas sobre $250$, sin recalcular el peso de las $140$ originales. La D suma las $50$ personas pero sigue dividiendo por $200$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'da0f7365-54ce-58ab-89f9-925a6d817016', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'tablas-y-graficos'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-222
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('674781a0-4dc7-5273-8aef-91441f5d3327', 'm2-probabilidad-y-estadistica-222', 'Las temperaturas mínimas, en grados Celsius, de tres días de invierno en Coyhaique fueron $a$, $b$ y $c$, con $a < b < c$.
+
+Se puede determinar la desviación estándar de las tres temperaturas, si se sabe que:
+
+(1) $c - a = 6$ y $b$ es igual al promedio de las tres temperaturas.
+(2) $b - a = 3$.', '[{"id":"A","content":"(1) por sí sola"},{"id":"B","content":"(2) por sí sola"},{"id":"C","content":"Ambas juntas, (1) y (2)"},{"id":"D","content":"Cada una por sí sola, (1) ó (2)"},{"id":"E","content":"Se requiere información adicional"},{"id":"F","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: la desviación estándar no depende de la posición de los datos, sino de las distancias de cada uno al promedio.
+Paso 1: con (1), $b = \dfrac{a + b + c}{3}$ implica $a + c = 2b$, así que $a = b - 3$ y $c = b + 3$. Las desviaciones son $-3$, $0$ y $3$, y la desviación estándar es $\sqrt{\dfrac{9 + 0 + 9}{3}} = \sqrt{6}$ para cualquier $b$. (1) es suficiente.
+Paso 2: con (2), se conoce la distancia entre $a$ y $b$, pero $c$ puede estar tan lejos como se quiera: por ejemplo, $-2$, $1$, $4$ y $-2$, $1$, $10$ tienen desviaciones estándar distintas. (2) no es suficiente.
+Respuesta: A, (1) por sí sola.
+Errores frecuentes: La C supone que hace falta conocer $b - a$ además de $c - a$, sin notar que la condición sobre el promedio ya ubica a $b$ en el centro. La B y la D creen que conocer una sola distancia basta. La E piensa que sin los valores concretos de las temperaturas no se puede calcular la dispersión.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '674781a0-4dc7-5273-8aef-91441f5d3327', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'medidas-de-dispersion'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-223
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('0cab9e87-a040-58ba-8b34-ba7475023961', 'm2-probabilidad-y-estadistica-223', 'Las notas de $9$ estudiantes de un taller de teatro son todas distintas y su mediana es $5{,}0$. Luego se incorpora al registro la nota de un décimo estudiante.
+
+Se puede determinar la mediana de las $10$ notas, si se sabe que:
+
+(1) La nota del décimo estudiante es $6{,}0$.
+(2) Al ordenar de menor a mayor las $9$ notas originales, la sexta nota es $5{,}4$.', '[{"id":"A","content":"(1) por sí sola"},{"id":"B","content":"(2) por sí sola"},{"id":"C","content":"Ambas juntas, (1) y (2)"},{"id":"D","content":"Cada una por sí sola, (1) ó (2)"},{"id":"E","content":"Se requiere información adicional"},{"id":"F","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: con $10$ datos, la mediana es el promedio del quinto y el sexto dato ordenados, y hay que ver qué datos ocupan esas posiciones.
+Paso 1: con (1), la nota nueva es mayor que $5{,}0$, así que el quinto dato sigue siendo $5{,}0$, pero el sexto es la menor entre $6{,}0$ y la sexta nota original, que no se conoce (por ejemplo, si es $5{,}4$ la mediana es $5{,}2$; si es $6{,}5$, la mediana es $5{,}5$). (1) no basta.
+Paso 2: con (2), no se sabe dónde queda la nota nueva: si es $3{,}0$, el quinto y sexto dato son la cuarta nota original y $5{,}0$; si es $6{,}0$, son $5{,}0$ y $5{,}4$. (2) no basta.
+Paso 3: con ambas, las notas ordenadas tienen en quinto lugar $5{,}0$ y en sexto lugar $5{,}4$ (que es menor que $6{,}0$), así que la mediana es $\dfrac{5{,}0 + 5{,}4}{2} = 5{,}2$.
+Respuesta: C, ambas juntas.
+Errores frecuentes: La A supone que la sexta posición la ocupa la nota nueva. La B olvida que la nota nueva podría quedar bajo la mediana. La D combina los dos errores anteriores, y la E no nota que juntas ubican exactamente el quinto y el sexto dato.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '0cab9e87-a040-58ba-8b34-ba7475023961', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'medidas-de-posicion'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-301
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('aa2242cf-270a-5dc1-858c-e3e8b70c3673', 'm2-probabilidad-y-estadistica-301', 'Para un juego de palabras en una radio de Talcahuano, se forman ordenaciones con todas las letras de la palabra TALCAHUANO, que tiene $10$ letras, entre ellas tres letras A. Dos ordenaciones que solo se diferencian en el intercambio de dos letras A se consideran iguales.
+
+¿Cuántas de esas ordenaciones comienzan con una consonante y terminan con una consonante?', '[{"id":"A","content":"$67\\,200$"},{"id":"B","content":"$134\\,400$"},{"id":"C","content":"$604\\,800$"},{"id":"D","content":"$806\\,400$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: primero se ubican los extremos con el principio multiplicativo y luego se permutan las $8$ letras restantes, dividiendo por las repeticiones de la A.
+Paso 1: las consonantes son T, L, C, H y N, todas distintas. Para el primer lugar hay $5$ opciones y para el último quedan $4$: $5 \cdot 4 = 20$.
+Paso 2: quedan $8$ letras: $3$ consonantes distintas, las tres A, la U y la O. Sus ordenaciones son $\frac{8!}{3!} = \frac{40\,320}{6} = 6\,720$.
+Paso 3: en total, $20 \cdot 6\,720 = 134\,400$.
+Respuesta: B, $134\,400$.
+Errores frecuentes: La A usa $\binom{5}{2} = 10$ para los extremos, como si no importara cuál consonante va primero. La C cuenta $\frac{10!}{3!}$, todas las ordenaciones, sin la condición de los extremos. La D olvida dividir por $3!$ y trata las tres A como letras distintas.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'aa2242cf-270a-5dc1-858c-e3e8b70c3673', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'permutacion-combinatoria'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-302
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('944a99ef-8b76-5a83-9d36-b207ec63f8fe', 'm2-probabilidad-y-estadistica-302', 'La brigada de reciclaje de un liceo de Coyhaique tiene $n$ integrantes, con $n \geq 5$. Considera las siguientes afirmaciones:
+
+I) La cantidad de grupos de $3$ integrantes que se pueden formar es igual a la cantidad de grupos de $n - 3$ integrantes.
+II) La cantidad de maneras de elegir un encargado y un subencargado, distintos entre sí, es el doble de la cantidad de grupos de $2$ integrantes.
+III) Si la cantidad de grupos de $3$ integrantes es el doble de la cantidad de grupos de $2$ integrantes, entonces $n = 7$.
+
+¿Cuál o cuáles de las afirmaciones anteriores son siempre verdaderas?', '[{"id":"A","content":"Solo I"},{"id":"B","content":"Solo III"},{"id":"C","content":"Solo I y III"},{"id":"D","content":"Solo I y II"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: elegir un grupo de $3$ equivale a elegir los $n - 3$ que quedan fuera, y una elección con cargos es una combinación multiplicada por las formas de repartir los cargos.
+Paso 1: I es verdadera: $\binom{n}{3} = \binom{n}{n-3}$, porque cada grupo de $3$ queda determinado por los $n - 3$ que no entran.
+Paso 2: II es verdadera: $n(n - 1) = 2 \cdot \frac{n(n - 1)}{2}$; cada pareja da dos asignaciones de cargos.
+Paso 3: III es falsa: $\binom{n}{3} = 2\binom{n}{2}$ equivale a $\frac{n(n-1)(n-2)}{6} = n(n - 1)$, es decir, $n - 2 = 6$ y $n = 8$, no $7$.
+Respuesta: D, solo I y II.
+Errores frecuentes: La A descarta II, sin notar que el orden de los cargos duplica cada pareja. La B y la C aceptan III, porque al simplificar se iguala $n - 2$ a $5$ o se divide por $3$ en vez de por $6$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '944a99ef-8b76-5a83-9d36-b207ec63f8fe', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'permutacion-combinatoria'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-303
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('f514d9a1-47c7-50f0-a922-df332a7d8927', 'm2-probabilidad-y-estadistica-303', 'Las bicicletas públicas de una ciudad se desbloquean con un código de $4$ dígitos, elegidos entre $0$ y $9$, que pueden repetirse y pueden comenzar con $0$.
+
+¿Cuántos de esos códigos tienen al menos dos dígitos iguales?', '[{"id":"A","content":"$4\\,320$"},{"id":"B","content":"$4\\,960$"},{"id":"C","content":"$5\\,040$"},{"id":"D","content":"$9\\,790$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: es más simple contar el complemento, los códigos con los cuatro dígitos distintos, y restarlo del total.
+Paso 1: total de códigos: $10^4 = 10\,000$.
+Paso 2: códigos con los cuatro dígitos distintos: $10 \cdot 9 \cdot 8 \cdot 7 = 5\,040$.
+Paso 3: con al menos dos iguales: $10\,000 - 5\,040 = 4\,960$.
+Respuesta: B, $4\,960$.
+Errores frecuentes: La A cuenta solo los códigos con exactamente un par repetido y los otros dos dígitos distintos, $\binom{4}{2} \cdot 10 \cdot 9 \cdot 8$, y deja fuera tríos, cuartetos y dos pares. La C es la cantidad de códigos con todos los dígitos distintos, el complemento. La D resta $\binom{10}{4} = 210$, como si en un código no importara el orden.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'f514d9a1-47c7-50f0-a922-df332a7d8927', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'permutacion-combinatoria'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-304
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('ea06e50b-2a41-5896-b502-df6d046af738', 'm2-probabilidad-y-estadistica-304', 'Un repartidor de Iquique recorre un barrio cuyas calles forman una cuadrícula. Sale de la esquina $P = (0, 0)$ y debe llegar a la esquina $Q = (4, 3)$, avanzando siempre una cuadra hacia el este (aumenta en $1$ la primera coordenada) o una cuadra hacia el norte (aumenta en $1$ la segunda coordenada).
+
+Debe pasar a dejar un pedido en la esquina $R = (2, 1)$ y, por una obra en la calle, no puede pasar por la esquina $S = (3, 2)$. ¿Cuántos recorridos distintos puede hacer?', '[{"id":"A","content":"$6$"},{"id":"B","content":"$12$"},{"id":"C","content":"$15$"},{"id":"D","content":"$18$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: un recorrido de $e$ cuadras al este y $k$ al norte es elegir cuáles de los $e + k$ pasos van al norte, $\binom{e+k}{k}$; los tramos se multiplican y lo prohibido se resta.
+Paso 1: de $P$ a $R$ hay $2$ pasos al este y $1$ al norte: $\binom{3}{1} = 3$ recorridos.
+Paso 2: de $R$ a $Q$ hay $2$ al este y $2$ al norte: $\binom{4}{2} = 6$. De ellos, pasan por $S$ los que van de $R$ a $S$ ($\binom{2}{1} = 2$) y luego de $S$ a $Q$ ($\binom{2}{1} = 2$): $4$. Sin pasar por $S$ quedan $6 - 4 = 2$.
+Paso 3: total: $3 \cdot 2 = 6$.
+Respuesta: A, $6$.
+Errores frecuentes: La B cuenta justamente los recorridos que sí pasan por $S$, $3 \cdot 4$. La C cuenta los recorridos de $P$ a $Q$ que evitan $S$ ($35 - 20$), pero olvida que deben pasar por $R$. La D cuenta los que pasan por $R$ sin descartar los que pasan por $S$.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'ea06e50b-2a41-5896-b502-df6d046af738', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'permutacion-combinatoria'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-305
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('bad587a7-f09e-5602-ace2-de957890aee1', 'm2-probabilidad-y-estadistica-305', 'Una heladería de Puerto Natales ofrece $n$ sabores, con $n \geq 3$. Un cono doble lleva $2$ sabores distintos y un cono triple lleva $3$ sabores distintos. En ambos casos no importa el orden en que se sirven los sabores.
+
+¿Cuál de las siguientes expresiones representa la cantidad total de conos distintos, dobles o triples, que se pueden pedir?', '[{"id":"A","content":"$\\dfrac{n(n - 1)}{2} \\cdot \\dfrac{n(n - 1)(n - 2)}{6}$"},{"id":"B","content":"$\\dfrac{n(n - 1)(n - 2)}{6}$"},{"id":"C","content":"$n(n - 1) + n(n - 1)(n - 2)$"},{"id":"D","content":"$\\dfrac{(n + 1)\\,n\\,(n - 1)}{6}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'medium'::difficulty_level, 'Idea clave: los conos dobles y los triples son casos excluyentes, así que sus cantidades se suman; dentro de cada caso no importa el orden, por lo que se usan combinaciones.
+Paso 1: conos dobles: $\binom{n}{2} = \frac{n(n - 1)}{2}$. Conos triples: $\binom{n}{3} = \frac{n(n - 1)(n - 2)}{6}$.
+Paso 2: se suman y se factoriza: $\frac{n(n-1)}{6}\left(3 + (n - 2)\right) = \frac{n(n - 1)(n + 1)}{6}$.
+Respuesta: D, $\frac{(n + 1)\,n\,(n - 1)}{6}$.
+Errores frecuentes: La A multiplica los dos casos, como si cada cliente pidiera un cono doble y además uno triple. La B considera solo los conos triples. La C suma variaciones, contando como distintos los conos que solo cambian el orden de los sabores.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'bad587a7-f09e-5602-ace2-de957890aee1', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'permutacion-combinatoria'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-306
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('bff2600e-66fd-51d4-92bd-17ed39648c92', 'm2-probabilidad-y-estadistica-306', 'En un club de lectura de Punta Arenas, la coordinadora tiene $6$ libros distintos y los reparte entre tres participantes, Amanda, Bruno y Catalina, de modo que cada uno reciba exactamente $2$ libros.
+
+¿De cuántas maneras distintas puede hacer el reparto?', '[{"id":"A","content":"$15$"},{"id":"B","content":"$22$"},{"id":"C","content":"$90$"},{"id":"D","content":"$720$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: se eligen los libros persona por persona y se aplica el principio multiplicativo, porque cada participante es distinguible.
+Paso 1: para Amanda se eligen $2$ de los $6$ libros: $\binom{6}{2} = 15$.
+Paso 2: para Bruno, $2$ de los $4$ que quedan: $\binom{4}{2} = 6$. Catalina recibe los $2$ restantes: $\binom{2}{2} = 1$.
+Paso 3: total: $15 \cdot 6 \cdot 1 = 90$.
+Respuesta: C, $90$.
+Errores frecuentes: La A divide por $3!$, como si los tres grupos de libros no tuvieran dueño. La B suma $15 + 6 + 1$ en vez de multiplicar, aunque las elecciones ocurren una tras otra. La D cuenta las $6!$ ordenaciones de los libros, distinguiendo el orden dentro del par que recibe cada persona.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'bff2600e-66fd-51d4-92bd-17ed39648c92', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'permutacion-combinatoria'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-307
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('b7d91ba5-77fb-53f6-8176-0e1e181b4e99', 'm2-probabilidad-y-estadistica-307', 'En un torneo de tenis de mesa en Arica, cada jugador juega exactamente un partido contra cada uno de los demás. A última hora se inscribieron $3$ jugadores nuevos y, por eso, la cantidad total de partidos del torneo aumentó en $27$.
+
+¿Cuántos jugadores había inscritos antes de la llegada de los nuevos?', '[{"id":"A","content":"$8$"},{"id":"B","content":"$9$"},{"id":"C","content":"$10$"},{"id":"D","content":"$11$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: con $n$ jugadores hay $\binom{n}{2}$ partidos; el aumento es la diferencia entre $\binom{n+3}{2}$ y $\binom{n}{2}$, que se iguala a $27$.
+Paso 1: $\binom{n+3}{2} - \binom{n}{2} = \frac{(n + 3)(n + 2) - n(n - 1)}{2} = \frac{6n + 6}{2} = 3n + 3$.
+Paso 2: también se ve así: cada nuevo juega con los $n$ antiguos ($3n$ partidos) y los nuevos juegan entre sí ($\binom{3}{2} = 3$ partidos).
+Paso 3: $3n + 3 = 27$, así que $n = 8$.
+Respuesta: A, $8$ jugadores.
+Errores frecuentes: La B plantea $3n = 27$ y olvida los $3$ partidos entre los nuevos. La C plantea $3n - 3 = 27$, restando esos partidos en vez de sumarlos. La D entrega la cantidad final de jugadores, $8 + 3$, y no la inicial.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'b7d91ba5-77fb-53f6-8176-0e1e181b4e99', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'permutacion-combinatoria'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-308
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('bea1fc1d-5f29-51bd-ab70-b2b31d48f411', 'm2-probabilidad-y-estadistica-308', 'En una faena minera de Calama hay $4$ mujeres y $6$ hombres capacitados en primeros auxilios. Se debe formar una brigada de $3$ personas que tenga al menos una mujer. Martín hizo el siguiente cálculo:
+
+Paso 1: primero elijo a una mujer, y eso se puede hacer de $4$ maneras.
+Paso 2: luego elijo a las otras $2$ personas entre las $9$ que quedan: $\binom{9}{2} = 36$ maneras.
+Paso 3: la cantidad de brigadas es $4 \cdot 36 = 144$.
+
+¿Cuál de las siguientes afirmaciones es correcta respecto del cálculo de Martín?', '[{"id":"A","content":"El error está en el paso 2: debía elegir entre los $6$ hombres, y el resultado correcto es $60$."},{"id":"B","content":"Su método cuenta más de una vez las brigadas con dos o más mujeres, y el resultado correcto es $100$."},{"id":"C","content":"Su método cuenta más de una vez las brigadas con dos o más mujeres, y el resultado correcto es $120$."},{"id":"D","content":"Le faltó multiplicar por $3!$, porque importa el orden de elección, y el resultado correcto es $864$."},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: fijar «una mujer» y completar con cualquiera genera repeticiones cuando la brigada tiene más de una mujer; lo seguro es restar al total las brigadas sin mujeres.
+Paso 1: una brigada con, por ejemplo, Ana y Berta aparece dos veces en el cálculo de Martín: una al elegir primero a Ana y otra al elegir primero a Berta. Por eso $144$ es demasiado.
+Paso 2: total de brigadas: $\binom{10}{3} = 120$. Brigadas sin mujeres: $\binom{6}{3} = 20$.
+Paso 3: con al menos una mujer: $120 - 20 = 100$.
+Respuesta: B.
+Errores frecuentes: La A calcula $4 \cdot \binom{6}{2} = 60$, que cuenta solo las brigadas con exactamente una mujer. La C detecta bien el error, pero $120$ es el total de brigadas sin la condición. La D agrega un orden que no existe, porque la brigada no tiene cargos.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'bea1fc1d-5f29-51bd-ab70-b2b31d48f411', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'permutacion-combinatoria'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-309
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('02730ea1-4916-5c12-b24b-9558cb1aa7ec', 'm2-probabilidad-y-estadistica-309', 'Javiera ordena $5$ libros distintos en una repisa, uno al lado del otro: $2$ libros de matemática, $1$ diccionario y $2$ novelas. Quiere que los dos libros de matemática queden juntos y que el diccionario no quede en ninguno de los dos extremos de la fila.
+
+¿De cuántas maneras distintas puede ordenar los libros?', '[{"id":"A","content":"$24$"},{"id":"B","content":"$48$"},{"id":"C","content":"$72$"},{"id":"D","content":"$120$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: el par de matemática se trata como un solo bloque, se ordenan los bloques con la restricción y al final se multiplica por el orden interno del par.
+Paso 1: con el bloque quedan $4$ unidades: bloque, diccionario y las dos novelas.
+Paso 2: el diccionario no puede ir en la primera ni en la última de las $4$ posiciones: tiene $2$ lugares posibles, y las otras $3$ unidades se ordenan de $3! = 6$ maneras: $2 \cdot 6 = 12$.
+Paso 3: los libros de matemática pueden intercambiarse dentro del bloque: $12 \cdot 2 = 24$.
+Respuesta: A, $24$.
+Errores frecuentes: La B cuenta $4! \cdot 2 = 48$, los órdenes con el bloque, pero sin la restricción del diccionario. La C cuenta $3 \cdot 4! = 72$, el diccionario lejos de los extremos sin exigir que los de matemática estén juntos. La D es $5!$, todos los órdenes sin ninguna restricción.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '02730ea1-4916-5c12-b24b-9558cb1aa7ec', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'permutacion-combinatoria'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-310
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('058a8fa7-f915-5c0c-8390-8d1ddb683a90', 'm2-probabilidad-y-estadistica-310', 'Sean $A$ y $B$ dos sucesos de un experimento aleatorio, con $P(A) = a$ y $P(B) = b$, donde $0 < a < 1$ y $0 < b < 1$. Además, $A^c$ y $B^c$ son sus complementos. Considera las siguientes afirmaciones:
+
+I) Si $A$ y $B$ son mutuamente excluyentes, entonces no son independientes.
+II) Si $A$ y $B$ son independientes, entonces $P(A^c \cap B^c) = (1 - a)(1 - b)$.
+III) Si $A$ y $B$ son mutuamente excluyentes, entonces $P(A^c \cap B^c) = (1 - a)(1 - b)$.
+
+¿Cuál o cuáles de las afirmaciones anteriores son siempre verdaderas?', '[{"id":"A","content":"Solo I"},{"id":"B","content":"Solo II"},{"id":"C","content":"Solo II y III"},{"id":"D","content":"Solo I y II"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: excluyentes significa $P(A \cap B) = 0$; independientes significa $P(A \cap B) = ab$. Como $ab > 0$, no pueden ocurrir las dos cosas a la vez.
+Paso 1: I es verdadera: si son excluyentes, $P(A \cap B) = 0 \neq ab$, así que no son independientes.
+Paso 2: II es verdadera: $P(A^c \cap B^c) = 1 - P(A \cup B) = 1 - a - b + ab = (1 - a)(1 - b)$.
+Paso 3: III es falsa: si son excluyentes, $P(A^c \cap B^c) = 1 - (a + b)$, que difiere de $(1 - a)(1 - b)$ en $ab > 0$. Por ejemplo, con $a = 0{,}3$ y $b = 0{,}5$ se obtiene $0{,}2$ y no $0{,}35$.
+Respuesta: D, solo I y II.
+Errores frecuentes: La A descarta II, aunque la independencia se traspasa a los complementos. La B descarta I por confundir «excluyentes» con «independientes». La C acepta III, que aplica la regla del producto a sucesos que no son independientes.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '058a8fa7-f915-5c0c-8390-8d1ddb683a90', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'reglas-probabilidades'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-311
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('08151247-07ff-531f-a330-d2f98f97d1ba', 'm2-probabilidad-y-estadistica-311', 'En el taller de computación de un colegio de Rancagua hay una caja con $10$ pendrives, de los cuales $3$ están dañados. Un técnico los prueba uno a uno, al azar y sin devolverlos a la caja, hasta encontrar el primer pendrive dañado.
+
+¿Cuál es la probabilidad de que encuentre el primer pendrive dañado justo en la tercera prueba?', '[{"id":"A","content":"$\\dfrac{147}{1\\,000}$"},{"id":"B","content":"$\\dfrac{7}{40}$"},{"id":"C","content":"$\\dfrac{3}{10}$"},{"id":"D","content":"$\\dfrac{3}{8}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: «el primer dañado aparece en la tercera prueba» significa bueno, bueno y dañado, en ese orden, y cada probabilidad cambia porque no hay reposición.
+Paso 1: primera prueba buena: $\frac{7}{10}$. Segunda buena, dado que la primera lo fue: $\frac{6}{9}$.
+Paso 2: tercera dañada, dado que las dos primeras fueron buenas: quedan $3$ dañados entre $8$, $\frac{3}{8}$.
+Paso 3: $\frac{7}{10} \cdot \frac{6}{9} \cdot \frac{3}{8} = \frac{126}{720} = \frac{7}{40}$.
+Respuesta: B, $\frac{7}{40}$.
+Errores frecuentes: La A calcula $\left(\frac{7}{10}\right)^2 \cdot \frac{3}{10}$, como si los pendrives se devolvieran a la caja. La C es la probabilidad de que un pendrive cualquiera esté dañado, sin considerar el orden. La D usa solo el último factor y olvida que las dos primeras pruebas debían salir buenas.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '08151247-07ff-531f-a330-d2f98f97d1ba', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'reglas-probabilidades'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-312
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('ff1ad2eb-f1e0-546d-b084-b33561040143', 'm2-probabilidad-y-estadistica-312', 'Un hospital de Temuco quiere instalar generadores de respaldo que funcionan de manera independiente. Ante un corte de luz, cada generador falla con probabilidad $0{,}2$. Se busca que la probabilidad de que al menos un generador funcione sea mayor o igual que $0{,}999$.
+
+Considerando que $\log 2 \approx 0{,}301$, ¿cuál es la menor cantidad de generadores que se deben instalar?', '[{"id":"A","content":"$3$"},{"id":"B","content":"$4$"},{"id":"C","content":"$5$"},{"id":"D","content":"$31$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: «al menos uno funciona» es el complemento de «todos fallan», y con independencia esa probabilidad es $0{,}2^n$; la desigualdad se resuelve con logaritmos.
+Paso 1: se pide $1 - 0{,}2^n \geq 0{,}999$, es decir, $0{,}2^n \leq 0{,}001 = 10^{-3}$.
+Paso 2: aplicando logaritmo: $n \log 0{,}2 \leq -3$. Como $\log 0{,}2 = \log 2 - 1 \approx -0{,}699$ es negativo, al dividir se invierte la desigualdad: $n \geq \frac{3}{0{,}699} \approx 4{,}29$.
+Paso 3: el menor entero es $n = 5$. Se comprueba: $0{,}2^4 = 0{,}0016 > 0{,}001$ y $0{,}2^5 = 0{,}00032 \leq 0{,}001$.
+Respuesta: C, $5$ generadores.
+Errores frecuentes: La A trata $0{,}2$ como si fuera $0{,}1$ y concluye $n \geq 3$. La B redondea $4{,}29$ hacia abajo, pero con $4$ generadores no se alcanza la meta. La D usa $0{,}8^n$, la probabilidad de que todos funcionen, en lugar de la de que todos fallen.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'ff1ad2eb-f1e0-546d-b084-b33561040143', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'reglas-probabilidades'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-313
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('644823d3-4e29-5527-8403-2e3081663530', 'm2-probabilidad-y-estadistica-313', 'En un juego de una feria escolar de Quilpué se lanzan dos dados comunes, uno rojo y uno azul. Se gana un premio si la suma de los puntos es mayor que $8$ o si en al menos uno de los dados sale un $6$.
+
+¿Cuál es la probabilidad de ganar un premio en un lanzamiento?', '[{"id":"A","content":"$\\dfrac{7}{36}$"},{"id":"B","content":"$\\dfrac{5}{18}$"},{"id":"C","content":"$\\dfrac{7}{18}$"},{"id":"D","content":"$\\dfrac{7}{12}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: para una «o» entre sucesos que pueden ocurrir juntos se usa $P(A \cup B) = P(A) + P(B) - P(A \cap B)$.
+Paso 1: $A$: suma mayor que $8$. Hay $4$ resultados con suma $9$, $3$ con suma $10$, $2$ con suma $11$ y $1$ con suma $12$: $10$ de $36$.
+Paso 2: $B$: al menos un $6$. Son $36 - 25 = 11$ resultados. $A \cap B$: $(3,6)$, $(6,3)$, $(4,6)$, $(6,4)$, $(5,6)$, $(6,5)$ y $(6,6)$, que son $7$.
+Paso 3: $P(A \cup B) = \frac{10 + 11 - 7}{36} = \frac{14}{36} = \frac{7}{18}$.
+Respuesta: C, $\frac{7}{18}$.
+Errores frecuentes: La A es la probabilidad de la intersección, que exige ambas condiciones. La B considera solo la suma mayor que $8$. La D suma $10 + 11$ sin restar los $7$ resultados contados dos veces.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '644823d3-4e29-5527-8403-2e3081663530', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'reglas-probabilidades'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-314
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('13a07e34-b19f-58a4-baba-2be3ff091b81', 'm2-probabilidad-y-estadistica-314', 'En la tómbola de un colegio de Melipilla hay $2n$ fichas numeradas del $1$ al $2n$, con $n \geq 2$. Se extraen al azar dos fichas a la vez.
+
+¿Cuál de las siguientes expresiones representa la probabilidad de obtener dos fichas cuyos números sumen un valor impar?', '[{"id":"A","content":"$\\dfrac{n}{2n - 1}$"},{"id":"B","content":"$\\dfrac{1}{2}$"},{"id":"C","content":"$\\dfrac{n}{2(2n - 1)}$"},{"id":"D","content":"$\\dfrac{n - 1}{2n - 1}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: la suma es impar solo si una ficha es par y la otra impar; entre $1$ y $2n$ hay exactamente $n$ pares y $n$ impares.
+Paso 1: casos totales: $\binom{2n}{2} = \frac{2n(2n - 1)}{2} = n(2n - 1)$.
+Paso 2: casos favorables: una par y una impar, $n \cdot n = n^2$.
+Paso 3: $P = \frac{n^2}{n(2n - 1)} = \frac{n}{2n - 1}$. Por ejemplo, con $n = 2$ (fichas $1$ a $4$), $4$ de los $6$ pares posibles tienen suma impar: $\frac{2}{3}$.
+Respuesta: A, $\frac{n}{2n - 1}$.
+Errores frecuentes: La B supone que par e impar son igual de probables, como si las fichas se devolvieran a la tómbola. La C cuenta los casos favorables sin orden, $n^2$, pero divide por los casos ordenados, $2n(2n - 1)$. La D es la probabilidad de que las dos fichas tengan la misma paridad, es decir, de que la suma sea par.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '13a07e34-b19f-58a4-baba-2be3ff091b81', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'reglas-probabilidades'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-315
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('f6d9d1cf-d69e-5c32-b067-21fb08d40fae', 'm2-probabilidad-y-estadistica-315', 'En una sala de arte de Valdivia hay dos cajas de lápices. La caja 1 tiene $2$ lápices rojos y $3$ azules, y la caja 2 tiene $4$ lápices rojos y $2$ azules. Se saca al azar un lápiz de la caja 1 y, sin mirarlo, se pone en la caja 2. Luego se saca al azar un lápiz de la caja 2 y resulta ser rojo.
+
+¿Cuál es la probabilidad de que el lápiz que se pasó de la caja 1 a la caja 2 haya sido rojo?', '[{"id":"A","content":"$\\dfrac{2}{7}$"},{"id":"B","content":"$\\dfrac{2}{5}$"},{"id":"C","content":"$\\dfrac{5}{11}$"},{"id":"D","content":"$\\dfrac{6}{11}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: el dato del segundo lápiz cambia la probabilidad del primero; se calcula $P(\text{rojo pasado} \mid \text{rojo extraído}) = \frac{P(\text{ambos})}{P(\text{rojo extraído})}$.
+Paso 1: si se pasó un rojo (probabilidad $\frac{2}{5}$), la caja 2 queda con $5$ rojos de $7$: $\frac{2}{5} \cdot \frac{5}{7} = \frac{10}{35}$.
+Paso 2: si se pasó un azul (probabilidad $\frac{3}{5}$), la caja 2 queda con $4$ rojos de $7$: $\frac{3}{5} \cdot \frac{4}{7} = \frac{12}{35}$. Así, $P(\text{rojo extraído}) = \frac{22}{35}$.
+Paso 3: $\frac{10/35}{22/35} = \frac{10}{22} = \frac{5}{11}$.
+Respuesta: C, $\frac{5}{11}$.
+Errores frecuentes: La A es $\frac{10}{35}$, la probabilidad de que ambos sean rojos, sin dividir por la del suceso conocido. La B es la probabilidad de pasar un rojo antes de saber nada, $\frac{2}{5}$. La D es la probabilidad de que se haya pasado un azul, el complemento de lo pedido.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'f6d9d1cf-d69e-5c32-b067-21fb08d40fae', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'probabilidad-condicional'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-316
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('99e88999-d330-54f8-bac6-2e4aed04c9ea', 'm2-probabilidad-y-estadistica-316', 'Una tienda en línea de Temuco analiza sus pedidos. Se elige un pedido al azar y se definen los sucesos $A$: «el cliente devuelve el producto» y $B$: «el pedido se envió con despacho a domicilio». Los pedidos que no se envían a domicilio se retiran en tienda. Se sabe que $P(B) = 0{,}6$, que $P(A \mid B) = 0{,}3$ y que $P(A \mid B^c) = 0{,}3$.
+
+¿Cuál de las siguientes conclusiones se puede deducir de esta información?', '[{"id":"A","content":"$P(A) = 0{,}3$ y los sucesos $A$ y $B$ son independientes."},{"id":"B","content":"$P(A) = 0{,}18$ y los sucesos $A$ y $B$ no son independientes."},{"id":"C","content":"$P(A) = 0{,}6$ y los sucesos $A$ y $B$ son independientes."},{"id":"D","content":"No es posible calcular $P(A)$ sin conocer $P(A \\cap B)$."},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: con la probabilidad total, $P(A) = P(A \mid B)P(B) + P(A \mid B^c)P(B^c)$; si ambas condicionales son iguales, $P(A)$ coincide con ellas.
+Paso 1: $P(B^c) = 1 - 0{,}6 = 0{,}4$.
+Paso 2: $P(A) = 0{,}3 \cdot 0{,}6 + 0{,}3 \cdot 0{,}4 = 0{,}18 + 0{,}12 = 0{,}3$.
+Paso 3: como $P(A \mid B) = 0{,}3 = P(A)$, saber que el pedido fue a domicilio no cambia la probabilidad de devolución: $A$ y $B$ son independientes. En efecto, $P(A \cap B) = 0{,}18 = 0{,}3 \cdot 0{,}6$.
+Respuesta: A.
+Errores frecuentes: La B toma $0{,}18 = P(A \cap B)$ como si fuera $P(A)$. La C confunde $P(A)$ con $P(B)$. La D no ve que $P(A \cap B) = P(A \mid B) \cdot P(B)$ se obtiene de los datos.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '99e88999-d330-54f8-bac6-2e4aed04c9ea', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'probabilidad-condicional'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-317
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('df2b1f28-52b2-5b64-809f-473ed38511d6', 'm2-probabilidad-y-estadistica-317', 'En un concurso de una radio de Arica, el locutor elige al azar dos números distintos del $1$ al $9$, sin importar el orden. Antes de revelarlos, anuncia que el producto de los dos números es par.
+
+Con esa información, ¿cuál es la probabilidad de que, al sumar ambos números, se obtenga un resultado par?', '[{"id":"A","content":"$\\dfrac{1}{6}$"},{"id":"B","content":"$\\dfrac{3}{13}$"},{"id":"C","content":"$\\dfrac{3}{8}$"},{"id":"D","content":"$\\dfrac{4}{9}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: la condición reduce el espacio a los pares de números con producto par; dentro de ese grupo se buscan los de suma par.
+Paso 1: hay $\binom{9}{2} = 36$ pares. Entre $1$ y $9$ hay $5$ impares y $4$ pares. El producto es impar solo si ambos son impares: $\binom{5}{2} = 10$. Con producto par quedan $36 - 10 = 26$.
+Paso 2: con producto par, la suma es par solo si ambos números son pares: $\binom{4}{2} = 6$.
+Paso 3: $P = \frac{6}{26} = \frac{3}{13}$.
+Respuesta: B, $\frac{3}{13}$.
+Errores frecuentes: La A divide $6$ por los $36$ pares, sin usar la información del producto. La C calcula $\frac{6}{16}$, la probabilidad inversa: producto par dado que la suma es par. La D es $\frac{16}{36}$, la probabilidad de suma par sin condición.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'df2b1f28-52b2-5b64-809f-473ed38511d6', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'probabilidad-condicional'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-318
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('83af83fb-6161-51e6-a170-c4f7ef9669bc', 'm2-probabilidad-y-estadistica-318', 'En un curso de $n$ estudiantes, con $n \geq 4$, están los mellizos Ignacia y Vicente. Se eligen al azar $2$ estudiantes del curso para representarlo en el consejo escolar. Se sabe que al menos uno de los mellizos quedó elegido.
+
+¿Cuál de las siguientes expresiones representa la probabilidad de que hayan quedado elegidos ambos mellizos?', '[{"id":"A","content":"$\\dfrac{2}{n(n - 1)}$"},{"id":"B","content":"$\\dfrac{1}{n - 1}$"},{"id":"C","content":"$\\dfrac{1}{2(n - 2)}$"},{"id":"D","content":"$\\dfrac{1}{2n - 3}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: la condición «al menos uno de los mellizos» deja como espacio solo las parejas que incluyen a Ignacia, a Vicente o a ambos.
+Paso 1: hay $\binom{n}{2}$ parejas posibles. Las que no incluyen a ningún mellizo son $\binom{n-2}{2}$.
+Paso 2: parejas con al menos un mellizo: $\binom{n}{2} - \binom{n-2}{2} = \frac{n(n - 1) - (n - 2)(n - 3)}{2} = \frac{4n - 6}{2} = 2n - 3$. Son las $2(n - 2)$ parejas con exactamente un mellizo, más la pareja de los dos.
+Paso 3: solo una de esas parejas tiene a ambos, así que la probabilidad es $\frac{1}{2n - 3}$.
+Respuesta: D, $\frac{1}{2n - 3}$.
+Errores frecuentes: La A es la probabilidad de elegir a ambos sin usar la información dada. La B responde otra pregunta: la probabilidad de que salga Vicente sabiendo que salió Ignacia. La C divide por las parejas con exactamente un mellizo y olvida incluir la pareja de los dos.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '83af83fb-6161-51e6-a170-c4f7ef9669bc', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'probabilidad-condicional'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-319
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('3412e520-ed65-5e0b-b0b0-3e3494be158d', 'm2-probabilidad-y-estadistica-319', 'Según un estudio del transporte en Concepción, cierto tren llega con atraso con probabilidad $0{,}4$ los días de lluvia y con probabilidad $0{,}1$ los días sin lluvia. Además, a lo largo del año, el tren llegó con atraso el $22\%$ de los días.
+
+Si se elige al azar un día del año en que el tren llegó con atraso, ¿cuál es la probabilidad de que ese día haya llovido?', '[{"id":"A","content":"$0{,}16$"},{"id":"B","content":"$\\dfrac{3}{11}$"},{"id":"C","content":"$0{,}4$"},{"id":"D","content":"$\\dfrac{8}{11}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: primero se usa la probabilidad total para despejar la probabilidad de lluvia, y luego se invierte la condición.
+Paso 1: sea $p$ la probabilidad de que llueva. Por probabilidad total, $0{,}4p + 0{,}1(1 - p) = 0{,}22$, es decir, $0{,}3p = 0{,}12$ y $p = 0{,}4$.
+Paso 2: $P(\text{lluvia y atraso}) = 0{,}4 \cdot 0{,}4 = 0{,}16$.
+Paso 3: $P(\text{lluvia} \mid \text{atraso}) = \frac{0{,}16}{0{,}22} = \frac{8}{11}$.
+Respuesta: D, $\frac{8}{11}$.
+Errores frecuentes: La A es la probabilidad de que llueva y haya atraso, sin dividir por $0{,}22$. La B es $\frac{0{,}06}{0{,}22}$, la probabilidad de que no haya llovido dado el atraso. La C es la probabilidad de lluvia de un día cualquiera, que coincide numéricamente con $P(\text{atraso} \mid \text{lluvia})$, pero no es lo que se pide.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '3412e520-ed65-5e0b-b0b0-3e3494be158d', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'probabilidad-condicional'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-320
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('db6a99f9-625d-53e7-8b1a-fecd4d46084d', 'm2-probabilidad-y-estadistica-320', 'Un museo de Valparaíso registró a sus $300$ visitantes de un día. El $60\%$ de ellos eran adultos y el resto, menores de edad. De los adultos, el $40\%$ tomó la visita guiada, y en total $150$ visitantes tomaron la visita guiada.
+
+Si se elige al azar a uno de los visitantes que tomaron la visita guiada, ¿cuál es la probabilidad de que sea adulto?', '[{"id":"A","content":"$0{,}24$"},{"id":"B","content":"$0{,}4$"},{"id":"C","content":"$0{,}48$"},{"id":"D","content":"$0{,}6$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'medium'::difficulty_level, 'Idea clave: conviene pasar los porcentajes a cantidades y armar la tabla; la condición «tomó la visita guiada» fija el total por el que se divide.
+Paso 1: adultos: $0{,}6 \cdot 300 = 180$. Adultos con visita guiada: $0{,}4 \cdot 180 = 72$.
+Paso 2: el nuevo espacio son los $150$ visitantes con visita guiada.
+Paso 3: $P(\text{adulto} \mid \text{guiada}) = \frac{72}{150} = 0{,}48$.
+Respuesta: C, $0{,}48$.
+Errores frecuentes: La A divide $72$ por los $300$ visitantes, que es la probabilidad de «adulto y guiada». La B es $P(\text{guiada} \mid \text{adulto})$, la condición invertida. La D es la proporción de adultos entre todos los visitantes, sin condición.', 'm2', 'representar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'db6a99f9-625d-53e7-8b1a-fecd4d46084d', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'probabilidad-condicional'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-321
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('6d702add-2c92-5e2c-81fa-151a9c397945', 'm2-probabilidad-y-estadistica-321', 'En el bingo de una junta de vecinos de Ancud, una tómbola contiene $r$ bolas rojas y $a$ bolas azules, con $r \geq 2$ y $a \geq 2$, todas del mismo tipo. Se extraen al azar dos bolas, una tras otra y sin reposición. Considera las siguientes afirmaciones:
+
+I) Obtener una bola roja en la segunda extracción tiene probabilidad $\frac{r}{r + a}$.
+II) Sabiendo que en la primera extracción salió una bola roja, obtener otra roja en la segunda extracción es menos probable que lo indicado en I.
+III) Obtener bolas rojas en ambas extracciones tiene probabilidad $\left(\frac{r}{r + a}\right)^2$.
+
+¿Cuál o cuáles de las afirmaciones anteriores son siempre verdaderas?', '[{"id":"A","content":"Solo I"},{"id":"B","content":"Solo II"},{"id":"C","content":"Solo I y II"},{"id":"D","content":"I, II y III"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: sin reposición, la segunda extracción vista sola tiene la misma probabilidad que la primera, pero condicionada a lo que salió antes sí cambia.
+Paso 1: I es verdadera: $\frac{r}{r+a} \cdot \frac{r-1}{r+a-1} + \frac{a}{r+a} \cdot \frac{r}{r+a-1} = \frac{r(r - 1 + a)}{(r+a)(r+a-1)} = \frac{r}{r+a}$.
+Paso 2: II es verdadera: $\frac{r - 1}{r + a - 1} < \frac{r}{r + a}$ equivale a $(r - 1)(r + a) < r(r + a - 1)$, es decir, $-a < 0$, que se cumple siempre.
+Paso 3: III es falsa: ambas rojas es $\frac{r}{r+a} \cdot \frac{r - 1}{r + a - 1}$; el cuadrado corresponde a extraer con reposición. Con $r = a = 2$ da $\frac{1}{6}$ y no $\frac{1}{4}$.
+Respuesta: C, solo I y II.
+Errores frecuentes: La A descarta II, sin notar que sacar una roja deja menos rojas en la tómbola. La B descarta I, porque cree que la segunda extracción depende de la primera aunque no se sepa qué salió. La D acepta III, que trata la extracción como si fuera con reposición.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '6d702add-2c92-5e2c-81fa-151a9c397945', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'probabilidad-condicional'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-322
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('60781001-515d-517d-883e-3eecd550cdc4', 'm2-probabilidad-y-estadistica-322', 'En un centro de atención telefónica de Santiago, cada llamada se responde en menos de un minuto con probabilidad $p$, de manera independiente entre llamadas. Se sabe que la probabilidad de que, de $2$ llamadas, ninguna se responda en menos de un minuto es $0{,}09$.
+
+Si la probabilidad de que exactamente $k$ de $n$ llamadas se respondan en menos de un minuto es $\binom{n}{k} p^k (1 - p)^{n - k}$, ¿cuál es la probabilidad de que, de $3$ llamadas, exactamente $2$ se respondan en menos de un minuto?', '[{"id":"A","content":"$0{,}147$"},{"id":"B","content":"$0{,}189$"},{"id":"C","content":"$0{,}343$"},{"id":"D","content":"$0{,}441$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: el dato de las $2$ llamadas permite despejar $p$, y luego se aplica el modelo binomial con $n = 3$ y $k = 2$.
+Paso 1: ninguna de $2$ a tiempo: $(1 - p)^2 = 0{,}09$, así que $1 - p = 0{,}3$ y $p = 0{,}7$.
+Paso 2: $P(X = 2) = \binom{3}{2} \cdot 0{,}7^2 \cdot 0{,}3 = 3 \cdot 0{,}49 \cdot 0{,}3$.
+Paso 3: $P(X = 2) = 0{,}441$.
+Respuesta: D, $0{,}441$.
+Errores frecuentes: La A olvida el coeficiente $\binom{3}{2} = 3$, que cuenta en qué posiciones van las dos llamadas a tiempo. La B intercambia los papeles de $p$ y $1 - p$ y calcula la probabilidad de exactamente una llamada a tiempo. La C es $0{,}7^3$, la probabilidad de que las tres se respondan a tiempo.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '60781001-515d-517d-883e-3eecd550cdc4', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'modelos-probabilisticos'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-323
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('6ffebe38-e1aa-5f64-b504-051c6053de1d', 'm2-probabilidad-y-estadistica-323', 'En un club de tiro con arco de Rancagua, una arquera lanza $n$ flechas y cada una da en el blanco con probabilidad $p$, con $0 < p < 1$, de forma independiente. La cantidad $X$ de flechas que dan en el blanco tiene distribución binomial, con esperanza $np$ y varianza $np(1 - p)$. Considera las siguientes afirmaciones:
+
+I) Si $p = 0{,}5$, entonces $P(X = k) = P(X = n - k)$ para todo $k$ entre $0$ y $n$.
+II) Para algunos valores de $p$, la varianza de $X$ es mayor que su esperanza.
+III) Si la arquera duplica la cantidad de flechas y $p$ no cambia, la varianza de $X$ se duplica.
+
+¿Cuál o cuáles de las afirmaciones anteriores son siempre verdaderas?', '[{"id":"A","content":"Solo I"},{"id":"B","content":"Solo II"},{"id":"C","content":"Solo I y III"},{"id":"D","content":"I, II y III"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: la varianza binomial es la esperanza multiplicada por $1 - p$, un número entre $0$ y $1$; y con $p = 0{,}5$ el modelo es simétrico.
+Paso 1: I es verdadera: con $p = 0{,}5$, $P(X = k) = \binom{n}{k} 0{,}5^n$ y $\binom{n}{k} = \binom{n}{n-k}$.
+Paso 2: II es falsa: $np(1 - p) < np$ porque $0 < 1 - p < 1$; la varianza siempre es menor que la esperanza.
+Paso 3: III es verdadera: con $2n$ flechas, la varianza es $2np(1 - p)$, el doble. Lo que no se duplica es la desviación estándar, que queda multiplicada por $\sqrt{2}$.
+Respuesta: C, solo I y III.
+Errores frecuentes: La A descarta III porque confunde varianza con desviación estándar. La B acepta II, como si $1 - p$ pudiera ser mayor que $1$. La D acepta las tres, sin revisar que la varianza nunca supera a la esperanza.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '6ffebe38-e1aa-5f64-b504-051c6053de1d', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'modelos-probabilisticos'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-324
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('354830a3-832d-59a6-b82b-923e057d4fdf', 'm2-probabilidad-y-estadistica-324', 'La duración de la batería de los scooters eléctricos de una empresa de arriendo en Viña del Mar sigue una distribución normal. Se sabe que el $15{,}9\%$ de las baterías dura más de $34$ horas y que el $2{,}3\%$ dura menos de $22$ horas.
+
+Considera que, si $Z$ tiene distribución normal estándar, entonces $P(Z \leq 1) = 0{,}841$ y $P(Z \leq 2) = 0{,}977$. Si se elige al azar una de estas baterías, ¿cuál es la probabilidad de que dure entre $26$ y $38$ horas?', '[{"id":"A","content":"$0{,}682$"},{"id":"B","content":"$0{,}818$"},{"id":"C","content":"$0{,}841$"},{"id":"D","content":"$0{,}977$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'hard'::difficulty_level, 'Idea clave: los porcentajes dados corresponden a $Z = 1$ y a $Z = -2$; con eso se plantea un sistema para la media $\mu$ y la desviación $\sigma$.
+Paso 1: como $1 - 0{,}841 = 0{,}159$, el valor $34$ está a una desviación sobre la media: $\mu + \sigma = 34$. Como $1 - 0{,}977 = 0{,}023$, el valor $22$ está a dos desviaciones bajo la media: $\mu - 2\sigma = 22$.
+Paso 2: restando, $3\sigma = 12$, así que $\sigma = 4$ y $\mu = 30$.
+Paso 3: $26$ y $38$ corresponden a $Z = -1$ y $Z = 2$. Entonces $P(-1 \leq Z \leq 2) = 0{,}977 - (1 - 0{,}841) = 0{,}977 - 0{,}159 = 0{,}818$.
+Respuesta: B, $0{,}818$.
+Errores frecuentes: La A es $P(-1 \leq Z \leq 1)$, que supone el intervalo simétrico. La C es $P(Z \leq 1)$, que ignora el límite inferior y usa mal el superior. La D es $P(Z \leq 2)$, que solo considera el límite superior del intervalo.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '354830a3-832d-59a6-b82b-923e057d4fdf', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'modelos-probabilisticos'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-325
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('c5442aa4-1240-5b05-be11-e18fe4ccccc0', 'm2-probabilidad-y-estadistica-325', 'Un instituto de Los Ángeles aplica una prueba de $20$ preguntas, cada una con $4$ alternativas y solo una correcta. Cada respuesta correcta suma $1$ punto y cada respuesta incorrecta descuenta $\frac{1}{4}$ de punto. Un postulante responde las $20$ preguntas completamente al azar, de manera independiente.
+
+Si la cantidad de respuestas correctas tiene distribución binomial, con esperanza $np$, ¿cuál es el puntaje esperado de este postulante?', '[{"id":"A","content":"$0$"},{"id":"B","content":"$1{,}25$"},{"id":"C","content":"$3{,}75$"},{"id":"D","content":"$5$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'B', 'medium'::difficulty_level, 'Idea clave: se calcula la cantidad esperada de correctas e incorrectas con el modelo binomial y luego se aplica la regla de puntaje.
+Paso 1: correctas esperadas: $np = 20 \cdot \frac{1}{4} = 5$. Incorrectas esperadas: $20 - 5 = 15$.
+Paso 2: puntaje esperado: $5 \cdot 1 - 15 \cdot \frac{1}{4} = 5 - 3{,}75$.
+Paso 3: el resultado es $1{,}25$ puntos.
+Respuesta: B, $1{,}25$.
+Errores frecuentes: La A supone que responder al azar siempre da $0$ en promedio, pero aquí el descuento no compensa del todo los aciertos. La C aplica el descuento a las $5$ correctas en lugar de a las $15$ incorrectas. La D olvida el descuento.', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'c5442aa4-1240-5b05-be11-e18fe4ccccc0', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'modelos-probabilisticos'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-326
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('dec30d8f-d90b-50a5-ad45-fc598a54b255', 'm2-probabilidad-y-estadistica-326', 'En una planta de Antofagasta se revisan lotes de $10$ paneles solares. Cada panel resulta defectuoso con probabilidad $p$, con $0 < p < 1$, de forma independiente. La probabilidad de que un lote tenga exactamente $k$ paneles defectuosos es $\binom{10}{k} p^k (1 - p)^{10 - k}$.
+
+Si en un lote es igual de probable encontrar exactamente $3$ paneles defectuosos que exactamente $4$, ¿cuál es el valor de $p$?', '[{"id":"A","content":"$\\dfrac{4}{11}$"},{"id":"B","content":"$\\dfrac{1}{2}$"},{"id":"C","content":"$\\dfrac{4}{7}$"},{"id":"D","content":"$\\dfrac{7}{11}$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: se igualan las dos probabilidades binomiales y se simplifican las potencias comunes, sin olvidar que los coeficientes $\binom{10}{3}$ y $\binom{10}{4}$ son distintos.
+Paso 1: $\binom{10}{3} p^3 (1 - p)^7 = \binom{10}{4} p^4 (1 - p)^6$. Al dividir por $p^3(1 - p)^6$: $120(1 - p) = 210p$.
+Paso 2: $120 = 330p$.
+Paso 3: $p = \frac{120}{330} = \frac{4}{11}$.
+Respuesta: A, $\frac{4}{11}$.
+Errores frecuentes: La B omite los coeficientes y plantea $1 - p = p$. La C es $\frac{120}{210}$, que compara solo los coeficientes como si $p = \frac{\binom{10}{3}}{\binom{10}{4}}$. La D intercambia los coeficientes y plantea $210(1 - p) = 120p$.', 'm2', 'resolver_problemas', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select 'dec30d8f-d90b-50a5-ad45-fc598a54b255', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'modelos-probabilisticos'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-327
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('6eb2c1e5-3316-5955-93ac-885ba8f1c1af', 'm2-probabilidad-y-estadistica-327', 'Una embotelladora de Curicó tiene dos máquinas que llenan botellas de jugo. El volumen que llena la máquina A sigue una distribución normal con media $1\,000$ mL y desviación estándar $5$ mL, y el de la máquina B, una distribución normal con media $1\,002$ mL y desviación estándar $10$ mL. Considera las siguientes afirmaciones:
+
+I) La proporción de botellas con más de $1\,010$ mL es mayor en la máquina B que en la máquina A.
+II) La proporción de botellas con menos de $995$ mL es mayor en la máquina A que en la máquina B.
+III) La proporción de botellas entre $995$ mL y $1\,005$ mL en la máquina A es igual a la proporción de botellas entre $992$ mL y $1\,012$ mL en la máquina B.
+
+¿Cuál o cuáles de las afirmaciones anteriores son verdaderas?', '[{"id":"A","content":"Solo I"},{"id":"B","content":"Solo II"},{"id":"C","content":"Solo I y II"},{"id":"D","content":"Solo I y III"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'D', 'hard'::difficulty_level, 'Idea clave: se comparan proporciones de distintas normales pasando cada valor a puntaje $Z = \frac{x - \mu}{\sigma}$; no se necesita tabla, solo comparar los valores de $Z$.
+Paso 1: I es verdadera: en A, $1\,010$ da $Z = \frac{10}{5} = 2$; en B, $Z = \frac{8}{10} = 0{,}8$. Como $P(Z > 0{,}8) > P(Z > 2)$, B tiene más botellas sobre $1\,010$ mL.
+Paso 2: II es falsa: en A, $995$ da $Z = -1$; en B, $Z = \frac{-7}{10} = -0{,}7$. Como $P(Z < -0{,}7) > P(Z < -1)$, es B la que tiene más botellas bajo $995$ mL.
+Paso 3: III es verdadera: en A, el intervalo va de $Z = -1$ a $Z = 1$; en B, de $\frac{992 - 1\,002}{10} = -1$ a $\frac{1\,012 - 1\,002}{10} = 1$. Es la misma proporción.
+Respuesta: D, solo I y III.
+Errores frecuentes: La A descarta III, porque cree que intervalos de distinto ancho no pueden tener la misma proporción. La B y la C aceptan II, porque comparan solo las medias o solo las distancias en mL, sin dividir por la desviación estándar.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '6eb2c1e5-3316-5955-93ac-885ba8f1c1af', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'modelos-probabilisticos'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-328
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('664a2cf4-261d-5cd2-b572-3a43dce2e981', 'm2-probabilidad-y-estadistica-328', 'En un packing de Quillota, la masa de las paltas sigue una distribución normal con media $200$ g y desviación estándar $20$ g. Una palta se clasifica como «extra» si su masa supera los $240$ g. Se arma una bandeja con $3$ paltas elegidas al azar, de manera independiente.
+
+Considerando que, si $Z$ tiene distribución normal estándar, $P(Z \leq 2) = 0{,}977$, ¿cuál de las siguientes expresiones representa la probabilidad de que la bandeja tenga al menos una palta «extra»?', '[{"id":"A","content":"$1 - 0{,}977^3$"},{"id":"B","content":"$3 \\cdot 0{,}023$"},{"id":"C","content":"$1 - 0{,}023^3$"},{"id":"D","content":"$0{,}023^3$"},{"id":"E","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'medium'::difficulty_level, 'Idea clave: la normal entrega la probabilidad de que una palta sea «extra», y para «al menos una» de $3$ independientes se usa el complemento de «ninguna».
+Paso 1: $240$ g corresponde a $Z = \frac{240 - 200}{20} = 2$, así que $P(\text{extra}) = 1 - 0{,}977 = 0{,}023$.
+Paso 2: la probabilidad de que una palta no sea «extra» es $0{,}977$, y de que ninguna de las $3$ lo sea, $0{,}977^3$.
+Paso 3: al menos una «extra»: $1 - 0{,}977^3$.
+Respuesta: A, $1 - 0{,}977^3$.
+Errores frecuentes: La B suma la probabilidad tres veces y cuenta de más los casos con dos o tres paltas «extra». La C es el complemento de que las tres sean «extra», es decir, que al menos una no lo sea. La D es la probabilidad de que las tres sean «extra».', 'm2', 'modelar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '664a2cf4-261d-5cd2-b572-3a43dce2e981', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'modelos-probabilisticos'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-329
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('7a23d6ef-5309-532a-bda6-77c55567d537', 'm2-probabilidad-y-estadistica-329', 'En un liceo de Los Andes se elige al azar a un estudiante. Sean $A$ el suceso «participa en el taller de teatro» y $B$ el suceso «participa en el coro». Además, $A^c$ y $B^c$ son sus complementos.
+
+Se puede determinar $P(A \mid B)$, si se sabe que:
+
+(1) $P(A \cup B) = 0{,}5$ y $P(A^c \cap B) = 0{,}2$.
+(2) $P(A \cap B^c) = 0{,}2$.', '[{"id":"A","content":"(1) por sí sola"},{"id":"B","content":"(2) por sí sola"},{"id":"C","content":"Ambas juntas, (1) y (2)"},{"id":"D","content":"Cada una por sí sola, (1) ó (2)"},{"id":"E","content":"Se requiere información adicional"},{"id":"F","content":"No sé responder esta pregunta"}]'::jsonb, 'C', 'hard'::difficulty_level, 'Idea clave: $P(A \mid B) = \frac{P(A \cap B)}{P(B)}$, y la unión se reparte en tres zonas disjuntas: solo $A$, ambos y solo $B$.
+Paso 1: con (1), la unión es «solo $A$» más «ambos» más «solo $B$»: $P(A \cap B^c) + P(A \cap B) = 0{,}3$, pero no se sabe cómo se reparte. Si $P(A \cap B) = 0{,}1$, $P(A \mid B) = \frac{0{,}1}{0{,}3} = \frac{1}{3}$; si $P(A \cap B) = 0{,}2$, da $\frac{0{,}2}{0{,}4} = \frac{1}{2}$. No basta.
+Paso 2: con (2) sola no se conoce ni $P(A \cap B)$ ni $P(B)$. No basta.
+Paso 3: juntas, $P(A \cap B) = 0{,}3 - 0{,}2 = 0{,}1$ y $P(B) = 0{,}1 + 0{,}2 = 0{,}3$, así que $P(A \mid B) = \frac{1}{3}$.
+Respuesta: C, ambas juntas.
+Errores frecuentes: La A cree que con la unión y la zona «solo $B$» ya se conoce la intersección. La B usa (2) como si fuera la intersección. La D supone que cada dato por separado alcanza. La E no nota que juntas determinan las tres zonas.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '7a23d6ef-5309-532a-bda6-77c55567d537', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'probabilidad-condicional'
+  on conflict do nothing;
+-- m2-probabilidad-y-estadistica-330
+insert into public.questions (id, external_key, content, alternatives, correct_answer, difficulty, explanation, subject, habilidad, is_active) values ('77d4d417-5c9a-5093-948d-245a273e02c0', 'm2-probabilidad-y-estadistica-330', 'El centro de padres de un colegio de Castro tiene $n$ socios, con $n \geq 5$, y debe elegir entre ellos una directiva formada por un presidente, un secretario y un tesorero, todos distintos.
+
+Se puede determinar la cantidad de directivas distintas que se pueden formar, si se sabe que:
+
+(1) La cantidad de grupos de $3$ socios que se pueden formar es igual a la cantidad de grupos de $5$ socios que se pueden formar.
+(2) La cantidad de grupos de $2$ socios que se pueden formar es mayor que $20$ y menor que $30$.', '[{"id":"A","content":"(1) por sí sola"},{"id":"B","content":"(2) por sí sola"},{"id":"C","content":"Ambas juntas, (1) y (2)"},{"id":"D","content":"Cada una por sí sola, (1) ó (2)"},{"id":"E","content":"Se requiere información adicional"},{"id":"F","content":"No sé responder esta pregunta"}]'::jsonb, 'A', 'hard'::difficulty_level, 'Idea clave: la cantidad de directivas es $n(n - 1)(n - 2)$, así que basta con determinar $n$; hay que revisar si cada condición deja un único valor posible.
+Paso 1: con (1), $\binom{n}{3} = \binom{n}{5}$. Como $3 \neq 5$, eso ocurre solo si $3 + 5 = n$, es decir, $n = 8$. Hay $8 \cdot 7 \cdot 6 = 336$ directivas. Basta.
+Paso 2: con (2), $20 < \binom{n}{2} < 30$. Se cumple para $n = 7$ ($21$ grupos) y para $n = 8$ ($28$ grupos), que dan $210$ y $336$ directivas. No basta.
+Paso 3: como (1) sola determina la respuesta y (2) sola no, la respuesta es (1) por sí sola.
+Respuesta: A, (1) por sí sola.
+Errores frecuentes: La B cree que el intervalo deja un solo valor, sin probar $n = 7$. La C pide ambas, aunque (1) ya fija $n$. La D supone que (2) también basta. La E no reconoce la propiedad $\binom{n}{k} = \binom{n}{n-k}$.', 'm2', 'argumentar', true)
+  on conflict (id) do update set content = excluded.content, alternatives = excluded.alternatives, correct_answer = excluded.correct_answer, difficulty = excluded.difficulty, explanation = excluded.explanation, subject = excluded.subject, habilidad = excluded.habilidad, external_key = excluded.external_key;
+insert into public.question_topics (question_id, topic_id)
+  select '77d4d417-5c9a-5093-948d-245a273e02c0', t.id from public.topics t join public.ejes e on e.id = t.eje_id
+  where e.slug = 'probabilidad-y-estadistica' and e.subject = 'm2' and t.slug = 'permutacion-combinatoria'
   on conflict do nothing;
 
 commit;

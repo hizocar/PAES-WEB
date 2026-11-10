@@ -1161,5 +1161,1168 @@
     "correct": "D",
     "explanation": "Idea clave: el volumen se conserva al fundir, pero el área de la superficie no: al dividir en piezas más pequeñas, la superficie total aumenta.\nPaso 1: Número de plomadas: $\\frac{\\frac{4}{3}\\pi \\cdot 6^3}{\\frac{4}{3}\\pi \\cdot 2^3} = \\frac{216}{8} = 27$.\nPaso 2: Superficie de la bola: $4\\pi \\cdot 6^2 = 144\\pi$ $\\text{cm}^2$. Superficie de cada plomada: $4\\pi \\cdot 2^2 = 16\\pi$ $\\text{cm}^2$.\nPaso 3: Superficie total de las plomadas: $27 \\cdot 16\\pi = 432\\pi$ $\\text{cm}^2$, que es $\\frac{432\\pi}{144\\pi} = 3$ veces la original.\nRespuesta: D.\nErrores frecuentes: La A compara los radios al cuadrado ($\\frac{36}{4} = 9$) para contar las plomadas, en vez de los volúmenes. La B cuenta bien, pero supone que la superficie se conserva como el volumen. La C multiplica por $9$, que es la razón entre las superficies de una bola y una plomada, sin considerar que hay $27$ plomadas.",
     "verify": "const n = (6**3)/(2**3); const sBig = 4*Math.PI*36, sSmall = 4*Math.PI*4; const ratio = n*sSmall/sBig; const o={A:[9,1],B:[27,1],C:[27,9],D:[27,3]}; for (const [l,[a,b]] of Object.entries(o)) if (Math.abs(a-n)<1e-9 && Math.abs(b-ratio)<1e-9) return l; return null;"
+  },
+  {
+    "key": "m2-geometria-201",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "homotecia",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una homotecia de centro $C$ y razón $k$, ambos desconocidos, transforma el punto $A(2, 3)$ en $A'(-1, -3)$ y el punto $B(4, 1)$ en $B'(-5, 1)$.\n\n¿Cuáles son las coordenadas de la imagen del punto $Q(0, 4)$ mediante esta misma homotecia?",
+    "alternatives": {
+      "A": "$(-1, 7)$",
+      "B": "$(0, -8)$",
+      "C": "$\\left(\\frac{3}{2}, -\\frac{1}{2}\\right)$",
+      "D": "$(3, -5)$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: una homotecia de razón $k$ multiplica todo vector por $k$, así que $\\overrightarrow{A'B'} = k \\cdot \\overrightarrow{AB}$; con $k$ conocido se despeja el centro.\nPaso 1: $\\overrightarrow{AB} = (2, -2)$ y $\\overrightarrow{A'B'} = (-4, 4)$. Como $(-4, 4) = -2 \\cdot (2, -2)$, la razón es $k = -2$.\nPaso 2: De $A' = C + k(A - C)$ se obtiene $C = \\frac{A' - kA}{1 - k} = \\frac{(-1 + 4,\\ -3 + 6)}{3} = (1, 1)$. Se comprueba con $B$: $(1, 1) - 2(3, 0) = (-5, 1)$.\nPaso 3: $Q' = C + k(Q - C) = (1, 1) - 2(-1, 3) = (3, -5)$.\nRespuesta: D, $(3, -5)$.\nErrores frecuentes: La A usa $k = 2$ y olvida que los vectores cambiaron de sentido. La B multiplica $Q$ por $-2$ como si el centro fuera el origen. La C usa la razón inversa, $-\\frac{1}{2}$, que corresponde a ir de la imagen a la figura original.",
+    "verify": "const A=[2,3],Ap=[-1,-3],B=[4,1],Bp=[-5,1],Q=[0,4];\nconst k=(Bp[0]-Ap[0])/(B[0]-A[0]); const k2=(Bp[1]-Ap[1])/(B[1]-A[1]); if(Math.abs(k-k2)>1e-9) return null;\nconst C=[(Ap[0]-k*A[0])/(1-k),(Ap[1]-k*A[1])/(1-k)];\nconst H=(P)=>[C[0]+k*(P[0]-C[0]),C[1]+k*(P[1]-C[1])];\nconst eq=(u,v)=>Math.abs(u[0]-v[0])<1e-9&&Math.abs(u[1]-v[1])<1e-9;\nif(!eq(H(B),Bp)) return null;\nconst o={A:[-1,7],B:[0,-8],C:[1.5,-0.5],D:[3,-5]};\nconst ok=Object.keys(o).filter(l=>eq(o[l],H(Q))); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-202",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "homotecia",
+    "habilidad": "representar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "La recta $L$, de ecuación $y = 2x + 3$, se transforma en la recta $L'$ mediante la homotecia de razón $k$ (con $k \\neq 0$ y $k \\neq 1$) cuyo centro es el origen del plano.\n\n¿Cuál es la ecuación de $L'$?",
+    "alternatives": {
+      "A": "$y = 2x + 3k$",
+      "B": "$y = 2kx + 3$",
+      "C": "$y = 2kx + 3k$",
+      "D": "$y = 2x + \\frac{3}{k}$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: si $(X, Y)$ es la imagen de un punto $(x, y)$ de $L$, entonces $X = kx$ e $Y = ky$; basta despejar $x$ e $y$ y reemplazar en la ecuación de $L$.\nPaso 1: De $X = kx$ e $Y = ky$ se obtiene $x = \\frac{X}{k}$ e $y = \\frac{Y}{k}$.\nPaso 2: Reemplazando en $y = 2x + 3$: $\\frac{Y}{k} = \\frac{2X}{k} + 3$.\nPaso 3: Multiplicando por $k$: $Y = 2X + 3k$. La pendiente no cambia (la homotecia conserva las direcciones) y el coeficiente de posición se multiplica por $k$.\nRespuesta: A, $y = 2x + 3k$.\nErrores frecuentes: La B multiplica la pendiente por $k$, pero una homotecia no cambia la inclinación de las rectas. La C multiplica toda la ecuación por $k$ solo en el lado derecho. La D divide por $k$, que es lo que haría la homotecia inversa.",
+    "verify": "const k=-3; const L=(x)=>2*x+3; const pts=[0,1,2].map(x=>[k*x,k*L(x)]);\nconst o={A:(X)=>2*X+3*k,B:(X)=>2*k*X+3,C:(X)=>2*k*X+3*k,D:(X)=>2*X+3/k};\nconst ok=Object.keys(o).filter(l=>pts.every(p=>Math.abs(o[l](p[0])-p[1])<1e-9)); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-203",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "homotecia",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Se aplica a una figura una homotecia de centro $O$ y razón $k$, con $k \\neq 0$. Considera las siguientes afirmaciones:\n\nI) Si $k = -1$, entonces $O$ es el punto medio entre cada punto de la figura y su imagen.\nII) Si $A$ y $B$ son puntos de la figura, la recta que pasa por sus imágenes $A'$ y $B'$ es paralela a la recta $AB$ o coincide con ella.\nIII) El perímetro de la figura imagen es igual a $k$ veces el perímetro de la figura original.\n\n¿Cuál o cuáles de ellas son siempre verdaderas?",
+    "alternatives": {
+      "A": "Solo I",
+      "B": "Solo II",
+      "C": "Solo I y III",
+      "D": "Solo I y II"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: en una homotecia, $\\overrightarrow{OP'} = k \\cdot \\overrightarrow{OP}$ y todo vector entre dos puntos se multiplica por $k$; las longitudes, en cambio, se multiplican por $|k|$.\nPaso 1: I es verdadera: con $k = -1$, $\\overrightarrow{OP'} = -\\overrightarrow{OP}$, así que $O$ está a la misma distancia de $P$ y de $P'$, en la misma recta y entre ellos.\nPaso 2: II es verdadera: $\\overrightarrow{A'B'} = k \\cdot \\overrightarrow{AB}$, de modo que ambos vectores tienen la misma dirección; las rectas son paralelas, o coinciden si $AB$ pasa por $O$.\nPaso 3: III es falsa: cada lado mide $|k|$ veces el original. Si $k = -2$, el perímetro se duplica; no se multiplica por $-2$, porque un perímetro no puede ser negativo.\nRespuesta: D, solo I y II.\nErrores frecuentes: La A descarta II, quizás pensando que con $k$ negativo las rectas se cruzan; invertir el sentido no cambia la dirección. La B descarta I, sin ver que $k = -1$ es una simetría central. La C acepta III, que solo se cumple cuando $k > 0$.",
+    "verify": "const O=[1,2]; const H=(k)=>(P)=>[O[0]+k*(P[0]-O[0]),O[1]+k*(P[1]-O[1])];\nconst P=[4,-3],A=[2,5],B=[-1,0];\nconst Pp=H(-1)(P); const I=Math.abs((P[0]+Pp[0])/2-O[0])<1e-9&&Math.abs((P[1]+Pp[1])/2-O[1])<1e-9;\nconst k=-2; const Ap=H(k)(A),Bp=H(k)(B); const u=[B[0]-A[0],B[1]-A[1]],v=[Bp[0]-Ap[0],Bp[1]-Ap[1]];\nconst II=Math.abs(u[0]*v[1]-u[1]*v[0])<1e-9;\nconst len=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]); const III=Math.abs(len(Ap,Bp)-k*len(A,B))<1e-9;\nif(I&&II&&!III) return 'D'; return null;"
+  },
+  {
+    "key": "m2-geometria-204",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "homotecia",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sean $P$ y $Q$ dos puntos distintos del plano. A una figura $F$ se le aplica una homotecia de centro $P$ y razón $3$, y a la figura obtenida se le aplica otra homotecia de centro $Q$ y razón $\\frac{1}{3}$, con lo que se obtiene la figura $F''$.\n\n¿Cuál de las siguientes afirmaciones describe la transformación que lleva $F$ directamente a $F''$?",
+    "alternatives": {
+      "A": "Es la traslación según el vector $\\frac{2}{3}\\overrightarrow{PQ}$.",
+      "B": "Es la traslación según el vector $\\overrightarrow{PQ}$.",
+      "C": "Es la traslación según el vector $\\frac{2}{3}\\overrightarrow{QP}$.",
+      "D": "Es la identidad: cada punto de $F$ vuelve a su posición, porque $3 \\cdot \\frac{1}{3} = 1$."
+    },
+    "correct": "A",
+    "explanation": "Idea clave: la composición de dos homotecias cuyas razones multiplican $1$ conserva tamaño y dirección, así que es una traslación; hay que calcular su vector.\nPaso 1: La primera homotecia lleva $X$ a $X_1 = P + 3(X - P) = 3X - 2P$.\nPaso 2: La segunda lleva $X_1$ a $X'' = Q + \\frac{1}{3}(X_1 - Q) = Q + X - \\frac{2}{3}P - \\frac{1}{3}Q = X + \\frac{2}{3}(Q - P)$.\nPaso 3: Cada punto se desplaza en el mismo vector $\\frac{2}{3}(Q - P) = \\frac{2}{3}\\overrightarrow{PQ}$, que no es nulo porque $P \\neq Q$.\nRespuesta: A, la traslación según $\\frac{2}{3}\\overrightarrow{PQ}$.\nErrores frecuentes: La B intuye que es una traslación, pero no calcula el vector. La C obtiene la longitud correcta con el sentido invertido, un error típico al restar $P - Q$ en vez de $Q - P$. La D solo sería correcta si ambos centros coincidieran; con centros distintos, la figura queda desplazada.",
+    "verify": "const P=[1,2],Q=[4,-1]; const H=(C,k)=>(X)=>[C[0]+k*(X[0]-C[0]),C[1]+k*(X[1]-C[1])];\nconst f=(X)=>H(Q,1/3)(H(P,3)(X)); const pts=[[0,0],[5,7],[-3,2]];\nconst T=(v)=>(X)=>[X[0]+v[0],X[1]+v[1]]; const PQ=[Q[0]-P[0],Q[1]-P[1]];\nconst o={A:T([2/3*PQ[0],2/3*PQ[1]]),B:T(PQ),C:T([-2/3*PQ[0],-2/3*PQ[1]]),D:T([0,0])};\nconst eq=(a,b)=>Math.abs(a[0]-b[0])<1e-9&&Math.abs(a[1]-b[1])<1e-9;\nconst ok=Object.keys(o).filter(l=>pts.every(X=>eq(o[l](X),f(X)))); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-205",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "homotecia",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Tomás construye una cámara estenopeica: una caja cerrada con un pequeño orificio en una cara. La imagen de un objeto se forma invertida en la cara opuesta, que está a $15$ cm del orificio, y corresponde a una homotecia con centro en el orificio.\n\nCon esta cámara, Tomás observa una araucaria de $6$ m de altura, ubicada frente al orificio, y su imagen invertida mide $4$ cm de alto. ¿A qué distancia del orificio está la araucaria?",
+    "alternatives": {
+      "A": "$1{,}6$ m",
+      "B": "$2{,}25$ m",
+      "C": "$22{,}5$ m",
+      "D": "$225$ m"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: en la homotecia con centro en el orificio, la razón entre la imagen y el objeto es la misma para las alturas y para las distancias al orificio (con signo negativo, porque la imagen se invierte).\nPaso 1: En centímetros, la araucaria mide $600$ cm, así que $k = -\\frac{4}{600} = -\\frac{1}{150}$.\nPaso 2: La distancia de la imagen al orificio es $|k|$ veces la del objeto: $15 = \\frac{1}{150} \\cdot d$, luego $d = 2\\,250$ cm.\nPaso 3: $2\\,250$ cm $= 22{,}5$ m.\nRespuesta: C, $22{,}5$ m.\nErrores frecuentes: La A invierte la razón y calcula $\\frac{600 \\cdot 4}{15} = 160$ cm. La B y la D obtienen bien $2\\,250$ cm, pero lo convierten mal a metros.",
+    "verify": "const H=600,h=4,q=15; const k=-h/H; const d=q/Math.abs(k)/100;\nconst o={A:1.6,B:2.25,C:22.5,D:225}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-d)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-206",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "homotecia",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "A un triángulo $ABC$ de $12\\ \\text{cm}^2$ de área se le aplica una homotecia de centro en el vértice $A$ y razón $k$, con $k > 1$, y se obtiene el triángulo $AB'C'$, que contiene al triángulo original.\n\nSi la región del triángulo $AB'C'$ que queda fuera del triángulo $ABC$ (el cuadrilátero $BB'C'C$) tiene $36\\ \\text{cm}^2$ de área, ¿cuál es el valor de $k$?",
+    "alternatives": {
+      "A": "$\\sqrt{3}$",
+      "B": "$2$",
+      "C": "$3$",
+      "D": "$4$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: las áreas de figuras homotéticas están en la razón $k^2$, y el área del triángulo grande es la del original más la del cuadrilátero.\nPaso 1: Área de $AB'C'$: $12 + 36 = 48\\ \\text{cm}^2$.\nPaso 2: $k^2 = \\frac{48}{12} = 4$.\nPaso 3: Como $k > 1$, $k = 2$.\nRespuesta: B, $k = 2$.\nErrores frecuentes: La A usa $k^2 = \\frac{36}{12}$, comparando el cuadrilátero con el triángulo original en vez del triángulo completo. La C comete el mismo error y además no extrae la raíz. La D toma la razón de áreas, $4$, como si fuera la razón de homotecia.",
+    "verify": "const a=12,r=36; const k=Math.sqrt((a+r)/a);\nconst o={A:Math.sqrt(3),B:2,C:3,D:4}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-k)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-207",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "homotecia",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una homotecia de razón $3$ transforma el punto $P(1, 2)$ en el punto $P'(7, 8)$.\n\n¿Cuál es la distancia entre el centro de esta homotecia y el punto $P'$?",
+    "alternatives": {
+      "A": "$3\\sqrt{2}$",
+      "B": "$\\frac{9\\sqrt{2}}{2}$",
+      "C": "$6\\sqrt{2}$",
+      "D": "$9\\sqrt{2}$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: de $P' = C + k(P - C)$ se despeja el centro $C$, y luego se calcula la distancia con Pitágoras.\nPaso 1: $C = \\frac{P' - kP}{1 - k} = \\frac{(7 - 3,\\ 8 - 6)}{-2} = (-2, -1)$.\nPaso 2: $\\overrightarrow{CP'} = (9, 9)$, así que $CP' = \\sqrt{81 + 81} = 9\\sqrt{2}$.\nPaso 3: Control: $CP = \\sqrt{9 + 9} = 3\\sqrt{2}$ y $CP' = 3 \\cdot CP$, como corresponde a $k = 3$.\nRespuesta: D, $9\\sqrt{2}$.\nErrores frecuentes: La A calcula la distancia del centro a $P$, no a $P'$. La B ubica el centro entre $P$ y $P'$, como si la razón fuera $-3$. La C calcula la distancia de $P$ a $P'$, que no es la que se pide.",
+    "verify": "const P=[1,2],Pp=[7,8],k=3; const C=[(Pp[0]-k*P[0])/(1-k),(Pp[1]-k*P[1])/(1-k)];\nif(Math.abs(C[0]+k*(P[0]-C[0])-Pp[0])>1e-9) return null; const d=Math.hypot(Pp[0]-C[0],Pp[1]-C[1]);\nconst s=Math.SQRT2; const o={A:3*s,B:9*s/2,C:6*s,D:9*s}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-d)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-208",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "homotecia",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una circunferencia tiene centro en $M(2, 1)$ y pasa por el punto $R(5, 5)$. Mediante la homotecia de razón $-2$ cuyo centro es el origen, la circunferencia se transforma en otra.\n\n¿Por cuál de estos puntos pasa la circunferencia obtenida?",
+    "alternatives": {
+      "A": "$(2, 6)$",
+      "B": "$(1, -2)$",
+      "C": "$(4, 12)$",
+      "D": "$(-4, 18)$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: la imagen de una circunferencia por una homotecia es otra circunferencia: su centro es la imagen del centro y su radio es $|k|$ veces el radio original.\nPaso 1: Radio original: $MR = \\sqrt{3^2 + 4^2} = 5$.\nPaso 2: Centro imagen: $M' = -2 \\cdot (2, 1) = (-4, -2)$. Radio imagen: $2 \\cdot 5 = 10$.\nPaso 3: Se revisa la distancia de cada punto a $M'$. Para $(2, 6)$: $\\sqrt{6^2 + 8^2} = 10$, así que pertenece.\nRespuesta: A, $(2, 6)$.\nErrores frecuentes: La B está a distancia $5$ de $M'$: no multiplica el radio por $|k|$. La C está a distancia $10$ de $(4, 2)$: usa razón $2$ en vez de $-2$ para el centro. La D está a distancia $20$ de $M'$: multiplica el radio por $k^2 = 4$, como si fuera un área.",
+    "verify": "const M=[2,1],R=[5,5],k=-2; const r=Math.hypot(R[0]-M[0],R[1]-M[1]); const Mp=[k*M[0],k*M[1]],rp=Math.abs(k)*r;\nconst o={A:[2,6],B:[1,-2],C:[4,12],D:[-4,18]}; const ok=Object.keys(o).filter(l=>Math.abs(Math.hypot(o[l][0]-Mp[0],o[l][1]-Mp[1])-rp)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-209",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "homotecia",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un triángulo tiene lados de $5$ cm, $12$ cm y $13$ cm. Se le aplica una homotecia de razón negativa y se obtiene un triángulo de $480\\ \\text{cm}^2$ de área.\n\n¿Cuál es el perímetro del triángulo obtenido?",
+    "alternatives": {
+      "A": "$30$ cm",
+      "B": "$60$ cm",
+      "C": "$120$ cm",
+      "D": "$240$ cm"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el área se multiplica por $k^2$ y el perímetro por $|k|$, sin importar el signo de la razón.\nPaso 1: Como $5^2 + 12^2 = 13^2$, el triángulo es rectángulo y su área es $\\frac{5 \\cdot 12}{2} = 30\\ \\text{cm}^2$.\nPaso 2: $k^2 = \\frac{480}{30} = 16$, así que $|k| = 4$.\nPaso 3: Perímetro original $30$ cm; perímetro de la imagen $4 \\cdot 30 = 120$ cm.\nRespuesta: C, $120$ cm.\nErrores frecuentes: La A no aplica la razón y entrega el perímetro original. La B saca dos veces raíz: toma $|k| = 2$. La D divide $16$ por $2$ en vez de sacar raíz cuadrada y usa $|k| = 8$.",
+    "verify": "const a=5,b=12,c=13; if(a*a+b*b!==c*c) return null; const A0=a*b/2; const k=Math.sqrt(480/A0); const p=k*(a+b+c);\nconst o={A:30,B:60,C:120,D:240}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-p)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-210",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "homotecia",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una homotecia transforma cada punto $(x, y)$ del plano en el punto $(-2x + 6,\\ -2y + 3)$.\n\n¿Cuál es el centro y cuál es la razón de esta homotecia?",
+    "alternatives": {
+      "A": "Centro $(2, 1)$ y razón $-2$.",
+      "B": "Centro $(2, 1)$ y razón $2$.",
+      "C": "Centro $\\left(3, \\frac{3}{2}\\right)$ y razón $-2$.",
+      "D": "Centro $(6, 3)$ y razón $-2$."
+    },
+    "correct": "A",
+    "explanation": "Idea clave: la razón es el factor que multiplica a las coordenadas, y el centro es el único punto que queda fijo.\nPaso 1: Dos puntos cualesquiera $P$ y $Q$ cumplen $\\overrightarrow{P'Q'} = -2\\,\\overrightarrow{PQ}$, así que la razón es $-2$.\nPaso 2: El centro cumple $x = -2x + 6$ e $y = -2y + 3$, de donde $3x = 6$ y $3y = 3$: el centro es $(2, 1)$.\nPaso 3: Control: $(2, 1) + (-2)\\big((x, y) - (2, 1)\\big) = (-2x + 6,\\ -2y + 3)$.\nRespuesta: A, centro $(2, 1)$ y razón $-2$.\nErrores frecuentes: La B encuentra bien el centro, pero ignora que el signo negativo invierte la figura. La C divide los términos constantes por $2$ en vez de por $1 - k = 3$. La D toma los términos constantes como si fueran el centro, lo que solo vale cuando el centro es el origen.",
+    "verify": "const f=(p)=>[-2*p[0]+6,-2*p[1]+3]; const H=(C,k)=>(p)=>[C[0]+k*(p[0]-C[0]),C[1]+k*(p[1]-C[1])];\nconst pts=[[0,0],[1,4],[-3,2]]; const eq=(a,b)=>Math.abs(a[0]-b[0])<1e-9&&Math.abs(a[1]-b[1])<1e-9;\nconst o={A:H([2,1],-2),B:H([2,1],2),C:H([3,1.5],-2),D:H([6,3],-2)};\nconst ok=Object.keys(o).filter(l=>pts.every(p=>eq(o[l](p),f(p)))); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-211",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "homotecia",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una obra de teatro de sombras, una lámpara (considerada un punto) ilumina un cartón cuadrado de $20$ cm de lado, ubicado a $50$ cm de la lámpara y paralelo a una pared. La sombra del cartón en la pared es la imagen del cartón por una homotecia con centro en la lámpara, y es un cuadrado de $900\\ \\text{cm}^2$.\n\nSi se acerca el cartón $10$ cm hacia la pared, manteniéndolo paralelo a ella y sin mover la lámpara ni la pared, ¿cuál será el área de la nueva sombra?",
+    "alternatives": {
+      "A": "$576\\ \\text{cm}^2$",
+      "B": "$625\\ \\text{cm}^2$",
+      "C": "$750\\ \\text{cm}^2$",
+      "D": "$1\\,406{,}25\\ \\text{cm}^2$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: la razón de la homotecia es el cociente entre la distancia de la lámpara a la pared y la distancia de la lámpara al cartón.\nPaso 1: La sombra mide $\\sqrt{900} = 30$ cm de lado, así que $k = \\frac{30}{20} = 1{,}5$ y la pared está a $1{,}5 \\cdot 50 = 75$ cm de la lámpara.\nPaso 2: Al acercarlo a la pared, el cartón queda a $60$ cm de la lámpara. La nueva razón es $k = \\frac{75}{60} = 1{,}25$.\nPaso 3: La nueva sombra mide $1{,}25 \\cdot 20 = 25$ cm de lado, y su área es $625\\ \\text{cm}^2$.\nRespuesta: B, $625\\ \\text{cm}^2$.\nErrores frecuentes: La A usa como razón $\\frac{60}{50}$, comparando las dos posiciones del cartón en vez de la pared con el cartón. La C cambia el área en proporción a la razón lineal, $900 \\cdot \\frac{1{,}25}{1{,}5} = 750$, olvidando que el área cambia con el cuadrado. La D acerca el cartón a la lámpara (a $40$ cm) en vez de a la pared.",
+    "verify": "const s=20,d=50,S=900; const k=Math.sqrt(S)/s; const D=k*d; const k2=D/(d+10); const area=(k2*s)**2;\nconst o={A:576,B:625,C:750,D:1406.25}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-area)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-212",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "homotecia",
+    "habilidad": "argumentar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un triángulo $ABC$, los puntos $M$, $N$ y $P$ son los puntos medios de los lados $BC$, $CA$ y $AB$, respectivamente. El triángulo $MNP$ es la imagen del triángulo $ABC$ por una homotecia que lleva $A$ en $M$, $B$ en $N$ y $C$ en $P$.\n\n¿Cuál es el centro y cuál es la razón de esa homotecia?",
+    "alternatives": {
+      "A": "Centro en el vértice $A$ y razón $\\frac{1}{2}$.",
+      "B": "Centro en el centro de gravedad (baricentro) del triángulo $ABC$ y razón $-\\frac{1}{2}$.",
+      "C": "Centro en el centro de gravedad (baricentro) del triángulo $ABC$ y razón $\\frac{1}{2}$.",
+      "D": "Centro en el punto medio $M$ y razón $-\\frac{1}{2}$."
+    },
+    "correct": "B",
+    "explanation": "Idea clave: cada vértice y el punto medio del lado opuesto están en una misma transversal de gravedad, y el baricentro $G$ la divide en razón $2 : 1$.\nPaso 1: $A$, $G$ y $M$ son colineales, con $G$ entre ellos y $GM = \\frac{1}{2}\\,GA$; lo mismo pasa con $B$ y $N$ y con $C$ y $P$.\nPaso 2: Como $M$ queda al otro lado de $G$ respecto de $A$, se tiene $\\overrightarrow{GM} = -\\frac{1}{2}\\,\\overrightarrow{GA}$.\nPaso 3: Por lo tanto, la homotecia tiene centro $G$ y razón $-\\frac{1}{2}$. Además, $MN = \\frac{1}{2} AB$, lo que confirma $|k| = \\frac{1}{2}$.\nRespuesta: B.\nErrores frecuentes: La A confunde esta homotecia con la de centro $A$ y razón $\\frac{1}{2}$, que lleva $B$ en $P$ y $C$ en $N$, pero no lleva $A$ en $M$. La C acierta en el centro, pero olvida que el triángulo $MNP$ queda invertido respecto de $ABC$. La D ubica el centro en $M$, que es la imagen de $A$; el centro de una homotecia de razón distinta de $1$ es su único punto fijo, y $M$ no lo es.",
+    "verify": "const A=[0,0],B=[8,2],C=[3,7]; const mid=(u,v)=>[(u[0]+v[0])/2,(u[1]+v[1])/2];\nconst M=mid(B,C),N=mid(C,A),P=mid(A,B); const G=[(A[0]+B[0]+C[0])/3,(A[1]+B[1]+C[1])/3];\nconst H=(c,k)=>(p)=>[c[0]+k*(p[0]-c[0]),c[1]+k*(p[1]-c[1])]; const eq=(a,b)=>Math.abs(a[0]-b[0])<1e-9&&Math.abs(a[1]-b[1])<1e-9;\nconst o={A:H(A,0.5),B:H(G,-0.5),C:H(G,0.5),D:H(M,-0.5)};\nconst ok=Object.keys(o).filter(l=>eq(o[l](A),M)&&eq(o[l](B),N)&&eq(o[l](C),P)); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-213",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "homotecia",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En una imprenta de Chillán se reduce un afiche con la opción de fotocopiado al $80\\%$, que corresponde a una homotecia de razón $0{,}8$: cada longitud del original queda en el $80\\%$ de su medida. Luego, la copia obtenida se vuelve a reducir con la misma opción.\n\n¿Qué porcentaje del área del afiche original representa el área de la segunda copia?",
+    "alternatives": {
+      "A": "$40{,}96\\%$",
+      "B": "$51{,}2\\%$",
+      "C": "$60\\%$",
+      "D": "$64\\%$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: dos homotecias sucesivas equivalen a una de razón igual al producto de las razones, y el área se multiplica por el cuadrado de esa razón.\nPaso 1: La razón total es $0{,}8 \\cdot 0{,}8 = 0{,}64$: las longitudes quedan en el $64\\%$.\nPaso 2: El área se multiplica por $0{,}64^2 = 0{,}4096$.\nPaso 3: Es decir, la segunda copia tiene el $40{,}96\\%$ del área original.\nRespuesta: A, $40{,}96\\%$.\nErrores frecuentes: La B calcula $0{,}8^3$, mezclando la cantidad de copias con el exponente. La C resta dos veces $20\\%$ al área, como si las reducciones se sumaran. La D da el porcentaje de las longitudes, no el de las áreas.",
+    "verify": "const k=0.8*0.8; const pct=k*k*100; const o={A:40.96,B:51.2,C:60,D:64}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-pct)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-214",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "homotecia",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una homotecia de centro $C(1, 2)$ y razón $k$ transforma el punto $P(3, 6)$ en un punto ubicado sobre el eje $X$.\n\n¿Cuál es la imagen del punto $Q(5, 0)$ mediante esta misma homotecia?",
+    "alternatives": {
+      "A": "$(-7, 6)$",
+      "B": "$\\left(-\\frac{5}{2}, 0\\right)$",
+      "C": "$(-1, 3)$",
+      "D": "$(3, 1)$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: se escribe la imagen de $P$ en función de $k$, se impone que su ordenada sea $0$ y con ese $k$ se transforma $Q$.\nPaso 1: $P' = C + k(P - C) = (1 + 2k,\\ 2 + 4k)$.\nPaso 2: Como $P'$ está en el eje $X$: $2 + 4k = 0$, así que $k = -\\frac{1}{2}$ (y $P'$ resulta ser el origen).\nPaso 3: $Q' = (1, 2) - \\frac{1}{2}\\big((5, 0) - (1, 2)\\big) = (1, 2) - \\frac{1}{2}(4, -2) = (-1, 3)$.\nRespuesta: C, $(-1, 3)$.\nErrores frecuentes: La A despeja mal y usa $k = -2$. La B usa $k = -\\frac{1}{2}$, pero toma el origen como centro. La D olvida el signo y usa $k = \\frac{1}{2}$.",
+    "verify": "const C=[1,2],P=[3,6],Q=[5,0]; const k=-C[1]/(P[1]-C[1]); const Qp=[C[0]+k*(Q[0]-C[0]),C[1]+k*(Q[1]-C[1])];\nconst eq=(a,b)=>Math.abs(a[0]-b[0])<1e-9&&Math.abs(a[1]-b[1])<1e-9;\nconst o={A:[-7,6],B:[-2.5,0],C:[-1,3],D:[3,1]}; const ok=Object.keys(o).filter(l=>eq(o[l],Qp)); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-215",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "esfera",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una caja cúbica de arista $a$ cm se guarda dentro de una esfera hueca de acrílico, de modo que los ocho vértices de la caja tocan la superficie interior de la esfera.\n\nSi el volumen de una esfera de radio $r$ es $\\frac{4}{3}\\pi r^3$, ¿cuál es la razón entre el volumen de la esfera y el volumen de la caja?",
+    "alternatives": {
+      "A": "$\\frac{\\pi}{6}$",
+      "B": "$\\frac{\\sqrt{2}\\,\\pi}{3}$",
+      "C": "$\\frac{\\sqrt{3}\\,\\pi}{2}$",
+      "D": "$\\frac{4\\pi}{3}$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: si los vértices del cubo tocan la esfera, la diagonal del cubo es un diámetro de la esfera.\nPaso 1: Diagonal del cubo: $\\sqrt{a^2 + a^2 + a^2} = a\\sqrt{3}$, así que $r = \\frac{a\\sqrt{3}}{2}$.\nPaso 2: Volumen de la esfera: $\\frac{4}{3}\\pi \\cdot \\frac{3\\sqrt{3}\\,a^3}{8} = \\frac{\\sqrt{3}}{2}\\pi a^3$.\nPaso 3: Al dividir por el volumen del cubo, $a^3$, la razón es $\\frac{\\sqrt{3}\\,\\pi}{2}$.\nRespuesta: C, $\\frac{\\sqrt{3}\\,\\pi}{2}$.\nErrores frecuentes: La A corresponde a la esfera inscrita en el cubo (radio $\\frac{a}{2}$), que toca las caras y no los vértices. La B usa la diagonal de una cara, $a\\sqrt{2}$, como diámetro. La D toma el radio igual a la arista.",
+    "verify": "const a=2; const r=a*Math.sqrt(3)/2; const ratio=(4/3)*Math.PI*r**3/a**3;\nconst o={A:Math.PI/6,B:Math.SQRT2*Math.PI/3,C:Math.sqrt(3)*Math.PI/2,D:4*Math.PI/3}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-ratio)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-216",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "esfera",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Para exhibir una pelota esférica de $13$ cm de radio, se la apoya sobre un aro circular horizontal de $12$ cm de radio. La pelota queda tocando todo el borde del aro y la mayor parte de ella queda por encima del aro.\n\n¿A qué altura sobre el plano del aro queda el punto más alto de la pelota?",
+    "alternatives": {
+      "A": "$1$ cm",
+      "B": "$8$ cm",
+      "C": "$18$ cm",
+      "D": "$25$ cm"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el aro es un corte de la esfera por un plano; el radio de la esfera, el radio del aro y la distancia del centro al plano forman un triángulo rectángulo.\nPaso 1: Si $d$ es la distancia del centro de la pelota al plano del aro: $d^2 + 12^2 = 13^2$, así que $d = 5$ cm.\nPaso 2: Como la mayor parte de la pelota está sobre el aro, su centro está $5$ cm por encima del plano.\nPaso 3: El punto más alto está un radio más arriba del centro: $5 + 13 = 18$ cm.\nRespuesta: C, $18$ cm.\nErrores frecuentes: La A resta los radios, $13 - 12$, sin usar Pitágoras. La B calcula $13 - 5 = 8$, que es cuánto baja la pelota bajo el plano del aro, no su altura máxima. La D suma los radios, $13 + 12$.",
+    "verify": "const R=13,r=12; const d=Math.sqrt(R*R-r*r); const top=d+R;\nconst o={A:1,B:8,C:18,D:25}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-top)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-217",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "esfera",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un laboratorio se calienta una esfera metálica y, al dilatarse, el área de su superficie aumenta en un $44\\%$. La esfera conserva su forma.\n\nSi el área de la superficie de una esfera de radio $r$ es $4\\pi r^2$ y su volumen es $\\frac{4}{3}\\pi r^3$, ¿en qué porcentaje aumentó el volumen de la esfera?",
+    "alternatives": {
+      "A": "$20\\%$",
+      "B": "$44\\%$",
+      "C": "$66\\%$",
+      "D": "$72{,}8\\%$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: el área depende de $r^2$ y el volumen de $r^3$; primero se obtiene cuánto creció el radio y luego se eleva al cubo.\nPaso 1: El área se multiplica por $1{,}44$, así que el radio se multiplica por $\\sqrt{1{,}44} = 1{,}2$.\nPaso 2: El volumen se multiplica por $1{,}2^3 = 1{,}728$.\nPaso 3: El aumento del volumen es $1{,}728 - 1 = 0{,}728$, es decir, $72{,}8\\%$.\nRespuesta: D, $72{,}8\\%$.\nErrores frecuentes: La A da el aumento del radio. La B supone que el volumen crece en el mismo porcentaje que el área. La C multiplica $44\\%$ por $\\frac{3}{2}$, como si los porcentajes fueran proporcionales a los exponentes.",
+    "verify": "const fA=1.44; const fr=Math.sqrt(fA); const pct=(fr**3-1)*100;\nconst o={A:20,B:44,C:66,D:72.8}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-pct)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-218",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "esfera",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Dos esferas tienen volúmenes $V_1$ y $V_2$, áreas de superficie $A_1$ y $A_2$ y radios $r_1$ y $r_2$, respectivamente. Se sabe que $\\log(V_2) - \\log(V_1) = 0{,}6$, con logaritmos en base $10$.\n\nSi $V = \\frac{4}{3}\\pi r^3$ y $A = 4\\pi r^2$, ¿cuál es el valor de $\\log(A_2) - \\log(A_1)$?",
+    "alternatives": {
+      "A": "$0{,}2$",
+      "B": "$0{,}3$",
+      "C": "$0{,}36$",
+      "D": "$0{,}4$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: al tomar logaritmo, la constante de la fórmula se cancela en la resta y el exponente del radio pasa a multiplicar.\nPaso 1: $\\log(V_2) - \\log(V_1) = \\log\\left(\\frac{V_2}{V_1}\\right) = \\log\\left(\\frac{r_2^3}{r_1^3}\\right) = 3\\log\\left(\\frac{r_2}{r_1}\\right)$.\nPaso 2: Entonces $3\\log\\left(\\frac{r_2}{r_1}\\right) = 0{,}6$, y $\\log\\left(\\frac{r_2}{r_1}\\right) = 0{,}2$.\nPaso 3: $\\log(A_2) - \\log(A_1) = \\log\\left(\\frac{r_2^2}{r_1^2}\\right) = 2 \\cdot 0{,}2 = 0{,}4$.\nRespuesta: D, $0{,}4$.\nErrores frecuentes: La A da $\\log\\left(\\frac{r_2}{r_1}\\right)$ y se detiene antes de llegar al área. La B divide $0{,}6$ por $2$, invirtiendo el papel de los exponentes. La C eleva $0{,}6$ al cuadrado, confundiendo $\\log(x^2)$ con $(\\log x)^2$.",
+    "verify": "const dV=0.6; const r1=1.7; const r2=r1*Math.pow(10,dV/3); const V=(r)=>4/3*Math.PI*r**3, A=(r)=>4*Math.PI*r*r;\nif(Math.abs(Math.log10(V(r2))-Math.log10(V(r1))-dV)>1e-9) return null; const dA=Math.log10(A(r2))-Math.log10(A(r1));\nconst o={A:0.2,B:0.3,C:0.36,D:0.4}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-dA)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-219",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "esfera",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un silo de granos tiene forma de cilindro recto de radio basal $r$ y altura $h$, coronado por una semiesfera del mismo radio $r$. Se sabe que el volumen de la semiesfera es la cuarta parte del volumen total del silo.\n\nSi el volumen de una esfera de radio $r$ es $\\frac{4}{3}\\pi r^3$ y el de un cilindro es $\\pi r^2 h$, ¿cuál es la altura $h$ del cilindro, en términos de $r$?",
+    "alternatives": {
+      "A": "$\\frac{4r}{3}$",
+      "B": "$2r$",
+      "C": "$\\frac{8r}{3}$",
+      "D": "$4r$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: si la semiesfera es un cuarto del total, el cilindro es los otros tres cuartos, es decir, el triple de la semiesfera.\nPaso 1: Volumen de la semiesfera: $\\frac{1}{2} \\cdot \\frac{4}{3}\\pi r^3 = \\frac{2}{3}\\pi r^3$.\nPaso 2: Cilindro $= 3 \\cdot$ semiesfera: $\\pi r^2 h = 3 \\cdot \\frac{2}{3}\\pi r^3 = 2\\pi r^3$.\nPaso 3: Dividiendo por $\\pi r^2$: $h = 2r$.\nRespuesta: B, $h = 2r$.\nErrores frecuentes: La A plantea que el cilindro es el doble de la semiesfera, como si esta fuera un tercio del total. La C toma la semiesfera como un cuarto del cilindro, no del silo completo. La D usa el volumen de la esfera completa en lugar de la semiesfera.",
+    "verify": "const r=3; const hemi=2/3*Math.PI*r**3; const h=3*hemi/(Math.PI*r*r); if(Math.abs(hemi-(Math.PI*r*r*h+hemi)/4)>1e-9) return null;\nconst o={A:4*r/3,B:2*r,C:8*r/3,D:4*r}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-h)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-220",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "esfera",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un taller de artesanía de Pomaire se fabrica una semiesfera maciza de madera de $6$ cm de radio, que se pinta completa: la parte curva y la cara plana circular.\n\nSi el área de la superficie de una esfera de radio $r$ es $4\\pi r^2$, ¿cuál es el área total que se pinta?",
+    "alternatives": {
+      "A": "$36\\pi\\ \\text{cm}^2$",
+      "B": "$72\\pi\\ \\text{cm}^2$",
+      "C": "$108\\pi\\ \\text{cm}^2$",
+      "D": "$144\\pi\\ \\text{cm}^2$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: la superficie de una semiesfera maciza tiene dos partes: la mitad de la superficie esférica y un círculo de radio $r$.\nPaso 1: Parte curva: $\\frac{1}{2} \\cdot 4\\pi \\cdot 6^2 = 72\\pi\\ \\text{cm}^2$.\nPaso 2: Cara plana: $\\pi \\cdot 6^2 = 36\\pi\\ \\text{cm}^2$.\nPaso 3: Total: $72\\pi + 36\\pi = 108\\pi\\ \\text{cm}^2$.\nRespuesta: C, $108\\pi\\ \\text{cm}^2$.\nErrores frecuentes: La A considera solo la cara plana. La B considera solo la parte curva. La D usa la superficie de la esfera completa.",
+    "verify": "const r=6; const tot=(4*Math.PI*r*r/2+Math.PI*r*r)/Math.PI;\nconst o={A:36,B:72,C:108,D:144}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-tot)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-221",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "esfera",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Una pelota de playa esférica se desinfla en parte y, conservando su forma esférica, su volumen queda en $\\frac{1}{8}$ del volumen que tenía.\n\nSi el volumen de una esfera de radio $r$ es $\\frac{4}{3}\\pi r^3$ y el área de su superficie es $4\\pi r^2$, ¿qué fracción del área original tiene ahora la superficie de la pelota?",
+    "alternatives": {
+      "A": "$\\frac{1}{64}$",
+      "B": "$\\frac{1}{8}$",
+      "C": "$\\frac{1}{4}$",
+      "D": "$\\frac{1}{2}$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el volumen cambia con el cubo del radio y el área con su cuadrado.\nPaso 1: Si el volumen se multiplica por $\\frac{1}{8}$, el radio se multiplica por $\\sqrt[3]{\\frac{1}{8}} = \\frac{1}{2}$.\nPaso 2: El área se multiplica por $\\left(\\frac{1}{2}\\right)^2 = \\frac{1}{4}$.\nRespuesta: C, $\\frac{1}{4}$.\nErrores frecuentes: La A eleva $\\frac{1}{8}$ al cuadrado sin pasar por el radio. La B supone que el área cambia igual que el volumen. La D da la fracción del radio, no la del área.",
+    "verify": "const fV=1/8; const fr=Math.cbrt(fV); const fA=fr*fr;\nconst o={A:1/64,B:1/8,C:1/4,D:1/2}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-fA)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-222",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "razones-trigonometricas",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un dron está detenido a $h$ metros de altura, justo sobre un punto $D$ de una cancha horizontal. Antonia, en el punto $A$, y Benjamín, en el punto $B$, están en lados opuestos de $D$, de modo que $A$, $D$ y $B$ están alineados. Antonia ve el dron con un ángulo de elevación $\\alpha$ y Benjamín, con un ángulo de elevación $\\beta$.\n\nSi la estatura de ambos es despreciable, ¿cuál de las siguientes expresiones representa la distancia, en metros, entre Antonia y Benjamín?",
+    "alternatives": {
+      "A": "$h\\left(\\frac{1}{\\tan(\\alpha)} + \\frac{1}{\\tan(\\beta)}\\right)$",
+      "B": "$h\\left(\\tan(\\alpha) + \\tan(\\beta)\\right)$",
+      "C": "$\\frac{h}{\\tan(\\alpha) + \\tan(\\beta)}$",
+      "D": "$h\\left(\\frac{1}{\\operatorname{sen}(\\alpha)} + \\frac{1}{\\operatorname{sen}(\\beta)}\\right)$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: en cada triángulo rectángulo, la altura $h$ es el cateto opuesto al ángulo de elevación y la distancia horizontal es el cateto adyacente.\nPaso 1: En el triángulo de Antonia: $\\tan(\\alpha) = \\frac{h}{AD}$, así que $AD = \\frac{h}{\\tan(\\alpha)}$.\nPaso 2: De igual forma, $DB = \\frac{h}{\\tan(\\beta)}$.\nPaso 3: Como están en lados opuestos de $D$, $AB = AD + DB = h\\left(\\frac{1}{\\tan(\\alpha)} + \\frac{1}{\\tan(\\beta)}\\right)$.\nRespuesta: A.\nErrores frecuentes: La B multiplica $h$ por la tangente, como si $h$ fuera el cateto adyacente. La C suma las tangentes antes de dividir, y $\\frac{1}{x} + \\frac{1}{y} \\neq \\frac{1}{x + y}$. La D usa el seno y obtiene la suma de las distancias de cada persona al dron (las hipotenusas), no la distancia entre ellos.",
+    "verify": "const h=30,a=35*Math.PI/180,b=58*Math.PI/180; const AB=h/Math.tan(a)+h/Math.tan(b);\nconst o={A:h*(1/Math.tan(a)+1/Math.tan(b)),B:h*(Math.tan(a)+Math.tan(b)),C:h/(Math.tan(a)+Math.tan(b)),D:h*(1/Math.sin(a)+1/Math.sin(b))};\nconst ok=Object.keys(o).filter(l=>Math.abs(o[l]-AB)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-223",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "razones-trigonometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un triángulo rectángulo, la hipotenusa mide $10$ cm y uno de sus ángulos agudos, $\\alpha$, cumple que $\\operatorname{sen}(\\alpha) = 2\\cos(\\alpha)$.\n\n¿Cuál es el área del triángulo?",
+    "alternatives": {
+      "A": "$\\frac{100}{9}\\ \\text{cm}^2$",
+      "B": "$20\\ \\text{cm}^2$",
+      "C": "$25\\ \\text{cm}^2$",
+      "D": "$40\\ \\text{cm}^2$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: con la identidad $\\operatorname{sen}^2(\\alpha) + \\cos^2(\\alpha) = 1$ se obtienen el seno y el coseno; con ellos, los catetos.\nPaso 1: Reemplazando $\\operatorname{sen}(\\alpha) = 2\\cos(\\alpha)$: $4\\cos^2(\\alpha) + \\cos^2(\\alpha) = 1$, así que $\\cos(\\alpha) = \\frac{1}{\\sqrt{5}}$ y $\\operatorname{sen}(\\alpha) = \\frac{2}{\\sqrt{5}}$.\nPaso 2: Catetos: $10 \\cdot \\frac{2}{\\sqrt{5}} = 4\\sqrt{5}$ cm y $10 \\cdot \\frac{1}{\\sqrt{5}} = 2\\sqrt{5}$ cm.\nPaso 3: Área: $\\frac{4\\sqrt{5} \\cdot 2\\sqrt{5}}{2} = \\frac{40}{2} = 20\\ \\text{cm}^2$.\nRespuesta: B, $20\\ \\text{cm}^2$.\nErrores frecuentes: La A supone $\\operatorname{sen}(\\alpha) + \\cos(\\alpha) = 1$ y toma $\\operatorname{sen}(\\alpha) = \\frac{2}{3}$ y $\\cos(\\alpha) = \\frac{1}{3}$, olvidando los cuadrados. La C supone un triángulo isósceles ($\\alpha = 45^\\circ$), que no cumple la condición. La D multiplica los catetos y olvida dividir por $2$.",
+    "verify": "const c=10; const cs=1/Math.sqrt(5), sn=2*cs; if(Math.abs(sn*sn+cs*cs-1)>1e-9) return null; const area=(c*sn)*(c*cs)/2;\nconst o={A:100/9,B:20,C:25,D:40}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-area)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-224",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "razones-trigonometricas",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sea $\\alpha$ un ángulo agudo de un triángulo rectángulo. Considera las siguientes afirmaciones:\n\nI) $\\operatorname{sen}(\\alpha) < \\tan(\\alpha)$\nII) $\\operatorname{sen}(\\alpha) + \\cos(\\alpha) > 1$\nIII) $\\operatorname{sen}(\\alpha) = \\cos(90^\\circ - \\alpha)$\n\n¿Cuál o cuáles de ellas son siempre verdaderas?",
+    "alternatives": {
+      "A": "Solo III",
+      "B": "Solo I y III",
+      "C": "Solo II y III",
+      "D": "I, II y III"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: si los catetos miden $a$ (opuesto a $\\alpha$) y $b$, y la hipotenusa $c$, cada afirmación se traduce en una relación entre los lados.\nPaso 1: I: $\\operatorname{sen}(\\alpha) = \\frac{a}{c}$ y $\\tan(\\alpha) = \\frac{a}{b}$. Como el cateto $b$ es menor que la hipotenusa $c$, $\\frac{a}{c} < \\frac{a}{b}$. Verdadera.\nPaso 2: II: $\\operatorname{sen}(\\alpha) + \\cos(\\alpha) = \\frac{a + b}{c}$, y por la desigualdad triangular $a + b > c$. Verdadera.\nPaso 3: III: el otro ángulo agudo mide $90^\\circ - \\alpha$ y su cateto adyacente es $a$, así que $\\cos(90^\\circ - \\alpha) = \\frac{a}{c} = \\operatorname{sen}(\\alpha)$. Verdadera.\nRespuesta: D, I, II y III.\nErrores frecuentes: La A solo reconoce la relación entre ángulos complementarios. La B descarta II, quizás por pensar en $\\operatorname{sen}^2(\\alpha) + \\cos^2(\\alpha) = 1$, que es otra cosa. La C descarta I, sin advertir que dividir por un cateto da más que dividir por la hipotenusa.",
+    "verify": "const angs=[5,20,37,45,60,81].map(d=>d*Math.PI/180); const I=angs.every(t=>Math.sin(t)<Math.tan(t)); const II=angs.every(t=>Math.sin(t)+Math.cos(t)>1);\nconst III=angs.every(t=>Math.abs(Math.sin(t)-Math.cos(Math.PI/2-t))<1e-9); if(I&&II&&III) return 'D'; return null;"
+  },
+  {
+    "key": "m2-geometria-225",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "razones-trigonometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Desde una ventana ubicada a $12$ m de altura, Sofía observa un árbol que está frente a su edificio, en un terreno horizontal. Ve la base del árbol con un ángulo de depresión $\\beta$, tal que $\\tan(\\beta) = \\frac{3}{4}$, y la copa del árbol, que está más alta que la ventana, con un ángulo de elevación $\\alpha$, tal que $\\tan(\\alpha) = \\frac{1}{2}$.\n\n¿Cuál es la altura del árbol?",
+    "alternatives": {
+      "A": "$8$ m",
+      "B": "$16$ m",
+      "C": "$20$ m",
+      "D": "$24$ m"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: la horizontal que pasa por la ventana divide el problema en dos triángulos rectángulos que comparten el cateto horizontal (la distancia al árbol).\nPaso 1: Triángulo inferior: $\\tan(\\beta) = \\frac{12}{d}$, así que $d = \\frac{12}{3/4} = 16$ m.\nPaso 2: Triángulo superior: la copa está $d \\cdot \\tan(\\alpha) = 16 \\cdot \\frac{1}{2} = 8$ m por encima de la ventana.\nPaso 3: Altura del árbol: $12 + 8 = 20$ m.\nRespuesta: C, $20$ m.\nErrores frecuentes: La A da solo la parte del árbol que está sobre la ventana. La B da la distancia horizontal entre el edificio y el árbol. La D usa $\\tan(\\beta)$ también para la parte superior: $12 + 16 \\cdot \\frac{3}{4} = 24$.",
+    "verify": "const H=12,tb=3/4,ta=1/2; const d=H/tb; const alt=H+d*ta;\nconst o={A:8,B:16,C:20,D:24}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-alt)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-226",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "razones-trigonometricas",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un sendero recto en un cerro de Valparaíso mide $50$ m de largo y, al recorrerlo completo, se sube $14$ m. Sea $\\alpha$ el ángulo que forma el sendero con la horizontal.\n\nLa pendiente del sendero se define como $\\tan(\\alpha)$, es decir, el desnivel dividido por el avance horizontal. ¿Cuál es la pendiente del sendero?",
+    "alternatives": {
+      "A": "$\\frac{7}{25}$",
+      "B": "$\\frac{7}{24}$",
+      "C": "$\\frac{24}{25}$",
+      "D": "$\\frac{24}{7}$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: el largo del sendero es la hipotenusa; el avance horizontal se obtiene con Pitágoras.\nPaso 1: Avance horizontal: $\\sqrt{50^2 - 14^2} = \\sqrt{2\\,500 - 196} = \\sqrt{2\\,304} = 48$ m.\nPaso 2: $\\tan(\\alpha) = \\frac{14}{48} = \\frac{7}{24}$.\nRespuesta: B, $\\frac{7}{24}$.\nErrores frecuentes: La A divide el desnivel por el largo del sendero, lo que da $\\operatorname{sen}(\\alpha)$. La C da $\\cos(\\alpha) = \\frac{48}{50}$. La D invierte la razón y divide el avance por el desnivel.",
+    "verify": "const L=50,up=14; const run=Math.sqrt(L*L-up*up); const t=up/run;\nconst o={A:7/25,B:7/24,C:24/25,D:24/7}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-t)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-227",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "razones-trigonometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un poste vertical de $6$ m de altura proyecta sobre el suelo horizontal una sombra de $6\\sqrt{3}$ m. Una hora más tarde, el ángulo de elevación del Sol ha aumentado en $15^\\circ$.\n\nSi $\\tan(30^\\circ) = \\frac{\\sqrt{3}}{3}$, $\\tan(45^\\circ) = 1$ y $\\tan(60^\\circ) = \\sqrt{3}$, ¿cuánto mide la nueva sombra del poste?",
+    "alternatives": {
+      "A": "$2\\sqrt{3}$ m",
+      "B": "$3\\sqrt{2}$ m",
+      "C": "$(6\\sqrt{3} - 6)$ m",
+      "D": "$6$ m"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: el ángulo de elevación del Sol se obtiene de la tangente (altura del poste dividida por la sombra).\nPaso 1: Al principio, $\\tan(\\theta) = \\frac{6}{6\\sqrt{3}} = \\frac{\\sqrt{3}}{3}$, así que $\\theta = 30^\\circ$.\nPaso 2: Una hora después, el ángulo es $30^\\circ + 15^\\circ = 45^\\circ$.\nPaso 3: La nueva sombra mide $\\frac{6}{\\tan(45^\\circ)} = 6$ m.\nRespuesta: D, $6$ m.\nErrores frecuentes: La A usa $60^\\circ$ en lugar de $45^\\circ$. La B calcula $6\\cos(45^\\circ)$, mezclando la altura del poste con la hipotenusa. La C calcula cuánto se acortó la sombra, no cuánto mide.",
+    "verify": "const h=6,s=6*Math.sqrt(3); const th=Math.atan(h/s)*180/Math.PI; if(Math.abs(th-30)>1e-9) return null; const ns=h/Math.tan((th+15)*Math.PI/180);\nconst o={A:2*Math.sqrt(3),B:3*Math.SQRT2,C:6*Math.sqrt(3)-6,D:6}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-ns)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-228",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "cuerpos-geometricos",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Para un cotillón, Florencia recorta un semicírculo de cartulina de radio $R$ y une sus dos radios rectos, sin traslaparlos, para formar la superficie lateral de un cono recto (un gorro sin base).\n\nSi el volumen de un cono de radio basal $r$ y altura $h$ es $\\frac{1}{3}\\pi r^2 h$, ¿cuál es el volumen del cono que se forma?",
+    "alternatives": {
+      "A": "$\\frac{\\sqrt{3}\\,\\pi R^3}{24}$",
+      "B": "$\\frac{\\pi R^3}{12}$",
+      "C": "$\\frac{\\sqrt{3}\\,\\pi R^3}{8}$",
+      "D": "$\\frac{\\pi R^3}{3}$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: el radio del semicírculo pasa a ser la generatriz del cono, y el arco del semicírculo pasa a ser el perímetro de la base.\nPaso 1: El arco mide $\\pi R$, que es el perímetro de la base: $2\\pi r = \\pi R$, así que $r = \\frac{R}{2}$.\nPaso 2: Con la generatriz $R$: $h = \\sqrt{R^2 - \\frac{R^2}{4}} = \\frac{\\sqrt{3}}{2}R$.\nPaso 3: $V = \\frac{1}{3}\\pi \\cdot \\frac{R^2}{4} \\cdot \\frac{\\sqrt{3}}{2}R = \\frac{\\sqrt{3}\\,\\pi R^3}{24}$.\nRespuesta: A, $\\frac{\\sqrt{3}\\,\\pi R^3}{24}$.\nErrores frecuentes: La B toma la generatriz $R$ como si fuera la altura. La C calcula bien radio y altura, pero olvida el factor $\\frac{1}{3}$. La D supone que el radio basal es $R$ y la altura también $R$.",
+    "verify": "const R=2; const r=Math.PI*R/(2*Math.PI); const h=Math.sqrt(R*R-r*r); const V=Math.PI*r*r*h/3;\nconst o={A:Math.sqrt(3)*Math.PI*R**3/24,B:Math.PI*R**3/12,C:Math.sqrt(3)*Math.PI*R**3/8,D:Math.PI*R**3/3}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-V)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-229",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "cuerpos-geometricos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un florero cilíndrico de vidrio tiene $8$ cm de diámetro interior y contiene agua hasta $10$ cm de altura. Martina introduce en él piedras decorativas macizas con forma de cubo de $2$ cm de arista, que quedan completamente bajo el agua, y el nivel sube hasta $11{,}5$ cm.\n\nSi se considera $\\pi \\approx 3$, ¿cuántas piedras introdujo Martina?",
+    "alternatives": {
+      "A": "$3$",
+      "B": "$9$",
+      "C": "$18$",
+      "D": "$36$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: el volumen de agua desplazada, que es un cilindro de altura igual a la subida del nivel, es igual al volumen total de las piedras.\nPaso 1: El radio interior es $4$ cm y el nivel sube $11{,}5 - 10 = 1{,}5$ cm.\nPaso 2: Volumen desplazado: $3 \\cdot 4^2 \\cdot 1{,}5 = 72\\ \\text{cm}^3$.\nPaso 3: Cada piedra tiene $2^3 = 8\\ \\text{cm}^3$, así que son $\\frac{72}{8} = 9$ piedras.\nRespuesta: B, $9$.\nErrores frecuentes: La A divide por el área total de un cubo, $24\\ \\text{cm}^2$, en vez de por su volumen. La C divide por $2^2 = 4$, el área de una cara. La D usa el diámetro, $8$ cm, como si fuera el radio.",
+    "verify": "const r=8/2,dh=11.5-10,pi=3; const Vd=pi*r*r*dh; const n=Vd/2**3;\nconst o={A:3,B:9,C:18,D:36}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-n)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-230",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "cuerpos-geometricos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un cubo macizo de arista $a$ se divide en seis pirámides iguales, uniendo su centro con sus ocho vértices. Cada pirámide tiene como base una cara del cubo y su cúspide en el centro del cubo.\n\n¿Cuál es el área de las cuatro caras triangulares (el área lateral) de una de estas pirámides?",
+    "alternatives": {
+      "A": "$a^2$",
+      "B": "$a^2\\sqrt{2}$",
+      "C": "$a^2\\sqrt{3}$",
+      "D": "$2a^2$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: la altura de cada cara triangular (la apotema de la pirámide) es la hipotenusa del triángulo formado por la altura de la pirámide y la mitad de la arista.\nPaso 1: La altura de la pirámide es la distancia del centro del cubo a una cara: $\\frac{a}{2}$.\nPaso 2: Apotema: $\\sqrt{\\left(\\frac{a}{2}\\right)^2 + \\left(\\frac{a}{2}\\right)^2} = \\frac{a\\sqrt{2}}{2}$.\nPaso 3: Cada cara triangular tiene área $\\frac{1}{2} \\cdot a \\cdot \\frac{a\\sqrt{2}}{2} = \\frac{a^2\\sqrt{2}}{4}$, y las cuatro suman $a^2\\sqrt{2}$.\nRespuesta: B, $a^2\\sqrt{2}$.\nErrores frecuentes: La A usa la altura de la pirámide, $\\frac{a}{2}$, como altura de cada triángulo. La C usa la distancia del centro a un vértice, $\\frac{a\\sqrt{3}}{2}$, que es una arista lateral y no la altura de la cara. La D usa la arista $a$ como altura de cada triángulo.",
+    "verify": "const a=3; const h=a/2; const ap=Math.hypot(h,a/2); const L=4*(a*ap/2);\nconst o={A:a*a,B:a*a*Math.SQRT2,C:a*a*Math.sqrt(3),D:2*a*a}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-L)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-231",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "cuerpos-geometricos",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Para fabricar una caja sin tapa, se toma una lámina rectangular de cartón de $a$ cm por $b$ cm, se recorta un cuadrado de $x$ cm de lado en cada una de sus cuatro esquinas y se doblan hacia arriba las cuatro solapas que quedan, con $2x < a$ y $2x < b$.\n\n¿Cuál de las siguientes expresiones representa el área exterior de la caja (la base más las cuatro caras laterales), en $\\text{cm}^2$?",
+    "alternatives": {
+      "A": "$ab - 4x^2$",
+      "B": "$ab - 2x^2$",
+      "C": "$(a - 2x)(b - 2x)$",
+      "D": "$ab + 4x^2$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: al doblar, no se agrega ni se quita cartón; la caja usa toda la lámina menos los cuatro cuadrados recortados.\nPaso 1: Base: $(a - 2x)(b - 2x)$. Caras laterales: dos de $x(a - 2x)$ y dos de $x(b - 2x)$.\nPaso 2: Suma: $ab - 2ax - 2bx + 4x^2 + 2ax - 4x^2 + 2bx - 4x^2 = ab - 4x^2$.\nPaso 3: Coincide con el área de la lámina, $ab$, menos los cuatro cuadrados de área $x^2$.\nRespuesta: A, $ab - 4x^2$.\nErrores frecuentes: La B descuenta solo dos cuadrados. La C entrega solo el área de la base. La D calcula las caras laterales con los largos $a$ y $b$ completos, sin restarles $2x$, y así suma área que se recortó.",
+    "verify": "const a=30,b=20,x=5; const S=(a-2*x)*(b-2*x)+2*x*(a-2*x)+2*x*(b-2*x);\nconst o={A:a*b-4*x*x,B:a*b-2*x*x,C:(a-2*x)*(b-2*x),D:a*b+4*x*x}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-S)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-232",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "cuerpos-geometricos",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una copa tiene forma de cono recto con el vértice hacia abajo y la abertura circular hacia arriba. Se vierte jugo hasta que la superficie del líquido queda a $\\frac{2}{3}$ de la altura de la copa, medida desde el vértice.\n\n¿Qué fracción de la capacidad de la copa falta por llenar?",
+    "alternatives": {
+      "A": "$\\frac{8}{27}$",
+      "B": "$\\frac{1}{3}$",
+      "C": "$\\frac{5}{9}$",
+      "D": "$\\frac{19}{27}$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: el jugo forma un cono semejante a la copa (homotético, con centro en el vértice) de razón $\\frac{2}{3}$, y los volúmenes están en la razón $\\left(\\frac{2}{3}\\right)^3$.\nPaso 1: Razón entre las alturas y entre los radios: $\\frac{2}{3}$.\nPaso 2: Volumen de jugo: $\\left(\\frac{2}{3}\\right)^3 = \\frac{8}{27}$ de la capacidad.\nPaso 3: Falta por llenar $1 - \\frac{8}{27} = \\frac{19}{27}$.\nRespuesta: D, $\\frac{19}{27}$.\nErrores frecuentes: La A da la fracción que está llena, no la que falta. La B supone que el volumen es proporcional a la altura. La C usa la razón de áreas, $\\left(\\frac{2}{3}\\right)^2$, en vez de la de volúmenes.",
+    "verify": "const R=3,H=9; const V=(r,h)=>Math.PI*r*r*h/3; const f=1-V(R*2/3,H*2/3)/V(R,H);\nconst o={A:8/27,B:1/3,C:5/9,D:19/27}; const ok=Object.keys(o).filter(l=>Math.abs(o[l]-f)<1e-9); return ok.length===1?ok[0]:null;"
+  },
+  {
+    "key": "m2-geometria-233",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "esfera",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "suficiencia",
+    "content": "Considera una esfera de radio $r$ cm. El área de su superficie es $4\\pi r^2$ y su volumen es $\\frac{4}{3}\\pi r^3$.\n\nSe puede determinar el volumen de la esfera, si se sabe que:\n\n(1) Si su radio aumentara en $3$ cm, el área de su superficie aumentaría en $84\\pi\\ \\text{cm}^2$.\n(2) El área de su superficie, medida en $\\text{cm}^2$, y su volumen, medido en $\\text{cm}^3$, son numéricamente iguales.",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: cada afirmación es suficiente si permite plantear una ecuación con una única solución positiva para $r$.\nPaso 1: Con (1): $4\\pi(r + 3)^2 - 4\\pi r^2 = 84\\pi$, es decir, $4\\pi(6r + 9) = 84\\pi$, así que $6r + 9 = 21$ y $r = 2$. Se obtiene $V = \\frac{32}{3}\\pi\\ \\text{cm}^3$. Basta.\nPaso 2: Con (2): $4\\pi r^2 = \\frac{4}{3}\\pi r^3$; como $r > 0$, se divide por $4\\pi r^2$ y queda $r = 3$. Se obtiene $V = 36\\pi\\ \\text{cm}^3$. Basta.\nPaso 3: Cada afirmación por separado determina el radio y, con él, el volumen.\nRespuesta: D, cada una por sí sola, (1) ó (2).\nErrores frecuentes: La A y la B reconocen solo una de las ecuaciones; en (1) los términos $r^2$ se cancelan y queda una ecuación de primer grado, y en (2) basta dividir por $r^2$. La C supone que hacen falta dos datos para una incógnita. La E no ve que en ambos casos queda una ecuación con solución única.",
+    "verify": "const r1=(84/4-9)/6;\nconst r2=3; const ok2=Math.abs(4*Math.PI*r2*r2-4/3*Math.PI*r2**3)<1e-9;\nconst g=(r)=>4*Math.PI*r*r-4/3*Math.PI*r**3; let roots=0; for(let r=0.5;r<50;r+=0.5){ if(g(r)===0||g(r)*g(r+0.5)<0) roots++; }\nconst lin1=Math.abs(4*Math.PI*((r1+3)**2-r1*r1)-84*Math.PI)<1e-9; const lin1b=Math.abs(4*Math.PI*((r1+1+3)**2-(r1+1)**2)-84*Math.PI)>1e-6;\nif(lin1&&lin1b&&ok2&&roots===1) return 'D'; return null;"
+  },
+  {
+    "key": "m2-geometria-234",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "razones-trigonometricas",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "suficiencia",
+    "content": "Considera el triángulo $ABC$, rectángulo en $C$.\n\nSe puede determinar el área del triángulo $ABC$, si se sabe que:\n\n(1) $\\cos(\\angle ABC) = \\frac{5}{13}$.\n(2) $AB = 26$ cm y $\\operatorname{sen}(\\angle BAC) \\cdot \\cos(\\angle BAC) = \\frac{60}{169}$.",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: las razones trigonométricas fijan la forma del triángulo, pero no su tamaño; para el área se necesita además una longitud.\nPaso 1: Con (1): el triángulo puede ser de catetos $5$ y $12$ con hipotenusa $13$, o de catetos $10$ y $24$ con hipotenusa $26$, y ambos cumplen la condición; sus áreas son $30$ y $120\\ \\text{cm}^2$. No basta.\nPaso 2: Con (2): los catetos miden $BC = AB \\cdot \\operatorname{sen}(\\angle BAC)$ y $AC = AB \\cdot \\cos(\\angle BAC)$, así que el área es $\\frac{1}{2} AB^2 \\operatorname{sen}(\\angle BAC)\\cos(\\angle BAC) = \\frac{1}{2} \\cdot 676 \\cdot \\frac{60}{169} = 120\\ \\text{cm}^2$. Basta, aunque no se calcule cada cateto por separado.\nRespuesta: B, (2) por sí sola.\nErrores frecuentes: La A cree que conocer un coseno determina el triángulo, pero triángulos semejantes de distinto tamaño tienen el mismo coseno. La C supone que se necesita (1) para obtener los catetos, cuando el producto de (2) da directamente el área. La D comete el error de la A. La E no reconoce que el área es $\\frac{1}{2}c^2\\operatorname{sen}(\\alpha)\\cos(\\alpha)$.",
+    "verify": "const tri=(s)=>({a:12*s,b:5*s,c:13*s}); const t1=tri(1),t2=tri(2);\nconst c1=Math.abs(t1.b/t1.c-5/13)<1e-9&&Math.abs(t2.b/t2.c-5/13)<1e-9; const ar1=t1.a*t1.b/2, ar2=t2.a*t2.b/2; const insuf1=c1&&Math.abs(ar1-ar2)>1e-9;\nconst c=26,p=60/169; const S=Math.sin, C=Math.cos; const angs=[]; for(let t=0.001;t<Math.PI/2;t+=0.0005){ if(Math.abs(S(t)*C(t)-p)<2e-4) angs.push(t);}\nif(angs.length===0) return null; const areas=angs.map(t=>(c*S(t))*(c*C(t))/2); const suf2=areas.every(x=>Math.abs(x-120)<0.1)&&Math.abs(0.5*c*c*p-120)<1e-9;\nconst t2ok=Math.abs(t2.c-26)<1e-9&&Math.abs((t2.a/t2.c)*(t2.b/t2.c)-p)<1e-9;\nif(insuf1&&suf2&&t2ok) return 'B'; return null;"
+  },
+  {
+    "key": "m2-geometria-301",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una plaza de Talca hay una pileta formada por dos circunferencias concéntricas: el espejo de agua es el círculo interior y el anillo comprendido entre ambas circunferencias se cubrirá con baldosas. No se conoce ninguno de los dos radios. Un trabajador apoya una regla recta de $8$ m de modo que sus dos extremos quedan sobre la circunferencia exterior y la regla toca a la circunferencia interior en un solo punto.\n\n¿Cuál es el área del anillo que se cubrirá con baldosas?",
+    "alternatives": {
+      "A": "$4\\pi\\ \\text{m}^2$",
+      "B": "$16\\pi\\ \\text{m}^2$",
+      "C": "$32\\pi\\ \\text{m}^2$",
+      "D": "$64\\pi\\ \\text{m}^2$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: el radio interior que llega al punto de tangencia es perpendicular a la regla y la corta en su punto medio, así que se forma un triángulo rectángulo con ambos radios.\nPaso 1: Sean $R$ y $r$ los radios exterior e interior. La regla es una cuerda de la circunferencia exterior tangente a la interior, y el radio $r$ trazado al punto de tangencia la divide en dos tramos de $4$ m.\nPaso 2: En el triángulo rectángulo de catetos $r$ y $4$ e hipotenusa $R$, por Pitágoras: $R^2 = r^2 + 4^2$, es decir, $R^2 - r^2 = 16$.\nPaso 3: El área del anillo es $\\pi R^2 - \\pi r^2 = \\pi(R^2 - r^2) = 16\\pi\\ \\text{m}^2$. No hace falta conocer cada radio por separado.\nRespuesta: B, $16\\pi\\ \\text{m}^2$.\nErrores frecuentes: La A usa $R^2 - r^2 = 4$, olvidando elevar al cuadrado la media cuerda. La C suma los cuadrados de los dos tramos ($4^2 + 4^2 = 32$), como si ambos fueran catetos. La D usa la cuerda completa de $8$ m como cateto en vez de su mitad.",
+    "verify": "const vals=[1,2.5,7].map(r=>{const R2=r*r+16; return Math.PI*(R2-r*r);}); if(Math.abs(vals[0]-vals[1])>1e-9||Math.abs(vals[1]-vals[2])>1e-9) return null; const val=vals[0]; const opts=[4,16,32,64].map(k=>k*Math.PI); const L=['A','B','C','D']; const i=opts.findIndex(o=>Math.abs(o-val)<1e-6); return i<0?null:L[i];"
+  },
+  {
+    "key": "m2-geometria-302",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Valentina tiene una hoja rectangular de $16$ cm de largo y $12$ cm de ancho. La dobla una sola vez, de modo que dos vértices opuestos de la hoja quedan exactamente uno sobre el otro, y luego la desdobla.\n\n¿Cuál es la longitud del pliegue que quedó marcado en la hoja?",
+    "alternatives": {
+      "A": "$10$ cm",
+      "B": "$12$ cm",
+      "C": "$15$ cm",
+      "D": "$20$ cm"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: si dos vértices opuestos coinciden, el pliegue es la simetral de la diagonal que los une: la corta perpendicularmente en su punto medio.\nPaso 1: La diagonal mide $\\sqrt{16^2 + 12^2} = \\sqrt{400} = 20$ cm, y su punto medio queda a $10$ cm de cada vértice.\nPaso 2: Sea $x$ la mitad del pliegue. El triángulo formado por la mitad de la diagonal, la mitad del pliegue y el lado largo es semejante al triángulo de catetos $16$ y $12$ (comparten un ángulo agudo y ambos son rectángulos), así que $\\frac{x}{10} = \\frac{12}{16}$.\nPaso 3: Se obtiene $x = 7{,}5$ cm, y el pliegue mide $2 \\cdot 7{,}5 = 15$ cm. Con coordenadas se comprueba: el pliegue va de $(3{,}5;\\ 12)$ a $(12{,}5;\\ 0)$ y mide $\\sqrt{9^2 + 12^2} = 15$ cm.\nRespuesta: C, $15$ cm.\nErrores frecuentes: La A confunde el pliegue con la mitad de la diagonal. La B supone que el pliegue es paralelo al lado corto y mide lo mismo que él. La D confunde el pliegue con la diagonal completa, que es perpendicular a él.",
+    "verify": "const W=16,H=12; const mx=W/2,my=H/2; const m=-W/H; const x0=mx+(0-my)/m, x1=mx+(H-my)/m; const val=Math.hypot(x0-x1,H); const opts=[10,12,15,20]; const L=['A','B','C','D']; const i=opts.findIndex(o=>Math.abs(o-val)<1e-6); return i<0?null:L[i];"
+  },
+  {
+    "key": "m2-geometria-303",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un agricultor de Linares tiene un potrero con forma de triángulo. Dos de sus lados miden $40$ m y $50$ m, y el ángulo comprendido entre esos dos lados mide $150^\\circ$.\n\n¿Cuál es el área del potrero?",
+    "alternatives": {
+      "A": "$500\\ \\text{m}^2$",
+      "B": "$500\\sqrt{3}\\ \\text{m}^2$",
+      "C": "$1\\,000\\ \\text{m}^2$",
+      "D": "$1\\,000\\sqrt{3}\\ \\text{m}^2$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: el área de un triángulo con dos lados $a$ y $b$ y ángulo comprendido $\\theta$ es $\\frac{1}{2}ab\\,\\text{sen}(\\theta)$; con un ángulo obtuso, la altura cae fuera del triángulo.\nPaso 1: Se toma el lado de $40$ m como base. La altura desde el extremo del lado de $50$ m cae en la prolongación de la base y forma con ella el ángulo suplementario $180^\\circ - 150^\\circ = 30^\\circ$.\nPaso 2: La altura mide $50 \\cdot \\text{sen}(30^\\circ) = 50 \\cdot \\frac{1}{2} = 25$ m.\nPaso 3: El área es $\\frac{40 \\cdot 25}{2} = 500\\ \\text{m}^2$, lo mismo que $\\frac{1}{2} \\cdot 40 \\cdot 50 \\cdot \\text{sen}(150^\\circ)$.\nRespuesta: A, $500\\ \\text{m}^2$.\nErrores frecuentes: La B usa $\\frac{\\sqrt{3}}{2}$ como seno del ángulo, confundiendo $\\text{sen}(30^\\circ)$ con $\\cos(30^\\circ)$. La C olvida dividir por $2$. La D comete ambos errores a la vez.",
+    "verify": "const val=0.5*40*50*Math.sin(150*Math.PI/180); const s=Math.sqrt(3); const opts=[500,500*s,1000,1000*s]; const L=['A','B','C','D']; const i=opts.findIndex(o=>Math.abs(o-val)<1e-6); return i<0?null:L[i];"
+  },
+  {
+    "key": "m2-geometria-304",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera un triángulo rectángulo cualquiera, cuyos catetos miden $a$ y $b$, cuya hipotenusa mide $c$ y en el que la altura trazada hacia la hipotenusa mide $h$, todas las medidas en la misma unidad.\n\n¿Cuál de las siguientes igualdades es siempre verdadera?",
+    "alternatives": {
+      "A": "$h = \\frac{c}{2}$",
+      "B": "$h^2 = a \\cdot b$",
+      "C": "$a + b = c + h$",
+      "D": "$\\frac{1}{h^2} = \\frac{1}{a^2} + \\frac{1}{b^2}$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: el área del triángulo se puede calcular de dos formas, con los catetos o con la hipotenusa y su altura, y eso relaciona $h$ con $a$, $b$ y $c$.\nPaso 1: $\\frac{ab}{2} = \\frac{ch}{2}$, de donde $h = \\frac{ab}{c}$.\nPaso 2: Entonces $\\frac{1}{h^2} = \\frac{c^2}{a^2b^2} = \\frac{a^2 + b^2}{a^2b^2} = \\frac{1}{b^2} + \\frac{1}{a^2}$, usando $c^2 = a^2 + b^2$.\nPaso 3: Se comprueba con el triángulo de lados $3$, $4$ y $5$, donde $h = \\frac{12}{5} = 2{,}4$: $\\frac{1}{2{,}4^2} = \\frac{25}{144}$ y $\\frac{1}{9} + \\frac{1}{16} = \\frac{25}{144}$.\nRespuesta: D.\nErrores frecuentes: La A solo se cumple en el triángulo rectángulo isósceles (en el $3$-$4$-$5$, $h = 2{,}4 \\neq 2{,}5$). La B confunde con $h^2 = p \\cdot q$, que usa las proyecciones de los catetos y no los catetos ($2{,}4^2 = 5{,}76 \\neq 12$). La C es falsa: $7 \\neq 7{,}4$; de hecho, siempre $a + b < c + h$.",
+    "verify": "const T=[[3,4],[5,12],[1,1],[2,7]]; const res=T.map(([a,b])=>{const c=Math.hypot(a,b), h=a*b/c; return [Math.abs(h-c/2)<1e-9, Math.abs(h*h-a*b)<1e-9, Math.abs(a+b-c-h)<1e-9, Math.abs(1/(h*h)-1/(a*a)-1/(b*b))<1e-9];}); const L=['A','B','C','D']; const always=[0,1,2,3].filter(k=>res.every(r=>r[k])); return always.length===1?L[always[0]]:null;"
+  },
+  {
+    "key": "m2-geometria-305",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un mueblista de Puerto Varas quiere obtener una cubierta de mesa con forma de octágono regular a partir de una plancha cuadrada. Para ello corta, en cada una de las cuatro esquinas de la plancha, un triángulo rectángulo isósceles, de modo que los ocho lados del octágono resultante midan $30$ cm cada uno.\n\n¿Cuál es el área de la cubierta octagonal?",
+    "alternatives": {
+      "A": "$(900 + 1\\,800\\sqrt{2})\\ \\text{cm}^2$",
+      "B": "$(1\\,800 + 1\\,800\\sqrt{2})\\ \\text{cm}^2$",
+      "C": "$(2\\,700 + 1\\,800\\sqrt{2})\\ \\text{cm}^2$",
+      "D": "$(3\\,600 + 1\\,800\\sqrt{2})\\ \\text{cm}^2$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: la hipotenusa de cada triángulo cortado es un lado del octágono; con Pitágoras se obtienen sus catetos, luego el lado de la plancha, y al área de la plancha se le restan los cuatro triángulos.\nPaso 1: Si cada cateto mide $x$, entonces $x^2 + x^2 = 30^2$, así que $x = \\frac{30}{\\sqrt{2}} = 15\\sqrt{2}$ cm.\nPaso 2: El lado de la plancha es $30 + 2 \\cdot 15\\sqrt{2} = 30 + 30\\sqrt{2}$ cm y su área es $(30 + 30\\sqrt{2})^2 = 900 + 1\\,800\\sqrt{2} + 1\\,800 = 2\\,700 + 1\\,800\\sqrt{2}\\ \\text{cm}^2$.\nPaso 3: Cada triángulo tiene área $\\frac{(15\\sqrt{2})^2}{2} = 225\\ \\text{cm}^2$; los cuatro suman $900\\ \\text{cm}^2$.\nPaso 4: El octágono mide $2\\,700 + 1\\,800\\sqrt{2} - 900 = 1\\,800 + 1\\,800\\sqrt{2}\\ \\text{cm}^2$.\nRespuesta: B, $(1\\,800 + 1\\,800\\sqrt{2})\\ \\text{cm}^2$.\nErrores frecuentes: La A calcula cada triángulo como $x \\cdot x = 450$, sin dividir por $2$, y resta $1\\,800$. La C es el área de la plancha completa, sin restar los cortes. La D suma los triángulos en vez de restarlos.",
+    "verify": "const s=30, x=s/Math.SQRT2, side=s+2*x; const val=side*side-4*(x*x/2); const r=1800*Math.SQRT2; const opts=[900+r,1800+r,2700+r,3600+r]; const L=['A','B','C','D']; const i=opts.findIndex(o=>Math.abs(o-val)<1e-6); return i<0?null:L[i];"
+  },
+  {
+    "key": "m2-geometria-306",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un diseñador arma un logo a partir de un triángulo rectángulo de catetos $a$ cm y $b$ cm. Sobre cada cateto dibuja, hacia afuera del triángulo, un semicírculo cuyo diámetro es ese cateto. Sobre la hipotenusa dibuja un semicírculo cuyo diámetro es la hipotenusa, hacia el lado donde está el triángulo, de modo que lo contiene. Las dos lúnulas del logo son las partes de los semicírculos de los catetos que quedan fuera del semicírculo de la hipotenusa.\n\n¿Cuál de las siguientes expresiones representa el área total de las dos lúnulas, en $\\text{cm}^2$?",
+    "alternatives": {
+      "A": "$\\frac{ab}{2}$",
+      "B": "$\\frac{\\pi ab}{4}$",
+      "C": "$\\frac{\\pi(a^2 + b^2)}{8}$",
+      "D": "$\\frac{\\pi(a^2 + b^2)}{8} - \\frac{ab}{2}$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: por el teorema de Tales, el vértice del ángulo recto está sobre la semicircunferencia de la hipotenusa, así que el semicírculo grande se compone del triángulo y de dos segmentos circulares; cada lúnula es un semicírculo pequeño menos uno de esos segmentos.\nPaso 1: Las áreas de los semicírculos son $\\frac{\\pi a^2}{8}$, $\\frac{\\pi b^2}{8}$ y $\\frac{\\pi c^2}{8}$, donde $c$ es la hipotenusa (el radio es la mitad del diámetro).\nPaso 2: Los dos segmentos circulares suman $\\frac{\\pi c^2}{8} - \\frac{ab}{2}$ (semicírculo grande menos el triángulo).\nPaso 3: Lúnulas $= \\frac{\\pi a^2}{8} + \\frac{\\pi b^2}{8} - \\left(\\frac{\\pi c^2}{8} - \\frac{ab}{2}\\right) = \\frac{\\pi(a^2 + b^2 - c^2)}{8} + \\frac{ab}{2}$.\nPaso 4: Por Pitágoras, $a^2 + b^2 - c^2 = 0$, así que el área de las lúnulas es $\\frac{ab}{2}$: exactamente el área del triángulo.\nRespuesta: A, $\\frac{ab}{2}$.\nErrores frecuentes: La B mezcla el producto de los catetos con la fórmula del círculo, sin justificación. La C es la suma de los dos semicírculos pequeños, sin quitar la parte que queda dentro del semicírculo grande. La D es el área de los dos segmentos circulares (semicírculo grande menos el triángulo), no la de las lúnulas.",
+    "verify": "const a=3,b=4,c=5,st=0.01; let cnt=0; for(let x=-2.5;x<=3.5;x+=st){for(let y=-2;y<=4.5;y+=st){const inA=y<=0&&(x-a/2)**2+y*y<=(a/2)**2; const inB=x<=0&&x*x+(y-b/2)**2<=(b/2)**2; const inBig=(x-a/2)**2+(y-b/2)**2<=(c/2)**2&&(x/a+y/b<=1); if((inA||inB)&&!inBig) cnt++;}} const area=cnt*st*st; const opts=[a*b/2,Math.PI*a*b/4,Math.PI*(a*a+b*b)/8,Math.PI*(a*a+b*b)/8-a*b/2]; const L=['A','B','C','D']; let best=0; opts.forEach((o,i)=>{if(Math.abs(o-area)<Math.abs(opts[best]-area)) best=i;}); return Math.abs(opts[best]-area)<0.15?L[best]:null;"
+  },
+  {
+    "key": "m2-geometria-307",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "De una lámina con forma de triángulo equilátero se recorta, en cada uno de sus tres vértices, un triángulo equilátero pequeño, los tres de igual tamaño, y se obtiene un hexágono. Se sabe que el perímetro del hexágono es $\\frac{4}{5}$ del perímetro de la lámina original.\n\n¿Qué fracción del área de la lámina original representa el área del hexágono?",
+    "alternatives": {
+      "A": "$\\frac{16}{25}$",
+      "B": "$\\frac{4}{5}$",
+      "C": "$\\frac{22}{25}$",
+      "D": "$\\frac{24}{25}$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: primero se usa el perímetro para obtener el tamaño de los cortes; después, como cada triángulo cortado es semejante al original, su área se obtiene con el cuadrado de la razón de semejanza.\nPaso 1: Sea $L$ el lado de la lámina y $x$ el lado de cada corte. En cada vértice se pierden $2x$ de borde y se gana el lado nuevo $x$, así que el perímetro del hexágono es $3L - 3x$.\nPaso 2: $3L - 3x = \\frac{4}{5} \\cdot 3L$, de donde $x = \\frac{L}{5}$.\nPaso 3: Cada corte es semejante a la lámina con razón $\\frac{1}{5}$, así que su área es $\\frac{1}{25}$ del área original; los tres cortes suman $\\frac{3}{25}$.\nPaso 4: El hexágono representa $1 - \\frac{3}{25} = \\frac{22}{25}$ del área original.\nRespuesta: C, $\\frac{22}{25}$.\nErrores frecuentes: La A eleva al cuadrado la razón de perímetros, como si el hexágono fuera semejante al triángulo, y no lo es. La B supone que el área disminuye en la misma proporción que el perímetro. La D descuenta un solo triángulo en vez de tres.",
+    "verify": "const side=10; const x=3*side*(1-4/5)/3; const tri=s=>Math.sqrt(3)/4*s*s; const val=(tri(side)-3*tri(x))/tri(side); const opts=[16/25,4/5,22/25,24/25]; const L=['A','B','C','D']; const i=opts.findIndex(o=>Math.abs(o-val)<1e-6); return i<0?null:L[i];"
+  },
+  {
+    "key": "m2-geometria-308",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una velería de Algarrobo fabrica velas con forma de triángulo rectángulo. Una de sus velas tiene catetos de $a$ m y $b$ m. Para un nuevo modelo, se duplica la medida del cateto de $a$ m y se reduce a la mitad la medida del cateto de $b$ m, manteniendo el ángulo recto.\n\n¿Cuál de las siguientes afirmaciones es siempre verdadera al comparar el nuevo modelo con la vela original?",
+    "alternatives": {
+      "A": "El área y la hipotenusa se mantienen.",
+      "B": "El área se mantiene y la hipotenusa siempre aumenta.",
+      "C": "El área se duplica y la hipotenusa aumenta únicamente cuando $a > b$.",
+      "D": "El área se mantiene y la hipotenusa aumenta únicamente cuando $2a > b$."
+    },
+    "correct": "D",
+    "explanation": "Idea clave: el área depende del producto de los catetos, que no cambia; la hipotenusa depende de la suma de sus cuadrados, que sí puede cambiar.\nPaso 1: Área nueva: $\\frac{2a \\cdot \\frac{b}{2}}{2} = \\frac{ab}{2}$, igual a la original.\nPaso 2: Hipotenusa nueva al cuadrado: $(2a)^2 + \\left(\\frac{b}{2}\\right)^2 = 4a^2 + \\frac{b^2}{4}$; la original al cuadrado es $a^2 + b^2$.\nPaso 3: La diferencia es $3a^2 - \\frac{3b^2}{4} = \\frac{3}{4}(4a^2 - b^2)$, que es positiva exactamente cuando $2a > b$. Por ejemplo, con $a = 1$ y $b = 4$ la hipotenusa pasa de $\\sqrt{17}$ a $\\sqrt{8}$ y disminuye.\nRespuesta: D.\nErrores frecuentes: La A supone que, si el área no cambia, tampoco cambia la hipotenusa. La B generaliza un caso particular; el ejemplo $a = 1$, $b = 4$ la contradice. La C se equivoca en el área, que no se duplica, y en la condición, que es $2a > b$.",
+    "verify": "const P=[[1,4],[1,1],[3,2],[1,2]]; const ok=P.every(([a,b])=>{const A0=a*b/2,A1=(2*a)*(b/2)/2; const c0=Math.hypot(a,b), c1=Math.hypot(2*a,b/2); return Math.abs(A0-A1)<1e-9 && ((c1>c0+1e-12)===(2*a>b));}); const counterB=Math.hypot(2,2)<Math.hypot(1,4); return ok&&counterB?'D':null;"
+  },
+  {
+    "key": "m2-geometria-309",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un parque de Antofagasta hay un jardín con forma de triángulo rectángulo cuyos catetos miden $20$ m y $21$ m. En su interior se construirá una pileta circular que toca a los tres lados del jardín, es decir, su borde es la circunferencia inscrita en el triángulo. El resto del jardín se cubrirá con pasto.\n\n¿Cuál es el área que se cubrirá con pasto?",
+    "alternatives": {
+      "A": "$(210 - 36\\pi)\\ \\text{m}^2$",
+      "B": "$(210 - 12\\pi)\\ \\text{m}^2$",
+      "C": "$(210 - 9\\pi)\\ \\text{m}^2$",
+      "D": "$(420 - 36\\pi)\\ \\text{m}^2$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: al unir el centro de la pileta con los tres vértices, el jardín queda dividido en tres triángulos cuya altura es el radio $r$; por eso el área del triángulo es $r \\cdot s$, con $s$ el semiperímetro.\nPaso 1: La hipotenusa mide $\\sqrt{20^2 + 21^2} = \\sqrt{841} = 29$ m.\nPaso 2: El área del jardín es $\\frac{20 \\cdot 21}{2} = 210\\ \\text{m}^2$ y el semiperímetro es $\\frac{20 + 21 + 29}{2} = 35$ m.\nPaso 3: De $210 = 35r$ se obtiene $r = 6$ m, así que la pileta ocupa $36\\pi\\ \\text{m}^2$.\nPaso 4: El pasto cubre $(210 - 36\\pi)\\ \\text{m}^2$.\nRespuesta: A, $(210 - 36\\pi)\\ \\text{m}^2$.\nErrores frecuentes: La B resta $2\\pi r = 12\\pi$, que es el perímetro de la pileta y no su área. La C divide el área por el perímetro completo ($70$ m) en vez del semiperímetro y obtiene $r = 3$. La D olvida dividir por $2$ el producto de los catetos.",
+    "verify": "const a=20,b=21,c=Math.hypot(a,b); const A=a*b/2, s=(a+b+c)/2, r=A/s; const val=A-Math.PI*r*r; const p=Math.PI; const opts=[210-36*p,210-12*p,210-9*p,420-36*p]; const L=['A','B','C','D']; const i=opts.findIndex(o=>Math.abs(o-val)<1e-6); return i<0?null:L[i];"
+  },
+  {
+    "key": "m2-geometria-310",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "El frontón de una casa de madera en Frutillar tiene forma de triángulo isósceles: su base, horizontal, mide $2a$ m y cada uno de los otros dos lados mide $b$ m, con $b > a > 0$.\n\n¿Cuál de las siguientes expresiones representa el área del frontón, en $\\text{m}^2$?",
+    "alternatives": {
+      "A": "$\\frac{a\\sqrt{b^2 - a^2}}{2}$",
+      "B": "$a\\sqrt{b^2 - a^2}$",
+      "C": "$a\\sqrt{b^2 - 4a^2}$",
+      "D": "$2a\\sqrt{b^2 - a^2}$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: en un triángulo isósceles, la altura hacia la base cae en el punto medio de la base y forma dos triángulos rectángulos.\nPaso 1: Cada triángulo rectángulo tiene hipotenusa $b$ y un cateto de $a$ (la mitad de la base $2a$).\nPaso 2: Por Pitágoras, la altura mide $h = \\sqrt{b^2 - a^2}$.\nPaso 3: El área es $\\frac{2a \\cdot \\sqrt{b^2 - a^2}}{2} = a\\sqrt{b^2 - a^2}$.\nRespuesta: B, $a\\sqrt{b^2 - a^2}$.\nErrores frecuentes: La A toma $a$ como base y además divide por $2$, dividiendo dos veces. La C usa la base completa $2a$ como cateto en Pitágoras. La D olvida dividir por $2$ al calcular el área.",
+    "verify": "const a=3,b=5; const h=Math.sqrt(b*b-a*a); const val=2*a*h/2; const opts=[a*h/2,a*h,(b*b-4*a*a>=0?a*Math.sqrt(b*b-4*a*a):NaN),2*a*h]; const L=['A','B','C','D']; const i=opts.findIndex(o=>Math.abs(o-val)<1e-6); return i<0?null:L[i];"
+  },
+  {
+    "key": "m2-geometria-311",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera el vector $\\vec{v} = (a, b)$, con $a$ y $b$ números reales no ambos nulos. Sea $\\vec{w}$ el vector que se obtiene al rotar $\\vec{v}$ en $90^\\circ$ en sentido antihorario en torno al origen.\n\n¿Cuál de las siguientes expresiones representa la magnitud del vector $\\vec{v} + \\vec{w}$?",
+    "alternatives": {
+      "A": "$\\sqrt{a^2 + b^2}$",
+      "B": "$\\sqrt{2(a^2 + b^2)}$",
+      "C": "$2\\sqrt{a^2 + b^2}$",
+      "D": "$|a + b|\\sqrt{2}$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: una rotación de $90^\\circ$ antihoraria transforma $(a, b)$ en $(-b, a)$; el vector rotado tiene la misma magnitud y es perpendicular al original.\nPaso 1: $\\vec{w} = (-b, a)$, así que $\\vec{v} + \\vec{w} = (a - b,\\ a + b)$.\nPaso 2: $|\\vec{v} + \\vec{w}|^2 = (a - b)^2 + (a + b)^2 = 2a^2 + 2b^2$.\nPaso 3: $|\\vec{v} + \\vec{w}| = \\sqrt{2(a^2 + b^2)}$. Geométricamente, es la diagonal del cuadrado de lado $|\\vec{v}|$.\nRespuesta: B, $\\sqrt{2(a^2 + b^2)}$.\nErrores frecuentes: La A supone que la suma conserva la magnitud de $\\vec{v}$. La C suma las magnitudes, lo que solo vale si los vectores tienen igual dirección y sentido. La D usa $\\vec{w} = (b, a)$, que es la reflexión respecto de $y = x$ y no una rotación.",
+    "verify": "const T=[[3,1],[-2,5],[1,-4]]; const L=['A','B','C','D']; const good=[0,1,2,3].filter(k=>T.every(([a,b])=>{const m=Math.hypot(a-b,a+b); const o=[Math.hypot(a,b),Math.sqrt(2*(a*a+b*b)),2*Math.hypot(a,b),Math.abs(a+b)*Math.SQRT2]; return Math.abs(o[k]-m)<1e-9;})); return good.length===1?L[good[0]]:null;"
+  },
+  {
+    "key": "m2-geometria-312",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un videojuego, un rayo láser se refleja en un espejo recto. En el plano cartesiano del juego, el punto $P(-1, 3)$ tiene como imagen el punto $P'(5, -1)$ mediante la reflexión respecto de la recta que contiene al espejo.\n\n¿Cuál es la ecuación de esa recta?",
+    "alternatives": {
+      "A": "$y = -\\frac{2}{3}x + \\frac{7}{3}$",
+      "B": "$y = -\\frac{3}{2}x + 4$",
+      "C": "$y = \\frac{3}{2}x + \\frac{9}{2}$",
+      "D": "$y = \\frac{3}{2}x - 2$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: el eje de una reflexión es la simetral del segmento que une un punto con su imagen: pasa por su punto medio y es perpendicular a él.\nPaso 1: El punto medio de $PP'$ es $\\left(\\frac{-1 + 5}{2}, \\frac{3 + (-1)}{2}\\right) = (2, 1)$.\nPaso 2: La pendiente de $PP'$ es $\\frac{-1 - 3}{5 - (-1)} = -\\frac{2}{3}$, así que la pendiente del eje es $\\frac{3}{2}$.\nPaso 3: La recta de pendiente $\\frac{3}{2}$ que pasa por $(2, 1)$ es $y - 1 = \\frac{3}{2}(x - 2)$, es decir, $y = \\frac{3}{2}x - 2$.\nRespuesta: D, $y = \\frac{3}{2}x - 2$.\nErrores frecuentes: La A es la recta que pasa por $P$ y $P'$, no el espejo. La B pasa por el punto medio, pero usa la pendiente opuesta en vez de la recíproca opuesta. La C tiene la pendiente correcta, pero pasa por $P$ en lugar del punto medio.",
+    "verify": "const P=[-1,3],Q=[5,-1]; const lines=[[-2/3,7/3],[-3/2,4],[3/2,9/2],[3/2,-2]]; const refl=([m,n],[x,y])=>{const d=(m*x-y+n)/(m*m+1); return [x-2*m*d,y+2*d];}; const L=['A','B','C','D']; const ok=lines.map(l=>{const r=refl(l,P); return Math.abs(r[0]-Q[0])<1e-9&&Math.abs(r[1]-Q[1])<1e-9;}); const i=ok.indexOf(true); return ok.filter(Boolean).length===1?L[i]:null;"
+  },
+  {
+    "key": "m2-geometria-313",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un plano cartesiano, cada punto se gira primero $90^\\circ$ en torno al origen, en sentido contrario al de las manecillas del reloj; después, el punto obtenido se gira otros $90^\\circ$, en ese mismo sentido, en torno al punto $(2, 0)$.\n\n¿Cuál de las siguientes transformaciones produce, para todo punto, el mismo resultado que esa composición?",
+    "alternatives": {
+      "A": "La traslación según el vector $(2, -2)$.",
+      "B": "La rotación de $180^\\circ$ con centro en el punto $(2, 0)$.",
+      "C": "La rotación de $180^\\circ$ con centro en el punto $(1, 1)$.",
+      "D": "La rotación de $180^\\circ$ con centro en el punto $(1, -1)$."
+    },
+    "correct": "D",
+    "explanation": "Idea clave: dos rotaciones de $90^\\circ$ en el mismo sentido suman un giro de $180^\\circ$, pero el centro de la rotación resultante hay que calcularlo siguiendo un punto genérico.\nPaso 1: La primera rotación lleva $(x, y)$ a $(-y, x)$.\nPaso 2: Para rotar $(-y, x)$ en torno a $(2, 0)$: se resta el centro, $(-y - 2,\\ x)$; se gira $90^\\circ$, $(-x,\\ -y - 2)$; y se suma el centro, $(2 - x,\\ -2 - y)$.\nPaso 3: La regla $(x, y) \\to (2 - x,\\ -2 - y)$ es una rotación de $180^\\circ$ cuyo centro es el punto medio entre cada punto y su imagen: $\\left(\\frac{2}{2}, \\frac{-2}{2}\\right) = (1, -1)$.\nPaso 4: Comprobación con $(1, 0)$: la composición da $(1, 0) \\to (0, 1) \\to (1, -2)$, y el giro de $180^\\circ$ en torno a $(1, -1)$ también lo lleva a $(1, -2)$.\nRespuesta: D.\nErrores frecuentes: La A coincide solo para el origen, que va a $(2, -2)$, pero falla con $(1, 0)$: la traslación lo lleva a $(3, -2)$. La B toma como centro el de la segunda rotación y lleva el origen a $(4, 0)$. La C equivoca el signo de la ordenada del centro y lleva el origen a $(2, 2)$.",
+    "verify": "const comp=([x,y])=>{const u=-y,v=x; const dx=u-2,dy=v; return [2-dy,dx];}; const rot180=(c)=>([x,y])=>[2*c[0]-x,2*c[1]-y]; const cands=[([x,y])=>[x+2,y-2],rot180([2,0]),rot180([1,1]),rot180([1,-1])]; const pts=[[0,0],[1,0],[3,-2],[-1,4]]; const L=['A','B','C','D']; const ok=cands.map(f=>pts.every(p=>{const a=comp(p),b=f(p); return Math.abs(a[0]-b[0])<1e-9&&Math.abs(a[1]-b[1])<1e-9;})); return ok.filter(Boolean).length===1?L[ok.indexOf(true)]:null;"
+  },
+  {
+    "key": "m2-geometria-314",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera un punto cualquiera $P(a, b)$ del plano cartesiano y la recta $L$ de ecuación $y = x + 3$.\n\nSi $P$ se refleja respecto de la recta $L$, ¿qué punto se obtiene?",
+    "alternatives": {
+      "A": "$(b - 3,\\ a + 3)$",
+      "B": "$(b + 3,\\ a - 3)$",
+      "C": "$(b,\\ a + 3)$",
+      "D": "$(b - 3,\\ a - 3)$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: se traslada todo para que la recta pase por el origen, se refleja respecto de $y = x$ (que intercambia las coordenadas) y luego se deshace la traslación.\nPaso 1: La traslación según $(0, -3)$ lleva $L$ a la recta $y = x$ y lleva $P$ a $(a,\\ b - 3)$.\nPaso 2: La reflexión respecto de $y = x$ intercambia las coordenadas: $(b - 3,\\ a)$.\nPaso 3: Se deshace la traslación con el vector $(0, 3)$: $(b - 3,\\ a + 3)$.\nPaso 4: Comprobación: el punto medio entre $P$ y su imagen es $\\left(\\frac{a + b - 3}{2}, \\frac{a + b + 3}{2}\\right)$, que cumple $y = x + 3$, y el segmento tiene dirección $(1, -1)$, perpendicular a $L$.\nRespuesta: A, $(b - 3,\\ a + 3)$.\nErrores frecuentes: La B traslada en el sentido contrario (primero suma $3$ y después lo resta). La C intercambia las coordenadas y solo corrige una de ellas. La D resta $3$ en ambas coordenadas, sin deshacer la traslación.",
+    "verify": "const refl=([x,y])=>{const m=1,n=3; const d=(m*x-y+n)/(m*m+1); return [x-2*m*d,y+2*d];}; const F=[([a,b])=>[b-3,a+3],([a,b])=>[b+3,a-3],([a,b])=>[b,a+3],([a,b])=>[b-3,a-3]]; const pts=[[2,7],[-1,0],[4,-5]]; const L=['A','B','C','D']; const ok=F.map(f=>pts.every(p=>{const r=refl(p),g=f(p); return Math.abs(r[0]-g[0])<1e-9&&Math.abs(r[1]-g[1])<1e-9;})); return ok.filter(Boolean).length===1?L[ok.indexOf(true)]:null;"
+  },
+  {
+    "key": "m2-geometria-315",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Para el diseño de una plaza en Copiapó se ubican, en un plano cartesiano con unidades en decámetros, tres esquinas de un paso peatonal con forma de paralelogramo: $A(1, 2)$, $B(5, 3)$ y $C(6, 7)$. La cuarta esquina, $D$, se ubica de modo que $ABCD$ es un paralelogramo con sus vértices nombrados en ese orden.\n\n¿Cuáles son las coordenadas de $D$?",
+    "alternatives": {
+      "A": "$(0, -2)$",
+      "B": "$(1, 4)$",
+      "C": "$(2, 6)$",
+      "D": "$(10, 8)$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: en el paralelogramo $ABCD$, los lados opuestos $AB$ y $DC$ son vectores iguales; $D$ se obtiene trasladando $C$ según el vector opuesto de $\\vec{AB}$.\nPaso 1: $\\vec{AB} = (5 - 1,\\ 3 - 2) = (4, 1)$.\nPaso 2: De $\\vec{DC} = \\vec{AB}$ se obtiene $D = C - \\vec{AB} = (6 - 4,\\ 7 - 1) = (2, 6)$.\nPaso 3: Comprobación: $\\vec{AD} = (1, 4)$ y $\\vec{BC} = (1, 4)$ son iguales, como corresponde.\nRespuesta: C, $(2, 6)$.\nErrores frecuentes: La A calcula $A + B - C$, que corresponde al paralelogramo en que $AB$ es diagonal. La B es el vector $\\vec{BC}$, y olvida sumarlo al punto $A$. La D calcula $B + C - A$, que corresponde al paralelogramo $ABDC$, con $BC$ como diagonal.",
+    "verify": "const A=[1,2],B=[5,3],C=[6,7]; const D=[A[0]+C[0]-B[0],A[1]+C[1]-B[1]]; const ok=(D[0]-A[0]===C[0]-B[0])&&(D[1]-A[1]===C[1]-B[1]); const opts=[[0,-2],[1,4],[2,6],[10,8]]; const i=opts.findIndex(o=>o[0]===D[0]&&o[1]===D[1]); return ok&&i>=0?['A','B','C','D'][i]:null;"
+  },
+  {
+    "key": "m2-geometria-316",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una isometría del plano lleva el punto $A(1, 0)$ al punto $A'(0, 1)$, y el punto $B(3, 0)$ al punto $B'(0, 3)$. No se tiene ninguna otra información sobre la isometría.\n\n¿Cuál de las siguientes afirmaciones es necesariamente verdadera?",
+    "alternatives": {
+      "A": "La isometría es el giro de $90^\\circ$ en torno al origen, en sentido contrario al de las manecillas del reloj.",
+      "B": "La isometría es la reflexión respecto de la recta $y = x$.",
+      "C": "La imagen del punto $(1, 2)$ es el punto $(2, 1)$.",
+      "D": "La imagen del punto $(2, 0)$ es el punto $(0, 2)$."
+    },
+    "correct": "D",
+    "explanation": "Idea clave: dos puntos no bastan para identificar una isometría (puede haber una que invierte la orientación y otra que no), pero toda isometría conserva distancias, y eso fija la imagen del punto medio de $AB$.\nPaso 1: La rotación de $90^\\circ$ antihoraria en torno al origen, $(x, y) \\to (-y, x)$, lleva $A$ a $(0, 1)$ y $B$ a $(0, 3)$. La reflexión respecto de $y = x$, $(x, y) \\to (y, x)$, también. Por lo tanto, ninguna de las dos es obligatoria.\nPaso 2: El punto $(1, 2)$ va a $(-2, 1)$ con la rotación y a $(2, 1)$ con la reflexión, así que su imagen no queda determinada.\nPaso 3: $M(2, 0)$ cumple $AM = MB = 1$ y $AB = 2$. Su imagen $M'$ debe cumplir $A'M' = M'B' = 1$ con $A'B' = 2$, y el único punto así es el punto medio de $A'B'$: $(0, 2)$.\nRespuesta: D.\nErrores frecuentes: La A y la B eligen una de las dos isometrías posibles, sin notar que la otra también cumple los datos. La C supone que se trata de la reflexión; con la rotación, la imagen de $(1, 2)$ es $(-2, 1)$.",
+    "verify": "const rot=([x,y])=>[-y,x], ref=([x,y])=>[y,x]; const eq=(p,q)=>Math.abs(p[0]-q[0])<1e-9&&Math.abs(p[1]-q[1])<1e-9; const both=[rot,ref].every(f=>eq(f([1,0]),[0,1])&&eq(f([3,0]),[0,3])); if(!both) return null; const Cfalse=!eq(rot([1,2]),[2,1]); const Dtrue=eq(rot([2,0]),[0,2])&&eq(ref([2,0]),[0,2]); return Cfalse&&Dtrue?'D':null;"
+  },
+  {
+    "key": "m2-geometria-317",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un robot de una feria científica en Concepción solo puede avanzar en dos direcciones, dadas por los vectores $\\vec{u} = (2, 1)$ y $\\vec{v} = (1, -1)$. Para ir desde el origen hasta el punto $(7, 2)$, el robot avanza $m$ veces el vector $\\vec{u}$ y luego $n$ veces el vector $\\vec{v}$, con $m$ y $n$ números reales tales que $m\\vec{u} + n\\vec{v} = (7, 2)$.\n\n¿Cuál es el valor de $m + n$?",
+    "alternatives": {
+      "A": "$2$",
+      "B": "$3$",
+      "C": "$4$",
+      "D": "$7$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: la igualdad de vectores se cumple componente a componente, lo que entrega un sistema de dos ecuaciones con incógnitas $m$ y $n$.\nPaso 1: $m(2, 1) + n(1, -1) = (2m + n,\\ m - n) = (7, 2)$.\nPaso 2: Se obtiene el sistema $2m + n = 7$ y $m - n = 2$. Al sumar las ecuaciones: $3m = 9$, así que $m = 3$ y $n = 1$.\nPaso 3: Comprobación: $3(2, 1) + 1(1, -1) = (7, 2)$. Luego $m + n = 4$.\nRespuesta: C, $4$.\nErrores frecuentes: La A usa $\\vec{v} = (1, 1)$, perdiendo el signo, y llega a $m + n = 2$. La B responde solo el valor de $m$. La D reemplaza $m = 3$ en la primera ecuación olvidando el coeficiente $2$ ($3 + n = 7$), obtiene $n = 4$ y suma $7$.",
+    "verify": "const det=2*(-1)-1*1; const m=(7*(-1)-1*2)/det, n=(2*2-1*7)/det; if(Math.abs(2*m+n-7)>1e-9||Math.abs(m-n-2)>1e-9) return null; const val=m+n; const opts=[2,3,4,7]; const L=['A','B','C','D']; const i=opts.findIndex(o=>Math.abs(o-val)<1e-6); return i<0?null:L[i];"
+  },
+  {
+    "key": "m2-geometria-318",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Las huellas que deja una persona al caminar por la arena de una playa de La Serena se modelan en un plano cartesiano con la transformación $T$: cada punto se refleja en el eje $X$ y, a continuación, se desplaza con el vector $(4, 0)$. La primera huella está en el punto $(1, 2)$; la segunda es la imagen de la primera mediante $T$; la tercera es la imagen de la segunda mediante $T$, y así sucesivamente.\n\n¿Cuáles son las coordenadas de la sexta huella?",
+    "alternatives": {
+      "A": "$(17, 2)$",
+      "B": "$(21, -2)$",
+      "C": "$(21, 2)$",
+      "D": "$(25, 2)$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: cada aplicación de $T$ suma $4$ a la abscisa y cambia el signo de la ordenada; hay que contar bien cuántas veces se aplica.\nPaso 1: $T(x, y) = (x + 4,\\ -y)$.\nPaso 2: La sexta huella se obtiene al aplicar $T$ cinco veces a la primera: la abscisa es $1 + 5 \\cdot 4 = 21$.\nPaso 3: La ordenada cambia de signo cinco veces, una cantidad impar, así que queda $-2$.\nPaso 4: La sucesión es $(1, 2)$, $(5, -2)$, $(9, 2)$, $(13, -2)$, $(17, 2)$, $(21, -2)$.\nRespuesta: B, $(21, -2)$.\nErrores frecuentes: La A es la quinta huella (aplica $T$ cuatro veces). La C calcula bien la abscisa, pero se equivoca con la paridad de los cambios de signo. La D aplica $T$ seis veces, lo que corresponde a la séptima huella.",
+    "verify": "let p=[1,2]; for(let k=0;k<5;k++){p=[p[0]+4,-p[1]];} const opts=[[17,2],[21,-2],[21,2],[25,2]]; const i=opts.findIndex(o=>o[0]===p[0]&&o[1]===p[1]); return i<0?null:['A','B','C','D'][i];"
+  },
+  {
+    "key": "m2-geometria-319",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un dron parte desde el punto $A(-2, 5)$ de un plano cartesiano, con unidades en metros, y vuela en línea recta en la dirección y el sentido del vector que va desde $A$ hasta $B(4, -3)$. El dron recorre $15$ m, pasando de largo el punto $B$, y se detiene.\n\n¿En qué punto se detiene el dron?",
+    "alternatives": {
+      "A": "$(-11, 17)$",
+      "B": "$(1, 1)$",
+      "C": "$(7, -7)$",
+      "D": "$(9, -12)$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el desplazamiento tiene la dirección de $\\vec{AB}$, pero su magnitud debe ser $15$; por eso se escala $\\vec{AB}$ según la razón entre $15$ y su magnitud.\nPaso 1: $\\vec{AB} = (4 - (-2),\\ -3 - 5) = (6, -8)$ y su magnitud es $\\sqrt{36 + 64} = 10$.\nPaso 2: El desplazamiento es $\\frac{15}{10}(6, -8) = (9, -12)$.\nPaso 3: El punto final es $A + (9, -12) = (-2 + 9,\\ 5 - 12) = (7, -7)$.\nRespuesta: C, $(7, -7)$.\nErrores frecuentes: La A se desplaza en el sentido opuesto al de $\\vec{AB}$. La B recorre solo la mitad de $\\vec{AB}$, es decir, $5$ m. La D es el vector de desplazamiento, y olvida sumarlo al punto de partida.",
+    "verify": "const A=[-2,5],B=[4,-3]; const v=[B[0]-A[0],B[1]-A[1]]; const m=Math.hypot(...v); const P=[A[0]+15*v[0]/m,A[1]+15*v[1]/m]; const opts=[[-11,17],[1,1],[7,-7],[9,-12]]; const i=opts.findIndex(o=>Math.abs(o[0]-P[0])<1e-9&&Math.abs(o[1]-P[1])<1e-9); return i<0?null:['A','B','C','D'][i];"
+  },
+  {
+    "key": "m2-geometria-320",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "semejanza",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un vitral de una iglesia de Valparaíso tiene forma de trapecio $ABCD$, con $AB$ paralelo a $CD$, $AB = 9$ dm y $CD = 6$ dm. Sus dos diagonales son varillas de plomo que se cortan en el punto $O$ y dividen el vitral en cuatro triángulos. El triángulo $COD$ tiene un área de $12\\ \\text{dm}^2$.\n\n¿Cuál es el área total del vitral?",
+    "alternatives": {
+      "A": "$39\\ \\text{dm}^2$",
+      "B": "$57\\ \\text{dm}^2$",
+      "C": "$66\\ \\text{dm}^2$",
+      "D": "$75\\ \\text{dm}^2$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: los triángulos $COD$ y $AOB$ son semejantes, y los dos triángulos laterales se comparan con $COD$ porque comparten su altura.\nPaso 1: Como $AB \\parallel CD$, los triángulos $AOB$ y $COD$ tienen ángulos alternos internos iguales y son semejantes, con razón $\\frac{9}{6} = \\frac{3}{2}$. Entonces el área de $AOB$ es $12 \\cdot \\left(\\frac{3}{2}\\right)^2 = 27\\ \\text{dm}^2$.\nPaso 2: Por la misma semejanza, $\\frac{OA}{OC} = \\frac{3}{2}$. Los triángulos $AOD$ y $COD$ tienen la misma altura desde $D$, así que el área de $AOD$ es $12 \\cdot \\frac{3}{2} = 18\\ \\text{dm}^2$. Del mismo modo, el área de $BOC$ es $18\\ \\text{dm}^2$.\nPaso 3: Área total: $12 + 27 + 18 + 18 = 75\\ \\text{dm}^2$.\nRespuesta: D, $75\\ \\text{dm}^2$.\nErrores frecuentes: La A suma solo los triángulos de las bases ($12 + 27$). La B considera solo uno de los triángulos laterales. La C usa la razón lineal $\\frac{3}{2}$ para el área de $AOB$ ($18$ en vez de $27$).",
+    "verify": "const A=[0,0],B=[9,0],D=[1,1],C=[7,1]; const inter=(P,Q,R,S)=>{const d=(Q[0]-P[0])*(S[1]-R[1])-(Q[1]-P[1])*(S[0]-R[0]); const t=((R[0]-P[0])*(S[1]-R[1])-(R[1]-P[1])*(S[0]-R[0]))/d; return [P[0]+t*(Q[0]-P[0]),P[1]+t*(Q[1]-P[1])];}; const O=inter(A,C,B,D); const ar=(p,q,r)=>Math.abs((q[0]-p[0])*(r[1]-p[1])-(r[0]-p[0])*(q[1]-p[1]))/2; const H=12/ar(C,O,D); const total=(9+6)/2*H; const val=total; const opts=[39,57,66,75]; const L=['A','B','C','D']; const i=opts.findIndex(o=>Math.abs(o-val)<1e-6); return i<0?null:L[i];"
+  },
+  {
+    "key": "m2-geometria-321",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "semejanza",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un triángulo $ABC$ rectángulo en $C$, la altura $CH$ divide a la hipotenusa $AB$ en los segmentos $AH = p$ y $HB = q$, con $p = 4q$.\n\n¿Cuál de las siguientes afirmaciones es verdadera?",
+    "alternatives": {
+      "A": "$AC = 4 \\cdot BC$",
+      "B": "La altura $CH$ mide la mitad de la hipotenusa $AB$.",
+      "C": "El área del triángulo $AHC$ es $16$ veces el área del triángulo $CHB$.",
+      "D": "$AC = 2 \\cdot BC$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: la altura divide al triángulo rectángulo en dos triángulos semejantes entre sí y al original; de ahí salen los teoremas de Euclides: $CH^2 = pq$, $AC^2 = AB \\cdot p$ y $BC^2 = AB \\cdot q$.\nPaso 1: $AB = p + q = 5q$. Entonces $AC^2 = 5q \\cdot 4q = 20q^2$ y $BC^2 = 5q \\cdot q = 5q^2$.\nPaso 2: $\\frac{AC^2}{BC^2} = 4$, así que $\\frac{AC}{BC} = 2$, es decir, $AC = 2 \\cdot BC$.\nPaso 3: $CH^2 = pq = 4q^2$, así que $CH = 2q$, mientras que la mitad de la hipotenusa es $2{,}5q$. Además, los triángulos $AHC$ y $CHB$ tienen la misma altura $CH$, así que sus áreas están en razón $p : q = 4 : 1$.\nRespuesta: D.\nErrores frecuentes: La A confunde la razón entre las proyecciones ($4$) con la razón entre los catetos, que es su raíz cuadrada. La B supone que la altura llega al punto medio de la hipotenusa, lo que solo ocurre si $p = q$. La C eleva $4$ al cuadrado; los triángulos son semejantes con razón $2$, así que sus áreas están en razón $4$, no $16$.",
+    "verify": "const q=1,p=4*q,c=p+q; const AC=Math.sqrt(c*p), BC=Math.sqrt(c*q), h=Math.sqrt(p*q); const aA=Math.abs(AC-4*BC)<1e-9, aB=Math.abs(h-c/2)<1e-9, aC=Math.abs((h*p/2)/(h*q/2)-16)<1e-9, aD=Math.abs(AC-2*BC)<1e-9; const r=[aA,aB,aC,aD]; return r.filter(Boolean).length===1?['A','B','C','D'][r.indexOf(true)]:null;"
+  },
+  {
+    "key": "m2-geometria-322",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "semejanza",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un farol de una calle de Punta Arenas tiene su ampolleta a $4$ m de altura. Josefa, que mide $1{,}6$ m, camina en línea recta alejándose de la base del farol, sobre un suelo horizontal, con una rapidez constante de $1{,}2$ m/s.\n\n¿Con qué rapidez se aleja de la base del farol el extremo de la sombra de Josefa?",
+    "alternatives": {
+      "A": "$0{,}8$ m/s",
+      "B": "$1{,}2$ m/s",
+      "C": "$2$ m/s",
+      "D": "$3$ m/s"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el farol y Josefa, con sus rayos de luz, forman dos triángulos semejantes que comparten el vértice en el extremo de la sombra; así se expresa la posición de ese extremo en función de la distancia de Josefa al farol.\nPaso 1: Sea $d$ la distancia de Josefa a la base del farol y $s$ el largo de su sombra. Por semejanza, $\\frac{4}{d + s} = \\frac{1{,}6}{s}$.\nPaso 2: $4s = 1{,}6d + 1{,}6s$, luego $2{,}4s = 1{,}6d$ y $s = \\frac{2}{3}d$.\nPaso 3: El extremo de la sombra está a $d + s = \\frac{5}{3}d$ de la base. Como $d$ aumenta $1{,}2$ m cada segundo, esa distancia aumenta $\\frac{5}{3} \\cdot 1{,}2 = 2$ m cada segundo.\nRespuesta: C, $2$ m/s.\nErrores frecuentes: La A es la rapidez con que se alarga la sombra ($\\frac{2}{3} \\cdot 1{,}2$), no la de su extremo. La B supone que el extremo de la sombra avanza igual que Josefa. La D multiplica $1{,}2$ por $\\frac{4}{1{,}6} = 2{,}5$, usando la razón de alturas en vez de la razón entre distancias.",
+    "verify": "const H=4,h=1.6,v=1.2; const tip=t=>{const d=v*t; const s=h*d/(H-h); return d+s;}; const val=(tip(3)-tip(1))/2; const opts=[0.8,1.2,2,3]; const L=['A','B','C','D']; const i=opts.findIndex(o=>Math.abs(o-val)<1e-6); return i<0?null:L[i];"
+  },
+  {
+    "key": "m2-geometria-323",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "semejanza",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un terreno tiene forma de triángulo $ABC$, con $AB = 12$ m y $AC = 9$ m. Se construye un muro recto $DE$, con $D$ en el lado $AB$ y $E$ en el lado $AC$, de modo que $AD = 3$ m y el ángulo $ADE$ mide lo mismo que el ángulo $ACB$. El muro no es paralelo al lado $BC$.\n\n¿Cuál es la medida del segmento $EC$?",
+    "alternatives": {
+      "A": "$4$ m",
+      "B": "$5$ m",
+      "C": "$6{,}75$ m",
+      "D": "$8$ m"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: los triángulos $ADE$ y $ACB$ son semejantes porque comparten el ángulo en $A$ y tienen $\\angle ADE = \\angle ACB$; hay que hacer corresponder bien los vértices: $A$ con $A$, $D$ con $C$ y $E$ con $B$.\nPaso 1: De la correspondencia se obtiene $\\frac{AD}{AC} = \\frac{AE}{AB}$.\nPaso 2: $\\frac{3}{9} = \\frac{AE}{12}$, así que $AE = 4$ m.\nPaso 3: Como $E$ está en el lado $AC$, $EC = AC - AE = 9 - 4 = 5$ m.\nRespuesta: B, $5$ m.\nErrores frecuentes: La A entrega $AE$ y olvida restarlo de $AC$. La C supone que $DE$ es paralelo a $BC$ y usa $\\frac{AD}{AB} = \\frac{AE}{AC}$, de donde $AE = 2{,}25$ m. La D resta $AE$ de $AB$ en vez de $AC$.",
+    "verify": "const al=50*Math.PI/180; const A=[0,0],B=[12,0],C=[9*Math.cos(al),9*Math.sin(al)],D=[3,0]; const ang=(P,V,Q)=>{const u=[P[0]-V[0],P[1]-V[1]],w=[Q[0]-V[0],Q[1]-V[1]]; return Math.acos((u[0]*w[0]+u[1]*w[1])/(Math.hypot(...u)*Math.hypot(...w)));}; const target=ang(A,C,B); const f=t=>ang(A,D,[t*Math.cos(al),t*Math.sin(al)])-target; let lo=0.01,hi=9; for(let k=0;k<200;k++){const mid=(lo+hi)/2; if(f(lo)*f(mid)<=0) hi=mid; else lo=mid;} const AE=(lo+hi)/2; const val=9-AE; const opts=[4,5,6.75,8]; const L=['A','B','C','D']; const i=opts.findIndex(o=>Math.abs(o-val)<1e-6); return i<0?null:L[i];"
+  },
+  {
+    "key": "m2-geometria-324",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "semejanza",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Una tienda de Iquique fabrica dos placas de acrílico con forma de triángulos semejantes. El perímetro de la placa mayor es un $50\\%$ más que el perímetro de la placa menor, y entre las dos placas suman un área de $65\\ \\text{cm}^2$.\n\n¿Cuál es el área de la placa menor?",
+    "alternatives": {
+      "A": "$20\\ \\text{cm}^2$",
+      "B": "$26\\ \\text{cm}^2$",
+      "C": "$32{,}5\\ \\text{cm}^2$",
+      "D": "$45\\ \\text{cm}^2$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: si los perímetros de dos figuras semejantes están en razón $k$, sus áreas están en razón $k^2$.\nPaso 1: Un $50\\%$ más significa que la razón de perímetros mayor : menor es $1{,}5 = \\frac{3}{2}$, es decir, menor : mayor $= 2 : 3$.\nPaso 2: Las áreas están en razón $2^2 : 3^2 = 4 : 9$. Se escriben como $4k$ y $9k$, con $4k + 9k = 65$, así que $k = 5$.\nPaso 3: La placa menor mide $4 \\cdot 5 = 20\\ \\text{cm}^2$, y la mayor, $45\\ \\text{cm}^2$.\nRespuesta: A, $20\\ \\text{cm}^2$.\nErrores frecuentes: La B reparte $65$ en la razón lineal $2 : 3$, sin elevar al cuadrado. La C divide el área total en partes iguales, ignorando la diferencia de tamaño. La D es el área de la placa mayor.",
+    "verify": "const k=1.5; const small=65/(1+k*k); const val=small; const opts=[20,26,32.5,45]; const L=['A','B','C','D']; const i=opts.findIndex(o=>Math.abs(o-val)<1e-6); return i<0?null:L[i];"
+  },
+  {
+    "key": "m2-geometria-325",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "semejanza",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un predio agrícola de Curacaví hay dos postes verticales sobre un suelo horizontal, de alturas $a$ m y $b$ m, separados por una distancia de $d$ m. Se tiende un cable tenso desde el extremo superior de cada poste hasta la base del otro poste, y los dos cables se cruzan en un punto.\n\n¿Cuál de las siguientes expresiones representa la altura, en metros, del punto donde se cruzan los cables?",
+    "alternatives": {
+      "A": "$\\frac{ab}{a + b}$",
+      "B": "$\\frac{2ab}{a + b}$",
+      "C": "$\\sqrt{ab}$",
+      "D": "$\\frac{a + b}{2}$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: cada cable forma, con el suelo y un poste, un triángulo rectángulo semejante al que forma con el suelo y la vertical que baja desde el cruce; así se escriben dos proporciones con la altura $h$ del cruce.\nPaso 1: Sea $x$ la distancia horizontal desde la base del poste de altura $a$ hasta el pie de la vertical del cruce. El cable que baja desde el poste de altura $b$ hasta la base del poste de altura $a$ da $\\frac{h}{x} = \\frac{b}{d}$, es decir, $x = \\frac{hd}{b}$.\nPaso 2: El otro cable da $\\frac{h}{d - x} = \\frac{a}{d}$, es decir, $d - x = \\frac{hd}{a}$.\nPaso 3: Al sumar: $d = hd\\left(\\frac{1}{a} + \\frac{1}{b}\\right)$, y al dividir por $d$: $h = \\frac{ab}{a + b}$. La distancia $d$ no influye.\nRespuesta: A, $\\frac{ab}{a + b}$.\nErrores frecuentes: La B es el doble del valor correcto (la media armónica de las alturas). La C es la media geométrica de las alturas, que no resulta de ninguna semejanza del problema. La D es el promedio de las alturas, que corresponde al punto medio entre los extremos superiores, no al cruce.",
+    "verify": "const L=['A','B','C','D']; const cases=[[6,12,10],[3,5,7],[4,4,2]]; const f=[(a,b)=>a*b/(a+b),(a,b)=>2*a*b/(a+b),(a,b)=>Math.sqrt(a*b),(a,b)=>(a+b)/2]; const ok=f.map(g=>cases.every(([a,b,d])=>{const m1=-a/d, m2=b/d; const x=a/(m2-m1); const h=m2*x; return Math.abs(h-g(a,b))<1e-9;})); return ok.filter(Boolean).length===1?L[ok.indexOf(true)]:null;"
+  },
+  {
+    "key": "m2-geometria-326",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "transformaciones-isometricas",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "suficiencia",
+    "content": "El punto $P(a, 2)$ se refleja respecto de una recta vertical de ecuación $x = k$ y se obtiene el punto $P'(9, 2)$.\n\nSe puede determinar el valor de $k$, si se sabe que:\n\n(1) $a = 2k - 9$.\n(2) La distancia entre $P$ y $P'$ es $8$ unidades y $P$ está a la derecha de $P'$.",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: en una reflexión respecto de $x = k$, la recta pasa por el punto medio del segmento $PP'$, así que siempre $k = \\frac{a + 9}{2}$; una afirmación que solo repite esa relación no aporta información nueva.\nPaso 1: (1) por sí sola: $a = 2k - 9$ equivale a $k = \\frac{a + 9}{2}$, que se cumple para cualquier reflexión de este tipo. Por ejemplo, $k = 1$ con $a = -7$ y $k = 5$ con $a = 1$ la cumplen. No basta.\nPaso 2: (2) por sí sola: si $P$ está a la derecha de $P'$ y a $8$ unidades, entonces $a = 9 + 8 = 17$, y $k = \\frac{17 + 9}{2} = 13$. Basta.\nPaso 3: Sin la condición de estar a la derecha habría dos opciones ($a = 17$ o $a = 1$), pero la afirmación (2) la incluye.\nRespuesta: B, (2) por sí sola.\nErrores frecuentes: La A cree que (1) es una ecuación nueva, pero es la misma condición del punto medio. La C pide ambas, aunque (2) ya basta. La D supone que (1) también basta. La E pasa por alto que (2) fija la posición de $P$.",
+    "verify": "const fromA=k=>2*k-9; const s1=new Set([1,5,8].map(k=>{const a=fromA(k); return (a+9)/2===k?k:NaN;})); const ok1=s1.size>1&&![...s1].some(Number.isNaN); const a2=9+8; const k2=(a2+9)/2; const ok2=Math.abs(a2-9)===8&&a2>9&&k2===13; return ok1&&ok2?'B':null;"
+  },
+  {
+    "key": "m2-geometria-327",
+    "subject": "m2",
+    "eje": "geometria",
+    "topic": "figuras-geometricas",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "suficiencia",
+    "content": "Considera un triángulo isósceles.\n\nSe puede determinar el área del triángulo, si se sabe que:\n\n(1) Cada uno de sus dos lados de igual medida mide $10$ cm.\n(2) Uno de sus ángulos interiores mide $30^\\circ$.",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "E",
+    "explanation": "Idea clave: en un triángulo isósceles, saber que un ángulo mide $30^\\circ$ no dice si es el ángulo entre los lados iguales o uno de los ángulos basales, y cada caso da un triángulo distinto.\nPaso 1: (1) por sí sola: falta el ángulo entre los lados iguales; por ejemplo, con $60^\\circ$ el área es $25\\sqrt{3}\\ \\text{cm}^2$ y con $90^\\circ$ es $50\\ \\text{cm}^2$. No basta.\nPaso 2: (2) por sí sola: da la forma, pero no el tamaño. No basta.\nPaso 3: Juntas, si el ángulo de $30^\\circ$ está entre los lados iguales, el área es $\\frac{1}{2} \\cdot 10 \\cdot 10 \\cdot \\text{sen}(30^\\circ) = 25\\ \\text{cm}^2$. Si los $30^\\circ$ son un ángulo basal, el ángulo entre los lados iguales mide $120^\\circ$ y el área es $\\frac{1}{2} \\cdot 10 \\cdot 10 \\cdot \\text{sen}(120^\\circ) = 25\\sqrt{3}\\ \\text{cm}^2$. Hay dos áreas posibles.\nRespuesta: E, se requiere información adicional.\nErrores frecuentes: La A y la B suponen que un solo dato fija el triángulo. La C considera solo el caso en que el ángulo de $30^\\circ$ está entre los lados iguales y olvida el caso del ángulo basal. La D falla porque ninguna afirmación basta por separado.",
+    "verify": "const ar=t=>0.5*10*10*Math.sin(t*Math.PI/180); const s1=Math.abs(ar(60)-ar(90))>1e-9; const arS=(L,t)=>0.5*L*L*Math.sin(t*Math.PI/180); const s2=Math.abs(arS(10,30)-arS(20,30))>1e-9; const both=Math.abs(ar(30)-ar(180-2*30))>1e-9; return s1&&s2&&both?'E':null;"
   }
 ]

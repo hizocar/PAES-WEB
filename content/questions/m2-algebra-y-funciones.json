@@ -1732,5 +1732,1529 @@
     "correct": "A",
     "explanation": "Idea clave: como $-1\\leq\\cos(x)\\leq1$ y $a>0$, el máximo de $f$ es $a+b$ y el mínimo es $-a+b$, que se alcanza justamente en $x=\\pi$.\nPaso 1: $a+b=5$ y $f(\\pi)=a\\cos(\\pi)+b=-a+b=-1$.\nPaso 2: Sumando, $2b=4$, así que $b=2$ y $a=3$.\nPaso 3: $f\\left(\\dfrac{\\pi}{3}\\right)=3\\cdot\\dfrac{1}{2}+2=\\dfrac{7}{2}$.\nRespuesta: A, $\\dfrac{7}{2}$.\nErrores frecuentes: La B intercambia los valores y usa $a=2$ y $b=3$. La C usa $\\cos\\left(\\frac{\\pi}{3}\\right)=\\frac{\\sqrt{3}}{2}$, que es el valor del seno. La D supone que en $x=\\frac{\\pi}{3}$ se alcanza el máximo.",
     "verify": "const b = (5 + -1) / 2, a = 5 - b;\nif (Math.abs(a * Math.cos(Math.PI) + b + 1) > 1e-9 || a <= 0) return null;\nconst v = a * Math.cos(Math.PI / 3) + b;\nconst alts = { A: 7 / 2, B: 4, C: 2 + 3 * Math.sqrt(3) / 2, D: 5 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-201",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "La parábola de ecuación $y=x^{2}+bx+c$, con $b$ y $c$ números reales y $b\\neq0$, pasa por el origen del plano cartesiano y su vértice está sobre la recta de ecuación $y=2x$.\n\n¿Cuál es el valor de $b$?",
+    "alternatives": {
+      "A": "$-4$",
+      "B": "$2$",
+      "C": "$4$",
+      "D": "$8$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el vértice de $y=x^{2}+bx+c$ es el punto $\\left(-\\dfrac{b}{2},\\,c-\\dfrac{b^{2}}{4}\\right)$; basta imponer que sus coordenadas cumplan $y=2x$.\nPaso 1: Como la parábola pasa por $(0,0)$, se tiene $c=0$.\nPaso 2: El vértice queda en $\\left(-\\dfrac{b}{2},\\,-\\dfrac{b^{2}}{4}\\right)$.\nPaso 3: Al reemplazar en $y=2x$: $-\\dfrac{b^{2}}{4}=2\\cdot\\left(-\\dfrac{b}{2}\\right)=-b$, o sea, $b^{2}=4b$. Como $b\\neq0$, resulta $b=4$. Comprobación: el vértice es $(-2,-4)$ y cumple $-4=2\\cdot(-2)$.\nRespuesta: C, $b=4$.\nErrores frecuentes: La A usa $\\dfrac{b}{2}$ como abscisa del vértice (signo cambiado) y plantea $-\\dfrac{b^{2}}{4}=b$. La B escribe la ordenada del vértice como $-\\dfrac{b^{2}}{2}$. La D toma $-b$ como abscisa del vértice, olvidando dividir por $2$.",
+    "verify": "const alts = { A: -4, B: 2, C: 4, D: 8 };\nconst good = b => { if (b === 0) return false; const c = 0, h = -b / 2, k = h * h + b * h + c; return Math.abs(k - 2 * h) < 1e-9; };\nconst ok = Object.keys(alts).filter(L => good(alts[L]));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-202",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera la función $f(x)=a(x-p)(x-q)$, con dominio el conjunto de los números reales, donde $a$, $p$ y $q$ son números reales tales que $a>0$ y $p<0<q$.\n\n¿Cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "$f(0)>0$",
+      "B": "La abscisa del vértice de la parábola asociada a $f$ es positiva.",
+      "C": "El valor mínimo de $f$ es $f(0)$.",
+      "D": "$f(p+q)=f(0)$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: la parábola es simétrica respecto de la recta $x=\\dfrac{p+q}{2}$, que está justo a mitad de camino entre $0$ y $p+q$.\nPaso 1: $f(0)=a(-p)(-q)=apq$. Como $a>0$ y $p$, $q$ tienen signos opuestos, $f(0)<0$.\nPaso 2: $f(p+q)=a(p+q-p)(p+q-q)=a\\cdot q\\cdot p=apq=f(0)$, para cualquier elección de $a$, $p$ y $q$.\nPaso 3: La abscisa del vértice, $\\dfrac{p+q}{2}$, tiene el signo de $p+q$: con $p=-5$ y $q=1$ es negativa. Por lo mismo, el mínimo solo es $f(0)$ cuando $p+q=0$.\nRespuesta: D, $f(p+q)=f(0)$.\nErrores frecuentes: La A olvida que el producto $pq$ es negativo. La B supone que el cero positivo pesa más, pero depende de los valores. La C confunde el intercepto con el eje $Y$ con el vértice, lo que solo ocurre si $q=-p$.",
+    "verify": "const cases = [[1, -5, 1], [2, -1, 4], [0.5, -3, 3], [3, -2, 7], [1, -0.5, 0.5]];\nconst props = {\n  A: ([a, p, q]) => a * p * q > 0,\n  B: ([a, p, q]) => (p + q) / 2 > 0,\n  C: ([a, p, q]) => { const f = x => a * (x - p) * (x - q); return Math.abs(f((p + q) / 2) - f(0)) < 1e-9; },\n  D: ([a, p, q]) => { const f = x => a * (x - p) * (x - q); return Math.abs(f(p + q) - f(0)) < 1e-9; }\n};\nconst ok = Object.keys(props).filter(k => cases.every(props[k]));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-203",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un plano cartesiano graduado en metros, el borde superior de un arco de entrada a una feria se modela mediante la parábola de ecuación $y=9-x^{2}$, con $-3\\leq x\\leq3$, y el suelo corresponde al eje $X$.\nSe instalará un marco rectangular de luces con un lado sobre el suelo y sus dos vértices superiores sobre el arco, ubicado de forma simétrica respecto del eje $Y$.\n\n¿Cuál es el mayor perímetro, en metros, que puede tener el marco?",
+    "alternatives": {
+      "A": "$18$",
+      "B": "$\\dfrac{37}{2}$",
+      "C": "$20$",
+      "D": "$22$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: si un vértice superior es $(x,\\,9-x^{2})$ con $0<x<3$, el perímetro queda como una función cuadrática de $x$, que se maximiza en su vértice.\nPaso 1: La base mide $2x$ y la altura $9-x^{2}$, así que $P(x)=2\\cdot2x+2(9-x^{2})=-2x^{2}+4x+18$.\nPaso 2: La abscisa del vértice es $x=-\\dfrac{4}{2\\cdot(-2)}=1$, que está dentro de $]0,3[$.\nPaso 3: $P(1)=-2+4+18=20$.\nRespuesta: C, $20$ m.\nErrores frecuentes: La A usa $x=-\\dfrac{b}{a}=2$ en vez de $-\\dfrac{b}{2a}$ y obtiene $P(2)=18$. La B toma la base como $x$ en vez de $2x$, con lo que $P(x)=-2x^{2}+2x+18$ y su máximo es $\\dfrac{37}{2}$. La D olvida el término $-2x^{2}$ al evaluar en $x=1$.",
+    "verify": "const P = x => 2 * (2 * x) + 2 * (9 - x * x);\nconst xv = -4 / (2 * -2);\nif (xv <= 0 || xv >= 3) return null;\nconst v = P(xv);\nconst alts = { A: 18, B: 37 / 2, C: 20, D: 22 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-204",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera las funciones $f(x)=ax^{2}+bx+c$ y $g(x)=cx^{2}+bx+a$, con dominio el conjunto de los números reales, donde $a$, $b$ y $c$ son números reales, $a\\neq0$, $c\\neq0$ y $a\\neq c$.\n\n¿Cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "$f$ y $g$ tienen exactamente los mismos ceros.",
+      "B": "Si $r$ es un cero de $f$, entonces $-r$ es un cero de $g$.",
+      "C": "Las parábolas asociadas a $f$ y a $g$ tienen el mismo eje de simetría.",
+      "D": "Si $r$ es un cero de $f$, entonces $\\dfrac{1}{r}$ es un cero de $g$."
+    },
+    "correct": "D",
+    "explanation": "Idea clave: $g$ tiene los coeficientes de $f$ en orden inverso; al evaluar $g$ en $\\dfrac{1}{r}$ y multiplicar por $r^{2}$ aparece $f(r)$.\nPaso 1: Como $c\\neq0$, $f(0)=c\\neq0$, así que todo cero $r$ de $f$ es distinto de $0$ y $\\dfrac{1}{r}$ existe.\nPaso 2: $g\\left(\\dfrac{1}{r}\\right)=\\dfrac{c}{r^{2}}+\\dfrac{b}{r}+a=\\dfrac{ar^{2}+br+c}{r^{2}}=\\dfrac{f(r)}{r^{2}}=0$.\nPaso 3: Las otras fallan con un ejemplo: $f(x)=x^{2}-5x+6$ tiene ceros $2$ y $3$, mientras que $g(x)=6x^{2}-5x+1$ tiene ceros $\\dfrac{1}{2}$ y $\\dfrac{1}{3}$; además, $g(-2)=35\\neq0$ y los ejes son $x=\\dfrac{5}{2}$ y $x=\\dfrac{5}{12}$.\nRespuesta: D, los ceros de $g$ son los recíprocos de los ceros de $f$.\nErrores frecuentes: La A cree que reordenar los coeficientes no cambia las soluciones. La B confunde el recíproco con el opuesto. La C supone que el eje $x=-\\dfrac{b}{2a}$ no depende del coeficiente principal, pero en $g$ ese coeficiente es $c$.",
+    "verify": "const cases = [[1, -5, 6], [2, 3, -2], [1, 0, -4], [3, -1, -2]];\nconst zeros = (a, b, c) => { const d = b * b - 4 * a * c; if (d < 0) return []; return [(-b - Math.sqrt(d)) / (2 * a), (-b + Math.sqrt(d)) / (2 * a)]; };\nconst isZero = (a, b, c, x) => Math.abs(a * x * x + b * x + c) < 1e-9;\nconst props = {\n  A: ([a, b, c]) => zeros(a, b, c).every(r => isZero(c, b, a, r)),\n  B: ([a, b, c]) => zeros(a, b, c).every(r => isZero(c, b, a, -r)),\n  C: ([a, b, c]) => Math.abs(-b / (2 * a) - (-b / (2 * c))) < 1e-9,\n  D: ([a, b, c]) => zeros(a, b, c).every(r => isZero(c, b, a, 1 / r))\n};\nconst ok = Object.keys(props).filter(k => cases.every(props[k]));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-205",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un videojuego, el borde de un obstáculo corresponde a la parábola de ecuación $y=x^{2}+1$. Un rayo láser parte desde el punto $(0,-3)$ y sigue una línea recta de pendiente $m$, con $m$ un número real.\n\n¿Para qué valores de $m$ la recta del láser no toca la parábola en ningún punto?",
+    "alternatives": {
+      "A": "$]-4,4[$",
+      "B": "$]-2,2[$",
+      "C": "$]-\\infty,-4[\\,\\cup\\,]4,+\\infty[$",
+      "D": "$]-16,16[$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: la recta y la parábola no se tocan cuando la ecuación que resulta de igualarlas no tiene soluciones reales, es decir, cuando su discriminante es negativo.\nPaso 1: La recta del láser es $y=mx-3$.\nPaso 2: Al igualar, $x^{2}+1=mx-3$, o sea, $x^{2}-mx+4=0$.\nPaso 3: Su discriminante es $m^{2}-16$, y $m^{2}-16<0$ se cumple si y solo si $-4<m<4$.\nRespuesta: A, $m\\in\\,]-4,4[$.\nErrores frecuentes: La B no traslada el $-3$ y trabaja con $x^{2}-mx+1=0$, cuyo discriminante es $m^{2}-4$. La C da los valores para los cuales la recta corta a la parábola en dos puntos. La D resuelve $m<16$ sin sacar la raíz cuadrada.",
+    "verify": "const touches = m => m * m - 4 * 1 * 4 >= 0; // x^2 - m x + 4 = 0\nconst ms = [-20, -10, -4.5, -4, -3.9, -2.5, -1, 0, 1.5, 2.5, 3.9, 4, 4.5, 10, 15];\nconst preds = { A: m => m > -4 && m < 4, B: m => m > -2 && m < 2, C: m => m < -4 || m > 4, D: m => m > -16 && m < 16 };\nconst ok = Object.keys(preds).filter(k => ms.every(m => preds[k](m) === !touches(m)));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-206",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera la función $f(x)=\\log_{2}\\left(x^{2}-6x+17\\right)$, con dominio el conjunto de los números reales.\n\n¿Cuál es el valor mínimo de $f$?",
+    "alternatives": {
+      "A": "$3$",
+      "B": "$\\log_{2}11$",
+      "C": "$\\log_{2}17$",
+      "D": "$8$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: como $\\log_{2}$ es creciente, $f$ alcanza su mínimo donde la expresión cuadrática dentro del logaritmo es mínima.\nPaso 1: Completando el cuadrado, $x^{2}-6x+17=(x-3)^{2}+8$, cuyo valor mínimo es $8$ (en $x=3$). Además, siempre es positivo, así que el dominio son todos los reales.\nPaso 2: El mínimo de $f$ es $\\log_{2}8=3$, porque $2^{3}=8$.\nRespuesta: A, $3$.\nErrores frecuentes: La B completa mal el cuadrado: resta $6$ en vez de $9$ a $17$. La C evalúa en $x=0$, que no es donde está el vértice. La D se queda con el mínimo de la cuadrática y olvida aplicar el logaritmo.",
+    "verify": "const a = 1, b = -6, c = 17;\nconst xv = -b / (2 * a);\nconst minIn = a * xv * xv + b * xv + c;\nconst v = Math.log2(minIn);\nconst alts = { A: 3, B: Math.log2(11), C: Math.log2(17), D: 8 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-207",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera las funciones $f(t)=t^{2}-4t+3$ y $g(x)=f(\\operatorname{sen}x)$, ambas con dominio el conjunto de los números reales.\n\n¿Cuál es el recorrido de $g$?",
+    "alternatives": {
+      "A": "$[-1,8]$",
+      "B": "$[0,3]$",
+      "C": "$[0,8]$",
+      "D": "$[3,8]$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: $g$ toma los valores de $f$ cuando $t=\\operatorname{sen}x$ recorre solo el intervalo $[-1,1]$; hay que ver si el vértice de $f$ está o no en ese intervalo.\nPaso 1: El vértice de $f$ está en $t=2$, fuera de $[-1,1]$. Como la parábola abre hacia arriba, $f$ es decreciente en todo $[-1,1]$.\nPaso 2: El mayor valor es $f(-1)=1+4+3=8$ y el menor es $f(1)=1-4+3=0$.\nPaso 3: Como $\\operatorname{sen}x$ toma todos los valores de $[-1,1]$, $g$ toma todos los valores entre $0$ y $8$.\nRespuesta: C, $[0,8]$.\nErrores frecuentes: La A usa el mínimo de $f$ en su vértice, $f(2)=-1$, pero $\\operatorname{sen}x$ nunca vale $2$. La B considera que $\\operatorname{sen}x$ solo varía entre $0$ y $1$. La D considera solo los valores de $\\operatorname{sen}x$ entre $-1$ y $0$.",
+    "verify": "const f = t => t * t - 4 * t + 3;\nlet mn = Infinity, mx = -Infinity;\nfor (let i = 0; i <= 200000; i++) { const x = -Math.PI + 2 * Math.PI * i / 200000; const y = f(Math.sin(x)); mn = Math.min(mn, y); mx = Math.max(mx, y); }\nconst alts = { A: [-1, 8], B: [0, 3], C: [0, 8], D: [3, 8] };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k][0] - mn) < 1e-6 && Math.abs(alts[k][1] - mx) < 1e-6);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-208",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Desde la cubierta de un bote se lanza una bengala de señalización. Su altura $h$ sobre el nivel del mar, en metros, a los $t$ segundos del lanzamiento, se modela mediante $h(t)=-5t^{2}+bt+c$, con $b$ y $c$ números reales.\nSe registró que la bengala estaba a $22$ m de altura al primer segundo y de nuevo a los $3$ segundos.\n\nSegún el modelo, ¿cuál es la altura máxima, en metros, que alcanza la bengala?",
+    "alternatives": {
+      "A": "$17$",
+      "B": "$20$",
+      "C": "$22$",
+      "D": "$27$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: dos instantes con la misma altura están a igual distancia del instante de altura máxima; eso entrega el eje de simetría y, con él, los parámetros.\nPaso 1: El eje de simetría es $t=\\dfrac{1+3}{2}=2$. Como $t=-\\dfrac{b}{2\\cdot(-5)}=\\dfrac{b}{10}$, se tiene $b=20$.\nPaso 2: Con $h(1)=22$: $-5+20+c=22$, así que $c=7$.\nPaso 3: La altura máxima es $h(2)=-5\\cdot4+20\\cdot2+7=27$.\nRespuesta: D, $27$ m.\nErrores frecuentes: La A despeja mal $c$ ($c=22-20-5=-3$) y obtiene $17$. La B olvida sumar $c$ en el último paso. La C supone que $22$ m ya es la altura máxima, aunque se alcanza dos veces.",
+    "verify": "const t1 = 1, t2 = 3, H = 22;\nconst tv = (t1 + t2) / 2, b = 10 * tv, c = H + 5 * t1 * t1 - b * t1;\nconst h = t => -5 * t * t + b * t + c;\nif (Math.abs(h(t2) - H) > 1e-9) return null;\nconst v = h(tv);\nconst alts = { A: 17, B: 20, C: 22, D: 27 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-209",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "La utilidad diaria $U$ de una fábrica de cecinas, en millones de pesos, al producir $x$ miles de unidades se modela mediante $U(x)=-x^{2}+8x-7$.\nPor la capacidad de sus máquinas, la fábrica puede producir a lo más $3$ mil unidades diarias, es decir, $0\\leq x\\leq3$.\n\nSegún el modelo, ¿cuál es la mayor utilidad diaria, en millones de pesos, que puede obtener la fábrica?",
+    "alternatives": {
+      "A": "$-7$",
+      "B": "$5$",
+      "C": "$8$",
+      "D": "$9$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el máximo de una parábola en un intervalo está en el vértice solo si el vértice pertenece al intervalo; si no, está en el extremo más cercano a él.\nPaso 1: La abscisa del vértice es $x=-\\dfrac{8}{2\\cdot(-1)}=4$, que queda fuera de $[0,3]$.\nPaso 2: Como la parábola abre hacia abajo, $U$ es creciente para $x<4$; en $[0,3]$ el máximo está en $x=3$.\nPaso 3: $U(3)=-9+24-7=8$.\nRespuesta: C, $8$ millones de pesos.\nErrores frecuentes: La A toma el valor en $x=0$, que es el mínimo del intervalo. La B evalúa en el punto medio, $x=2$. La D usa el vértice, $U(4)=9$, sin notar que la fábrica no puede producir $4$ mil unidades.",
+    "verify": "const U = x => -x * x + 8 * x - 7;\nlet v = -Infinity;\nfor (let i = 0; i <= 3000; i++) v = Math.max(v, U(3 * i / 3000));\nconst alts = { A: -7, B: 5, C: 8, D: 9 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-210",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera la función $f(x)=x^{2}-2(m+1)x+m^{2}+4$, con $m$ un número real y dominio el conjunto de los números reales.\n\n¿Para qué valores de $m$ la gráfica de $f$ interseca al eje $X$ y todos sus puntos de intersección con ese eje tienen abscisa positiva?",
+    "alternatives": {
+      "A": "$m\\geq\\dfrac{3}{2}$",
+      "B": "$m>-1$",
+      "C": "$-1<m\\leq\\dfrac{3}{2}$",
+      "D": "$m\\leq\\dfrac{3}{2}$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: hay que pedir dos cosas a la vez: que existan ceros reales (discriminante no negativo) y que sean positivos (suma y producto positivos).\nPaso 1: El discriminante es $4(m+1)^{2}-4(m^{2}+4)=4(2m-3)$, que es mayor o igual que $0$ si $m\\geq\\dfrac{3}{2}$.\nPaso 2: El producto de los ceros es $m^{2}+4>0$, así que tienen el mismo signo; su suma es $2(m+1)$, positiva si $m>-1$.\nPaso 3: Ambas condiciones juntas se cumplen si $m\\geq\\dfrac{3}{2}$ (para $m=\\dfrac{3}{2}$ hay un solo cero, $x=\\dfrac{5}{2}$, que es positivo).\nRespuesta: A, $m\\geq\\dfrac{3}{2}$.\nErrores frecuentes: La B solo exige que la suma de los ceros sea positiva y olvida que, por ejemplo, con $m=0$ no hay ceros reales. La C mezcla las dos condiciones con el discriminante al revés. La D invierte el sentido de la condición del discriminante.",
+    "verify": "const good = m => { const b = -2 * (m + 1), c = m * m + 4, d = b * b - 4 * c; if (d < -1e-12) return false; const r = Math.sqrt(Math.max(d, 0)); return (-b - r) / 2 > 0 && (-b + r) / 2 > 0; };\nconst ms = [-3, -1, -0.5, 0, 1, 1.4, 1.5, 1.6, 2, 5, 10];\nconst preds = { A: m => m >= 1.5, B: m => m > -1, C: m => m > -1 && m <= 1.5, D: m => m <= 1.5 };\nconst ok = Object.keys(preds).filter(k => ms.every(m => preds[k](m) === good(m)));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-211",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera la ecuación $4^{x}-6\\cdot2^{x}+8=0$, en $x$.\n\n¿Cuál es la suma de todas sus soluciones reales?",
+    "alternatives": {
+      "A": "$2$",
+      "B": "$3$",
+      "C": "$6$",
+      "D": "$8$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: como $4^{x}=\\left(2^{x}\\right)^{2}$, el cambio de variable $u=2^{x}$ transforma la ecuación en una cuadrática.\nPaso 1: Con $u=2^{x}$ (siempre positivo) queda $u^{2}-6u+8=0$, es decir, $(u-2)(u-4)=0$, así que $u=2$ o $u=4$.\nPaso 2: Al volver a $x$: $2^{x}=2$ da $x=1$ y $2^{x}=4$ da $x=2$.\nPaso 3: La suma de las soluciones es $1+2=3$.\nRespuesta: B, $3$.\nErrores frecuentes: La A calcula el producto de las soluciones en $x$. La C entrega la suma de las soluciones en $u$, olvidando volver a la variable $x$. La D entrega el producto de las soluciones en $u$.",
+    "verify": "const d = 36 - 32; const us = [(6 - Math.sqrt(d)) / 2, (6 + Math.sqrt(d)) / 2].filter(u => u > 0);\nconst xs = us.map(u => Math.log2(u));\nif (!xs.every(x => Math.abs(Math.pow(4, x) - 6 * Math.pow(2, x) + 8) < 1e-9)) return null;\nconst v = xs.reduce((s, x) => s + x, 0);\nconst alts = { A: 2, B: 3, C: 6, D: 8 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-212",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una viñatera de Colchagua cercará un terreno rectangular. El lado que da al camino llevará una reja que cuesta $3\\,000$ pesos por metro, y los otros tres lados llevarán una malla que cuesta $1\\,000$ pesos por metro. Su presupuesto para el cerco es de $240\\,000$ pesos y lo gastará completo.\n\n¿Cuál es el área máxima, en $\\text{m}^{2}$, que puede tener el terreno?",
+    "alternatives": {
+      "A": "$1\\,200$",
+      "B": "$1\\,800$",
+      "C": "$2\\,400$",
+      "D": "$3\\,600$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: el presupuesto entrega una relación lineal entre los lados; al despejar uno y reemplazar en el área, queda una función cuadrática.\nPaso 1: Sea $x$ el largo del lado del camino y $y$ el de los lados perpendiculares. El costo es $3\\,000x+1\\,000x+2\\cdot1\\,000y=4\\,000x+2\\,000y=240\\,000$, así que $y=120-2x$.\nPaso 2: El área es $A(x)=x(120-2x)=-2x^{2}+120x$, cuyo vértice está en $x=30$.\nPaso 3: $A(30)=30\\cdot60=1\\,800$.\nRespuesta: B, $1\\,800\\ \\text{m}^{2}$.\nErrores frecuentes: La A cobra el lado opuesto al camino también a $3\\,000$ pesos por metro, con lo que $y=120-3x$. La C olvida el lado opuesto al camino y usa $3\\,000x+2\\,000y=240\\,000$. La D cobra todos los lados a $1\\,000$ pesos por metro.",
+    "verify": "const best = (cx, cy) => { let m = 0; for (let i = 0; i <= 240000; i++) { const x = i / 1000; const y = (240000 - cx * x) / cy; if (y <= 0) break; m = Math.max(m, x * y); } return m; };\nconst v = Math.round(best(3000 + 1000, 2 * 1000));\nconst alts = { A: 1200, B: 1800, C: 2400, D: 3600 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-213",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una función cuadrática $f$, con dominio el conjunto de los números reales, cumple que $f(1)=f(7)$ y que $f(4)<f(1)$.\n\n¿Cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "$f(2)>f(7)$",
+      "B": "$f$ tiene dos ceros reales distintos.",
+      "C": "$f(-1)<f(8)$",
+      "D": "$f(0)=f(8)$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: si dos valores de $x$ tienen la misma imagen, el eje de simetría pasa por su punto medio; los datos además indican hacia dónde abre la parábola.\nPaso 1: El eje de simetría es $x=\\dfrac{1+7}{2}=4$, así que el vértice está en $x=4$. Como $f(4)<f(1)$, el vértice es un mínimo y la parábola abre hacia arriba.\nPaso 2: $0$ y $8$ están a distancia $4$ del eje, por lo que $f(0)=f(8)$ siempre.\nPaso 3: Al abrir hacia arriba, mientras más lejos del eje, mayor es la imagen: $2$ está a distancia $2$ y $7$ a distancia $3$, así que $f(2)<f(7)$; $-1$ está a distancia $5$ y $8$ a distancia $4$, así que $f(-1)>f(8)$. Y si el mínimo es positivo, como en $f(x)=(x-4)^{2}+1$, no hay ceros.\nRespuesta: D, $f(0)=f(8)$.\nErrores frecuentes: La A compara al revés las distancias al eje. La B olvida que el vértice puede estar sobre el eje $X$. La C supone que el valor de $x$ más pequeño siempre tiene menor imagen.",
+    "verify": "const fams = [];\nfor (const a of [0.5, 1, 3]) for (const k of [-4, 0, 2]) fams.push(x => a * (x - 4) * (x - 4) + k);\nif (!fams.every(f => Math.abs(f(1) - f(7)) < 1e-9 && f(4) < f(1))) return null;\nconst props = {\n  A: f => f(2) > f(7),\n  B: f => { const v = f(4), a = (f(5) - v); return v < 0 && a > 0; },\n  C: f => f(-1) < f(8),\n  D: f => Math.abs(f(0) - f(8)) < 1e-9\n};\nconst ok = Object.keys(props).filter(k => fams.every(props[k]));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-214",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una antena de telefonía está ubicada en el origen de un plano cartesiano graduado en kilómetros. Un camino recto sigue la recta de ecuación $x+y=10$.\nPara ubicar el punto del camino más cercano a la antena, se expresa el cuadrado de la distancia entre la antena y un punto $(x,y)$ del camino como función de $x$.\n\n¿Cuál es la menor distancia, en kilómetros, entre la antena y un punto del camino?",
+    "alternatives": {
+      "A": "$5$",
+      "B": "$5\\sqrt{2}$",
+      "C": "$10$",
+      "D": "$50$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: el cuadrado de la distancia es una función cuadrática de $x$; su mínimo indica el punto más cercano, y al final hay que sacar raíz.\nPaso 1: En el camino, $y=10-x$, así que por Pitágoras $d^{2}(x)=x^{2}+(10-x)^{2}=2x^{2}-20x+100$.\nPaso 2: El vértice está en $x=\\dfrac{20}{4}=5$, con $d^{2}(5)=50-100+100=50$.\nPaso 3: La distancia mínima es $\\sqrt{50}=5\\sqrt{2}$ km, en el punto $(5,5)$.\nRespuesta: B, $5\\sqrt{2}$ km.\nErrores frecuentes: La A entrega la abscisa del punto más cercano en vez de la distancia. La C usa la distancia a un punto donde el camino corta un eje, por ejemplo $(10,0)$, que no es el más cercano. La D olvida sacar la raíz cuadrada al valor mínimo de $d^{2}$.",
+    "verify": "const d2 = x => x * x + (10 - x) * (10 - x);\nconst xv = 20 / (2 * 2);\nconst v = Math.sqrt(d2(xv));\nif (d2(xv) > d2(xv + 0.01) || d2(xv) > d2(xv - 0.01)) return null;\nconst alts = { A: 5, B: 5 * Math.sqrt(2), C: 10, D: 50 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-215",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En la siguiente tabla se muestran algunos valores de una función cuadrática $f$, con dominio el conjunto de los números reales:\n\n$\\displaystyle \\begin{array}{|c|c|c|c|c|}\\hline x & 1 & 2 & 3 & 4 \\\\ \\hline f(x) & 7 & 3 & 1 & 1 \\\\ \\hline \\end{array}$\n\n¿Cuál es el valor mínimo de $f$?",
+    "alternatives": {
+      "A": "$0$",
+      "B": "$\\dfrac{3}{4}$",
+      "C": "$1$",
+      "D": "$13$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: como $f(3)=f(4)$, el eje de simetría está en $x=3{,}5$, y el mínimo es $f(3{,}5)$, que no aparece en la tabla.\nPaso 1: Con $f(x)=x^{2}+bx+c$ (las segundas diferencias son $2$, así que el coeficiente principal es $1$): $f(3)=9+3b+c=1$ y $f(4)=16+4b+c=1$, de donde $b=-7$ y $c=13$.\nPaso 2: Se comprueba: $f(1)=1-7+13=7$ y $f(2)=4-14+13=3$.\nPaso 3: $f(3{,}5)=12{,}25-24{,}5+13=0{,}75=\\dfrac{3}{4}$.\nRespuesta: B, $\\dfrac{3}{4}$.\nErrores frecuentes: La A supone que el vértice está sobre el eje $X$. La C toma el menor valor que aparece en la tabla, sin notar que el vértice está entre $x=3$ y $x=4$. La D confunde el valor mínimo con $f(0)=c$.",
+    "verify": "const xs = [1, 2, 3, 4], ys = [7, 3, 1, 1];\nconst b = (ys[3] - ys[2]) - (16 - 9), c = ys[2] - 9 - 3 * b;\nconst f = x => x * x + b * x + c;\nif (!xs.every((x, i) => Math.abs(f(x) - ys[i]) < 1e-9)) return null;\nconst v = f(-b / 2);\nconst alts = { A: 0, B: 3 / 4, C: 1, D: 13 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-216",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Los números reales positivos $x$ e $y$ cumplen la relación $x+2y=20$.\n\n¿Cuál es el mayor valor posible del producto $xy$?",
+    "alternatives": {
+      "A": "$25$",
+      "B": "$\\dfrac{400}{9}$",
+      "C": "$50$",
+      "D": "$100$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: al despejar una variable en la relación lineal, el producto queda como una función cuadrática de la otra.\nPaso 1: $x=20-2y$, así que $P(y)=(20-2y)y=-2y^{2}+20y$, con $0<y<10$.\nPaso 2: El vértice está en $y=-\\dfrac{20}{2\\cdot(-2)}=5$, y entonces $x=10$.\nPaso 3: El producto máximo es $10\\cdot5=50$.\nRespuesta: C, $50$.\nErrores frecuentes: La A multiplica $5\\cdot5$, usando el valor de $y$ para ambos números. La B supone que el máximo ocurre con $x=y=\\dfrac{20}{3}$. La D olvida el coeficiente $2$ y trabaja con $x+y=20$.",
+    "verify": "let v = -Infinity;\nfor (let i = 1; i < 100000; i++) { const y = 10 * i / 100000, x = 20 - 2 * y; if (x > 0) v = Math.max(v, x * y); }\nconst alts = { A: 25, B: 400 / 9, C: 50, D: 100 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-6);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-217",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "La parábola asociada a una función cuadrática $f$ tiene como eje de simetría la recta $x=2$ y pasa por los puntos $(0,5)$ y $(1,2)$.\n\n¿Cuál es el valor mínimo de $f$?",
+    "alternatives": {
+      "A": "$1$",
+      "B": "$2$",
+      "C": "$5$",
+      "D": "$\\dfrac{37}{5}$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: conocer el eje de simetría permite usar la forma $f(x)=a(x-2)^{2}+k$, con solo dos incógnitas, donde $k$ es el valor en el vértice.\nPaso 1: Con $(0,5)$: $4a+k=5$. Con $(1,2)$: $a+k=2$.\nPaso 2: Restando, $3a=3$, así que $a=1$ y $k=1$. Como $a>0$, la parábola abre hacia arriba y $k$ es un mínimo.\nPaso 3: El valor mínimo es $f(2)=1$.\nRespuesta: A, $1$.\nErrores frecuentes: La B toma el menor de los valores dados, sin notar que $x=1$ no es el vértice. La C confunde el mínimo con el valor en $x=0$. La D usa la forma $a(x+2)^{2}+k$, con el signo de la abscisa del vértice cambiado.",
+    "verify": "const a = (5 - 2) / (4 - 1), k = 2 - a;\nconst f = x => a * (x - 2) * (x - 2) + k;\nif (Math.abs(f(0) - 5) > 1e-9 || Math.abs(f(1) - 2) > 1e-9 || a <= 0) return null;\nconst v = f(2);\nconst alts = { A: 1, B: 2, C: 5, D: 37 / 5 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-218",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Considera la función $f(x)=-3x^{2}+12x-5$, con dominio el conjunto de los números reales.\n\n¿Cuál es el recorrido de $f$?",
+    "alternatives": {
+      "A": "$]-\\infty,7]$",
+      "B": "$]-\\infty,-5]$",
+      "C": "$[7,+\\infty[$",
+      "D": "$]-\\infty,2]$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: el recorrido de una función cuadrática queda determinado por la ordenada del vértice y por el sentido en que abre la parábola.\nPaso 1: La abscisa del vértice es $x=-\\dfrac{12}{2\\cdot(-3)}=2$.\nPaso 2: $f(2)=-12+24-5=7$.\nPaso 3: Como $a=-3<0$, la parábola abre hacia abajo y $7$ es el valor máximo; $f$ toma todos los valores menores o iguales que $7$.\nRespuesta: A, $]-\\infty,7]$.\nErrores frecuentes: La B usa el valor de $f$ en $x=0$ en lugar del vértice. La C olvida que con $a<0$ la parábola abre hacia abajo. La D confunde la abscisa del vértice con su ordenada.",
+    "verify": "const a = -3, b = 12, c = -5;\nconst xv = -b / (2 * a), yv = a * xv * xv + b * xv + c;\n// Recorrido: ]-inf, yv] si a < 0\nconst alts = { A: [-Infinity, 7], B: [-Infinity, -5], C: [7, Infinity], D: [-Infinity, 2] };\nconst target = a < 0 ? [-Infinity, yv] : [yv, Infinity];\nconst ok = Object.keys(alts).filter(k => alts[k][0] === target[0] ? Math.abs(alts[k][1] - target[1]) < 1e-9 : (alts[k][1] === target[1] && Math.abs(alts[k][0] - target[0]) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-219",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "El cable principal de un puente colgante tiene forma de parábola. Las dos torres que lo sostienen están separadas por $100$ m; en lo alto de cada torre el cable está a $30$ m sobre la calzada, y su punto más bajo, justo a mitad de camino entre las torres, está a $5$ m sobre la calzada.\n\n¿A qué altura sobre la calzada, en metros, está el cable en un punto ubicado a $20$ m horizontales de una de las torres?",
+    "alternatives": {
+      "A": "$9$",
+      "B": "$14$",
+      "C": "$20$",
+      "D": "$26$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: ubicando una torre en $x=0$, el vértice del cable queda en $(50,5)$ y la parábola es $y=a(x-50)^{2}+5$.\nPaso 1: En la torre, $y(0)=30$: $2\\,500a+5=30$, así que $a=0{,}01$.\nPaso 2: A $20$ m de esa torre, $y(20)=0{,}01\\cdot(20-50)^{2}+5=0{,}01\\cdot900+5=14$.\nRespuesta: B, $14$ m.\nErrores frecuentes: La A mide los $20$ m desde el centro del puente y no desde la torre. La C supone que el cable baja en línea recta entre la torre y el punto más bajo. La D resta $0{,}01\\cdot20^{2}$ a la altura de la torre, como si el vértice estuviera en la torre.",
+    "verify": "const a = (30 - 5) / (50 * 50);\nconst y = x => a * (x - 50) * (x - 50) + 5;\nif (Math.abs(y(100) - 30) > 1e-9) return null;\nconst v = y(20);\nconst alts = { A: 9, B: 14, C: 20, D: 26 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-220",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Una pyme de Temuco que fabrica mermeladas estima que su ganancia diaria $G$, en miles de pesos, al producir $x$ cajas es $G(x)=-2x^{2}+40x-150$.\n\n¿Para qué cantidades de cajas la pyme no tiene pérdidas, es decir, $G(x)\\geq0$?",
+    "alternatives": {
+      "A": "$[-15,-5]$",
+      "B": "$]-\\infty,5]\\,\\cup\\,[15,+\\infty[$",
+      "C": "$[3,25]$",
+      "D": "$[5,15]$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: una parábola que abre hacia abajo es mayor o igual que cero entre sus ceros, ambos incluidos.\nPaso 1: $-2x^{2}+40x-150\\geq0$ equivale, al dividir por $-2$ e invertir la desigualdad, a $x^{2}-20x+75\\leq0$.\nPaso 2: $x^{2}-20x+75=(x-5)(x-15)$, cuyos ceros son $5$ y $15$.\nPaso 3: El producto es menor o igual que $0$ entre los ceros: $5\\leq x\\leq15$.\nRespuesta: D, $[5,15]$.\nErrores frecuentes: La A cambia el signo de los ceros al factorizar. La B no invierte la desigualdad al dividir por $-2$. La C factoriza mal: $(x-3)(x-25)$ da $x^{2}-28x+75$, no $x^{2}-20x+75$.",
+    "verify": "const G = x => -2 * x * x + 40 * x - 150;\nconst xs = [-20, -15, -10, -5, 0, 3, 4, 5, 6, 10, 14, 15, 16, 25, 30];\nconst preds = { A: x => x >= -15 && x <= -5, B: x => x <= 5 || x >= 15, C: x => x >= 3 && x <= 25, D: x => x >= 5 && x <= 15 };\nconst ok = Object.keys(preds).filter(k => xs.every(x => preds[k](x) === (G(x) >= 0)));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-221",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sea $f(x)=ax+b$ una función afín, con $a$ y $b$ números reales, $a>0$ y dominio el conjunto de los números reales. Se sabe que $f(f(x))=9x-8$ para todo número real $x$.\n\n¿Cuál es el valor de $f(2)$?",
+    "alternatives": {
+      "A": "$-2$",
+      "B": "$\\dfrac{10}{3}$",
+      "C": "$4$",
+      "D": "$10$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: al componer $f$ consigo misma se obtiene otra función afín; igualando coeficientes con $9x-8$ se encuentran $a$ y $b$.\nPaso 1: $f(f(x))=a(ax+b)+b=a^{2}x+ab+b$.\nPaso 2: $a^{2}=9$ y, como $a>0$, $a=3$. Además, $ab+b=4b=-8$, así que $b=-2$.\nPaso 3: $f(x)=3x-2$ y $f(2)=4$. Comprobación: $f(f(x))=3(3x-2)-2=9x-8$.\nRespuesta: C, $4$.\nErrores frecuentes: La A usa $a=-3$, que se descarta porque $a>0$ (con $a=-3$ resulta $b=4$ y $f(2)=-2$). La B escribe $f(f(x))=a^{2}x+ab$, olvidando el último $b$, y obtiene $b=-\\dfrac{8}{3}$. La D evalúa $f(f(2))$ en vez de $f(2)$.",
+    "verify": "const a = Math.sqrt(9), b = -8 / (a + 1);\nconst f = x => a * x + b;\nif (![0, 1, 5].every(x => Math.abs(f(f(x)) - (9 * x - 8)) < 1e-9)) return null;\nconst v = f(2);\nconst alts = { A: -2, B: 10 / 3, C: 4, D: 10 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-222",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una función afín $f(x)=mx+n$, con dominio el conjunto de los números reales, cumple que $f(a)=b$ y $f(b)=a$, donde $a$ y $b$ son números reales distintos.\n\n¿Cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "La pendiente de la gráfica de $f$ es $1$.",
+      "B": "$f(a+b)=a+b$",
+      "C": "La gráfica de $f$ pasa por el origen.",
+      "D": "$f(0)=a+b$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: los puntos $(a,b)$ y $(b,a)$ determinan la recta; su pendiente sale de inmediato y luego se despeja el coeficiente de posición.\nPaso 1: $m=\\dfrac{a-b}{b-a}=-1$.\nPaso 2: De $f(a)=-a+n=b$ se obtiene $n=a+b$, así que $f(x)=-x+a+b$.\nPaso 3: Entonces $f(0)=a+b$, mientras que $f(a+b)=0$ y la gráfica pasa por el origen solo si $a+b=0$.\nRespuesta: D, $f(0)=a+b$.\nErrores frecuentes: La A calcula la pendiente como $\\dfrac{a-b}{a-b}$, invirtiendo solo una de las diferencias. La B confunde $f(0)$ con $f(a+b)$, que en realidad vale $0$. La C solo es cierta en el caso particular $b=-a$.",
+    "verify": "const cases = [[1, 4], [2, -7], [-3, 0.5], [10, 3]];\nconst fOf = (a, b) => { const m = (a - b) / (b - a), n = b - m * a; return x => m * x + n; };\nconst props = {\n  A: ([a, b]) => Math.abs((a - b) / (b - a) - 1) < 1e-9,\n  B: ([a, b]) => Math.abs(fOf(a, b)(a + b) - (a + b)) < 1e-9,\n  C: ([a, b]) => Math.abs(fOf(a, b)(0)) < 1e-9,\n  D: ([a, b]) => { const f = fOf(a, b); return Math.abs(f(a) - b) < 1e-9 && Math.abs(f(b) - a) < 1e-9 && Math.abs(f(0) - (a + b)) < 1e-9; }\n};\nconst ok = Object.keys(props).filter(k => cases.every(props[k]));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-223",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una camioneta nueva cuesta $P$ pesos. Su valor comercial disminuye en forma lineal con el tiempo y, a los $3$ años de comprada, vale el $76\\,\\%$ de $P$.\n\nSegún este modelo, ¿a los cuántos años de comprada su valor será el $40\\,\\%$ de $P$?",
+    "alternatives": {
+      "A": "$4{,}5$",
+      "B": "$5$",
+      "C": "$7{,}5$",
+      "D": "$12{,}5$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: la disminución lineal significa que cada año se pierde el mismo porcentaje del precio inicial $P$, no del valor del año anterior.\nPaso 1: En $3$ años se perdió el $24\\,\\%$ de $P$, o sea, $8\\,\\%$ de $P$ por año: $V(t)=P(1-0{,}08t)$.\nPaso 2: Se pide $P(1-0{,}08t)=0{,}40P$, es decir, $0{,}08t=0{,}60$.\nPaso 3: $t=\\dfrac{0{,}60}{0{,}08}=7{,}5$ años.\nRespuesta: C, $7{,}5$ años.\nErrores frecuentes: La A calcula $\\dfrac{76-40}{8}=4{,}5$, que es el tiempo que falta desde el año $3$, no desde la compra. La B interpreta el $40\\,\\%$ como lo perdido y no como lo que vale. La D entrega el tiempo en que el valor llegaría a $0$.",
+    "verify": "const P = 1000000, r = (P - 0.76 * P) / 3;\nconst V = t => P - r * t;\nconst v = (P - 0.40 * P) / r;\nif (Math.abs(V(v) - 0.40 * P) > 1e-6) return null;\nconst alts = { A: 4.5, B: 5, C: 7.5, D: 12.5 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-224",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En el plano cartesiano se consideran las rectas de ecuaciones $y=2x+1$ e $y=-x+k$, con $k$ un número real.\n\n¿Para qué valores de $k$ el punto de intersección de ambas rectas está en el primer cuadrante, es decir, tiene sus dos coordenadas positivas?",
+    "alternatives": {
+      "A": "$k>-\\dfrac{1}{2}$",
+      "B": "$-\\dfrac{1}{2}<k<1$",
+      "C": "$k>0$",
+      "D": "$k>1$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: se calcula el punto de intersección en función de $k$ y se exige que ambas coordenadas sean positivas al mismo tiempo.\nPaso 1: $2x+1=-x+k$ da $x=\\dfrac{k-1}{3}$, y luego $y=2\\cdot\\dfrac{k-1}{3}+1=\\dfrac{2k+1}{3}$.\nPaso 2: $x>0$ exige $k>1$, e $y>0$ exige $k>-\\dfrac{1}{2}$.\nPaso 3: Ambas se cumplen a la vez si $k>1$.\nRespuesta: D, $k>1$.\nErrores frecuentes: La A solo exige que la ordenada sea positiva. La B corresponde a los valores en que la ordenada es positiva pero la abscisa no, es decir, el segundo cuadrante. La C supone que basta con que la segunda recta corte al eje $Y$ sobre el origen.",
+    "verify": "const pt = k => { const x = (k - 1) / 3; return [x, 2 * x + 1]; };\nconst ks = [-3, -1, -0.5, -0.4, 0, 0.5, 1, 1.1, 2, 10];\nconst good = k => { const [x, y] = pt(k); return x > 0 && y > 0 && Math.abs(y - (-x + k)) < 1e-9; };\nconst preds = { A: k => k > -0.5, B: k => k > -0.5 && k < 1, C: k => k > 0, D: k => k > 1 };\nconst ok = Object.keys(preds).filter(p => ks.every(k => preds[p](k) === good(k)));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-225",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un laboratorio de física de un liceo de Rancagua se cuelgan masas de un resorte. La longitud $L$ del resorte, en centímetros, es una función afín de la masa $m$ colgada, en gramos. Con $200$ g el resorte mide $13$ cm y con $500$ g mide $16$ cm.\n\nSegún este modelo, ¿qué masa, en gramos, hay que colgar para que el resorte mida el doble de lo que mide sin ninguna masa colgada?",
+    "alternatives": {
+      "A": "$1\\,100$",
+      "B": "$1\\,500$",
+      "C": "$2\\,200$",
+      "D": "$2\\,600$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: el coeficiente de posición de la función afín es la longitud sin carga; hay que encontrarlo antes de plantear el doble.\nPaso 1: La pendiente es $\\dfrac{16-13}{500-200}=0{,}01$ cm por gramo.\nPaso 2: $13=L_{0}+0{,}01\\cdot200$, así que $L_{0}=11$ cm y $L(m)=11+0{,}01m$.\nPaso 3: Se pide $L(m)=22$: $0{,}01m=11$, es decir, $m=1\\,100$ g.\nRespuesta: A, $1\\,100$ g.\nErrores frecuentes: La B duplica la longitud con $200$ g ($26$ cm) en vez de la longitud sin carga. La C resuelve $0{,}01m=22$, olvidando que el resorte ya mide $11$ cm sin carga. La D comete ambos errores: usa $26$ cm y olvida la longitud inicial.",
+    "verify": "const k = (16 - 13) / (500 - 200), L0 = 13 - k * 200;\nconst v = (2 * L0 - L0) / k;\nconst alts = { A: 1100, B: 1500, C: 2200, D: 2600 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-226",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Las funciones afines $f$ y $g$, con dominio el conjunto de los números reales, son tales que $f$ es decreciente, $g$ es creciente y $f(2)=g(2)$.\n\n¿Cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "$f(0)<g(0)$",
+      "B": "La función $f+g$ es decreciente.",
+      "C": "Las gráficas de $f$ y $g$ se intersectan sobre el eje $Y$.",
+      "D": "Para todo $x>2$ se cumple que $f(x)<g(x)$."
+    },
+    "correct": "D",
+    "explanation": "Idea clave: la diferencia $h(x)=f(x)-g(x)$ es afín, con pendiente negativa (pendiente de $f$ menos pendiente de $g$) y con $h(2)=0$.\nPaso 1: Si $f(x)=m_{1}x+n_{1}$ y $g(x)=m_{2}x+n_{2}$, con $m_{1}<0<m_{2}$, entonces $h$ tiene pendiente $m_{1}-m_{2}<0$.\nPaso 2: Como $h(2)=0$ y $h$ es decreciente, $h(x)<0$ para todo $x>2$, es decir, $f(x)<g(x)$.\nPaso 3: Por la misma razón, $h(0)>0$, así que $f(0)>g(0)$. Con $f(x)=-x+4$ y $g(x)=3x-4$, $f+g=2x$ es creciente y las gráficas se cortan en $x=2$, no sobre el eje $Y$.\nRespuesta: D, para todo $x>2$ se cumple $f(x)<g(x)$.\nErrores frecuentes: La A invierte la conclusión a la izquierda del punto de corte. La B supone que la suma hereda el comportamiento de $f$, pero depende de qué pendiente es mayor en valor absoluto. La C confunde el punto de corte con el intercepto en el eje $Y$, que solo coincide si el corte fuera en $x=0$.",
+    "verify": "const pairs = [[-1, 4, 3, -4], [-3, 8, 1, 0], [-0.5, 1, 2, -4], [-2, 5, 0.5, 0]]; // m1, n1, m2, n2 con f(2) = g(2)\nif (!pairs.every(([m1, n1, m2, n2]) => m1 < 0 && m2 > 0 && Math.abs(2 * m1 + n1 - 2 * m2 - n2) < 1e-9)) return null;\nconst props = {\n  A: ([m1, n1, m2, n2]) => n1 < n2,\n  B: ([m1, n1, m2, n2]) => m1 + m2 < 0,\n  C: ([m1, n1, m2, n2]) => Math.abs(n1 - n2) < 1e-9,\n  D: ([m1, n1, m2, n2]) => [2.1, 3, 10, 100].every(x => m1 * x + n1 < m2 * x + n2)\n};\nconst ok = Object.keys(props).filter(k => pairs.every(props[k]));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-227",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "representar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una función afín $f$, con dominio el conjunto de los números reales, cumple que $f(2x+1)=6x+7$ para todo número real $x$.\n\n¿Cuál es el valor de $f(5)$?",
+    "alternatives": {
+      "A": "$19$",
+      "B": "$22$",
+      "C": "$25$",
+      "D": "$37$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: $f(5)$ se obtiene buscando el valor de $x$ que hace $2x+1=5$, o bien escribiendo $f$ en términos de su propia variable.\nPaso 1: Sea $t=2x+1$; entonces $x=\\dfrac{t-1}{2}$.\nPaso 2: $f(t)=6\\cdot\\dfrac{t-1}{2}+7=3t+4$.\nPaso 3: $f(5)=3\\cdot5+4=19$. Comprobación: con $x=2$, $2x+1=5$ y $6\\cdot2+7=19$.\nRespuesta: A, $19$.\nErrores frecuentes: La B divide solo el coeficiente de $x$ por $2$ y usa $f(t)=3t+7$. La C despeja mal la variable, con $x=\\dfrac{t+1}{2}$. La D reemplaza $x=5$ directamente en $6x+7$.",
+    "verify": "const f = t => 6 * ((t - 1) / 2) + 7;\nif (![0, 1, -3].every(x => Math.abs(f(2 * x + 1) - (6 * x + 7)) < 1e-9)) return null;\nconst v = f(5);\nconst alts = { A: 19, B: 22, C: 25, D: 37 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-228",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un taller estampa poleras para cursos de cuarto medio. El costo total $C$, en pesos, de estampar $x$ poleras es una función afín $C(x)=ax+b$. Estampar $40$ poleras cuesta $172\\,000$ pesos, y al estampar $100$ poleras el costo promedio por polera es $3\\,700$ pesos.\n\n¿Cuál es el valor de $b$, el costo fijo del taller, en pesos?",
+    "alternatives": {
+      "A": "$24\\,000$",
+      "B": "$40\\,000$",
+      "C": "$132\\,000$",
+      "D": "$370\\,000$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: el costo promedio es el costo total dividido por la cantidad; con él se obtiene un segundo punto de la función afín.\nPaso 1: $C(100)=100\\cdot3\\,700=370\\,000$ pesos.\nPaso 2: La pendiente es $a=\\dfrac{370\\,000-172\\,000}{100-40}=3\\,300$ pesos por polera.\nPaso 3: $b=172\\,000-40\\cdot3\\,300=172\\,000-132\\,000=40\\,000$.\nRespuesta: B, $40\\,000$ pesos.\nErrores frecuentes: La A usa el costo promedio, $3\\,700$, como si fuera la pendiente. La C entrega el costo variable de $40$ poleras en vez del costo fijo. La D confunde el costo fijo con el costo total de $100$ poleras.",
+    "verify": "const C100 = 100 * 3700, a = (C100 - 172000) / (100 - 40), b = 172000 - 40 * a;\nconst v = b;\nconst alts = { A: 24000, B: 40000, C: 132000, D: 370000 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-229",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "La gráfica de una función afín $f$ pasa por el punto $(2,3)$ y corta a los semiejes positivos $X$ e $Y$ en dos puntos que están a la misma distancia del origen.\n\n¿Cuál es el área, en unidades cuadradas, del triángulo que forma la gráfica de $f$ con los ejes coordenados?",
+    "alternatives": {
+      "A": "$6$",
+      "B": "$\\dfrac{25}{2}$",
+      "C": "$18$",
+      "D": "$25$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: si ambos interceptos valen $p$, la recta es $\\dfrac{x}{p}+\\dfrac{y}{p}=1$, es decir, $x+y=p$, y el punto dado fija $p$.\nPaso 1: Como $(2,3)$ está en la recta, $p=2+3=5$; la recta es $y=-x+5$.\nPaso 2: Corta los ejes en $(5,0)$ y $(0,5)$, formando un triángulo rectángulo de catetos $5$ y $5$.\nPaso 3: Área $=\\dfrac{5\\cdot5}{2}=\\dfrac{25}{2}$.\nRespuesta: B, $\\dfrac{25}{2}$.\nErrores frecuentes: La A calcula el área del rectángulo de vértices $(0,0)$ y $(2,3)$. La C supone que los interceptos están en $6=2\\cdot3$. La D olvida dividir por $2$ el producto de los catetos.",
+    "verify": "const p = 2 + 3; const f = x => -x + p;\nif (Math.abs(f(2) - 3) > 1e-9) return null;\nconst v = p * f(0) / 2;\nconst alts = { A: 6, B: 25 / 2, C: 18, D: 25 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-230",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Julieta deposita todas las semanas la misma cantidad de dinero en una alcancía que ya tenía algo de dinero al comenzar. Al final de la semana $3$ tenía $41\\,000$ pesos y al final de la semana $8$ tenía $66\\,000$ pesos.\n\nSi mantiene este ritmo, ¿al final de qué semana su ahorro superará por primera vez los $100\\,000$ pesos?",
+    "alternatives": {
+      "A": "$12$",
+      "B": "$14$",
+      "C": "$15$",
+      "D": "$20$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el ahorro es una función afín del número de semanas; se encuentra su expresión y se resuelve una inecuación, cuidando que la semana sea un número entero.\nPaso 1: El aporte semanal es $\\dfrac{66\\,000-41\\,000}{8-3}=5\\,000$ pesos, y el monto inicial es $41\\,000-3\\cdot5\\,000=26\\,000$ pesos.\nPaso 2: $A(s)=26\\,000+5\\,000s>100\\,000$ da $s>14{,}8$.\nPaso 3: La primera semana entera que cumple es $s=15$, con $101\\,000$ pesos.\nRespuesta: C, semana $15$.\nErrores frecuentes: La A usa $41\\,000$ como monto inicial. La B redondea $14{,}8$ hacia abajo, pero en la semana $14$ tiene solo $96\\,000$ pesos. La D divide $100\\,000$ por el aporte semanal e ignora el monto inicial.",
+    "verify": "const r = (66000 - 41000) / 5, A0 = 41000 - 3 * r;\nlet s = 0; while (A0 + r * s <= 100000) s++;\nconst v = s;\nconst alts = { A: 12, B: 14, C: 15, D: 20 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-231",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "La gráfica de una función afín $f$ es paralela a la gráfica de $g(x)=-3x+4$ y pasa por el punto $(-2,7)$.\n\n¿En qué punto la gráfica de $f$ interseca al eje $X$?",
+    "alternatives": {
+      "A": "$\\left(\\dfrac{1}{3},0\\right)$",
+      "B": "$\\left(\\dfrac{4}{3},0\\right)$",
+      "C": "$\\left(\\dfrac{7}{3},0\\right)$",
+      "D": "$\\left(\\dfrac{13}{3},0\\right)$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: las rectas paralelas tienen la misma pendiente; con ella y el punto dado se obtiene el coeficiente de posición.\nPaso 1: $f(x)=-3x+n$. Como $f(-2)=7$: $6+n=7$, así que $n=1$.\nPaso 2: $f(x)=-3x+1=0$ da $x=\\dfrac{1}{3}$.\nRespuesta: A, $\\left(\\dfrac{1}{3},0\\right)$.\nErrores frecuentes: La B entrega el cero de $g$ y no el de $f$. La C usa la ordenada del punto, $7$, como coeficiente de posición. La D evalúa mal $-3\\cdot(-2)$ como $-6$ y obtiene $n=13$.",
+    "verify": "const m = -3, n = 7 - m * (-2);\nconst v = -n / m;\nconst alts = { A: 1 / 3, B: 4 / 3, C: 7 / 3, D: 13 / 3 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-232",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Un profesor transforma el puntaje $p$ de una prueba en una nota $N$ mediante una función afín. Con $12$ puntos se obtiene nota $2{,}0$ y con $48$ puntos, nota $6{,}5$.\n\n¿Cuál es el puntaje con el que se obtiene exactamente nota $4{,}0$?",
+    "alternatives": {
+      "A": "$16$",
+      "B": "$24$",
+      "C": "$28$",
+      "D": "$32$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: con dos pares (puntaje, nota) se obtiene la pendiente, que indica cuánto sube la nota por cada punto.\nPaso 1: La pendiente es $\\dfrac{6{,}5-2{,}0}{48-12}=\\dfrac{4{,}5}{36}=0{,}125$ décimas de nota por punto, es decir, se necesitan $8$ puntos por cada punto de nota.\nPaso 2: Para subir de $2{,}0$ a $4{,}0$ faltan $2$ puntos de nota: $\\dfrac{2}{0{,}125}=16$ puntos más.\nPaso 3: $12+16=28$ puntos.\nRespuesta: C, $28$ puntos.\nErrores frecuentes: La A entrega solo los $16$ puntos que hay que sumar, olvidando los $12$ iniciales. La B supone que la nota es proporcional al puntaje y duplica los $12$ puntos porque $4{,}0$ es el doble de $2{,}0$. La D supone que la recta pasa por el origen y multiplica $4{,}0$ por $8$.",
+    "verify": "const m = (6.5 - 2.0) / (48 - 12);\nconst v = 12 + (4.0 - 2.0) / m;\nconst alts = { A: 16, B: 24, C: 28, D: 32 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-233",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una cooperativa de Chiloé fabrica chalecos de lana. Su costo total al fabricar $x$ chalecos es $12\\,000x+3\\,000\\,000$ pesos y vende cada chaleco en $20\\,000$ pesos. La utilidad es el ingreso por ventas menos el costo total.\n\nSi vende todo lo que fabrica, ¿cuál es la menor cantidad de chalecos que debe fabricar y vender para que su utilidad sea al menos el $25\\,\\%$ de su ingreso por ventas?",
+    "alternatives": {
+      "A": "$375$",
+      "B": "$600$",
+      "C": "$750$",
+      "D": "$1\\,000$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: se escriben la utilidad y el ingreso como expresiones en $x$ y se plantea una inecuación lineal entre ellas.\nPaso 1: Ingreso: $20\\,000x$. Utilidad: $20\\,000x-12\\,000x-3\\,000\\,000=8\\,000x-3\\,000\\,000$.\nPaso 2: $8\\,000x-3\\,000\\,000\\geq0{,}25\\cdot20\\,000x=5\\,000x$.\nPaso 3: $3\\,000x\\geq3\\,000\\,000$, así que $x\\geq1\\,000$.\nRespuesta: D, $1\\,000$ chalecos.\nErrores frecuentes: La A solo pide que la utilidad no sea negativa. La B plantea $5\\,000x\\geq3\\,000\\,000$, comparando el $25\\,\\%$ del ingreso con el costo fijo. La C toma el $25\\,\\%$ del costo total en vez del ingreso.",
+    "verify": "const U = x => 20000 * x - (12000 * x + 3000000);\nlet x = 0; while (U(x) < 0.25 * 20000 * x) x++;\nconst v = x;\nconst alts = { A: 375, B: 600, C: 750, D: 1000 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-234",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera la inecuación $3x-a\\leq x+5$, en $x$, con $a$ un número real.\n\n¿Para qué valores de $a$ la inecuación tiene exactamente cuatro soluciones que son números enteros positivos?",
+    "alternatives": {
+      "A": "$[3,5[$",
+      "B": "$]3,5]$",
+      "C": "$[3,5]$",
+      "D": "$[-1,0[$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: se despeja $x$ en función de $a$; las soluciones enteras positivas serán $1,2,3,4$ si el extremo cae desde $4$ (incluido) hasta antes de $5$.\nPaso 1: $3x-x\\leq5+a$, así que $x\\leq\\dfrac{a+5}{2}$.\nPaso 2: Para que los enteros positivos solución sean exactamente $1$, $2$, $3$ y $4$ se necesita $4\\leq\\dfrac{a+5}{2}<5$.\nPaso 3: Multiplicando por $2$: $8\\leq a+5<10$, es decir, $3\\leq a<5$.\nRespuesta: A, $a\\in[3,5[$.\nErrores frecuentes: La B cambia cuál extremo se incluye: con $a=3$ el $4$ sí es solución y con $a=5$ también lo es el $5$. La C incluye $a=5$, que deja cinco soluciones enteras positivas. La D olvida dividir por $2$ y plantea $4\\leq a+5<5$.",
+    "verify": "const count = a => { let c = 0; for (let x = 1; x <= 100; x++) if (3 * x - a <= x + 5) c++; return c; };\nconst as = [-1, -0.5, 0, 2.9, 3, 4, 4.99, 5, 5.5, 7];\nconst good = a => count(a) === 4;\nconst preds = { A: a => a >= 3 && a < 5, B: a => a > 3 && a <= 5, C: a => a >= 3 && a <= 5, D: a => a >= -1 && a < 0 };\nconst ok = Object.keys(preds).filter(k => as.every(a => preds[k](a) === good(a)));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-235",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un bidón contiene $20$ litros de una mezcla de agua y anticongelante, de la cual el $25\\,\\%$ es anticongelante. Se quiere sacar cierta cantidad de mezcla y reemplazarla por la misma cantidad de anticongelante puro, de modo que el bidón vuelva a tener $20$ litros y el $40\\,\\%$ sea anticongelante.\n\n¿Cuántos litros de mezcla se deben sacar?",
+    "alternatives": {
+      "A": "$3$",
+      "B": "$4$",
+      "C": "$5$",
+      "D": "$8$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: al sacar $x$ litros de mezcla se pierde solo el $25\\,\\%$ de esos $x$ litros como anticongelante, y al reponer se agregan $x$ litros completos de anticongelante.\nPaso 1: Anticongelante inicial: $0{,}25\\cdot20=5$ litros. Anticongelante final deseado: $0{,}40\\cdot20=8$ litros.\nPaso 2: $5-0{,}25x+x=8$, es decir, $0{,}75x=3$.\nPaso 3: $x=4$ litros. Comprobación: $5-1+4=8$ litros de anticongelante en $20$ litros.\nRespuesta: B, $4$ litros.\nErrores frecuentes: La A no descuenta el anticongelante que sale con la mezcla y plantea $5+x=8$. La C agrega anticongelante sin sacar mezcla, con $5+x=0{,}40(20+x)$. La D confunde lo que se saca con la cantidad final de anticongelante.",
+    "verify": "const v = (0.40 * 20 - 0.25 * 20) / (1 - 0.25);\nconst fin = 0.25 * (20 - v) + v;\nif (Math.abs(fin / 20 - 0.40) > 1e-9) return null;\nconst alts = { A: 3, B: 4, C: 5, D: 8 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-236",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera la ecuación $(a^{2}-4)x=a-2$, en $x$, con $a$ un número real.\n\n¿Cuál de las siguientes afirmaciones es verdadera?",
+    "alternatives": {
+      "A": "Si $a=2$, la ecuación no tiene solución.",
+      "B": "Si $a=-2$, la ecuación tiene infinitas soluciones.",
+      "C": "Para todo $a\\neq2$, la ecuación tiene solución única.",
+      "D": "Si $a=-2$, la ecuación no tiene solución."
+    },
+    "correct": "D",
+    "explanation": "Idea clave: una ecuación de la forma $kx=c$ tiene solución única si $k\\neq0$; si $k=0$, tiene infinitas soluciones cuando $c=0$ y ninguna cuando $c\\neq0$.\nPaso 1: El coeficiente $a^{2}-4$ se anula para $a=2$ y para $a=-2$.\nPaso 2: Con $a=2$ queda $0\\cdot x=0$: infinitas soluciones.\nPaso 3: Con $a=-2$ queda $0\\cdot x=-4$: ninguna solución. Para $a\\neq\\pm2$, la solución única es $x=\\dfrac{a-2}{a^{2}-4}=\\dfrac{1}{a+2}$.\nRespuesta: D, si $a=-2$ la ecuación no tiene solución.\nErrores frecuentes: La A confunde los casos: con $a=2$ ambos lados se anulan y hay infinitas soluciones. La B intercambia los casos $a=2$ y $a=-2$. La C simplifica a $x=\\dfrac{1}{a+2}$ sin advertir que esa expresión no existe para $a=-2$.",
+    "verify": "const kind = a => { const k = a * a - 4, c = a - 2; if (Math.abs(k) > 1e-12) return 'unica'; return Math.abs(c) < 1e-12 ? 'infinitas' : 'ninguna'; };\nconst facts = {\n  A: kind(2) === 'ninguna',\n  B: kind(-2) === 'infinitas',\n  C: [-2, -1, 0, 3, 5].every(a => kind(a) === 'unica'),\n  D: kind(-2) === 'ninguna'\n};\nconst ok = Object.keys(facts).filter(k => facts[k]);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-237",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Los números reales $x$ e $y$ cumplen que $1\\leq x\\leq3$ y $2\\leq y\\leq5$.\n\n¿Cuál es el conjunto de todos los valores que puede tomar la expresión $x-2y$?",
+    "alternatives": {
+      "A": "$[-9,-1]$",
+      "B": "$[-9,-3]$",
+      "C": "$[-7,-3]$",
+      "D": "$[-7,-1]$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: al multiplicar una desigualdad por un número negativo se invierte su sentido; luego se suman desigualdades del mismo sentido.\nPaso 1: De $2\\leq y\\leq5$ se obtiene $-10\\leq-2y\\leq-4$.\nPaso 2: Sumando con $1\\leq x\\leq3$: $1-10\\leq x-2y\\leq3-4$, es decir, $-9\\leq x-2y\\leq-1$.\nPaso 3: Ambos extremos se alcanzan: $-9$ con $x=1$, $y=5$, y $-1$ con $x=3$, $y=2$.\nRespuesta: A, $[-9,-1]$.\nErrores frecuentes: La B fija $x=1$ y solo hace variar $y$. La C resta extremo con extremo ($1-2\\cdot2$ y $3-2\\cdot5$) sin invertir la desigualdad de $-2y$. La D fija $x=3$ y solo hace variar $y$.",
+    "verify": "let mn = Infinity, mx = -Infinity;\nfor (let i = 0; i <= 200; i++) for (let j = 0; j <= 300; j++) { const x = 1 + 2 * i / 200, y = 2 + 3 * j / 300, e = x - 2 * y; mn = Math.min(mn, e); mx = Math.max(mx, e); }\nconst alts = { A: [-9, -1], B: [-9, -3], C: [-7, -3], D: [-7, -1] };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k][0] - mn) < 1e-9 && Math.abs(alts[k][1] - mx) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-238",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Ignacio resolvió la inecuación $(a-1)x>a^{2}-1$, en $x$, sabiendo que $a$ es un número real menor que $1$, de la siguiente manera:\n\nPaso 1: $(a-1)x>(a-1)(a+1)$\nPaso 2: Como $a-1<0$, al dividir por $a-1$ se invierte la desigualdad: $x<a+1$\nPaso 3: Como $a<1$, se tiene $a+1<2$, así que el conjunto solución es $]-\\infty,2[$\n\n¿En cuál de los pasos cometió Ignacio el primer error?",
+    "alternatives": {
+      "A": "En el paso 1",
+      "B": "En el paso 2",
+      "C": "En el paso 3",
+      "D": "No cometió errores"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el conjunto solución debe quedar expresado en términos de $a$; acotar $a+1$ por $2$ cambia el conjunto, porque agrega valores que no son solución.\nPaso 1: La factorización $a^{2}-1=(a-1)(a+1)$ es correcta.\nPaso 2: Como $a-1<0$, dividir por $a-1$ invierte la desigualdad: $x<a+1$. También es correcto.\nPaso 3: El conjunto solución es $]-\\infty,a+1[$. Por ejemplo, con $a=0$ es $]-\\infty,1[$, y $x=1{,}5$ está en $]-\\infty,2[$ pero no cumple $-x>-1$. El error está aquí.\nRespuesta: C, en el paso 3.\nErrores frecuentes: La A duda de una factorización correcta (diferencia de cuadrados). La B cree que no se debía invertir la desigualdad, pero el divisor es negativo. La D acepta que $a+1<2$ permite reemplazar $a+1$ por $2$, lo que solo da un conjunto que contiene al verdadero.",
+    "verify": "const a = 0;\nconst sol = x => (a - 1) * x > a * a - 1;\nconst step1 = [-3, 0, 0.5, 2].every(x => ((a - 1) * x > (a - 1) * (a + 1)) === sol(x));\nconst step2 = [-3, 0, 0.5, 0.99, 1, 2].every(x => (x < a + 1) === sol(x));\nconst step3 = [-3, 0, 0.5, 1.5].every(x => (x < 2) === sol(x));\nif (!step1) return 'A';\nif (!step2) return 'B';\nif (!step3) return 'C';\nreturn 'D';"
+  },
+  {
+    "key": "m2-algebra-y-funciones-239",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En una asignatura, la nota final se calcula como el $60\\,\\%$ del promedio de controles $p$ más el $40\\,\\%$ de la nota del examen. Las notas van de $1{,}0$ a $7{,}0$ y se aprueba con nota final mayor o igual que $4{,}0$.\n\n¿Cuál es el menor promedio de controles con el que todavía es posible aprobar la asignatura?",
+    "alternatives": {
+      "A": "$1{,}0$",
+      "B": "$2{,}0$",
+      "C": "$2{,}8$",
+      "D": "$4{,}0$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: el caso más favorable es obtener un $7{,}0$ en el examen; con esa nota se plantea la inecuación para $p$.\nPaso 1: Con examen $7{,}0$: $0{,}6p+0{,}4\\cdot7{,}0\\geq4{,}0$, es decir, $0{,}6p+2{,}8\\geq4{,}0$.\nPaso 2: $0{,}6p\\geq1{,}2$, así que $p\\geq2{,}0$.\nRespuesta: B, $2{,}0$.\nErrores frecuentes: La A intercambia las ponderaciones: con $0{,}4p+0{,}6\\cdot7{,}0\\geq4{,}0$ bastaría cualquier promedio. La C entrega el aporte del examen, $0{,}4\\cdot7{,}0$, y no el promedio buscado. La D supone que hay que tener promedio de aprobación en los controles.",
+    "verify": "let p = 1.0; while (0.6 * p + 0.4 * 7 < 4 - 1e-12) p = Math.round((p + 0.1) * 10) / 10;\nconst v = p;\nconst alts = { A: 1.0, B: 2.0, C: 2.8, D: 4.0 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-240",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "ecuaciones-inecuaciones-lineales",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un juego, Sofía piensa un número entero $n$ y da dos pistas: el doble del número, disminuido en $5$, es mayor que $7$, y la semisuma del número con $3$ es a lo más $9$.\n\n¿Cuántos números enteros cumplen ambas pistas?",
+    "alternatives": {
+      "A": "$8$",
+      "B": "$9$",
+      "C": "$10$",
+      "D": "$15$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: cada pista es una inecuación lineal; los números que sirven son los enteros que cumplen ambas a la vez.\nPaso 1: $2n-5>7$ da $n>6$.\nPaso 2: $\\dfrac{n+3}{2}\\leq9$ da $n\\leq15$.\nPaso 3: Los enteros con $6<n\\leq15$ son $7,8,\\ldots,15$, que son $15-7+1=9$ números.\nRespuesta: B, $9$ números.\nErrores frecuentes: La A resta $15-7$ y olvida contar uno de los extremos. La C incluye el $6$, como si la primera pista fuera mayor o igual. La D confunde la cantidad de números con el mayor de ellos.",
+    "verify": "let c = 0; for (let n = -100; n <= 100; n++) if (2 * n - 5 > 7 && (n + 3) / 2 <= 9) c++;\nconst v = c;\nconst alts = { A: 8, B: 9, C: 10, D: 15 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-241",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-cuadratica",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "suficiencia",
+    "content": "Considera la función $f(x)=x^{2}+bx+c$, con $b$ y $c$ números reales y dominio el conjunto de los números reales.\n\nSe puede determinar el valor de $c$, si se sabe que:\n\n(1) La ecuación $f(x)=0$ tiene dos soluciones reales cuya diferencia es $2$.\n(2) El vértice de la parábola asociada a $f$ está sobre la recta de ecuación $y=-1$.",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "E",
+    "explanation": "Idea clave: hay que traducir cada afirmación a una ecuación en $b$ y $c$; con dos incógnitas, se necesitan dos ecuaciones independientes.\nPaso 1: Con (1), las soluciones son $\\dfrac{-b\\pm\\sqrt{b^{2}-4c}}{2}$ y su diferencia es $\\sqrt{b^{2}-4c}=2$, o sea, $b^{2}-4c=4$. Por ejemplo, $(b,c)=(0,-1)$ y $(b,c)=(2,0)$ la cumplen. No basta.\nPaso 2: Con (2), la ordenada del vértice es $c-\\dfrac{b^{2}}{4}=-1$, que también equivale a $b^{2}-4c=4$. No basta.\nPaso 3: Juntas, ambas dicen lo mismo: los mismos dos ejemplos cumplen (1) y (2), y dan $c=-1$ y $c=0$. Siguen sin bastar.\nRespuesta: E, se requiere información adicional.\nErrores frecuentes: La A y la B creen que una sola condición fija ambos coeficientes. La C supone que dos afirmaciones distintas siempre entregan dos ecuaciones distintas, pero aquí son equivalentes. La D cae en ambos errores a la vez.",
+    "verify": "const c1 = (b, c) => { const d = b * b - 4 * c; return d > 0 && Math.abs(Math.sqrt(d) - 2) < 1e-9; };\nconst c2 = (b, c) => Math.abs(c - b * b / 4 - -1) < 1e-9;\nconst fam = [[0, -1], [2, 0], [4, 3], [-6, 8]];\nconst differ = s => new Set(s.map(([b, c]) => c)).size > 1;\nconst s1 = fam.filter(([b, c]) => c1(b, c)), s2 = fam.filter(([b, c]) => c2(b, c)), s12 = fam.filter(([b, c]) => c1(b, c) && c2(b, c));\nif (s1.length < 2 || s2.length < 2 || s12.length < 2) return null;\nconst ok1 = !differ(s1), ok2 = !differ(s2), ok12 = !differ(s12);\nif (ok1 && ok2) return 'D';\nif (ok1) return 'A';\nif (ok2) return 'B';\nif (ok12) return 'C';\nreturn 'E';"
+  },
+  {
+    "key": "m2-algebra-y-funciones-242",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-lineal-afin",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "suficiencia",
+    "content": "Considera la función afín $f(x)=mx+n$, con $m$ y $n$ números reales y dominio el conjunto de los números reales.\n\nSe puede determinar el valor de $f(0)$, si se sabe que:\n\n(1) $f(2)+f(-2)=8$\n(2) $f(3)-3f(1)=-8$",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: $f(0)=n$; hay que ver si cada condición permite despejar $n$ aunque $m$ quede desconocido.\nPaso 1: Con (1), $f(2)+f(-2)=(2m+n)+(-2m+n)=2n=8$, así que $n=4$ para cualquier $m$. Basta.\nPaso 2: Con (2), $f(3)-3f(1)=(3m+n)-3(m+n)=-2n=-8$, así que $n=4$ para cualquier $m$. Basta.\nPaso 3: Cada una por separado determina $f(0)=4$, aunque ninguna permite conocer $m$.\nRespuesta: D, cada una por sí sola, (1) ó (2).\nErrores frecuentes: La A y la B no notan que en la otra afirmación el término con $m$ también se cancela. La C cree que, al haber dos incógnitas, se necesitan las dos ecuaciones, pero la pregunta solo pide $n$. La E piensa que sin conocer $m$ no se puede concluir nada.",
+    "verify": "const ms = [-3, 0, 1, 7.5];\n// (1): 2n = 8 -> n despejado para cada m; se comprueba que todas las (m, n) que cumplen dan el mismo f(0)\nconst n1 = m => { const f = (n, x) => m * x + n; for (let n = -20; n <= 20; n += 0.5) if (Math.abs(f(n, 2) + f(n, -2) - 8) < 1e-9) return n; return null; };\nconst n2 = m => { const f = (n, x) => m * x + n; for (let n = -20; n <= 20; n += 0.5) if (Math.abs(f(n, 3) - 3 * f(n, 1) + 8) < 1e-9) return n; return null; };\nconst v1 = ms.map(n1), v2 = ms.map(n2);\nif (v1.includes(null) || v2.includes(null)) return null;\nconst ok1 = new Set(v1).size === 1, ok2 = new Set(v2).size === 1;\nif (ok1 && ok2) return 'D';\nif (ok1) return 'A';\nif (ok2) return 'B';\nreturn 'C';"
+  },
+  {
+    "key": "m2-algebra-y-funciones-301",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sea $x$ un número real tal que $x>1$ y $x+\\dfrac{1}{x}=3$.\n\n¿Cuál es el valor de $x^{2}-\\dfrac{1}{x^{2}}$?",
+    "alternatives": {
+      "A": "$5$",
+      "B": "$3\\sqrt{5}$",
+      "C": "$7$",
+      "D": "$9$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: $x^{2}-\\frac{1}{x^{2}}$ es una diferencia de cuadrados, $\\left(x+\\frac{1}{x}\\right)\\left(x-\\frac{1}{x}\\right)$, así que basta encontrar $x-\\frac{1}{x}$.\nPaso 1: Al cuadrar el dato, $x^{2}+2+\\frac{1}{x^{2}}=9$, luego $x^{2}+\\frac{1}{x^{2}}=7$.\nPaso 2: $\\left(x-\\frac{1}{x}\\right)^{2}=x^{2}-2+\\frac{1}{x^{2}}=7-2=5$, así que $x-\\frac{1}{x}=\\pm\\sqrt{5}$.\nPaso 3: Como $x>1$, se cumple $x>\\frac{1}{x}$, por lo que $x-\\frac{1}{x}=\\sqrt{5}$.\nPaso 4: $x^{2}-\\frac{1}{x^{2}}=3\\cdot\\sqrt{5}=3\\sqrt{5}$.\nRespuesta: B, $3\\sqrt{5}$.\nErrores frecuentes: La A entrega $\\left(x-\\frac{1}{x}\\right)^{2}$ y olvida multiplicar por $x+\\frac{1}{x}$. La C calcula $x^{2}+\\frac{1}{x^{2}}$, que es una suma y no una diferencia. La D eleva al cuadrado el dato y se detiene ahí.",
+    "verify": "const x = (3 + Math.sqrt(5)) / 2;\nif (Math.abs(x + 1 / x - 3) > 1e-9 || x <= 1) return null;\nconst v = x * x - 1 / (x * x);\nconst alts = { A: 5, B: 3 * Math.sqrt(5), C: 7, D: 9 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-302",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sean $a$ y $b$ números reales distintos.\n\n¿Cuál de las siguientes expresiones es equivalente a $\\dfrac{a^{3}-b^{3}}{a-b}-(a+b)^{2}$?",
+    "alternatives": {
+      "A": "$-3ab$",
+      "B": "$-2ab$",
+      "C": "$-ab$",
+      "D": "$ab$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: la diferencia de cubos se factoriza como $a^{3}-b^{3}=(a-b)\\left(a^{2}+ab+b^{2}\\right)$, lo que permite simplificar la fracción.\nPaso 1: Como $a\\neq b$, $\\dfrac{a^{3}-b^{3}}{a-b}=a^{2}+ab+b^{2}$.\nPaso 2: $(a+b)^{2}=a^{2}+2ab+b^{2}$.\nPaso 3: $\\left(a^{2}+ab+b^{2}\\right)-\\left(a^{2}+2ab+b^{2}\\right)=-ab$.\nRespuesta: C, $-ab$.\nErrores frecuentes: La A usa el factor $a^{2}-ab+b^{2}$, que corresponde a la suma de cubos. La B olvida el término $ab$ del factor y resta $a^{2}+b^{2}$ menos $(a+b)^{2}$. La D cambia el signo al restar el paréntesis.",
+    "verify": "const f = (a, b) => (a ** 3 - b ** 3) / (a - b) - (a + b) ** 2;\nconst alts = { A: (a, b) => -3 * a * b, B: (a, b) => -2 * a * b, C: (a, b) => -a * b, D: (a, b) => a * b };\nconst pts = [[2, 5], [-3, 1], [0.5, 7], [4, -2]];\nconst ok = Object.keys(alts).filter(k => pts.every(([a, b]) => Math.abs(alts[k](a, b) - f(a, b)) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-303",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un taller de Temuco fabrican cajas sin tapa a partir de planchas cuadradas de cartón de lado $a$ cm. A cada plancha se le recorta un cuadrado de lado $b$ cm en cada una de sus cuatro esquinas, con $a>2b$, y luego se doblan hacia arriba las cuatro solapas que quedan.\n\n¿Cuál de las siguientes expresiones representa el área total, en $\\text{cm}^{2}$, de la superficie interior de la caja (fondo más paredes)?",
+    "alternatives": {
+      "A": "$(a-2b)^{2}$",
+      "B": "$a^{2}-2b^{2}$",
+      "C": "$(a-2b)(a+2b)$",
+      "D": "$a^{2}+4b^{2}$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: la superficie interior es todo el cartón que queda después de recortar las esquinas, o bien el fondo más las cuatro paredes.\nPaso 1: El fondo es un cuadrado de lado $a-2b$, con área $(a-2b)^{2}$.\nPaso 2: Cada pared es un rectángulo de $(a-2b)$ por $b$, y hay cuatro: $4b(a-2b)$.\nPaso 3: Total: $(a-2b)^{2}+4b(a-2b)=(a-2b)(a-2b+4b)=(a-2b)(a+2b)$, que coincide con $a^{2}-4b^{2}$, el cartón inicial menos las cuatro esquinas.\nRespuesta: C, $(a-2b)(a+2b)$.\nErrores frecuentes: La A considera solo el fondo de la caja. La B resta solo dos esquinas en vez de cuatro. La D suma las esquinas recortadas en lugar de restarlas.",
+    "verify": "const a = 30, b = 4;\nconst sup = (a - 2 * b) ** 2 + 4 * b * (a - 2 * b);\nconst alts = { A: (a - 2 * b) ** 2, B: a * a - 2 * b * b, C: (a - 2 * b) * (a + 2 * b), D: a * a + 4 * b * b };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - sup) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-304",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera la expresión $x^{2}-(k+1)x+9$, donde $k$ es un número real.\n\n¿Cuál es la suma de todos los valores de $k$ para los cuales esta expresión es el cuadrado de un binomio?",
+    "alternatives": {
+      "A": "$-7$",
+      "B": "$-2$",
+      "C": "$5$",
+      "D": "$6$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: un trinomio $x^{2}+px+9$ es cuadrado de binomio solo si coincide con $(x+3)^{2}$ o con $(x-3)^{2}$, es decir, si $p=6$ o $p=-6$.\nPaso 1: Aquí el coeficiente de $x$ es $-(k+1)$, así que se necesita $-(k+1)=6$ o $-(k+1)=-6$.\nPaso 2: Del primer caso, $k=-7$; del segundo, $k=5$.\nPaso 3: La suma de ambos valores es $-7+5=-2$.\nRespuesta: B, $-2$.\nErrores frecuentes: La A considera solo el binomio $(x+3)^{2}$. La C considera solo el binomio $(x-3)^{2}$. La D entrega el valor de $k+1$ en vez del valor de $k$.",
+    "verify": "const ks = [];\nfor (let i = -400; i <= 400; i++) { const k = i / 20; const p = -(k + 1); if (Math.abs(p * p - 4 * 9) < 1e-9) ks.push(k); }\nif (ks.length !== 2) return null;\nconst s = ks[0] + ks[1];\nconst alts = { A: -7, B: -2, C: 5, D: 6 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - s) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-305",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Sean $p$ y $q$ números reales positivos, con $p>q$. Se definen $M=(p+q)^{2}$ y $N=2\\left(p^{2}+q^{2}\\right)$.\n\n¿Cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "$M>N$",
+      "B": "$M=N$",
+      "C": "La relación entre $M$ y $N$ depende de los valores de $p$ y $q$.",
+      "D": "$N>M$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: para comparar dos expresiones conviene estudiar el signo de su diferencia y factorizarla.\nPaso 1: $N-M=2p^{2}+2q^{2}-\\left(p^{2}+2pq+q^{2}\\right)=p^{2}-2pq+q^{2}$.\nPaso 2: Esa expresión es $(p-q)^{2}$.\nPaso 3: Como $p>q$, se tiene $p-q\\neq0$, luego $(p-q)^{2}>0$ y por lo tanto $N>M$ para cualquier par de valores.\nRespuesta: D, $N>M$.\nErrores frecuentes: La A suele salir de probar con un solo par de valores mal calculado o de olvidar el doble producto. La B confunde $(p+q)^{2}$ con $p^{2}+q^{2}$ y luego duplica. La C no advierte que la diferencia es un cuadrado, que nunca es negativo, y que solo se anula si $p=q$.",
+    "verify": "let allN = true, anyEq = false;\nfor (let i = 1; i <= 40; i++) for (let j = 1; j < i; j++) { const p = i / 4, q = j / 4; const M = (p + q) ** 2, N = 2 * (p * p + q * q); if (!(N > M)) allN = false; if (Math.abs(N - M) < 1e-12) anyEq = true; }\nreturn allN && !anyEq ? 'D' : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-306",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "¿Cuál es el valor de la siguiente expresión?\n\n$50^{2}-49^{2}+48^{2}-47^{2}+46^{2}-45^{2}+\\ldots+4^{2}-3^{2}+2^{2}-1^{2}$",
+    "alternatives": {
+      "A": "$25$",
+      "B": "$1\\,225$",
+      "C": "$1\\,275$",
+      "D": "$2\\,550$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: cada par $n^{2}-(n-1)^{2}$ es una diferencia de cuadrados que se simplifica a $n+(n-1)$.\nPaso 1: $n^{2}-(n-1)^{2}=(n-(n-1))(n+(n-1))=n+(n-1)$.\nPaso 2: Así, la expresión es $(50+49)+(48+47)+\\ldots+(2+1)$, que es la suma de todos los enteros del $1$ al $50$.\nPaso 3: $1+2+\\ldots+50=\\dfrac{50\\cdot51}{2}=1\\,275$.\nRespuesta: C, $1\\,275$.\nErrores frecuentes: La A supone que cada par vale $1$, porque las bases difieren en $1$, y cuenta $25$ pares. La B suma solo hasta $49$. La D olvida dividir por $2$ en la fórmula de la suma.",
+    "verify": "let s = 0;\nfor (let n = 50; n >= 2; n -= 2) s += n * n - (n - 1) * (n - 1);\nconst alts = { A: 25, B: 1225, C: 1275, D: 2550 };\nconst ok = Object.keys(alts).filter(k => alts[k] === s);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-307",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Sean $a$ y $b$ números reales distintos.\n\n¿Cuál de las siguientes expresiones es equivalente a $\\dfrac{a^{2}}{a-b}+\\dfrac{b^{2}}{b-a}$?",
+    "alternatives": {
+      "A": "$a+b$",
+      "B": "$a-b$",
+      "C": "$a^{2}-b^{2}$",
+      "D": "$\\dfrac{a^{2}+b^{2}}{a-b}$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: $b-a=-(a-b)$, así que ambas fracciones pueden escribirse con el mismo denominador.\nPaso 1: $\\dfrac{b^{2}}{b-a}=-\\dfrac{b^{2}}{a-b}$.\nPaso 2: La suma queda $\\dfrac{a^{2}-b^{2}}{a-b}$.\nPaso 3: Factorizando, $\\dfrac{(a-b)(a+b)}{a-b}=a+b$, pues $a\\neq b$.\nRespuesta: A, $a+b$.\nErrores frecuentes: La B simplifica mal la diferencia de cuadrados y se queda con el factor que debía cancelarse. La C olvida dividir por $a-b$ al final. La D suma las fracciones como si los denominadores fueran iguales sin cambiar el signo.",
+    "verify": "const f = (a, b) => a * a / (a - b) + b * b / (b - a);\nconst alts = { A: (a, b) => a + b, B: (a, b) => a - b, C: (a, b) => a * a - b * b, D: (a, b) => (a * a + b * b) / (a - b) };\nconst pts = [[3, 1], [-2, 5], [0.5, 4], [7, -3]];\nconst ok = Object.keys(alts).filter(k => pts.every(([a, b]) => Math.abs(alts[k](a, b) - f(a, b)) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-308",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "expresiones-algebraicas",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En una clase de matemática en Antofagasta, la profesora Ximena propone un juego con un número fijo $k$ elegido por ella. Cada estudiante piensa un número $x$ distinto de cero y sigue estas instrucciones:\n\nPrimero, le suma $k$ al número pensado y eleva el resultado al cuadrado. Luego, a ese resultado le resta el cuadrado del número pensado y también le resta $k^{2}$. Finalmente, divide lo obtenido por el número pensado.\n\n¿Cuál de las siguientes expresiones representa el resultado final que obtiene cada estudiante?",
+    "alternatives": {
+      "A": "$2k$",
+      "B": "$2k+\\dfrac{k^{2}}{x}$",
+      "C": "$2x$",
+      "D": "$\\dfrac{2k}{x}$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: se traduce cada instrucción a una expresión y se simplifica usando el cuadrado de binomio.\nPaso 1: Las instrucciones dan $\\dfrac{(x+k)^{2}-x^{2}-k^{2}}{x}$.\nPaso 2: $(x+k)^{2}=x^{2}+2kx+k^{2}$, así que el numerador es $2kx$.\nPaso 3: $\\dfrac{2kx}{x}=2k$, que no depende del número pensado.\nRespuesta: A, $2k$.\nErrores frecuentes: La B olvida restar $k^{2}$, que es una de las instrucciones. La C divide el numerador $2kx$ por $k$ en lugar de dividirlo por el número pensado. La D escribe el doble producto como $2k$, sin la $x$, y luego divide por $x$.",
+    "verify": "const k = 7;\nconst res = [3, -5, 0.5, 12].map(x => ((x + k) ** 2 - x * x - k * k) / x);\nif (!res.every(r => Math.abs(r - res[0]) < 1e-9)) return null;\nconst x = 3;\nconst alts = { A: 2 * k, B: 2 * k + k * k / x, C: 2 * x, D: 2 * k / x };\nconst ok = Object.keys(alts).filter(kk => Math.abs(alts[kk] - res[0]) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-309",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-potencia-exp-log",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un laboratorio de la Universidad de Talca se estudian dos cultivos. El cultivo P comienza con $200$ células y su cantidad se triplica cada hora. El cultivo Q comienza con $5\\,400$ células y su cantidad se reduce a la tercera parte cada hora.\n\n¿Al cabo de cuántas horas ambos cultivos tienen la misma cantidad de células?",
+    "alternatives": {
+      "A": "$1{,}5$",
+      "B": "$3$",
+      "C": "$9$",
+      "D": "$13{,}5$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: se modela cada cultivo con una función exponencial y se igualan, escribiendo todo como potencias de base $3$.\nPaso 1: $P(t)=200\\cdot3^{t}$ y $Q(t)=5\\,400\\cdot3^{-t}$.\nPaso 2: $200\\cdot3^{t}=5\\,400\\cdot3^{-t}$ equivale a $3^{t}\\cdot3^{t}=\\dfrac{5\\,400}{200}$, es decir, $3^{2t}=27=3^{3}$.\nPaso 3: $2t=3$, luego $t=1{,}5$ horas.\nRespuesta: A, $1{,}5$ horas.\nErrores frecuentes: La B olvida que la potencia $3^{-t}$ pasa multiplicando y resuelve $3^{t}=27$. La C divide $27$ por la base $3$. La D divide $27$ por $2$ en vez de usar el exponente.",
+    "verify": "const P = t => 200 * 3 ** t, Qf = t => 5400 * 3 ** (-t);\nconst t = Math.log(5400 / 200) / (2 * Math.log(3));\nif (Math.abs(P(t) - Qf(t)) > 1e-6) return null;\nconst alts = { A: 1.5, B: 3, C: 9, D: 13.5 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - t) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-310",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-potencia-exp-log",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera la función $f(x)=\\log_{3}(x)$, con dominio el conjunto de los números reales positivos.\n\n¿Cuál de las siguientes igualdades es verdadera para todo $x>0$?",
+    "alternatives": {
+      "A": "$f(3x)=3f(x)$",
+      "B": "$f(x+3)=f(x)+1$",
+      "C": "$f(9x)=f(x)+2$",
+      "D": "$f\\left(x^{2}\\right)=\\left(f(x)\\right)^{2}$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el logaritmo de un producto es la suma de los logaritmos, y el de una potencia baja el exponente multiplicando; no hay regla para el logaritmo de una suma.\nPaso 1: $f(9x)=\\log_{3}9+\\log_{3}x=2+f(x)$, verdadera para todo $x>0$.\nPaso 2: $f(3x)=1+f(x)$, que no es $3f(x)$: con $x=1$ se obtiene $1\\neq0$.\nPaso 3: $f(x^{2})=2f(x)$, que no es $(f(x))^{2}$: con $x=3$ se obtiene $2\\neq1$.\nPaso 4: Con $x=6$, $f(9)=2$ pero $f(6)+1=\\log_{3}18\\neq2$, así que $f(x+3)\\neq f(x)+1$ en general.\nRespuesta: C, $f(9x)=f(x)+2$.\nErrores frecuentes: La A confunde el logaritmo de un producto con un producto. La B aplica a una suma una regla que solo vale para productos. La D confunde $\\log\\left(x^{2}\\right)$ con $\\left(\\log x\\right)^{2}$.",
+    "verify": "const f = x => Math.log(x) / Math.log(3);\nconst xs = [0.5, 1, 2, 3, 6, 10];\nconst tests = { A: x => f(3 * x) - 3 * f(x), B: x => f(x + 3) - f(x) - 1, C: x => f(9 * x) - f(x) - 2, D: x => f(x * x) - f(x) ** 2 };\nconst ok = Object.keys(tests).filter(k => xs.every(x => Math.abs(tests[k](x)) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-311",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-potencia-exp-log",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "La función potencia $f(x)=k\\cdot x^{n}$, con $k$ y $n$ números reales, definida para $x>0$, cumple que $f(2)=12$ y $f(4)=96$.\n\n¿Cuál es el valor de $f(3)$?",
+    "alternatives": {
+      "A": "$18$",
+      "B": "$27$",
+      "C": "$40{,}5$",
+      "D": "$54$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: al dividir dos valores de una función potencia se cancela $k$ y queda una ecuación solo en $n$.\nPaso 1: $\\dfrac{f(4)}{f(2)}=\\dfrac{k\\cdot4^{n}}{k\\cdot2^{n}}=2^{n}=\\dfrac{96}{12}=8$, luego $n=3$.\nPaso 2: De $k\\cdot2^{3}=12$ se obtiene $k=1{,}5$.\nPaso 3: $f(3)=1{,}5\\cdot27=40{,}5$.\nRespuesta: C, $40{,}5$.\nErrores frecuentes: La A supone proporcionalidad directa, $f(x)=6x$. La B toma $n=2$ y luego $k=3$. La D calcula el promedio entre $12$ y $96$, como si la función fuera lineal entre $x=2$ y $x=4$.",
+    "verify": "const n = Math.log2(96 / 12), k = 12 / 2 ** n;\nif (Math.abs(k * 4 ** n - 96) > 1e-9) return null;\nconst v = k * 3 ** n;\nconst alts = { A: 18, B: 27, C: 40.5, D: 54 };\nconst ok = Object.keys(alts).filter(kk => Math.abs(alts[kk] - v) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-312",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-potencia-exp-log",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "El pH de una solución se calcula como $\\text{pH}=-\\log\\left[H^{+}\\right]$, donde $\\left[H^{+}\\right]$ es la concentración de iones de hidrógeno, en mol/L. En una piscina de Iquique, un tratamiento químico hizo que la concentración de iones de hidrógeno se multiplicara por $20$.\n\nConsiderando $\\log 2\\approx0{,}3$, ¿qué ocurrió con el pH del agua?",
+    "alternatives": {
+      "A": "Disminuyó en $0{,}3$",
+      "B": "Disminuyó en $1{,}3$",
+      "C": "Disminuyó en $2$",
+      "D": "Aumentó en $1{,}3$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: multiplicar la concentración suma un logaritmo dentro del pH, y el signo menos de la fórmula convierte esa suma en una disminución.\nPaso 1: Si la concentración inicial es $c$, el nuevo pH es $-\\log(20c)=-\\log 20-\\log c=\\text{pH}_{\\text{inicial}}-\\log 20$.\nPaso 2: $\\log 20=\\log 2+\\log 10\\approx0{,}3+1=1{,}3$.\nPaso 3: Por lo tanto, el pH disminuyó en aproximadamente $1{,}3$.\nRespuesta: B, disminuyó en $1{,}3$.\nErrores frecuentes: La A usa solo $\\log 2$ y olvida el factor $10$. La C aproxima $\\log 20$ como si fuera $\\log 100$. La D olvida el signo menos de la fórmula del pH.",
+    "verify": "const c = 1e-7;\nconst d = -Math.log10(20 * c) - (-Math.log10(c));\nconst approx = -(0.3 + 1);\nif (Math.abs(d - approx) > 0.01) return null;\nconst alts = { A: -0.3, B: -1.3, C: -2, D: 1.3 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - approx) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-313",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-potencia-exp-log",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Considera la función $f(x)=2^{x-1}+3$, con dominio el conjunto de los números reales y recorrido el intervalo $\\left]3,+\\infty\\right[$.\n\n¿Cuál de las siguientes expresiones corresponde a la función inversa $f^{-1}(x)$, definida para $x>3$?",
+    "alternatives": {
+      "A": "$\\log_{2}(x+3)-1$",
+      "B": "$\\log_{2}(x-1)+3$",
+      "C": "$\\log_{2}(x-3)-1$",
+      "D": "$\\log_{2}(x-3)+1$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: para invertir se despeja $x$ de $y=f(x)$ deshaciendo las operaciones en orden inverso; la inversa de una exponencial de base $2$ es un logaritmo de base $2$.\nPaso 1: $y=2^{x-1}+3$ implica $y-3=2^{x-1}$.\nPaso 2: Aplicando $\\log_{2}$, $x-1=\\log_{2}(y-3)$, luego $x=\\log_{2}(y-3)+1$.\nPaso 3: Intercambiando las variables, $f^{-1}(x)=\\log_{2}(x-3)+1$. Comprobación: $f(3)=2^{2}+3=7$ y $f^{-1}(7)=\\log_{2}4+1=3$.\nRespuesta: D, $\\log_{2}(x-3)+1$.\nErrores frecuentes: La A cambia de signo las dos constantes sin despejar. La B intercambia el papel de los números $1$ y $3$. La C despeja bien el logaritmo, pero resta $1$ en vez de sumarlo en el último paso.",
+    "verify": "const f = x => 2 ** (x - 1) + 3;\nconst alts = { A: x => Math.log2(x + 3) - 1, B: x => Math.log2(x - 1) + 3, C: x => Math.log2(x - 3) - 1, D: x => Math.log2(x - 3) + 1 };\nconst xs = [-2, 0, 1.5, 3, 5];\nconst ok = Object.keys(alts).filter(k => xs.every(x => Math.abs(alts[k](f(x)) - x) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-314",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-potencia-exp-log",
+    "habilidad": "representar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un equipo de investigación registra una magnitud $y$ que crece con el tiempo $x$ según un modelo de la forma $y=a\\cdot b^{x}$, con $a>0$ y $b>0$. Al graficar $\\log y$ en función de $x$, los puntos quedan sobre la recta $\\log y=0{,}3x+1$.\n\nConsiderando $\\log 2\\approx0{,}3$, ¿cuál de las siguientes funciones corresponde aproximadamente al modelo?",
+    "alternatives": {
+      "A": "$y=2\\cdot10^{x}$",
+      "B": "$y=10\\cdot2^{x}$",
+      "C": "$y=10\\cdot x^{2}$",
+      "D": "$y=10\\cdot(0{,}3)^{x}$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: al aplicar logaritmo a $y=a\\cdot b^{x}$ se obtiene $\\log y=\\log a+x\\log b$, una recta cuya pendiente es $\\log b$ y cuyo coeficiente de posición es $\\log a$.\nPaso 1: Comparando con $\\log y=0{,}3x+1$: $\\log a=1$ y $\\log b=0{,}3$.\nPaso 2: $\\log a=1$ da $a=10$; $\\log b=0{,}3\\approx\\log 2$ da $b\\approx2$.\nPaso 3: El modelo es $y\\approx10\\cdot2^{x}$.\nRespuesta: B, $y=10\\cdot2^{x}$.\nErrores frecuentes: La A intercambia los papeles de la pendiente y del coeficiente de posición. La C confunde el modelo exponencial con uno potencia, cuya linealización usa $\\log x$ en el eje horizontal. La D usa la pendiente $0{,}3$ como base, sin deshacer el logaritmo.",
+    "verify": "const a = 10 ** 1, b = 10 ** 0.3;\nif (Math.abs(b - 2) > 0.01) return null;\nconst alts = { A: x => 2 * 10 ** x, B: x => 10 * 2 ** x, C: x => 10 * x * x, D: x => 10 * 0.3 ** x };\nconst xs = [0, 1, 2, 3];\nconst ok = Object.keys(alts).filter(k => xs.every(x => Math.abs(Math.log10(alts[k](x) || 1e-300) - (0.3 * x + 1)) < 0.01));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-315",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-2x2",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una lancha recorre $d$ km por el río Valdivia a favor de la corriente en $t_{1}$ horas, y luego vuelve al punto de partida, en contra de la corriente, en $t_{2}$ horas, con $t_{1}<t_{2}$. La rapidez de la lancha en aguas tranquilas y la rapidez de la corriente son constantes.\n\n¿Cuál de las siguientes expresiones representa la rapidez de la corriente, en km/h?",
+    "alternatives": {
+      "A": "$\\dfrac{d}{t_{1}}-\\dfrac{d}{t_{2}}$",
+      "B": "$\\dfrac{d\\left(t_{1}+t_{2}\\right)}{2t_{1}t_{2}}$",
+      "C": "$\\dfrac{d}{t_{2}-t_{1}}$",
+      "D": "$\\dfrac{d\\left(t_{2}-t_{1}\\right)}{2t_{1}t_{2}}$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: a favor de la corriente las rapideces se suman y en contra se restan; eso forma un sistema con incógnitas $v$ (lancha) y $c$ (corriente).\nPaso 1: $v+c=\\dfrac{d}{t_{1}}$ y $v-c=\\dfrac{d}{t_{2}}$.\nPaso 2: Restando las ecuaciones, $2c=\\dfrac{d}{t_{1}}-\\dfrac{d}{t_{2}}=\\dfrac{d\\left(t_{2}-t_{1}\\right)}{t_{1}t_{2}}$.\nPaso 3: $c=\\dfrac{d\\left(t_{2}-t_{1}\\right)}{2t_{1}t_{2}}$.\nRespuesta: D, $\\dfrac{d\\left(t_{2}-t_{1}\\right)}{2t_{1}t_{2}}$.\nErrores frecuentes: La A olvida dividir por $2$ al despejar $c$. La B suma las ecuaciones, y eso entrega la rapidez de la lancha, no la de la corriente. La C divide la distancia por la diferencia de tiempos, lo que no corresponde a ninguna rapidez del problema.",
+    "verify": "const d = 36, t1 = 2, t2 = 3;\nconst c = (d / t1 - d / t2) / 2, v = (d / t1 + d / t2) / 2;\nif (Math.abs(d / (v + c) - t1) > 1e-9 || Math.abs(d / (v - c) - t2) > 1e-9) return null;\nconst alts = { A: d / t1 - d / t2, B: d * (t1 + t2) / (2 * t1 * t2), C: d / (t2 - t1), D: d * (t2 - t1) / (2 * t1 * t2) };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - c) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-316",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-2x2",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un parque de diversiones de Santiago, la entrada de adulto tiene un precio único y la de niño, otro. La familia Huenchullán pagó $P$ pesos por $2$ entradas de adulto y $3$ de niño, mientras que la familia Rojas pagó $Q$ pesos por $3$ entradas de adulto y $1$ de niño.\n\n¿Cuál de las siguientes expresiones representa el precio, en pesos, de una entrada de adulto?",
+    "alternatives": {
+      "A": "$\\dfrac{P-3Q}{7}$",
+      "B": "$\\dfrac{3P-2Q}{7}$",
+      "C": "$\\dfrac{3Q-P}{11}$",
+      "D": "$\\dfrac{3Q-P}{7}$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: se plantea un sistema con las letras $P$ y $Q$ como datos y se elimina la incógnita que no interesa.\nPaso 1: Si $x$ es el precio de adulto e $y$ el de niño: $2x+3y=P$ y $3x+y=Q$.\nPaso 2: De la segunda, $y=Q-3x$. Reemplazando: $2x+3Q-9x=P$, es decir, $-7x=P-3Q$.\nPaso 3: $x=\\dfrac{3Q-P}{7}$. Por ejemplo, con $x=8\\,000$ e $y=5\\,000$ se tiene $P=31\\,000$ y $Q=29\\,000$, y la expresión da $\\dfrac{87\\,000-31\\,000}{7}=8\\,000$.\nRespuesta: D, $\\dfrac{3Q-P}{7}$.\nErrores frecuentes: La A comete un error de signo al dividir por $-7$. La B corresponde al precio de la entrada de niño. La C suma $2+9$ en vez de restar al reducir los términos en $x$.",
+    "verify": "const x = 8000, y = 5000, P = 2 * x + 3 * y, Qv = 3 * x + y;\nconst alts = { A: (P - 3 * Qv) / 7, B: (3 * P - 2 * Qv) / 7, C: (3 * Qv - P) / 11, D: (3 * Qv - P) / 7 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - x) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-317",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-2x2",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Un estanque de riego en una parcela de Rancagua se llena con dos llaves, A y B, cada una con caudal constante. Si se abren ambas llaves a la vez, el estanque vacío se llena en $4$ horas. Si en cambio la llave A funciona sola durante $2$ horas y luego se cierra, la llave B necesita funcionar sola $5$ horas más para terminar de llenarlo.\n\n¿Cuántas horas tardaría la llave A, funcionando sola, en llenar el estanque vacío?",
+    "alternatives": {
+      "A": "$6$",
+      "B": "$8$",
+      "C": "$10$",
+      "D": "$12$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: conviene usar como incógnitas la fracción del estanque que llena cada llave en una hora, porque así las condiciones quedan lineales.\nPaso 1: Si A llena $a$ y B llena $b$ del estanque por hora: $4a+4b=1$ y $2a+5b=1$.\nPaso 2: De la primera, $b=\\dfrac{1}{4}-a$. Reemplazando: $2a+\\dfrac{5}{4}-5a=1$, luego $a=\\dfrac{1}{12}$ y $b=\\dfrac{1}{6}$.\nPaso 3: Si A llena $\\dfrac{1}{12}$ del estanque por hora, sola tarda $12$ horas.\nRespuesta: D, $12$ horas.\nErrores frecuentes: La A es el tiempo de la llave B sola. La B supone que A aporta los $2$ tercios del trabajo conjunto sin plantear el sistema. La C suma los tiempos y le resta un poco, como si los tiempos de llenado se sumaran.",
+    "verify": "const det = 4 * 5 - 4 * 2;\nconst a = (1 * 5 - 4 * 1) / det, b = (4 * 1 - 1 * 2) / det;\nif (Math.abs(4 * a + 4 * b - 1) > 1e-9 || Math.abs(2 * a + 5 * b - 1) > 1e-9) return null;\nconst tA = 1 / a;\nconst alts = { A: 6, B: 8, C: 10, D: 12 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - tA) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-318",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-2x2",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En un curso de un liceo de Punta Arenas hay $40$ estudiantes, entre mujeres y hombres. El $25\\%$ de las mujeres y el $50\\%$ de los hombres participan en el taller de fútbol, y en total el taller tiene $14$ estudiantes del curso.\n\nSi $x$ es la cantidad de mujeres e $y$ la cantidad de hombres del curso, ¿cuál de los siguientes sistemas permite calcular $x$ e $y$?",
+    "alternatives": {
+      "A": "$\\begin{cases} x+y=40 \\\\ 25x+50y=14 \\end{cases}$",
+      "B": "$\\begin{cases} x+y=40 \\\\ 0{,}25x+0{,}5y=14 \\end{cases}$",
+      "C": "$\\begin{cases} x+y=14 \\\\ 0{,}25x+0{,}5y=40 \\end{cases}$",
+      "D": "$\\begin{cases} x+y=40 \\\\ 0{,}75x+0{,}5y=14 \\end{cases}$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: una ecuación cuenta a todo el curso y la otra cuenta solo a quienes van al taller, usando cada porcentaje como decimal.\nPaso 1: El curso completo da $x+y=40$.\nPaso 2: El $25\\%$ de las mujeres es $0{,}25x$ y el $50\\%$ de los hombres es $0{,}5y$; juntos son $14$: $0{,}25x+0{,}5y=14$.\nPaso 3: Comprobación: con $x=24$ e $y=16$ se cumplen ambas, pues $6+8=14$.\nRespuesta: B, el sistema formado por $x+y=40$ y $0{,}25x+0{,}5y=14$.\nErrores frecuentes: La A escribe los porcentajes sin dividir por $100$. La C intercambia el total del curso con el total del taller. La D usa el porcentaje de mujeres que no participa.",
+    "verify": "const sols = { A: [[1, 1, 40], [25, 50, 14]], B: [[1, 1, 40], [0.25, 0.5, 14]], C: [[1, 1, 14], [0.25, 0.5, 40]], D: [[1, 1, 40], [0.75, 0.5, 14]] };\nconst x = 24, y = 16;\nif (x + y !== 40 || 0.25 * x + 0.5 * y !== 14) return null;\nconst ok = Object.keys(sols).filter(k => sols[k].every(([p, q, r]) => Math.abs(p * x + q * y - r) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-319",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-2x2",
+    "habilidad": "argumentar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Benjamín resolvió el siguiente sistema de ecuaciones en $x$ e $y$:\n\n$\\begin{cases} 2x+3y=12 \\\\ 5x-3y=9 \\end{cases}$\n\nSu desarrollo fue el siguiente:\n\nPaso 1: Al sumar ambas ecuaciones se obtiene $7x=21$.\nPaso 2: Luego, $x=3$.\nPaso 3: Reemplazando en la segunda ecuación, $5\\cdot3-3y=9$, por lo que $-3y=24$.\nPaso 4: Por lo tanto, $y=-8$.\n\n¿En cuál de los pasos Benjamín cometió el primer error?",
+    "alternatives": {
+      "A": "En el paso 1",
+      "B": "En el paso 2",
+      "C": "En el paso 3",
+      "D": "En el paso 4"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: se revisa cada paso por separado; un error al trasponer términos arrastra un resultado falso hacia los pasos siguientes.\nPaso 1: Sumar las ecuaciones cancela $3y$ con $-3y$ y da $7x=21$. Correcto.\nPaso 2: $x=\\dfrac{21}{7}=3$. Correcto.\nPaso 3: $15-3y=9$ implica $-3y=9-15=-6$, no $24$. Benjamín sumó $15$ en lugar de restarlo. Aquí está el error.\nPaso 4: Dividir $24$ por $-3$ está bien hecho, pero parte de un dato erróneo. La solución correcta es $y=2$, pues $2\\cdot3+3\\cdot2=12$.\nRespuesta: C, en el paso 3.\nErrores frecuentes: La A y la B señalan pasos que están bien. La D marca el paso donde aparece el valor incorrecto, pero ese paso solo divide correctamente un resultado que ya venía mal.",
+    "verify": "const ok1 = (2 + 5) === 7 && 12 + 9 === 21;\nconst x = 21 / 7, ok2 = x === 3;\nconst ok3 = (9 - 5 * x) === 24;\nconst ok4 = 24 / -3 === -8;\nconst steps = [ok1, ok2, ok3, ok4];\nconst first = steps.indexOf(false);\nreturn first === -1 ? null : 'ABCD'[first];"
+  },
+  {
+    "key": "m2-algebra-y-funciones-320",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Una magnitud $y$ es directamente proporcional al cuadrado de $x$ e inversamente proporcional a $z$, con $x$, $y$ y $z$ positivos.\n\nSi $x$ aumenta en un $20\\%$ y $z$ disminuye en un $20\\%$, ¿qué ocurre con el valor de $y$?",
+    "alternatives": {
+      "A": "Aumenta en un $40\\%$",
+      "B": "Aumenta en un $44\\%$",
+      "C": "Aumenta en un $72{,}8\\%$",
+      "D": "Aumenta en un $80\\%$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: se escribe el modelo $y=\\dfrac{kx^{2}}{z}$ y se reemplazan los cambios como factores multiplicativos.\nPaso 1: $x$ pasa a $1{,}2x$ y $z$ pasa a $0{,}8z$.\nPaso 2: El nuevo valor es $\\dfrac{k(1{,}2x)^{2}}{0{,}8z}=\\dfrac{1{,}44}{0{,}8}\\cdot\\dfrac{kx^{2}}{z}=1{,}8\\,y$.\nPaso 3: Multiplicar por $1{,}8$ equivale a aumentar en un $80\\%$.\nRespuesta: D, aumenta en un $80\\%$.\nErrores frecuentes: La A suma los porcentajes como si todo fuera lineal. La B considera solo el efecto de $x^{2}$ e ignora el cambio de $z$. La C cree que dividir por $0{,}8$ es lo mismo que multiplicar por $1{,}2$.",
+    "verify": "const y = (x, z) => 3 * x * x / z;\nconst r = y(1.2 * 5, 0.8 * 2) / y(5, 2);\nconst pct = (r - 1) * 100;\nconst alts = { A: 40, B: 44, C: 72.8, D: 80 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - pct) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-321",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "Para vaciar un tranque de relave se usan bombas iguales. El tiempo de vaciado es inversamente proporcional a la cantidad de bombas que funcionan. Con $6$ bombas, el tranque se vacía en $10$ horas.\n\nSi se quiere que el tranque se vacíe en $4$ horas menos, ¿cuántas bombas adicionales a las $6$ se necesitan?",
+    "alternatives": {
+      "A": "$2$",
+      "B": "$4$",
+      "C": "$9$",
+      "D": "$10$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: en una proporcionalidad inversa el producto bombas por horas es constante.\nPaso 1: $6\\cdot10=60$ bomba-horas.\nPaso 2: El nuevo tiempo es $10-4=6$ horas, así que se necesitan $\\dfrac{60}{6}=10$ bombas.\nPaso 3: Las adicionales son $10-6=4$.\nRespuesta: B, $4$ bombas adicionales.\nErrores frecuentes: La A aplica proporcionalidad directa: reducir el tiempo en un $40\\%$ y tomar el $40\\%$ de $6$ bombas. La C usa $4$ horas como nuevo tiempo en vez de $6$. La D entrega el total de bombas y no las adicionales.",
+    "verify": "const k = 6 * 10, t = 10 - 4, n = k / t, add = n - 6;\nconst alts = { A: 2, B: 4, C: 9, D: 10 };\nconst ok = Object.keys(alts).filter(kk => alts[kk] === add);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-322",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una máquina de una viña del valle de Colchagua hay tres engranajes en línea: A, de $40$ dientes, engrana con B, de $24$ dientes, y B engrana con C, de $60$ dientes. En engranajes que encajan, el número de dientes y la cantidad de vueltas por minuto son inversamente proporcionales.\n\n¿Cuántas vueltas por minuto da el engranaje C si el engranaje A da $90$ vueltas por minuto?",
+    "alternatives": {
+      "A": "$60$",
+      "B": "$135$",
+      "C": "$150$",
+      "D": "$375$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: en cada par que encaja se conserva el producto dientes por vueltas, y como B comparte ese producto con A y con C, el engranaje intermedio no altera la relación entre A y C.\nPaso 1: A con B: $40\\cdot90=24\\cdot n_{B}$, luego $n_{B}=150$ vueltas por minuto.\nPaso 2: B con C: $24\\cdot150=60\\cdot n_{C}$, luego $n_{C}=\\dfrac{3\\,600}{60}=60$ vueltas por minuto.\nPaso 3: Se confirma que $40\\cdot90=60\\cdot60=3\\,600$: el engranaje B no cambia el resultado final.\nRespuesta: A, $60$ vueltas por minuto.\nErrores frecuentes: La B usa proporcionalidad directa entre A y C. La C entrega las vueltas del engranaje B. La D calcula bien B, pero aplica proporcionalidad directa entre B y C.",
+    "verify": "const nB = 40 * 90 / 24, nC = 24 * nB / 60;\nconst alts = { A: 60, B: 135, C: 150, D: 375 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - nC) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-323",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "modelar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "La intensidad de la luz que llega a una superficie desde un foco es inversamente proporcional al cuadrado de la distancia entre ambos. Un fotógrafo de Viña del Mar ubica un foco a $3$ m de su modelo.\n\n¿A qué distancia del modelo, en metros, debe ubicar el foco para que la intensidad sea el $25\\%$ de la que recibe a $3$ m?",
+    "alternatives": {
+      "A": "$0{,}75$",
+      "B": "$1{,}5$",
+      "C": "$6$",
+      "D": "$12$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: si $I=\\dfrac{k}{d^{2}}$, entonces $I\\cdot d^{2}$ es constante; para que la intensidad se divida por $4$, el cuadrado de la distancia debe multiplicarse por $4$.\nPaso 1: $I_{2}=0{,}25\\,I_{1}$ implica $d_{2}^{2}=\\dfrac{I_{1}}{I_{2}}\\cdot d_{1}^{2}=4\\cdot9=36$.\nPaso 2: $d_{2}=\\sqrt{36}=6$ m.\nRespuesta: C, $6$ m.\nErrores frecuentes: La A multiplica la distancia por $0{,}25$, como si la relación fuera directa. La B divide la distancia por $2$, acercando el foco, lo que aumenta la intensidad. La D multiplica la distancia por $4$ y olvida que la relación es con el cuadrado.",
+    "verify": "const k = 100, I1 = k / 9, I2 = 0.25 * I1, d2 = Math.sqrt(k / I2);\nconst alts = { A: 0.75, B: 1.5, C: 6, D: 12 };\nconst ok = Object.keys(alts).filter(kk => Math.abs(alts[kk] - d2) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-324",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Las variables $x$ e $y$ son directamente proporcionales, con constante de proporcionalidad $k$, es decir, $y=kx$, con $k>0$ y $k\\neq1$. Los pares $\\left(x_{1},y_{1}\\right)$ y $\\left(x_{2},y_{2}\\right)$ cumplen esa relación, con $x_{1}$ y $x_{2}$ positivos y distintos.\n\n¿Cuál de las siguientes afirmaciones es siempre verdadera?",
+    "alternatives": {
+      "A": "$\\dfrac{y_{1}+y_{2}}{x_{1}+x_{2}}=k$",
+      "B": "$y_{1}\\cdot y_{2}=k\\cdot x_{1}\\cdot x_{2}$",
+      "C": "$y_{1}-y_{2}=x_{1}-x_{2}$",
+      "D": "$\\dfrac{y_{1}}{x_{2}}=\\dfrac{y_{2}}{x_{1}}$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: se reemplaza $y_{1}=kx_{1}$ e $y_{2}=kx_{2}$ en cada afirmación y se revisa si la igualdad se cumple para cualquier par de valores.\nPaso 1: $\\dfrac{y_{1}+y_{2}}{x_{1}+x_{2}}=\\dfrac{k\\left(x_{1}+x_{2}\\right)}{x_{1}+x_{2}}=k$. Siempre verdadera.\nPaso 2: $y_{1}y_{2}=k^{2}x_{1}x_{2}$, que es distinto de $kx_{1}x_{2}$ porque $k\\neq1$.\nPaso 3: $y_{1}-y_{2}=k\\left(x_{1}-x_{2}\\right)$, que no es $x_{1}-x_{2}$ si $k\\neq1$.\nPaso 4: $\\dfrac{y_{1}}{x_{2}}=\\dfrac{y_{2}}{x_{1}}$ obliga a $kx_{1}^{2}=kx_{2}^{2}$, falso si $x_{1}\\neq x_{2}$; esa sería la propiedad de una proporcionalidad inversa mal planteada.\nRespuesta: A, $\\dfrac{y_{1}+y_{2}}{x_{1}+x_{2}}=k$.\nErrores frecuentes: La B olvida que la constante aparece una vez por cada factor. La C confunde la proporcionalidad directa con mantener las diferencias. La D cruza los índices de los pares.",
+    "verify": "const cases = [[2, 3, 5], [0.5, 4, 1.5], [3, 1, 7]];\nconst tests = { A: (k, a, b) => (k * a + k * b) / (a + b) - k, B: (k, a, b) => k * a * k * b - k * a * b, C: (k, a, b) => (k * a - k * b) - (a - b), D: (k, a, b) => k * a / b - k * b / a };\nconst ok = Object.keys(tests).filter(t => cases.every(([k, a, b]) => Math.abs(tests[t](k, a, b)) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-325",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-casos-solucion",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera el siguiente sistema de ecuaciones en $x$ e $y$, con $a$ y $b$ números reales:\n\n$\\begin{cases} ax+2y=4 \\\\ 2x+ay=b \\end{cases}$\n\n¿Cuál de las siguientes afirmaciones es verdadera?",
+    "alternatives": {
+      "A": "Si $a=2$, el sistema tiene infinitas soluciones.",
+      "B": "Si $a\\neq2$, el sistema tiene solución única.",
+      "C": "Si $a=-2$ y $b=4$, el sistema no tiene solución.",
+      "D": "Si $a=-2$ y $b=-4$, el sistema no tiene solución."
+    },
+    "correct": "C",
+    "explanation": "Idea clave: el sistema tiene solución única si y solo si $a\\cdot a-2\\cdot2\\neq0$; cuando $a^{2}=4$ hay que comparar los términos libres para distinguir entre infinitas soluciones y ninguna.\nPaso 1: $a^{2}-4=0$ para $a=2$ y para $a=-2$. Para cualquier otro valor la solución es única.\nPaso 2: Con $a=2$: $2x+2y=4$ y $2x+2y=b$. Hay infinitas soluciones solo si $b=4$; en otro caso no hay solución. Por eso la A no es siempre cierta, y la B falla con $a=-2$.\nPaso 3: Con $a=-2$: $-2x+2y=4$ y $2x-2y=b$, que equivale a $-2x+2y=-b$. Si $b=4$ se pide $-2x+2y=4$ y $-2x+2y=-4$ a la vez: no hay solución. Si $b=-4$ las ecuaciones coinciden y hay infinitas soluciones.\nRespuesta: C, si $a=-2$ y $b=4$, el sistema no tiene solución.\nErrores frecuentes: La A olvida que con $a=2$ también importa el valor de $b$. La B olvida el caso $a=-2$. La D confunde el caso: con $b=-4$ las dos rectas son la misma.",
+    "verify": "const kind = (a1, b1, c1, a2, b2, c2) => { const det = a1 * b2 - a2 * b1; if (Math.abs(det) > 1e-12) return 'unica'; return Math.abs(a1 * c2 - a2 * c1) < 1e-12 && Math.abs(b1 * c2 - b2 * c1) < 1e-12 ? 'infinitas' : 'ninguna'; };\nconst A = [3, 4, 0, -1].every(b => kind(2, 2, 4, 2, 2, b) === 'infinitas');\nconst B = [-2, 0, 1, 3].filter(a => a !== 2).every(a => [0, 4, -4].every(b => kind(a, 2, 4, 2, a, b) === 'unica'));\nconst C = kind(-2, 2, 4, 2, -2, 4) === 'ninguna';\nconst D = kind(-2, 2, 4, 2, -2, -4) === 'ninguna';\nconst res = { A, B, C, D };\nconst ok = Object.keys(res).filter(k => res[k]);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-326",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-casos-solucion",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera el siguiente sistema de ecuaciones en $x$ e $y$, con $k$ un número real:\n\n$\\begin{cases} kx+y=1 \\\\ x+ky=k \\end{cases}$\n\n¿Para qué valor o valores de $k$ el sistema tiene infinitas soluciones?",
+    "alternatives": {
+      "A": "Solo para $k=1$",
+      "B": "Solo para $k=-1$",
+      "C": "Para ningún valor de $k$",
+      "D": "Para $k=1$ y para $k=-1$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: primero se buscan los valores de $k$ que anulan $k\\cdot k-1\\cdot1$ (solución no única) y luego se revisa cada uno por separado.\nPaso 1: $k^{2}-1=0$ para $k=1$ o $k=-1$; con cualquier otro valor la solución es única.\nPaso 2: Con $k=1$: $x+y=1$ y $x+y=1$, la misma ecuación. Infinitas soluciones.\nPaso 3: Con $k=-1$: $-x+y=1$ y $x-y=-1$. Multiplicando la segunda por $-1$ se obtiene $-x+y=1$, de nuevo la misma ecuación. Infinitas soluciones.\nRespuesta: D, para $k=1$ y para $k=-1$.\nErrores frecuentes: La A revisa solo el caso positivo. La B descarta $k=1$ sin probarlo. La C supone que al anularse la expresión el sistema siempre queda sin solución, sin comparar los términos libres.",
+    "verify": "const kind = (a1, b1, c1, a2, b2, c2) => { const det = a1 * b2 - a2 * b1; if (Math.abs(det) > 1e-12) return 'unica'; return Math.abs(a1 * c2 - a2 * c1) < 1e-12 && Math.abs(b1 * c2 - b2 * c1) < 1e-12 ? 'infinitas' : 'ninguna'; };\nconst inf = [];\nfor (let i = -60; i <= 60; i++) { const k = i / 10; if (kind(k, 1, 1, 1, k, k) === 'infinitas') inf.push(k); }\nconst s = inf.join(',');\nconst alts = { A: '1', B: '-1', C: '', D: '-1,1' };\nconst ok = Object.keys(alts).filter(k => alts[k] === s);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-327",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-casos-solucion",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "En el plano cartesiano se dibujan las rectas $L_{1}: y=mx+3$ y $L_{2}: 2y-4x=n$, donde los parámetros $m$ y $n$ pueden tomar cualquier valor.\n\n¿Qué requisito sobre $m$ y $n$ asegura que $L_{1}$ y $L_{2}$ no se cortan en ningún punto?",
+    "alternatives": {
+      "A": "$m=2$ y $n=6$",
+      "B": "$m=2$ y $n\\neq6$",
+      "C": "$m\\neq2$",
+      "D": "$m=-2$ y $n\\neq6$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: dos rectas sin puntos en común son paralelas y distintas: misma pendiente y distinto coeficiente de posición. Eso equivale a un sistema sin solución.\nPaso 1: Despejando, $L_{2}: y=2x+\\dfrac{n}{2}$, con pendiente $2$ y coeficiente de posición $\\dfrac{n}{2}$.\nPaso 2: Para que sean paralelas, $m=2$.\nPaso 3: Para que sean distintas, $\\dfrac{n}{2}\\neq3$, es decir, $n\\neq6$.\nRespuesta: B, $m=2$ y $n\\neq6$.\nErrores frecuentes: La A describe dos rectas coincidentes, que tienen infinitos puntos en común. La C garantiza justo lo contrario: un único punto de intersección. La D lee mal la pendiente de $L_{2}$ al despejar.",
+    "verify": "const kind = (a1, b1, c1, a2, b2, c2) => { const det = a1 * b2 - a2 * b1; if (Math.abs(det) > 1e-12) return 'unica'; return Math.abs(a1 * c2 - a2 * c1) < 1e-12 && Math.abs(b1 * c2 - b2 * c1) < 1e-12 ? 'infinitas' : 'ninguna'; };\nconst sys = (m, n) => kind(-m, 1, 3, -4, 2, n);\nconst A = sys(2, 6) === 'ninguna';\nconst B = [0, 5, 7, -6].every(n => sys(2, n) === 'ninguna');\nconst C = [0, 1, 3, -2].every(m => [0, 6].every(n => sys(m, n) === 'ninguna'));\nconst D = [0, 5, 7].every(n => sys(-2, n) === 'ninguna');\nconst res = { A, B, C, D };\nconst ok = Object.keys(res).filter(k => res[k]);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-328",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-casos-solucion",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "El siguiente sistema de ecuaciones en $x$ e $y$, con $p$ y $q$ números reales, tiene infinitas soluciones:\n\n$\\begin{cases} 3x-py=6 \\\\ qx+4y=-8 \\end{cases}$\n\n¿Cuál es el valor de $p+q$?",
+    "alternatives": {
+      "A": "$-7$",
+      "B": "$-1$",
+      "C": "$1$",
+      "D": "$7$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: con infinitas soluciones, la segunda ecuación es la primera multiplicada por un mismo número $\\lambda$, y ese número lo fijan los términos libres.\nPaso 1: De los términos libres, $\\lambda=\\dfrac{-8}{6}=-\\dfrac{4}{3}$.\nPaso 2: Coeficientes de $x$: $q=3\\lambda=-4$.\nPaso 3: Coeficientes de $y$: $4=-p\\cdot\\lambda=\\dfrac{4p}{3}$, luego $p=3$.\nPaso 4: $p+q=3+(-4)=-1$.\nRespuesta: B, $-1$.\nErrores frecuentes: La A cambia el signo de $p$ al no considerar el signo menos que lo acompaña. La C cambia los signos de $p$ y de $q$. La D toma $\\lambda$ positivo e ignora el signo de $-8$.",
+    "verify": "const kind = (a1, b1, c1, a2, b2, c2) => { const det = a1 * b2 - a2 * b1; if (Math.abs(det) > 1e-12) return 'unica'; return Math.abs(a1 * c2 - a2 * c1) < 1e-12 && Math.abs(b1 * c2 - b2 * c1) < 1e-12 ? 'infinitas' : 'ninguna'; };\nlet found = null;\nfor (let pi = -40; pi <= 40; pi++) for (let qi = -40; qi <= 40; qi++) { const p = pi / 4, q = qi / 4; if (kind(3, -p, 6, q, 4, -8) === 'infinitas') { if (found) return null; found = p + q; } }\nconst alts = { A: -7, B: -1, C: 1, D: 7 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - found) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-329",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-casos-solucion",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En una tienda de ropa deportiva de Concepción, cada polera tiene un mismo precio y cada jockey, otro. Se sabe que $6$ poleras y $4$ jockeys cuestan en total $50\\,000$ pesos, y que $3$ poleras y $2$ jockeys cuestan en total $P$ pesos.\n\n¿Cuál de las siguientes afirmaciones es verdadera?",
+    "alternatives": {
+      "A": "Si $P=25\\,000$, hay infinitas combinaciones de precios que cumplen ambas condiciones.",
+      "B": "Si $P=25\\,000$, el precio de cada polera queda determinado.",
+      "C": "Si $P\\neq25\\,000$, el precio de cada artículo queda determinado de manera única.",
+      "D": "Si $P=20\\,000$, hay infinitas combinaciones de precios que cumplen ambas condiciones."
+    },
+    "correct": "A",
+    "explanation": "Idea clave: los coeficientes de la primera ecuación son el doble de los de la segunda, así que el sistema nunca tiene solución única; todo depende de si el total también es el doble.\nPaso 1: Con $x$ el precio de una polera e $y$ el de un jockey: $6x+4y=50\\,000$ y $3x+2y=P$.\nPaso 2: La primera ecuación equivale a $3x+2y=25\\,000$.\nPaso 3: Si $P=25\\,000$, ambas ecuaciones son la misma y hay infinitos pares de precios posibles; por ejemplo, $x=5\\,000$, $y=5\\,000$ o $x=7\\,000$, $y=2\\,000$.\nPaso 4: Si $P\\neq25\\,000$, las condiciones se contradicen y no hay ningún par de precios que las cumpla.\nRespuesta: A, con $P=25\\,000$ hay infinitas combinaciones de precios.\nErrores frecuentes: La B supone que dos ecuaciones siempre determinan las dos incógnitas. La C confunde un sistema sin solución con uno de solución única. La D corresponde a un caso contradictorio, sin solución.",
+    "verify": "const kind = (a1, b1, c1, a2, b2, c2) => { const det = a1 * b2 - a2 * b1; if (Math.abs(det) > 1e-12) return 'unica'; return Math.abs(a1 * c2 - a2 * c1) < 1e-12 && Math.abs(b1 * c2 - b2 * c1) < 1e-12 ? 'infinitas' : 'ninguna'; };\nconst A = kind(6, 4, 50000, 3, 2, 25000) === 'infinitas';\nconst B = kind(6, 4, 50000, 3, 2, 25000) === 'unica';\nconst C = [20000, 30000].every(P => kind(6, 4, 50000, 3, 2, P) === 'unica');\nconst D = kind(6, 4, 50000, 3, 2, 20000) === 'infinitas';\nconst res = { A, B, C, D };\nconst ok = Object.keys(res).filter(k => res[k]);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-330",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "sistemas-casos-solucion",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En los siguientes sistemas de ecuaciones en $x$ e $y$, $k$ es un número real.\n\n¿Cuál de ellos tiene solución única para cualquier valor de $k$?",
+    "alternatives": {
+      "A": "$\\begin{cases} x+ky=1 \\\\ kx-y=3 \\end{cases}$",
+      "B": "$\\begin{cases} kx+y=1 \\\\ x+ky=2 \\end{cases}$",
+      "C": "$\\begin{cases} kx+2y=1 \\\\ 2x+ky=1 \\end{cases}$",
+      "D": "$\\begin{cases} x+y=k \\\\ 2x+2y=3 \\end{cases}$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: el sistema $\\begin{cases} a_{1}x+b_{1}y=c_{1} \\\\ a_{2}x+b_{2}y=c_{2} \\end{cases}$ tiene solución única exactamente cuando $a_{1}b_{2}-a_{2}b_{1}\\neq0$; hay que ver si esa expresión puede anularse para algún $k$.\nPaso 1: En A, $1\\cdot(-1)-k\\cdot k=-1-k^{2}$, que es siempre negativo y nunca vale $0$. Solución única para todo $k$.\nPaso 2: En B, $k^{2}-1$ se anula con $k=1$ y con $k=-1$.\nPaso 3: En C, $k^{2}-4$ se anula con $k=2$ y con $k=-2$.\nPaso 4: En D, $1\\cdot2-2\\cdot1=0$ para todo $k$: nunca hay solución única.\nRespuesta: A, el sistema formado por $x+ky=1$ y $kx-y=3$.\nErrores frecuentes: La B y la C tienen solución única para casi todos los valores, pero fallan en dos de ellos. La D se elige al ver que $k$ aparece solo en el término libre, aunque las rectas son paralelas para cualquier $k$.",
+    "verify": "const kind = (a1, b1, c1, a2, b2, c2) => { const det = a1 * b2 - a2 * b1; if (Math.abs(det) > 1e-12) return 'unica'; return Math.abs(a1 * c2 - a2 * c1) < 1e-12 && Math.abs(b1 * c2 - b2 * c1) < 1e-12 ? 'infinitas' : 'ninguna'; };\nconst ks = [-3, -2, -1, -0.5, 0, 0.5, 1, 2, 3];\nconst sys = { A: k => kind(1, k, 1, k, -1, 3), B: k => kind(k, 1, 1, 1, k, 2), C: k => kind(k, 2, 1, 2, k, 1), D: k => kind(1, 1, k, 2, 2, 3) };\nconst ok = Object.keys(sys).filter(s => ks.every(k => sys[s](k) === 'unica'));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-331",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funciones-trigonometricas",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "La altura $h$, en metros, de una cabina de una rueda de la fortuna en un parque de La Serena se modela mediante la función $h(t)=22-20\\cos\\left(\\dfrac{\\pi t}{6}\\right)$, donde $t$ es el tiempo, en minutos, desde que la cabina parte de su punto más bajo.\n\nEn cada vuelta completa, ¿durante cuántos minutos la cabina está a más de $32$ m de altura?",
+    "alternatives": {
+      "A": "$2$",
+      "B": "$4$",
+      "C": "$6$",
+      "D": "$8$"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: se traduce la condición de altura a una desigualdad para el coseno y se resuelve dentro de un período.\nPaso 1: El período es $\\dfrac{2\\pi}{\\pi/6}=12$ minutos, que es lo que dura una vuelta.\nPaso 2: $22-20\\cos\\left(\\frac{\\pi t}{6}\\right)>32$ equivale a $\\cos\\left(\\frac{\\pi t}{6}\\right)<-\\frac{1}{2}$.\nPaso 3: En una vuelta, el coseno es menor que $-\\frac{1}{2}$ cuando $\\frac{2\\pi}{3}<\\frac{\\pi t}{6}<\\frac{4\\pi}{3}$, es decir, para $4<t<8$.\nPaso 4: Ese intervalo dura $8-4=4$ minutos.\nRespuesta: B, $4$ minutos.\nErrores frecuentes: La A considera solo el tramo de subida, de $4$ a $6$ minutos. La C toma media vuelta, como si la mitad del tiempo se estuviera sobre $32$ m. La D entrega el instante en que la cabina baja de $32$ m, no la duración.",
+    "verify": "const h = t => 22 - 20 * Math.cos(Math.PI * t / 6);\nlet n = 0; const N = 120000;\nfor (let i = 0; i < N; i++) { const t = 12 * (i + 0.5) / N; if (h(t) > 32) n++; }\nconst dur = 12 * n / N;\nconst alts = { A: 2, B: 4, C: 6, D: 8 };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - dur) < 1e-3);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-332",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funciones-trigonometricas",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "Considera la función $g(x)=-2\\operatorname{sen}(x)+k$, con $k$ un número real y dominio el conjunto de los números reales.\n\n¿Cuál de las siguientes afirmaciones es verdadera para cualquier valor de $k$?",
+    "alternatives": {
+      "A": "El valor mínimo de $g$ es $k-2$ y se alcanza en $x=\\dfrac{\\pi}{2}$.",
+      "B": "El valor máximo de $g$ es $k+2$ y se alcanza en $x=\\dfrac{\\pi}{2}$.",
+      "C": "El valor mínimo de $g$ es $k-2$ y se alcanza en $x=\\dfrac{3\\pi}{2}$.",
+      "D": "El recorrido de $g$ es el intervalo $[-2,2]$."
+    },
+    "correct": "A",
+    "explanation": "Idea clave: el coeficiente negativo invierte la gráfica del seno: donde el seno es máximo, $g$ es mínima, y viceversa.\nPaso 1: Como $-1\\leq\\operatorname{sen}(x)\\leq1$, se tiene $-2\\leq-2\\operatorname{sen}(x)\\leq2$, así que $g$ toma valores entre $k-2$ y $k+2$.\nPaso 2: En $x=\\frac{\\pi}{2}$, $\\operatorname{sen}(x)=1$ y $g=k-2$, el mínimo.\nPaso 3: En $x=\\frac{3\\pi}{2}$, $\\operatorname{sen}(x)=-1$ y $g=k+2$, el máximo.\nRespuesta: A, el mínimo es $k-2$ y se alcanza en $x=\\dfrac{\\pi}{2}$.\nErrores frecuentes: La B olvida que el signo menos invierte la gráfica y ubica el máximo donde está el del seno. La C asocia el valor mínimo con el punto donde el seno es mínimo. La D ignora la traslación vertical $k$; el recorrido es $[k-2,k+2]$.",
+    "verify": "const ks = [-3, 0, 1.5, 4];\nconst g = (x, k) => -2 * Math.sin(x) + k;\nconst xs = Array.from({ length: 2001 }, (_, i) => 2 * Math.PI * i / 2000);\nconst res = { A: true, B: true, C: true, D: true };\nfor (const k of ks) { const vals = xs.map(x => g(x, k)); const mn = Math.min(...vals), mx = Math.max(...vals);\n  if (!(Math.abs(mn - (k - 2)) < 1e-6 && Math.abs(g(Math.PI / 2, k) - mn) < 1e-9)) res.A = false;\n  if (!(Math.abs(mx - (k + 2)) < 1e-6 && Math.abs(g(Math.PI / 2, k) - mx) < 1e-9)) res.B = false;\n  if (!(Math.abs(mn - (k - 2)) < 1e-6 && Math.abs(g(3 * Math.PI / 2, k) - mn) < 1e-9)) res.C = false;\n  if (!(Math.abs(mn + 2) < 1e-6 && Math.abs(mx - 2) < 1e-6)) res.D = false; }\nconst ok = Object.keys(res).filter(k => res[k]);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-333",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funciones-trigonometricas",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "La función $f(x)=3\\operatorname{sen}(bx)+1$, con $b>0$, alcanza su valor máximo en $x=2$ y el siguiente valor máximo en $x=10$, sin alcanzarlo entre esos dos valores de $x$.\n\n¿Cuál es el valor de $b$?",
+    "alternatives": {
+      "A": "$\\dfrac{\\pi}{4}$",
+      "B": "$\\dfrac{\\pi}{2}$",
+      "C": "$8$",
+      "D": "$16\\pi$"
+    },
+    "correct": "A",
+    "explanation": "Idea clave: la distancia entre dos máximos consecutivos es el período, y en $f(x)=a\\operatorname{sen}(bx)+c$ el período es $\\dfrac{2\\pi}{b}$.\nPaso 1: El período es $10-2=8$.\nPaso 2: $\\dfrac{2\\pi}{b}=8$, luego $b=\\dfrac{\\pi}{4}$.\nPaso 3: Comprobación: $f(2)=3\\operatorname{sen}\\left(\\frac{\\pi}{2}\\right)+1=4$, que es el máximo, y $f(10)=3\\operatorname{sen}\\left(\\frac{5\\pi}{2}\\right)+1=4$.\nRespuesta: A, $\\dfrac{\\pi}{4}$.\nErrores frecuentes: La B toma la distancia entre máximos como si fuera medio período. La C confunde el período con el valor de $b$. La D multiplica $2\\pi$ por el período en vez de dividir.",
+    "verify": "const T = 10 - 2, b = 2 * Math.PI / T;\nconst f = x => 3 * Math.sin(b * x) + 1;\nif (Math.abs(f(2) - 4) > 1e-9 || Math.abs(f(10) - 4) > 1e-9) return null;\nconst alts = { A: Math.PI / 4, B: Math.PI / 2, C: 8, D: 16 * Math.PI };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k] - b) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-334",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funciones-trigonometricas",
+    "habilidad": "resolver_problemas",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "¿Cuántas soluciones tiene la ecuación $2\\cos(2x)=1$ en el intervalo $[0,2\\pi]$?",
+    "alternatives": {
+      "A": "$1$",
+      "B": "$2$",
+      "C": "$4$",
+      "D": "$8$"
+    },
+    "correct": "C",
+    "explanation": "Idea clave: si $x$ recorre $[0,2\\pi]$, el ángulo $2x$ recorre $[0,4\\pi]$, es decir, dos vueltas completas, y en cada vuelta el coseno toma el valor $\\frac{1}{2}$ dos veces.\nPaso 1: La ecuación equivale a $\\cos(2x)=\\dfrac{1}{2}$.\nPaso 2: Con $u=2x\\in[0,4\\pi]$: $u=\\dfrac{\\pi}{3},\\dfrac{5\\pi}{3},\\dfrac{7\\pi}{3},\\dfrac{11\\pi}{3}$.\nPaso 3: Dividiendo por $2$: $x=\\dfrac{\\pi}{6},\\dfrac{5\\pi}{6},\\dfrac{7\\pi}{6},\\dfrac{11\\pi}{6}$, cuatro soluciones.\nRespuesta: C, $4$ soluciones.\nErrores frecuentes: La A se queda solo con la solución del primer cuadrante. La B resuelve como si fuera $\\cos(x)=\\frac{1}{2}$, sin considerar que el $2$ duplica las vueltas. La D duplica dos veces: multiplica el intervalo por $2$ y además vuelve a duplicar las soluciones.",
+    "verify": "const f = x => 2 * Math.cos(2 * x) - 1;\nlet n = 0; const N = 200000;\nfor (let i = 0; i < N; i++) { const a = 2 * Math.PI * i / N, b = 2 * Math.PI * (i + 1) / N; if (f(a) === 0 || f(a) * f(b) < 0) n++; }\nconst alts = { A: 1, B: 2, C: 4, D: 8 };\nconst ok = Object.keys(alts).filter(k => alts[k] === n);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-335",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funciones-trigonometricas",
+    "habilidad": "representar",
+    "difficulty": "medium",
+    "format": "standard",
+    "content": "La gráfica de la función $f(x)=\\operatorname{sen}(x)$ se traslada $\\dfrac{\\pi}{2}$ unidades hacia la izquierda y, luego, cada ordenada de la gráfica obtenida se multiplica por $2$. Así se obtiene la gráfica de una función $g$.\n\n¿Cuál de las siguientes expresiones corresponde a $g(x)$?",
+    "alternatives": {
+      "A": "$-2\\cos(x)$",
+      "B": "$2\\operatorname{sen}(x)+\\dfrac{\\pi}{2}$",
+      "C": "$\\operatorname{sen}\\left(2x+\\dfrac{\\pi}{2}\\right)$",
+      "D": "$2\\cos(x)$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: trasladar hacia la izquierda en $h$ unidades cambia $x$ por $x+h$, y multiplicar las ordenadas por $2$ multiplica toda la función por $2$.\nPaso 1: La traslación da $\\operatorname{sen}\\left(x+\\frac{\\pi}{2}\\right)$.\nPaso 2: Por la identidad $\\operatorname{sen}\\left(x+\\frac{\\pi}{2}\\right)=\\cos(x)$, la función trasladada es $\\cos(x)$.\nPaso 3: Al multiplicar las ordenadas por $2$: $g(x)=2\\cos(x)$. Comprobación: $g(0)=2\\operatorname{sen}\\left(\\frac{\\pi}{2}\\right)=2$.\nRespuesta: D, $2\\cos(x)$.\nErrores frecuentes: La A traslada hacia la derecha, pues $2\\operatorname{sen}\\left(x-\\frac{\\pi}{2}\\right)=-2\\cos(x)$. La B aplica la traslación en sentido vertical. La C multiplica por $2$ la variable $x$ en lugar de las ordenadas.",
+    "verify": "const g = x => 2 * Math.sin(x + Math.PI / 2);\nconst alts = { A: x => -2 * Math.cos(x), B: x => 2 * Math.sin(x) + Math.PI / 2, C: x => Math.sin(2 * x + Math.PI / 2), D: x => 2 * Math.cos(x) };\nconst xs = [0, 0.7, 1.9, 3, 4.4];\nconst ok = Object.keys(alts).filter(k => xs.every(x => Math.abs(alts[k](x) - g(x)) < 1e-9));\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-336",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funciones-trigonometricas",
+    "habilidad": "modelar",
+    "difficulty": "hard",
+    "format": "standard",
+    "content": "En un día de otoño en Calama, la temperatura $T$, en grados Celsius, se modela mediante la función $T(h)=12-6\\cos\\left(\\dfrac{\\pi(h-4)}{12}\\right)$, donde $h$ es la hora del día, con $0\\leq h\\leq24$.\n\n¿A qué hora se alcanza la temperatura máxima del día y cuál es ese valor?",
+    "alternatives": {
+      "A": "A las $4$ horas, con $18\\,^{\\circ}\\text{C}$",
+      "B": "A las $10$ horas, con $18\\,^{\\circ}\\text{C}$",
+      "C": "A las $16$ horas, con $12\\,^{\\circ}\\text{C}$",
+      "D": "A las $16$ horas, con $18\\,^{\\circ}\\text{C}$"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: por el signo menos delante del coseno, la temperatura es máxima cuando el coseno vale $-1$.\nPaso 1: El máximo es $12-6\\cdot(-1)=18\\,^{\\circ}\\text{C}$.\nPaso 2: $\\cos\\left(\\frac{\\pi(h-4)}{12}\\right)=-1$ cuando $\\frac{\\pi(h-4)}{12}=\\pi$, es decir, $h-4=12$.\nPaso 3: Así, $h=16$: la máxima ocurre a las $16$ horas.\nRespuesta: D, a las $16$ horas, con $18\\,^{\\circ}\\text{C}$.\nErrores frecuentes: La A iguala el argumento a $0$; a las $4$ horas el coseno vale $1$ y la temperatura es la mínima, $6\\,^{\\circ}\\text{C}$. La B iguala el argumento a $\\frac{\\pi}{2}$, donde el coseno vale $0$. La C encuentra bien la hora, pero entrega el valor medio $12$ en lugar del máximo.",
+    "verify": "const T = h => 12 - 6 * Math.cos(Math.PI * (h - 4) / 12);\nlet best = 0;\nfor (let i = 0; i <= 2400; i++) { const h = i / 100; if (T(h) > T(best)) best = h; }\nconst alts = { A: [4, 18], B: [10, 18], C: [16, 12], D: [16, 18] };\nconst ok = Object.keys(alts).filter(k => Math.abs(alts[k][0] - best) < 1e-9 && Math.abs(alts[k][1] - T(best)) < 1e-9);\nreturn ok.length === 1 ? ok[0] : null;"
+  },
+  {
+    "key": "m2-algebra-y-funciones-337",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "funcion-potencia-exp-log",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "suficiencia",
+    "content": "Considera la función $f(x)=\\log_{b}(x)+c$, con $b>0$, $b\\neq1$ y $c$ un número real, definida para $x>0$.\n\nSe puede determinar el valor de $b$, si se sabe que:\n\n(1) $f(b)=3$.\n(2) $f(9)-f(3)=\\dfrac{1}{2}$.",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "B",
+    "explanation": "Idea clave: en una diferencia de valores de $f$ la constante $c$ se cancela, mientras que evaluar en la propia base solo informa sobre $c$.\nPaso 1: Con (1): $f(b)=\\log_{b}(b)+c=1+c=3$, luego $c=2$. Cualquier base sirve: por ejemplo, $b=2$ y $b=5$ cumplen la condición. No basta.\nPaso 2: Con (2): $\\log_{b}9-\\log_{b}3=\\log_{b}3=\\dfrac{1}{2}$, es decir, $b^{\\frac{1}{2}}=3$, luego $b=9$. Basta, aunque $c$ siga desconocido.\nRespuesta: B, (2) por sí sola.\nErrores frecuentes: La A cree que evaluar en $b$ entrega la base, pero solo fija $c$. La C supone que primero hay que conocer $c$ para usar (2). La D da por suficiente a (1). La E no advierte que en (2) la constante desaparece.",
+    "verify": "const f = (x, b, c) => Math.log(x) / Math.log(b) + c;\nconst bs = []; for (let i = 101; i <= 2000; i++) bs.push(i / 100);\nconst cs = [-1, 0, 2, 3.5];\nconst b1 = new Set(); for (const b of bs) for (const c of cs) if (Math.abs(f(b, b, c) - 3) < 1e-9) b1.add(b);\nconst b2 = new Set(); for (const b of bs) for (const c of cs) if (Math.abs(f(9, b, c) - f(3, b, c) - 0.5) < 1e-9) b2.add(b);\nconst b12 = new Set(); for (const b of bs) for (const c of cs) if (Math.abs(f(b, b, c) - 3) < 1e-9 && Math.abs(f(9, b, c) - f(3, b, c) - 0.5) < 1e-9) b12.add(b);\nconst s1 = b1.size === 1, s2 = b2.size === 1, s12 = b12.size === 1;\nif (s1 && s2) return 'D'; if (s1) return 'A'; if (s2) return 'B'; if (s12) return 'C'; return 'E';"
+  },
+  {
+    "key": "m2-algebra-y-funciones-338",
+    "subject": "m2",
+    "eje": "algebra-y-funciones",
+    "topic": "proporcionalidad",
+    "habilidad": "argumentar",
+    "difficulty": "hard",
+    "format": "suficiencia",
+    "content": "Las variables positivas $x$ e $y$ son inversamente proporcionales.\n\nSe puede determinar el valor de $y$ cuando $x=6$, si se sabe que:\n\n(1) Cuando $x=3$, el valor de $y$ es $6$.\n(2) La suma de los valores de $y$ cuando $x=2$ y cuando $x=9$ es $11$.",
+    "alternatives": {
+      "A": "(1) por sí sola",
+      "B": "(2) por sí sola",
+      "C": "Ambas juntas, (1) y (2)",
+      "D": "Cada una por sí sola, (1) ó (2)",
+      "E": "Se requiere información adicional"
+    },
+    "correct": "D",
+    "explanation": "Idea clave: en una proporcionalidad inversa $y=\\dfrac{k}{x}$, basta un dato que permita obtener la constante $k$ para conocer cualquier valor.\nPaso 1: Con (1): $k=3\\cdot6=18$, y entonces $y=\\dfrac{18}{6}=3$. Basta.\nPaso 2: Con (2): $\\dfrac{k}{2}+\\dfrac{k}{9}=11$, es decir, $\\dfrac{11k}{18}=11$, luego $k=18$ e $y=3$. También basta.\nRespuesta: D, cada una por sí sola.\nErrores frecuentes: La A no reconoce que (2) es una ecuación lineal en $k$ con solución única. La B pasa por alto que (1) entrega $k$ directamente. La C cree que hacen falta dos datos para una sola constante. La E no ve que en una proporcionalidad la constante es la única incógnita.",
+    "verify": "const ks = []; for (let i = 1; i <= 4000; i++) ks.push(i / 100);\nconst y = (x, k) => k / x;\nconst v1 = new Set(ks.filter(k => Math.abs(y(3, k) - 6) < 1e-9).map(k => y(6, k)));\nconst v2 = new Set(ks.filter(k => Math.abs(y(2, k) + y(9, k) - 11) < 1e-9).map(k => y(6, k)));\nconst s1 = v1.size === 1, s2 = v2.size === 1;\nif (s1 && s2) return 'D'; if (s1) return 'A'; if (s2) return 'B'; return 'E';"
   }
 ]
